@@ -4924,4 +4924,35 @@ export const vi: Record<string, ToolCopy> = {
       },
     ],
   },
+  "sha1-generator": {
+    name: 'Trình tạo SHA-1',
+    tagline: 'Tính băm SHA-1 của văn bản hoặc tệp ngay trong trình duyệt bằng WebCrypto gốc — vẫn còn trong Git commit và checksum cũ. Xử lý 100% cục bộ.',
+    intro: ['Dán văn bản để thấy digest SHA-1 160-bit ngay lập tức, hoặc thả tệp để lấy vân tay cục bộ. Cỗ máy WebCrypto của trình duyệt làm việc — không byte nào rời khỏi thiết bị.', 'SHA-1 là thuật toán cũ nhưng vẫn sống: Git vẫn định danh đối tượng bằng nó và nhiều hệ thống cũ xác minh tải xuống bằng checksum SHA-1. Dùng cho tương thích — còn bảo mật thì chọn SHA-256 trở lên.'],
+    steps: ['Nhập hoặc dán văn bản — digest cập nhật theo thời gian thực.', 'Hoặc chuyển sang chế độ tệp và thả tệp để băm cục bộ.', 'Sao chép digest thập lục phân và so với giá trị mong đợi.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha384-generator": {
+    name: 'Trình tạo SHA-384',
+    tagline: 'Tính băm SHA-384 của văn bản hoặc tệp ngay trong trình duyệt bằng WebCrypto gốc — digest SHA-2 mạnh nhất cho checksum, HMAC và toàn vẹn lưu trữ. Xử lý 100% cục bộ.',
+    intro: ['Dán văn bản để thấy digest 384-bit ngay lập tức, hoặc thả tệp để lấy vân tay cục bộ. Trên phần cứng 64-bit SHA-384 thường nhanh hơn SHA-256 — lý tưởng cho kho lưu trữ lớn.', 'SHA-384 xuất hiện trong chữ ký HMAC của API, xác minh ảnh đĩa và checksum lưu trữ dài hạn. Sao chép digest thập lục phân và so với giá trị công bố.'],
+    steps: ['Nhập hoặc dán văn bản — digest cập nhật theo thời gian thực.', 'Hoặc chuyển sang chế độ tệp và thả tệp để băm cục bộ.', 'Sao chép digest thập lục phân và so sánh.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha512-generator": {
+    name: 'Trình tạo SHA-512',
+    tagline: 'Tính băm SHA-512 của văn bản hoặc tệp ngay trong trình duyệt bằng WebCrypto gốc — digest SHA-2 mạnh nhất cho checksum, HMAC và toàn vẹn lưu trữ. Xử lý 100% cục bộ.',
+    intro: ['Dán văn bản để thấy digest 512-bit ngay lập tức, hoặc thả tệp để lấy vân tay cục bộ. Trên phần cứng 64-bit SHA-512 thường nhanh hơn SHA-256 — lý tưởng cho kho lưu trữ lớn.', 'SHA-512 xuất hiện trong chữ ký HMAC của API, xác minh ảnh đĩa và checksum lưu trữ dài hạn. Sao chép digest thập lục phân và so với giá trị công bố.'],
+    steps: ['Nhập hoặc dán văn bản — digest cập nhật theo thời gian thực.', 'Hoặc chuyển sang chế độ tệp và thả tệp để băm cục bộ.', 'Sao chép digest thập lục phân và so sánh.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
 };

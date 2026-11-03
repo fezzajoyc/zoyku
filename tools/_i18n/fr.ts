@@ -4924,4 +4924,35 @@ export const fr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "sha1-generator": {
+    name: 'Générateur SHA-1',
+    tagline: 'Calculez des hachages SHA-1 de texte ou de fichiers dans votre navigateur via WebCrypto natif — encore présent dans les commits Git et les anciennes sommes de contrôle. 100 % local.',
+    intro: ["Collez du texte pour voir son empreinte SHA-1 de 160 bits en direct, ou déposez un fichier pour l'empreinter localement. Le moteur WebCrypto du navigateur fait le travail : même un gros fichier ne laisse pas fuir un octet.", "SHA-1 est un algorithme hérité mais vivant : Git identifie toujours ses objets avec lui et nombre d'anciens systèmes vérifient les téléchargements par somme SHA-1. Utilisez-le pour la compatibilité — pour la sécurité, choisissez SHA-256 ou plus."],
+    steps: ["Saisissez ou collez le texte — l'empreinte se met à jour en direct.", 'Ou passez en mode fichier et déposez un fichier à hacher localement.', "Copiez l'empreinte hexadécimale et comparez-la à la valeur attendue."],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha384-generator": {
+    name: 'Générateur SHA-384',
+    tagline: "Calculez des empreintes SHA-384 de texte ou de fichiers dans votre navigateur via WebCrypto natif — le SHA-2 le plus robuste pour les sommes de contrôle, HMAC et l'intégrité des archives. 100 % local.",
+    intro: ["Collez du texte pour voir son empreinte de 384 bits en direct, ou déposez un fichier pour l'empreinter localement. Sur matériel 64 bits, SHA-384 est souvent plus rapide que SHA-256 — idéal pour les grosses archives.", "SHA-384 apparaît dans les signatures HMAC des API, la vérification d'images disque et les sommes de contrôle d'archives à long terme. Copiez l'empreinte hexadécimale et comparez-la à la valeur publiée."],
+    steps: ["Saisissez ou collez le texte — l'empreinte se met à jour en direct.", 'Ou passez en mode fichier et déposez un fichier à hacher localement.', "Copiez l'empreinte hexadécimale et comparez-la."],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha512-generator": {
+    name: 'Générateur SHA-512',
+    tagline: "Calculez des empreintes SHA-512 de texte ou de fichiers dans votre navigateur via WebCrypto natif — le SHA-2 le plus robuste pour les sommes de contrôle, HMAC et l'intégrité des archives. 100 % local.",
+    intro: ["Collez du texte pour voir son empreinte de 512 bits en direct, ou déposez un fichier pour l'empreinter localement. Sur matériel 64 bits, SHA-512 est souvent plus rapide que SHA-256 — idéal pour les grosses archives.", "SHA-512 apparaît dans les signatures HMAC des API, la vérification d'images disque et les sommes de contrôle d'archives à long terme. Copiez l'empreinte hexadécimale et comparez-la à la valeur publiée."],
+    steps: ["Saisissez ou collez le texte — l'empreinte se met à jour en direct.", 'Ou passez en mode fichier et déposez un fichier à hacher localement.', "Copiez l'empreinte hexadécimale et comparez-la."],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
 };

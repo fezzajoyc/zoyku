@@ -4936,4 +4936,35 @@ export const tr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "sha1-generator": {
+    name: 'SHA-1 Üretici',
+    tagline: 'Metin veya dosyaların SHA-1 özetini tarayıcınızda native WebCrypto ile hesaplayın — Git commitlerinde ve eski sağlama toplamlarında hâlâ kullanılıyor. Tamamen yerel.',
+    intro: ['Metni yapıştırın ve 160 bitlik SHA-1 özetini anında görün, ya da bir dosya bırakıp yerelde parmak izi alın. Tarayıcının WebCrypto motoru işi yapar — tek bir bayt bile cihazdan çıkmaz.', 'SHA-1 eski ama yaşıyor: Git hâlâ nesneleri onunla tanımlıyor ve birçok eski sistem indirmeleri SHA-1 sağlama toplamlarıyla doğruluyor. Uyumluluk için kullanın — güvenlik için SHA-256 veya üstünü seçin.'],
+    steps: ['Metni yazın veya yapıştırın — özet yazdıkça güncellenir.', "Ya da dosya moduna geçip bir dosyayı bırakarak yerelde hash'leyin.", 'Onaltılık özeti kopyalayın ve beklenen değerle karşılaştırın.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha384-generator": {
+    name: 'SHA-384 Üretici',
+    tagline: 'Metin veya dosyaların SHA-384 özetini tarayıcınızda native WebCrypto ile hesaplayın — checksum, HMAC ve arşiv bütünlüğü için en güçlü SHA-2 özeti. Tamamen yerel.',
+    intro: ["Metni yapıştırın ve 384 bitlik özeti anında görün, ya da bir dosya bırakıp yerelde parmak izi alın. 64-bit donanımda SHA-384 genelde SHA-256'dan hızlıdır — büyük arşivler için ideal.", 'SHA-384; HMAC API imzalarında, disk imgesi doğrulamada ve uzun vadeli arşiv sağlama toplamlarında karşınıza çıkar. Onaltılık özeti kopyalayıp yayınlanan değerle karşılaştırın.'],
+    steps: ['Metni yazın veya yapıştırın — özet yazdıkça güncellenir.', "Ya da dosya moduna geçip bir dosyayı bırakarak yerelde hash'leyin.", 'Onaltılık özeti kopyalayıp karşılaştırın.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha512-generator": {
+    name: 'SHA-512 Üretici',
+    tagline: 'Metin veya dosyaların SHA-512 özetini tarayıcınızda native WebCrypto ile hesaplayın — checksum, HMAC ve arşiv bütünlüğü için en güçlü SHA-2 özeti. Tamamen yerel.',
+    intro: ["Metni yapıştırın ve 512 bitlik özeti anında görün, ya da bir dosya bırakıp yerelde parmak izi alın. 64-bit donanımda SHA-512 genelde SHA-256'dan hızlıdır — büyük arşivler için ideal.", 'SHA-512; HMAC API imzalarında, disk imgesi doğrulamada ve uzun vadeli arşiv sağlama toplamlarında karşınıza çıkar. Onaltılık özeti kopyalayıp yayınlanan değerle karşılaştırın.'],
+    steps: ['Metni yazın veya yapıştırın — özet yazdıkça güncellenir.', "Ya da dosya moduna geçip bir dosyayı bırakarak yerelde hash'leyin.", 'Onaltılık özeti kopyalayıp karşılaştırın.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
 };

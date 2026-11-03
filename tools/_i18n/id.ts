@@ -4936,4 +4936,35 @@ export const id: Record<string, ToolCopy> = {
       },
     ],
   },
+  "sha1-generator": {
+    name: 'Generator SHA-1',
+    tagline: 'Hitung hash SHA-1 dari teks atau file di browser Anda dengan WebCrypto native — masih dipakai di commit Git dan checksum legacy. 100% lokal.',
+    intro: ['Tempel teks untuk melihat digest SHA-1 160-bit secara langsung, atau jatuhkan file untuk mengambil sidik jarinya secara lokal. Mesin WebCrypto peramban yang bekerja — tidak satu byte pun keluar dari perangkat.', 'SHA-1 legacy tapi hidup: Git masih mengidentifikasi objek dengannya dan banyak sistem lama memverifikasi unduhan dengan checksum SHA-1. Gunakan untuk kompatibilitas — untuk keamanan pilih SHA-256 atau lebih kuat.'],
+    steps: ['Ketik atau tempel teks — digest diperbarui saat mengetik.', 'Atau beralih ke mode file dan jatuhkan file untuk di-hash lokal.', 'Salin digest heksadesimal dan bandingkan dengan nilai yang diharapkan.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha384-generator": {
+    name: 'Generator SHA-384',
+    tagline: 'Hitung hash SHA-384 dari teks atau file di browser Anda dengan WebCrypto native — digest SHA-2 terkuat untuk checksum, HMAC dan integritas arsip. 100% lokal.',
+    intro: ['Tempel teks untuk melihat digest 384-bit secara langsung, atau jatuhkan file untuk sidik jari lokal. Di perangkat keras 64-bit SHA-384 sering lebih cepat dari SHA-256 — ideal untuk arsip besar.', 'SHA-384 muncul di tanda tangan HMAC API, verifikasi image disk, dan checksum arsip jangka panjang. Salin digest heksadesimal dan bandingkan dengan nilai yang dipublikasikan.'],
+    steps: ['Ketik atau tempel teks — digest diperbarui langsung.', 'Atau beralih ke mode file dan jatuhkan file untuk di-hash lokal.', 'Salin digest heksadesimal dan bandingkan.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha512-generator": {
+    name: 'Generator SHA-512',
+    tagline: 'Hitung hash SHA-512 dari teks atau file di browser Anda dengan WebCrypto native — digest SHA-2 terkuat untuk checksum, HMAC dan integritas arsip. 100% lokal.',
+    intro: ['Tempel teks untuk melihat digest 512-bit secara langsung, atau jatuhkan file untuk sidik jari lokal. Di perangkat keras 64-bit SHA-512 sering lebih cepat dari SHA-256 — ideal untuk arsip besar.', 'SHA-512 muncul di tanda tangan HMAC API, verifikasi image disk, dan checksum arsip jangka panjang. Salin digest heksadesimal dan bandingkan dengan nilai yang dipublikasikan.'],
+    steps: ['Ketik atau tempel teks — digest diperbarui langsung.', 'Atau beralih ke mode file dan jatuhkan file untuk di-hash lokal.', 'Salin digest heksadesimal dan bandingkan.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
 };

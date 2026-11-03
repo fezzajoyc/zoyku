@@ -4918,4 +4918,35 @@ export const it: Record<string, ToolCopy> = {
       },
     ],
   },
+  "sha1-generator": {
+    name: 'Generatore SHA-1',
+    tagline: 'Calcola hash SHA-1 di testo o file nel browser con WebCrypto nativo — ancora presente nei commit Git e nei checksum legacy. 100% locale.',
+    intro: ['Incolla il testo per vedere il digest SHA-1 a 160 bit in tempo reale, o trascina un file per improntarlo localmente. Il motore WebCrypto del browser fa il lavoro: nemmeno un byte lascia il dispositivo.', 'SHA-1 è legacy ma vivo: Git identifica ancora gli oggetti con esso e molti sistemi datati verificano i download con checksum SHA-1. Usalo per compatibilità e verifica — per la sicurezza scegli SHA-256 o superiore.'],
+    steps: ['Digita o incolla il testo — il digest si aggiorna mentre scrivi.', 'Oppure passa alla modalità file e trascina un file da hashare localmente.', 'Copia il digest esadecimale e confrontalo con il valore atteso.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha384-generator": {
+    name: 'Generatore SHA-384',
+    tagline: 'Calcola hash SHA-384 di testo o file nel browser con WebCrypto nativo — il digest SHA-2 più robusto per checksum, HMAC e integrità degli archivi. 100% locale.',
+    intro: ['Incolla il testo per vedere il digest a 384 bit in tempo reale, o trascina un file per improntarlo localmente. Su hardware a 64 bit SHA-384 è spesso più veloce di SHA-256: ideale per archivi di grandi dimensioni.', 'SHA-384 compare nelle firme HMAC delle API, nella verifica di immagini disco e nei checksum di archiviazione a lungo termine. Copia il digest esadecimale e confrontalo con il valore pubblicato.'],
+    steps: ['Digita o incolla il testo — il digest si aggiorna in tempo reale.', 'Oppure passa alla modalità file e trascina un file da hashare localmente.', 'Copia il digest esadecimale e confrontalo.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha512-generator": {
+    name: 'Generatore SHA-512',
+    tagline: 'Calcola hash SHA-512 di testo o file nel browser con WebCrypto nativo — il digest SHA-2 più robusto per checksum, HMAC e integrità degli archivi. 100% locale.',
+    intro: ['Incolla il testo per vedere il digest a 512 bit in tempo reale, o trascina un file per improntarlo localmente. Su hardware a 64 bit SHA-512 è spesso più veloce di SHA-256: ideale per archivi di grandi dimensioni.', 'SHA-512 compare nelle firme HMAC delle API, nella verifica di immagini disco e nei checksum di archiviazione a lungo termine. Copia il digest esadecimale e confrontalo con il valore pubblicato.'],
+    steps: ['Digita o incolla il testo — il digest si aggiorna in tempo reale.', 'Oppure passa alla modalità file e trascina un file da hashare localmente.', 'Copia il digest esadecimale e confrontalo.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
 };

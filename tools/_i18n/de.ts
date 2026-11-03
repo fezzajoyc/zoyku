@@ -4924,6 +4924,37 @@ export const de: Record<string, ToolCopy> = {
       },
     ],
   },
+  "sha1-generator": {
+    name: 'SHA-1-Generator',
+    tagline: 'SHA-1-Hashes von Text oder Dateien direkt im Browser mit nativem WebCrypto berechnen — noch in Git-Commits und Legacy-Prüfsummen im Einsatz. Vollständig clientseitig.',
+    intro: ['Text einfügen und den 160-Bit-SHA-1-Digest live sehen, oder eine Datei ablegen und sie lokal fingerprinten. Die WebCrypto-Engine des Browsers erledigt die Arbeit — nicht ein Byte verlässt Ihr Gerät.', 'SHA-1 ist Legacy, aber lebendig: Git identifiziert Objekte damit, und viele ältere Systeme prüfen Downloads gegen SHA-1-Prüfsummen. Für Kompatibilität und Verifikation in Ordnung — für Sicherheitskritisches nehmen Sie SHA-256 oder stärker.'],
+    steps: ['Text tippen oder einfügen — der Digest aktualisiert sich live.', 'Oder in den Dateimodus wechseln und eine Datei zum lokalen Hashen ablegen.', 'Hexadezimal-Digest kopieren und mit dem erwarteten Wert vergleichen.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha384-generator": {
+    name: 'SHA-384-Generator',
+    tagline: 'SHA-384-Hashes von Text oder Dateien direkt im Browser mit nativem WebCrypto berechnen — der stärkste SHA-2-Digest für Prüfsummen, HMAC und Archiv-Integrität. Vollständig clientseitig.',
+    intro: ['Text einfügen und den 384-Bit-Digest live sehen, oder eine Datei ablegen und sie lokal fingerprinten. Auf 64-Bit-Hardware ist SHA-384 oft schneller als SHA-256 — ideal für große Archive.', 'SHA-384 begegnet Ihnen in HMAC-API-Signaturen, Diskimage-Prüfungen und langfristigen Archiv-Prüfsummen. Hexadezimal-Digest kopieren und mit dem veröffentlichten Wert vergleichen.'],
+    steps: ['Text tippen oder einfügen — der Digest aktualisiert sich live.', 'Oder in den Dateimodus wechseln und eine Datei zum lokalen Hashen ablegen.', 'Hexadezimal-Digest kopieren und vergleichen.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "sha512-generator": {
+    name: 'SHA-512-Generator',
+    tagline: 'SHA-512-Hashes von Text oder Dateien direkt im Browser mit nativem WebCrypto berechnen — der stärkste SHA-2-Digest für Prüfsummen, HMAC und Archiv-Integrität. Vollständig clientseitig.',
+    intro: ['Text einfügen und den 512-Bit-Digest live sehen, oder eine Datei ablegen und sie lokal fingerprinten. Auf 64-Bit-Hardware ist SHA-512 oft schneller als SHA-256 — ideal für große Archive.', 'SHA-512 begegnet Ihnen in HMAC-API-Signaturen, Diskimage-Prüfungen und langfristigen Archiv-Prüfsummen. Hexadezimal-Digest kopieren und mit dem veröffentlichten Wert vergleichen.'],
+    steps: ['Text tippen oder einfügen — der Digest aktualisiert sich live.', 'Oder in den Dateimodus wechseln und eine Datei zum lokalen Hashen ablegen.', 'Hexadezimal-Digest kopieren und vergleichen.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
 };
 
 
