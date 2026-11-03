@@ -131,13 +131,11 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             />
           </div>
 
-          {/* 数字条:count-up */}
-          <dl className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-y-6 sm:grid-cols-4">
+          {/* 数字条:count-up(只留真实数字,隐私卖点交给信任条) */}
+          <dl className="mx-auto mt-14 grid max-w-2xl grid-cols-2 gap-y-6 sm:grid-cols-2">
             {[
               { n: <CountUp to={total} />, raw: total, label: t.home.statsLabels.tools },
               { n: <CountUp to={LOCALES.length} />, raw: LOCALES.length, label: t.home.statsLabels.languages },
-              { n: 0, raw: 0, label: t.home.statsLabels.uploads },
-              { n: 0, raw: 0, label: t.home.statsLabels.accounts },
             ].map((s, i) => (
               <div key={i} className="text-center">
                 <dt className="sr-only">{s.raw} {s.label}</dt>

@@ -33,7 +33,7 @@ export function Nav() {
           <span className="text-[15px]">{SITE.name}</span>
         </Link>
         <nav
-          className="no-scrollbar -mx-1 flex flex-1 items-center gap-4 overflow-x-auto px-1 text-[13.5px] text-[var(--color-sub)]"
+          className="no-scrollbar -mx-1 flex flex-1 items-center gap-3 overflow-x-auto px-1 text-[13px] text-[var(--color-sub)] xl:gap-3.5 xl:text-[13.5px]"
           aria-label={t.nav.menu}
         >
           <Link href={`/${locale}/tools`} className="flex-none transition-colors hover:text-[var(--color-ink)]">
@@ -43,7 +43,7 @@ export function Nav() {
             <Link
               key={c}
               href={`/${locale}/categories/${c}`}
-              className="hidden flex-none whitespace-nowrap transition-colors hover:text-[var(--color-ink)] md:inline"
+              className="flex-none whitespace-nowrap transition-colors hover:text-[var(--color-ink)]"
             >
               {t.categories[c].name}
             </Link>
