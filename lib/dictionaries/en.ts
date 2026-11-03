@@ -23,6 +23,7 @@ const en = {
     pinned: "Pinned",
     pin: "Pin to top",
     unpin: "Remove from pinned",
+    popular: "Popular right now",
     categoriesTitle: "Categories",
     featuredTitle: "Popular tools",
     trustLocal: "Files stay on your device",
@@ -82,6 +83,8 @@ const en = {
     howTo: "How to use",
     faq: "Frequently asked questions",
     related: "Related tools",
+    nextStep: "Next steps",
+    copyLink: "Copy link",
     privacyNote:
       "This tool runs entirely in your browser. Your data never leaves your device — it is not uploaded to any server.",
     inCategory: "More in {category}",

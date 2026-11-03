@@ -23,6 +23,7 @@ const zh: Dictionary = {
     pinned: "置顶",
     pin: "置顶到首页",
     unpin: "取消置顶",
+    popular: "大家都在用",
     categoriesTitle: "分类",
     featuredTitle: "热门工具",
     trustLocal: "文件留在你的设备上",
@@ -79,6 +80,8 @@ const zh: Dictionary = {
     howTo: "使用方法",
     faq: "常见问题",
     related: "相关工具",
+    nextStep: "下一步",
+    copyLink: "复制链接",
     privacyNote:
       "该工具完全在你的浏览器中运行,数据不会离开你的设备,不会上传到任何服务器。",
     inCategory: "{category}分类下的更多工具",

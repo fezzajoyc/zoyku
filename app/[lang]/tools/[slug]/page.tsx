@@ -11,6 +11,7 @@ import { Icon } from "@/components/icons";
 import { JsonLd } from "@/components/jsonld";
 import { trackRecent, ToolEmbedBox, EmbedGate, RecentTracker } from "@/components/tool-extras";
 import { PinButton } from "@/components/pin-button";
+import { NextToolsBar } from "@/components/next-tools-bar";
 
 export function generateStaticParams() {
   return LOCALES.flatMap((lang) => ALL_TOOLS.map((tool) => ({ lang, slug: tool.slug })));
@@ -167,6 +168,22 @@ export default async function ToolPage({
       <EmbedGate active={embed} />
       <Engine {...tool.engine.props} />
       <RecentTracker slug={tool.slug} icon={tool.icon} />
+
+      {!embed && (
+        <NextToolsBar
+          locale={locale}
+          tools={related.slice(0, 4).map((r) => {
+            const rc = toolCopy(r, locale);
+            return { slug: r.slug, category: r.category, icon: r.icon, name: rc.name };
+          })}
+          labels={{
+            nextTitle: t.tool.nextStep,
+            copyLink: t.tool.copyLink,
+            copied: t.common.copied,
+            pinned: [t.home.pin, t.home.unpin],
+          }}
+        />
+      )}
 
       <p className="mt-4 flex items-start gap-2 text-[13px] leading-5 text-[var(--color-sub)]">
         <Icon name="lock" size={15} className="mt-0.5 flex-none text-[var(--color-good)]" />

@@ -10,6 +10,16 @@ import type { CategoryId } from "@/lib/site";
 
 type Item = { slug: string; category: string; icon: string; name: string; tagline: string };
 
+// 空状态热门推荐(存在才渲染)
+const POPULAR_SLUGS = [
+  "merge-pdf",
+  "image-compressor",
+  "word-counter",
+  "json-formatter",
+  "qr-generator",
+  "password-generator",
+];
+
 const CAT_ICONS: Record<string, string> = {
   pdf: "pdf",
   image: "image",
@@ -249,6 +259,30 @@ export function HomeWorkspace({
           >
             ✕ {labels.clear}
           </button>
+          {/* 空状态热门推荐(IT-Tools 模式):给搜索落空的用户一个出口 */}
+          <div className="mt-5 border-t hairline pt-4">
+            <p className="text-[12px] font-medium text-[var(--color-sub)]">{labels.popular}</p>
+            <div className="mt-2.5 flex flex-wrap justify-center gap-2">
+              {POPULAR_SLUGS.map((slug) => {
+                const tool = tools.find((tl) => tl.slug === slug);
+                if (!tool) return null;
+                return (
+                  <Link
+                    key={slug}
+                    href={`/${locale}/tools/${slug}`}
+                    onClick={() => {
+                      setQuery("");
+                      setCat("all");
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full border hairline bg-[var(--color-card)] px-3 py-1.5 text-[12.5px] font-medium text-[var(--color-ink)] transition-colors hover:bg-[var(--color-surface)]"
+                  >
+                    <Icon name={tool.icon} size={13} className="text-[var(--color-accent)]" />
+                    {tool.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       ) : (
         <div className="mt-8 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">

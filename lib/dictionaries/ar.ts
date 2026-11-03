@@ -25,6 +25,7 @@ const ar: Dictionary = {
     pinned: "المثبتة",
     pin: "تثبيت في الأعلى",
     unpin: "إزالة التثبيت",
+    popular: "الأكثر استخداماً الآن",
     categoriesTitle: "الفئات",
     featuredTitle: "الأدوات الأكثر استخداماً",
     trustLocal: "ملفاتك تبقى على جهازك",
@@ -84,6 +85,8 @@ const ar: Dictionary = {
     howTo: "طريقة الاستخدام",
     faq: "الأسئلة الشائعة",
     related: "أدوات ذات صلة",
+    nextStep: "الخطوات التالية",
+    copyLink: "نسخ الرابط",
     privacyNote:
       "تعمل هذه الأداة بالكامل داخل متصفحك. بياناتك لا تغادر جهازك أبداً — لا يتم رفعها إلى أي خادم.",
     inCategory: "المزيد في {category}",
