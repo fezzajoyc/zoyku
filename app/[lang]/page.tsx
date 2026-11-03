@@ -11,6 +11,7 @@ import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { RecentTools } from "@/components/recent-tools";
 import { HomeWorkspace } from "@/components/home-workspace";
+import { HeroIntroSplash, GravityMouseField, QuantumParticles } from "@/components/hero-intro-splash";
 import { fill } from "@/tools/_lib/types";
 import { SITE } from "@/lib/site";
 import { CATEGORY_HUE } from "@/lib/tool-colors";
@@ -65,6 +66,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         }}
       />
 
+      {/* Antigravity 开屏入场仪式感 */}
+      <HeroIntroSplash />
+
       {/* Hero Section with Antigravity Gravity-Well & Dot Matrix */}
       <section className="relative overflow-hidden pt-16 sm:pt-24 pb-16">
         {/* Antigravity Blueprint Grid */}
@@ -72,6 +76,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           aria-hidden="true"
           className="antigravity-grid pointer-events-none absolute inset-0 -z-20 opacity-70 dark:opacity-40"
         />
+
+        {/* 鼠标动态引力光斑追踪与微粒子 */}
+        <GravityMouseField />
+        <QuantumParticles />
 
         {/* Antigravity Chromatic Gravity-Well (Google DeepMind 质感重力井光晕) */}
         <div aria-hidden="true" className="gravity-well -z-10" />
@@ -329,7 +337,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
       {/* 隐私架构段 (Antigravity Obsidian Containment Zone) */}
       <section id="privacy" className="relative overflow-hidden bg-[#090a0d] py-20 text-white sm:py-26">
-        {/* Antigravity Privacy Shield Aura */}
+        {/* Antigravity Privacy Shield Aura & Pulse Waves */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[460px] w-[820px] rounded-full opacity-20 blur-[130px]"
@@ -337,6 +345,15 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             background:
               "radial-gradient(circle, rgba(16,185,129,0.45) 0%, rgba(56,189,248,0.2) 50%, transparent 70%)",
           }}
+        />
+        <div
+          aria-hidden="true"
+          className="shield-pulse-ring pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full border border-emerald-500/20"
+        />
+        <div
+          aria-hidden="true"
+          className="shield-pulse-ring pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[820px] w-[820px] rounded-full border border-cyan-500/10"
+          style={{ animationDelay: "2.5s" }}
         />
         <Container className="relative text-center">
           <Reveal>

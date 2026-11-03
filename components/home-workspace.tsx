@@ -100,40 +100,44 @@ export function HomeWorkspace({
 
   return (
     <div className="mx-auto w-full max-w-6xl">
-      {/* 悬浮聚光搜索栏 (Antigravity Command Spotlight) */}
+      {/* 悬浮聚光搜索栏 (Antigravity Command Spotlight with Shimmer) */}
       <div className="relative mx-auto max-w-2xl">
-        <div className="relative flex items-center rounded-2xl border hairline bg-[var(--color-card)]/80 py-2 pl-4.5 pr-3 shadow-[0_10px_36px_rgba(0,0,0,0.05)] backdrop-blur-2xl transition-all duration-300 focus-within:border-[var(--color-accent)] focus-within:ring-4 focus-within:ring-[var(--color-ring)] focus-within:shadow-[0_16px_44px_rgba(26,115,232,0.12)]">
-          <span className="flex-none text-[var(--color-sub)]">
-            <Icon name="search" size={19} />
-          </span>
-          <input
-            ref={searchRef}
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={labels.placeholder}
-            aria-label={labels.placeholder}
-            className="h-11 w-full bg-transparent px-3 text-[15.5px] outline-none placeholder:text-[var(--color-sub)]"
-          />
-          {query ? (
-            <div className="flex items-center gap-2">
-              <span className="mono rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-xs font-semibold tabular-nums text-[var(--color-sub)]">
-                {filtered.length}
-              </span>
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                aria-label={labels.clear}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-xs text-[var(--color-sub)] transition-all duration-200 hover:rotate-90 hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
-              >
-                ✕
-              </button>
-            </div>
-          ) : (
-            <kbd className="mono hidden rounded-lg border hairline bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--color-sub)] shadow-xs sm:inline-block">
-              ⌘K
-            </kbd>
-          )}
+        <div className="command-shimmer-wrap shadow-[0_12px_40px_rgba(0,0,0,0.06)] dark:shadow-[0_14px_44px_rgba(0,0,0,0.35)]">
+          <div className="relative flex items-center rounded-[1.05rem] bg-[var(--color-card)]/90 py-2 pl-4.5 pr-3 backdrop-blur-2xl transition-all duration-300 focus-within:ring-3 focus-within:ring-[var(--color-ring)]">
+            <span className="flex-none text-[var(--color-sub)]">
+              <Icon name="search" size={19} />
+            </span>
+            <input
+              ref={searchRef}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={labels.placeholder}
+              aria-label={labels.placeholder}
+              className="h-11 w-full bg-transparent px-3 text-[15.5px] outline-none placeholder:text-[var(--color-sub)]"
+            />
+            {query ? (
+              <div className="flex items-center gap-2">
+                <span className="mono rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-xs font-semibold tabular-nums text-[var(--color-sub)]">
+                  {filtered.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label={labels.clear}
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-xs text-[var(--color-sub)] transition-all duration-200 hover:rotate-90 hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <kbd className="mono hidden rounded-lg border hairline bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--color-sub)] shadow-xs sm:inline-block">
+                  ⌘K
+                </kbd>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
