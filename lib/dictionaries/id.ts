@@ -88,6 +88,7 @@ const id = {
   common: {
     openTool: "Buka alat",
     copy: "Salin",
+    close: "Tutup",
     copied: "Tersalin",
     download: "Unduh",
     reset: "Atur ulang",

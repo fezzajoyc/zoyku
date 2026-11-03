@@ -87,6 +87,7 @@ const tr = {
   common: {
     openTool: "Aracı aç",
     copy: "Kopyala",
+    close: "Kapat",
     copied: "Kopyalandı",
     download: "İndir",
     reset: "Sıfırla",

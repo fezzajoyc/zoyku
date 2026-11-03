@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { DropZone, downloadBlob, formatBytes } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
+import { Lightbox } from "@/components/lightbox";
 import {
   SHARED, Err, FileRow, Ghost, Label, Primary, Progress, baseName, loadPdf,
   parsePageRanges, renderPageToCanvas, toPdfBlob, tr, type L,
@@ -36,6 +37,7 @@ export function PdfPagesEngine({ op }: { op: Op }) {
   const [files, setFiles] = useState<File[]>([]);
   const [count, setCount] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [zoom, setZoom] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [err, setErr] = useState("");
   const [outs, setOuts] = useState<Out[]>([]);
@@ -350,7 +352,12 @@ export function PdfPagesEngine({ op }: { op: Op }) {
                     <span className="flex h-24 w-full items-center justify-center overflow-hidden rounded-lg bg-[var(--color-surface)]">
                       {thumbs[page - 1] ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={thumbs[page - 1]} alt="" className="max-h-24 max-w-full object-contain" />
+                        <img
+                          src={thumbs[page - 1]}
+                          alt=""
+                          className="max-h-24 max-w-full cursor-zoom-in object-contain transition-transform hover:scale-105"
+                          onClick={() => setZoom(thumbs[page - 1]!)}
+                        />
                       ) : (
                         <span className="mono text-[15px] text-[var(--color-sub)]">{page}</span>
                       )}
@@ -368,6 +375,7 @@ export function PdfPagesEngine({ op }: { op: Op }) {
           )}
 
           {busy && <Progress value={progress} />}
+          {zoom && <Lightbox src={zoom} alt="" onClose={() => setZoom(null)} />}
           <Err msg={err} />
 
           {outs.length > 0 && <Results outs={outs} />}

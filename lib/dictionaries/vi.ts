@@ -88,6 +88,7 @@ const vi = {
   common: {
     openTool: "Mở công cụ",
     copy: "Sao chép",
+    close: "Đóng",
     copied: "Đã sao chép",
     download: "Tải xuống",
     reset: "Đặt lại",

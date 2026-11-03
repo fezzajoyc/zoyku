@@ -88,6 +88,7 @@ const it = {
   common: {
     openTool: "Apri strumento",
     copy: "Copia",
+    close: "Chiudi",
     copied: "Copiato",
     download: "Scarica",
     reset: "Reimposta",

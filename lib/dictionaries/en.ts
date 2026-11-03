@@ -88,6 +88,7 @@ const en = {
   common: {
     openTool: "Open tool",
     copy: "Copy",
+    close: "Close",
     copied: "Copied",
     download: "Download",
     reset: "Reset",

@@ -15,8 +15,14 @@ import { fill } from "@/tools/_lib/types";
 import { SITE } from "@/lib/site";
 
 // 首页 marquee 的明星工具(slug, 每行 8 个,双向滚动)
-const MARQUEE_ROW_1 = ["merge-pdf", "image-compressor", "word-counter", "json-formatter", "qr-generator", "length-converter", "split-pdf", "password-generator"];
-const MARQUEE_ROW_2 = ["case-converter", "pdf-to-word", "currency-converter", "color-converter", "emi-calculator", "text-diff", "heic-to-jpg", "regex-tester"];
+const MARQUEE_ROW_1 = ["merge-pdf", "image-compressor", "word-counter", "json-formatter", "qr-generator", "image-resizer", "split-pdf", "password-generator"];
+const MARQUEE_ROW_2 = ["case-converter", "pdf-to-word", "currency-converter", "color-converter", "remove-duplicate-lines", "text-diff", "heic-to-jpg", "regex-tester"];
+
+const UNIT_SLUGS = new Set([
+  "length-converter", "weight-converter", "temperature-converter", "data-converter",
+  "area-converter", "volume-converter", "speed-converter", "time-converter",
+  "energy-converter", "pressure-converter",
+]);
 
 function Chip({ slug, locale }: { slug: string; locale: Locale }) {
   const tool = ALL_TOOLS.find((tl) => tl.slug === slug);
@@ -180,8 +186,14 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               return (
                 <Reveal key={c} delay={(i % 3) * 90}>
                   <div
-                    className={`flex h-full flex-col rounded-2xl border hairline bg-[var(--color-card)] p-5 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)]`}
+                    className={`relative flex h-full flex-col rounded-2xl border hairline bg-[var(--color-card)] p-5 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)]`}
                   >
+                    {/* 整卡可点:伪元素拉伸分类链接铺满卡片,内部工具链接仍各自可点 */}
+                    <Link
+                      href={`/${locale}/categories/${c}`}
+                      aria-label={t.categories[c].name}
+                      className="absolute inset-0 rounded-2xl after:absolute after:inset-0"
+                    />
                     <div className="mb-3 inline-flex w-fit rounded-xl bg-[var(--color-surface)] p-2.5">
                       <Icon name={c === "pdf" ? "pdf" : c} size={20} />
                     </div>
@@ -194,8 +206,11 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                     <p className="mt-1.5 text-[13.5px] leading-5 text-[var(--color-sub)]">
                       {t.categories[c].desc}
                     </p>
-                    <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[13px] font-medium text-[var(--color-accent-strong)] mt-auto pt-3">
-                      {catTools.slice(0, 3).map((tool) => (
+                    <div className="relative z-10 mt-auto flex flex-wrap gap-x-3 gap-y-1 pt-3 text-[13px] font-medium text-[var(--color-accent-strong)]">
+                      {catTools
+                        .filter((tool) => tool.engine.component !== undefined && !UNIT_SLUGS.has(tool.slug))
+                        .slice(0, 3)
+                        .map((tool) => (
                         <Link
                           key={tool.slug}
                           href={`/${locale}/tools/${tool.slug}`}

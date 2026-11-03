@@ -88,6 +88,7 @@ const ru = {
   common: {
     openTool: "Открыть инструмент",
     copy: "Копировать",
+    close: "Закрыть",
     copied: "Скопировано",
     download: "Скачать",
     reset: "Сбросить",

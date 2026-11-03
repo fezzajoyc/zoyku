@@ -90,6 +90,7 @@ const fr: Dictionary = {
   common: {
     openTool: "Ouvrir l'outil",
     copy: "Copier",
+    close: "Fermer",
     copied: "Copié",
     download: "Télécharger",
     reset: "Réinitialiser",

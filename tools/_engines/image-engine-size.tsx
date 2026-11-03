@@ -56,6 +56,7 @@ export function ImageEngineSize({ defaultTargetKb = 100 }: { defaultTargetKb?: n
   const [files, setFiles] = useState<File[]>([]);
   const [targetKb, setTargetKb] = useState(String(defaultTargetKb));
   const [format, setFormat] = useState<Format>("image/jpeg");
+  const [zoom, setZoom] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const [results, setResults] = useState<SizeResult[]>([]);
@@ -237,7 +238,7 @@ export function ImageEngineSize({ defaultTargetKb = 100 }: { defaultTargetKb?: n
           {results.map((r) => (
             <div key={r.url} className="flex items-center gap-3 rounded-xl border hairline p-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={r.url} alt={r.name} className="h-12 w-12 flex-none rounded-lg border hairline object-cover" />
+              <img src={r.url} alt={r.name} onClick={() => setZoom(r.url)} className="h-12 w-12 flex-none cursor-zoom-in rounded-lg border hairline object-cover transition-transform hover:scale-110" />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[14px]">{r.name}</p>
                 <p className="mono mt-0.5 text-[12.5px] text-[var(--color-sub)]">

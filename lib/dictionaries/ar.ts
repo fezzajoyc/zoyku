@@ -90,6 +90,7 @@ const ar: Dictionary = {
   common: {
     openTool: "افتح الأداة",
     copy: "نسخ",
+    close: "إغلاق",
     copied: "تم النسخ",
     download: "تنزيل",
     reset: "إعادة تعيين",

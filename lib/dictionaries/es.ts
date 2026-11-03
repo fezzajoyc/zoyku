@@ -85,6 +85,7 @@ const es: Dictionary = {
   common: {
     openTool: "Abrir herramienta",
     copy: "Copiar",
+    close: "Cerrar",
     copied: "Copiado",
     download: "Descargar",
     reset: "Restablecer",

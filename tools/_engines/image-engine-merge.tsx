@@ -5,6 +5,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { DropZone, downloadBlob, formatBytes } from "@/components/client-ui";
 import { computeMergeLayout } from "../_lib/merge-layout";
 import { ToolPanel } from "@/components/ui";
+import { Lightbox } from "@/components/lightbox";
 
 type Layout = "horizontal" | "vertical" | "grid";
 
@@ -22,6 +23,8 @@ const LABELS: Record<string, Record<string, string>> = {
 export function ImageMergeEngine() {
   const { t, locale } = useI18n();
   const [files, setFiles] = useState<File[]>([]);
+  const [zoom, setZoom] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState("");
   const [layout, setLayout] = useState<Layout>("horizontal");
   const [gap, setGap] = useState(8);
   const [bg, setBg] = useState("#ffffff");
@@ -64,6 +67,10 @@ export function ImageMergeEngine() {
       const blob = await new Promise<Blob>((resolve, reject) =>
         canvas.toBlob((b2) => (b2 ? resolve(b2) : reject(new Error("encode"))), "image/png"),
       );
+      setPreviewUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return URL.createObjectURL(blob);
+      });
       setOut({ blob, w: canvas.width, h: canvas.height });
     } catch {
       setErr(t.common.error);
@@ -121,7 +128,13 @@ export function ImageMergeEngine() {
       {out && (
         <div className="mt-4 rounded-2xl border hairline p-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={URL.createObjectURL(out.blob)} alt="" className="max-h-72 rounded-lg" />
+          <img
+            src={previewUrl}
+            alt=""
+            className="max-h-72 cursor-zoom-in rounded-lg"
+            onClick={() => setZoom(previewUrl)}
+          />
+          {zoom && <Lightbox src={zoom} alt="" onClose={() => setZoom(null)} />}
           <div className="mt-3 flex items-center gap-2.5">
             <span className="mono text-[12.5px] text-[var(--color-sub)]">
               {out.w}×{out.h} · {formatBytes(out.blob.size)}
@@ -149,7 +162,7 @@ export function ImageMergeEngine() {
         {files.length > 0 && (
           <button
             type="button"
-            onClick={() => { setFiles([]); setOut(null); }}
+            onClick={() => { setFiles([]); setOut(null); setPreviewUrl((p) => { if (p) URL.revokeObjectURL(p); return ""; }); }}
             className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium transition-colors hover:bg-[var(--color-surface)]"
           >
             {t.common.reset}
