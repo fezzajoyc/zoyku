@@ -37,7 +37,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
   const locale = lang as Locale;
   const t = dict(locale);
 
-  // 首页热门位排序:最能体现"隐私文件不上传"的工具优先
+  // 首页精选工具:兼顾高频使用与本地隐私优势
   const FEATURED_ORDER = [
     "image-compressor", "merge-pdf", "heic-to-jpg", "split-pdf", "pdf-to-word", "jpg-to-pdf",
     "compress-pdf", "pdf-to-jpg", "word-counter", "password-generator", "json-formatter",
@@ -65,10 +65,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         }}
       />
 
-      {/* Hero Section (大厂纯净工整布局) */}
-      <section className="hero-glow-bg relative overflow-hidden pt-14 pb-16 sm:pt-20 sm:pb-20">
+      {/* Hero Section: 苹果官网式纯净、大气发布会风格 */}
+      <section className="relative overflow-hidden pt-16 pb-16 sm:pt-24 sm:pb-22">
         <Container className="relative pb-10 text-center">
-          {/* Eyebrow Pill */}
+          {/* Apple Eyebrow Badge */}
           <div className="hero-in flex justify-center">
             <Pill tone="accent">
               <Icon name="sparkle" size={13} />
@@ -76,7 +76,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             </Pill>
           </div>
 
-          {/* H1 权威标题 */}
+          {/* Apple Display 标题 */}
           <h1
             className="hero-title mx-auto mt-5 max-w-4xl text-[var(--color-ink)]"
             style={{ animationDelay: "0.06s" }}
@@ -85,14 +85,14 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           </h1>
 
           <p
-            className="hero-in mx-auto mt-4 max-w-2xl text-[16px] leading-relaxed text-[var(--color-sub)] sm:text-[17.5px]"
+            className="hero-in mx-auto mt-4.5 max-w-2xl text-[17px] leading-relaxed text-[var(--color-sub)] sm:text-[19px]"
             style={{ animationDelay: "0.12s" }}
           >
             {fill(t.home.heroSub, { n: ALL_TOOLS.length })}
           </p>
         </Container>
 
-        {/* 首屏核心工作台 (直接进入工具搜索与分流) */}
+        {/* 首屏工作台:macOS Spotlight 风格搜索与分类 */}
         <Container className="relative">
           <div className="hero-in" style={{ animationDelay: "0.18s" }}>
             <HomeWorkspace
@@ -122,9 +122,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             />
           </div>
 
-          {/* 核心指标统计条 */}
-          <div className="mx-auto mt-14 max-w-3xl">
-            <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+          {/* Apple 经典大数字统计舱 (Keynote Numbers) */}
+          <div className="mx-auto mt-16 max-w-4xl">
+            <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
               {[
                 {
                   value: <CountUp to={total} />,
@@ -149,17 +149,17 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className="tool-card-pro rounded-xl p-4 text-center"
+                  className="apple-card rounded-2xl p-5 text-center"
                 >
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
-                    <span className="gradient-text block text-2xl font-bold tracking-tight sm:text-3xl tabular-nums">
+                    <span className="block text-3xl sm:text-4xl font-bold tracking-tight text-[var(--color-ink)] tabular-nums">
                       {stat.value}
                     </span>
-                    <span className="mt-1 block text-xs font-semibold uppercase tracking-wider text-[var(--color-ink)]">
+                    <span className="mt-1.5 block text-[13px] font-semibold text-[var(--color-ink)]">
                       {stat.label}
                     </span>
-                    <span className="mono mt-0.5 block text-[11px] text-[var(--color-sub)]">
+                    <span className="mt-0.5 block text-[12px] text-[var(--color-sub)]">
                       {stat.sub}
                     </span>
                   </dd>
@@ -168,12 +168,12 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             </dl>
           </div>
 
-          {/* 最近使用记录 */}
+          {/* 最近使用 */}
           <RecentTools locale={locale} />
 
           {/* 信任承诺条 */}
-          <div className="mt-8 flex justify-center">
-            <div className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-2.5 rounded-full border hairline bg-[var(--color-card)] px-6 py-2.5 text-[13px] text-[var(--color-sub)] shadow-xs">
+          <div className="mt-10 flex justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-2.5 rounded-full border hairline bg-[var(--color-card)] px-7 py-2.5 text-[13px] text-[var(--color-sub)] shadow-xs">
               <span className="inline-flex items-center gap-2">
                 <Icon name="lock" size={14} className="text-[var(--color-good)]" />
                 <span className="font-medium text-[var(--color-ink)]">{t.home.trustLocal}</span>
@@ -193,8 +193,8 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </Container>
       </section>
 
-      {/* 分类 Showcase (严谨工整的 Bento Grid) */}
-      <section className="border-y hairline bg-[var(--color-surface)] py-16 sm:py-20">
+      {/* 分类 Showcase: 苹果风格 Bento Grid (井井有条) */}
+      <section className="border-y hairline bg-[var(--color-surface)] py-18 sm:py-24">
         <Container>
           <Reveal>
             <SectionHead
@@ -202,21 +202,21 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               sub={t.home.categoriesSub}
             />
           </Reveal>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {CATEGORIES.map((c, i) => {
               const catTools = toolsByCategory(c);
               const hue = CATEGORY_HUE[c as CategoryId] ?? 222;
               return (
                 <Reveal key={c} delay={(i % 3) * 60}>
-                  <div className="tool-card-pro group relative flex h-full flex-col justify-between rounded-xl p-5">
+                  <div className="apple-card group relative flex h-full flex-col justify-between rounded-2xl p-6">
                     {/* 整卡可点 */}
                     <Link
                       href={`/${locale}/categories/${c}`}
                       aria-label={t.categories[c].name}
-                      className="absolute inset-0 z-0 rounded-xl"
+                      className="absolute inset-0 z-0 rounded-2xl"
                     />
                     <div>
-                      <div className="mb-3.5 flex items-center justify-between">
+                      <div className="mb-4 flex items-center justify-between">
                         <div
                           className="inline-flex rounded-xl p-2.5 transition-transform duration-200 group-hover:scale-105"
                           style={{
@@ -224,21 +224,21 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                             color: `light-dark(hsl(${hue} 65% 40%), hsl(${hue} 70% 70%))`,
                           }}
                         >
-                          <Icon name={CAT_ICONS[c] ?? "file"} size={20} />
+                          <Icon name={CAT_ICONS[c] ?? "file"} size={22} />
                         </div>
-                        <span className="mono rounded-md bg-[var(--color-surface)] px-2.5 py-0.5 text-xs font-semibold tabular-nums text-[var(--color-sub)]">
+                        <span className="rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-xs font-semibold tabular-nums text-[var(--color-sub)]">
                           {catTools.length}
                         </span>
                       </div>
-                      <h3 className="text-[17px] font-semibold leading-snug tracking-tight text-[var(--color-ink)] transition-colors group-hover:text-[var(--color-accent)]">
+                      <h3 className="text-[18px] font-semibold leading-snug tracking-tight text-[var(--color-ink)] transition-colors group-hover:text-[var(--color-accent)]">
                         {t.categories[c].name}
                       </h3>
-                      <p className="mt-1.5 text-[13.5px] leading-relaxed text-[var(--color-sub)]">
+                      <p className="mt-1.5 text-[14px] leading-relaxed text-[var(--color-sub)]">
                         {t.categories[c].desc}
                       </p>
                     </div>
 
-                    <div className="relative z-10 mt-5 flex flex-wrap items-center gap-1.5 border-t hairline pt-3.5">
+                    <div className="relative z-10 mt-6 flex flex-wrap items-center gap-1.5 border-t hairline pt-4">
                       {catTools
                         .filter((tool) => tool.engine.component !== undefined && !UNIT_SLUGS.has(tool.slug))
                         .slice(0, 3)
@@ -246,16 +246,16 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                           <Link
                             key={tool.slug}
                             href={`/${locale}/tools/${tool.slug}`}
-                            className="inline-flex items-center rounded-md border hairline bg-[var(--color-surface)]/60 px-2 py-0.5 text-[12px] font-medium text-[var(--color-sub)] transition-colors hover:border-[var(--color-accent)]/30 hover:bg-[var(--color-card)] hover:text-[var(--color-accent-strong)]"
+                            className="inline-flex items-center rounded-lg border hairline bg-[var(--color-surface)]/80 px-2.5 py-1 text-[12.5px] font-medium text-[var(--color-sub)] transition-colors hover:border-[var(--color-accent)]/30 hover:bg-[var(--color-card)] hover:text-[var(--color-accent-strong)]"
                           >
                             {toolCopy(tool, locale).name}
                           </Link>
                         ))}
                       <Link
                         href={`/${locale}/categories/${c}`}
-                        className="ml-auto inline-flex items-center text-[12.5px] font-semibold text-[var(--color-accent-strong)] transition-transform group-hover:translate-x-1"
+                        className="ml-auto inline-flex items-center text-[13px] font-medium text-[var(--color-accent)] transition-transform group-hover:translate-x-1"
                       >
-                        →
+                        ›
                       </Link>
                     </div>
                   </div>
@@ -267,7 +267,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       </section>
 
       {/* 热门精选工具 */}
-      <Container className="py-16 sm:py-22">
+      <Container className="py-18 sm:py-24">
         <Reveal>
           <SectionHead
             title={t.home.featuredTitle}
@@ -275,15 +275,15 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             right={
               <Link
                 href={`/${locale}/tools`}
-                className="group inline-flex items-center gap-1 text-[13.5px] font-semibold text-[var(--color-accent-strong)]"
+                className="apple-link text-[14.5px]"
               >
                 <span>{t.nav.tools}</span>
-                <span className="transition-transform duration-150 group-hover:translate-x-1">→</span>
+                <span className="text-base">›</span>
               </Link>
             }
           />
         </Reveal>
-        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((tool, i) => (
             <Reveal key={tool.slug} delay={(i % 4) * 60}>
               <ToolCard tool={tool} locale={locale} />
@@ -292,36 +292,35 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </div>
       </Container>
 
-      {/* 企业级隐私安全架构段 (严谨、权威、零假大空) */}
-      <section id="privacy" className="relative overflow-hidden bg-slate-950 py-18 text-white sm:py-24">
+      {/* 苹果经典全黑隐私架构段 (Apple Privacy. That's iPhone. 风格) */}
+      <section id="privacy" className="relative overflow-hidden bg-[#000000] py-20 text-white sm:py-28">
         <Container className="relative text-center">
           <Reveal>
-            <div className="mono inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3.5 py-1 text-xs font-medium text-emerald-400 mb-4">
-              <Icon name="shield" size={13} />
-              <span>100% Client-Side Sandbox Security</span>
-            </div>
-            <h2 className="hero-title mx-auto max-w-3xl tracking-tight text-white">
+            <span className="text-[12px] font-semibold uppercase tracking-wider text-[#2997ff]">
+              Privacy Architecture
+            </span>
+            <h2 className="hero-title mx-auto mt-3 max-w-3xl tracking-tight text-white">
               {t.home.privacyTitle}
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-[16px] leading-relaxed text-slate-300">
+            <p className="mx-auto mt-4 max-w-2xl text-[16.5px] leading-relaxed text-[#86868b]">
               {t.home.privacySub}
             </p>
           </Reveal>
-          <div className="mt-12 grid gap-6 text-left sm:grid-cols-3">
+          <div className="mt-14 grid gap-6 text-left sm:grid-cols-3">
             {[
               { icon: "lock", title: t.home.privacyPoint1T, desc: t.home.privacyPoint1D },
               { icon: "key", title: t.home.privacyPoint2T, desc: t.home.privacyPoint2D },
               { icon: "check", title: t.home.privacyPoint3T, desc: t.home.privacyPoint3D },
             ].map((p, i) => (
               <Reveal key={p.title} delay={i * 80}>
-                <div className="h-full rounded-xl border border-white/10 bg-white/[0.04] p-6 transition-colors hover:border-white/20 hover:bg-white/[0.06]">
-                  <span className="inline-flex rounded-lg bg-blue-500/20 p-2.5 text-blue-400">
-                    <Icon name={p.icon} size={20} />
+                <div className="h-full rounded-2xl bg-[#161617] p-7 transition-colors border border-white/5 hover:border-white/10">
+                  <span className="inline-flex rounded-xl bg-white/10 p-2.5 text-[#2997ff]">
+                    <Icon name={p.icon} size={22} />
                   </span>
-                  <h3 className="mt-4 text-[16.5px] font-semibold text-white tracking-tight">
+                  <h3 className="mt-5 text-[17.5px] font-semibold text-white tracking-tight">
                     {p.title}
                   </h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-slate-400">
+                  <p className="mt-2.5 text-[14.5px] leading-relaxed text-[#86868b]">
                     {p.desc}
                   </p>
                 </div>
@@ -331,32 +330,31 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           <Reveal delay={160}>
             <Link
               href={`/${locale}/privacy`}
-              className="group mt-10 inline-flex items-center gap-1.5 text-[14px] font-semibold text-blue-400 transition-colors hover:text-blue-300"
+              className="mt-12 inline-flex items-center gap-1 text-[15px] font-normal text-[#2997ff] hover:underline"
             >
               <span>{t.home.privacyLink}</span>
-              <span className="transition-transform duration-150 group-hover:translate-x-1">→</span>
+              <span className="text-base">›</span>
             </Link>
           </Reveal>
         </Container>
       </section>
 
-      {/* 收尾 CTA */}
-      <Container className="py-18 sm:py-24 text-center">
+      {/* 苹果式收尾 CTA */}
+      <Container className="py-20 sm:py-28 text-center">
         <Reveal>
-          <div className="tool-card-pro rounded-2xl p-8 sm:p-14">
-            <h2 className="section-title mx-auto max-w-2xl text-[clamp(1.75rem,3.2vw,2.4rem)] font-bold tracking-tight">
+          <div className="apple-card rounded-3xl p-8 sm:p-16">
+            <h2 className="section-title mx-auto max-w-2xl text-[clamp(1.85rem,3.4vw,2.5rem)] font-bold tracking-tight text-[var(--color-ink)]">
               {t.home.endTitle}
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-[15px] sm:text-[16px] text-[var(--color-sub)]">
+            <p className="mx-auto mt-3 max-w-xl text-[16px] text-[var(--color-sub)]">
               {t.home.endSub}
             </p>
             <div className="mt-8 flex justify-center">
               <Link
                 href={`/${locale}/tools`}
-                className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-ink)] px-8 py-3.5 text-[15px] font-semibold text-white shadow-sm transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+                className="apple-btn-primary rounded-full px-8 py-3.5 text-[15px] font-medium shadow-xs"
               >
-                <span>{t.home.browseAll}</span>
-                <span className="transition-transform duration-150 group-hover:translate-x-1">→</span>
+                {t.home.browseAll}
               </Link>
             </div>
           </div>

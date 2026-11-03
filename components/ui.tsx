@@ -25,7 +25,7 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={`tool-card-pro rounded-xl p-5 sm:p-6 ${className}`}>
+    <div className={`apple-card rounded-2xl p-5 sm:p-6 ${className}`}>
       {children}
     </div>
   );
@@ -42,8 +42,8 @@ export function Pill({
 }) {
   const tones = {
     sub: "bg-[var(--color-surface)] text-[var(--color-sub)] border-transparent",
-    accent: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900/50",
-    good: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/50",
+    accent: "bg-[rgba(0,113,227,0.08)] text-[var(--color-accent)] border-[rgba(0,113,227,0.2)] dark:bg-[rgba(41,151,255,0.12)] dark:border-[rgba(41,151,255,0.25)]",
+    good: "bg-[rgba(26,127,55,0.08)] text-[var(--color-good)] border-[rgba(26,127,55,0.2)] dark:bg-[rgba(48,209,88,0.12)] dark:border-[rgba(48,209,88,0.25)]",
     glass: "bg-[var(--color-card)] text-[var(--color-ink)] border-[var(--color-hairline)] shadow-xs",
   };
   return (
@@ -67,11 +67,11 @@ export function SectionHead({
   badge?: ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
-        {badge ? <div className="mb-2">{badge}</div> : null}
-        <h2 className="section-title tracking-tight">{title}</h2>
-        {sub ? <p className="mt-1.5 text-[15px] leading-relaxed text-[var(--color-sub)]">{sub}</p> : null}
+        {badge ? <div className="mb-2.5">{badge}</div> : null}
+        <h2 className="section-title tracking-tight text-[var(--color-ink)]">{title}</h2>
+        {sub ? <p className="mt-1.5 text-[15px] sm:text-[16px] leading-relaxed text-[var(--color-sub)]">{sub}</p> : null}
       </div>
       {right}
     </div>
@@ -92,7 +92,7 @@ export function ToolCard({
   return (
     <Link
       href={`/${locale}/tools/${tool.slug}`}
-      className="tool-card-pro group relative flex flex-col justify-between rounded-xl p-5"
+      className="apple-card group relative flex flex-col justify-between rounded-2xl p-5"
     >
       <div>
         <div className="mb-3.5 flex items-center justify-between">
@@ -102,27 +102,27 @@ export function ToolCard({
           >
             <Icon name={tool.icon} size={20} />
           </div>
-          <span className="mono rounded-md bg-[var(--color-surface)] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--color-sub)]">
+          <span className="rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--color-sub)]">
             {tool.category}
           </span>
         </div>
-        <h3 className="text-[15px] font-semibold leading-snug tracking-tight transition-colors group-hover:text-[var(--color-accent)]">
+        <h3 className="text-[15.5px] font-semibold leading-snug tracking-tight text-[var(--color-ink)] transition-colors group-hover:text-[var(--color-accent)]">
           {name}
         </h3>
         <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-[var(--color-sub)]">
           {tagline}
         </p>
       </div>
-      <div className="mt-4 flex items-center text-[13px] font-medium text-[var(--color-accent-strong)]">
+      <div className="mt-4 flex items-center text-[13.5px] font-normal text-[var(--color-accent)]">
         <span>{t.common.openTool}</span>
-        <span className="ml-1 transition-transform duration-150 group-hover:translate-x-1">→</span>
+        <span className="ml-0.5 text-base transition-transform duration-150 group-hover:translate-x-1">›</span>
       </div>
     </Link>
   );
 }
 
 export function ToolPanel({ children }: { children: ReactNode }) {
-  return <div className="tool-card-pro rounded-xl p-4 sm:p-6">{children}</div>;
+  return <div className="apple-card rounded-2xl p-4 sm:p-6">{children}</div>;
 }
 
 export function Prose({ paragraphs }: { paragraphs: string[] }) {

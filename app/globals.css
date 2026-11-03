@@ -1,37 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #f8fafc;
+  --color-bg: #ffffff;
   --color-card: #ffffff;
-  --color-ink: #0f172a;
-  --color-sub: #64748b;
-  --color-surface: #f1f5f9;
-  --color-accent: #2563eb;
-  --color-accent-strong: #1d4ed8;
-  --color-good: #16a34a;
-  --color-bad: #dc2626;
-  --color-hairline: #e2e8f0;
-  --color-ring: rgba(37, 99, 235, 0.18);
-  --color-chip: #f1f5f9;
-  --color-nav: rgba(248, 250, 252, 0.85);
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --color-ink: #1d1d1f;
+  --color-sub: #86868b;
+  --color-surface: #f5f5f7;
+  --color-accent: #0071e3;
+  --color-accent-strong: #0077ed;
+  --color-good: #1a7f37;
+  --color-bad: #b25000;
+  --color-hairline: rgba(0, 0, 0, 0.08);
+  --color-ring: rgba(0, 113, 227, 0.25);
+  --color-chip: #f5f5f7;
+  --color-nav: rgba(255, 255, 255, 0.82);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
 }
 
 .dark {
-  --color-bg: #0b0f17;
-  --color-card: #111827;
-  --color-ink: #f8fafc;
-  --color-sub: #94a3b8;
-  --color-surface: #1e293b;
-  --color-accent: #38bdf8;
-  --color-accent-strong: #60a5fa;
-  --color-good: #4ade80;
-  --color-bad: #f87171;
-  --color-hairline: rgba(255, 255, 255, 0.08);
-  --color-ring: rgba(56, 189, 248, 0.25);
-  --color-chip: #1e293b;
-  --color-nav: rgba(11, 15, 23, 0.85);
+  --color-bg: #000000;
+  --color-card: #161617;
+  --color-ink: #f5f5f7;
+  --color-sub: #86868b;
+  --color-surface: #1d1d1f;
+  --color-accent: #2997ff;
+  --color-accent-strong: #0071e3;
+  --color-good: #30d158;
+  --color-bad: #ff453a;
+  --color-hairline: rgba(255, 255, 255, 0.12);
+  --color-ring: rgba(41, 151, 255, 0.35);
+  --color-chip: #1d1d1f;
+  --color-nav: rgba(22, 22, 23, 0.82);
 }
 
 @layer base {
@@ -49,10 +49,10 @@
     background: var(--color-bg);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.012em;
   }
   ::selection {
-    background: rgba(37, 99, 235, 0.15);
+    background: rgba(0, 113, 227, 0.2);
   }
   a {
     text-decoration: none;
@@ -72,28 +72,28 @@
     display: none;
   }
 
-  /* 工业级大厂标题阶梯 (Big-Tech Display Typography) */
+  /* Apple Display 排版阶梯 (SF Pro Display Rhythm) */
   .hero-title {
-    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
-    line-height: 1.12;
-    font-weight: 750;
-    letter-spacing: -0.035em;
+    font-size: clamp(2.4rem, 5.2vw, 4.2rem);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.03em;
   }
 
   .h1 {
-    font-size: clamp(1.75rem, 3.4vw, 2.6rem);
-    line-height: 1.16;
+    font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+    line-height: 1.14;
     font-weight: 700;
     letter-spacing: -0.025em;
   }
 
   .section-title {
-    font-size: clamp(1.35rem, 2.3vw, 1.85rem);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
     font-weight: 650;
     letter-spacing: -0.022em;
   }
 
-  /* 表单控件:白底、精致边框、聚焦蓝环 */
+  /* 表单控件:白底、发丝边、聚焦蓝环 */
   .field {
     @apply w-full rounded-xl border px-3.5 py-2.5 text-[15px] leading-6 transition-colors;
     background: var(--color-card);
@@ -102,15 +102,15 @@
     border-color: var(--color-hairline);
   }
   .field:hover {
-    border-color: rgba(0, 0, 0, 0.18);
+    border-color: rgba(0, 0, 0, 0.16);
   }
   .field:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px var(--color-ring);
+    box-shadow: 0 0 0 3.5px var(--color-ring);
   }
   .field::placeholder {
-    color: #94a3b8;
+    color: #a1a1a6;
   }
 
   textarea.field {
@@ -138,7 +138,7 @@
     accent-color: var(--color-accent);
   }
 
-  /* FAQ 手风琴 (零依赖原生 details) */
+  /* FAQ 手风琴 */
   details.faq {
     border-bottom: 1px solid var(--color-hairline);
   }
@@ -178,59 +178,74 @@
   }
   .dropzone.over {
     border-color: var(--color-accent);
-    background: rgba(37, 99, 235, 0.05);
+    background: rgba(0, 113, 227, 0.05);
   }
 }
 
 /* ------------------------------------------------------------------ */
-/* 大厂级质感层:柔和背景光、专业卡片悬浮、克制丝滑过渡                */
+/* Apple 质感层:极简克制、无重力物理反馈、井井有条结构              */
 /* ------------------------------------------------------------------ */
 
-/* 头部柔和环境漫射底色 (Subtle clean atmospheric gradient) */
-.hero-glow-bg {
-  background: radial-gradient(100% 100% at 50% 0%, rgba(37, 99, 235, 0.06) 0%, rgba(248, 250, 252, 0) 70%);
-}
-.dark .hero-glow-bg {
-  background: radial-gradient(100% 100% at 50% 0%, rgba(56, 189, 248, 0.08) 0%, rgba(11, 15, 23, 0) 70%);
-}
-
-/* 专业工具卡片:利落物理抬升与微阴影 (Crisp Pro Card Lift) */
-.tool-card-pro {
+/* Apple 经典卡片悬停:微位移 + 柔和阴影 (Apple Cupertino Card) */
+.apple-card {
   background: var(--color-card);
   border: 1px solid var(--color-hairline);
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.tool-card-pro:hover {
+.apple-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(37, 99, 235, 0.3);
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  border-color: rgba(0, 113, 227, 0.25);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.06), 0 4px 8px -2px rgba(0, 0, 0, 0.03);
 }
-.dark .tool-card-pro:hover {
-  border-color: rgba(56, 189, 248, 0.35);
-  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.5);
+.dark .apple-card:hover {
+  border-color: rgba(41, 151, 255, 0.35);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6);
 }
 
-/* 大厂主视觉渐变字 (Subtle Enterprise Gradient Heading) */
+/* Apple 经典纯黑/白底主按钮 (Apple Primary Button) */
+.apple-btn-primary {
+  background: var(--color-accent);
+  color: #ffffff;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.apple-btn-primary:hover {
+  background: var(--color-accent-strong);
+}
+
+/* Apple 链接风格 (Apple Blue Link with Chevron) */
+.apple-link {
+  color: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 450;
+  transition: color 0.15s ease;
+}
+.apple-link:hover {
+  text-decoration: underline;
+}
+
+/* 渐变文本 (苹果发布会主题色) */
 .gradient-text {
-  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, #1d1d1f 0%, #0071e3 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 .dark .gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+  background: linear-gradient(135deg, #f5f5f7 0%, #2997ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* 入场动画与轮播话术 (轻量、不卡顿、高帧率) */
+/* 入场动画与轮播话术 */
 @keyframes hero-fade-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -238,13 +253,13 @@
   }
 }
 .hero-in {
-  animation: hero-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: hero-fade-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes rotating-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -258,17 +273,17 @@
   }
   to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 .rotating {
   display: inline-block;
 }
 .rotating-in {
-  animation: rotating-in 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: rotating-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .rotating-out {
-  animation: rotating-out 0.32s cubic-bezier(0.7, 0, 0.84, 0) both;
+  animation: rotating-out 0.3s cubic-bezier(0.7, 0, 0.84, 0) both;
 }
 
 /* 收藏星标按压反馈 */
@@ -286,8 +301,8 @@
   opacity: 0;
   transform: translateY(16px);
   transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .js .reveal.is-visible {
   opacity: 1;
@@ -315,7 +330,7 @@ body.embed-mode footer {
 }
 
 .dark footer {
-  background: #090d14;
+  background: #111113;
   border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -329,10 +344,10 @@ body.embed-mode footer {
 }
 
 .error-bg {
-  background: rgba(220, 38, 38, 0.08);
+  background: rgba(178, 80, 0, 0.07);
 }
 .dark .error-bg {
-  background: rgba(248, 113, 113, 0.12);
+  background: rgba(255, 69, 58, 0.12);
 }
 
 @media print {
