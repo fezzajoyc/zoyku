@@ -4,7 +4,7 @@ export default unitTool({
   slug: "data-converter",
   icon: "layers",
   cat: "data",
-  featured: true,
+  
   related: ["weight-converter", "length-converter", "timestamp-converter", "energy-converter"],
   copy: {
     en: {

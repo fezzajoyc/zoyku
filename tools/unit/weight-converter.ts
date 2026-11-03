@@ -4,7 +4,7 @@ export default unitTool({
   slug: "weight-converter",
   icon: "calc",
   cat: "weight",
-  featured: true,
+  
   related: ["length-converter", "area-converter", "volume-converter", "data-converter"],
   copy: {
     en: {

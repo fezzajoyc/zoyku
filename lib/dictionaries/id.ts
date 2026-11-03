@@ -10,6 +10,7 @@ const id = {
     tools: "Semua alat",
     categories: "Kategori",
     about: "Tentang",
+    search: "Cari",
     menu: "Menu",
     language: "Bahasa",
   },
@@ -52,10 +53,11 @@ const id = {
       "Kalau ada yang memang tidak bisa dilakukan di browser, kami bilang apa adanya alih-alih berpura-pura bisa.",
     privacyLink: "Baca catatan privasi lengkap",
     endTitle: "Pilih alat. Langsung jalan.",
-    endSub: "Lima bahasa, nol unggahan, tanpa perlu instal apa pun.",
+    endSub: "Lima belas bahasa, nol unggahan, tak ada yang perlu diinstal.",
   },
 
   tools: {
+    noResults: "Tidak ada alat yang cocok.",
     title: "Semua alat",
     subtitle: "Cari di {count} alat browser gratis. Tanpa unggah, tanpa daftar akun.",
     filterPlaceholder: "Cari alat…",
@@ -84,6 +86,7 @@ const id = {
   },
 
   common: {
+    openTool: "Buka alat",
     copy: "Salin",
     copied: "Tersalin",
     download: "Unduh",

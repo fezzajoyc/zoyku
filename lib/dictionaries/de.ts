@@ -10,6 +10,7 @@ const de = {
     tools: "Alle Tools",
     categories: "Kategorien",
     about: "Über uns",
+    search: "Suche",
     menu: "Menü",
     language: "Sprache",
   },
@@ -52,10 +53,11 @@ const de = {
       "Wenn etwas im Browser wirklich nicht geht, sagen wir das — statt es so zu tun, als würde es funktionieren.",
     privacyLink: "Die vollständigen Datenschutzhinweise lesen",
     endTitle: "Wählen Sie ein Tool. Es funktioniert einfach.",
-    endSub: "Fünf Sprachen, null Uploads, nichts zu installieren.",
+    endSub: "Fünfzehn Sprachen, keine Uploads, nichts zu installieren.",
   },
 
   tools: {
+    noResults: "Keine passenden Werkzeuge.",
     title: "Alle Tools",
     subtitle: "Durchsuchen Sie {count} kostenlose Browser-Tools. Kein Upload, keine Anmeldung.",
     filterPlaceholder: "Tools suchen…",
@@ -84,6 +86,7 @@ const de = {
   },
 
   common: {
+    openTool: "Werkzeug öffnen",
     copy: "Kopieren",
     copied: "Kopiert",
     download: "Herunterladen",

@@ -327,11 +327,16 @@ export function PdfOfficeEngine({ target }: { target: OfficeTarget }) {
   return (
     <ToolPanel>
       {!file ? (
-        <DropZone onFiles={pick} accept={accept} multiple={false}>
-          <p className="text-[14px] text-[var(--color-sub)]">
-            {target === "fromdocx" ? "DOCX — " + t.common.dropFile : "PDF — " + t.common.dropFile}
-          </p>
-        </DropZone>
+        <div>
+          <DropZone onFiles={pick} accept={accept} multiple={false}>
+            <p className="text-[14px] text-[var(--color-sub)]">
+              {target === "fromdocx" ? "DOCX — " + t.common.dropFile : "PDF — " + t.common.dropFile}
+            </p>
+          </DropZone>
+          {target === "docx" && (
+            <p className="mt-2 text-[12.5px] leading-5 text-[var(--color-sub)]">{tr(SHARED.textPdfNote, locale)}</p>
+          )}
+        </div>
       ) : (
         <div className="space-y-3">
           <div className="flex items-center gap-2.5 rounded-xl border hairline px-3.5 py-2.5 text-[14px]">

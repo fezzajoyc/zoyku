@@ -10,6 +10,7 @@ const en = {
     tools: "All tools",
     categories: "Categories",
     about: "About",
+    search: "Search",
     menu: "Menu",
     language: "Language",
   },
@@ -52,10 +53,11 @@ const en = {
       "If something genuinely cannot be done in the browser, we say so instead of pretending.",
     privacyLink: "Read the full privacy note",
     endTitle: "Pick a tool. It just works.",
-    endSub: "Five languages, zero uploads, nothing to install.",
+    endSub: "Fifteen languages, zero uploads, nothing to install.",
   },
 
   tools: {
+    noResults: "No tools match your search.",
     title: "All tools",
     subtitle: "Search {count} free browser tools. No upload, no signup.",
     filterPlaceholder: "Search tools…",
@@ -84,6 +86,7 @@ const en = {
   },
 
   common: {
+    openTool: "Open tool",
     copy: "Copy",
     copied: "Copied",
     download: "Download",

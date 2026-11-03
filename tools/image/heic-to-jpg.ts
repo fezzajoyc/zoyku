@@ -3,6 +3,7 @@ import { defineTool } from "../_lib/types";
 
 export default defineTool({
   slug: "heic-to-jpg",
+  featured: true,
   category: "image",
   icon: "image",
   engine: { component: ImageHeicEngine },

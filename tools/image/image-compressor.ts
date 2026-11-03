@@ -3,6 +3,7 @@ import { defineTool } from "../_lib/types";
 
 export default defineTool({
   slug: "image-compressor",
+  featured: true,
   category: "image",
   icon: "image",
   engine: {

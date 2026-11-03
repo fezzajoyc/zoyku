@@ -10,6 +10,7 @@ const ja: Dictionary = {
     tools: "すべてのツール",
     categories: "カテゴリー",
     about: "このサイトについて",
+    search: "検索",
     menu: "メニュー",
     language: "言語",
   },
@@ -49,10 +50,11 @@ const ja: Dictionary = {
     privacyPoint3D: "ブラウザでできないことは、できないとはっきり書きます。",
     privacyLink: "プライバシーの詳細を読む",
     endTitle: "ツールを選んで、すぐ使える。",
-    endSub: "5 言語、アップロード 0、インストール不要。",
+    endSub: "15 の言語、アップロード無し、インストール不要。",
   },
 
   tools: {
+    noResults: "一致するツールがありません。",
     title: "すべてのツール",
     subtitle: "{count} 個の無料ブラウザツールを検索。アップロード不要・登録不要。",
     filterPlaceholder: "ツールを検索…",
@@ -81,6 +83,7 @@ const ja: Dictionary = {
   },
 
   common: {
+    openTool: "ツールを開く",
     copy: "コピー",
     copied: "コピーしました",
     download: "ダウンロード",

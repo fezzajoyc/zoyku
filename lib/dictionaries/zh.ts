@@ -10,6 +10,7 @@ const zh: Dictionary = {
     tools: "全部工具",
     categories: "分类",
     about: "关于",
+    search: "搜索",
     menu: "菜单",
     language: "语言",
   },
@@ -49,10 +50,11 @@ const zh: Dictionary = {
     privacyPoint3D: "浏览器做不到的事,我们直说,而不是假装做到。",
     privacyLink: "阅读完整隐私说明",
     endTitle: "挑一个工具,打开就能用。",
-    endSub: "5 种语言,0 次上传,无需安装任何东西。",
+    endSub: "十五个语言版本,零上传,无需安装。",
   },
 
   tools: {
+    noResults: "没有匹配的工具。",
     title: "全部工具",
     subtitle: "搜索 {count} 个免费浏览器工具。无需上传,无需注册。",
     filterPlaceholder: "搜索工具…",
@@ -81,6 +83,7 @@ const zh: Dictionary = {
   },
 
   common: {
+    openTool: "打开工具",
     copy: "复制",
     copied: "已复制",
     download: "下载",

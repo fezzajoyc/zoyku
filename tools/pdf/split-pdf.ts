@@ -3,6 +3,7 @@ import { defineTool } from "../_lib/types";
 
 export default defineTool({
   slug: "split-pdf",
+  featured: true,
   category: "pdf",
   icon: "crop",
   engine: { component: PdfPagesEngine, props: { op: "split" } },

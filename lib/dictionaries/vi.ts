@@ -10,6 +10,7 @@ const vi = {
     tools: "Tất cả công cụ",
     categories: "Danh mục",
     about: "Giới thiệu",
+    search: "Tìm kiếm",
     menu: "Menu",
     language: "Ngôn ngữ",
   },
@@ -52,10 +53,11 @@ const vi = {
       "Nếu có gì đó thực sự không thể làm trong trình duyệt, chúng tôi nói thẳng thay vì giả vờ được.",
     privacyLink: "Đọc ghi chú riêng tư đầy đủ",
     endTitle: "Chọn một công cụ. Nó chỉ đơn giản là hoạt động.",
-    endSub: "Năm ngôn ngữ, không một lượt tải lên, không cần cài đặt gì.",
+    endSub: "Mười lăm ngôn ngữ, không tải lên, không cần cài đặt.",
   },
 
   tools: {
+    noResults: "Không có công cụ nào khớp.",
     title: "Tất cả công cụ",
     subtitle: "Tìm kiếm trong {count} công cụ trình duyệt miễn phí. Không tải lên, không đăng ký.",
     filterPlaceholder: "Tìm công cụ…",
@@ -84,6 +86,7 @@ const vi = {
   },
 
   common: {
+    openTool: "Mở công cụ",
     copy: "Sao chép",
     copied: "Đã sao chép",
     download: "Tải xuống",

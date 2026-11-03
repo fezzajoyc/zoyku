@@ -10,6 +10,7 @@ const pt: Dictionary = {
     tools: "Todas as ferramentas",
     categories: "Categorias",
     about: "Sobre",
+    search: "Pesquisar",
     menu: "Menu",
     language: "Idioma",
   },
@@ -49,10 +50,11 @@ const pt: Dictionary = {
     privacyPoint3D: "Se algo não dá para fazer no navegador, dizemos em vez de fingir.",
     privacyLink: "Ler a nota de privacidade",
     endTitle: "Escolha uma ferramenta. Ela funciona.",
-    endSub: "5 idiomas, 0 envios, nada para instalar.",
+    endSub: "Quinze idiomas, zero uploads, nada para instalar.",
   },
 
   tools: {
+    noResults: "Nenhuma ferramenta corresponde.",
     title: "Todas as ferramentas",
     subtitle: "Pesquise entre {count} ferramentas gratuitas. Sem uploads, sem cadastro.",
     filterPlaceholder: "Pesquisar ferramentas…",
@@ -81,6 +83,7 @@ const pt: Dictionary = {
   },
 
   common: {
+    openTool: "Abrir ferramenta",
     copy: "Copiar",
     copied: "Copiado",
     download: "Baixar",

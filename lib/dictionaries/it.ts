@@ -10,6 +10,7 @@ const it = {
     tools: "Tutti gli strumenti",
     categories: "Categorie",
     about: "Chi siamo",
+    search: "Cerca",
     menu: "Menu",
     language: "Lingua",
   },
@@ -52,10 +53,11 @@ const it = {
       "Se qualcosa non si può davvero fare nel browser, lo diciamo invece di fingere il contrario.",
     privacyLink: "Leggi la nota privacy completa",
     endTitle: "Scegli uno strumento. Funziona, e basta.",
-    endSub: "Cinque lingue, zero upload, niente da installare.",
+    endSub: "Quindici lingue, zero upload, niente da installare.",
   },
 
   tools: {
+    noResults: "Nessuno strumento corrisponde.",
     title: "Tutti gli strumenti",
     subtitle: "Cerca tra {count} strumenti gratuiti nel browser. Nessun upload, nessuna registrazione.",
     filterPlaceholder: "Cerca strumenti…",
@@ -84,6 +86,7 @@ const it = {
   },
 
   common: {
+    openTool: "Apri strumento",
     copy: "Copia",
     copied: "Copiato",
     download: "Scarica",

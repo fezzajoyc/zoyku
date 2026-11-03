@@ -12,6 +12,7 @@ const fr: Dictionary = {
     tools: "Tous les outils",
     categories: "Catégories",
     about: "À propos",
+    search: "Rechercher",
     menu: "Menu",
     language: "Langue",
   },
@@ -54,10 +55,11 @@ const fr: Dictionary = {
       "Si quelque chose ne peut réellement pas être fait dans le navigateur, nous le disons au lieu de le faire semblant.",
     privacyLink: "Lire la note de confidentialité complète",
     endTitle: "Choisissez un outil. Il fonctionne, tout simplement.",
-    endSub: "Cinq langues, zéro envoi, rien à installer.",
+    endSub: "Quinze langues, zéro envoi, rien à installer.",
   },
 
   tools: {
+    noResults: "Aucun outil ne correspond.",
     title: "Tous les outils",
     subtitle: "Cherchez parmi {count} outils gratuits dans le navigateur. Sans envoi, sans inscription.",
     filterPlaceholder: "Rechercher un outil…",
@@ -86,6 +88,7 @@ const fr: Dictionary = {
   },
 
   common: {
+    openTool: "Ouvrir l'outil",
     copy: "Copier",
     copied: "Copié",
     download: "Télécharger",

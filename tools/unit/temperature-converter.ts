@@ -4,7 +4,7 @@ export default unitTool({
   slug: "temperature-converter",
   icon: "swap",
   cat: "temperature",
-  featured: true,
+  
   related: ["length-converter", "weight-converter", "speed-converter", "pressure-converter"],
   copy: {
     en: {

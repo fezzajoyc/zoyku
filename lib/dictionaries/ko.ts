@@ -12,6 +12,7 @@ const ko: Dictionary = {
     tools: "전체 도구",
     categories: "카테고리",
     about: "소개",
+    search: "검색",
     menu: "메뉴",
     language: "언어",
   },
@@ -54,10 +55,11 @@ const ko: Dictionary = {
       "브라우저에서 정말 불가능한 일이라면 그렇다고 말합니다. 가능한 척하지 않습니다.",
     privacyLink: "전체 개인정보 노트 읽기",
     endTitle: "도구를 고르면, 바로 작동합니다.",
-    endSub: "설치할 것 없이, 다섯 개 언어로, 업로드는 0건.",
+    endSub: "15개 언어, 업로드 없음, 설치 불필요.",
   },
 
   tools: {
+    noResults: "일치하는 도구가 없습니다.",
     title: "전체 도구",
     subtitle: "브라우저에서 도는 무료 도구 {count}개. 업로드도, 가입도 없습니다.",
     filterPlaceholder: "도구 검색…",
@@ -86,6 +88,7 @@ const ko: Dictionary = {
   },
 
   common: {
+    openTool: "도구 열기",
     copy: "복사",
     copied: "복사됨",
     download: "다운로드",

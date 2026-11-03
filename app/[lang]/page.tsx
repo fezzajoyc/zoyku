@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { dict } from "@/lib/i18n";
-import { CATEGORIES, isLocale, type Locale } from "@/lib/site";
+import { CATEGORIES, LOCALES, isLocale, type Locale } from "@/lib/site";
 import { ALL_TOOLS, toolsByCategory } from "@/tools/registry";
 import { toolCopy } from "@/lib/tool-copy";
 import { Container, Pill, SectionHead, ToolCard } from "@/components/ui";
@@ -39,7 +39,15 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
   if (!isLocale(lang)) return null;
   const locale = lang as Locale;
   const t = dict(locale);
-  const featured = ALL_TOOLS.filter((tool) => tool.featured).slice(0, 8);
+  // 首页热门位排序:最能体现"隐私文件不上传"的工具优先(PDF/图像交错),避免同类扎堆
+  const FEATURED_ORDER = [
+    "image-compressor", "merge-pdf", "heic-to-jpg", "split-pdf", "pdf-to-word", "jpg-to-pdf",
+    "compress-pdf", "pdf-to-jpg", "word-counter", "password-generator", "json-formatter",
+    "case-converter", "currency-converter", "meta-tag-generator",
+  ];
+  const featured = FEATURED_ORDER.map((s) => ALL_TOOLS.find((tool) => tool.slug === s))
+    .filter((x): x is NonNullable<typeof x> => Boolean(x))
+    .slice(0, 8);
   const total = ALL_TOOLS.length;
   const phrases = [t.home.heroTitle, ...t.home.rotating];
 
@@ -127,7 +135,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           <dl className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-y-6 sm:grid-cols-4">
             {[
               { n: <CountUp to={total} />, raw: total, label: t.home.statsLabels.tools },
-              { n: <CountUp to={5} />, raw: 5, label: t.home.statsLabels.languages },
+              { n: <CountUp to={LOCALES.length} />, raw: LOCALES.length, label: t.home.statsLabels.languages },
               { n: 0, raw: 0, label: t.home.statsLabels.uploads },
               { n: 0, raw: 0, label: t.home.statsLabels.accounts },
             ].map((s, i) => (

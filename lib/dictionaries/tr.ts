@@ -9,6 +9,7 @@ const tr = {
     tools: "Tüm araçlar",
     categories: "Kategoriler",
     about: "Hakkında",
+    search: "Ara",
     menu: "Menü",
     language: "Dil",
   },
@@ -51,10 +52,11 @@ const tr = {
       "Bir şey gerçekten tarayıcıda yapılamıyorsa, yapılabiliyormuş gibi göstermek yerine bunu söyleriz.",
     privacyLink: "Tüm gizlilik notunu oku",
     endTitle: "Bir araç seç. Gerisi kendiliğinden.",
-    endSub: "Beş dil, sıfır yükleme, kurulacak hiçbir şey yok.",
+    endSub: "On beş dil, sıfır yükleme, kurulum gerektirmez.",
   },
 
   tools: {
+    noResults: "Eşleşen araç yok.",
     title: "Tüm araçlar",
     subtitle: "{count} ücretsiz tarayıcı aracı. Yükleme yok, kayıt yok.",
     filterPlaceholder: "Araçlarda ara…",
@@ -83,6 +85,7 @@ const tr = {
   },
 
   common: {
+    openTool: "Aracı aç",
     copy: "Kopyala",
     copied: "Kopyalandı",
     download: "İndir",

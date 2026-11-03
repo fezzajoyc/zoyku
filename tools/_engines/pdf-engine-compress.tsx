@@ -128,6 +128,7 @@ export function PdfCompressEngine() {
       <DropZone onFiles={addFiles} accept="application/pdf,.pdf">
         <p className="text-[14px] text-[var(--color-sub)]">{files.length ? tr(SHARED.addMore, locale) : t.common.dropFiles}</p>
       </DropZone>
+      <p className="mt-2 text-[12.5px] leading-5 text-[var(--color-sub)]">{tr(SHARED.rasterizeNote, locale)}</p>
 
       {files.length > 0 && (
         <ul className="mt-3 space-y-2">
