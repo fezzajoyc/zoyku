@@ -5,6 +5,24 @@ import { diffWords } from "diff";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
 
+const DIFF_LABELS: Record<string, { a: string; b: string }> = {
+  en: { a: "Original text", b: "Changed text" },
+  zh: { a: "原文", b: "修改后" },
+  ja: { a: "元のテキスト", b: "変更後" },
+  es: { a: "Texto original", b: "Texto modificado" },
+  pt: { a: "Texto original", b: "Texto alterado" },
+  fr: { a: "Texte original", b: "Texte modifié" },
+  de: { a: "Originaltext", b: "Geänderter Text" },
+  ru: { a: "Исходный текст", b: "Изменённый текст" },
+  it: { a: "Testo originale", b: "Testo modificato" },
+  tr: { a: "Orijinal metin", b: "Değiştirilmiş metin" },
+  ko: { a: "원본 텍스트", b: "변경된 텍스트" },
+  ar: { a: "النص الأصلي", b: "النص المعدّل" },
+  hi: { a: "मूल पाठ", b: "बदला गया पाठ" },
+  id: { a: "Teks asli", b: "Teks yang diubah" },
+  vi: { a: "Văn bản gốc", b: "Văn bản đã sửa" },
+};
+
 type DiffPart = { value: string; added?: boolean; removed?: boolean };
 
 function wordDiff(a: string, b: string): DiffPart[] {
@@ -12,7 +30,7 @@ function wordDiff(a: string, b: string): DiffPart[] {
 }
 
 export function TextDiff() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
 
@@ -37,7 +55,7 @@ export function TextDiff() {
           onChange={(e) => setLeft(e.target.value)}
           placeholder={t.common.input}
           spellCheck={false}
-          aria-label="A"
+          aria-label={DIFF_LABELS[locale]?.a ?? "Original text"}
         />
         <textarea
           className="field mono"
@@ -46,7 +64,7 @@ export function TextDiff() {
           onChange={(e) => setRight(e.target.value)}
           placeholder={t.common.output}
           spellCheck={false}
-          aria-label="B"
+          aria-label={DIFF_LABELS[locale]?.b ?? "Changed text"}
         />
       </div>
       {(left || right) && (

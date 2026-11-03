@@ -154,15 +154,15 @@ export function FileRow({
         <span className="flex flex-none items-center gap-1">
           {onUp && !first && (
             <button type="button" aria-label={tr(SHARED.moveUp, locale)} onClick={onUp}
-              className="h-7 w-7 rounded-full text-[13px] text-[var(--color-sub)] hover:bg-[var(--color-surface)]">↑</button>
+              className="h-7 w-7 rounded-full text-[13px] text-[var(--color-sub)] hover:bg-[var(--color-surface)]"><span aria-hidden="true">↑</span></button>
           )}
           {onDown && !last && (
             <button type="button" aria-label={tr(SHARED.moveDown, locale)} onClick={onDown}
-              className="h-7 w-7 rounded-full text-[13px] text-[var(--color-sub)] hover:bg-[var(--color-surface)]">↓</button>
+              className="h-7 w-7 rounded-full text-[13px] text-[var(--color-sub)] hover:bg-[var(--color-surface)]"><span aria-hidden="true">↓</span></button>
           )}
           {onRemove && (
             <button type="button" aria-label={tr(SHARED.remove, locale)} onClick={onRemove}
-              className="h-7 w-7 rounded-full text-[14px] leading-none text-[var(--color-sub)] hover:bg-[var(--color-surface)]">×</button>
+              className="h-7 w-7 rounded-full text-[14px] leading-none text-[var(--color-sub)] hover:bg-[var(--color-surface)]"><span aria-hidden="true">×</span></button>
           )}
         </span>
       )}

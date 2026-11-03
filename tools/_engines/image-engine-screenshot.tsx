@@ -116,10 +116,6 @@ export function ImageScreenshotEngine() {
         video: true,
         audio: false,
       });
-      // 用户在浏览器弹窗里停止共享时立即结束
-      stream.getVideoTracks()[0]?.addEventListener("ended", () => {
-        /* handled by finally */
-      });
       video.srcObject = stream;
       video.muted = true;
       video.playsInline = true;

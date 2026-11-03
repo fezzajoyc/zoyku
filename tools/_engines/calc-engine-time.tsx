@@ -74,7 +74,7 @@ function dateIn(tz: string, date: Date, locale: string): string {
 /* ---------------- timezone converter ---------------- */
 
 function Timezone() {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const [from, setFrom] = useState("Asia/Shanghai");
   const [to, setTo] = useState("America/New_York");
   const [now, setNow] = useState<Date | null>(null);
@@ -170,7 +170,7 @@ function Timezone() {
             setTo(from);
           }}
           className="mx-auto mb-1.5 inline-flex rounded-full border hairline p-2.5 text-[var(--color-sub)] transition-colors hover:bg-[var(--color-surface)]"
-          aria-label="swap cities"
+          aria-label={t.common.swap}
         >
           <Icon name="swap" size={18} />
         </button>
@@ -288,7 +288,7 @@ function Timestamp() {
               value={unix}
               onChange={(e) => setUnix(e.target.value)}
               placeholder={now === null ? "1760000000" : String(Math.floor(now / 1000))}
-              aria-label="unix timestamp input"
+              aria-label={t.common.input}
               spellCheck={false}
             />
           </Field>

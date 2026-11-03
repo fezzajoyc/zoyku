@@ -47,7 +47,7 @@ function writeCache(entry: CacheEntry): void {
 }
 
 export function CalcEngineCurrency() {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const [amount, setAmount] = useState("100");
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("EUR");
@@ -159,7 +159,7 @@ export function CalcEngineCurrency() {
             setTo(from);
           }}
           className="mx-auto mb-1.5 inline-flex rounded-full border hairline p-2.5 text-[var(--color-sub)] transition-colors hover:bg-[var(--color-surface)]"
-          aria-label="swap currencies"
+          aria-label={t.common.swap}
         >
           <Icon name="swap" size={18} />
         </button>

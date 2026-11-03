@@ -16,14 +16,18 @@ export function RotatingText({
   useEffect(() => {
     if (phrases.length < 2) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let inner: ReturnType<typeof setTimeout> | undefined;
     const timer = setInterval(() => {
       setLeaving(true);
-      setTimeout(() => {
+      inner = setTimeout(() => {
         setIndex((v) => (v + 1) % phrases.length);
         setLeaving(false);
       }, 420);
     }, interval);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      clearTimeout(inner);
+    };
   }, [phrases.length, interval]);
 
   return (

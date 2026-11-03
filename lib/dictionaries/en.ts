@@ -4,7 +4,7 @@ const en = {
   brand: "Zoyku",
   tagline: "Every tool runs in your browser.",
   metaDesc:
-    "120+ free online tools for PDF, images, text, developers and more. Everything runs in your browser — your files never leave your device.",
+    "175+ free online tools for PDF, images, text, developers and more. Everything runs in your browser — your files never leave your device.",
 
   nav: {
     tools: "All tools",

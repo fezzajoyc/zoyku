@@ -3,7 +3,7 @@ const tr = {
   brand: "Zoyku",
   tagline: "Her araç tarayıcında çalışır.",
   metaDesc:
-    "PDF, görsel, metin, geliştirici ve daha fazlası için 120+ ücretsiz online araç. Her şey tarayıcında çalışır — dosyaların asla cihazından çıkmaz.",
+    "PDF, görsel, metin, geliştirici ve daha fazlası için 175+ ücretsiz online araç. Her şey tarayıcında çalışır — dosyaların asla cihazından çıkmaz.",
 
   nav: {
     tools: "Tüm araçlar",
