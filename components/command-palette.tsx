@@ -51,12 +51,14 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
+        onClose();
       }
       if (e.key === "Escape") onClose();
     };
+    if (!open) return;
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open, onClose]);
 
   useEffect(() => {
     if (open) {
