@@ -25,7 +25,7 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={`ag-card rounded-2xl p-5 sm:p-6 ${className}`}>
+    <div className={`tool-card-pro rounded-xl p-5 sm:p-6 ${className}`}>
       {children}
     </div>
   );
@@ -42,9 +42,9 @@ export function Pill({
 }) {
   const tones = {
     sub: "bg-[var(--color-surface)] text-[var(--color-sub)] border-transparent",
-    accent: "bg-[rgba(26,115,232,0.08)] text-[var(--color-accent-strong)] border-[rgba(26,115,232,0.2)] dark:bg-[rgba(138,180,248,0.12)] dark:border-[rgba(138,180,248,0.25)]",
-    good: "bg-[rgba(19,115,51,0.08)] text-[var(--color-good)] border-[rgba(19,115,51,0.2)] dark:bg-[rgba(129,201,149,0.12)] dark:border-[rgba(129,201,149,0.25)]",
-    glass: "bg-[var(--color-card)]/80 backdrop-blur-md text-[var(--color-ink)] border-[var(--color-hairline)] shadow-xs",
+    accent: "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900/50",
+    good: "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/50",
+    glass: "bg-[var(--color-card)] text-[var(--color-ink)] border-[var(--color-hairline)] shadow-xs",
   };
   return (
     <span
@@ -92,17 +92,17 @@ export function ToolCard({
   return (
     <Link
       href={`/${locale}/tools/${tool.slug}`}
-      className="ag-card group relative flex flex-col justify-between rounded-2xl p-5"
+      className="tool-card-pro group relative flex flex-col justify-between rounded-xl p-5"
     >
       <div>
         <div className="mb-3.5 flex items-center justify-between">
           <div
-            className="inline-flex rounded-xl p-2.5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-1"
+            className="inline-flex rounded-xl p-2.5 transition-transform duration-200 group-hover:scale-105"
             style={tileStyle(tool.slug, tool.category)}
           >
             <Icon name={tool.icon} size={20} />
           </div>
-          <span className="mono rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--color-sub)]">
+          <span className="mono rounded-md bg-[var(--color-surface)] px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--color-sub)]">
             {tool.category}
           </span>
         </div>
@@ -115,15 +115,14 @@ export function ToolCard({
       </div>
       <div className="mt-4 flex items-center text-[13px] font-medium text-[var(--color-accent-strong)]">
         <span>{t.common.openTool}</span>
-        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1.5">→</span>
+        <span className="ml-1 transition-transform duration-150 group-hover:translate-x-1">→</span>
       </div>
     </Link>
   );
 }
 
-/** 引擎外层的统一卡:标题 + 隐私注记由工具页负责,这里只承载交互 */
 export function ToolPanel({ children }: { children: ReactNode }) {
-  return <div className="ag-card rounded-2xl p-4 sm:p-6">{children}</div>;
+  return <div className="tool-card-pro rounded-xl p-4 sm:p-6">{children}</div>;
 }
 
 export function Prose({ paragraphs }: { paragraphs: string[] }) {

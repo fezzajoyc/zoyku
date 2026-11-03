@@ -1,37 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #fafafc;
+  --color-bg: #f8fafc;
   --color-card: #ffffff;
-  --color-ink: #111215;
-  --color-sub: #5f6368;
-  --color-surface: #f1f3f5;
-  --color-accent: #1a73e8;
-  --color-accent-strong: #1557b0;
-  --color-good: #137333;
-  --color-bad: #c5221f;
-  --color-hairline: rgba(17, 18, 21, 0.08);
-  --color-ring: rgba(26, 115, 232, 0.25);
-  --color-chip: #f1f3f5;
-  --color-nav: rgba(250, 250, 252, 0.82);
-  --font-sans: "Google Sans", "Google Sans Flex", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --color-ink: #0f172a;
+  --color-sub: #64748b;
+  --color-surface: #f1f5f9;
+  --color-accent: #2563eb;
+  --color-accent-strong: #1d4ed8;
+  --color-good: #16a34a;
+  --color-bad: #dc2626;
+  --color-hairline: #e2e8f0;
+  --color-ring: rgba(37, 99, 235, 0.18);
+  --color-chip: #f1f5f9;
+  --color-nav: rgba(248, 250, 252, 0.85);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
 }
 
 .dark {
-  --color-bg: #0c0d11;
-  --color-card: #14161b;
-  --color-ink: #f8f9fa;
-  --color-sub: #9aa0a6;
-  --color-surface: #1e2128;
-  --color-accent: #8ab4f8;
-  --color-accent-strong: #aecbfa;
-  --color-good: #81c995;
-  --color-bad: #f28b82;
-  --color-hairline: rgba(255, 255, 255, 0.09);
-  --color-ring: rgba(138, 180, 248, 0.35);
-  --color-chip: #1e2128;
-  --color-nav: rgba(12, 13, 17, 0.85);
+  --color-bg: #0b0f17;
+  --color-card: #111827;
+  --color-ink: #f8fafc;
+  --color-sub: #94a3b8;
+  --color-surface: #1e293b;
+  --color-accent: #38bdf8;
+  --color-accent-strong: #60a5fa;
+  --color-good: #4ade80;
+  --color-bad: #f87171;
+  --color-hairline: rgba(255, 255, 255, 0.08);
+  --color-ring: rgba(56, 189, 248, 0.25);
+  --color-chip: #1e293b;
+  --color-nav: rgba(11, 15, 23, 0.85);
 }
 
 @layer base {
@@ -52,7 +52,7 @@
     letter-spacing: -0.015em;
   }
   ::selection {
-    background: rgba(26, 115, 232, 0.2);
+    background: rgba(37, 99, 235, 0.15);
   }
   a {
     text-decoration: none;
@@ -72,28 +72,28 @@
     display: none;
   }
 
-  /* Antigravity High-Confidence Display Typography */
+  /* 工业级大厂标题阶梯 (Big-Tech Display Typography) */
   .hero-title {
-    font-size: clamp(2.3rem, 5.6vw, 4.3rem);
-    line-height: 1.08;
-    font-weight: 700;
-    letter-spacing: -0.038em;
+    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+    line-height: 1.12;
+    font-weight: 750;
+    letter-spacing: -0.035em;
   }
 
   .h1 {
-    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
-    line-height: 1.12;
+    font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+    line-height: 1.16;
     font-weight: 700;
-    letter-spacing: -0.028em;
+    letter-spacing: -0.025em;
   }
 
   .section-title {
-    font-size: clamp(1.35rem, 2.5vw, 1.95rem);
+    font-size: clamp(1.35rem, 2.3vw, 1.85rem);
     font-weight: 650;
-    letter-spacing: -0.024em;
+    letter-spacing: -0.022em;
   }
 
-  /* 表单控件统一观感:白底、hairline 边、聚焦蓝环 */
+  /* 表单控件:白底、精致边框、聚焦蓝环 */
   .field {
     @apply w-full rounded-xl border px-3.5 py-2.5 text-[15px] leading-6 transition-colors;
     background: var(--color-card);
@@ -102,15 +102,15 @@
     border-color: var(--color-hairline);
   }
   .field:hover {
-    border-color: rgba(0, 0, 0, 0.16);
+    border-color: rgba(0, 0, 0, 0.18);
   }
   .field:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3.5px var(--color-ring);
+    box-shadow: 0 0 0 3px var(--color-ring);
   }
   .field::placeholder {
-    color: #a1a1a6;
+    color: #94a3b8;
   }
 
   textarea.field {
@@ -124,7 +124,6 @@
     font-variant-ligatures: none;
   }
 
-  /* 数字输入去掉原生 spinner */
   input[type="number"].bare {
     -moz-appearance: textfield;
     appearance: textfield;
@@ -139,14 +138,14 @@
     accent-color: var(--color-accent);
   }
 
-  /* FAQ 手风琴(原生 details,零 JS) */
+  /* FAQ 手风琴 (零依赖原生 details) */
   details.faq {
     border-bottom: 1px solid var(--color-hairline);
   }
   details.faq summary {
     cursor: pointer;
     list-style: none;
-    padding-block: 0.9rem;
+    padding-block: 0.95rem;
     font-weight: 600;
     display: flex;
     justify-content: space-between;
@@ -174,121 +173,64 @@
 
   .dropzone {
     @apply rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-colors;
-    border-color: rgba(0, 0, 0, 0.14);
+    border-color: var(--color-hairline);
     background: var(--color-surface);
   }
   .dropzone.over {
     border-color: var(--color-accent);
-    background: rgba(26, 115, 232, 0.06);
+    background: rgba(37, 99, 235, 0.05);
   }
 }
 
 /* ------------------------------------------------------------------ */
-/* Antigravity 视觉层:Gravity-Well / Blueprint Grid / 光晕流体          */
+/* 大厂级质感层:柔和背景光、专业卡片悬浮、克制丝滑过渡                */
 /* ------------------------------------------------------------------ */
 
-/* 细微科技蓝图点阵 (Engineering dot matrix) */
-.antigravity-grid {
-  background-image: radial-gradient(var(--color-hairline) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 85%);
+/* 头部柔和环境漫射底色 (Subtle clean atmospheric gradient) */
+.hero-glow-bg {
+  background: radial-gradient(100% 100% at 50% 0%, rgba(37, 99, 235, 0.06) 0%, rgba(248, 250, 252, 0) 70%);
+}
+.dark .hero-glow-bg {
+  background: radial-gradient(100% 100% at 50% 0%, rgba(56, 189, 248, 0.08) 0%, rgba(11, 15, 23, 0) 70%);
 }
 
-/* Antigravity 多色重力井光晕 (Google Chromatic Gravity-Well) */
-@keyframes gravity-pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1) rotate(0deg);
-    opacity: 0.36;
-  }
-  33% {
-    transform: translate(-48%, -52%) scale(1.08) rotate(120deg);
-    opacity: 0.46;
-  }
-  66% {
-    transform: translate(-52%, -48%) scale(0.96) rotate(240deg);
-    opacity: 0.32;
-  }
-}
-
-.gravity-well {
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  width: min(880px, 92vw);
-  height: min(520px, 55vh);
-  border-radius: 50%;
-  background: conic-gradient(
-    from 180deg at 50% 50%,
-    #4285f4 0deg,
-    #9b51e0 90deg,
-    #ea4335 180deg,
-    #fbbc05 240deg,
-    #34a853 300deg,
-    #4285f4 360deg
-  );
-  filter: blur(85px);
-  animation: gravity-pulse 24s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.dark .gravity-well {
-  opacity: 0.22;
-  filter: blur(105px);
-}
-
-/* Antigravity 墨黑实心主按钮 (Solid Ink-Black Pill) */
-.ink-pill {
-  background: var(--color-ink);
-  color: var(--color-bg);
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.ink-pill:hover {
-  transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px rgba(17, 18, 21, 0.18);
-}
-.dark .ink-pill:hover {
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.16);
-}
-
-/* 现代卡片悬停无重力悬浮质感 (Antigravity weightless card) */
-.ag-card {
+/* 专业工具卡片:利落物理抬升与微阴影 (Crisp Pro Card Lift) */
+.tool-card-pro {
   background: var(--color-card);
   border: 1px solid var(--color-hairline);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.ag-card:hover {
-  transform: translateY(-2.5px);
-  border-color: rgba(66, 133, 244, 0.35);
-  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(66, 133, 244, 0.15);
+.tool-card-pro:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
 }
-.dark .ag-card:hover {
-  border-color: rgba(138, 180, 248, 0.35);
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(138, 180, 248, 0.2);
+.dark .tool-card-pro:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.5);
 }
 
-/* 渐变标题字 */
+/* 大厂主视觉渐变字 (Subtle Enterprise Gradient Heading) */
 .gradient-text {
-  background: linear-gradient(135deg, #1a73e8 0%, #7c3aed 50%, #db2777 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 .dark .gradient-text {
-  background: linear-gradient(135deg, #8ab4f8 0%, #c4b5fd 50%, #f472b6 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* 入场动画与轮播话术 */
+/* 入场动画与轮播话术 (轻量、不卡顿、高帧率) */
 @keyframes hero-fade-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -296,135 +238,56 @@
   }
 }
 .hero-in {
-  animation: hero-fade-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: hero-fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes rotating-in {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.98);
-    filter: blur(4px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
+    transform: translateY(0);
   }
 }
 @keyframes rotating-out {
   from {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
+    transform: translateY(0);
   }
   to {
     opacity: 0;
-    transform: translateY(-14px) scale(0.98);
-    filter: blur(4px);
+    transform: translateY(-10px);
   }
 }
 .rotating {
   display: inline-block;
-  will-change: transform, opacity, filter;
 }
 .rotating-in {
-  animation: rotating-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: rotating-in 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .rotating-out {
-  animation: rotating-out 0.38s cubic-bezier(0.7, 0, 0.84, 0) both;
+  animation: rotating-out 0.32s cubic-bezier(0.7, 0, 0.84, 0) both;
 }
 
+/* 收藏星标按压反馈 */
 @keyframes star-pop {
-  0% { transform: scale(0.8); }
-  50% { transform: scale(1.3); }
+  0% { transform: scale(0.85); }
+  50% { transform: scale(1.22); }
   100% { transform: scale(1); }
 }
 .star-pop-anim {
-  animation: star-pop 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  animation: star-pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
-/* 悬浮微引力粒子飘浮 */
-@keyframes quantum-drift {
-  0% {
-    transform: translateY(0) translateX(0) scale(1);
-    opacity: 0.25;
-  }
-  50% {
-    transform: translateY(-24px) translateX(10px) scale(1.25);
-    opacity: 0.75;
-  }
-  100% {
-    transform: translateY(-44px) translateX(-8px) scale(0.9);
-    opacity: 0.35;
-  }
-}
-
-/* 搜索框彩虹流光环绕动画 */
-@keyframes command-shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-.command-shimmer-wrap {
-  position: relative;
-  border-radius: 1.15rem;
-  background: linear-gradient(
-    90deg,
-    rgba(66, 133, 244, 0.35),
-    rgba(155, 81, 224, 0.35),
-    rgba(234, 67, 53, 0.28),
-    rgba(251, 188, 5, 0.3),
-    rgba(52, 168, 83, 0.35),
-    rgba(66, 133, 244, 0.35)
-  );
-  background-size: 300% 300%;
-  animation: command-shimmer 9s ease infinite;
-  padding: 1.5px;
-}
-.dark .command-shimmer-wrap {
-  background: linear-gradient(
-    90deg,
-    rgba(138, 180, 248, 0.3),
-    rgba(196, 181, 253, 0.3),
-    rgba(242, 139, 130, 0.25),
-    rgba(129, 201, 149, 0.3),
-    rgba(138, 180, 248, 0.3)
-  );
-  background-size: 300% 300%;
-}
-
-/* 隐私安全防护罩同心脉冲 */
-@keyframes shield-pulse {
-  0% {
-    transform: scale(0.96);
-    opacity: 0.18;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.42;
-  }
-  100% {
-    transform: scale(0.96);
-    opacity: 0.18;
-  }
-}
-.shield-pulse-ring {
-  animation: shield-pulse 7s ease-in-out infinite;
-}
-
-/* 滚动入场 */
+/* 滚动入场 (Reveal) */
 .js .reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(16px);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .js .reveal.is-visible {
   opacity: 1;
@@ -433,13 +296,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-in,
-  .gravity-well,
   .rotating-in,
   .rotating-out,
-  .star-pop-anim,
-  .quantum-particle,
-  .command-shimmer-wrap,
-  .shield-pulse-ring {
+  .star-pop-anim {
     animation: none !important;
   }
   .js .reveal {
@@ -456,7 +315,7 @@ body.embed-mode footer {
 }
 
 .dark footer {
-  background: #090a0d;
+  background: #090d14;
   border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -470,17 +329,15 @@ body.embed-mode footer {
 }
 
 .error-bg {
-  background: rgba(197, 34, 31, 0.07);
+  background: rgba(220, 38, 38, 0.08);
 }
 .dark .error-bg {
-  background: rgba(242, 139, 130, 0.12);
+  background: rgba(248, 113, 113, 0.12);
 }
 
 @media print {
   header,
   footer,
-  .gravity-well,
-  .antigravity-grid,
   button,
   .no-print {
     display: none !important;
@@ -507,12 +364,12 @@ body.embed-mode footer {
   scrollbar-color: var(--color-hairline) transparent;
 }
 *::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 *::-webkit-scrollbar-thumb {
   background: var(--color-hairline);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 *::-webkit-scrollbar-track {
   background: transparent;
@@ -530,7 +387,7 @@ a:active {
 }
 
 details.faq .faq-a {
-  animation: faq-in 0.25s ease;
+  animation: faq-in 0.2s ease;
 }
 @keyframes faq-in {
   from {
