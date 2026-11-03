@@ -10,10 +10,19 @@ import type { CategoryId } from "@/lib/site";
 
 type Item = { slug: string; category: string; icon: string; name: string; tagline: string };
 
+const CAT_ICONS: Record<string, string> = {
+  pdf: "pdf",
+  image: "image",
+  text: "text",
+  developer: "code",
+  seo: "seo",
+  security: "shield",
+  utility: "calc",
+};
+
 /**
- * 首屏工作台(TinyWow × iLovePDF):
- * 大搜索框实时过滤 + 分类过滤胶囊(All/PDF/图片/…)+ 全部工具网格。
- * 过滤按名称/tagline/slug;选中分类时只显示该类;空结果显示清空引导。
+ * Antigravity Mission Control Workspace:
+ * 悬浮指挥台搜索 + 磁性分类胶囊坞 + 无重力微动工具网格
  */
 export function HomeWorkspace({
   tools,
@@ -82,7 +91,7 @@ export function HomeWorkspace({
     [tools, q, cat, pins],
   );
 
-  // 分类胶囊:带各分类工具数
+  // 分类胶囊:各分类计数
   const counts = useMemo(() => {
     const m = new Map<string, number>();
     for (const t of tools) m.set(t.category, (m.get(t.category) ?? 0) + 1);
@@ -91,39 +100,46 @@ export function HomeWorkspace({
 
   return (
     <div className="mx-auto w-full max-w-6xl">
-      {/* 大搜索框 */}
+      {/* 悬浮聚光搜索栏 (Antigravity Command Spotlight) */}
       <div className="relative mx-auto max-w-2xl">
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-sub)]">
-          <Icon name="search" size={18} />
-        </span>
-        <input
-          ref={searchRef}
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={labels.placeholder}
-          aria-label={labels.placeholder}
-          className="h-13 w-full rounded-2xl border hairline bg-[var(--color-card)] py-4 pl-11 pr-16 text-[15.5px] shadow-[0_4px_18px_rgba(0,0,0,0.06)] outline-none transition-shadow placeholder:text-[var(--color-sub)] focus:ring-2 focus:ring-[var(--color-accent)]"
-        />
-        {query ? (
-          <button
-            type="button"
-            onClick={() => setQuery("")}
-            aria-label={labels.clear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-[var(--color-sub)] transition-colors hover:bg-[var(--color-surface)]"
-          >
-            ✕
-          </button>
-        ) : (
-          <kbd className="absolute right-3.5 top-1/2 hidden -translate-y-1/2 rounded-md border hairline bg-[var(--color-surface)] px-1.5 py-0.5 text-[11px] text-[var(--color-sub)] sm:block">
-            ⌘K
-          </kbd>
-        )}
+        <div className="relative flex items-center rounded-2xl border hairline bg-[var(--color-card)]/80 py-2 pl-4.5 pr-3 shadow-[0_10px_36px_rgba(0,0,0,0.05)] backdrop-blur-2xl transition-all duration-300 focus-within:border-[var(--color-accent)] focus-within:ring-4 focus-within:ring-[var(--color-ring)] focus-within:shadow-[0_16px_44px_rgba(26,115,232,0.12)]">
+          <span className="flex-none text-[var(--color-sub)]">
+            <Icon name="search" size={19} />
+          </span>
+          <input
+            ref={searchRef}
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={labels.placeholder}
+            aria-label={labels.placeholder}
+            className="h-11 w-full bg-transparent px-3 text-[15.5px] outline-none placeholder:text-[var(--color-sub)]"
+          />
+          {query ? (
+            <div className="flex items-center gap-2">
+              <span className="mono rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-xs font-semibold tabular-nums text-[var(--color-sub)]">
+                {filtered.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label={labels.clear}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-xs text-[var(--color-sub)] transition-all duration-200 hover:rotate-90 hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
+              >
+                ✕
+              </button>
+            </div>
+          ) : (
+            <kbd className="mono hidden rounded-lg border hairline bg-[var(--color-surface)] px-2.5 py-1 text-[11px] font-semibold text-[var(--color-sub)] shadow-xs sm:inline-block">
+              ⌘K
+            </kbd>
+          )}
+        </div>
       </div>
 
-      {/* 分类胶囊(横滑) */}
+      {/* 磁性分类胶囊坞 (Antigravity Magnetic Category Dock) */}
       <div
-        className="no-scrollbar mx-auto mt-4 flex max-w-3xl items-center gap-2 overflow-x-auto px-1 pb-1"
+        className="no-scrollbar mx-auto mt-6 flex max-w-4xl items-center gap-2 overflow-x-auto px-1 py-1"
         role="tablist"
         aria-label={labels.all}
       >
@@ -132,14 +148,29 @@ export function HomeWorkspace({
           role="tab"
           aria-selected={cat === "all"}
           onClick={() => setCat("all")}
-          className={`flex-none rounded-full border px-4 py-1.5 text-[13.5px] font-medium transition-colors ${
+          className={`group flex flex-none items-center gap-2 rounded-full border px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
             cat === "all"
-              ? "border-transparent bg-[var(--color-ink)] text-white"
-              : "hairline bg-[var(--color-card)] text-[var(--color-sub)] hover:text-[var(--color-ink)]"
+              ? "border-transparent bg-[var(--color-ink)] text-[var(--color-bg)] shadow-sm font-semibold"
+              : "hairline bg-[var(--color-card)]/80 text-[var(--color-sub)] backdrop-blur-sm hover:border-[var(--color-sub)]/35 hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
           }`}
         >
-          {labels.all} <span className="tabular-nums opacity-70">{tools.length}</span>
+          <Icon
+            name="grid"
+            size={14}
+            className={cat === "all" ? "text-[var(--color-bg)]" : "text-[var(--color-sub)]"}
+          />
+          <span>{labels.all}</span>
+          <span
+            className={`mono rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums transition-colors ${
+              cat === "all"
+                ? "bg-[var(--color-bg)]/20 text-[var(--color-bg)]"
+                : "bg-[var(--color-surface)] text-[var(--color-sub)]"
+            }`}
+          >
+            {tools.length}
+          </span>
         </button>
+
         {/* Pinned 胶囊:有收藏才出现 */}
         {pins.length > 0 && (
           <button
@@ -147,17 +178,27 @@ export function HomeWorkspace({
             role="tab"
             aria-selected={cat === "pinned"}
             onClick={() => setCat(cat === "pinned" ? "all" : "pinned")}
-            className={`flex-none whitespace-nowrap rounded-full border px-4 py-1.5 text-[13.5px] font-medium transition-colors ${
+            className={`group flex flex-none items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
               cat === "pinned"
-                ? "border-transparent bg-[var(--color-ink)] text-white"
-                : "hairline bg-[var(--color-card)] text-[var(--color-sub)] hover:text-[var(--color-ink)]"
+                ? "border-transparent bg-[var(--color-ink)] text-[var(--color-bg)] shadow-sm font-semibold"
+                : "hairline bg-[var(--color-card)]/80 text-[var(--color-sub)] backdrop-blur-sm hover:border-[var(--color-sub)]/35 hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
             }`}
           >
-            ★ {labels.pinned} <span className="tabular-nums opacity-70">{pins.length}</span>
+            <span className="text-amber-400">★</span>
+            <span>{labels.pinned}</span>
+            <span
+              className={`mono rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums transition-colors ${
+                cat === "pinned"
+                  ? "bg-[var(--color-bg)]/20 text-[var(--color-bg)]"
+                  : "bg-[var(--color-surface)] text-[var(--color-sub)]"
+              }`}
+            >
+              {pins.length}
+            </span>
           </button>
         )}
+
         {CATEGORIES.map((c) => {
-          // 混合胶囊:href 保留分类页链接(SEO 爬虫可抓),点击拦截为原地过滤
           const catHref = `/${locale}/categories/${c}`;
           const isCatActive = cat === c;
           return (
@@ -171,23 +212,39 @@ export function HomeWorkspace({
                 setQuery("");
                 setCat(isCatActive ? "all" : (c as CategoryId));
               }}
-              className={`flex-none whitespace-nowrap rounded-full border px-4 py-1.5 text-[13.5px] font-medium transition-colors ${
+              className={`group flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
                 isCatActive
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
-                  : "hairline bg-[var(--color-card)] text-[var(--color-sub)] hover:text-[var(--color-ink)]"
+                  ? "border-transparent bg-[var(--color-ink)] text-[var(--color-bg)] shadow-sm font-semibold"
+                  : "hairline bg-[var(--color-card)]/80 text-[var(--color-sub)] backdrop-blur-sm hover:border-[var(--color-sub)]/35 hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
               }`}
             >
-              {labels.categoryNames[c] ?? c}{" "}
-              <span className="tabular-nums opacity-70">{counts.get(c) ?? 0}</span>
+              <Icon
+                name={CAT_ICONS[c] ?? "file"}
+                size={14}
+                className={isCatActive ? "text-[var(--color-bg)]" : "text-[var(--color-sub)]"}
+              />
+              <span>{labels.categoryNames[c] ?? c}</span>
+              <span
+                className={`mono rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums transition-colors ${
+                  isCatActive
+                    ? "bg-[var(--color-bg)]/20 text-[var(--color-bg)]"
+                    : "bg-[var(--color-surface)] text-[var(--color-sub)]"
+                }`}
+              >
+                {counts.get(c) ?? 0}
+              </span>
             </a>
           );
         })}
       </div>
 
-      {/* 工具网格 */}
+      {/* 无重力工具网格 (Antigravity Tool Matrix) */}
       {filtered.length === 0 ? (
-        <div className="mx-auto mt-10 max-w-md rounded-2xl border hairline bg-[var(--color-card)] p-8 text-center">
-          <p className="text-[14.5px] text-[var(--color-sub)]">
+        <div className="mx-auto mt-12 max-w-md rounded-3xl border hairline bg-[var(--color-card)]/80 p-8 text-center shadow-sm backdrop-blur-xl">
+          <div className="mx-auto mb-4 flex h-13 w-13 items-center justify-center rounded-2xl bg-[var(--color-surface)] text-[var(--color-sub)]">
+            <Icon name="search" size={24} />
+          </div>
+          <p className="text-[15px] font-medium text-[var(--color-ink)]">
             {labels.empty.replace("{query}", query)}
           </p>
           <button
@@ -196,34 +253,34 @@ export function HomeWorkspace({
               setQuery("");
               setCat("all");
             }}
-            className="mt-4 rounded-full border hairline px-4 py-2 text-[13.5px] font-medium transition-colors hover:bg-[var(--color-surface)]"
+            className="mt-5 inline-flex items-center gap-1.5 rounded-full border hairline bg-[var(--color-surface)] px-5 py-2 text-[13px] font-medium text-[var(--color-ink)] transition-all hover:bg-[var(--color-card)] hover:border-[var(--color-sub)]/35"
           >
             ✕ {labels.clear}
           </button>
         </div>
       ) : (
-        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
           {filtered.map((tool) => (
             <Link
               key={tool.slug}
               href={`/${locale}/tools/${tool.slug}`}
-              className="group relative flex items-start gap-3 rounded-2xl border hairline bg-[var(--color-card)] p-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)]"
+              className="ag-card group relative flex items-start gap-3.5 rounded-2xl p-4"
             >
               <span
-                className="mt-0.5 inline-flex flex-none rounded-xl p-2.5 transition-transform group-hover:scale-105"
+                className="mt-0.5 inline-flex flex-none rounded-xl p-2.5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-1"
                 style={tileStyle(tool.slug, tool.category)}
               >
                 <Icon name={tool.icon} size={18} />
               </span>
-              <span className="min-w-0">
-                <span className="block truncate pr-5 text-[14px] font-semibold leading-tight">
+              <span className="min-w-0 flex-1">
+                <span className="block truncate pr-6 text-[14.5px] font-semibold leading-snug tracking-tight text-[var(--color-ink)] transition-colors group-hover:text-[var(--color-accent)]">
                   {tool.name}
                 </span>
-                <span className="mt-1 block truncate text-[12.5px] leading-5 text-[var(--color-sub)]">
+                <span className="mt-1 block line-clamp-2 text-[12.5px] leading-relaxed text-[var(--color-sub)]">
                   {tool.tagline}
                 </span>
               </span>
-              {/* 星标收藏:右上角,点中常亮;整卡是链接,按钮拦截冒泡 */}
+              {/* 星标收藏:右上角 */}
               <button
                 type="button"
                 onClick={(e) => {
@@ -233,10 +290,10 @@ export function HomeWorkspace({
                 }}
                 aria-label={pins.includes(tool.slug) ? labels.unpin : labels.pin}
                 aria-pressed={pins.includes(tool.slug)}
-                className={`absolute right-2.5 top-2.5 rounded-md p-1 text-[13px] transition-all ${
+                className={`absolute right-2.5 top-2.5 flex h-7 w-7 items-center justify-center rounded-lg text-[13px] transition-all duration-200 active:scale-90 ${
                   pins.includes(tool.slug)
-                    ? "text-[#f59e0b] opacity-100"
-                    : "text-[var(--color-sub)] opacity-0 hover:text-[var(--color-ink)] focus-visible:opacity-100 group-hover:opacity-100"
+                    ? "star-pop-anim text-amber-400 opacity-100 hover:scale-115"
+                    : "text-[var(--color-sub)] opacity-0 hover:scale-115 hover:text-amber-400 focus-visible:opacity-100 group-hover:opacity-100"
                 }`}
               >
                 ★

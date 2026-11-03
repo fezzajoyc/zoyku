@@ -30,6 +30,8 @@ const PATHS: Record<string, string> = {
   layers: "M12 3l9 5-9 5-9-5 9-5Z M3 13l9 5 9-5",
   search: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Z M16 16l5 5",
   link: "M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1 M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1",
+  grid: "M3 3h7v7H3V3Z M14 3h7v7h-7V3Z M14 14h7v7h-7v-7Z M3 14h7v7H3v-7Z",
+  zap: "M13 2 3 14h9l-1 8 10-12h-9l1-8Z",
 };
 
 export type IconKey = keyof typeof PATHS | string;

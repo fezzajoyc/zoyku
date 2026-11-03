@@ -1,36 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #ffffff;
+  --color-bg: #fafafc;
   --color-card: #ffffff;
-  --color-ink: #1d1d1f;
-  --color-sub: #6e6e73;
-  --color-surface: #f5f5f7;
-  --color-accent: #0071e3;
-  --color-accent-strong: #0067d4;
-  --color-good: #1a7f37;
-  --color-bad: #b25000;
-  --color-hairline: rgba(0, 0, 0, 0.08);
-  --color-ring: rgba(0, 113, 227, 0.25);
-  --color-chip: #f5f5f7;
-  --color-nav: rgba(255, 255, 255, 0.8);
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-ink: #111215;
+  --color-sub: #5f6368;
+  --color-surface: #f1f3f5;
+  --color-accent: #1a73e8;
+  --color-accent-strong: #1557b0;
+  --color-good: #137333;
+  --color-bad: #c5221f;
+  --color-hairline: rgba(17, 18, 21, 0.08);
+  --color-ring: rgba(26, 115, 232, 0.25);
+  --color-chip: #f1f3f5;
+  --color-nav: rgba(250, 250, 252, 0.82);
+  --font-sans: "Google Sans", "Google Sans Flex", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
 }
 
 .dark {
-  --color-bg: #1a1a1c;
-  --color-card: #232326;
-  --color-ink: #f5f5f7;
-  --color-sub: #86868b;
-  --color-surface: #2a2a2e;
-  --color-accent: #0a84ff;
-  --color-accent-strong: #3395ff;
-  --color-good: #30d158;
-  --color-bad: #ff453a;
-  --color-hairline: rgba(255, 255, 255, 0.1);
-  --color-ring: rgba(10, 132, 255, 0.35);
-  --color-chip: #2a2a2e;
-  --color-nav: rgba(26, 26, 28, 0.8);
+  --color-bg: #0c0d11;
+  --color-card: #14161b;
+  --color-ink: #f8f9fa;
+  --color-sub: #9aa0a6;
+  --color-surface: #1e2128;
+  --color-accent: #8ab4f8;
+  --color-accent-strong: #aecbfa;
+  --color-good: #81c995;
+  --color-bad: #f28b82;
+  --color-hairline: rgba(255, 255, 255, 0.09);
+  --color-ring: rgba(138, 180, 248, 0.35);
+  --color-chip: #1e2128;
+  --color-nav: rgba(12, 13, 17, 0.85);
 }
 
 @layer base {
@@ -48,10 +49,10 @@
     background: var(--color-bg);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
   ::selection {
-    background: rgba(0, 113, 227, 0.25);
+    background: rgba(26, 115, 232, 0.2);
   }
   a {
     text-decoration: none;
@@ -71,24 +72,25 @@
     display: none;
   }
 
+  /* Antigravity High-Confidence Display Typography */
   .hero-title {
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    line-height: 1.12;
+    font-size: clamp(2.3rem, 5.6vw, 4.3rem);
+    line-height: 1.08;
     font-weight: 700;
-    letter-spacing: -0.024em;
+    letter-spacing: -0.038em;
   }
 
   .h1 {
-    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
-    line-height: 1.15;
+    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+    line-height: 1.12;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.028em;
   }
 
   .section-title {
-    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+    font-size: clamp(1.35rem, 2.5vw, 1.95rem);
     font-weight: 650;
-    letter-spacing: -0.018em;
+    letter-spacing: -0.024em;
   }
 
   /* 表单控件统一观感:白底、hairline 边、聚焦蓝环 */
@@ -105,7 +107,7 @@
   .field:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3.5px rgba(0, 113, 227, 0.18);
+    box-shadow: 0 0 0 3.5px var(--color-ring);
   }
   .field::placeholder {
     color: #a1a1a6;
@@ -118,11 +120,11 @@
   }
 
   .mono {
-    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: var(--font-mono);
     font-variant-ligatures: none;
   }
 
-  /* 数字输入去掉原生 spinner,保持克制 */
+  /* 数字输入去掉原生 spinner */
   input[type="number"].bare {
     -moz-appearance: textfield;
     appearance: textfield;
@@ -177,19 +179,116 @@
   }
   .dropzone.over {
     border-color: var(--color-accent);
-    background: rgba(0, 113, 227, 0.06);
+    background: rgba(26, 115, 232, 0.06);
   }
 }
 
 /* ------------------------------------------------------------------ */
-/* 首页动画层:入场 / 轮换话术 / 滚动入场 / 数字滚动          */
-/* 全部尊重 prefers-reduced-motion                                    */
+/* Antigravity 视觉层:Gravity-Well / Blueprint Grid / 光晕流体          */
 /* ------------------------------------------------------------------ */
 
+/* 细微科技蓝图点阵 (Engineering dot matrix) */
+.antigravity-grid {
+  background-image: radial-gradient(var(--color-hairline) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 85%);
+}
+
+/* Antigravity 多色重力井光晕 (Google Chromatic Gravity-Well) */
+@keyframes gravity-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 0.36;
+  }
+  33% {
+    transform: translate(-48%, -52%) scale(1.08) rotate(120deg);
+    opacity: 0.46;
+  }
+  66% {
+    transform: translate(-52%, -48%) scale(0.96) rotate(240deg);
+    opacity: 0.32;
+  }
+}
+
+.gravity-well {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(880px, 92vw);
+  height: min(520px, 55vh);
+  border-radius: 50%;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    #4285f4 0deg,
+    #9b51e0 90deg,
+    #ea4335 180deg,
+    #fbbc05 240deg,
+    #34a853 300deg,
+    #4285f4 360deg
+  );
+  filter: blur(85px);
+  animation: gravity-pulse 24s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.dark .gravity-well {
+  opacity: 0.22;
+  filter: blur(105px);
+}
+
+/* Antigravity 墨黑实心主按钮 (Solid Ink-Black Pill) */
+.ink-pill {
+  background: var(--color-ink);
+  color: var(--color-bg);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ink-pill:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 24px rgba(17, 18, 21, 0.18);
+}
+.dark .ink-pill:hover {
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.16);
+}
+
+/* 现代卡片悬停无重力悬浮质感 (Antigravity weightless card) */
+.ag-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-hairline);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ag-card:hover {
+  transform: translateY(-2.5px);
+  border-color: rgba(66, 133, 244, 0.35);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(66, 133, 244, 0.15);
+}
+.dark .ag-card:hover {
+  border-color: rgba(138, 180, 248, 0.35);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(138, 180, 248, 0.2);
+}
+
+/* 渐变标题字 */
+.gradient-text {
+  background: linear-gradient(135deg, #1a73e8 0%, #7c3aed 50%, #db2777 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .gradient-text {
+  background: linear-gradient(135deg, #8ab4f8 0%, #c4b5fd 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 入场动画与轮播话术 */
 @keyframes hero-fade-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -197,46 +296,60 @@
   }
 }
 .hero-in {
-  animation: hero-fade-up 0.7s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  animation: hero-fade-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes rotating-in {
   from {
     opacity: 0;
-    transform: translateY(0.45em);
+    transform: translateY(14px) scale(0.98);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
-    transform: none;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }
 @keyframes rotating-out {
   from {
     opacity: 1;
-    transform: none;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
   to {
     opacity: 0;
-    transform: translateY(-0.45em);
+    transform: translateY(-14px) scale(0.98);
+    filter: blur(4px);
   }
 }
 .rotating {
   display: inline-block;
+  will-change: transform, opacity, filter;
 }
 .rotating-in {
-  animation: rotating-in 0.42s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  animation: rotating-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .rotating-out {
-  animation: rotating-out 0.42s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+  animation: rotating-out 0.38s cubic-bezier(0.7, 0, 0.84, 0) both;
 }
 
-/* 滚动入场:html.js 门控(JS 失效时内容始终可见) */
+@keyframes star-pop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.star-pop-anim {
+  animation: star-pop 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+/* 滚动入场 */
 .js .reveal {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(20px);
   transition:
-    opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
-    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .js .reveal.is-visible {
   opacity: 1;
@@ -245,9 +358,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-in,
+  .gravity-well,
   .rotating-in,
-  .rotating-out {
-    animation: none;
+  .rotating-out,
+  .star-pop-anim {
+    animation: none !important;
   }
   .js .reveal {
     opacity: 1;
@@ -256,53 +371,38 @@
   }
 }
 
-/* iframe 小组件模式(?embed=1):隐藏导航/页脚 */
+/* iframe 小组件模式 */
 body.embed-mode header,
 body.embed-mode footer {
   display: none;
 }
 
-/* 暗色模式下 hero 渐变 blob 调低透明度 */
-.dark .hero-blob {
-  opacity: 0.12;
-}
-
-/* 暗色模式:footer/暗段调整 */
 .dark footer {
-  background: #111113;
+  background: #090a0d;
   border-color: rgba(255, 255, 255, 0.08);
 }
-.dark .gradient-text {
-  background: linear-gradient(96deg, #0a84ff 0%, #bf5af2 52%, #ff9f0a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
 
-/* 暗色模式下的细节修复 */
 .dark .recent-pill {
   background: var(--color-card);
   border-color: var(--color-hairline);
 }
 
-/* 暗色模式下 ThemeToggle 图标颜色 */
 .dark button[aria-label="Switch to light mode"] {
   color: var(--color-ink);
 }
 
-/* 错误提示统一 class(亮暗各自配色) */
 .error-bg {
-  background: rgba(178, 80, 0, 0.07);
+  background: rgba(197, 34, 31, 0.07);
 }
 .dark .error-bg {
-  background: rgba(255, 69, 58, 0.12);
+  background: rgba(242, 139, 130, 0.12);
 }
 
-/* ── 打印样式:工具结果可打印(表格/统计是真实打印场景)────────── */
 @media print {
   header,
   footer,
-  .hero-blob,
+  .gravity-well,
+  .antigravity-grid,
   button,
   .no-print {
     display: none !important;
@@ -324,14 +424,13 @@ body.embed-mode footer {
   }
 }
 
-/* ── 滚动条细化(暗色下原生滚动条突兀)────────────────────────── */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-hairline) transparent;
 }
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 *::-webkit-scrollbar-thumb {
   background: var(--color-hairline);
@@ -341,10 +440,9 @@ body.embed-mode footer {
   background: transparent;
 }
 
-/* ── 按压反馈:所有可点元素轻微缩放 ───────────────────────────── */
 button:active,
 a:active {
-  transform: scale(0.98);
+  transform: scale(0.985);
 }
 @media (prefers-reduced-motion: reduce) {
   button:active,
@@ -353,7 +451,6 @@ a:active {
   }
 }
 
-/* ── details.faq 平滑展开 ─────────────────────────────────────── */
 details.faq .faq-a {
   animation: faq-in 0.25s ease;
 }

@@ -25,20 +25,31 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div className={`rounded-2xl border hairline bg-[var(--color-card)] p-5 sm:p-6 ${className}`}>
+    <div className={`ag-card rounded-2xl p-5 sm:p-6 ${className}`}>
       {children}
     </div>
   );
 }
 
-export function Pill({ children, tone = "sub" }: { children: ReactNode; tone?: "sub" | "accent" | "good" }) {
+export function Pill({
+  children,
+  tone = "sub",
+  className = "",
+}: {
+  children: ReactNode;
+  tone?: "sub" | "accent" | "good" | "glass";
+  className?: string;
+}) {
   const tones = {
-    sub: "bg-[var(--color-surface)] text-[var(--color-sub)]",
-    accent: "bg-[rgba(0,113,227,0.1)] text-[var(--color-accent-strong)]",
-    good: "bg-[rgba(26,127,55,0.1)] text-[var(--color-good)]",
+    sub: "bg-[var(--color-surface)] text-[var(--color-sub)] border-transparent",
+    accent: "bg-[rgba(26,115,232,0.08)] text-[var(--color-accent-strong)] border-[rgba(26,115,232,0.2)] dark:bg-[rgba(138,180,248,0.12)] dark:border-[rgba(138,180,248,0.25)]",
+    good: "bg-[rgba(19,115,51,0.08)] text-[var(--color-good)] border-[rgba(19,115,51,0.2)] dark:bg-[rgba(129,201,149,0.12)] dark:border-[rgba(129,201,149,0.25)]",
+    glass: "bg-[var(--color-card)]/80 backdrop-blur-md text-[var(--color-ink)] border-[var(--color-hairline)] shadow-xs",
   };
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${tones[tone]}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-all ${tones[tone]} ${className}`}
+    >
       {children}
     </span>
   );
@@ -48,16 +59,19 @@ export function SectionHead({
   title,
   sub,
   right,
+  badge,
 }: {
   title: string;
   sub?: string;
   right?: ReactNode;
+  badge?: ReactNode;
 }) {
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h2 className="section-title">{title}</h2>
-        {sub ? <p className="mt-1 text-[15px] text-[var(--color-sub)]">{sub}</p> : null}
+        {badge ? <div className="mb-2">{badge}</div> : null}
+        <h2 className="section-title tracking-tight">{title}</h2>
+        {sub ? <p className="mt-1.5 text-[15px] leading-relaxed text-[var(--color-sub)]">{sub}</p> : null}
       </div>
       {right}
     </div>
@@ -78,26 +92,38 @@ export function ToolCard({
   return (
     <Link
       href={`/${locale}/tools/${tool.slug}`}
-      className="group block rounded-2xl border hairline bg-[var(--color-card)] p-5 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.07)]"
+      className="ag-card group relative flex flex-col justify-between rounded-2xl p-5"
     >
-      <div
-        className="mb-3 inline-flex rounded-xl p-2.5 transition-transform group-hover:scale-105"
-        style={tileStyle(tool.slug, tool.category)}
-      >
-        <Icon name={tool.icon} size={20} />
+      <div>
+        <div className="mb-3.5 flex items-center justify-between">
+          <div
+            className="inline-flex rounded-xl p-2.5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-1"
+            style={tileStyle(tool.slug, tool.category)}
+          >
+            <Icon name={tool.icon} size={20} />
+          </div>
+          <span className="mono rounded-full bg-[var(--color-surface)] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--color-sub)]">
+            {tool.category}
+          </span>
+        </div>
+        <h3 className="text-[15px] font-semibold leading-snug tracking-tight transition-colors group-hover:text-[var(--color-accent)]">
+          {name}
+        </h3>
+        <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-[var(--color-sub)]">
+          {tagline}
+        </p>
       </div>
-      <h3 className="font-semibold leading-tight">{name}</h3>
-      <p className="mt-1.5 line-clamp-2 text-[13.5px] leading-5 text-[var(--color-sub)]">{tagline}</p>
-      <p className="mt-3 text-[13px] font-medium text-[var(--color-accent-strong)] opacity-0 transition-opacity group-hover:opacity-100">
-        {t.common.openTool} →
-      </p>
+      <div className="mt-4 flex items-center text-[13px] font-medium text-[var(--color-accent-strong)]">
+        <span>{t.common.openTool}</span>
+        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1.5">→</span>
+      </div>
     </Link>
   );
 }
 
 /** 引擎外层的统一卡:标题 + 隐私注记由工具页负责,这里只承载交互 */
 export function ToolPanel({ children }: { children: ReactNode }) {
-  return <div className="rounded-2xl border hairline bg-[var(--color-card)] p-4 sm:p-6">{children}</div>;
+  return <div className="ag-card rounded-2xl p-4 sm:p-6">{children}</div>;
 }
 
 export function Prose({ paragraphs }: { paragraphs: string[] }) {
