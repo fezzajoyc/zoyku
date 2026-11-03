@@ -4955,7 +4955,51 @@ export const de: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
     ],
   },
+  "text-to-binary": {
+    name: 'Text → Binär',
+    tagline: 'Beliebigen Text in 8-Bit-Binärbytes umwandeln und zurück — UTF-8-sicher, sofort und vollständig im Browser. Perfekt für Unterricht, Rätsel und Informatik-Hausaufgaben.',
+    intro: ['Jedes getippte Zeichen wird zu seiner UTF-8-Bytefolge in Gruppen aus acht 0en und 1en. „Hi!“ wird zu 01001000 01101001 00100001 — exakt die Bits, die ein Computer speichert, in lesbarer Form.',
+        'Decodieren einschalten für den Rückweg: durch Leerzeichen getrennte Binärgruppen einfügen und den Originaltext zurückerhalten. Mehrbytezeichen wie Emoji und CJK funktionieren, da die Dekodierung über den nativen UTF-8-TextDecoder des Browsers läuft.'],
+    steps: ['Text zum Kodieren tippen oder einfügen — der Binärcode erscheint live.',
+        '„Binär in Text dekodieren“ einschalten, um Binärgruppen zurück in Worte zu wandeln.',
+        'Ergebnis mit einem Klick kopieren.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "text-to-unicode": {
+    name: 'Text → Unicode',
+    tagline: 'Beliebigen Text in \\uXXXX, \\u{...}, U+XXXX oder dezimale Codepoints escapen — und alles zurück dekodieren. Emoji-sicher, sofort, vollständig lokal.',
+    intro: ['Unicode-Escapes sind die Art, wie Quellcode, JSON-Nutzdaten und Konfigurationsdateien Zeichen darstellen, die schwer zu tippen oder unsicher einzubetten sind. Text einfügen und Notation wählen: \\uXXXX für die klassische JavaScript/Java-Form, \\u{...} für volle Unterstützung der zusätzlichen Ebene, U+XXXX wie in den Codecharts oder dezimale Codepoints.',
+        'Der Dekodiermodus versteht alle vier Notationen gemischt: von \\u00e9 über U+1F600 bis &#128512; erhalten Sie lesbaren Text zurück. Zeichen außerhalb der BMP (Emoji, seltene CJK) wechseln im \\uXXXX-Modus automatisch zu \\u{...}, statt kaputte Surrogatpaare zu erzeugen.'],
+    steps: ['Text zum Escapen einfügen — die Ausgabe aktualisiert sich live.',
+        'Notation wählen: \\uXXXX, \\u{...}, U+XXXX oder dezimal.',
+        'Oder Dekodiermodus einschalten und Escapes einfügen, um Text zurückzubekommen.'],
+    faqs: [
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+        { q: 'q', a: 'a' },
+    ],
+  },
+  "text-to-nato-alphabet": {
+    name: 'NATO-Alphabet-Konverter',
+    tagline: 'Buchstabieren Sie beliebigen Text mit dem NATO-Alphabet — Alfa, Bravo, Charlie — und dekodieren Sie buchstabierte Wörter zurück in Text. Der Standard für klaren Funk- und Telefonkontakt.',
+    intro: ['Das NATO-Alphabet (Alfa, Bravo, Charlie…) ersetzt jeden Buchstaben durch ein eindeutiges Wort, damit Text per Funk oder Telefon auch bei Störungen fehlerfrei ankommt.',
+        'Text einfügen: Jeder Buchstabe, jede Ziffer und jedes Symbol wird in das standardisierte ICAO/NATO-Kodewort umgewandelt.',
+        'Der Decode-Modus macht das Gegenteil: Kodewörter einfügen und den Originaltext zurückerhalten.',
+        'Häufige Schreibvarianten werden erkannt (Alfa/Alpha, Juliett/Juliet).',
+        'Alles läuft im Browser – kein Text verlässt Ihr Gerät.'],
+    steps: ['Text zum Buchstabieren in das Eingabefeld einfügen oder tippen.',
+        'Die erzeugte Kodewort-Folge ablesen oder den Decode-Modus aktivieren und Kodewörter einfügen.',
+        'Ergebnis kopieren und für Funkverkehr, Support oder Diktat verwenden.'],
+    faqs: [
+        { q: 'Was ist das NATO-Alphabet?', a: 'Das Buchstabieralphabet der NATO/ICAO: Jeder Buchstabe bekommt ein Wort (A = Alfa, B = Bravo…), um Verwechslungen bei der Übertragung zu vermeiden. Genutzt von Luftfahrt, Militär, Rettungsdiensten und Support.' },
+        { q: 'Werden Ziffern umgewandelt?', a: 'Ja. 0–9 werden zu Zero, One (Wun), Two, Tree, Fower, Five, Six, Seven, Eight, Nine – die ICAO-Standardaussprache steht neben jedem Kodewort.' },
+        { q: 'Umlaute und Emojis?', a: 'Akzentzeichen werden auf den Grundbuchstaben zurückgeführt (É → Echo); Emojis und Zeichen außerhalb des Alphabets werden markiert, da sie nicht buchstabierbar sind.' },
+    ],
+  },
 };
-
 
 export default de;

@@ -1,3 +1,6 @@
+import texttobinaryTool from "./text-to-binary";
+import texttounicodeTool from "./text-to-unicode";
+import texttonatoalphabetTool from "./text-to-nato-alphabet";
 import caseConverter from "./case-converter";
 import wordCounter from "./word-counter";
 import removeDuplicateLines from "./remove-duplicate-lines";
@@ -30,4 +33,8 @@ export const TEXT_TOOLS = [
   findAndReplace,
   fancyTextGenerator,
   emojiPicker,
+  texttobinaryTool,
+  texttounicodeTool,
+  texttonatoalphabetTool,
+
 ];

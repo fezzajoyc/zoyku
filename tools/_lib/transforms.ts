@@ -990,3 +990,134 @@ export function toHalfWidth(s: string): string {
     return ch;
   }).join("");
 }
+
+/* ---------- 文本↔编码转换(text-to-binary / text-to-unicode / nato) ---------- */
+
+/** 文本→二进制(UTF-8 字节),或二进制→文本。 */
+export function textBinary(s: string, decode = false): string {
+  if (!s.trim()) return "";
+  if (decode) {
+    const bytes = s
+      .split(/[^01]+/)
+      .filter((g) => g.length > 0)
+      .map((g) => parseInt(g, 2));
+    if (bytes.some((b) => Number.isNaN(b) || b > 255)) return "";
+    return new TextDecoder().decode(new Uint8Array(bytes));
+  }
+  return Array.from(new TextEncoder().encode(s))
+    .map((b) => b.toString(2).padStart(8, "0"))
+    .join(" ");
+}
+
+/** 文本→Unicode 转义(\uXXXX / \u{XXXXXX} / U+ 记法 / 数字码点),或反向解码。 */
+export function textUnicode(
+  s: string,
+  notation: "u4" | "ubraces" | "uplus" | "decimal" = "u4",
+  decode = false,
+): string {
+  if (!s.trim()) return "";
+  if (decode) {
+    // \uXXXX、\u{...}、U+XXXX、&#NN;、以及 32-72-101 空格十进制码点
+    const out = s
+      .replace(/\\u\{([0-9a-fA-F]{1,6})\}/g, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+      .replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+      .replace(/U\+([0-9a-fA-F]{4,6})/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+      .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(parseInt(d, 10)));
+    if (out !== s) return out;
+    return s
+      .split(/[\s,]+/)
+      .filter(Boolean)
+      .map((d) => (/^\d+$/.test(d) ? String.fromCodePoint(parseInt(d, 10)) : d))
+      .join("");
+  }
+  return Array.from(s)
+    .map((ch) => {
+      const cp = ch.codePointAt(0)!;
+      switch (notation) {
+        case "ubraces":
+          return ch === " " ? " " : `\\u{${cp.toString(16)}}`;
+        case "uplus":
+          return `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`;
+        case "decimal":
+          return String(cp);
+        default:
+          return cp > 0xffff
+            ? `\\u{${cp.toString(16)}}`
+            : ch === " "
+              ? " "
+              : `\\u${cp.toString(16).padStart(4, "0")}`;
+      }
+    })
+    .join(notation === "decimal" ? " " : "");
+}
+
+const NATO: Record<string, string> = {
+  A: "Alfa", B: "Bravo", C: "Charlie", D: "Delta", E: "Echo", F: "Foxtrot",
+  G: "Golf", H: "Hotel", I: "India", J: "Juliett", K: "Kilo", L: "Lima",
+  M: "Mike", N: "November", O: "Oscar", P: "Papa", Q: "Quebec", R: "Romeo",
+  S: "Sierra", T: "Tango", U: "Uniform", V: "Victor", W: "Whiskey",
+  X: "X-ray", Y: "Yankee", Z: "Zulu",
+  "0": "Zero", "1": "One", "2": "Two", "3": "Three", "4": "Four",
+  "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Nine",
+};
+
+/** 文本→NATO 音标字母表;decode 时把 NATO 词还原成字符。 */
+export function textNato(s: string, decode = false): string {
+  if (!s.trim()) return "";
+  if (decode) {
+    const rev = new Map(Object.entries(NATO).map(([k, v]) => [v.toLowerCase(), k.toLowerCase()]));
+    return s
+      .toLowerCase()
+      .split(/[\s-]+/)
+      .filter(Boolean)
+      .map((w) => rev.get(w) ?? w)
+      .join("");
+  }
+  return s
+    .toUpperCase()
+    .split("")
+    .map((ch) => NATO[ch] ?? ch)
+    .join(" ");
+}
+
+/** 罗马数字双向转换(1–3999)。 */
+const ROMAN: [number, string][] = [
+  [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"], [100, "C"], [90, "XC"],
+  [50, "L"], [40, "XL"], [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+];
+
+export function romanConvert(s: string, toRoman = false): string {
+  if (toRoman) {
+    const n = parseInt(s.trim(), 10);
+    if (!Number.isInteger(n) || n < 1 || n > 3999) return "";
+    let rest = n;
+    let out = "";
+    for (const [v, sym] of ROMAN) {
+      while (rest >= v) {
+        out += sym;
+        rest -= v;
+      }
+    }
+    return out;
+  }
+  const t = s.trim().toUpperCase();
+  if (!/^[MDCLXVI]+$/.test(t)) return "";
+  const val: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+  let sum = 0;
+  for (let i = 0; i < t.length; i++) {
+    const cur = val[t[i]];
+    const next = val[t[i + 1]] ?? 0;
+    sum += cur < next ? -cur : cur;
+  }
+  // 校验往返一致,拒绝 MMIM 这类非法写法
+  if (sum < 1 || sum > 3999) return "";
+  let check = "";
+  let rest = sum;
+  for (const [v, sym] of ROMAN) {
+    while (rest >= v) {
+      check += sym;
+      rest -= v;
+    }
+  }
+  return check === t ? String(sum) : "";
+}

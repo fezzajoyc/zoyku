@@ -1,5 +1,9 @@
 import {
   cleanText,
+  romanConvert,
+  textBinary,
+  textNato,
+  textUnicode,
   dedupeLines,
   htmlBeautify,
   htmlMinify,
@@ -24,6 +28,10 @@ export const TRANSFORMS: Record<string, (input: string, opts: Record<string, boo
   "dedupe-lines": dedupeLines,
   "remove-extra-spaces": removeExtraSpaces,
   "reverse-text": (s, o) => reverseText(s, Boolean(o.byLines)),
+  "text-binary": (s, o) => textBinary(s, Boolean(o.decode)),
+  "text-unicode": (s, o) => textUnicode(s, (o.ubraces && "ubraces") || (o.uplus && "uplus") || (o.decimal && "decimal") || "u4", Boolean(o.decode)),
+  "text-nato": (s, o) => textNato(s, Boolean(o.decode)),
+  "roman-numeral": (s, o) => romanConvert(s, Boolean(o.decode)),
   "clean-text": (s, o) =>
     cleanText(s, {
       trimLines: o.trimLines,
