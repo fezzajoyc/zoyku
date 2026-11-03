@@ -20,6 +20,9 @@ const ja: Dictionary = {
     heroSub:
       "PDF・画像・テキスト・コード・日常の計算に対応した {n} 個のツール。すべてブラウザ内でローカル処理——高速・無料・登録不要・アップロード一切なし。",
     browseAll: "すべてのツールを見る",
+    pinned: "ピン留め",
+    pin: "トップに固定",
+    unpin: "固定を解除",
     categoriesTitle: "カテゴリー",
     featuredTitle: "人気のツール",
     trustLocal: "ファイルは端末内に留存",

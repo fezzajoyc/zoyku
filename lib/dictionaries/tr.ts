@@ -19,6 +19,9 @@ const tr = {
     heroSub:
       "PDF, görsel, metin, kod ve günlük hesaplamalar için {n} araç. Her şey tarayıcında yerel olarak çalışır — hızlı, ücretsiz, kayıt yok, yükleme yok.",
     browseAll: "Tüm araçlara göz at",
+    pinned: "Sabitlenen",
+    pin: "Üste sabitle",
+    unpin: "Sabitlemeyi kaldır",
     categoriesTitle: "Kategoriler",
     featuredTitle: "Popüler araçlar",
     trustLocal: "Dosyalar cihazında kalır",

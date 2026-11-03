@@ -20,6 +20,9 @@ const en = {
     heroSub:
       "{n} tools for PDF, images, text, code and everyday calculations. Everything runs locally in your browser — fast, free, no signup, no uploads.",
     browseAll: "Browse all tools",
+    pinned: "Pinned",
+    pin: "Pin to top",
+    unpin: "Remove from pinned",
     categoriesTitle: "Categories",
     featuredTitle: "Popular tools",
     trustLocal: "Files stay on your device",

@@ -20,6 +20,9 @@ const vi = {
     heroSub:
       "{n} công cụ cho PDF, ảnh, văn bản, code và tính toán hằng ngày. Tất cả chạy cục bộ ngay trong trình duyệt — nhanh, miễn phí, không đăng ký, không tải lên.",
     browseAll: "Xem tất cả công cụ",
+    pinned: "Đã ghim",
+    pin: "Ghim lên đầu",
+    unpin: "Bỏ ghim",
     categoriesTitle: "Danh mục",
     featuredTitle: "Công cụ phổ biến",
     trustLocal: "File luôn ở lại thiết bị của bạn",

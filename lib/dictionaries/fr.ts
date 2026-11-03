@@ -22,6 +22,9 @@ const fr: Dictionary = {
     heroSub:
       "{n} outils pour les PDF, les images, le texte, le code et les calculs du quotidien. Tout s'exécute localement dans votre navigateur — rapide, gratuit, sans inscription, sans envoi.",
     browseAll: "Voir tous les outils",
+    pinned: "Épinglés",
+    pin: "Épingler",
+    unpin: "Désépingler",
     categoriesTitle: "Catégories",
     featuredTitle: "Outils populaires",
     trustLocal: "Vos fichiers restent sur votre appareil",

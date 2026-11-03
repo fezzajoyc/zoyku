@@ -7,7 +7,6 @@ import { Container, Pill, SectionHead, ToolCard } from "@/components/ui";
 import { Icon } from "@/components/icons";
 import { JsonLd } from "@/components/jsonld";
 import { RotatingText } from "@/components/rotating-text";
-import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { RecentTools } from "@/components/recent-tools";
@@ -15,31 +14,11 @@ import { HomeWorkspace } from "@/components/home-workspace";
 import { fill } from "@/tools/_lib/types";
 import { SITE } from "@/lib/site";
 
-// 首页 marquee 的明星工具(slug, 每行 8 个,双向滚动)
-const MARQUEE_ROW_1 = ["merge-pdf", "image-compressor", "word-counter", "json-formatter", "qr-generator", "image-resizer", "split-pdf", "password-generator"];
-const MARQUEE_ROW_2 = ["case-converter", "pdf-to-word", "currency-converter", "color-converter", "remove-duplicate-lines", "text-diff", "heic-to-jpg", "regex-tester"];
-
 const UNIT_SLUGS = new Set([
   "length-converter", "weight-converter", "temperature-converter", "data-converter",
   "area-converter", "volume-converter", "speed-converter", "time-converter",
   "energy-converter", "pressure-converter",
 ]);
-
-function Chip({ slug, locale }: { slug: string; locale: Locale }) {
-  const tool = ALL_TOOLS.find((tl) => tl.slug === slug);
-  if (!tool) return null;
-  return (
-    <Link
-      href={`/${locale}/tools/${tool.slug}`}
-      className="inline-flex flex-none items-center gap-2 rounded-full border hairline bg-[var(--color-card)] px-4 py-2.5 text-[13.5px] font-medium text-[var(--color-ink)] shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-transform hover:scale-105"
-    >
-      <span className="text-[var(--color-accent)]">
-        <Icon name={tool.icon} size={16} />
-      </span>
-      {toolCopy(tool, locale).name}
-    </Link>
-  );
-}
 
 export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -124,6 +103,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                 all: t.home.browseAll,
                 empty: t.tools.empty,
                 clear: t.common.clear,
+                pinned: t.home.pinned,
+                pin: t.home.pin,
+                unpin: t.home.unpin,
                 categoryNames: Object.fromEntries(
                   Object.entries(t.categories).map(([k, v]) => [k, v.name]),
                 ),

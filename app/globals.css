@@ -182,7 +182,7 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* 首页动画层:入场 / 轮换话术 / marquee / 滚动入场 / 数字滚动          */
+/* 首页动画层:入场 / 轮换话术 / 滚动入场 / 数字滚动          */
 /* 全部尊重 prefers-reduced-motion                                    */
 /* ------------------------------------------------------------------ */
 
@@ -230,31 +230,6 @@
   animation: rotating-out 0.42s cubic-bezier(0.2, 0.6, 0.2, 1) both;
 }
 
-@keyframes marquee-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 42s linear infinite;
-}
-.marquee-reverse {
-  animation-direction: reverse;
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-.marquee-group {
-  display: flex;
-  gap: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 /* 滚动入场:html.js 门控(JS 失效时内容始终可见) */
 .js .reveal {
   opacity: 0;
@@ -273,14 +248,6 @@
   .rotating-in,
   .rotating-out {
     animation: none;
-  }
-  .marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    width: auto;
-  }
-  .marquee-group[aria-hidden="true"] {
-    display: none;
   }
   .js .reveal {
     opacity: 1;

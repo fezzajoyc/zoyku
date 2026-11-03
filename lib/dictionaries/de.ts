@@ -20,6 +20,9 @@ const de = {
     heroSub:
       "{n} Tools für PDF, Bilder, Text, Code und Alltagsberechnungen. Alles läuft lokal in Ihrem Browser — schnell, kostenlos, ohne Anmeldung, ohne Uploads.",
     browseAll: "Alle Tools ansehen",
+    pinned: "Angepinnt",
+    pin: "Oben anpinnen",
+    unpin: "Nicht mehr anpinnen",
     categoriesTitle: "Kategorien",
     featuredTitle: "Beliebte Tools",
     trustLocal: "Dateien bleiben auf Ihrem Gerät",

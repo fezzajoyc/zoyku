@@ -22,6 +22,9 @@ const ko: Dictionary = {
     heroSub:
       "PDF, 이미지, 텍스트, 코드, 생활 계산까지 {n}개의 도구. 모든 처리가 브라우저에서 로컬로 실행됩니다 — 빠르고, 무료이며, 가입도 업로드도 없습니다.",
     browseAll: "전체 도구 보기",
+    pinned: "고정됨",
+    pin: "상단에 고정",
+    unpin: "고정 해제",
     categoriesTitle: "카테고리",
     featuredTitle: "인기 도구",
     trustLocal: "파일은 기기에만 보관됩니다",

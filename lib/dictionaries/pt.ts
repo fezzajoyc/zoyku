@@ -20,6 +20,9 @@ const pt: Dictionary = {
     heroSub:
       "{n} ferramentas para PDF, imagens, texto, código e cálculos cotidianos. Tudo roda localmente no seu navegador — rápido, grátis, sem cadastro, sem uploads.",
     browseAll: "Ver todas as ferramentas",
+    pinned: "Fixados",
+    pin: "Fixar no topo",
+    unpin: "Remover dos fixados",
     categoriesTitle: "Categorias",
     featuredTitle: "Ferramentas populares",
     trustLocal: "Seus arquivos ficam no seu dispositivo",

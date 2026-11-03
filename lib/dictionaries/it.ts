@@ -20,6 +20,9 @@ const it = {
     heroSub:
       "{n} strumenti per PDF, immagini, testo, codice e calcoli di tutti i giorni. Tutto gira in locale nel tuo browser: veloce, gratis, senza registrazione e senza upload.",
     browseAll: "Sfoglia tutti gli strumenti",
+    pinned: "Fissati",
+    pin: "Fissa in alto",
+    unpin: "Rimuovi dai fissati",
     categoriesTitle: "Categorie",
     featuredTitle: "Strumenti popolari",
     trustLocal: "I file restano sul tuo dispositivo",

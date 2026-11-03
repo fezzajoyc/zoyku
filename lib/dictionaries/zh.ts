@@ -20,6 +20,9 @@ const zh: Dictionary = {
     heroSub:
       "{n} 个覆盖 PDF、图片、文本、代码与日常计算的工具。全部在浏览器本地运行——快、免费、免注册、零上传。",
     browseAll: "浏览全部工具",
+    pinned: "置顶",
+    pin: "置顶到首页",
+    unpin: "取消置顶",
     categoriesTitle: "分类",
     featuredTitle: "热门工具",
     trustLocal: "文件留在你的设备上",

@@ -20,6 +20,9 @@ const id = {
     heroSub:
       "{n} alat untuk PDF, gambar, teks, kode, dan hitungan sehari-hari. Semuanya berjalan lokal di browser Anda — cepat, gratis, tanpa daftar, tanpa unggahan.",
     browseAll: "Lihat semua alat",
+    pinned: "Disematkan",
+    pin: "Sematkan di atas",
+    unpin: "Lepas sematan",
     categoriesTitle: "Kategori",
     featuredTitle: "Alat populer",
     trustLocal: "File tetap di perangkat Anda",
