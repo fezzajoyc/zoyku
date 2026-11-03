@@ -35,6 +35,7 @@ export function HomeWorkspace({
     all: string;
     empty: string;
     clear: string;
+    popular: string;
     pinned: string;
     pin: string;
     unpin: string;

@@ -71,7 +71,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           {/* Apple Eyebrow Badge */}
           <div className="hero-in flex justify-center">
             <Pill tone="accent">
-              <Icon name="sparkle" size={13} />
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
               <span>{t.home.eyebrow}</span>
             </Pill>
           </div>
@@ -112,6 +112,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                 all: t.home.browseAll,
                 empty: t.tools.empty,
                 clear: t.common.clear,
+                popular: t.home.popular,
                 pinned: t.home.pinned,
                 pin: t.home.pin,
                 unpin: t.home.unpin,
@@ -122,9 +123,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             />
           </div>
 
-          {/* Apple 经典大数字统计舱 (Keynote Numbers) */}
-          <div className="mx-auto mt-16 max-w-4xl">
-            <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
+          {/* 核心指标统计条 (仅保留真实数据: 工具数 与 语言数) */}
+          <div className="mx-auto mt-14 max-w-lg">
+            <dl className="grid grid-cols-2 gap-4 sm:gap-6">
               {[
                 {
                   value: <CountUp to={total} />,
@@ -132,19 +133,9 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                   sub: "100% Free",
                 },
                 {
-                  value: "0",
-                  label: t.home.statsLabels.uploads,
-                  sub: "In-Memory",
-                },
-                {
                   value: <CountUp to={LOCALES.length} />,
                   label: t.home.statsLabels.languages,
                   sub: "Global Ready",
-                },
-                {
-                  value: "0",
-                  label: t.home.statsLabels.accounts,
-                  sub: "Instant Access",
                 },
               ].map((stat, i) => (
                 <div
@@ -185,7 +176,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               </span>
               <span className="hidden h-3 w-px bg-[var(--color-hairline)] sm:inline-block" />
               <span className="inline-flex items-center gap-2">
-                <Icon name="sparkle" size={14} className="text-[var(--color-accent)]" />
+                <Icon name="zap" size={14} className="text-[var(--color-accent)]" />
                 <span className="font-medium text-[var(--color-ink)]">{t.home.trustFast}</span>
               </span>
             </div>
