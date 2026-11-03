@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Icon } from "./icons";
 import { tileStyle } from "@/lib/tool-colors";
+import { readPins, togglePin } from "@/lib/pins";
 
 type Item = {
   slug: string;
@@ -23,6 +24,9 @@ export function ToolsDirectory({
     empty: string;
     clearSearch?: string;
     backHome?: string;
+    pinned?: string;
+    pin?: string;
+    unpin?: string;
     categoryNames: Record<string, string>;
     hrefLang: string;
   };
@@ -31,6 +35,16 @@ export function ToolsDirectory({
     if (typeof window === "undefined") return "";
     return new URLSearchParams(window.location.search).get("q") ?? "";
   });
+  const [pins, setPins] = useState<string[]>([]);
+
+  useEffect(() => {
+    setPins(readPins());
+  }, []);
+
+  const togglePinLocal = (slug: string) => {
+    setPins((prev) => togglePin(slug, prev));
+  };
+
   const q = query.trim().toLowerCase();
 
   const filtered = useMemo(
@@ -101,7 +115,7 @@ export function ToolsDirectory({
               <Link
                 key={tool.slug}
                 href={`/${labels.hrefLang}/tools/${tool.slug}`}
-                className="group flex items-start gap-3 rounded-xl border hairline bg-white p-4 transition-colors hover:bg-[var(--color-surface)]"
+                className="group relative flex items-start gap-3 rounded-xl border hairline bg-white p-4 transition-colors hover:bg-[var(--color-surface)]"
               >
                 <span
                   className="mt-0.5 inline-flex flex-none rounded-lg p-2"
@@ -110,11 +124,28 @@ export function ToolsDirectory({
                   <Icon name={tool.icon} size={18} />
                 </span>
                 <span>
-                  <span className="block font-medium leading-tight">{tool.name}</span>
+                  <span className="block pr-5 font-medium leading-tight">{tool.name}</span>
                   <span className="mt-1 line-clamp-2 block text-[13px] leading-5 text-[var(--color-sub)]">
                     {tool.tagline}
                   </span>
                 </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    togglePinLocal(tool.slug);
+                  }}
+                  aria-label={pins.includes(tool.slug) ? labels.unpin : labels.pin}
+                  aria-pressed={pins.includes(tool.slug)}
+                  className={`absolute right-2.5 top-2.5 rounded-md p-1 text-[13px] transition-all ${
+                    pins.includes(tool.slug)
+                      ? "text-[#f59e0b] opacity-100"
+                      : "text-[var(--color-sub)] opacity-0 hover:text-[var(--color-ink)] focus-visible:opacity-100 group-hover:opacity-100"
+                  }`}
+                >
+                  ★
+                </button>
               </Link>
             ))}
           </div>

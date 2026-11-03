@@ -4,22 +4,11 @@ import { useMemo, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Icon } from "./icons";
 import { tileStyle } from "@/lib/tool-colors";
+import { readPins, togglePin } from "@/lib/pins";
 import { CATEGORIES } from "@/lib/site";
 import type { CategoryId } from "@/lib/site";
 
 type Item = { slug: string; category: string; icon: string; name: string; tagline: string };
-
-const PIN_KEY = "zoyku-pinned";
-
-/** 星标收藏:localStorage 持久化,跨语言只存 slug。 */
-function readPins(): string[] {
-  try {
-    const raw: string[] = JSON.parse(localStorage.getItem(PIN_KEY) ?? "[]");
-    return Array.isArray(raw) ? raw : [];
-  } catch {
-    return [];
-  }
-}
 
 /**
  * 首屏工作台(TinyWow × iLovePDF):
@@ -70,16 +59,8 @@ export function HomeWorkspace({
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const togglePin = (slug: string) => {
-    setPins((prev) => {
-      const next = prev.includes(slug) ? prev.filter((s) => s !== slug) : [slug, ...prev];
-      try {
-        localStorage.setItem(PIN_KEY, JSON.stringify(next));
-      } catch {
-        /* 隐私模式静默 */
-      }
-      return next;
-    });
+  const togglePinLocal = (slug: string) => {
+    setPins((prev) => togglePin(slug, prev));
   };
 
   const q = query.trim().toLowerCase();
@@ -248,7 +229,7 @@ export function HomeWorkspace({
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  togglePin(tool.slug);
+                  togglePinLocal(tool.slug);
                 }}
                 aria-label={pins.includes(tool.slug) ? labels.unpin : labels.pin}
                 aria-pressed={pins.includes(tool.slug)}
