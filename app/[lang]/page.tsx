@@ -11,6 +11,7 @@ import { Marquee } from "@/components/marquee";
 import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { RecentTools } from "@/components/recent-tools";
+import { HomeWorkspace } from "@/components/home-workspace";
 import { fill } from "@/tools/_lib/types";
 import { SITE } from "@/lib/site";
 
@@ -102,39 +103,32 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
           >
             {fill(t.home.heroSub, { n: ALL_TOOLS.length })}
           </p>
-          <div
-            className="hero-in mt-8 flex flex-wrap items-center justify-center gap-3"
-            style={{ animationDelay: "0.24s" }}
-          >
-            <Link
-              href={`/${locale}/tools`}
-              className="rounded-full bg-[var(--color-accent)] px-7 py-3 text-[15px] font-medium text-white transition-colors hover:bg-[var(--color-accent-strong)]"
-            >
-              {t.home.browseAll}
-            </Link>
-            <Link
-              href="#privacy"
-              className="rounded-full border hairline px-7 py-3 text-[15px] font-medium transition-colors hover:bg-[var(--color-surface)]"
-            >
-              {t.home.heroCtaSecondary}
-            </Link>
-          </div>
-
-          {/* 工具胶囊:双向无缝 marquee,hover 暂停 */}
-          <div
-            className="hero-in mt-14 space-y-4"
-            style={{ animationDelay: "0.32s" }}
-          >
-            <Marquee duration={46}>
-              {MARQUEE_ROW_1.map((slug) => (
-                <Chip key={slug} slug={slug} locale={locale} />
-              ))}
-            </Marquee>
-            <Marquee duration={52} reverse>
-              {MARQUEE_ROW_2.map((slug) => (
-                <Chip key={slug} slug={slug} locale={locale} />
-              ))}
-            </Marquee>
+        </Container>
+        {/* 首屏工作台:搜索 + 分类胶囊 + 全工具网格(TinyWow × iLovePDF) */}
+        <Container className="relative pb-14">
+          <div className="hero-in" style={{ animationDelay: "0.24s" }}>
+            <HomeWorkspace
+              locale={locale}
+              tools={ALL_TOOLS.map((tool) => {
+                const c = toolCopy(tool, locale);
+                return {
+                  slug: tool.slug,
+                  category: tool.category,
+                  icon: tool.icon,
+                  name: c.name,
+                  tagline: c.tagline,
+                };
+              })}
+              labels={{
+                placeholder: t.tools.filterPlaceholder,
+                all: t.home.browseAll,
+                empty: t.tools.empty,
+                clear: t.common.clear,
+                categoryNames: Object.fromEntries(
+                  Object.entries(t.categories).map(([k, v]) => [k, v.name]),
+                ),
+              }}
+            />
           </div>
 
           {/* 数字条:count-up */}
