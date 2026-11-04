@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Zoyku",
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN ?? "https://zoyku.com",
-  tagline: "175+ free browser tools",
+  tagline: "Free browser tools — files never leave your device",
   // 换品牌/域名只改这里 + dictionaries 里的 brand 字符串
 } as const;
 

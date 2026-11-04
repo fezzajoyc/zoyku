@@ -4,7 +4,7 @@ const en = {
   brand: "Zoyku",
   tagline: "Every tool runs in your browser.",
   metaDesc:
-    "175+ free online tools for PDF, images, text, developers and more. Everything runs in your browser — your files never leave your device.",
+    "{n} free online tools for PDF, images, text, developers and more. Everything runs in your browser — your files never leave your device.",
 
   nav: {
     tools: "All tools",
@@ -58,6 +58,34 @@ const en = {
     privacyLink: "Read the full privacy note",
     endTitle: "Pick a tool. It just works.",
     endSub: "Fifteen languages, zero uploads, nothing to install.",
+    allToolsTitle: "Every tool, one page",
+    allToolsSub: "The full directory — {count} tools across 7 categories, all running locally.",
+    faqs: [
+      {
+        q: "Is Zoyku really free?",
+        a: "Yes — every tool is free with no account, no watermark and no usage cap. There is no premium tier hiding the features you actually need.",
+      },
+      {
+        q: "Do my files get uploaded to a server?",
+        a: "No. Every tool is JavaScript running in your browser tab: files are read with the browser's own File API and processed in memory. Nothing is transmitted anywhere.",
+      },
+      {
+        q: "How many tools are there?",
+        a: "{n} tools across 7 categories — PDF, image, text, developer, SEO, security and utility — and the number grows with every release.",
+      },
+      {
+        q: "Does it work offline?",
+        a: "After a tool page has loaded once, it keeps working without a connection, because all processing happens locally. Reloading a fresh tool does need the page fetched once.",
+      },
+      {
+        q: "Do I need to create an account?",
+        a: "Never. There is no sign-up, no email and no stored history — open a tool and use it.",
+      },
+      {
+        q: "Which file formats are supported?",
+        a: "The PDF family covers merge, split, compress and conversions to and from Word, JPG and more; the image family covers HEIC, WebP, PNG, SVG and others. Each tool page lists exactly what it accepts.",
+      },
+    ],
   },
 
   tools: {
@@ -132,6 +160,12 @@ const en = {
       lines: "Lines",
       readingTime: "Reading time",
       readingMinutes: "{n} min read",
+      uniqueWords: "Unique words",
+      avgWordLen: "Avg word length",
+      pages: "Pages",
+      speakingTime: "Speaking time",
+      keywordsTitle: "Top keywords",
+      keywordCount: "{count}× ({pct}%)",
     },
   },
 

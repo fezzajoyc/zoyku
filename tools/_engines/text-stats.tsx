@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { countTextStats as countStats } from "../_lib/transforms";
+import { countTextStats as countStats, computeTextInsights } from "../_lib/transforms";
 import { fill } from "../_lib/types";
 
 
@@ -12,8 +12,15 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
   const { t } = useI18n();
   const [input, setInput] = useState("");
   const stats = useMemo(() => countStats(input), [input]);
+  const insights = useMemo(() => computeTextInsights(input, stats), [input, stats]);
+  const hasText = input.trim() !== "";
 
-  const minutes = Math.max(1, Math.round((stats.words + stats.characters * 0.3) / 220));
+  // 阅读时长:拉丁词 220 wpm + CJK 逐字 300 cpm,分开算——
+  // 旧公式 (words + characters*0.3)/220 把字符又乘了一遍,纯英文 220 词会被算成 2.6 分钟。
+  const minutes = Math.max(
+    1,
+    Math.round((stats.words - stats.cjkChars) / 220 + stats.cjkChars / 300),
+  );
   const defs: { key: keyof typeof stats; label: string; value: number }[] = [
     { key: "words", label: t.text.stats.words, value: stats.words },
     { key: "characters", label: t.text.stats.characters, value: stats.characters },
@@ -23,6 +30,13 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
     { key: "lines", label: t.text.stats.lines, value: stats.lines },
   ];
   const cells = [defs.find((d) => d.key === primary)!, ...defs.filter((d) => d.key !== primary)];
+
+  // 第二行洞察指标(wordcounter.net 对标,全部本地计算)
+  const insightCells = [
+    { label: t.text.stats.uniqueWords, value: insights.uniqueWords },
+    { label: t.text.stats.avgWordLen, value: insights.avgWordLen },
+    { label: t.text.stats.pages, value: insights.pages },
+  ];
 
   return (
     <ToolPanel>
@@ -45,10 +59,45 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
           </div>
         ))}
       </div>
-      {input.trim() !== "" && (
-        <p className="mt-3 text-[13px] text-[var(--color-sub)]">
-          {t.text.stats.readingTime}: {fill(t.text.stats.readingMinutes, { n: minutes })}
-        </p>
+      {hasText && (
+        <div className="mt-2.5 grid grid-cols-3 gap-2.5">
+          {insightCells.map((c) => (
+            <div key={c.label} className="rounded-xl px-4 py-2.5">
+              <p className="mono text-[15px] font-semibold tabular-nums text-[var(--color-ink)]">{c.value}</p>
+              <p className="mt-0.5 text-[12.5px] text-[var(--color-sub)]">{c.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {hasText && (
+        <div className="mt-1 flex flex-wrap items-baseline gap-x-6 gap-y-1 text-[13px] text-[var(--color-sub)]">
+          <span>
+            {t.text.stats.readingTime}: {fill(t.text.stats.readingMinutes, { n: minutes })}
+          </span>
+          <span>
+            {t.text.stats.speakingTime}: {fill(t.text.stats.readingMinutes, { n: insights.speakingMinutes })}
+          </span>
+        </div>
+      )}
+      {hasText && insights.topKeywords.length > 0 && (
+        <div className="mt-3 border-t hairline pt-3">
+          <p className="text-[12.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">
+            {t.text.stats.keywordsTitle}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {insights.topKeywords.map((k) => (
+              <span
+                key={k.word}
+                className="inline-flex items-baseline gap-1.5 rounded-lg border hairline bg-[var(--color-surface)] px-2.5 py-1 text-[12.5px]"
+              >
+                <span className="font-medium text-[var(--color-ink)]">{k.word}</span>
+                <span className="tabular-nums text-[var(--color-sub)]">
+                  {fill(t.text.stats.keywordCount, { count: k.count, pct: k.pct })}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
       )}
     </ToolPanel>
   );

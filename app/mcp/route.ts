@@ -1,4 +1,5 @@
 import { MCP_TOOLS } from "@/mcp/tools";
+import { checkMcpRateLimit } from "@/mcp/rate-limit";
 
 /**
  * MCP HTTP JSON-RPC 2.0 端点(POST /mcp)。
@@ -7,6 +8,7 @@ import { MCP_TOOLS } from "@/mcp/tools";
  * - tools/call
  * - initialize
  * 与 stdio 模式完全同源(共用 MCP_TOOLS 注册表)。无会话状态,可从任何 HTTP Agent 直接调用。
+ * GET 返回可粘贴的发现文档(工具全量清单),POST 带按 IP 限流。
  */
 
 export const runtime = "nodejs";
@@ -19,7 +21,25 @@ type JsonRpcRequest = {
   params?: Record<string, any>;
 };
 
+function clientIpOf(req: Request): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) return xff.split(",")[0].trim();
+  return req.headers.get("x-real-ip") || "127.0.0.1";
+}
+
 export async function POST(req: Request) {
+  const rl = checkMcpRateLimit(clientIpOf(req));
+  if (!rl.allowed) {
+    return Response.json(
+      {
+        jsonrpc: "2.0",
+        id: null,
+        error: { code: -32005, message: "Rate limit exceeded" },
+      },
+      { status: 429, headers: { "retry-after": String(rl.retryAfterSec) } },
+    );
+  }
+
   let body: JsonRpcRequest;
   try {
     body = await req.json();
@@ -100,7 +120,14 @@ export async function GET() {
       endpoint: "https://zoyku.com/mcp",
       stdio: "npx zoyku-mcp",
       docs: "https://zoyku.com/en/mcp",
+      guide: "https://zoyku.com/llms-mcp.txt",
       methods: ["initialize", "tools/list", "tools/call"],
+      tools: MCP_TOOLS.map((t) => ({
+        name: t.name,
+        title: t.title,
+        description: t.description,
+        inputSchema: t.schema,
+      })),
     },
     { status: 200 },
   );

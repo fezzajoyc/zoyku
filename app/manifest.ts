@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
+import { ALL_TOOLS } from "@/tools/registry";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Zoyku — free browser tools",
     short_name: "Zoyku",
-    description:
-      "175+ free online tools that run entirely in your browser. Files never leave your device.",
+    description: `${ALL_TOOLS.length} free online tools that run entirely in your browser. Files never leave your device.`,
     start_url: "/en",
     display: "standalone",
     background_color: "#ffffff",

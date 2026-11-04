@@ -959,9 +959,14 @@ export function htmlUnescapeEntities(s: string): string {
   });
 }
 
+const CJK_RE = /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g;
+
 export function countTextStats(text: string) {
-  const words = (text.match(/[^\s]+/g) ?? []).length;
-  const cjk = (text.match(/[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g) ?? []).length;
+  // CJK 逐字计 1 词(与 MS Word 一致);拉丁词按空白分词。
+  // 分词前先把 CJK 替换成空格:否则同一字符双重计数——纯中文既算一次空白 token
+  // 又逐字相加("你好"报 3 词而非 2,500 字中文报 510 而非 500)。
+  const cjk = (text.match(CJK_RE) ?? []).length;
+  const words = (text.replace(CJK_RE, " ").match(/[^\s]+/g) ?? []).length + cjk;
   const characters = [...text].length;
   const charsNoSpaces = [...text.replace(/\s/g, "")].length;
   const sentences = (text.match(/[^.!?。！？…]+[.!?。！？…]+|[^.!?。！？…]+$/g) ?? []).filter(
@@ -969,7 +974,44 @@ export function countTextStats(text: string) {
   ).length;
   const paragraphs = text.split(/\n{2,}/).filter((s2) => s2.trim().length > 0).length;
   const lines = text === "" ? 0 : text.split(/\n/).length;
-  return { words: words + cjk, characters, charsNoSpaces, sentences, paragraphs, lines };
+  return { words, characters, charsNoSpaces, sentences, paragraphs, lines, cjkChars: cjk };
+}
+
+/** 关键词洞察(word-counter 深度面板用):唯一词/平均词长/页数/演讲时长/高频词。
+ *  对标 wordcounter.net 的统计广度,但全部纯前端。 */
+export function computeTextInsights(text: string, stats?: ReturnType<typeof countTextStats>) {
+  const s = stats ?? countTextStats(text);
+  const CJK_ONLY_RE = /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g;
+  const cjk = s.cjkChars;
+  // 拉丁词小写、剔除纯数字,取词频 top;CJK 无空格分词,按二字组切片统计
+  const freq = new Map<string, number>();
+  let latinTotal = 0;
+  for (const tok of text.replace(CJK_ONLY_RE, " ").toLowerCase().match(/[^\s\d]+/g) ?? []) {
+    if (tok.length < 2) continue;
+    freq.set(tok, (freq.get(tok) ?? 0) + 1);
+    latinTotal++;
+  }
+  const cjkChars = [...text.match(CJK_ONLY_RE) ?? []];
+  for (let i = 0; i + 1 < cjkChars.length; i++) {
+    const bigram = cjkChars[i] + cjkChars[i + 1];
+    freq.set(bigram, (freq.get(bigram) ?? 0) + 1);
+  }
+  const totalWords = s.words || 1;
+  const topKeywords = [...freq.entries()]
+    .filter(([w]) => !/^\d+$/.test(w))
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([word, count]) => ({ word, count, pct: Math.round((count / totalWords) * 1000) / 10 }));
+  const latinWords = s.words - cjk;
+  const latinLenSum = [...text.replace(CJK_ONLY_RE, " ").match(/[^\s\d]+/g) ?? []]
+    .reduce((n, tok) => n + tok.length, 0);
+  return {
+    uniqueWords: freq.size,
+    avgWordLen: latinWords > 0 ? Math.round((latinLenSum / latinWords) * 10) / 10 : 0,
+    pages: Math.ceil(s.words / 250), // 出版惯例:250 词/页
+    speakingMinutes: Math.max(1, Math.round(latinWords / 130 + cjk / 180)), // 演讲语速慢于阅读
+    topKeywords,
+  };
 }
 
 /** 全角 ↔ 半角(中文场景的"大小写"):ASCII 0x20–0x7E ↔ 全角区,空格 ↔ U+3000。 */

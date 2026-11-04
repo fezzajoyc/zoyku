@@ -17,7 +17,7 @@ import { cookConvert } from "../tools/_lib/cooking";
 import { contrastRatio, wcagBadges } from "../tools/_lib/contrast";
 import { gradePercent, letterFor, US_SCALE, PLUS_MINUS_SCALE, PASS_FAIL_SCALE } from "../tools/_lib/grade";
 import {
-  cleanText, countTextStats, dedupeLines, removeExtraSpaces, reverseText, slugify,
+  cleanText, computeTextInsights, countTextStats, dedupeLines, removeExtraSpaces, reverseText, slugify,
   sortLines, toCamel, toKebab, toPascal, toSnake, toTitleCase,
 } from "../tools/_lib/transforms";
 import { jsonDiff, jsonQuery, jsonToTs } from "../tools/_lib/jsontool";
@@ -347,9 +347,12 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "text_stats",
     title: "Word/character statistics",
-    description: "Word counter and character counter (CJK-aware, like the website tool): words, characters with/without spaces, sentences, paragraphs, lines.",
+    description: "Word counter and character counter (CJK-aware, like the website tool): words, characters with/without spaces, sentences, paragraphs, lines, plus unique words, average word length, page estimate (250 words/page) and top keywords with density.",
     schema: { text: z.string() },
-    run: (a) => json(countTextStats(a.text)),
+    run: (a) => {
+      const stats = countTextStats(a.text);
+      return json({ ...stats, insights: computeTextInsights(a.text, stats) });
+    },
   },
   {
     name: "transform_text",

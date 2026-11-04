@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { metaTitle } from "@/lib/meta";
+import { metaDesc, metaTitle } from "@/lib/meta";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { dict, HTML_LANG } from "@/lib/i18n";
@@ -49,14 +49,14 @@ export async function generateMetadata({
   );
   return {
     title: metaTitle(c.h1 ?? c.name, USP[lang] ?? USP.en!),
-    description: c.tagline,
+    description: metaDesc(c.tagline),
     alternates: {
       canonical: `/${lang}/tools/${tool.slug}`,
       languages: { ...languages, "x-default": `/en/tools/${tool.slug}` },
     },
     openGraph: {
       title: c.h1 ?? c.name,
-      description: c.tagline,
+      description: metaDesc(c.tagline, 200),
       url: `/${lang}/tools/${tool.slug}`,
       type: "website",
     },

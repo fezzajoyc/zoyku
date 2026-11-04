@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { metaTitle } from "@/lib/meta";
+import { metaDesc, metaTitle } from "@/lib/meta";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { dict, DIR, HTML_LANG } from "@/lib/i18n";
 import { LOCALES, SITE, isLocale, type Locale } from "@/lib/site";
+import { ALL_TOOLS } from "@/tools/registry";
+import { fill } from "@/tools/_lib/types";
 import { I18nProvider } from "@/components/i18n-provider";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -23,13 +25,15 @@ export async function generateMetadata({
   if (!isLocale(lang)) return {};
   const t = dict(lang);
   const languages = Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], `/${l}`]));
+  // 工具数随版本增长,metaDesc 里的 {n} 永远取真实值,不再手写会过期的数字
+  const desc = metaDesc(fill(t.metaDesc, { n: ALL_TOOLS.length }));
   return {
     metadataBase: new URL(SITE.domain),
     title: {
       default: metaTitle(SITE.name, t.tagline),
       template: `%s | ${SITE.name}`,
     },
-    description: t.metaDesc,
+    description: desc,
     alternates: {
       canonical: `/${lang}`,
       languages: { ...languages, "x-default": "/en" },
@@ -38,7 +42,7 @@ export async function generateMetadata({
       type: "website",
       siteName: SITE.name,
       title: metaTitle(SITE.name, t.tagline),
-      description: t.metaDesc,
+      description: metaDesc(fill(t.metaDesc, { n: ALL_TOOLS.length }), 200),
       locale: HTML_LANG[lang],
     },
     robots: { index: true, follow: true },

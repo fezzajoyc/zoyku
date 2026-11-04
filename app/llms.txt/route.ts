@@ -24,7 +24,8 @@ export function GET() {
     "",
     "## MCP server (Model Context Protocol)",
     "",
-    "AI agents can execute Zoyku's calculators and converters directly via the official Model Context Protocol. Server: `npx zoyku-mcp` (stdio, Node.js 18+). Install config and the full tool list: https://zoyku.com/en/mcp",
+    "AI agents can execute Zoyku's calculators and converters directly via the official Model Context Protocol. HTTP endpoint: POST "
+      + `${SITE.domain}/mcp (JSON-RPC 2.0) · stdio: \`npx zoyku-mcp\` (Node.js 18+) · machine-readable tool guide: ${SITE.domain}/llms-mcp.txt · install config: ${SITE.domain}/en/mcp`,
     "",
     "## AI-readable pages",
     "",

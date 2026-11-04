@@ -48,6 +48,11 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
     .slice(0, 8);
   const total = ALL_TOOLS.length;
   const phrases = [t.home.heroTitle, ...t.home.rotating];
+  // 首页 FAQ:{n} 占位符填真实工具数;同一份数据同时渲染可见手风琴与 FAQPage JSON-LD(ghb-next 的三方同源纪律)
+  const homeFaqs = t.home.faqs.map((f) => ({
+    q: f.q,
+    a: fill(f.a, { n: total, count: total }),
+  }));
 
   return (
     <>
@@ -61,6 +66,17 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             position: i + 1,
             name: toolCopy(tool, locale).name,
             url: `${SITE.domain}/${locale}/tools/${tool.slug}`,
+          })),
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: homeFaqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
           })),
         }}
       />
@@ -283,6 +299,49 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </div>
       </Container>
 
+      {/* 全工具目录:SSR 内链锚点 — 每个工具页都从首页获得一条真实链接(PDF24/站内 hub 模式) */}
+      <section className="border-t hairline bg-[var(--color-surface)] py-18 sm:py-24">
+        <Container>
+          <Reveal>
+            <SectionHead
+              title={t.home.allToolsTitle}
+              sub={fill(t.home.allToolsSub, { count: total })}
+            />
+          </Reveal>
+          <div className="mx-auto max-w-3xl">
+            {CATEGORIES.map((c) => {
+              const catTools = toolsByCategory(c);
+              return (
+                <div key={c} className="border-b hairline py-5 last:border-b-0">
+                  <Link
+                    href={`/${locale}/categories/${c}`}
+                    className="flex items-baseline gap-2.5"
+                  >
+                    <h3 className="text-[15px] font-semibold tracking-tight text-[var(--color-ink)]">
+                      {t.categories[c].name}
+                    </h3>
+                    <span className="text-[12px] font-medium tabular-nums text-[var(--color-sub)]">
+                      {catTools.length}
+                    </span>
+                  </Link>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {catTools.map((tool) => (
+                      <Link
+                        key={tool.slug}
+                        href={`/${locale}/tools/${tool.slug}`}
+                        className="inline-flex items-center rounded-lg border hairline bg-[var(--color-card)] px-2.5 py-1 text-[12.5px] font-medium text-[var(--color-sub)] transition-colors hover:border-[var(--color-accent)]/30 hover:bg-[var(--color-card)] hover:text-[var(--color-accent-strong)]"
+                      >
+                        {toolCopy(tool, locale).name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </section>
+
       {/* 苹果经典全黑隐私架构段 (Apple Privacy. That's iPhone. 风格) */}
       <section id="privacy" className="relative overflow-hidden bg-[#000000] py-20 text-white sm:py-28">
         <Container className="relative text-center">
@@ -327,6 +386,23 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               <span className="text-base">›</span>
             </Link>
           </Reveal>
+        </Container>
+      </section>
+
+      {/* 首页可见 FAQ:与上方 FAQPage JSON-LD 同源(可见内容 = 结构化数据,不留空壳 schema) */}
+      <section className="py-18 sm:py-24">
+        <Container className="max-w-3xl">
+          <Reveal>
+            <SectionHead title={t.tool.faq} />
+          </Reveal>
+          <div>
+            {homeFaqs.map((f, i) => (
+              <details key={i} className="faq" open={i === 0}>
+                <summary>{f.q}</summary>
+                <p className="faq-a">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </Container>
       </section>
 

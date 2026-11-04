@@ -3,7 +3,7 @@ const tr = {
   brand: "Zoyku",
   tagline: "Her araç tarayıcında çalışır.",
   metaDesc:
-    "PDF, görsel, metin, geliştirici ve daha fazlası için 175+ ücretsiz online araç. Her şey tarayıcında çalışır — dosyaların asla cihazından çıkmaz.",
+    "{n} ücretsiz online araç: PDF, görsel, metin, geliştirici ve günlük hesaplamalar. Her şey tarayıcınızda çalışır — dosyalarınız asla cihazınızdan çıkmaz.",
 
   nav: {
     tools: "Tüm araçlar",
@@ -57,6 +57,17 @@ const tr = {
     privacyLink: "Tüm gizlilik notunu oku",
     endTitle: "Bir araç seç. Gerisi kendiliğinden.",
     endSub: "On beş dil, sıfır yükleme, kurulum gerektirmez.",
+    allToolsTitle: "Tüm araçlar, tek sayfada",
+    allToolsSub: "Eksiksiz dizin — 7 kategoride {count} araç, tümü yerelde çalışır.",
+    faqs: [
+      { q: "Zoyku gerçekten ücretsiz mi?", a: "Evet — tüm araçlar ücretsiz: hesap yok, filigran yok, kullanım limiti yok. İhtiyacınız olan özellikleri gizleyen bir premium sürüm yok." },
+      { q: "Dosyalarım sunucuya yükleniyor mu?", a: "Hayır. Her araç, sekmenizde çalışan JavaScript'tir: dosyalar tarayıcının kendi File API'siyle okunur ve bellekte işlenir. Hiçbir şey hiçbir yere gönderilmez." },
+      { q: "Kaç araç var?", a: "7 kategoride {n} araç — PDF, görsel, metin, geliştirici, SEO, güvenlik ve yardımcı araçlar — ve sayı her sürümde artıyor." },
+      { q: "Çevrimdışı çalışır mı?", a: "Bir araç sayfası bir kez yüklendikten sonra bağlantı olmadan da çalışmaya devam eder, çünkü tüm işlem yerelde yapılır. Yalnızca ilk açılış bağlantı ister." },
+      { q: "Hesap oluşturmam gerekiyor mu?", a: "Asla. Kayıt yok, e-posta yok, saklanan geçmiş yok — aracı açın ve kullanın." },
+      { q: "Hangi dosya biçimleri destekleniyor?", a: "PDF ailesi birleştirme, bölme, sıkıştırma ve Word, JPG ve daha fazlasına dönüştürmeyi kapsar; görsel ailesi HEIC, WebP, PNG, SVG ve diğerlerini kapsar. Her araç sayfası kabul ettiği biçimleri tam olarak listeler." },
+    ],
+
   },
 
   tools: {
@@ -131,6 +142,12 @@ const tr = {
       lines: "Satır",
       readingTime: "Okuma süresi",
       readingMinutes: "{n} dk okuma",
+      uniqueWords: "Benzersiz kelime",
+      avgWordLen: "Ort. kelime uzunluğu",
+      pages: "Sayfa",
+      speakingTime: "Konuşma süresi",
+      keywordsTitle: "En sık geçen kelimeler",
+      keywordCount: "{count}× ({pct}%)",
     },
   },
 

@@ -4,7 +4,7 @@ const id = {
   brand: "Zoyku",
   tagline: "Setiap alat berjalan di browser Anda.",
   metaDesc:
-    "{n}  alat online gratis untuk PDF, gambar, teks, developer, dan lainnya. Semuanya berjalan di browser — file Anda tidak pernah meninggalkan perangkat.",
+    "{n} alat online gratis untuk PDF, gambar, teks, developer, dan lainnya. Semuanya berjalan di browser — file Anda tidak pernah meninggalkan perangkat.",
 
   nav: {
     tools: "Semua alat",
@@ -58,6 +58,17 @@ const id = {
     privacyLink: "Baca catatan privasi lengkap",
     endTitle: "Pilih alat. Langsung jalan.",
     endSub: "Lima belas bahasa, nol unggahan, tak ada yang perlu diinstal.",
+    allToolsTitle: "Semua alat, satu halaman",
+    allToolsSub: "Direktori lengkap — {count} alat dalam 7 kategori, semuanya lokal.",
+    faqs: [
+      { q: "Apakah Zoyku benar-benar gratis?", a: "Ya — semua alat gratis: tanpa akun, tanpa watermark, tanpa batas pemakaian. Tidak ada versi premium yang menyembunyikan fitur yang Anda butuhkan." },
+      { q: "Apakah berkas saya diunggah ke server?", a: "Tidak. Setiap alat adalah JavaScript yang berjalan di tab Anda: berkas dibaca lewat File API browser dan diproses di memori. Tidak ada yang dikirim ke mana pun." },
+      { q: "Ada berapa alat?", a: "{n} alat dalam 7 kategori — PDF, gambar, teks, developer, SEO, keamanan, dan utilitas — dan terus bertambah di setiap rilis." },
+      { q: "Apakah bisa offline?", a: "Setelah halaman alat dimuat sekali, ia tetap berjalan tanpa koneksi karena semua pemrosesan lokal. Hanya pembukaan pertama butuh memuat halaman." },
+      { q: "Apakah perlu membuat akun?", a: "Tidak pernah. Tanpa pendaftaran, tanpa email, tanpa riwayat tersimpan — buka alat dan pakai." },
+      { q: "Format berkas apa yang didukung?", a: "Keluarga PDF mencakup gabung, pisah, kompres, dan konversi ke/dari Word, JPG, dan lainnya; keluarga gambar mencakup HEIC, WebP, PNG, SVG, dan lainnya. Setiap halaman alat mencantumkan format yang didukung secara tepat." },
+    ],
+
   },
 
   tools: {
@@ -132,6 +143,12 @@ const id = {
       lines: "Baris",
       readingTime: "Waktu baca",
       readingMinutes: "{n} mnt baca",
+      uniqueWords: "Kata unik",
+      avgWordLen: "Rata-rata panjang kata",
+      pages: "Halaman",
+      speakingTime: "Waktu bicara",
+      keywordsTitle: "Kata kunci teratas",
+      keywordCount: "{count}× ({pct}%)",
     },
   },
 

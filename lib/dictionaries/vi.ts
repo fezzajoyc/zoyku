@@ -58,6 +58,17 @@ const vi = {
     privacyLink: "Đọc ghi chú riêng tư đầy đủ",
     endTitle: "Chọn một công cụ. Nó chỉ đơn giản là hoạt động.",
     endSub: "Mười lăm ngôn ngữ, không tải lên, không cần cài đặt.",
+    allToolsTitle: "Tất cả công cụ, một trang duy nhất",
+    allToolsSub: "Danh mục đầy đủ — {count} công cụ trong 7 nhóm, tất cả chạy cục bộ.",
+    faqs: [
+      { q: "Zoyku có thực sự miễn phí không?", a: "Có — mọi công cụ đều miễn phí: không tài khoản, không watermark, không giới hạn lượt dùng. Không có bản premium giấu tính năng bạn cần." },
+      { q: "Tệp của tôi có được tải lên máy chủ không?", a: "Không. Mỗi công cụ là JavaScript chạy trong tab trình duyệt: tệp được đọc bằng File API của trình duyệt và xử lý trong bộ nhớ. Không có gì được gửi đi đâu cả." },
+      { q: "Có bao nhiêu công cụ?", a: "{n} công cụ trong 7 nhóm — PDF, ảnh, văn bản, lập trình, SEO, bảo mật và tiện ích — và con số tăng theo mỗi bản phát hành." },
+      { q: "Có chạy ngoại tuyến không?", a: "Sau khi trang công cụ được tải một lần, nó vẫn chạy không cần mạng vì mọi xử lý đều diễn ra cục bộ. Chỉ lần mở đầu tiên cần tải trang." },
+      { q: "Có cần tạo tài khoản không?", a: "Không bao giờ. Không đăng ký, không email, không lưu lịch sử — mở công cụ lên và dùng." },
+      { q: "Hỗ trợ những định dạng tệp nào?", a: "Nhóm PDF gồm gộp, tách, nén và chuyển đổi qua lại với Word, JPG và nhiều định dạng khác; nhóm ảnh gồm HEIC, WebP, PNG, SVG và khác. Mỗi trang công cụ liệt kê chính xác định dạng nhận vào." },
+    ],
+
   },
 
   tools: {
@@ -132,6 +143,12 @@ const vi = {
       lines: "Dòng",
       readingTime: "Thời gian đọc",
       readingMinutes: "{n} phút đọc",
+      uniqueWords: "Từ duy nhất",
+      avgWordLen: "Độ dài từ trung bình",
+      pages: "Số trang",
+      speakingTime: "Thời gian nói",
+      keywordsTitle: "Từ khóa hàng đầu",
+      keywordCount: "{count}× ({pct}%)",
     },
   },
 

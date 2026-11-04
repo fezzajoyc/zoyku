@@ -58,6 +58,17 @@ const it = {
     privacyLink: "Leggi la nota privacy completa",
     endTitle: "Scegli uno strumento. Funziona, e basta.",
     endSub: "Quindici lingue, zero upload, niente da installare.",
+    allToolsTitle: "Tutti gli strumenti, una sola pagina",
+    allToolsSub: "L'elenco completo — {count} strumenti in 7 categorie, tutto in locale.",
+    faqs: [
+      { q: "Zoyku è davvero gratuito?", a: "Sì — tutti gli strumenti sono gratuiti, senza account, senza watermark e senza limiti d'uso. Non esiste una versione premium che nasconde le funzioni che ti servono." },
+      { q: "I miei file vengono caricati su un server?", a: "No. Ogni strumento è JavaScript che gira nella tua scheda: i file vengono letti con la File API del browser ed elaborati in memoria. Nulla viene trasmesso." },
+      { q: "Quanti strumenti ci sono?", a: "{n} strumenti in 7 categorie — PDF, immagini, testo, sviluppatori, SEO, sicurezza e utilità — e il numero cresce a ogni versione." },
+      { q: "Funziona offline?", a: "Dopo il primo caricamento della pagina, lo strumento continua a funzionare senza connessione, perché l'elaborazione è tutta locale. Solo la prima apertura richiede la rete." },
+      { q: "Devo creare un account?", a: "Mai. Niente registrazione, niente e-mail, niente cronologia — apri lo strumento e usalo." },
+      { q: "Quali formati di file sono supportati?", a: "La famiglia PDF copre unione, divisione, compressione e conversioni con Word, JPG e altri; la famiglia immagini copre HEIC, WebP, PNG, SVG e altri. Ogni pagina elenca esattamente i formati accettati." },
+    ],
+
   },
 
   tools: {
@@ -132,6 +143,12 @@ const it = {
       lines: "Righe",
       readingTime: "Tempo di lettura",
       readingMinutes: "{n} min di lettura",
+      uniqueWords: "Parole uniche",
+      avgWordLen: "Lung. media parola",
+      pages: "Pagine",
+      speakingTime: "Tempo di parlata",
+      keywordsTitle: "Parole chiave principali",
+      keywordCount: "{count}× ({pct}%)",
     },
   },
 

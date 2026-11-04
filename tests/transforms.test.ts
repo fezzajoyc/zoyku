@@ -7,6 +7,8 @@
 import { describe, it, expect } from "vitest";
 import {
   cleanText,
+  computeTextInsights,
+  countTextStats,
   cssMinify,
   dedupeLines,
   fancyText,
@@ -807,5 +809,78 @@ describe("htmlUnescapeEntities", () => {
 
   it("returns garbage unchanged and never throws", () => {
     expect(htmlUnescapeEntities("\u0000\u0001 中文 😀")).toBe("\u0000\u0001 中文 😀");
+  });
+});
+
+describe("countTextStats(打磨程序 R1:word-counter 修复回归)", () => {
+
+  it("纯 CJK 不再双重计数:2 个汉字 = 2 词(修前报 3)", () => {
+    expect(countTextStats("你好").words).toBe(2);
+  });
+
+  it("页面承诺:500 字中文 ≈ 500 词(修前 10 行 500 字报 510)", () => {
+    const s = "一二三四五六七八九十\n".repeat(10); // 10 字 × 10 行 = 100 字
+    expect(countTextStats(s).words).toBe(100);
+  });
+
+  it("混排:hello你好 = 1 拉丁词 + 2 CJK = 3 词", () => {
+    expect(countTextStats("hello你好").words).toBe(3);
+  });
+
+  it("英文行为不变", () => {
+    expect(countTextStats("one two three").words).toBe(3);
+    expect(countTextStats("").words).toBe(0);
+  });
+
+  it("日语假名/韩文同规则", () => {
+    expect(countTextStats("カタカナひらがな").words).toBe(8); // カタカナ(4)+ひらがな(4)
+    expect(countTextStats("한국어텍스트").words).toBe(6);
+  });
+
+  it("cjkChars 字段供阅读时长用;字符数用码点", () => {
+    const s = countTextStats("ab😀你");
+    expect(s.cjkChars).toBe(1);
+    expect(s.characters).toBe(4); // a b 😀 你 = 4 码点
+    expect(s.charsNoSpaces).toBe(4);
+  });
+
+  it("段落=空行分块;空串全零", () => {
+    const s = countTextStats("a\n\nb\nc");
+    expect(s.paragraphs).toBe(2);
+    expect(s.lines).toBe(4); // ["a","","b","c"]
+    expect(countTextStats("")).toEqual({ words: 0, characters: 0, charsNoSpaces: 0, sentences: 0, paragraphs: 0, lines: 0, cjkChars: 0 });
+  });
+});
+
+describe("computeTextInsights(打磨程序 R3:word-counter 对标新增)", () => {
+  it("唯一词/平均词长/页数/演讲时长", () => {
+    const ins = computeTextInsights("the cat sat on the mat the end");
+    expect(ins.uniqueWords).toBe(6); // {the, cat, sat, on, mat, end}
+    expect(ins.pages).toBe(1);
+    expect(ins.speakingMinutes).toBe(1);
+    expect(ins.avgWordLen).toBeGreaterThan(2);
+  });
+
+  it("高频词含次数与密度,小写归一", () => {
+    const ins = computeTextInsights("Dog dog DOG cat cat bird");
+    const top = ins.topKeywords[0];
+    expect(top.word).toBe("dog");
+    expect(top.count).toBe(3);
+    expect(top.pct).toBe(50); // 3/6
+    expect(ins.topKeywords[1].word).toBe("cat");
+  });
+
+  it("纯数字与单字符不进词频;CJK 按二字组", () => {
+    const ins = computeTextInsights("123 456 a b 中文测试");
+    expect(ins.topKeywords[0].word).toBe("中文");
+    expect(ins.topKeywords[0].count).toBe(1);
+  });
+
+  it("空输入安全全零", () => {
+    const ins = computeTextInsights("");
+    expect(ins.uniqueWords).toBe(0);
+    expect(ins.avgWordLen).toBe(0);
+    expect(ins.pages).toBe(0);
+    expect(ins.topKeywords).toEqual([]);
   });
 });

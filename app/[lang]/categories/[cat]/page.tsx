@@ -9,6 +9,7 @@ import { categoryFaqPool } from "@/tools/_lib/category-faqs";
 import { Breadcrumb, Container, Prose, SectionHead, ToolCard } from "@/components/ui";
 import { JsonLd } from "@/components/jsonld";
 import { SITE } from "@/lib/site";
+import { metaDesc } from "@/lib/meta";
 import { fill } from "@/tools/_lib/types";
 
 export function generateStaticParams() {
@@ -28,7 +29,7 @@ export async function generateMetadata({
   const languages = Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], `/${l}/categories/${cat}`]));
   return {
     title: `${name} — ${fill(t.tools.count, { count })}`,
-    description: t.categories[cat].desc,
+    description: metaDesc(t.categories[cat].desc),
     alternates: {
       canonical: `/${lang}/categories/${cat}`,
       languages: { ...languages, "x-default": `/en/categories/${cat}` },

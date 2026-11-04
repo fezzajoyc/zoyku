@@ -60,6 +60,17 @@ const fr: Dictionary = {
     privacyLink: "Lire la note de confidentialité complète",
     endTitle: "Choisissez un outil. Il fonctionne, tout simplement.",
     endSub: "Quinze langues, zéro envoi, rien à installer.",
+    allToolsTitle: "Tous les outils, une seule page",
+    allToolsSub: "L'annuaire complet — {count} outils dans 7 catégories, tout en local.",
+    faqs: [
+      { q: "Zoyku est-il vraiment gratuit ?", a: "Oui — tous les outils sont gratuits, sans compte, sans filigrane et sans limite d'utilisation. Aucune version premium ne cache ce dont vous avez besoin." },
+      { q: "Mes fichiers sont-ils envoyés sur un serveur ?", a: "Non. Chaque outil est un JavaScript qui tourne dans votre onglet : les fichiers sont lus via la File API du navigateur et traités en mémoire. Rien n'est transmis." },
+      { q: "Combien d'outils sont disponibles ?", a: "{n} outils dans 7 catégories — PDF, image, texte, développement, SEO, sécurité et utilitaires — et le nombre augmente à chaque version." },
+      { q: "Ça fonctionne hors ligne ?", a: "Une fois la page d'un outil chargée, elle continue de fonctionner sans connexion, car tout le traitement est local. Seule la première ouverture nécessite de charger la page." },
+      { q: "Faut-il créer un compte ?", a: "Jamais. Pas d'inscription, pas d'e-mail, pas d'historique — ouvrez l'outil et utilisez-le." },
+      { q: "Quels formats de fichiers sont pris en charge ?", a: "La famille PDF couvre fusion, division, compression et conversions vers/depuis Word, JPG et plus ; la famille image couvre HEIC, WebP, PNG, SVG et autres. Chaque page d'outil liste précisément ses formats." },
+    ],
+
   },
 
   tools: {
@@ -134,6 +145,12 @@ const fr: Dictionary = {
       lines: "Lignes",
       readingTime: "Temps de lecture",
       readingMinutes: "{n} min de lecture",
+      uniqueWords: "Mots uniques",
+      avgWordLen: "Longueur moyenne",
+      pages: "Pages",
+      speakingTime: "Temps de lecture à voix haute",
+      keywordsTitle: "Mots-clés principaux",
+      keywordCount: "{count}× ({pct}%)",
     },
   },
 
