@@ -5015,4 +5015,43 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'HMAC-SHA-256 hay HMAC-SHA-512?', a: 'SHA-256 là chuẩn phổ biến. SHA-512 cho biên lớn hơn và thậm chí nhanh hơn trên CPU 64-bit; dùng khi đặc tả cho phép. Tránh SHA-1 trừ khi hệ thống cũ bắt buộc.' },
     ],
   },
+  "unlock-pdf": {
+    name: 'Mở khóa PDF',
+    tagline: 'Loại bỏ các hạn chế cấp chủ sở hữu khỏi tệp PDF đọc được và tải bản sao sạch — mở khóa ngay trong trình duyệt, không cần tải lên.',
+    intro: ['Một số PDF mở bình thường nhưng từ chối in, sao chép hay chú thích vì các cờ quyền của chủ sở hữu. Công cụ này tải tài liệu bằng pdf-lib rồi lưu một bản sao mới không còn những hạn chế đó, nên in ấn và chọn văn bản hoạt động trở lại trong mọi trình đọc.',
+        'Mọi thứ diễn ra trên thiết bị của bạn: tệp được đọc và ghi lại cục bộ, không bao giờ gửi lên máy chủ. Hãy lưu ý giới hạn thực tế — tệp PDF bắt buộc nhập mật khẩu mỗi lần mở không thể giải mã tại đây, và công cụ này cũng không thêm mã hóa; nó chỉ tạo bản sao không hạn chế của tệp mà bạn vốn đọc được.'],
+    steps: ['Thả tệp PDF bị hạn chế nhưng mở được mà không cần mật khẩu.',
+        'Bấm Bỏ bảo vệ — tệp sẽ được lưu lại cục bộ mà không có các cờ quyền.',
+        'Tải bản sao sạch và in, sao chép hoặc chú thích thoải mái.'],
+    faqs: [
+        { q: 'Có thể bỏ mật khẩu mở tệp không?', a: 'Chỉ khi trình đọc của bạn đã lưu mật khẩu và hiển thị nội dung không cần hỏi. Tệp thực sự cần mật khẩu để mở thì được mã hóa bằng mật khẩu đó, và công cụ này không cố bẻ khóa hay giải mã.' },
+        { q: 'Có thể đặt mật khẩu cho PDF tại đây không?', a: 'Không. Mã hóa AES đáng tin cho PDF không khả thi với bản triển khai nhẹ chỉ trong trình duyệt, nên trang không cung cấp thêm mật khẩu — chỉ gỡ hạn chế khỏi tệp đọc được.' },
+    ],
+  },
+  "flatten-pdf": {
+    name: 'Làm phẳng PDF',
+    tagline: 'Gắn các trường biểu mẫu PDF vào trang như nội dung tĩnh trước khi nộp — ô đánh dấu, ô nhập liệu và chữ ký trở thành vĩnh viễn, ngay trong trình duyệt của bạn.',
+    intro: ['Biểu mẫu PDF đã điền là tương tác: giá trị nằm trong các đối tượng trường riêng mà một số trình đọc sẽ đặt lại, làm mất hoặc sắp xếp lại khi chuyển tiếp tệp. Làm phẳng bằng pdf-lib vẽ từng trường trực tiếp lên trang của nó, nên những gì bạn điền chính là thứ mọi trình đọc hiển thị — yêu cầu bắt buộc ở nhiều cổng tuyển dụng, thuế và lưu trữ.',
+        'Tài liệu sau xử lý trông giống hệt nhưng không còn chứa trường biểu mẫu: không thể xóa, sửa hay nộp lại gì cả. Mọi thứ chạy trên thiết bị của bạn với pdf-lib; tệp không bao giờ rời trình duyệt. Nếu PDF không có trường điền được, công cụ sẽ báo thay vì tạo bản sao vô nghĩa.'],
+    steps: ['Thả biểu mẫu PDF đã điền mà bạn sắp nộp.',
+        'Bấm Làm phẳng biểu mẫu — các trường được vẽ lên các trang như nội dung tĩnh.',
+        'Tải PDF đã làm phẳng và nộp hoặc chia sẻ an tâm.'],
+    faqs: [
+        { q: 'Trang có nhìn giống hệt sau khi làm phẳng không?', a: 'Có. Giá trị trường được vẽ tại chỗ, nên kết quả hiển thị khớp với những gì bạn thấy. Khác biệt nằm bên dưới: tệp không còn các đối tượng trường tương tác.' },
+        { q: 'Biểu mẫu có thể chỉnh sửa lại được không?', a: 'Không, và đó chính là mục đích. Làm phẳng là không thể đảo ngược ở tệp kết quả — các giá trị trở thành nội dung trang thường. Giữ tệp gốc tương tác nếu bạn có thể cần chỉnh sửa sau.' },
+    ],
+  },
+  "pdf-crop": {
+    name: 'Cắt PDF',
+    tagline: 'Cắt trang PDF bằng cách kéo một hình chữ nhật trên bản xem trước trực tiếp — lề giảm hoặc viền quét cho mọi trang hoặc danh sách tùy chọn, hoàn toàn trong trình duyệt của bạn.',
+    intro: ['Máy quét thêm viền rộng, slide giữ khung đen, và bài thuyết trình chứa nhiều khoảng trắng hơn màn hình cần. Kéo hình chữ nhật trên trang đầu đã kết xuất, hoặc tinh chỉnh phần trăm trái, trên, rộng, cao bằng ô nhập số, rồi áp dụng cho mọi trang hoặc chỉ những trang bạn liệt kê, như “1-3, 7”.',
+        'Việc cắt được ghi thành crop box của PDF bằng pdf-lib: trình đọc và máy in chỉ hiển thị vùng đã chọn trong khi nội dung gốc vẫn nằm trong tệp — không phá hủy gì và có thể hoàn tác bằng cách đặt lại hộp. Không tải lên, không raster hóa — văn bản vẫn chọn được và chất lượng nguyên vẹn.'],
+    steps: ['Thả tệp PDF và xem bản xem trước của trang 1.',
+        'Kéo hình chữ nhật lên vùng muốn giữ, hoặc nhập phần trăm chính xác bên dưới bản xem trước.',
+        'Chọn tất cả các trang hoặc danh sách tùy chọn, bấm Cắt PDF và tải kết quả về.'],
+    faqs: [
+        { q: 'Việc cắt có phá hủy nội dung không?', a: 'Không. Crop box chỉ thay đổi vùng nào được hiển thị và in; nội dung gốc vẫn nằm trong tệp. Trình đọc nào đặt lại crop box về media box sẽ hiển thị lại trang gốc đầy đủ.' },
+        { q: 'Tại sao bản xem trước chỉ có trang 1?', a: 'Hình chữ nhật được định nghĩa theo phần trăm của trang, nên nó co giãn cho mọi trang đích dù kích thước khác nhau. Trang 1 được kết xuất trực tiếp bằng pdf.js, và bốn ô nhập số cho điều khiển chính xác khi kéo chưa đủ chuẩn.' },
+    ],
+  },
 };

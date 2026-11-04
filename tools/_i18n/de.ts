@@ -5015,6 +5015,45 @@ export const de: Record<string, ToolCopy> = {
         { q: 'HMAC-SHA-256 oder HMAC-SHA-512?', a: 'SHA-256 ist der universelle Standard. SHA-512 bietet mehr Reserve und ist auf 64-Bit-CPUs sogar schneller; nutze ihn, wenn die Spec es erlaubt. SHA-1 nur bei Legacy-Zwang.' },
     ],
   },
+  "unlock-pdf": {
+    name: 'PDF entsperren',
+    tagline: 'Entfernen Sie Besitzerbeschränkungen aus einer lesbaren PDF und laden Sie eine saubere Kopie herunter — Entsperren im Browser, ohne Upload.',
+    intro: ['Manche PDFs öffnen sich normal, verweigern aber Drucken, Kopieren oder Kommentieren wegen Berechtigungs-Flags des Besitzers. Dieses Werkzeug lädt das Dokument mit pdf-lib und speichert eine neue Kopie ohne diese Einschränkungen, sodass Drucken und Textauswahl in jedem Reader wieder funktionieren.',
+        'Alles passiert auf Ihrem Gerät: Die Datei wird lokal gelesen und neu geschrieben, nie an einen Server gesendet. Beachten Sie die ehrliche Grenze — eine PDF, die jedes Mal ein Öffnungspasswort verlangt, kann hier nicht entschlüsselt werden; das Werkzeug fügt auch keine Verschlüsselung hinzu, sondern erzeugt nur eine unbeschränkte Kopie einer Datei, die Sie bereits lesen können.'],
+    steps: ['Legen Sie die eingeschränkte PDF ab, die sich ohne Passwort öffnen lässt.',
+        'Klicken Sie auf Schutz entfernen — die Datei wird lokal ohne Berechtigungs-Flags neu gespeichert.',
+        'Laden Sie die saubere Kopie herunter und drucken, kopieren oder kommentieren Sie nach Bedarf.'],
+    faqs: [
+        { q: 'Kann damit ein Öffnungspasswort entfernt werden?', a: 'Nur wenn Ihr Reader es gespeichert hat und den Inhalt ohne Nachfrage zeigt. Eine Datei, die zum Öffnen wirklich ein Passwort braucht, ist damit verschlüsselt, und dieses Werkzeug versucht weder Knacken noch Entschlüsselung.' },
+        { q: 'Kann ich hier auch eine PDF mit Passwort schützen?', a: 'Nein. Verlässliche AES-Verschlüsselung für PDFs ist in einer leichtgewichtigen, reinen Browser-Implementierung nicht machbar; die Seite bietet daher kein Hinzufügen von Passwörtern — nur das Entfernen von Beschränkungen lesbarer Dateien.' },
+    ],
+  },
+  "flatten-pdf": {
+    name: 'PDF abflachen',
+    tagline: 'Backen Sie PDF-Formularfelder vor dem Absenden als statischen Inhalt in die Seite ein — Kontrollkästchen, Textfelder und Signaturen werden dauerhaft, lokal in Ihrem Browser.',
+    intro: ['Ausgefüllte PDF-Formulare sind interaktiv: Die Werte leben in separaten Feldobjekten, die manche Reader beim Weiterleiten zurücksetzen, verlieren oder umordnen. Abflachen mit pdf-lib zeichnet jedes Feld direkt auf seine Seite, sodass genau das, was Sie ausgefüllt haben, von jedem Reader angezeigt wird — eine Anforderung vieler Bewerbungs-, Steuer- und Ablagesysteme.',
+        'Das verarbeitete Dokument sieht identisch aus, enthält aber keine Formularfelder mehr: Nichts lässt sich leeren, ändern oder erneut absenden. Alles läuft mit pdf-lib auf Ihrem Gerät; die Datei verlässt Ihren Browser nie. Hat die PDF keine ausfüllbaren Felder, sagt das Werkzeug das, statt eine sinnlose Kopie zu erzeugen.'],
+    steps: ['Legen Sie das ausgefüllte PDF-Formular ab, das Sie gleich absenden.',
+        'Klicken Sie auf Formular abflachen — Felder werden als statischer Inhalt auf die Seiten gezeichnet.',
+        'Laden Sie die abgeflachte PDF herunter und senden oder teilen Sie sie bedenkenlos.'],
+    faqs: [
+        { q: 'Sehen die Seiten nach dem Abflachen genauso aus?', a: 'Ja. Die Feldwerte werden an Ort und Stelle gezeichnet, das visuelle Ergebnis entspricht Ihrer Ansicht. Der Unterschied liegt darunter: Die Datei enthält keine interaktiven Feldobjekte mehr.' },
+        { q: 'Lässt sich das Formular danach wieder bearbeiten?', a: 'Nein, und genau das ist der Sinn. Das Abflachen ist im Ergebnis unumkehrbar — die Werte sind normaler Seiteninhalt. Behalten Sie die interaktive Originaldatei, falls Sie später Änderungen brauchen.' },
+    ],
+  },
+  "pdf-crop": {
+    name: 'PDF zuschneiden',
+    tagline: 'Schneiden Sie PDF-Seiten zu, indem Sie ein Rechteck auf der Live-Vorschau aufziehen — Ränder oder Scanränder für alle Seiten oder eine eigene Liste entfernen, komplett im Browser.',
+    intro: ['Scanner fügen breite Ränder hinzu, Folien tragen schwarze Rahmen und Präsentationen haben mehr Weißraum, als der Bildschirm braucht. Ziehen Sie ein Rechteck über die gerenderte erste Seite oder justieren Sie die Prozentwerte für links, oben, Breite und Höhe über Zahlenfelder — und wenden Sie alles auf alle Seiten oder nur Ihre Liste wie „1-3, 7“ an.',
+        'Der Zuschnitt wird mit pdf-lib als Crop-Box in die PDF geschrieben: Reader und Drucker zeigen nur den gewählten Bereich, während der Originalinhalt in der Datei bleibt — nichts wird zerstört, und der Zuschnitt lässt sich durch Zurücksetzen der Box rückgängig machen. Ohne Upload und Rasterung: Text bleibt auswählbar, die Qualität unberührt.'],
+    steps: ['Legen Sie die PDF ab und prüfen Sie die Vorschau von Seite 1.',
+        'Ziehen Sie ein Rechteck über den zu behaltenden Bereich oder geben Sie exakte Prozentwerte unter der Vorschau ein.',
+        'Wählen Sie alle Seiten oder eine eigene Liste, klicken Sie auf PDF zuschneiden und laden Sie das Ergebnis herunter.'],
+    faqs: [
+        { q: 'Ist der Zuschnitt destruktiv?', a: 'Nein. Die Crop-Box ändert nur, welcher Bereich angezeigt und gedruckt wird; der eigentliche Inhalt bleibt in der Datei. Ein Reader, der die Crop-Box auf die Media-Box zurücksetzt, zeigt wieder die vollständige Originalseite.' },
+        { q: 'Warum zeigt die Vorschau nur Seite 1?', a: 'Das Rechteck ist in Seitenprozenten definiert und skaliert daher auf jede Zielseite, selbst bei unterschiedlichen Größen. Seite 1 wird live per pdf.js gerendert, und die vier Zahlenfelder geben exakte Kontrolle, wenn Ziehen zu ungenau ist.' },
+    ],
+  },
 };
 
 export default de;

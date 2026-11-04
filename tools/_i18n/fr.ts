@@ -5015,4 +5015,43 @@ export const fr: Record<string, ToolCopy> = {
         { q: 'HMAC-SHA-256 ou HMAC-SHA-512 ?', a: "SHA-256 est le standard universel. SHA-512 offre plus de marge et est même plus rapide sur CPU 64 bits ; utilisez-le quand la spec le permet. Évitez SHA-1 sauf exigence d'un système ancien." },
     ],
   },
+  "unlock-pdf": {
+    name: 'Déverrouiller PDF',
+    tagline: "Retirez les restrictions de propriétaire d'un PDF lisible et téléchargez une copie propre — déverrouillage dans votre navigateur, sans envoi de fichier.",
+    intro: ["Certains PDF s'ouvrent normalement mais refusent l'impression, la copie ou l'annotation à cause d'indicateurs de permission de propriétaire. Cet outil charge le document avec pdf-lib et enregistre une nouvelle copie sans ces restrictions : l'impression et la sélection de texte fonctionnent à nouveau dans tous les lecteurs.",
+        "Tout se passe sur votre appareil : le fichier est analysé et réécrit localement, jamais envoyé à un serveur. Notez la limite honnête — un PDF qui demande un mot de passe d'ouverture à chaque fois ne peut pas être déchiffré ici, et cet outil n'ajoute pas de chiffrement non plus ; il produit seulement une copie sans restrictions d'un fichier que vous pouvez déjà lire."],
+    steps: ["Déposez le PDF restreint qui s'ouvre sans mot de passe.",
+        'Cliquez sur Retirer la protection — le fichier est réenregistré localement sans les indicateurs de permission.',
+        'Téléchargez la copie propre et imprimez, copiez ou annotez librement.'],
+    faqs: [
+        { q: "Peut-il retirer un mot de passe d'ouverture ?", a: "Seulement si votre lecteur l'a mémorisée et affiche le contenu sans la demander. Un fichier qui exige réellement un mot de passe pour s'ouvrir est chiffré avec lui, et cet outil ne tente ni le craquage ni le déchiffrement." },
+        { q: 'Peut-on aussi protéger un PDF par mot de passe ici ?', a: "Non. Un chiffrement AES fiable pour les PDF n'est pas réalisable avec une implémentation légère uniquement navigateur : le site n'offre donc pas l'ajout de mots de passe — seulement le retrait des restrictions sur des fichiers lisibles." },
+    ],
+  },
+  "flatten-pdf": {
+    name: 'Aplatir un PDF',
+    tagline: "Fixez les champs de formulaire du PDF dans la page comme contenu statique avant l'envoi — cases à cocher, zones de texte et signatures deviennent permanentes, localement dans votre navigateur.",
+    intro: ["Les formulaires PDF remplis sont interactifs : les valeurs vivent dans des objets de champ séparés que certains lecteurs réinitialisent, perdent ou réordonnent au renvoi du fichier. Aplatir avec pdf-lib dessine chaque champ directement sur sa page, donc ce que vous avez rempli est exactement ce que tout lecteur affichera — une exigence de nombreux portails d'emploi, fiscaux et d'archivage.",
+        "Le document traité se voit identiquement mais ne contient plus de champs de formulaire : rien ne peut être vidé, modifié ou renvoyé. Tout s'exécute sur votre appareil avec pdf-lib ; le fichier ne quitte jamais votre navigateur. Si le PDF n'a pas de champs remplissables, l'outil vous le dit au lieu de produire une copie inutile."],
+    steps: ['Déposez le formulaire PDF rempli que vous vous apprêtez à envoyer.',
+        'Cliquez sur Aplatir le formulaire — les champs sont dessinés sur les pages comme contenu statique.',
+        'Téléchargez le PDF aplati puis envoyez-le ou partagez-le sereinement.'],
+    faqs: [
+        { q: "Les pages se voient-elles identiques après l'aplatissement ?", a: "Oui. Les valeurs des champs sont dessinées à leur place, donc le résultat visuel correspond à ce que vous voyez dans votre lecteur. La différence est en dessous : le fichier ne contient plus d'objets de champ interactifs." },
+        { q: 'Le formulaire peut-il être modifié ensuite ?', a: "Non, et c'est le but. L'aplatissement est irréversible dans le résultat — les valeurs deviennent du contenu ordinaire de page. Gardez le fichier interactif original si vous pourriez avoir besoin de le réviser plus tard." },
+    ],
+  },
+  "pdf-crop": {
+    name: 'Recadrer un PDF',
+    tagline: "Recadrez les pages d'un PDF en dessinant un rectangle sur un aperçu en direct — coupez marges ou bordures de scan pour toutes les pages ou une liste précise, entièrement dans votre navigateur.",
+    intro: ["Les scanners ajoutent de larges bordures, les diapositives gardent un cadre noir et les présentations traînent plus de blanc que l'écran n'en veut. Dessinez un rectangle sur la première page rendue, ou affinez les pourcentages de gauche, haut, largeur et hauteur avec des champs numériques, puis appliquez à toutes les pages ou seulement à celles que vous listez, comme « 1-3, 7 ».",
+        "Le recadrage s'écrit comme crop box du PDF avec pdf-lib : lecteurs et imprimantes n'affichent alors que la zone choisie, tandis que le contenu original reste dans le fichier — rien n'est détruit et le cadrage s'annule en réinitialisant la boîte. Sans envoi ni rasterisation : le texte reste sélectionnable et la qualité intacte."],
+    steps: ["Déposez le PDF et regardez l'aperçu de la page 1.",
+        "Dessinez un rectangle sur la zone à garder, ou saisissez des pourcentages exacts sous l'aperçu.",
+        'Choisissez toutes les pages ou une liste personnalisée, cliquez sur Recadrer le PDF et téléchargez le résultat.'],
+    faqs: [
+        { q: 'Le recadrage est-il destructif ?', a: 'Non. La crop box ne change que la zone affichée et imprimée ; le contenu sous-jacent reste dans le fichier. Un lecteur qui ramène la crop box au media box affiche à nouveau la page originale complète.' },
+        { q: "Pourquoi l'aperçu ne montre-t-il que la page 1 ?", a: "Le rectangle est défini en pourcentages de la page, donc il s'adapte à chaque page cible même si les tailles diffèrent. La page 1 est rendue en direct via pdf.js, et les quatre champs numériques offrent un contrôle exact quand le glisser n'est pas assez précis." },
+    ],
+  },
 };

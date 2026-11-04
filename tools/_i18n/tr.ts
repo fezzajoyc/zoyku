@@ -5027,4 +5027,43 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'HMAC-SHA-256 mi HMAC-SHA-512 mi?', a: "SHA-256 evrensel standarttır. SHA-512 daha fazla pay verir ve 64-bit CPU'larda daha da hızlıdır; şartname izin veriyorsa onu seçin. SHA-1'i yalnızca eski sistem zorluyorsa kullanın." },
     ],
   },
+  "unlock-pdf": {
+    name: 'PDF Kilidini Aç',
+    tagline: "Okunabilir bir PDF'ten sahip düzeyindeki kısıtlamaları kaldır ve temiz bir kopya indir — kilit açma tarayıcında, dosya yüklemesi yok.",
+    intro: ["Bazı PDF'ler normal açılır ancak sahip düzeyi izin bayrakları nedeniyle yazdırmayı, kopyalamayı veya not eklemeyi reddeder. Bu araç belgeyi pdf-lib ile yükler ve bu kısıtlamalar olmadan yeni bir kopya kaydeder; böylece yazdırma ve metin seçimi her okuyucuda yeniden çalışır.",
+        'Her şey cihazınızda olur: dosya yerel olarak okunup yeniden yazılır, asla sunucuya gönderilmez. Dürüst sınırı bilin — her açılışta şifre isteyen bir PDF burada çözülemez; bu araç şifreleme eklemez de, yalnızca hâlihazırda okuyabildiğiniz bir dosyanın kısıtsız kopyasını üretir.'],
+    steps: ["Şifresiz açılan kısıtlı PDF'i bırakın.",
+        "Korumayı kaldır'a tıklayın — dosya izin bayrakları olmadan yerel olarak yeniden kaydedilir.",
+        'Temiz kopyayı indirin ve dilediğiniz gibi yazdırın, kopyalayın veya not ekleyin.'],
+    faqs: [
+        { q: 'Açılış şifresini kaldırabilir mi?', a: 'Yalnızca okuyucunuz onu kaydettiyse ve içeriği sormadan gösteriyorsa. Gerçekten açılmak için şifre isteyen bir dosya o şifreyle şifrelenmiştir; bu araç kırmayı ya da çözmeyi denemez.' },
+        { q: "Burada PDF'e şifre de ekleyebilir miyim?", a: "Hayır. PDF'ler için güvenilir AES şifreleme hafif bir yalnız-tarayıcı uygulamasıyla mümkün değildir; site bu yüzden şifre ekleme sunmaz — yalnızca okunabilir dosyalardaki kısıtları kaldırır." },
+    ],
+  },
+  "flatten-pdf": {
+    name: "PDF'i Düzleştir",
+    tagline: 'Göndermeden önce PDF form alanlarını sayfaya statik içerik olarak işleyin — onay kutuları, metin alanları ve imzalar kalıcı olur, hepsi tarayıcınızda.',
+    intro: ['Doldurulmuş PDF formları etkileşimlidir: değerler ayrı alan nesnelerinde yaşar ve bazı okuyucular dosya iletilirken bunları sıfırlar, kaybeder veya yeniden sıralar. pdf-lib ile düzleştirme her alanı doğrudan sayfasına çizer; böylece doldurduklarınız her okuyucunun göstereceği şeyin aynısı olur — pek çok iş, vergi ve arşiv portalı bunu şart koşar.',
+        "İşlenen belge aynı görünür ama artık form alanı içermez: hiçbir değer silinemez, değiştirilemez veya yeniden gönderilemez. Her şey pdf-lib ile cihazınızda çalışır; dosya tarayıcınızdan asla çıkmaz. PDF'te doldurulabilir alan yoksa araç anlamsız bir kopya üretmek yerine bunu bildirir."],
+    steps: ['Göndermek üzere olduğunuz doldurulmuş PDF formunu bırakın.',
+        "Formu düzleştir'e tıklayın — alanlar sayfalara statik içerik olarak çizilir.",
+        "Düzleştirilmiş PDF'i indirin ve gönül rahatlığıyla gönderin ya da paylaşın."],
+    faqs: [
+        { q: 'Düzleştirme sonrası sayfalar aynı görünür mü?', a: 'Evet. Alan değerleri yerinde çizilir; görsel sonuç okuyucuda gördüğünüzle aynıdır. Fark alttadır: dosya artık etkileşimli alan nesneleri içermez.' },
+        { q: 'Form sonradan tekrar düzenlenebilir mi?', a: 'Hayır, zaten amaç bu. Çıktıda düzleştirme geri alınamaz — değerler sıradan sayfa içeriğidir. Sonradan değiştirmeniz gerekebilirse etkileşimli özgün dosyayı saklayın.' },
+    ],
+  },
+  "pdf-crop": {
+    name: 'PDF Kırp',
+    tagline: 'Canlı önizleme üzerine dikdörtgen çizerek PDF sayfalarını kırpın — tüm sayfalarda veya kendi listenizde kenar boşluklarını ya da tarama çerçevelerini kesin, tamamen tarayıcınızda.',
+    intro: ['Tarayıcılar geniş kenarlar ekler, slaytlar siyah çerçeveler taşır ve sunumlar ekranın gerektirdiğinden fazla boşluk barındırır. Oluşturulan birinci sayfa üzerinde bir dikdörtgen sürükleyin veya sol, üst, genişlik ve yükseklik yüzdelerini sayısal alanlarla ince ayar yapın; sonra tüm sayfalara ya da yalnızca “1-3, 7” gibi listelediklerinize uygulayın.',
+        "Kırpma, pdf-lib ile PDF'in crop box'ı olarak yazılır: görüntüleyiciler ve yazıcılar yalnızca seçilen bölgeyi gösterir, özgün içerik dosyada kalır — hiçbir şey yok edilmez ve kutuyu sıfırlayarak kırpma geri alınabilir. Yükleme ve rasterleştirme yok: metin seçilebilir kalır, kalite bozulmaz."],
+    steps: ["PDF'i bırakın ve 1. sayfa önizlemesine bakın.",
+        'Saklamak istediğiniz alanın üzerine dikdörtgen sürükleyin veya önizlemenin altına kesin yüzdeler yazın.',
+        "Tüm sayfaları veya özel bir listeyi seçin, PDF Kırp'a tıklayın ve sonucu indirin."],
+    faqs: [
+        { q: 'Kırpma yıkıcı mı?', a: "Hayır. Crop box yalnızca hangi bölgenin görüntüleneceğini ve yazdırılacağını değiştirir; asıl içerik dosyada kalır. Crop box'ı media box'a döndüren bir görüntüleyici özgün sayfayı yine eksiksiz gösterir." },
+        { q: 'Neden önizlemede yalnızca 1. sayfa var?', a: 'Dikdörtgen sayfa yüzdeleriyle tanımlanır, bu yüzden boyutlar farklı olsa bile her hedef sayfaya ölçeklenir. 1. sayfa pdf.js ile canlı işlenir; sürükleme yeterince hassas olmadığında dört sayısal alan kesin denetim sağlar.' },
+    ],
+  },
 };

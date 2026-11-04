@@ -5027,4 +5027,43 @@ export const id: Record<string, ToolCopy> = {
         { q: 'HMAC-SHA-256 atau HMAC-SHA-512?', a: 'SHA-256 adalah standar universal. SHA-512 memberi margin lebih besar dan justru lebih cepat di CPU 64-bit; pilih jika spesifikasi mengizinkan. Hindari SHA-1 kecuali sistem lama menuntut.' },
     ],
   },
+  "unlock-pdf": {
+    name: 'Buka Kunci PDF',
+    tagline: 'Hapus pembatasan tingkat pemilik dari PDF yang bisa dibaca dan unduh salinan bersihnya — buka kunci di peramban, tanpa unggah berkas.',
+    intro: ['Beberapa PDF terbuka dengan normal tetapi menolak dicetak, disalin, atau diberi anotasi karena flag izin tingkat pemilik. Alat ini memuat dokumen dengan pdf-lib dan menyimpan salinan baru tanpa pembatasan tersebut, sehingga mencetak dan memilih teks kembali berfungsi di semua pembaca.',
+        'Semuanya terjadi di perangkat Anda: berkas dibaca dan ditulis ulang secara lokal, tidak pernah dikirim ke server. Perhatikan batas jujurnya — PDF yang selalu meminta kata sandi untuk dibuka tidak bisa didekripsi di sini, dan alat ini juga tidak menambahkan enkripsi; ia hanya membuat salinan tanpa pembatasan dari berkas yang sudah bisa Anda baca.'],
+    steps: ['Jatuhkan PDF terbatas yang terbuka tanpa kata sandi.',
+        'Klik Hapus perlindungan — berkas disimpan ulang secara lokal tanpa flag izin.',
+        'Unduh salinan bersihnya, lalu cetak, salin, atau beri anotasi sesuai kebutuhan.'],
+    faqs: [
+        { q: 'Apakah bisa menghapus kata sandi pembuka?', a: 'Hanya jika pembaca Anda menyimpannya dan menampilkan isi tanpa menanyakan. Berkas yang benar-benar memerlukan kata sandi untuk dibuka terenkripsi dengannya, dan alat ini tidak mencoba membobol maupun mendekripsi.' },
+        { q: 'Bisakah saya juga melindungi PDF dengan kata sandi di sini?', a: 'Tidak. Enkripsi AES yang andal untuk PDF tidak mungkin dilakukan dengan implementasi ringan hanya-peramban, jadi situs ini tidak menyediakan penambahan kata sandi — hanya penghapusan pembatasan dari berkas yang bisa dibaca.' },
+    ],
+  },
+  "flatten-pdf": {
+    name: 'Achatkan PDF',
+    tagline: 'Bakar bidang formulir PDF ke halaman sebagai konten statis sebelum dikirim — kotak centang, kolom teks, dan tanda tangan menjadi permanen, semuanya di peramban Anda.',
+    intro: ['Formulir PDF yang terisi bersifat interaktif: nilai-nilainya tersimpan di objek bidang terpisah yang bisa direset, hilang, atau diurut ulang oleh sebagian pembaca saat berkas diteruskan. Mengachat dengan pdf-lib menggambar setiap bidang langsung ke halamannya, sehingga isi yang Anda masukkan persis seperti yang ditampilkan pembaca mana pun — syarat umum di banyak portal kerja, pajak, dan pengarsipan.',
+        'Dokumen yang diproses tampak sama tetapi tidak lagi memuat bidang formulir: tidak ada yang bisa dikosongkan, diubah, atau dikirim ulang. Semua berjalan di perangkat Anda dengan pdf-lib; berkas tidak pernah meninggalkan peramban. Jika PDF tidak punya bidang terisi, alat ini memberi tahu alih-alih menghasilkan salinan percuma.'],
+    steps: ['Jatuhkan formulir PDF terisi yang akan Anda kirim.',
+        'Klik Achatkan formulir — bidang digambar ke halaman sebagai konten statis.',
+        'Unduh PDF hasil achatan lalu kirim atau bagikan dengan tenang.'],
+    faqs: [
+        { q: 'Apakah halaman terlihat sama setelah diachat?', a: 'Ya. Nilai bidang digambar di tempatnya, sehingga hasil visualnya sama seperti yang Anda lihat. Perbedaannya di dalam: berkas tidak lagi memuat objek bidang interaktif.' },
+        { q: 'Bisakah formulir diedit lagi setelahnya?', a: 'Tidak, dan memang itulah tujuannya. Pengachatan tidak dapat dibatalkan pada hasilnya — nilai menjadi konten halaman biasa. Simpan berkas interaktif aslinya jika Anda mungkin perlu merevisinya nanti.' },
+    ],
+  },
+  "pdf-crop": {
+    name: 'Potong PDF',
+    tagline: 'Pangkas halaman PDF dengan menyeret persegi panjang di pratinjau langsung — pangkas margin atau tepi hasil pindai untuk semua halaman atau daftar khusus, sepenuhnya di peramban Anda.',
+    intro: ['Pemindai menambahkan tepi lebar, slide membawa bingkai hitam, dan presentasi membawa ruang kosong lebih banyak daripada yang layar perlukan. Seret persegi panjang pada halaman pertama yang dirender, atau haluskan persentase kiri, atas, lebar, dan tinggi dengan input angka, lalu terapkan ke semua halaman atau hanya yang Anda daftarkan, seperti “1-3, 7”.',
+        'Pemangkasan ditulis sebagai crop box PDF dengan pdf-lib: pembaca dan printer hanya menampilkan area terpilih sementara konten asli tetap di dalam berkas — tidak ada yang hancur dan pemangkasan bisa dibatalkan dengan mengatur ulang kotaknya. Tanpa unggah atau rasterisasi: teks tetap bisa dipilih dan kualitas tak tersentuh.'],
+    steps: ['Jatuhkan PDF dan periksa pratinjau halaman 1.',
+        'Seret persegi panjang di area yang ingin dipertahankan, atau ketik persentase persis di bawah pratinjau.',
+        'Pilih semua halaman atau daftar khusus, klik Potong PDF, lalu unduh hasilnya.'],
+    faqs: [
+        { q: 'Apakah pemangkasan bersifat merusak?', a: 'Tidak. Crop box hanya mengubah area mana yang ditampilkan dan dicetak; konten aslinya tetap ada di berkas. Pembaca yang mengembalikan crop box ke media box kembali menampilkan halaman asli secara utuh.' },
+        { q: 'Mengapa pratinjau hanya menampilkan halaman 1?', a: 'Persegi panjang didefinisikan dalam persentase halaman, sehingga diskalakan ke setiap halaman target meski ukurannya berbeda. Halaman 1 dirender langsung dengan pdf.js, dan empat input angka memberi kendali persis ketika menyeret kurang presisi.' },
+    ],
+  },
 };

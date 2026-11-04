@@ -5009,4 +5009,43 @@ export const it: Record<string, ToolCopy> = {
         { q: 'HMAC-SHA-256 o HMAC-SHA-512?', a: 'SHA-256 è lo standard universale. SHA-512 offre più margine ed è persino più veloce su CPU a 64 bit; usalo quando la specifica lo consente. Evita SHA-1 salvo sistemi legacy.' },
     ],
   },
+  "unlock-pdf": {
+    name: 'Sblocca PDF',
+    tagline: 'Rimuovi le restrizioni del proprietario da un PDF leggibile e scarica una copia pulita — sblocco nel browser, senza inviare il file.',
+    intro: ['Alcuni PDF si aprono normalmente ma rifiutano stampa, copia o annotazione a causa dei flag di permesso del proprietario. Questo strumento carica il documento con pdf-lib e salva una nuova copia senza quelle restrizioni: stampa e selezione del testo tornano a funzionare in ogni lettore.',
+        'Tutto avviene sul tuo dispositivo: il file viene analizzato e riscritto localmente, mai inviato a un server. Nota il limite onesto — un PDF che chiede la password di apertura ogni volta non può essere decifrato qui, e questo strumento non aggiunge crittografia; produce solo una copia senza restrizioni di un file che già riesci a leggere.'],
+    steps: ['Trascina il PDF con restrizioni che si apre senza password.',
+        'Clicca su Rimuovi protezione: il file viene risalvato localmente senza i flag di permesso.',
+        'Scarica la copia pulita e stampa, copia o annota a piacere.'],
+    faqs: [
+        { q: 'Può rimuovere una password di apertura?', a: "Solo se il tuo lettore l'ha memorizzata e mostra il contenuto senza chiederla. Un file che richiede davvero una password per aprirsi è cifrato con essa, e questo strumento non tenta forzature né decifratura." },
+        { q: 'Posso anche proteggere un PDF con password qui?', a: "No. Una crittografia AES affidabile per i PDF non è realizzabile con un'implementazione leggera solo browser, quindi il sito non offre l'aggiunta di password — solo la rimozione di restrizioni da file leggibili." },
+    ],
+  },
+  "flatten-pdf": {
+    name: 'Appiattisci PDF',
+    tagline: "Fissa i campi del modulo PDF nella pagina come contenuto statico prima dell'invio — caselle, campi di testo e firme diventano permanenti, tutto nel tuo browser.",
+    intro: ['I moduli PDF compilati sono interattivi: i valori vivono in oggetti campo separati che alcuni lettori azzerano, perdono o riordinano quando il file viene girato ad altri. Appiattire con pdf-lib disegna ogni campo direttamente sulla sua pagina, quindi ciò che hai compilato è esattamente ciò che mostrerà qualsiasi lettore — requisito di molti portali di lavoro, fiscali e di archiviazione.',
+        'Il documento elaborato si vede identico ma non contiene più campi: nulla può essere svuotato, modificato o reinviato. Tutto gira sul tuo dispositivo con pdf-lib; il file non lascia mai il browser. Se il PDF non ha campi compilabili, lo strumento te lo dice invece di produrre una copia inutile.'],
+    steps: ['Trascina il modulo PDF compilato che stai per inviare.',
+        'Clicca su Appiattisci modulo — i campi vengono disegnati sulle pagine come contenuto statico.',
+        'Scarica il PDF appiattito e invialo o condividilo con tranquillità.'],
+    faqs: [
+        { q: "Le pagine si vedono identiche dopo l'appiattimento?", a: 'Sì. I valori dei campi vengono disegnati al loro posto, quindi il risultato visivo corrisponde a ciò che vedi nel lettore. La differenza è sotto: il file non contiene più oggetti campo interattivi.' },
+        { q: 'Il modulo può essere modificato di nuovo dopo?', a: "No, ed è proprio lo scopo. L'appiattimento è irreversibile nell'output — i valori diventano normale contenuto di pagina. Conserva il file interattivo originale se potresti doverlo correggere in seguito." },
+    ],
+  },
+  "pdf-crop": {
+    name: 'Ritaglia PDF',
+    tagline: "Ritaglia le pagine di un PDF trascinando un rettangolo su un'anteprima live — elimina margini o bordi di scansione per tutte le pagine o una lista personalizzata, tutto nel tuo browser.",
+    intro: ['Le scansioni portano bordi larghi, le diapositive hanno cornici nere e le presentazioni contengono più bianco di quanto serva allo schermo. Trascina un rettangolo sulla prima pagina renderizzata, o affina le percentuali di sinistra, alto, larghezza e altezza con i campi numerici, e applica a tutte le pagine o solo a quelle elencate, come “1-3, 7”.',
+        "Il ritaglio viene scritto come crop box del PDF con pdf-lib: lettori e stampanti mostrano solo l'area scelta mentre il contenuto originale resta nel file — nulla viene distrutto e il taglio si annulla reimpostando la box. Senza upload né rasterizzazione: il testo resta selezionabile e la qualità intatta."],
+    steps: ["Trascina il PDF e controlla l'anteprima della pagina 1.",
+        "Disegna un rettangolo sull'area da tenere, o digita percentuali esatte sotto l'anteprima.",
+        'Scegli tutte le pagine o una lista personalizzata, clicca Ritaglia PDF e scarica il risultato.'],
+    faqs: [
+        { q: 'Il ritaglio è distruttivo?', a: 'No. La crop box cambia solo quale area viene mostrata e stampata; il contenuto sottostante resta nel file. Un lettore che riporta la crop box al media box mostra di nuovo la pagina originale intera.' },
+        { q: "Perché l'anteprima mostra solo la pagina 1?", a: 'Il rettangolo è definito in percentuali della pagina, quindi si scala su ogni pagina di destinazione anche se le dimensioni differiscono. La pagina 1 è renderizzata in tempo reale con pdf.js, e i quattro campi numerici danno controllo esatto quando il trascinamento non è abbastanza preciso.' },
+    ],
+  },
 };
