@@ -15,8 +15,11 @@ export default defineTool({
       tagline:
         "Validate JSON instantly with precise error line and column. Catch missing commas, unquoted keys, trailing commas and bad escapes before they break your app.",
       intro: [
-        "Paste any JSON document and see at a glance whether it is valid. The validator is strict: it follows the JSON standard, so common mistakes like single quotes, trailing commas, unquoted keys and comments are all reported.",
-        "When something is wrong you get the exact line and column plus a human-readable reason — not a cryptic one-line message. Valid input is rewarded with a pretty-printed version you can copy straight away.",
+        "Paste any JSON document and see at a glance whether it is valid. The validator is strict: it follows the JSON standard, so common mistakes like single quotes, trailing commas, unquoted keys and comments are all reported. It is the fastest way to check a config file, a webhook payload or a fixiture before wiring it into a test.",
+        "Strictness is defined by RFC 8259: strings must use double quotes, object keys must be strings, no trailing comma may follow the last element, and the whole document must be one JSON value. Anything JavaScript's JSON.parse accepts is valid here — and anything it rejects, this tool rejects with the same rules.",
+        "When something is wrong you get the exact line and column plus a human-readable reason — not a cryptic one-line message like \"Unexpected token\". Valid input is rewarded with a pretty-printed version you can copy straight away, so validation and cleanup happen in one step.",
+        "A linter such as ESLint needs a project, a config and a run step, and it flags style issues this tool deliberately ignores — validity is the only question here. Compared with eyeballing a payload in the browser console, you get precise error locations and work entirely locally: the JSON never leaves your device.",
+
       ],
       steps: [
         "Paste your JSON into the input box.",

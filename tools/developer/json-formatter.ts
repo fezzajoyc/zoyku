@@ -16,8 +16,11 @@ export default defineTool({
       tagline:
         "Format and beautify messy JSON online — 2 spaces, 4 spaces or tabs, with instant validation and precise error locations. 100% in your browser.",
       intro: [
-        "Paste minified or badly indented JSON and get clean, readable output immediately. Choose 2 spaces, 4 spaces or tab indentation, and the result updates live as you type or edit — perfect for inspecting API responses, config files and log payloads.",
-        "Invalid JSON is not a dead end: the formatter pinpoints the exact line and column of the syntax error, so a missing comma or bracket takes seconds to find instead of minutes.",
+        "Paste minified or badly indented JSON and get clean, readable output immediately. Choose 2 spaces, 4 spaces or tab indentation, and the result updates live as you type or edit — perfect for inspecting API responses, config files and log payloads. Frontend developers debugging fetch() payloads, backend engineers reading service logs, and QA staff reviewing captured request bodies all hit this task daily.",
+        "Formatting only changes whitespace, never data: keys, values and key order stay byte-for-byte identical, only line breaks and indentation are added. Numbers are parsed as IEEE-754 doubles like in every JavaScript engine, so integers above 2^53 (for example IDs like 9007199254740993) can display rounded — paste them as strings if exact digits matter.",
+        "Parsing follows the JSON grammar from RFC 8259: the document must be a single object, array, string, number, boolean or null. On success the formatter re-serializes with your chosen indentation; on failure it reports the exact line and column of the syntax error, so a missing comma or bracket takes seconds to find instead of minutes.",
+        "A minifier does the opposite job — stripping all whitespace into one line for transport — and this tool pairs with that workflow: beautify to read, minify to ship. Compared with a plain validator, you also get a copyable, readable version; compared with an editor's built-in formatter, no project setup, plugin or file save is required.",
+
       ],
       steps: [
         "Paste your JSON into the input box.",

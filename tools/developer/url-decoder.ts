@@ -13,8 +13,11 @@ export default defineTool({
       tagline:
         "Decode percent-encoded URLs back into readable text — %20, %2F and query-string values become clear instantly. Handles + as space, fully in your browser.",
       intro: [
-        "Paste an encoded URL, parameter or path segment and read the original text immediately. Two modes match the two encoders: component decoding (decodeURIComponent) for a single value, and full URI decoding (decodeURI) for a complete URL.",
-        "A handy extra toggle treats + as a space, which is what form-encoded query strings (application/x-www-form-urlencoded) actually mean — so search params like hello+world decode to hello world instead of staying literal.",
+        "Paste an encoded URL, parameter or path segment and read the original text immediately. Two modes match the two encoders: component decoding (decodeURIComponent) for a single value, and full URI decoding (decodeURI) for a complete URL. Handy for reading server logs, debugging tracking parameters and unpicking redirect chains.",
+        "Decoding is byte-exact: every %XX escape becomes the corresponding UTF-8 byte, and multi-byte sequences are reassembled into the original characters, so %C3%A9 returns é and %E6%97%A5 returns 日. Invalid or truncated escapes such as %E6% or %ZZ are reported instead of silently corrupting the output.",
+        "A handy extra toggle treats + as a space, which is what form-encoded query strings (application/x-www-form-urlencoded) actually mean — so search params like hello+world decode to hello world instead of staying literal. Turn it off when decoding a path segment, where + is a legitimate literal character.",
+        "Decoding with the wrong mode is a real failure mode: running decodeURI on an encoded parameter leaves %3D and %26 untouched because they look like URL separators, and the value then splits incorrectly. The two explicit modes here remove that guesswork, and everything runs locally — nothing is sent to a server to be analyzed.",
+
       ],
       steps: [
         "Paste the percent-encoded string or URL.",

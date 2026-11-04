@@ -13,8 +13,11 @@ export default defineTool({
       tagline:
         "Encode text to Base64 instantly with full UTF-8 support — emojis, accents and CJK characters survive intact. Free, private, nothing ever leaves your browser.",
       intro: [
-        "Type or paste any text and get its Base64 representation live as you type. Encoding is UTF-8 safe via the standard TextEncoder, so multilingual text, emoji and symbols produce exactly the same bytes every programming language's base64 functions produce.",
-        "Use it for HTTP Basic Auth headers, data URI prefixes, email attachments on the go, or any API that expects Base64 payloads — no terminal or code snippet needed.",
+        "Type or paste any text and get its Base64 representation live as you type. Encoding is UTF-8 safe via the standard TextEncoder, so multilingual text, emoji and symbols produce exactly the same bytes every programming language's base64 functions produce. Typical jobs: HTTP Basic Auth headers, data URI prefixes and API payloads that demand Base64.",
+        "The output follows RFC 4648 exactly: every 3 input bytes become 4 characters from the 64-character alphabet A–Z, a–z, 0–9, + and /, and leftover bytes are padded with = signs — so length is always a multiple of 4 and the result is about 33% larger than the input. Empty input yields empty output, matching every reference implementation.",
+        "Because Base64 operates on bytes, the character encoding matters: this tool always uses UTF-8, which is what btoa replacements, Node's Buffer.from(s, 'utf-8') and Python's base64.b64encode(s.encode()) do — so the result pastes into code without mismatched bytes or a corrupted first character.",
+        "The URL-safe variant defined in the same RFC swaps + and / for - and _; this tool emits the standard alphabet used by Authorization headers and data: URIs, where the URL-safe form would be rejected. Compared with shelling out to echo -n … | base64, there is no trailing-newline trap, no quoting mistakes and no terminal needed.",
+
       ],
       steps: [
         "Paste or type the text you want to encode.",

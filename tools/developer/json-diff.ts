@@ -12,8 +12,11 @@ export default defineTool({
       name: "JSON Diff",
       tagline: "Compare two JSON documents path by path — added, removed and changed keys with before/after values, all locally.",
       intro: [
-        "Paste two JSON documents and see every structural difference: keys added, keys removed, values changed — each reported by its full path like $.user.name.",
-        "Nested objects and arrays are walked recursively, so a change buried three levels deep still shows up with its exact path and both values.",
+        "Paste two JSON documents and see every structural difference: keys added, keys removed, values changed — each reported by its full path like $.user.name. It is built for comparing API responses before and after a deploy, reviewing config changes between environments, and checking that a refactor kept the same payload shape.",
+        "Comparison is deep and deterministic: nested objects and arrays are walked recursively, and a change buried three levels deep still shows up with its exact path plus both old and new values. Object key order is ignored — {\"a\":1,\"b\":2} equals {\"b\":2,\"a\":1} — but array element order is significant, matching how JSON consumers read indexes.",
+        "Each difference is addressed by a dot path in the familiar $.a.b[0].c style, the same notation used by JSONPath queries and the operations in RFC 6902 JSON Patch — so a diff line translates directly into a test assertion or a patch operation without mental mapping.",
+        "Plain text diff tools (diff, git diff) compare characters, so reordering keys or reformatting whitespace floods them with false positives. This tool compares parsed values instead, which is exactly the question a developer asks; unlike a full JSON Patch generator, it needs no schema and reports every changed leaf in one flat list.",
+
       ],
       steps: [
         "Paste the first JSON (the original).",

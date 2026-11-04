@@ -16,8 +16,11 @@ export default defineTool({
       tagline:
         "Compute SHA-1, SHA-256, SHA-384, SHA-512 or MD5 hashes of text or files, right in your browser. Fast checksums for integrity checks — nothing uploaded.",
       intro: [
-        "Hash any text as you type, or drop in a file to fingerprint it without reading it byte by byte. SHA-2 family digests run on the browser's native WebCrypto engine; MD5 uses a vetted JavaScript implementation — all local, all free.",
-        "Typical uses: verifying a download against a published checksum, deduplicating files, generating cache keys, or comparing two versions of a document. Switch algorithms with one click and copy the hex digest instantly.",
+        "Hash any text as you type, or drop in a file to fingerprint it without reading it byte by byte. SHA-2 family digests run on the browser's native WebCrypto engine; MD5 uses a vetted JavaScript implementation — all local, all free. Typical uses: verifying a download against a published checksum, deduplicating files, or comparing two versions of a document.",
+        "Each algorithm has a fixed digest length you can use to sanity-check the output: MD5 is 128 bits (32 hex characters), SHA-1 is 160 bits (40 hex), SHA-256 is 256 bits (64 hex), SHA-384 is 384 bits (96 hex) and SHA-512 is 512 bits (128 hex). The digests are hexadecimal lowercase, matching what sha256sum and openssl dgst print.",
+        "All hashes are one-way: the digest cannot be reversed to recover the input, and identical input always yields an identical digest while a one-character change — even a trailing space — alters roughly half the output bits. Hashing a file computes over raw bytes, so the same file downloaded twice always matches.",
+        "Security status matters when choosing: SHA-256 and SHA-512 are the current standards for checksums and signatures, while MD5 (collisions demonstrated in 2004) and SHA-1 (the 2017 SHAttered collision) are broken against adversaries and fit only legacy checksums. This tool offers both, so you can verify old sums and generate future-proof ones side by side.",
+
       ],
       steps: [
         "Pick the algorithm: SHA-256 by default, or SHA-1/384/512/MD5.",

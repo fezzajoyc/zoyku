@@ -13,8 +13,11 @@ export default defineTool({
       tagline:
         "Generate random UUID v4 identifiers in bulk with one click — 1 to 500 at a time, using your browser's cryptographic randomness. Free, instant, offline-capable.",
       intro: [
-        "Create RFC 4122 version 4 UUIDs in whatever quantity you need: test fixtures, database seeds, file names, request IDs or API keys drafts. Each identifier is produced by crypto.randomUUID, the browser's cryptographically secure random source — 122 random bits, collision odds you will never hit in practice.",
-        "Unlike time-based versions (v1/v6/v7), v4 carries no timestamp and leaks nothing about when or where it was created — the page tells you exactly that, plus when your batch was generated.",
+        "Create version 4 UUIDs in whatever quantity you need: test fixtures, database seeds, file names, request IDs or API key drafts. Each identifier is produced by crypto.randomUUID, the browser's cryptographically secure random source, so batches are unpredictable and safe to use as unguessable resource identifiers.",
+        "A v4 UUID is 122 random bits plus 6 fixed version/variant bits, formatted as the canonical 8-4-4-4-12 hexadecimal layout (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx). The version nibble is always 4 and the top bits of the third group are 8, 9, a or b — quick tells that an identifier is a well-formed v4.",
+        "The format comes from RFC 4122, updated in 2024 by RFC 9562 which added v6/v7/v8 — v4 itself is unchanged. With 2^122 possible values, the collision probability across a full batch is far below anything measurable: you would need to generate tens of billions of UUIDs to have even a one-in-a-billion chance of a duplicate.",
+        "Unlike time-based versions (v1/v6/v7), v4 carries no timestamp or MAC address and leaks nothing about when or where it was created — the page tells you exactly that, plus when your batch was generated. Compared with counting integers or random strings, UUIDs need no central coordinator and can be generated on any device without conflicts.",
+
       ],
       steps: [
         "Set how many UUIDs you need (1–500).",

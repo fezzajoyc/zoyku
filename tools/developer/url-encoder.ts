@@ -13,8 +13,11 @@ export default defineTool({
       tagline:
         "Percent-encode URLs and query strings online — choose component encoding or full URI encoding, with live output for links, parameters and path segments.",
       intro: [
-        "Paste any text or URL and see the percent-encoded result live. Two modes cover the two real-world cases: component encoding (encodeURIComponent) escapes every reserved character for a single parameter value, while full URI encoding (encodeURI) keeps the URL structure — :, /, ? and & — intact.",
-        "Essential when building query strings by hand, embedding URLs inside other URLs, generating mailto links or passing values with spaces, ampersands and non-Latin characters through GET parameters.",
+        "Paste any text or URL and see the percent-encoded result live. Two modes cover the two real-world cases: component encoding (encodeURIComponent) escapes every reserved character for a single parameter value, while full URI encoding (encodeURI) keeps the URL structure — :, /, ? and & — intact. It is the everyday tool for building query strings by hand.",
+        "Encoding follows percent-encoding from RFC 3986: unreserved characters (A–Z, a–z, 0–9, - . _ ~) pass through untouched, and every other byte becomes a %XX escape. Non-ASCII text is first converted to UTF-8, so é becomes %C3%A9 and 日 becomes %E6%97%A5 — the same output as encodeURIComponent in every language.",
+        "The two modes differ concretely: component encoding escapes the 11 reserved characters including =, & and ?, so a value like a=1&b=2 becomes a%3D1%26b%3D2 and cannot break the surrounding query string; URI encoding leaves those separators alone and is meant only for a complete URL you are embedding somewhere else.",
+        "Spaces are the classic trap: strict RFC 3986 encoding yields %20, while HTML form submission (application/x-www-form-urlencoded) historically used +. This tool produces the unambiguous %20 form, which round-trips correctly everywhere; a search-and-replace in an editor can't, because which characters are reserved depends on the URI component.",
+
       ],
       steps: [
         "Paste the text, parameter value or URL to encode.",
