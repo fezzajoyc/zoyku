@@ -42,7 +42,7 @@ export const TRANSFORMS: Record<string, (input: string, opts: Record<string, boo
     }),
 
   // --- Developer 类目追加(sql-format 走引擎内动态 import,不进注册表) ---
-  "json-beautify": (s, o) => jsonBeautify(s, o.tab ? "\t" : o.four ? 4 : 2),
+  "json-beautify": (s, o) => jsonBeautify(s, o.tab ? "\t" : o.four ? 4 : 2, o.sort),
   "json-minify": (s) => jsonMinify(s),
   "json-validate": (s) => jsonValidate(s),
   "xml-format": (s) => xmlFormat(s),

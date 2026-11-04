@@ -21,26 +21,48 @@ type Props = {
   showSize?: boolean;
   /** 校验器模式:结果为 "OK" 显示绿色状态,否则红色错误;合法时顺带展示格式化结果 */
   validator?: "json" | "xml";
+  /** json-beautify 显示 Sort keys A→Z 开关(竞品标配功能) */
+  sort?: boolean;
   sample?: string;
 };
 
 const INDENT_LABELS: Record<string, Record<string, string>> = {
-  "2": { en: "2 spaces", zh: "2 空格", ja: "2 スペース", es: "2 espacios", pt: "2 espaços" },
-  "4": { en: "4 spaces", zh: "4 空格", ja: "4 スペース", es: "4 espacios", pt: "4 espaços" },
-  tab: { en: "Tab", zh: "Tab", ja: "タブ", es: "Tab", pt: "Tab" },
+  "2": { en: "2 spaces", zh: "2 空格", ja: "2 スペース", es: "2 espacios", pt: "2 espaços" , fr: "2 espaces", de: "2 Leerzeichen", ru: "2 пробела", it: "2 spazi", tr: "2 boşluk", ko: "공백 2", ar: "مسافتان", hi: "2 स्पेस", id: "2 spasi", vi: "2 dấu cách" },
+  "4": { en: "4 spaces", zh: "4 空格", ja: "4 スペース", es: "4 espacios", pt: "4 espaços" , fr: "4 espaces", de: "4 Leerzeichen", ru: "4 пробела", it: "4 spazi", tr: "4 boşluk", ko: "공백 4", ar: "4 مسافات", hi: "4 स्पेस", id: "4 spasi", vi: "4 dấu cách" },
+  tab: { en: "Tab", zh: "Tab", ja: "タブ", es: "Tab", pt: "Tab" , fr: "Tabulation", de: "Tab", ru: "Табуляция", it: "Tab", tr: "Sekme", ko: "탭", ar: "علامة جدولة", hi: "टैब", id: "Tab", vi: "Tab" },
 };
 
 const VALID_LABELS: Record<string, Record<string, string>> = {
-  json: { en: "Valid JSON", zh: "JSON 格式有效", ja: "JSON は有効です", es: "JSON válido", pt: "JSON válido" },
-  xml: { en: "Valid XML", zh: "XML 格式有效", ja: "XML は有効です", es: "XML válido", pt: "XML válido" },
+  json: { en: "Valid JSON", zh: "JSON 格式有效", ja: "JSON は有効です", es: "JSON válido", pt: "JSON válido" , fr: "JSON valide", de: "Gültiges JSON", ru: "Корректный JSON", it: "JSON valido", tr: "Geçerli JSON", ko: "유효한 JSON", ar: "JSON صالح", hi: "मान्य JSON", id: "JSON valid", vi: "JSON hợp lệ" },
+  xml: { en: "Valid XML", zh: "XML 格式有效", ja: "XML は有効です", es: "XML válido", pt: "XML válido" , fr: "XML valide", de: "Gültiges XML", ru: "Корректный XML", it: "XML valido", tr: "Geçerli XML", ko: "유효한 XML", ar: "XML صالح", hi: "मान्य XML", id: "XML valid", vi: "XML hợp lệ" },
 };
 
+
+
+const SORT_LABELS: Record<string, string> = {
+  en: "Sort keys A→Z",
+  zh: "键名 A→Z 排序",
+  ja: "キーを A→Z でソート",
+  es: "Ordenar claves A→Z",
+  pt: "Ordenar chaves A→Z",
+  fr: "Trier les clés A→Z",
+  de: "Schlüssel A→Z sortieren",
+  ru: "Сортировать ключи A→Z",
+  it: "Ordina chiavi A→Z",
+  tr: "Anahtarları A→Z sırala",
+  ko: "키 A→Z 정렬",
+  ar: "ترتيب المفاتيح A→Z",
+  hi: "कुंजियाँ A→Z क्रमित करें",
+  id: "Urutkan kunci A→Z",
+  vi: "Sắp xếp khóa A→Z",
+};
 const utf8Bytes = (s: string) => new TextEncoder().encode(s).length;
 
-export function DevCodeEngine({ mode, indent = false, showSize = false, validator, sample }: Props) {
+export function DevCodeEngine({ mode, indent = false, showSize = false, validator, sort = false, sample }: Props) {
   const { locale, t } = useI18n();
   const [input, setInput] = useState("");
   const [indentChoice, setIndentChoice] = useState<"2" | "4" | "tab">("2");
+  const [sortOn, setSortOn] = useState(false);
   const [sqlState, setSqlState] = useState<{ out: string; err: string | null }>({ out: "", err: null });
 
   const isSql = mode === "sql-format";
@@ -74,7 +96,7 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
     const fn = TRANSFORMS[mode];
     if (!fn) return { out: "", err: null, valid: null as boolean | null };
     try {
-      const out = fn(input, { four: indentChoice === "4", tab: indentChoice === "tab" });
+      const out = fn(input, { four: indentChoice === "4", tab: indentChoice === "tab", sort: sortOn });
       if (validator) {
         if (out === "OK") {
           const prettyFn = TRANSFORMS[validator === "json" ? "json-beautify" : "xml-format"];
@@ -93,7 +115,7 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
     } catch (e) {
       return { out: "", err: e instanceof Error ? e.message : String(e), valid: null as boolean | null };
     }
-  }, [input, mode, indentChoice, validator, isSql, sqlState]);
+  }, [input, mode, indentChoice, sortOn, validator, isSql, sqlState]);
 
   const sizeInfo = useMemo(() => {
     if (!showSize || !input || !run.out || run.out === input) return null;
@@ -133,6 +155,21 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
               </button>
             ))}
           </div>
+        )}
+
+        {sort && mode === "json-beautify" && (
+          <button
+            type="button"
+            onClick={() => setSortOn((v) => !v)}
+            aria-pressed={sortOn}
+            className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+              sortOn
+                ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
+                : "hairline hover:bg-[var(--color-surface)]"
+            }`}
+          >
+            {SORT_LABELS[locale] ?? SORT_LABELS.en}
+          </button>
         )}
 
         {run.valid === true && (

@@ -8,6 +8,7 @@ import { describe, it, expect } from "vitest";
 import {
   checkPlatformLimits,
   cleanText,
+  deepSortKeys,
   computeTextInsights,
   countTextStats,
   cssMinify,
@@ -950,5 +951,37 @@ describe("countTextStats 第 2 轮(word-counter R2 竞品实操发现)", () => {
   it("混合文本:13 拉丁 + 12 CJK = 25 词(与 MS Word 口径一致)", () => {
     const t = "The quick brown fox jumps over the lazy dog. 你好世界 测试 文本。Another sentence here! 你好世界 again.";
     expect(countTextStats(t).words).toBe(25);
+  });
+});
+
+describe("deepSortKeys(json-formatter R3 新增)", () => {
+  it("递归排序对象键,数组保持原序", () => {
+    const input = { z: 1, a: { y: 2, b: [ { d: 4, c: 3 }, "x" ] } };
+    const out = deepSortKeys(input) as Record<string, unknown>;
+    expect(Object.keys(out)).toEqual(["a", "z"]);
+    const inner = out.a as Record<string, unknown>;
+    expect(Object.keys(inner)).toEqual(["b", "y"]);
+    expect(Object.keys((inner.b as Record<string, unknown>[])[0])).toEqual(["c", "d"]);
+    expect((inner.b as unknown[])[1]).toBe("x");
+  });
+
+  it("原始类型与 null 原样返回", () => {
+    expect(deepSortKeys(42)).toBe(42);
+    expect(deepSortKeys(null)).toBe(null);
+    expect(deepSortKeys("str")).toBe("str");
+    expect(deepSortKeys([])).toEqual([]);
+  });
+
+  it("jsonBeautify sort=true:键序重排,值不变", () => {
+    const out = jsonBeautify('{"z":1,"a":{"y":2,"b":3}}', 2, true);
+    const parsed = JSON.parse(out);
+    expect(out.indexOf('"a"')).toBeLessThan(out.indexOf('"z"'));
+    expect(Object.keys(parsed)).toEqual(["a", "z"]);
+    expect(parsed.a).toEqual({ b: 3, y: 2 });
+  });
+
+  it("sort=false 时键序保持原样", () => {
+    const out = jsonBeautify('{"z":1,"a":2}', 2, false);
+    expect(out.indexOf('"z"')).toBeLessThan(out.indexOf('"a"'));
   });
 });

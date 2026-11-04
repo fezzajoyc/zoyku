@@ -8,7 +8,7 @@ export default defineTool({
   category: "developer",
   icon: "code",
   featured: true,
-  engine: { component: DevCodeEngine, props: { mode: "json-beautify", indent: true, sample: SAMPLE } },
+  engine: { component: DevCodeEngine, props: { mode: "json-beautify", indent: true, sort: true, sample: SAMPLE } },
   related: ["json-validator", "json-minifier", "json-to-csv", "csv-to-json", "markdown-previewer", "md5-generator", "sha256-generator", "base64-image", "url-encoder", "html-minifier"],
   copy: {
     en: {

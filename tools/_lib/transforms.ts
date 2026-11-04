@@ -347,14 +347,28 @@ function throwJsonError(s: string, err: unknown): never {
   throw err instanceof Error ? err : new Error(String(err));
 }
 
-/** 美化 JSON;非法输入抛出带行列号的 Error。 */
-export function jsonBeautify(s: string, indent: JsonIndent = 2): string {
+/** 递归按键名字典序排序对象键(数组保持原序;由 JSON.parse 产生,无环)。 */
+export function deepSortKeys(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(deepSortKeys);
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+        .map(([k, v]) => [k, deepSortKeys(v)]),
+    );
+  }
+  return value;
+}
+
+/** 美化 JSON;非法输入抛出带行列号的 Error。sort=true 时递归排序对象键。 */
+export function jsonBeautify(s: string, indent: JsonIndent = 2, sort = false): string {
   let value: unknown;
   try {
     value = JSON.parse(s);
   } catch (err) {
     throwJsonError(s, err);
   }
+  if (sort) value = deepSortKeys(value);
   return JSON.stringify(value, null, indent);
 }
 
