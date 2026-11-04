@@ -960,13 +960,15 @@ export function htmlUnescapeEntities(s: string): string {
 }
 
 const CJK_RE = /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g;
+// 全角句读标点:CJK 语境专属,剔 CJK 时一并剔除——否则"文本。"的"。"会单独成词(修前 "文本。 here"=4 词,MS Word 惯例为 3)
+const CJK_PUNCT_RE = /[\u3001\u3002\uff01\uff1f\uff0c\uff1a\uff1b\u2026\u201c\u201d\u2018\u2019\u3010\u3011\u300a\u300b\uff08\uff09\u2014]/g;
 
 export function countTextStats(text: string) {
   // CJK 逐字计 1 词(与 MS Word 一致);拉丁词按空白分词。
   // 分词前先把 CJK 替换成空格:否则同一字符双重计数——纯中文既算一次空白 token
   // 又逐字相加("你好"报 3 词而非 2,500 字中文报 510 而非 500)。
   const cjk = (text.match(CJK_RE) ?? []).length;
-  const words = (text.replace(CJK_RE, " ").match(/[^\s]+/g) ?? []).length + cjk;
+  const words = (text.replace(CJK_RE, " ").replace(CJK_PUNCT_RE, " ").match(/[^\s]+/g) ?? []).length + cjk;
   const characters = [...text].length;
   const charsNoSpaces = [...text.replace(/\s/g, "")].length;
   const sentences = (text.match(/[^.!?。！？…]+[.!?。！？…]+|[^.!?。！？…]+$/g) ?? []).filter(
@@ -985,7 +987,7 @@ export function computeTextInsights(text: string, stats?: ReturnType<typeof coun
   const cjk = s.cjkChars;
   const freq = new Map<string, number>();
   // 拉丁词小写、剔除纯数字进词频(len≥1 都算唯一词;a/I 这类单字符词是正常词汇,top5 榜单再过滤 len≥2)
-  const latinTokens = [...text.replace(CJK_ONLY_RE, " ").toLowerCase().match(/[^\s\d]+/g) ?? []];
+  const latinTokens = [...text.replace(CJK_ONLY_RE, " ").replace(/[\u3001\u3002\uff01\uff1f\uff0c\uff1a\uff1b\u2026\u201c\u201d\u2018\u2019\u3010\u3011\u300a\u300b\uff08\uff09\u2014]/g, " ").toLowerCase().match(/[^\s\d]+/g) ?? []];
   for (const tok of latinTokens) {
     freq.set(tok, (freq.get(tok) ?? 0) + 1);
   }

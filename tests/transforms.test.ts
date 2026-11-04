@@ -936,3 +936,19 @@ describe("checkPlatformLimits(character-counter R3 新增)", () => {
     expect(r.every((p) => p.used === 10)).toBe(true);
   });
 });
+
+describe("countTextStats 第 2 轮(word-counter R2 竞品实操发现)", () => {
+  it("全角句读不单独成词:文本。 here = 3 词(修前 4)", () => {
+    expect(countTextStats("文本。 here").words).toBe(3);
+  });
+  it("全角问号/逗号同理", () => {
+    expect(countTextStats("你好？世界， ok").words).toBe(5); // 你好(2)+世界(2)+ok(1)
+  });
+  it("半角标点 token 维持空白分词惯例(与 wordcounter.net 一致)", () => {
+    expect(countTextStats("!!! ??? word").words).toBe(3);
+  });
+  it("混合文本:13 拉丁 + 12 CJK = 25 词(与 MS Word 口径一致)", () => {
+    const t = "The quick brown fox jumps over the lazy dog. 你好世界 测试 文本。Another sentence here! 你好世界 again.";
+    expect(countTextStats(t).words).toBe(25);
+  });
+});
