@@ -15,7 +15,7 @@ export default defineTool({
         "Generate strong passwords and passphrases in your browser with live entropy estimates — crypto-grade randomness, nothing sent or stored.",
       intro: [
         "Weak and reused passwords cause most account takeovers. This generator creates passwords with your browser's cryptographic random number generator (crypto.getRandomValues) — the same source used for encryption keys — so every character is uniformly random and impossible to predict.",
-        "Strength is measured in entropy, log2(charset^length): 12 characters over a 95-character printable set give about 78.8 bits, and the passphrase mode's 256-word list yields 8 bits per word — five random words beat most 12-character passwords. The readout shows the real number for your settings instead of a vague strong/weak label.",
+        "Strength is measured in entropy, log2(charset^length): 12 characters over the 86-character set give about 77.1 bits, and the passphrase mode's 273-word list yields 8.1 bits per word — five random words beat most 12-character passwords. The readout shows the real number for your settings instead of a vague strong/weak label.",
         "Generation uses the browser's CSPRNG seeded by the operating system, mapped onto your chosen character sets without bias, and the passphrase list is filtered to short, unambiguous words. Everything runs locally: the password is never transmitted, logged or stored.",
         "Password idea websites that generate strings server-side see every password they produce, and composition rules like one digit plus one symbol push people toward Password1!. Drawing the random bytes in the page keeps the secret on your device — then let a password manager remember it, as NIST SP 800-63B recommends.",
       ],
@@ -45,7 +45,7 @@ export default defineTool({
       tagline: "在浏览器中生成高强度随机密码与口令短语,实时显示熵值——加密级随机,不发送、不存储任何数据。",
       intro: [
         "大多数账号被盗都源于弱口令和密码复用。本工具使用浏览器的加密级随机数生成器(crypto.getRandomValues)生成密码——与加密密钥同源,每个字符都均匀随机、无法预测。",
-        "可选经典随机密码,或由 256 词表构成的易记口令短语;自由调节长度与字符集,并实时查看以比特为单位的熵值。全程本地运行:密码不会被传输、记录或存储。",
+        "可选经典随机密码,或由 273 词表构成的易记口令短语;自由调节长度与字符集,并实时查看以比特为单位的熵值。全程本地运行:密码不会被传输、记录或存储。",
       ],
       steps: [
         "选择“随机密码”(随机字符)或“口令短语”(好打的单词组合)。",
@@ -74,7 +74,7 @@ export default defineTool({
         "ブラウザ内で強力なパスワードとパスフレーズを生成。エントロピーをリアルタイム表示し、送信も保存もしません。",
       intro: [
         "アカウント乗っ取りの多くは、弱いパスワードと使い回しが原因です。このツールはブラウザの暗号論的乱数生成器(crypto.getRandomValues)を使い、暗号鍵と同じ品質で文字を生成します。すべての文字が一様にランダムで予測できません。",
-        "定番のランダムパスワードか、256 語リストから作る覚えやすいパスフレーズを選べます。長さと文字種を調整しながら、ビット単位のエントロピーをリアルタイムで確認。処理はすべてローカルで、パスワードは送信・記録・保存されません。",
+        "定番のランダムパスワードか、273 語リストから作る覚えやすいパスフレーズを選べます。長さと文字種を調整しながら、ビット単位のエントロピーをリアルタイムで確認。処理はすべてローカルで、パスワードは送信・記録・保存されません。",
       ],
       steps: [
         "ランダムな文字の「パスワード」か、打ちやすい単語の「パスフレーズ」を選びます。",
@@ -103,7 +103,7 @@ export default defineTool({
         "Genera contraseñas y frases contraseña fuertes en tu navegador con entropía en vivo: aleatoriedad criptográfica, nada se envía ni se guarda.",
       intro: [
         "La mayoría de las cuentas comprometidas lo son por contraseñas débiles o reutilizadas. Este generador usa el generador criptográfico del navegador (crypto.getRandomValues) —la misma fuente que las claves de cifrado—, de modo que cada carácter es uniformemente aleatorio e imposible de predecir.",
-        "Elige una contraseña aleatoria clásica o una frase contraseña memorable creada con una lista de 256 palabras; ajusta la longitud y los juegos de caracteres y observa la entropía en bits. Todo es local: la contraseña nunca se transmite, registra ni almacena.",
+        "Elige una contraseña aleatoria clásica o una frase contraseña memorable creada con una lista de 273 palabras; ajusta la longitud y los juegos de caracteres y observa la entropía en bits. Todo es local: la contraseña nunca se transmite, registra ni almacena.",
       ],
       steps: [
         "Elige Contraseña para caracteres aleatorios o Frase contraseña para palabras fáciles de escribir.",
@@ -132,7 +132,7 @@ export default defineTool({
         "Gere senhas e frases-senha fortes no navegador com entropia em tempo real — aleatoriedade criptográfica, nada é enviado ou armazenado.",
       intro: [
         "A maior parte das contas invadidas tem origem em senhas fracas ou reutilizadas. Este gerador usa o gerador criptográfico do navegador (crypto.getRandomValues) — a mesma fonte das chaves de criptografia —, então cada caractere é uniformemente aleatório e impossível de prever.",
-        "Escolha uma senha aleatória clássica ou uma frase-senha memorável montada com uma lista de 256 palavras, ajuste o comprimento e os conjuntos de caracteres e acompanhe a entropia em bits. Tudo é local: a senha nunca é transmitida, registrada ou armazenada.",
+        "Escolha uma senha aleatória clássica ou uma frase-senha memorável montada com uma lista de 273 palavras, ajuste o comprimento e os conjuntos de caracteres e acompanhe a entropia em bits. Tudo é local: a senha nunca é transmitida, registrada ou armazenada.",
       ],
       steps: [
         "Escolha Senha para caracteres aleatórios ou Frase-senha para palavras fáceis de digitar.",
