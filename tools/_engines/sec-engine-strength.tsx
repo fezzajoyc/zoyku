@@ -276,26 +276,28 @@ const TRANSLATIONS: Partial<Record<Locale, TranslationKeys>> = {
 };
 
 const LABELS: Record<string, Record<string, string>> = {
-  show: { en: "Show", zh: "显示", ja: "表示", es: "Mostrar", pt: "Mostrar" },
-  hide: { en: "Hide", zh: "隐藏", ja: "隠す", es: "Ocultar", pt: "Ocultar" },
+  show: { en: "Show", zh: "显示", ja: "表示", es: "Mostrar", pt: "Mostrar", fr: "Afficher", de: "Anzeigen", ru: "Показать", it: "Mostra", tr: "Göster", ko: "표시", ar: "إظهار", hi: "दिखाएँ", id: "Tampilkan", vi: "Hiện", },
+  hide: { en: "Hide", zh: "隐藏", ja: "隠す", es: "Ocultar", pt: "Ocultar", fr: "Masquer", de: "Verbergen", ru: "Скрыть", it: "Nascondi", tr: "Gizle", ko: "숨기기", ar: "إخفاء", hi: "छिपाएँ", id: "Sembunyikan", vi: "Ẩn", },
   placeholder: {
     en: "Type or paste a password to test…",
     zh: "输入或粘贴要检测的密码…",
     ja: "判定したいパスワードを入力…",
     es: "Escribe o pega una contraseña para analizarla…",
     pt: "Digite ou cole uma senha para analisar…",
+    fr: "Tapez ou collez un mot de passe à tester…", de: "Passwort zum Testen eingeben oder einfügen…", ru: "Введите или вставьте пароль для проверки…", it: "Digita o incolla una password da analizzare…", tr: "Test etmek için şifre yazın veya yapıştırın…", ko: "확인할 비밀번호를 입력하거나 붙여넣으세요…", ar: "اكتب أو الصق كلمة مرور لاختبارها…", hi: "जाँचने के लिए पासवर्ड टाइप या पेस्ट करें…", id: "Ketik atau tempel kata sandi untuk diuji…", vi: "Nhập hoặc dán mật khẩu để kiểm tra…",
   },
-  s0: { en: "Very weak", zh: "非常弱", ja: "非常に弱い", es: "Muy débil", pt: "Muito fraca" },
-  s1: { en: "Weak", zh: "弱", ja: "弱い", es: "Débil", pt: "Fraca" },
-  s2: { en: "Fair", zh: "一般", ja: "まあまあ", es: "Aceptable", pt: "Razoável" },
-  s3: { en: "Strong", zh: "强", ja: "強い", es: "Fuerte", pt: "Forte" },
-  s4: { en: "Very strong", zh: "非常强", ja: "非常に強い", es: "Muy fuerte", pt: "Muito forte" },
+  s0: { en: "Very weak", zh: "非常弱", ja: "非常に弱い", es: "Muy débil", pt: "Muito fraca", fr: "Très faible", de: "Sehr schwach", ru: "Очень слабый", it: "Molto debole", tr: "Çok zayıf", ko: "매우 약함", ar: "ضعيفة جداً", hi: "बहुत कमज़ोर", id: "Sangat lemah", vi: "Rất yếu", },
+  s1: { en: "Weak", zh: "弱", ja: "弱い", es: "Débil", pt: "Fraca", fr: "Faible", de: "Schwach", ru: "Слабый", it: "Debole", tr: "Zayıf", ko: "약함", ar: "ضعيفة", hi: "कमज़ोर", id: "Lemah", vi: "Yếu", },
+  s2: { en: "Fair", zh: "一般", ja: "まあまあ", es: "Aceptable", pt: "Razoável", fr: "Correct", de: "Mittel", ru: "Средний", it: "Accettabile", tr: "Orta", ko: "보통", ar: "مقبولة", hi: "ठीक-ठाक", id: "Cukup", vi: "Trung bình", },
+  s3: { en: "Strong", zh: "强", ja: "強い", es: "Fuerte", pt: "Forte", fr: "Fort", de: "Stark", ru: "Надёжный", it: "Forte", tr: "Güçlü", ko: "강함", ar: "قوية", hi: "मज़बूत", id: "Kuat", vi: "Mạnh", },
+  s4: { en: "Very strong", zh: "非常强", ja: "非常に強い", es: "Muy fuerte", pt: "Muito forte", fr: "Très fort", de: "Sehr stark", ru: "Очень надёжный", it: "Molto forte", tr: "Çok güçlü", ko: "매우 강함", ar: "قوية جداً", hi: "बहुत मज़बूत", id: "Sangat kuat", vi: "Rất mạnh", },
   crackTitle: {
     en: "Time to crack",
     zh: "被破解所需时间",
     ja: "解読にかかる時間",
     es: "Tiempo para descifrarla",
     pt: "Tempo para quebrar",
+    fr: "Temps de fissuration", de: "Knackzeit", ru: "Время взлома", it: "Tempo di crack", tr: "Kırma süresi", ko: "해시에 걸리는 시간", ar: "زمن التكسير", hi: "क्रैक होने का समय", id: "Waktu untuk dibobol", vi: "Thời gian bị bẻ khóa",
   },
   online: {
     en: "Online attack, throttled (100 guesses/hour)",
@@ -303,6 +305,7 @@ const LABELS: Record<string, Record<string, string>> = {
     ja: "オンライン攻撃・制限付き(毎時 100 回)",
     es: "Ataque en línea con límite (100 intentos/hora)",
     pt: "Ataque online limitado (100 tentativas/hora)",
+    fr: "Attaque en ligne limitée (100 essais/heure)", de: "Online-Angriff, gedrosselt (100 Versuche/Stunde)", ru: "Онлайн-атака с ограничением (100 попыток/час)", it: "Attacco online con limiti (100 tentativi/ora)", tr: "Çevrimiçi saldırı, kısıtlı (100 deneme/saat)", ko: "온라인 공격, 제한됨(시간당 100회)", ar: "هجوم عبر الإنترنت مقيّد (100 محاولة/ساعة)", hi: "ऑनलाइन हमला, थ्रॉटल्ड (100 प्रयास/घंटा)", id: "Serangan online dibatasi (100 percobaan/jam)", vi: "Tấn công trực tuyến bị chặn (100 lần/giờ)",
   },
   offlineSlow: {
     en: "Offline attack, slow hash (10,000 guesses/s)",
@@ -310,6 +313,7 @@ const LABELS: Record<string, Record<string, string>> = {
     ja: "オフライン攻撃・低速ハッシュ(毎秒 1 万回)",
     es: "Ataque sin conexión, hash lento (10.000 intentos/s)",
     pt: "Ataque offline, hash lento (10.000 tentativas/s)",
+    fr: "Attaque hors ligne, hachage lent (10 000 essais/s)", de: "Offline-Angriff, langsamer Hash (10.000 Versuche/s)", ru: "Офлайн-атака, медленный хэш (10 000 попыток/с)", it: "Attacco offline, hash lento (10.000 tentativi/s)", tr: "Çevrimdışı saldırı, yavaş hash (10.000 deneme/sn)", ko: "오프라인 공격, 느린 해시(초당 1만 회)", ar: "هجوم دون اتصال، تجزئة بطيئة (10 آلاف محاولة/ث)", hi: "ऑफ़लाइन हमला, धीमा हैश (10,000 प्रयास/सेकंड)", id: "Serangan offline, hash lambat (10.000 percobaan/detik)", vi: "Tấn công ngoại tuyến, băm chậm (10.000 lần/giây)",
   },
   offlineFast: {
     en: "Offline attack, fast hash (10 billion guesses/s)",
@@ -317,15 +321,16 @@ const LABELS: Record<string, Record<string, string>> = {
     ja: "オフライン攻撃・高速ハッシュ(毎秒 100 億回)",
     es: "Ataque sin conexión, hash rápido (10.000 millones/s)",
     pt: "Ataque offline, hash rápido (10 bilhões/s)",
+    fr: "Attaque hors ligne, hachage rapide (10 milliards d'essais/s)", de: "Offline-Angriff, schneller Hash (10 Milliarden Versuche/s)", ru: "Офлайн-атака, быстрый хэш (10 млрд попыток/с)", it: "Attacco offline, hash veloce (10 miliardi di tentativi/s)", tr: "Çevrimdışı saldırı, hızlı hash (10 milyar deneme/sn)", ko: "오프라인 공격, 빠른 해시(초당 100억 회)", ar: "هجوم دون اتصال، تجزئة سريعة (10 مليارات محاولة/ث)", hi: "ऑफ़लाइन हमला, तेज़ हैश (10 अरब प्रयास/सेकंड)", id: "Serangan offline, hash cepat (10 miliar percobaan/detik)", vi: "Tấn công ngoại tuyến, băm nhanh (10 tỷ lần/giây)",
   },
-  tips: { en: "Suggestions", zh: "改进建议", ja: "改善のヒント", es: "Sugerencias", pt: "Sugestões" },
-  warning: { en: "Warning", zh: "注意", ja: "警告", es: "Aviso", pt: "Aviso" },
+  tips: { en: "Suggestions", zh: "改进建议", ja: "改善のヒント", es: "Sugerencias", pt: "Sugestões", fr: "Suggestions", de: "Empfehlungen", ru: "Рекомендации", it: "Suggerimenti", tr: "Öneriler", ko: "개선 제안", ar: "اقتراحات", hi: "सुझाव", id: "Saran", vi: "Gợi ý", },
+  warning: { en: "Warning", zh: "注意", ja: "警告", es: "Aviso", pt: "Aviso", fr: "Avertissement", de: "Warnung", ru: "Предупреждение", it: "Avviso", tr: "Uyarı", ko: "경고", ar: "تحذير", hi: "चेतावनी", id: "Peringatan", vi: "Cảnh báo", },
   localNote: {
     en: "Analyzed locally with the zxcvbn algorithm in your browser — the password is never sent anywhere.",
     zh: "由浏览器内的 zxcvbn 算法本地分析——密码不会被发送到任何地方。",
     ja: "ブラウザ内の zxcvbn アルゴリズムでローカルに判定。パスワードはどこにも送信されません。",
     es: "Analizada en tu navegador con el algoritmo zxcvbn: la contraseña no se envía a ningún sitio.",
-    pt: "Analisada no seu navegador com o algoritmo zxcvbn — a senha nunca é enviada a lugar algum.",
+    pt: "Analisada no seu navegador com o algoritmo zxcvbn — a senha nunca é enviada a lugar algum.", fr: "Analysé localement avec l'algorithme zxcvbn dans votre navigateur — le mot de passe n'est jamais envoyé.", de: "Lokal im Browser mit dem zxcvbn-Algorithmus analysiert — das Passwort wird nie gesendet.", ru: "Анализ локально в браузере алгоритмом zxcvbn — пароль никуда не отправляется.", it: "Analizzato localmente con l'algoritmo zxcvbn nel browser — la password non viene mai inviata.", tr: "Tarayıcınızda zxcvbn algoritmasıyla yerel olarak analiz edilir — şifre asla gönderilmez.", ko: "브라우저 내 zxcvbn 알고리즘으로 로컬 분석 — 비밀번호는 어디로도 전송되지 않습니다.", ar: "يُحلَّل محلياً بخوارزمية zxcvbn في متصفحك — لا تُرسل كلمة المرور إلى أي مكان.", hi: "आपके ब्राउज़र में zxcvbn एल्गोरिद्म से लोकल विश्लेषण — पासवर्ड कहीं नहीं भेजा जाता।", id: "Dianalisis secara lokal dengan algoritma zxcvbn di browser — kata sandi tak pernah dikirim.", vi: "Phân tích cục bộ bằng thuật toán zxcvbn ngay trong trình duyệt — mật khẩu không bao giờ được gửi đi.",
   },
 };
 
