@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Exchange rates are fetched once from the free, keyless open.er-api.com service and cached on your device for an hour, so repeat conversions are instant and work offline. The arithmetic that turns your amount into another currency happens locally in your browser.",
         "Type an amount, pick two currencies from the searchable list of 160+, and read the result plus the live rate line. Amounts you enter are never transmitted anywhere — only the anonymous rate table is downloaded.",
+        "Rates come from the open.er-api.com endpoint, which publishes reference mid-market rates refreshed regularly; the one-hour device cache matches typical volatility needs. Cross rates such as JPY to GBP are computed by dividing through the USD-based table, the same triangle most services use.",
+        "Because the table is a mid-market reference rather than a bank quote, the number you see is the fair rate — cards and exchange desks typically add 1–3% on top, so budget accordingly. The advantage over search-engine converters is the searchable list of 160+ currencies, the offline cache, and the fact that no amount you type ever leaves your device.",
       ],
       steps: [
         "Enter the amount you want to convert.",

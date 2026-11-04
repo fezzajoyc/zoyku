@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Drop in a screenshot or photo of a QR code and the decoder reads it right on the page, highlighting the detected corners over the image. If it is a URL you get a copy button plus a one-click open link; any other content — WiFi credentials, vCards, plain text — comes out exactly as encoded, ready to copy.",
         "Prefer pointing your camera at the code? The live mode streams to a local video element and analyzes frames in memory until one decodes, then stops the camera immediately. Because both paths run entirely in your browser, the image or camera feed is never uploaded to any server, and nothing is recorded.",
+        "Decoding uses the jsQR library on the pixels of your image or camera frames, detecting the three finder patterns that anchor every QR symbol before reading the data grid. Camera mode stops the stream the moment one frame decodes, so the sensor is not left running in the background.",
+        "Compared with pointing your phone camera and trusting its preview, this shows the decoded content as text first — the safe way to inspect a code from a poster or package before visiting the link it encodes. Nothing is uploaded; decoding happens in your browser's memory. Damaged, low-contrast or glare-covered codes may fail — a sharper photo usually fixes it.",
       ],
       steps: [
         "Choose the 'From an image' tab and drop in a picture of the QR code, or switch to 'Live camera'.",

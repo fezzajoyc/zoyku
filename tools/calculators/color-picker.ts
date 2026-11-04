@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Click the swatch to compose a color visually, or — in Chromium browsers — use Pick from screen to sample any pixel already on your display. The chosen value appears simultaneously as hex, rgb() and hsl(), each with its own copy button.",
         "Sampling uses the browser's built-in EyeDropper API and reads the pixel locally; nothing is recorded, uploaded or stored. On browsers without the API, the swatch input keeps everything working.",
+        "The EyeDropper API, available in Chromium browsers since 2022, opens the same magnifier UI the OS color dialog uses and returns the sampled pixel as a hex string, which is then converted to rgb() and hsl() locally with the same sRGB math used across the site.",
+        "The advantage over screenshotting and inspecting pixels manually is speed: sample a brand color from a logo, a competitor page or a photo and it is already on your clipboard in three formats. The API reads anything visible on your display, not just this tab. Colors outside the sRGB gamut are clipped to the nearest representable value.",
       ],
       steps: [
         "Click the color swatch and choose a color, or use Pick from screen where available.",

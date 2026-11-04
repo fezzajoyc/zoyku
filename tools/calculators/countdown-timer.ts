@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "A clean countdown for cooking, workouts, meetings and study sessions. The ring shows progress at a glance, and a short synthesized chime plays when time is up.",
         "The deadline is anchored to the system clock, so the countdown keeps running correctly even if you switch to another tab.",
+        "The remaining time is derived from wall-clock timestamps rather than a decrementing counter, so a throttled background tab or a sleeping display cannot make it drift — the ring is always exactly right relative to the deadline. The chime is synthesized with the Web Audio API, so no audio file needs to load.",
+        "Compared with a phone's clock app, the large ring and minutes-remaining readout are designed to be readable from across a kitchen or a meeting room, and nothing is shared or stored. Browsers require a user gesture before audio can play — press Start on the page once so the sound is permitted when time runs out.",
       ],
       steps: [
         "Set hours, minutes and seconds — or tap a quick preset.",

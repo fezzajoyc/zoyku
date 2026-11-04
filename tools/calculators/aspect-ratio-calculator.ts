@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter a ratio — tap a preset (1:1, 4:3, 3:2, 16:9, 16:10, 21:9) or type custom numbers — then give it a known width or height. The missing dimension appears immediately, together with the pair formatted as W×H and the decimal ratio.",
         "The classic resize without distortion: video crops, responsive image containers, sensor and film formats, print scaling and CSS object-fit decisions all live here, computed locally as you type.",
+        "The math is integer ratio reduction: width and height are divided by their greatest common divisor, so 1920 × 1080 reduces to 16:9 exactly, with the decimal ratio (1.7778) shown alongside for CSS work. The missing dimension is the known side multiplied by the ratio, kept exact rather than rounded mid-calculation.",
+        "Generic photo editors resize by dragging until it looks right; here the ratio is locked arithmetically, so a 16:9 video frame, a 3:2 print and a 21:9 ultrawide crop come out exact on the first try. Everything computes locally as you type, which turns compare-and-decide questions — does 4:3 or 16:10 fit my slide? — into a two-second answer.",
       ],
       steps: [
         "Pick a ratio preset or type your own width:height values.",

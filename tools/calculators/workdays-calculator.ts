@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Contract deadlines, lead times, and SLA clocks usually run on business days, not calendar days. Count the working days between two dates (both endpoints included: Monday to Friday is 5), or walk N workdays forward or backward from a base date and see the exact landing date with its weekday.",
         "Paste your own holiday list — one YYYY-MM-DD per line — to exclude company closures and public holidays, and switch the weekend definition if your week rests on Friday and Saturday instead of Saturday and Sunday. All date math runs on UTC day numbers, so daylight-saving transitions never shift a result by a day.",
+        "The count walks the actual calendar, includes both endpoints, and skips the weekend definition you choose (Sat–Sun or Fri–Sat); holiday lines are matched exactly by date, so a holiday falling on a weekend removes nothing extra. All arithmetic runs on UTC day numbers, so DST transitions cannot shift a result by a day.",
+        "Compared with counting on a calendar, paste-once holiday lists make the tool reusable for a whole company year, and the forward/backward mode answers deadline questions — what date is 10 business days after March 14? — with the landing weekday shown. Legal notice periods may count calendar days instead; check which convention your contract uses.",
       ],
       steps: [
         "Choose Business days between, or Add / subtract workdays.",

@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "A keypad plus a typeable expression line: sin, cos, tan (DEG/RAD), log₁₀, ln, square root, squares, arbitrary powers, parentheses, π and e. The result preview updates as you type, and = folds it back into the expression for chained calculations.",
         "Expressions are parsed by a hand-written recursive-descent evaluator built for this site — JavaScript's eval and Function constructor are never used, and nothing is sent anywhere. Implicit multiplication (2π, 3(4+1)) works out of the box.",
+        "The evaluator is a hand-written recursive-descent parser with proper operator precedence, right-associative powers and implicit multiplication (2π, 3(4+1)) — JavaScript's eval and Function constructor are never called, so an expression cannot execute arbitrary code. Trig functions honor the DEG/RAD toggle.",
+        "Compared with shipping a formula to a server, everything evaluates in your browser instantly and works offline, and the expression line stays editable so mistakes are fixed, not retyped. Chain results with = and continue on the same line. Expect ordinary floating-point artifacts — 0.1 + 0.2 shows as 0.30000000000000004, which is IEEE 754 behavior, not a bug.",
       ],
       steps: [
         "Tap the keypad or type an expression with your keyboard.",

@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Waking up mid-cycle is what makes mornings feel awful, not the total hours slept. This tool plans sleep in whole 90-minute cycles: tell it when you need to wake up and it lists the bedtimes that land an alarm exactly at a cycle boundary — six cycles (9 hours) down to three (4.5 hours), each including about 15 minutes to drift off.",
         "Going to bed right now? The reverse mode adds cycles forward instead: fall asleep at 23:30 and your natural wake points are 01:15, 02:45, 04:15, 05:45, 07:15 and 08:45 — pick the earliest one that still gives you enough rest.",
+        "The schedule assumes sleep cycles of roughly 90 minutes — the time to pass through light sleep, deep sleep and REM — and adds about 15 minutes to fall asleep, so a 6:30 wake target lists bedtimes at 6, 5, 4 and 3 complete cycles. Cycle length varies between roughly 80 and 110 minutes between individuals.",
+        "Compared with counting total hours alone, landing the alarm at a cycle boundary means waking from lighter sleep, which is what makes mornings feel less brutal. The 90-minute figure is a population average, not a law of biology — nudge your bedtime by 15 minutes across a week to find your own rhythm. Persistent sleep problems deserve a professional, not a calculator.",
       ],
       steps: [
         "Choose Wake-up time → bedtime, or Sleep now → wake times.",

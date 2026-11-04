@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Works in both directions for any country's rate: type 20 for the UK, 21 for the Netherlands, 19 for Germany — or any rate at all. Add tax to a net figure, or back out the VAT hiding inside a gross (tax-inclusive) price.",
         "Everything is computed locally in your browser — no uploads, no accounts — which makes it safe for pricing drafts and unpublished invoices.",
+        "Adding VAT multiplies the net amount by (1 + rate); removing it divides the gross by the same factor, so the VAT inside a 120 gross price at 20% is 20, not 24 — a distinction this tool makes explicit. Any decimal rate works, covering reduced rates such as Germany's 7% or Switzerland's 2.6%.",
+        "Compared with tax tools locked to one country, the free rate input matches how EU and UK businesses actually quote: a VAT-inclusive price to consumers and a net figure plus VAT on invoices. Reverse-charge treatment, import VAT and registration thresholds are separate regimes — confirm treatment with an accountant before filing; this is an arithmetic aid, not tax advice.",
       ],
       steps: [
         "Type the amount — net if adding VAT, gross if removing it.",

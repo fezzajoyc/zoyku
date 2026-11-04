@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Two everyday date problems in one place: measure the gap between two dates (calendar-accurate y/m/d, total days, weeks and leftover days), or walk N days forward or backward from a base date and get the resulting date with its weekday.",
         "Because the arithmetic is true calendar math — not an average month — a leap-day birthday, a 31-day month or a February span all come out exactly right, with no server involved.",
+        "Both modes run on true calendar arithmetic in UTC: the gap mode counts year, month and day boundaries the way civil calendars define them, while the add/subtract mode walks whole days, so daylight-saving shifts never move a result. Leap years follow the Gregorian rule — divisible by 4, except centuries not divisible by 400 — so 2000 was one and 1900 was not.",
+        "Compared with counting on a wall calendar, the tool gives the y/m/d breakdown, total days and the resulting weekday together, which is what deadline clauses and anniversary plans actually need. Different jurisdictions count periods differently — some count complete months first — so for contract language, state the exact dates rather than trusting either convention.",
       ],
       steps: [
         "Choose Difference between dates, or Add / subtract days.",

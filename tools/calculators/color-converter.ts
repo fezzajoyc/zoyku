@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Feed it #0071e3, rgb(0, 113, 227) or hsl(211, 100%, 45%) — the parser detects the format automatically and outputs hex, RGB and HSL at once, each with a one-click copy.",
         "Below the values, a tint-and-shade row mixes your color with white and black at 20/40/60/80% steps: instant hover states, borders and dark-mode variants without opening a design tool.",
+        "Conversions follow the standard sRGB math: hex is the RGB triplet in base 16, and HSL is derived with hue in degrees 0–360 and saturation and lightness as percentages. Values are rounded for display but kept full-precision internally, so hex → HSL → hex round-trips without drifting a shade.",
+        "Compared with pasting values into a design app, the tint-and-shade row plus one-click copy across all three formats covers most front-end needs — hover states, borders, dark-mode pairs — in one glance. Note the colors are sRGB only: wide-gamut spaces such as Display-P3 fall outside this model, so printed or HDR output may look different.",
       ],
       steps: [
         "Paste a color in any of the three formats — hex, rgb() or hsl().",

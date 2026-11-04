@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter what an item cost you and what you sell it for, and get the absolute profit (or loss) plus the two ratios every seller needs: margin — profit as a share of the selling price — and markup — profit as a share of the cost.",
         "Because the two ratios use different denominators, a 25% margin is a 33.3% markup; the tool shows both together so invoices, quotes and pricing sheets stay consistent.",
+        "The formulas are plain arithmetic — profit = revenue − cost, margin = profit ÷ revenue × 100, markup = profit ÷ cost × 100 — but the two ratios convert into each other non-obviously: a 25% margin equals a 33.3% markup, and a 50% markup is only a 33.3% margin.",
+        "Mixing up margin and markup is one of the most common small-business pricing errors: pricing by a markup target while quoting margins to investors quietly overstates profitability. This tool shows both together with the absolute amount, so quotes, invoices and margin targets stay consistent. Payment fees, taxes and returns are not modeled — subtract them from revenue first.",
       ],
       steps: [
         "Type the cost price — what you paid.",

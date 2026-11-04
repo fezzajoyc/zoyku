@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "This calculator starts from the standard maintenance-fluid heuristic used in clinical practice: 35 ml of water per kilogram of body weight each day, before any activity. It then adds about 350 ml for every 30 minutes of exercise to cover sweat losses, and shows the baseline and the exercise bonus separately so you can see where the total comes from.",
         "Enter your weight in kilograms or pounds and your exercise minutes per day. In hot weather, or when you sweat heavily, drink more than the calculated total; food and other drinks supply water too. The result is a general hydration estimate, not medical advice.",
+        "The baseline follows the 35 ml/kg maintenance heuristic widely taught in clinical fluid management, and the exercise add-on of roughly 350 ml per 30 minutes reflects typical sweat rates of 0.5–1 liter per hour of moderate activity. Hot weather can push losses past a liter per hour, so treat the total as a floor, not a ceiling.",
+        "Compared with the flattened eight-glasses rule, this scales with your body weight and training load and shows the two components separately. Roughly 20–30% of fluid normally comes from food, so thirst and pale-yellow urine remain the best real-time signals. Kidney or heart conditions may require fluid restriction — follow your clinician's numbers over any calculator.",
       ],
       steps: [
         "Choose metric (kg) or imperial (lb) units.",

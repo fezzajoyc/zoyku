@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Type a number into any of the four fields — decimal, hex, octal or binary — and the other three update instantly. Hex values group every two digits and binary every four, so long bit patterns stay readable.",
         "Conversion uses BigInt arithmetic, which means there is no 32-bit or 64-bit ceiling: paste a 40-digit decimal or a full 256-bit hex string and every representation stays exact.",
+        "Each field maps through the standard positional bases — 2, 8, 10 and 16 — with BigInt carrying the value, so the 64-bit unsigned maximum 18,446,744,073,709,551,615 or larger converts without the floating-point drift JavaScript numbers suffer past 2^53. Hex groups by 2 digits and binary by 4 because one hex digit is exactly four bits.",
+        "Compared with console or calculator conversions, all four representations stay on screen at once and update as you type, which is what makes bit masks, flag values and protocol headers easy to eyeball. Values here are unsigned — two's-complement and signed interpretations are out of scope, so keep that in mind when porting values from C or assembly.",
       ],
       steps: [
         "Type or paste a value into any field — decimal, hex, octal or binary.",

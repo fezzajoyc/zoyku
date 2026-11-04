@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "The US Navy circumference method estimates body fat from a tape measure alone. For men: %BF = 495 / (1.0324 − 0.19077·log10(waist − neck) + 0.15456·log10(height)) − 450, all in centimeters. Women add the hip to the girth term — log10(waist + hip − neck) — and use the female coefficients of the same 1984 paper by Hodgdon and Beckett.",
         "Measure the neck below the larynx with the tape sloping slightly down at the front, the waist at the navel for men or the narrowest point for women, and the hip at its fullest part. Keep the tape snug but not compressing the skin. The result is an estimate with a typical error of ±3–4% against lab methods, not a diagnosis.",
+        "The formula comes from Hodgdon and Beckett's 1984 research for the US Navy, validated against underwater weighing. The tool also reports the fat mass and lean mass behind the percentage and places your result in the standard category bands for your sex — essential fat, athletes, fitness, average and obese.",
+        "Compared with BMI, which cannot tell muscle from fat, the circumference method responds to where you carry tissue, so a muscular waist-and-neck profile scores noticeably better. Typical error is ±3–4% against DXA scans; track the trend rather than the decimal. For medical or insurance purposes, a clinical measurement remains the reference.",
       ],
       steps: [
         "Choose your sex and metric or imperial units.",

@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Paste a link, a Wi-Fi password, a phone number or any text and watch the QR code render live at up to 768 px. Choose an error-correction level from L (7%) to H (30%) so the code still scans when printed small or partially covered, and pick code and background colors to match your brand.",
         "Encoding runs entirely in your browser with the qrcode library — the image is generated on your device and never uploaded. Download a PNG for screens or a resolution-independent SVG for print.",
+        "Error correction follows the QR standard's four levels — L (7%), M (15%), Q (25%) and H (30%) — where the percentage is the share of codewords recoverable from damage. Higher levels trade density for resilience: H suits stickers and apparel, while M or L keeps a URL scannable at small print sizes.",
+        "Compared with pasting a screenshot of someone else's QR tool, output here is a clean vector SVG that prints at any size, plus a sized PNG for screens, generated entirely on your device. Dark-on-light coloring with an adequate quiet zone scans most reliably; always test a printed code with two different phones before a production run.",
       ],
       steps: [
         "Type or paste the text or URL to encode.",

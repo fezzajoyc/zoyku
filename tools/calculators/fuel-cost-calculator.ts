@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Plan any drive before you leave: enter the distance, your car's consumption (L/100 km or MPG) and the current fuel price, and see the liters or gallons required, the total cost and the cost per unit of distance — plus a round-trip toggle that doubles the distance for you.",
         "It works equally well for commuting budgets, splitting a road trip between friends, or comparing a detour's price. The math is local to your browser, so it also works with no signal at the gas station.",
+        "Metric mode divides distance by consumption (L/100 km → liters = km × rate ÷ 100); imperial mode converts MPG to gallons needed directly. Cost per kilometer or per mile is shown alongside the total, which is the number that makes comparing routes or cars meaningful rather than eyeballing tank sizes.",
+        "Unlike mapping-app estimates, this one takes your car's real consumption and your local pump price, so the figure matches receipts rather than fleet averages. A round-trip toggle, per-unit cost and total cost all appear at once. Consumption itself varies with load, speed and air conditioning, so treat the total as a good central estimate, not an exact bill.",
       ],
       steps: [
         "Enter the one-way distance in kilometers or miles.",

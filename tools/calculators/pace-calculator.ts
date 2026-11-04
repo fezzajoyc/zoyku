@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter any distance — 5K, 10K, half marathon, marathon or a custom one in kilometers or miles — plus your finish time, and see your pace per kilometer, pace per mile, and speed in km/h and mph at once. A half-marathon in 2:00 shows as 5:41/km, 9:10/mile and 10.6 km/h without any mental math.",
         "The race predictor applies Peter Riegel's endurance formula T₂ = T₁ × (D₂/D₁)^1.06: give it one honest race result and it projects your expected finish for every standard distance, from the 5K to the marathon.",
+        "Pace is time divided by distance, shown per kilometer and per mile with the conversions computed exactly — a 45:00 10K is 4:30/km and 7:14/mile — plus speed in km/h and mph. The Riegel exponent of 1.06 comes from his 1977 Runner's World analysis of hundreds of recorded race results.",
+        "Compared with watch-app splits, this one answers the planning questions in one place: what pace does a sub-2:00 half marathon need, and what does that imply for a marathon? Riegel projections assume you trained specifically for the target distance — a fast 5K alone will not predict an honest marathon. GPS drift and treadmill inaccuracy make real races the ground truth.",
       ],
       steps: [
         "Pick a race distance preset, or choose Custom and enter any distance in km or miles.",

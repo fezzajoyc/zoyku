@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Enter your monthly income (gross or take-home), pick a rent-to-income ratio — the classic 30% of gross, a looser 33%, or 40% of net for high-cost cities — and the calculator draws your rent ceiling. Other monthly debt payments and renter insurance are then subtracted so the number you see is actually liveable.",
         "You also get the debt-to-income percentage you would carry at that maximum rent, which is what lenders look at before approving you for a lease or mortgage. The budget line turns negative honestly when rent plus debts exceed your income — a signal to hunt for cheaper rent rather than stretch.",
+        "The three ratio presets follow common guidance: 30% of gross income is the classic US benchmark dating to the 1980s Brooke Amendment, 33% offers slightly more flexibility, and 40% of take-home mirrors what high-cost-city renters actually do. The DTI shown — housing plus debts over income — is the same measure mortgage lenders typically cap near 43%.",
+        "Compared with a bare rent cap, subtracting debts and insurance first yields a budget you can actually live on, and the negative-budget warning fires honestly when the inputs cannot work. Landlords also screen on income multiples — often 2.5–3× monthly rent — and credit history; these numbers are planning estimates, not pre-approval.",
       ],
       steps: [
         "Enter your monthly income and whether it is gross or take-home.",

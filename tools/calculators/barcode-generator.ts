@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Type a value, pick a symbology and get a retail-ready barcode with an optional human-readable line underneath. CODE128 handles any letters, digits and symbols for inventory labels; EAN-13 and UPC-A validate and auto-complete the check digit for product packaging.",
         "Rendering uses the JsBarcode library inside your browser and outputs a scalable SVG, so the same file prints crisply on a 12 mm label or an A4 sheet. Nothing is uploaded and no codes are stored.",
+        "CODE128 encodes the full ASCII set and auto-selects its A/B/C subsets to pack digits tightly; EAN-13 and UPC-A are fixed-length numeric symbologies whose final digit is a modulo-10 check character computed from a weighted sum of the others — the generator computes and renders it for you instead of rejecting incomplete input.",
+        "Compared with screenshotting a barcode from other software, the SVG output scales to any print size without jagged edges, and the human-readable line toggles to match your label stock. Quiet zones — the blank margins scanners require — are preserved in the output. Always test-scan a new label format with your actual scanner before committing to a print run.",
       ],
       steps: [
         "Enter the barcode value — letters/digits for CODE128, 12 digits for EAN-13, 11 for UPC-A.",

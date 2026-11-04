@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Enter an hourly rate — or an annual salary that the calculator converts into one using your regular weekly hours — then add the overtime hours you expect to work. The results separate regular pay from the overtime premium: time and a half by default, double time if your contract or local rules pay it.",
         "Everything updates live: the boosted overtime rate, the week's regular and overtime pay, the combined weekly total, and the annualized figure once you multiply by the weeks per year you actually work. It mirrors how the US Fair Labor Standards Act (FLSA) computes overtime for non-exempt employees.",
+        "Under the FLSA, non-exempt employees earn at least 1.5× their regular rate for hours past 40 in a workweek; the regular rate must include most nondiscretionary bonuses, and state laws such as California's add daily overtime past 8 hours and double time past 12. The calculator applies the multiplier you choose to the hours you enter.",
+        "Compared with a payslip's opaque totals, the split between regular and overtime pay shows exactly what the premium is worth — and what a denied hour of overtime costs you. Whether a role is exempt depends on duties and salary level, not job title. If your paychecks disagree with this math, raise it with your employer or your state labor department.",
       ],
       steps: [
         "Enter your hourly rate, or switch to salary mode and type your annual pay.",

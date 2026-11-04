@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "A cup of flour is not a cup of honey: converting volume to weight needs the ingredient's density, not a single magic factor. Pick any of 24 common ingredients — flour 120 g/cup, sugar 200, butter 227, honey 340, cocoa 100, rolled oats 90 — and convert in both directions between cups, tablespoons, teaspoons, fluid ounces, milliliters and liters on one side, and grams, kilograms, ounces and pounds on the other.",
         "Volume-to-volume (2 cups = 480 ml) and weight-to-weight (1 lb = 453.6 g) conversions work without picking an ingredient, and a two-way oven table translates the standard °F settings to °C — 350 °F is 175 °C — so foreign recipes stop being guesswork.",
+        "Ingredient weights follow widely published reference densities — flour 120 g/cup (spooned and leveled, the standard test-kitchen method), granulated sugar 200, butter 227 per cup, honey 340 — and the oven table converts with the standard formula °C = (°F − 32) × 5⁄9, matching the familiar 350 °F = 175 °C benchmark.",
+        "Volume-only converters give one answer for a cup of anything; this one is honest about density, which is why serious baking weighs flour in grams. For best results spoon-and-level rather than scoop directly, since a dipped cup of flour can weigh up to 30% more. When precision matters — bread, pastry, macarons — prefer the gram column over volume entirely.",
       ],
       steps: [
         "Pick the ingredient from the list (skip this for volume-to-volume or weight-to-weight).",

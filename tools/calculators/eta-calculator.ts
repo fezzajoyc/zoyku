@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter the total workload (any unit: tickets, pages, kilometers, rows), a completion rate, and optionally your daily working hours. The calculator returns the estimated finish time, the countdown from now, and the duration in a readable form like \"3 days 4 hours\".",
         "Rates per day and per week respect your working-hours setting, so an 8-hour workday stretches a 40-hour job over five calendar days instead of pretending you work around the clock.",
+        "The projection divides remaining work by your effective rate: at N units per day with H working hours, the finish date lands on a working-hours-aware timeline, and the countdown converts the remainder into a plain-language duration. Weekends and holidays are not skipped automatically — the model assumes you work every day unless the rate you enter already accounts for them.",
+        "Compared with a spreadsheet, the three outputs — finish timestamp, countdown, readable duration — update live as the rate changes, which makes it easy to see what doubling throughput actually buys you. Rates are estimates: scope creep and interruptions are the usual reasons real ETAs slip, so re-check the numbers as the work progresses.",
       ],
       steps: [
         "Enter the total workload and its unit of measure — any positive number works.",

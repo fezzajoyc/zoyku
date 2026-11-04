@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Enter an hourly rate with the schedule it applies to and the calculator multiplies it into the annual figure employers and lenders ask for, plus the weekly, biweekly and monthly amounts a payslip would show. The 40-hour, 52-week standard is preloaded; part-time or part-year schedules only need those two numbers changed.",
         "Daily pay assumes a 5-day working week. Because every figure is a straight multiplication, the results match what a salaried offer should pay for the same hours.",
+        "The conversion is straight multiplication along the schedule you set: hourly × hours per week × weeks per year gives the annual figure, and weekly, biweekly, monthly and daily amounts are divisions of it. The 40 × 52 default equals 2,080 paid hours, the convention behind most US salaried offers.",
+        "Compared with generic salary sites, the schedule inputs are editable, so a 30-hour week or a 46-week contract year produces honest numbers instead of pretending full-time. The result is gross pay before taxes and deductions, and unpaid time off must be reflected in the weeks-per-year field — otherwise the annual figure overstates reality.",
       ],
       steps: [
         "Type the hourly rate.",

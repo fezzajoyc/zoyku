@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter any amount and pick one of India's four GST slabs to add tax to a net price, or remove the GST already included in a gross (MRP) price. All three figures — net, tax and gross — update as you type.",
         "Useful for invoices, reverse charge checks, shopping comparisons between states with different slabs, and understanding exactly how much of a sticker price is tax.",
+        "Rates follow the GST Council's slab structure — 5%, 12%, 18% and 28%, with 18% covering most services. Adding tax multiplies the net amount; removing it divides a gross price by (1 + rate), so the GST inside a 1,180 gross price at 18% is 180, not 212.40 — the most common invoice mistake this tool prevents.",
+        "Compared with a generic percentage calculator, the add/remove direction toggle and the three always-visible figures (net, tax, gross) match how invoices and MRP labels are actually written. Cesses on items such as automobiles sit on top of the slab and are not modeled here; confirm your item's HSN classification and applicable rate before filing.",
       ],
       steps: [
         "Type the amount — net if adding GST, gross if extracting it.",

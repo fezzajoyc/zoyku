@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Pick any two cities from Los Angeles to Tokyo and see both live clocks side by side, the exact offset difference for today, and a 24-row comparison table showing what every hour of the day becomes in the other city — the fastest way to find a meeting slot across time zones.",
         "The conversion uses your browser's built-in IANA time zone database, so daylight-saving transitions land on the correct minute without any network call.",
+        "Conversions run on the IANA time zone database shipped with your browser via the standard Intl API, so DST rules are as current as your browser — including half-hour offsets like India's +5:30 and rule changes such as Mexico's 2022 abolition of most DST. The 24-row table is generated for the date you select, not just today.",
+        "Compared with subtracting offsets by hand, the table catches the trap that two cities 7 hours apart today can be 6 or 8 apart next week when DST flips on different dates. For recurring meetings, check the column around the switch dates. Everything is local and read-only — no network call, so the page works in airplane mode.",
       ],
       steps: [
         "Choose the starting city — its live local clock appears underneath.",

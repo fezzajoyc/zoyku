@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Type an Arabic number (1–3999) and see its Roman form, or type a numeral and get the number — both fields are live, so you can correct either side. The parser enforces classical rules: I before V/X, X before L/C, C before D/M.",
         "Handy for clock faces, book chapters, film years, monument inscriptions and Super Bowl numbers — anywhere Roman numerals still appear.",
+        "Conversion uses the standard subtractive set — IV, IX, XL, XC, CD, CM — and the classical constraint that no numeral may repeat more than three times, which is why the range stops at 3,999 (MMMCMXCIX): classical notation had no symbol larger than M without the vinculum overline.",
+        "Compared with lookup tables, both directions convert live in one input pair, so editing either side updates instantly — useful for numbering documents, chapters or annual editions. The parser rejects malformed forms such as IIV or VIV rather than guessing. Watch for historical variants: clock faces deliberately use IIII, and old inscriptions mix conventions.",
       ],
       steps: [
         "Enter a number between 1 and 3999 to get its Roman numeral.",

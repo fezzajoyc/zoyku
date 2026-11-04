@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Type or paste a list of names, one per line, and the wheel fills with a colored segment for each one. Hit SPIN and it decelerates over a few seconds before landing on the winner, announced in large type with a copy button. Two options cover the usual needs: remove duplicate names before the draw, and remove the winner after each draw so nobody wins twice.",
         "The pick itself is not the animation — the winner is drawn from your browser's cryptographic random number generator before the wheel even starts, so every name has exactly the same chance. A session draw history keeps track of everyone chosen so far, which is handy when you are working through a class or a queue of prizes.",
+        "The winner is drawn with crypto.getRandomValues, the browser's cryptographic random source, before the wheel animation begins — the spin you watch is theater, and every entry holds exactly equal probability. Weighted entries are not supported by design: one name, one chance.",
+        "Compared with drawing slips of paper, there is nothing to shuffle unfairly, the session history proves who has already been picked, and the remove-winner option runs a clean elimination. Because the draw uses a cryptographic generator rather than Math.random, it holds up for classroom turns and giveaway streams alike. The list you paste never leaves your browser.",
       ],
       steps: [
         "Paste your names into the box, one per line (2 to 100 names).",

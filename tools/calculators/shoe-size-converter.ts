@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Pick any system and size, and every equivalent appears at once, anchored to foot length in centimeters so the comparison is physical, not a guess.",
         "Sizing is not standardized across brands — treat results as a starting point and measure your feet at the end of the day, when they are largest.",
+        "The conversion anchors on foot length in centimeters and follows published charts for US (men's and women's), UK, EU and Mondopoint sizing, each half-size step worth roughly 4–5 mm. Because lasts differ between brands — a US 10 in one fits like 9.5 in another — the anchor keeps the comparison physical rather than nominal.",
+        "Compared with brand-by-brand guessing, one input shows every system at once, which is what ordering shoes across regions needs. Size charts are conventions, not guarantees: measure both feet at day's end when they are largest, fit the larger foot, and check the retailer's own chart for that brand. When two sizes straddle, take the larger for closed shoes.",
       ],
       steps: [
         "Choose men's or women's sizing.",

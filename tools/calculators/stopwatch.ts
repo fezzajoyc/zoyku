@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Measures elapsed time to the hundredth of a second using the system clock rather than accumulated intervals, so it stays accurate even when the browser throttles a background tab.",
         "Record laps while running; each lap shows its own split and the running total, and the display uses large tabular digits so splits stay readable at a glance.",
+        "Elapsed time is computed from system-clock timestamps rather than summing timer callbacks, so background-tab throttling and UI lag cannot accumulate error; the display reads to the hundredth of a second. Each lap records both its own split and the running total from the same anchored clock.",
+        "Compared with a phone's default clock, the large tabular digits and one-touch lap row are built for glancing between reps mid-effort, and because splits share the anchored clock they always add up. Closing the tab resets everything; nothing is recorded or shared. For sport officiating, dedicated hardware remains the reference — browsers do not guarantee millisecond precision.",
       ],
       steps: [
         "Click Start to begin timing.",

@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Enter your fixed costs — rent, salaries, equipment, the bills you pay regardless of volume — plus the price per unit and the variable cost per unit. The calculator divides fixed costs by the contribution margin, price minus variable cost, to give the number of units at which profit crosses zero.",
         "A mini table shows profit or loss at half, one-and-a-half and twice the break-even volume, so you can see how fast the margin accumulates once the point is passed. If the price does not even cover the variable cost, the tool says so instead of showing a meaningless zero.",
+        "The formula is the standard break-even quantity Q = F ÷ (P − V), where F is total fixed cost, P the price per unit and V the variable cost per unit; the denominator is the contribution margin each sale adds toward covering fixed costs. The same inputs also yield break-even revenue, Q × P.",
+        "The tool goes further than the single number: it shows the margin ratio and projects profit at half, 1.5 and 2 times break-even so you can size a sales target before setting prices. It assumes price and variable cost stay constant across volumes — real bulk discounts and capacity limits bend the line — so treat it as a planning model, not a forecast.",
       ],
       steps: [
         "Enter total fixed costs for the period.",

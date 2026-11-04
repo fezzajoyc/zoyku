@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "This calculator shows two complementary answers. The Devine formula (1975) — 50 kg + 2.3 kg per inch over 5 ft for men, 45.5 kg + 2.3 kg per inch for women — was originally derived to dose drugs like digoxin and is still the most-cited ideal-weight equation in medicine. The healthy BMI band multiplies your height in meters squared by 18.5 and 24.9, the WHO's normal-range limits.",
         "Enter your height in centimeters or feet and inches. The two methods usually disagree by a few kilograms, which is exactly the point: a single ideal weight does not exist. Treat both numbers as a frame of reference around a healthy range, not a target to force yourself into — the estimate is not medical advice.",
+        "Devine's equation came from 1974–75 work on drug dosing — digoxin first, later gentamicin — and remains the most-cited equation in clinical literature; the healthy-BMI band applies the WHO normal range of 18.5–24.9 to your frame. Together they bracket the range most clinicians would call reasonable for your height.",
+        "Compared with single-number charts, showing two methods that usually disagree by a few kilograms makes the honest point: ideal weight is a range, not a digit. Frame size, muscle mass and age all shift what is healthy for you specifically. These figures are references for planning conversations — not medical advice and not a target to diet into.",
       ],
       steps: [
         "Choose metric (cm) or imperial (ft + in) units.",

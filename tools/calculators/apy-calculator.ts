@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "A nominal rate and an effective rate are not the same number, and ads quietly pick whichever looks better. Enter a rate and a compounding frequency — daily (365), monthly, quarterly or annually — and this calculator converts APR into APY, or APY back into the nominal APR that would produce it.",
         "Add an optional deposit and a horizon in years to see what the money actually grows into: the balance after compounding and the interest earned on top. The conversion is exact both ways, so you can flip the direction and verify the round trip against any bank quote.",
+        "The conversion follows the standard identity APY = (1 + r/n)^n − 1, where r is the nominal annual rate and n the number of compounding periods — 365 for daily, 12 for monthly, 4 for quarterly, 1 for annual. A 5% nominal rate compounded monthly is an APY of about 5.12%, and the reverse direction solves the same equation for r.",
+        "Banks advertise whichever figure flatters the product — APY for savings accounts, APR for loans — so comparing two headline rates without normalizing compounding is misleading. This tool puts both on the same footing in one step, and the optional projection shows what the gap is worth over your actual horizon. Figures are estimates for comparison, not a quote.",
       ],
       steps: [
         "Type the rate you were quoted — a nominal APR or an effective APY.",

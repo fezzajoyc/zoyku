@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "A live counter shows the current Unix timestamp in seconds and milliseconds with one-click copy. Paste a timestamp and it is decoded to your local time and to UTC — 10-digit values are treated as seconds, 13-digit as milliseconds, automatically.",
         "Going the other way, pick a date and time to get its exact timestamp. Everything is computed locally from your device clock; timestamps are timezone-independent by definition, so the numbers are the same anywhere on earth.",
+        "Unix time counts seconds since 1970-01-01 00:00:00 UTC and ignores leap seconds, which is why it is the interchange format for APIs and logs. The tool auto-detects 10-digit values as seconds and 13-digit as milliseconds; values outside those lengths are flagged rather than silently misread.",
+        "Compared with converting in a terminal, both directions and both units live on one page with one-click copy, and the live counter confirms your device clock is sane before you debug a scheduling bug. Timestamps carry no time zone by definition, so always pair them with an explicit zone in your systems — the classic source of off-by-hours defects.",
       ],
       steps: [
         "Copy the live current timestamp, or paste one into the decode field.",

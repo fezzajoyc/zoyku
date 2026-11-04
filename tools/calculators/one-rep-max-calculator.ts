@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter a weight you lifted and how many clean reps you completed, and get your estimated one-rep max (1RM) from two established formulas: Epley's w × (1 + reps/30) and Brzycki's w × 36/(37 − reps). At 225 lb × 10 both land on exactly 300 lb, which is why that set is a gym classic.",
         "Below the estimate, a training table converts your 1RM into working weights: the heaviest load you can expect to lift for each rep count from 1 to 12, with its percentage of 1RM — the percentages coaches use to program strength, hypertrophy and endurance blocks.",
+        "Epley's formula, published in 1985, and Brzycki's, from 1993, agree closely up to about 10 reps and diverge at higher rep counts — Epley runs slightly optimistic there, which is why showing both beats picking one. Estimates are most accurate when derived from sets of 5 or fewer clean reps.",
+        "Compared with testing a true 1RM, estimating from a submaximal set is safer — maxing out demands spotters, sound technique and fresh legs, and the injury risk is real. The percentage table matches what strength coaches use to program working weights. Individual fiber type and lift efficiency shift real maxima by a few percent; treat the number as a starting point.",
       ],
       steps: [
         "Enter the weight you lifted and choose kg or lb.",

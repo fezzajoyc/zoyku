@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Sizing a network, writing a firewall rule or summarizing routes all start from the same handful of values: where the network begins, where it ends, which mask expresses it and how many hosts actually fit. Type a CIDR (or a bare IP, treated as /32) and every value appears at once — network and broadcast addresses, dotted subnet mask, wildcard mask for ACL syntax, first and last usable host, total and usable counts, the classful letter and whether the range is private (RFC 1918, loopback, link-local or CGNAT).",
         "A second mode answers a different question: given two IP addresses, what is the smallest single CIDR block that contains both? That is exactly what you need when merging two hosts into one firewall rule or summarizing a route, and doing it by hand is surprisingly error-prone.",
+        "All values follow standard CIDR math: the mask is n prefix bits followed by zeros, the network address zeroes the host bits, broadcast sets them all, and usable hosts are 2^(32−n) − 2 because the network and broadcast addresses are reserved. /31 and /32 follow their RFC 3021 and host-route exceptions.",
+        "Compared with doing this by hand, the containment mode answers the summarize-two-IPs question directly, and the private-range flags — RFC 1918, loopback 127/8, link-local 169.254/16, CGNAT 100.64/10 — prevent the classic firewall mistake of allowing a range you thought was public. Everything computes locally, which is safe for internal addressing plans.",
       ],
       steps: [
         "Type a CIDR like 10.0.0.0/8 or 192.168.1.130/26 — a bare IP is treated as /32.",

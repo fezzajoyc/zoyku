@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter your age and resting heart rate and the calculator estimates your max heart rate (206.9 − 0.67 × age, a regression from lab-measured maxima), then slices the span between resting and max into the five classic training zones. A 30-year-old with a resting rate of 60 bpm gets a max near 187 bpm and a Z3 aerobic band of about 149–161 bpm — real numbers you can hold against a chest strap or watch.",
         "Zones are computed with the Karvonen heart-rate-reserve method: bpm = resting + % × (max − resting). Because the reserve — not the max — is scaled, the zones stay honest for people whose resting rate is unusually low or high. Know your measured max from a lab test or a hard race? Switch to manual and enter it directly.",
+        "The max-HR regression 206.9 − 0.67 × age comes from Gellish and colleagues' 2007 re-analysis of laboratory-measured maxima; it runs a few bpm below the old 220 − age rule, especially past middle age. Zones then split the Karvonen heart-rate reserve — max minus resting — into Z1 recovery through Z5 VO2-max work at the classic 50/60/70/80/90% cutoffs.",
+        "Compared with watch defaults that apply percentages to max alone, the reserve method keeps Z2 genuinely easy for people with low resting rates — the most common training mistake is riding too hard in easy zones. Formulas carry individual error of several bpm; if a lab test or an all-out 5K gives you a measured max, enter it manually and trust that number.",
       ],
       steps: [
         "Enter your age to estimate max heart rate, or switch to Manual and type a measured value.",

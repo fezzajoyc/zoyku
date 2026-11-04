@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter a date of birth and this calculator reports the exact age — years, months and days, not an approximation — plus total months and total days lived. It also counts down to the next birthday with the weekday it falls on.",
         "The “age at date” field defaults to today and can be changed to any past or future date, which makes it easy to answer questions like “how old was she on graduation day?”.",
+        "The calculation is true calendar arithmetic, not an average month: it walks year by year, borrowing days from the actual lengths of the months in between, so 29 February birthdays, 31-day months and leap years like 2024 all land exactly. Total days come from the difference in UTC day numbers, so daylight-saving shifts cannot move a result.",
+        "Unlike quick mental math or a spreadsheet cell, the result is the years/months/days breakdown people actually quote, plus the next-birthday countdown in one place. Note that jurisdictions count age differently — a person born on 29 February often legally ages on 1 March in non-leap years — so for official purposes the documents, not this estimate, are authoritative.",
       ],
       steps: [
         "Pick the date of birth.",

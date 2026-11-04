@@ -14,6 +14,8 @@ export default defineTool({
       intro: [
         "Enter the loan amount, annual interest rate and tenure in years or months to get the equated monthly installment plus the total interest you will pay over the life of the loan. The math is the standard reducing-balance formula that banks and NBFCs use.",
         "Adjust any input and everything recalculates live, so you can compare a 15-year loan against a 20-year one, or see exactly what an extra 0.5% interest rate costs you each month.",
+        "The EMI follows the standard reducing-balance formula E = P · r · (1+r)^n ÷ ((1+r)^n − 1), with r the monthly rate (annual ÷ 12 ÷ 100) and n the number of months. Early installments are mostly interest, and the total-interest line makes the true cost of the loan explicit rather than hidden behind the monthly figure.",
+        "Compared with a bank brochure, this one shows total interest and total repayment next to the EMI, so a 15-year versus 20-year choice becomes a concrete money comparison instead of a monthly-payment contest. Processing fees, insurance premiums and floating-rate resets are not modeled; your lender's amortization schedule remains authoritative.",
       ],
       steps: [
         "Type the loan amount (principal).",

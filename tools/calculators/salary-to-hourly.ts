@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Enter an annual salary with your normal schedule — hours per week and weeks per year — and the calculator divides it into the pay rates that job ads and payslips use: hourly, daily, weekly, biweekly and monthly. The standard 40-hour week across 52 weeks is preloaded.",
         "If you take unpaid days, the adjusted hourly shows what the same salary works out to per hour actually worked, since each unpaid day removes a fifth of a working week from the year.",
+        "The division follows the schedule you set: annual ÷ weeks per year gives the weekly figure, ÷ hours per week gives the hourly rate, with biweekly, monthly and daily amounts derived the same way. The 40 × 52 default equals 2,080 hours, the standard behind most US offers and FLSA exemption tests.",
+        "Compared with headline salary numbers, the hourly view is what makes trade-offs visible — a salaried role with heavy unpaid overtime can pay less per actual hour than a lower-paying hourly job. The adjusted figure accounts for unpaid leave by shrinking the working year. These are gross figures; taxes and benefits change the real comparison.",
       ],
       steps: [
         "Type the annual salary.",
