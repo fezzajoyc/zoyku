@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Rounded corners soften screenshots, avatars and product shots without opening an editor. Drop one image or a whole batch, drag the radius slider and watch the preview update live — the radius goes all the way to a full circle, capped at half of the shorter side.",
         "Choose whether the clipped corners stay transparent (PNG) or get filled with a solid color, which is also what JPG output needs since it has no alpha channel. Every file is processed on your device and downloaded individually.",
+      
+        "Clipping uses the canvas path: the image is drawn normally, then a rounded-rectangle path erases everything outside the radius. The slider caps at half the shorter side because a larger radius is geometrically impossible — at that point the shape is a full circle or ellipse, handled by the circle-crop tool instead.",
+        "Compared with CSS border-radius (which only affects on-screen rendering), the rounding is baked into the pixels, so the image looks rounded in print, in chat previews and on platforms that strip styling. Unlike an editor's selection-and-invert flow, one slider produces the same radius across a whole batch.",
       ],
       steps: [
         "Drop in one image or a whole batch.",

@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Add each assignment with its score, out-of value and (in weighted mode) its percentage weight, and watch your current grade and letter update live. Points mode treats everything by raw points earned out of points possible, which is how many STEM courses actually grade.",
         "The built-in final-exam calculator answers the question you actually care about: with the final worth X% or X points, what score do you need to land your target overall grade? It tells you straight when the target is already secured or mathematically out of reach, and the grading scale is switchable — US 10-point A–F, plus/minus, pass/fail or your own thresholds.",
+      
+        "Weighted mode normalizes each weight to a percentage of the total and applies it to that item's percentage score — so a 30% midterm at 85% contributes 25.5 points to the weighted average. Points mode instead sums earned/possible, which matches how most STEM syllabi actually grade and avoids the distortion of averaging percentages.",
+        "Compared with doing this in a spreadsheet, the final-exam calculator answers 'what do I need' directly: enter the final's weight and your target grade, and it returns the required score — or tells you the target is already locked in or mathematically out of reach. The grading scale is switchable between US 10-point A–F, plus/minus, pass/fail and custom thresholds, so it adapts to the syllabus rather than forcing one.",
       ],
       steps: [
         "Add a row per assignment: name (optional), score, out-of value and weight in weighted mode.",

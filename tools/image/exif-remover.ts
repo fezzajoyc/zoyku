@@ -18,6 +18,9 @@ export default defineTool({
       intro: [
         "Every phone photo can carry hidden luggage: GPS coordinates of where it was taken, your camera model, timestamps, sometimes even serial numbers. This tool removes all of it by re-encoding the image from its raw pixels — metadata has nowhere to hide in a freshly drawn canvas, so EXIF, GPS, thumbnails and comments are all gone.",
         "The result keeps the original format and a visually identical picture (92% quality for JPG and WebP), and each row shows the size before and after. Batch mode scrubs a whole folder of photos in one pass, all offline on your device.",
+      
+        "The stripping happens by re-encoding, not by editing bytes in place: the browser decodes your image into raw pixels, draws it to a fresh canvas and re-encodes. Since canvas has no metadata storage, every EXIF block, GPS coordinate, ICC profile, thumbnail and comment field simply ceases to exist in the output.",
+        "Compared with renaming a file or pasting into a chat (which often strips metadata by accident), this gives you a verifiable scrub with the before/after size shown per row. Unlike upload-based scrubbers, a passport scan or a home address encoded in GPS data never leaves your device — the privacy problem solves itself.",
       ],
       steps: [
         "Drop the photos you plan to share — one or a whole batch.",

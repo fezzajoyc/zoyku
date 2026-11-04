@@ -27,6 +27,9 @@ export default defineTool({
       intro: [
         "Copy-paste is where clean text goes to die: PDFs leave zero-width characters, Word swaps straight quotes for curly ones and adds non-breaking spaces, chat apps insert control characters. This tool strips the invisible junk and repairs the punctuation in one pass.",
         "Every option is a toggle, so you decide how aggressive the cleanup is — from just trimming lines to a full scrub that removes non-printable characters and normalizes quotes, dashes and ellipses.",
+      
+        "Each toggle maps to a concrete paste artifact: zero-width spaces and invisible control characters come out, curly quotes normalize to straight, non-breaking spaces become regular spaces, and fancy dashes/ellipses collapse to their ASCII equivalents. The order matters — stripping control characters before punctuation normalization avoids leaving orphaned artifacts.",
+        "Compared with pasting into a plaintext editor and hoping the invisible characters survive to be spotted, the scrub is deterministic: what you see in the preview is what you copy. And because it is local, a pasted email thread or customer transcript is cleaned without a third party ever seeing the content.",
       ],
       steps: [
         "Paste the messy text into the input box.",

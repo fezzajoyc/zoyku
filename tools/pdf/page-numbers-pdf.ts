@@ -14,6 +14,9 @@ export default defineTool({
       intro: [
         "Give a PDF proper page numbers before printing or sharing: pick a format (1, 1/N or Page 1 of N), pick one of six corners, set the starting number — the file is rebuilt on your device and ready to download.",
         "Useful for reports, contracts, scanned bundles and anything that gets referenced by page in a meeting.",
+      
+        "Numbers are stamped with pdf-lib: the text is drawn onto each page in the chosen corner at a fixed inset, using the PDF's built-in fonts so the file stays small and crisp at any zoom. The starting number can be shifted, which matters when the PDF is a continuation — a chapter that opens on page 47 can start numbering there.",
+        "Compared with re-generating the source document or editing in Acrobat, this is a thirty-second operation with no layout risk — the numbers are added to the existing pages rather than rebuilding them. And unlike adding numbers by printing and rescanning, the text stays vector-sharp and the file size barely changes.",
       ],
       steps: [
         "Drop in the PDF you want to number.",

@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Bank statements, price lists and reports locked in PDF become workable data again: each visual line becomes a spreadsheet row, and text split by wide spacing is separated into columns automatically. Page numbers are kept in the first column so you can trace everything back.",
         "This is a practical, text-based extraction — not an AI table reconstruction. It shines on monospaced statements and aligned lists; messy multi-line tables may need a quick cleanup in Excel. The trade: your data never leaves the device.",
+      
+        "The extractor walks pdf.js's text items per page, groups them into lines by Y-position, then splits each line into columns where the horizontal gap exceeds a threshold — a heuristic that works well on monospaced statements and aligned columns. Page numbers land in column A so every row is traceable to its source page.",
+        "Compared with online PDF-to-Excel services that upload your statements, the extraction happens locally — a bank statement never leaves the device. The trade-off is honest: this is positional text splitting, not table reconstruction, so a clean aligned statement converts beautifully while a complex multi-line table may need a cleanup pass in Excel itself.",
       ],
       steps: [
         "Drop a text-based PDF (selectable text, not a photo scan).",

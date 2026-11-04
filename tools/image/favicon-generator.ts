@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Drop in one square-ish image and get the six PNG sizes real projects need: 16, 32 and 48 px favicons, a 180 px apple-touch-icon, and 192 / 512 px icons for Android and PWA manifests. Non-square images are centered on a square canvas padded with the background color you pick, and corners can stay square, rounded or become a full circle.",
         "Each size is rendered at its true pixel dimensions and can be downloaded on its own or as a single .zip, together with a copy-paste <head> snippet that references the same filenames — so the files drop straight into your project's public folder.",
+      
+        "Under the hood each size is produced by drawing your image onto a canvas at its exact pixel dimensions — 16 px stays 16 px rather than being a resized preview — with the browser's own encoder writing the PNG. The corner styles clip the canvas path before rendering, so rounded and circular variants are baked into the pixels, not CSS.",
+        "Compared with generating one 32 px favicon and letting browsers upscale it, this set covers every context a real deployment meets: tab, bookmark bar, iOS home screen, Android launcher and PWA install prompt. Unlike paid icon generators, there is no watermark, no account, and the HTML snippet is ready to paste — no string editing needed.",
       ],
       steps: [
         "Drop in one image — a square logo works best.",

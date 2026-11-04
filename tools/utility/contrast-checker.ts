@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Enter a foreground and a background color — hex like #333 or #1F2937, or rgb()/rgba() — and get the WCAG contrast ratio to two decimals, with immediate pass/fail badges for the four thresholds that matter: AA and AAA, for normal and large text. A live preview shows both a body-text and a large-text sample in the actual colors.",
         "The math is the official WCAG 2.x relative-luminance formula — the same one the W3C checker uses — so a 4.5 here is a 4.5 everywhere. Presets include a borderline 4.54:1 gray pair so you can see how tight the AA line really is.",
+      
+        "The math is the WCAG 2.x relative-luminance formula: linearize each sRGB channel, weight by 0.2126 / 0.7152 / 0.0722, then compute (L1 + 0.05) / (L2 + 0.05). The result is a ratio — 4.5:1 is the AA threshold for normal text, 3:1 for large text — and a 4.5 here passes the same test in every WCAG checker on the web.",
+        "Compared with eyeballing a color pair or trusting a design tool's contrast hint, the numeric ratio is the standard auditors and accessibility requirements actually cite. The live preview shows both body and large text in the actual colors, and the presets include the borderline 4.54:1 pair so you can see how tight the AA line really is — useful when tweaking a palette that is 'almost passing'.",
       ],
       steps: [
         "Type a hex or rgb() value, or use the color picker, for the foreground.",

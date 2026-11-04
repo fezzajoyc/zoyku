@@ -19,6 +19,9 @@ export default defineTool({
       intro: [
         "Drop one image or a whole batch and watch the file sizes fall in real time. A quality slider from 10% to 100% lets you balance weight against crispness, and every row shows the original size next to the compressed result so you know exactly what you saved.",
         "Output can be JPG (smallest for photos), WebP (usually 20–30% smaller than JPG at the same quality) or PNG (lossless). Everything runs on your device with the browser's own image encoder — no uploads, no queue, no watermark.",
+      
+        "Compression happens through the browser's built-in encoders: canvas.toBlob for JPG and WebP, and PNG re-encoding for lossless output. Quality maps directly to the encoder's quantization — 80% JPG typically yields visually identical results at 40–60% of the original size for photos, with diminishing returns below 30%.",
+        "Compared with upload-based compressors, there is no queue, no file-size cap and no daily limit — a 20 MB RAW export compresses as readily as a thumbnail. And unlike setting a fixed quality for everything, the per-file before/after readout lets you spot the one file that did not shrink and adjust it individually.",
       ],
       steps: [
         "Drop your images into the box (or click to browse) — as many as you like.",

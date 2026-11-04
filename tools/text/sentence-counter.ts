@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Sentence count is the fastest readability signal a writer has. This tool counts sentences as you type and puts them next to words, paragraphs, lines and reading time, so you can tell at a glance whether a paragraph is getting too dense.",
         "It recognizes the punctuation that actually ends sentences in mixed-language text: Latin periods, question and exclamation marks, plus the full-width 。!?… used in Chinese and Japanese.",
+      
+        "Sentence boundaries are detected by the punctuation that actually terminates sentences across scripts — '.', '!', '?' for Latin text plus '。', '！', '？', '…' for CJK — so a mixed-language paragraph counts correctly rather than stopping at the first period. Numbers, abbreviations like 'e.g.' and decimals do not trigger a false split.",
+        "Compared with word count alone, sentence count is the metric that correlates with readability formulas like Flesch-Kincaid — a 200-word paragraph with 2 sentences reads very differently from one with 12. The live count as you type makes density visible while you write, not after the draft is done.",
       ],
       steps: [
         "Paste your draft, email or article into the box.",

@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "One tool for every picture: drop a mixed batch of JPG, PNG, WebP, GIF or BMP files and they all land in one PDF. Anything that is not already PDF-ready is converted locally through a canvas, so mixed batches just work.",
         "Sort pages, pick fit-to-image or A4/Letter with margins, and export. It is the swiss-army version of our JPG and PNG converters, with the same promise: files never leave your device.",
+      
+        "Non-PDF-native formats (WebP, GIF, BMP) are decoded to canvas and re-encoded as JPEG before embedding, while JPG and PNG go into the PDF directly via pdf-lib — no double re-compression for formats the PDF spec already supports. Page size either hugs each image's pixels or snaps to A4/Letter with a margin you set.",
+        "Compared with converting each image to PDF one at a time, the mixed-batch mode normalizes formats automatically — a PNG chart, a WebP screenshot and a JPG photo land in one document in one pass. And unlike Word's insert-then-export flow, the output keeps each image's native resolution instead of being downsampled to screen DPI.",
       ],
       steps: [
         "Drop images in any mix of supported formats.",

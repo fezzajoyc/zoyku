@@ -16,6 +16,9 @@ export default defineTool({
       intro: [
         "Extract the words from a PDF into a .docx you can edit in Word, Google Docs or LibreOffice. Headings are detected from font sizes, paragraphs are rebuilt from line positions, and the result is a clean, lightweight document you can rework.",
         "This is an honest text-focused conversion: it does not reconstruct complex page layouts, columns or image placement. The upside is total privacy — the analysis and the .docx generation happen entirely on your device.",
+      
+        "Conversion maps the PDF's text runs to a .docx via document structure: font size thresholds mark headings, line groupings become paragraphs, and the text is reflowed to Word's default margins. The output is a clean, editable docx — honest about what a text extraction can and cannot reconstruct from a fixed-layout page.",
+        "Compared with online converters that upload the file and return a best-effort layout reconstruction (often broken), this produces predictable, editable text with the caveat that columns, images and complex layouts do not carry over. The privacy win is total: a manuscript or a legal document never leaves your machine.",
       ],
       steps: [
         "Drop a text-based PDF (one whose text you can select).",

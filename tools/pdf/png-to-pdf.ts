@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Screenshots, charts, diagrams and design exports are usually PNG — and people usually want them as a PDF. Drop a whole batch, order it with the arrow buttons, and get a lossless PDF: PNG data is embedded as-is, so text in screenshots stays razor sharp.",
         "Choose fit-to-image pages for pixel-perfect sizing, or A4/Letter with a margin for printing. Everything is built with pdf-lib on your device; no upload, no quality gamble.",
+      
+        "PNG data is embedded into the PDF as-is rather than re-encoded — pdf-lib places the exact PNG stream on each page, so text in screenshots stays razor sharp and file size equals the sum of the sources plus minimal wrapper. Fit-to-image sizing keeps the page at pixel dimensions; A4/Letter adds a margin for printing.",
+        "Compared with printing a PNG to a virtual PDF printer (which rasterizes at screen DPI), embedding preserves native resolution — a 4K screenshot stays 4K in the PDF. And unlike upload-based assemblers, a folder of sensitive screenshots, mockups or scans binds into one document without ever leaving your browser.",
       ],
       steps: [
         "Drop the PNG files you want to combine.",

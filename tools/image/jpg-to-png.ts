@@ -18,6 +18,9 @@ export default defineTool({
       intro: [
         "Drop your .jpg files and get pixel-identical .png copies in one click. PNG stores the image without further loss, which makes it the format of choice for re-editing, archiving, or platforms and tools that refuse JPEG files.",
         "Batch mode converts a whole stack of photos in one pass and shows the resulting size for each file. Note that PNG typically produces larger files than JPG — that is the price of lossless storage, not a defect of the conversion.",
+      
+        "The conversion is a decode-then-encode: the browser decodes JPEG into pixels, then the canvas encoder writes them as PNG. The output is pixel-identical to what the JPEG showed — no additional loss, but also no quality gain, since JPEG artifacts are already baked into the source pixels.",
+        "Compared with renaming the extension or pasting into an editor, this produces a real PNG with a proper color profile and alpha-capable structure. And unlike upload-based converters that re-compress or resize, the file comes back at full resolution with only the container changed — useful for tools that strictly check magic bytes.",
       ],
       steps: [
         "Drop your JPG images (or click to browse) — multiple files are welcome.",

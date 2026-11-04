@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Cut a large picture into grid tiles for Instagram grids, print layouts, sprite sheets or slideshow steps. Choose 2–6 rows and 2–6 columns, watch the grid overlay snap onto your image, then export every tile as a lossless PNG.",
         "Tiles cut from the same image keep their pixel positions, so the pieces reassemble perfectly. When the size does not divide evenly, regular tiles use whole-pixel sizes and the last row and column absorb the leftover pixels — nothing is stretched.",
+      
+        "Each tile is produced by drawing the source image into a per-tile canvas offset — no scaling, no resampling, so a 3000×2000 image split into 3×2 yields six 1000×1000 tiles with pixel-perfect content. When dimensions do not divide evenly, the remainder lands on the last row and column as extra pixels rather than a stretch.",
+        "Compared with manually cropping tiles in an editor or running an ImageMagick one-liner, the visual grid preview removes all arithmetic — you see the seams before cutting. And because everything is drawn locally, a 40-megapixel scan splits into tiles in your tab without uploading gigabytes or installing command-line tools.",
       ],
       steps: [
         "Drop in one image.",

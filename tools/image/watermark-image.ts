@@ -14,6 +14,9 @@ export default defineTool({
       intro: [
         "Protect drafts, proofs and photos with a text watermark you fully control: place it in any corner or center, tile it across the whole image, tune size and opacity — the watermarked copies are generated on your device.",
         "Nothing is uploaded, so you can watermark unreleased work, client proofs and confidential scans without sending them anywhere.",
+      
+        "Rendering draws the text on a canvas overlaid on your image, with opacity, size and position controlled per copy; tiled mode repeats the stamp across the full image so a crop cannot remove it. The text is anti-aliased by the browser's font engine, so a watermark at 30% opacity stays legible without looking like a post-it note.",
+        "Compared with marking images one by one in an editor, the batch applies identical placement and styling to every file — consistent branding across a proof set. And unlike cloud watermark services, unreleased product shots or confidential scans never transit a server, which is often the entire point of watermarking them.",
       ],
       steps: [
         "Drop in one image or a whole batch.",

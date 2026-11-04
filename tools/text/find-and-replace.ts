@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "One find box, one replace box, three matching modes. Plain text for quick swaps, whole-word mode so 'cat' never lands inside 'category', and regular expressions for patterns — dates, tags, repeated whitespace or anything else you can describe.",
         "Matches are counted as you type and the replacement previews live, so you can see exactly what will change before copying anything out.",
+      
+        "Regex mode compiles your pattern with the JavaScript RegExp engine — the same engine the browser's own find uses — so capture groups, lookaheads and unicode escapes all work as documented. Whole-word mode wraps the literal in word-boundary anchors, which is the difference between 'cat' matching 'category' and not.",
+        "Compared with a text editor's find dialog, the live count plus live preview means you see the total matches and the result of the replacement before committing — no undo gymnastics. And because it runs in the tab, a pasted log file or a sensitive draft is processed locally rather than through an online tool's server.",
       ],
       steps: [
         "Paste the text, then type what to find and what to replace it with.",

@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "SVGs are perfect for design but many places — app stores, editors, messengers, older CMSs — demand a raster PNG. This tool renders your vector file at exactly the size you need: 1× for previews, 2× for retina screens, 3×–4× or a custom factor for print-quality exports.",
         "The PNG keeps the transparent background of your SVG, and the vector is re-rendered at the target resolution rather than stretched, so edges stay razor sharp. Drop a whole icon set at once — every file is converted in one pass.",
+      
+        "The SVG is drawn into a canvas at exactly the pixel dimensions you request — 1×, 2×, 3×, 4× or a custom size — so the vector paths re-rasterize at the target resolution rather than being stretched. The result is a real PNG with the SVG's transparency preserved, not a screenshot approximation.",
+        "Compared with exporting at a fixed 1024 px and downscaling, choosing the exact factor means no second resize step and no softening. And unlike design-tool exports that require opening the project, a whole icon set drops in and converts in one pass — handy when the source SVGs arrive from a designer and the app store wants PNGs today.",
       ],
       steps: [
         "Drop one or more .svg files.",

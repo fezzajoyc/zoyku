@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Blank pages, an old cover, a page with someone else's data — enter them as “1, 3-5” and get a clean PDF with everything else intact. The tool shows your document's page count so you can check the numbers before cutting.",
         "The remaining pages are copied byte-for-byte, so text stays selectable and images keep their quality. Everything happens locally with pdf-lib; the file is never uploaded.",
+      
+        "Page deletion uses pdf-lib's copyPages to write a new document containing only the pages you keep — the ones you cut are never copied into the output file, so their content is gone rather than hidden. Ranges like '1, 3-5' are parsed after the tool shows the document's real page count, so a mistaken range is caught before you write.",
+        "Compared with printing to PDF and skipping pages (which rasterizes everything and destroys text), the kept pages are cloned object-for-object: fonts, vectors and selectable text all survive. And unlike desktop editors, there is no save-as dialog maze — one field, one click, one clean file, with no upload of the source document.",
       ],
       steps: [
         "Drop the PDF you want to trim.",

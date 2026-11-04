@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Scanners add wide borders, slides come with black frames, and presentations carry more whitespace than the screen allows. Drag a rectangle on the rendered first page, or fine-tune the left, top, width and height percentages with number inputs, and the choice is applied to every page or just the ones you list, such as “1-3, 7”.",
         "The crop is written as the PDF crop box with pdf-lib: viewers and printers then show only the chosen region while the original content stays in the file, so nothing is destroyed and the trim can be undone by resetting the box. No upload, no rasterization — text stays selectable and quality is untouched.",
+      
+        "The crop is written to the page's CropBox — the field PDF viewers and printers actually honor — with pdf-lib, so the 'removed' margin stays in the file and the trim is reversible by resetting the box. Because the content stream is untouched, text stays selectable and image quality is unchanged; nothing is rasterized.",
+        "Compared with cropping in a raster editor (which turns each page into a flat image), a CropBox trim preserves vectors, fonts and selectable text — a cropped contract still signs properly. And unlike Acrobat's crop dialog, the visual rectangle on the first page plus numeric inputs make the same trim easy to apply to odd page ranges.",
       ],
       steps: [
         "Drop the PDF and review the page 1 preview.",

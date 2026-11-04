@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Need your PDF inside a slide deck? Each page is rendered at high resolution and placed on its own 16:9 slide, so the visual result matches the original exactly — fonts, colors and graphics stay put, even when the viewer has no fonts installed.",
         "Slides are images rather than editable text boxes: that is deliberate, because image slides never break across machines. Combine it with our PDF to Word tool when you also need the text.",
+      
+        "Each page is rendered to a high-resolution image and placed on a 16:9 slide at the best fit — so a 200-page deck becomes a 200-slide deck with the original layout intact. Because slides are pictures rather than reconstructed text boxes, fonts the viewer lacks cannot break the layout, which is the entire point.",
+        "Compared with re-typing a PDF into PowerPoint or using an online converter that returns editable-but-broken text boxes, image slides preserve the visual truth of the document. The trade-off is honest: text is not editable, which is usually fine for reference decks — for the editable path, pair this with PDF to Word first.",
       ],
       steps: [
         "Drop the PDF you want in your deck.",

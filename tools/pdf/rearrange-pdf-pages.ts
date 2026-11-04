@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Scanned a document out of order? Each page shows up as a real thumbnail, so you can see exactly what you are moving. Shuffle with the arrow buttons, flip the whole document with Reverse, and reset to the original order at any time.",
         "The new sequence is written into a brand-new PDF on your device — pages are copied byte-for-byte, so quality, fonts and selectable text all survive the reshuffle.",
+      
+        "Reordering uses pdf-lib's copyPages to write pages in your chosen sequence into a brand-new document — nothing is moved inside the original file, so a mistake is fixed by re-uploading, not by repairing damage. Thumbnails render via pdf.js at small scale, just enough to identify each page without slowing the UI.",
+        "Compared with deleting pages and re-merging fragments, the thumbnail view plus arrow buttons means a mis-ordered scan is corrected by looking, not by arithmetic. And unlike desktop editors where a shuffle is a modal dialog away, Reverse, move-up and move-down work on the same page list you are already looking at — no separate tool needed.",
       ],
       steps: [
         "Drop the PDF and wait for the page thumbnails to appear.",

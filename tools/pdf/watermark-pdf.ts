@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Mark drafts as CONFIDENTIAL, DRAFT or FOR REVIEW before they leave your hands. Choose a single centered stamp or a tiled pattern across the whole page, tune the opacity so text stays readable underneath, and pick a color that suits the document.",
         "The watermark becomes real PDF text drawn on each page — no images, no server round-trip. Because it is processed with pdf-lib on your device, even sensitive contracts can be marked without uploading them.",
+      
+        "The watermark is drawn as real PDF text via pdf-lib: the string is typeset at the chosen opacity and rotation directly into each page's content stream, using a built-in font so the file stays small and the mark prints crisply at any zoom. Tiled mode repeats the stamp across the page, which a crop cannot remove.",
+        "Compared with stamping images into a PDF in a raster editor, real text keeps the file small and lets the underlying content remain selectable — a CONFIDENTIAL draft is still searchable. And unlike cloud stamping services, an unreleased contract or a confidential report never transits a third-party server, which is typically why it is being marked.",
       ],
       steps: [
         "Drop the PDF you want to mark.",

@@ -18,6 +18,9 @@ export default defineTool({
       intro: [
         "Turn photos the right way up, straighten scans that came in sideways, or mirror an image for a flipped layout. Each button applies to every file you have loaded at once, and a small readout always shows the current rotation and mirror state so you never lose track.",
         "Rotations and flips are baked into the actual pixels, which means the saved file looks identical everywhere — no player or viewer will ever “correct” it back. The output keeps each image's original format.",
+      
+        "Rotation and mirroring are pixel transforms, not metadata edits: a 90° turn redraws the image with axes swapped and EXIF orientation cleared, so the saved file displays correctly in every viewer — including old apps and print services that ignore EXIF. The current angle and flip state stay visible on screen, so 270° never happens by accident.",
+        "Compared with rotating via EXIF alone (which many viewers still ignore) or re-importing into an editor, this bakes the change into the file in one click across a batch. And because output keeps each image's original format, a JPG comes back a JPG — there is no surprise conversion to PNG doubling the file size.",
       ],
       steps: [
         "Drop one or more images into the box.",

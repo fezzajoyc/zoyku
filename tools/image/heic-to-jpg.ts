@@ -16,6 +16,9 @@ export default defineTool({
       intro: [
         "iPhones save photos in HEIC, a space-efficient format that Windows, many websites and older apps still refuse to open. Drop your .heic files here and get universally readable JPG copies (or lossless PNG) in seconds — the decoder runs locally, so your photos never touch a server.",
         "Batch mode handles an entire camera roll at once, and the quality slider lets you balance JPG size against fidelity. Large photos can take a few seconds each because the HEIC decoding happens right in your browser.",
+      
+        "HEIC is Apple's implementation of HEIF, using HEVC compression; browsers do not decode it natively, so the tool bundles a WebAssembly decoder that runs in your tab. Decoding a 12-megapixel photo takes a second or two — noticeable but private, since nothing goes near a network. JPG output quality is adjustable from 10 to 100%.",
+        "Compared with emailing photos to yourself (which re-compresses them again) or installing a desktop converter, this handles a whole camera roll in one drop with zero upload. And unlike cloud converters that queue your files on a server, the HEIC bitstream is decoded and re-encoded entirely on your own machine.",
       ],
       steps: [
         "Drop your .heic or .heif files (AirDrop or download them from your iPhone first).",

@@ -14,6 +14,9 @@ export default defineTool({
       intro: [
         "Keyboard handling bugs usually come from mixing up the three identifying values a KeyboardEvent offers: event.key is the character produced (\"a\" or \"A\" when Shift is held), event.code is the physical key (KeyA regardless of layout), and keyCode is the legacy numeric code that old code still depends on. Pressing keys on this page shows all three side by side, instantly, along with which modifiers were down at that moment.",
         "It also keeps the last 10 keystrokes in a small history table, so you can compare values across keys instead of pressing and forgetting. Useful when wiring up game controls, shortcut listeners, or debugging why a keydown handler fires twice (turn on ignore-repeat to filter auto-repeat).",
+      
+        "The three identifiers answer different questions: event.key is the semantic character ('a' vs 'A' vs 'Enter'), event.code is the physical position on a US-layout keyboard ('KeyA' regardless of layout), and keyCode/which is the legacy numeric code old code still uses. Modifier state (Shift/Ctrl/Alt/Meta) is reported at the moment of the event, not queried later.",
+        "Compared with console.logging inside your app (which requires opening devtools and wiring the handler), pressing keys on this page shows all three values plus modifiers side by side instantly, and the 10-keystroke history lets you compare values across keys. Useful when a keydown handler seems to fire twice — the ignore-repeat toggle filters the auto-repeat events so you see only the first.",
       ],
       steps: [
         "Click anywhere on the page so it has keyboard focus, then press any key.",

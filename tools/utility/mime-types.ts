@@ -14,6 +14,9 @@ export default defineTool({
       intro: [
         "When you configure a web server, an upload handler, a CORS header or a mail attachment filter, you need the exact MIME type for each extension — and guessing between image/jpg and image/jpeg breaks things silently. This table covers the extensions that matter in practice: web assets, images, audio and video, office documents, archives, fonts, config files and a handful of programming-language sources.",
         "Filter by extension (with or without the dot) or by MIME prefix such as text/ or application/json. Each row carries a one-click copy so the value lands on your clipboard exactly as it should appear in your configuration.",
+      
+        "Each row maps an extension to its registered MIME type per the IANA registry — the exact string a web server's Content-Type header or an <input accept> attribute expects. Ambiguous cases are resolved deliberately: .jpg maps to image/jpeg, .mjs to text/javascript (not application/javascript, which is deprecated), matching what modern browsers and servers actually send.",
+        "Compared with guessing (image/jpg is not a real type) or hunting through the IANA list, the filter box narrows by extension or MIME prefix in one keystroke and the copy button puts the exact string on the clipboard — including the slash and any parameters. Useful when configuring nginx mime.types, writing an upload validator, or setting a CORS Content-Type.",
       ],
       steps: [
         "Type an extension (pdf, .png) or a MIME prefix (audio/, video/web) in the filter box.",

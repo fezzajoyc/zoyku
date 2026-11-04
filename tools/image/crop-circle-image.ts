@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Circular avatars, profile pictures, badges and stickers all start with a circle crop. The tool centers a circle on each image, keeps everything inside it and discards the corners as transparency — the diameter starts at the shorter side, and a slider shrinks it in percent if you want more margin.",
         "Output is always PNG so the corners stay genuinely transparent, not white. Drop a whole batch to convert many images at once, preview the first one live, and download each circle on its own.",
+      
+        "Under the hood each image is drawn onto a canvas, clipped to a circle path, and re-encoded as PNG — no interpolation, no compression loss on the pixels that survive. The slider expresses shrink as a percent of the shorter side, so a 90% crop on a 2000×1500 photo yields the same 1350 px diameter every time.",
+        "Compared with cropping a circle in a photo editor, there is no manual selection, no exported JPG with baked-in white corners, and no per-file clicking — a batch of fifty images crops in one pass. The live preview on the first image lets you verify the result before committing the rest.",
       ],
       steps: [
         "Drop in one image or a whole batch.",

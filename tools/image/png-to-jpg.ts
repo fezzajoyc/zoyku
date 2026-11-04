@@ -18,6 +18,9 @@ export default defineTool({
       intro: [
         "Turn heavy .png files into compact .jpg copies that upload faster and open everywhere. A quality slider (default 92%) keeps the result visually indistinguishable while cutting the size by 60–90% for typical screenshots and photos.",
         "PNG transparency cannot survive in JPG, so transparent areas are flattened onto pure white — the standard treatment for forms, avatars and marketplaces that only accept JPEG. Batch mode handles a whole folder in one go.",
+      
+        "JPEG is lossy DCT compression designed for photographic content; at 92% quality it typically matches the source visually at a fraction of PNG's size. Transparency is the real constraint: JPG has no alpha channel, so the tool flattens transparent regions onto white — the standard treatment most platforms expect.",
+        "Compared with generic 'convert' tools, the quality slider is explicit and the output size is shown per file, so you can trade a smaller download for a softer image knowingly. And because re-encoding happens in your browser, a folder of product screenshots converts without hitting an upload cap or a privacy policy.",
       ],
       steps: [
         "Drop your PNG images — one or many.",

@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Click capture, pick a screen, window or tab in your browser's own share dialog, and the tool grabs exactly one still frame. The share ends immediately — there is no recording, no session, and nothing leaves your device. What you get is a normal PNG ready to save.",
         "Need only part of the capture? Toggle the crop mode and drag a precise selection before saving, powered by the same pixel-accurate crop widget as our crop tool. Perfect for bug reports, quick documentation and receipts.",
+      
+        "Capture uses the browser's getDisplayMedia API — the same screen-share dialog video calls use — so the OS-level permission prompt is the security boundary, not the tool. One frame is grabbed from the video stream, the stream is closed immediately, and the result is a standard PNG at whatever resolution your display provided.",
+        "Compared with OS screenshot hotkeys, the built-in crop step means no second app: grab, drag the region, save. And unlike browser extensions that request permanent screen access, the share dialog re-asks every time, so there is no standing permission to abuse — the capture happens once and is done.",
       ],
       steps: [
         "Click “Choose screen & capture” and grant permission in the browser dialog.",

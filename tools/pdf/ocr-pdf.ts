@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Scanned contracts, receipts and books have no selectable text — OCR gives them one. Each page is rendered in your browser and read by the Tesseract engine, with language support for English, Simplified Chinese, Japanese, Spanish, Portuguese, French and German.",
         "On first use your browser downloads the OCR engine and the language model (10–20 MB) from a public CDN — that is the only network traffic, and it never includes your document. Recognition itself happens on your device.",
+      
+        "Each page is rendered by pdf.js to a canvas, then passed to Tesseract.js — the same WebAssembly OCR engine used by the image version — with the language pack fetched from a public CDN on first use. Multi-column pages and rotated text are handled as well as the underlying Tesseract layout analysis allows, which is good for clean scans.",
+        "Compared with re-typing or paying for Acrobat's OCR, the whole pipeline is free and offline after the first model download — a scanned contract stays on your machine. Unlike tools that return only a text layer, the output text is editable before download, so the occasional misread character is fixed before it propagates.",
       ],
       steps: [
         "Drop a scanned PDF and pick the document's language.",

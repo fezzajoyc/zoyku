@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "A border frames screenshots, product shots and avatars without opening an editor. Drop in one image or a whole batch, drag the width slider and pick a padding style: the canvas expands outward, so no pixel of the original is cropped or rescaled.",
         "Transparent padding keeps the frame see-through in PNG output — handy for stickers and cut-outs on any background. A solid color works everywhere, including JPG, and every file is processed on your device.",
+      
+        "The border is added by expanding the canvas outward rather than painting over the image: a 20 px border on a 1000×800 photo produces a 1040×840 canvas with the original pixels untouched in the center. That means zero resampling — the border is new space, not a stretched frame.",
+        "Compared with CSS borders or screenshot annotations, the frame is baked into the file itself, so it survives uploads to platforms that strip styling or re-render images. And unlike an editor's canvas-resize dialog, the width slider shows a live preview and the batch applies to every loaded image in one click.",
       ],
       steps: [
         "Drop in one image or a whole batch.",

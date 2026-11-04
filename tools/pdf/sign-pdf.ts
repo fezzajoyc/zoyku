@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Sign contracts, permission slips and forms without printing them. Draw your signature on the pad, position it on a 3×3 grid (bottom right is the usual spot), set its width, and optionally add today's date underneath. The transparent PNG is embedded straight into the PDF.",
         "This is a visible, image-based signature — perfect for everyday documents. It is not a cryptographic certificate signature, and whether it satisfies a given legal process depends on your jurisdiction.",
+      
+        "The signature is drawn on a canvas pad, exported as a transparent PNG, and embedded into the PDF via pdf-lib — positioned on a 3×3 grid relative to the page with an adjustable width, plus an optional date line. Because it is an image stamp, it renders identically in every viewer and prints without surprises.",
+        "Compared with printing, signing and rescanning (which produces a huge raster file and destroys the searchable text), the stamp adds a few kilobytes and leaves the original PDF intact. The honesty note: this is a visible signature, not a cryptographic certificate — for workflows that require certificate-level non-repudiation, a dedicated signing service is the right tool.",
       ],
       steps: [
         "Drop the PDF, then draw your signature on the pad.",

@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "When JPG artifacts are not welcome — screenshots of slides, diagrams, forms with small print — export pages as PNG. The lossless format keeps letter edges and thin lines pixel-sharp, at 96 up to 300 DPI.",
         "Every page renders locally with pdf.js at the exact appearance the PDF defines. Files are named by page number, and multi-page results arrive with a one-click ZIP.",
+      
+        "Each page is rasterized by pdf.js at the DPI you pick: 96 for screen previews, 150 for readable thumbnails, 300 for print-ready output. Because PNG is lossless, hairlines, small print and diagram edges stay pixel-sharp — the artifacts that JPG introduces at those sizes simply are not present.",
+        "Compared with screenshotting a PDF viewer (which captures the screen at whatever zoom is current), the render is at true page resolution with predictable output size per page. And unlike cloud converters, a confidential contract or a private deck never touches a server — the pages are drawn by the same engine Firefox uses to display PDFs.",
       ],
       steps: [
         "Drop your PDF into the box.",

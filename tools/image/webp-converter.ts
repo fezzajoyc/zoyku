@@ -18,6 +18,9 @@ export default defineTool({
       intro: [
         "Going to WebP cuts file sizes by 25–35% compared to JPG at the same visual quality — ideal for websites and apps. Coming back from WebP to JPG or PNG makes images open in older software that never learned Google's format.",
         "Drop any mix of WebP, JPG, PNG and more, choose the output format, and every file converts at once with the size before and after shown per row. Everything is encoded by your browser on your own device — no uploads, ever.",
+      
+        "WebP supports both lossy and lossless compression plus alpha, which is why Google pushes it for web delivery; the browser's canvas encoder handles the lossy path and PNG output preserves alpha losslessly. When converting WebP→JPG the same alpha-flattening rule applies as PNG→JPG — transparent areas become white.",
+        "Compared with opening each file in an editor and re-saving, the batch converts a mixed folder in one pass with the size delta shown per row. And unlike server-side converters that route images through a queue, the encoder is your browser — the same code path that renders every web page you visit, running entirely offline.",
       ],
       steps: [
         "Drop WebP files to convert away from WebP, or any images to convert to WebP.",

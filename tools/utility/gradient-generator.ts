@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Pick two to five colors, choose linear, radial or conic, and drag the angle — the preview updates as you type and the CSS is always one copy away. Leave a stop's position blank and it is placed automatically the way CSS would, or set exact percentages for hard stops and off-center blends.",
         "The output ships as a real production block: a solid-color fallback line for ancient browsers, a -webkit- prefixed line for old WebKit builds, and the standard syntax last. A random-harmonize button rotates the hues of your palette in HSL space so every shuffle stays balanced instead of clashing.",
+      
+        "Color stops are positioned the way CSS resolves them: a stop with no position auto-places midway between its neighbors, and explicit percentages create hard stops — the technique behind 'stripes' effects. Linear, radial and conic all share the same stop list; the angle control maps to deg values for linear and the start position for conic.",
+        "Compared with writing gradient syntax by hand (which means re-checking vendor prefixes and comma positions), the tool emits a production-ready block: a solid fallback color, the -webkit- prefixed line for legacy WebKit, and the standard syntax last. The random-harmonize shuffle rotates hue in HSL space, so each shuffle stays in the same tonal family instead of producing clashes.",
       ],
       steps: [
         "Set two to five colors, or start from a preset palette.",

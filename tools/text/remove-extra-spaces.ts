@@ -26,6 +26,9 @@ export default defineTool({
       intro: [
         "Text copied from PDFs, spreadsheets, terminals and chat apps often arrives riddled with double spaces, stray tabs and empty lines. This tool squashes repeated spaces into one and gives you toggles for the rest: turn tabs into spaces, trim each line's edges, and drop blank lines.",
         "Everything runs locally as you type, so you can paste logs, drafts or anything else sensitive without a second thought.",
+      
+        "Each cleanup rule is a discrete pass: consecutive spaces collapse to one, tabs convert to a chosen width, per-line edges trim, and runs of blank lines reduce to one or zero depending on the toggle. Because passes run in order, a pasted PDF's '  word   word  ' becomes 'word word' predictably rather than aggressively.",
+        "Compared with doing this by regex each time (which means remembering the pattern and checking the edge cases), the toggles are already tuned to the four real-world cases: PDF copy, terminal output, spreadsheet paste and chat app export. And like every text tool here, the input never leaves your tab — a pasted stack trace or log stays local.",
       ],
       steps: [
         "Paste the messy text into the input box.",

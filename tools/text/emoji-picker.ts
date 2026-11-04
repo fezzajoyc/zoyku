@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "A hand-curated emoji board with 677 entries grouped the way you think: Smileys, People, Animals, Food, Activities, Travel, Objects and Symbols. Search matches the official English name — typing “star” finds ⭐, 🌟 and ✨ in one go.",
         "One click copies the character to your clipboard, with a visible confirmation so you never wonder whether it worked. Your 16 most recent picks are kept on this device via localStorage, so tomorrow's favorite is one tap away. No images are loaded — the grid renders native emoji glyphs instantly.",
+      
+        "The 677 entries are a curated subset of the Unicode emoji set — the grid renders your system's native emoji font rather than images, so the characters you see are the characters you copy, with no asset download. Search indexes the official Unicode names plus common aliases, so 'fire' finds 🔥 and 'check' finds ✔️.",
+        "Compared with OS-level emoji pickers (which hide behind shortcut keys and differ per platform), this is the same board in every browser, searchable by name and grouped by intent. The 16-slot recents row learns what you actually use, and because everything is a string, picked emoji paste into terminals, editors and commit messages without formatting surprises.",
       ],
       steps: [
         "Type a name in the search box or pick a group tab.",

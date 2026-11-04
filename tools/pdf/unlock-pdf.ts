@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Some PDFs open fine but refuse to be printed, copied or annotated because of owner-level permission flags. This tool loads the document with pdf-lib and saves a fresh copy without those restrictions, so printing and text selection work again in every reader.",
         "Everything happens on your device: the file is parsed and rewritten locally, never sent to a server. Note the honest limit — a PDF that asks for an open password every time cannot be decrypted here, and this tool does not add encryption either; it only produces an unrestricted copy of a file you can already read.",
+      
+        "pdf-lib loads the document, reads every page and object, and writes a fresh file without copying the permission dictionary — so print, copy and annotate flags simply do not exist in the output. The content itself is untouched: text, images and vectors are cloned byte-for-byte from the source you could already open.",
+        "The limit is honest and technical: pdf-lib cannot decrypt a file that prompts for an open password, because the content is encrypted and there is no legitimate way around that in a general-purpose library. For the common case — a PDF that opens fine but refuses to print — this produces an unrestricted copy with zero upload and zero quality loss.",
       ],
       steps: [
         "Drop the restricted PDF that opens without a password.",

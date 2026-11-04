@@ -14,6 +14,9 @@ export default defineTool({
       intro: [
         "Build before/after shots, comparison strips and sprite sheets: drop 2 to 9 images, pick a layout, set the gap and background color, and the merged image is composed on your device at full resolution.",
         "Images are scaled to a common height (side by side), width (stacked) or cell (grid), so nothing gets cropped or stretched.",
+      
+        "Layout math is deterministic: side-by-side scales all images to the tallest image's height, stacked to the widest width, and grid places each in an equal cell — so a landscape and a portrait merge cleanly without cropping. Gap color is user-picked; on PNG output with transparent padding the gaps can stay see-through.",
+        "Compared with stitching in a photo editor or building an HTML screenshot, the merged result is a single real file at full resolution — no browser zoom artifacts, no per-image alignment fiddling. And unlike upload-based combiners, a set of client mockups or private screenshots never travels anywhere for the merge.",
       ],
       steps: [
         "Drop 2–9 images in the order you want them merged.",

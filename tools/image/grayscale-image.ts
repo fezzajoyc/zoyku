@@ -14,6 +14,9 @@ export default defineTool({
       intro: [
         "Turn any set of photos into clean black & white versions in one pass: drop a batch, pick JPG or PNG output, and every image is desaturated on your device with the browser's own color engine.",
         "Handy for preparing print-ready scans, unifying a photo set, or stripping color from documents before OCR.",
+      
+        "Desaturation uses the canvas composite pipeline: each pixel's RGB channels are collapsed to a luminance value, so the tonal range of the original is preserved rather than just averaged to flat gray. Output can be JPG (smaller, fine for print proofs) or PNG (lossless, for scans headed to OCR).",
+        "Compared with converting in an image editor, there is no per-file dialog, no color-profile surprises and no accidental re-crop — a batch of a hundred photos processes in one pass. Unlike a CSS filter or preview toggle, the output is a real grayscale file that stays gray everywhere, including printers and other apps.",
       ],
       steps: [
         "Drop one image or a whole batch.",

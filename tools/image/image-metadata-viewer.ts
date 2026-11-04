@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Drop a photo and see everything it carries: pixel dimensions, megapixels, file type and size at a glance. For JPEG photos the built-in EXIF reader digs deeper — camera make and model, lens, exposure time, aperture, ISO, focal length, capture date and orientation, parsed by a minimal reader that runs entirely on your device.",
         "If a photo contains GPS coordinates, they are shown in decimal form with a one-click maps lookup — handy for checking what your phone embeds before you share. Non-JPEG files show their PNG bit depth and color type instead, since EXIF is a JPEG-era standard they do not carry.",
+      
+        "EXIF is parsed straight from the JPEG's APP1 segment using a purpose-built reader rather than a library — it walks the TIFF header, reads the IFD directory, and decodes tags for camera, lens, exposure, ISO, focal length, orientation and GPS. PNG files show their IHDR fields (bit depth, color type) since PNG has no EXIF slot.",
+        "Compared with right-click → Properties, this shows the full EXIF block including fields most file managers hide — aperture, shutter speed, lens model, GPS coordinates with a maps link. Unlike upload-based EXIF viewers, the image bytes never leave your machine, so a photo's home address stays private while you inspect it.",
       ],
       steps: [
         "Drop one or more images into the box.",

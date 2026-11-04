@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Filled PDF forms are interactive: the values live in separate field objects that some viewers reset, drop or re-order when the file is forwarded. Flattening with pdf-lib draws each field directly onto its page, so what you filled is exactly what every reader will show — a requirement for many job portals, tax portals and filing systems.",
         "The processed document looks identical but contains no form fields anymore: nothing can be unfilled, changed or resubmitted. Everything runs on your device with pdf-lib; the file never leaves your browser. If the PDF has no fillable fields, the tool tells you so instead of producing a pointless copy.",
+      
+        "pdf-lib's form.flatten() reads every AcroField and draws its current value — text, checkbox, dropdown — directly onto the page content stream, then removes the interactive field objects. The file looks identical but is now static: no viewer can reset the values, reorder the fields or prompt 'this document has a form' on open.",
+        "Compared with printing a filled form to PDF (which rasterizes it into a picture of itself), the flattened file keeps real text — searchable, selectable, and a fraction of the size. And unlike editing the form again in Acrobat, flattening is one-directional and permanent, which is exactly what submission portals and counter-signatories require.",
       ],
       steps: [
         "Drop the filled PDF form you are about to submit.",

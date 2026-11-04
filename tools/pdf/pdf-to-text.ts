@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Get the raw words out of a PDF without copy-pasting page by page. The extractor walks through the document, rebuilds reading order and hands you clean plain text you can preview, copy at once or download as a .txt file.",
         "Use it to feed quotes into notes, run text through another tool, or make a text-only archive of a document. Word counts are shown as you go, and extraction is instant because everything happens locally.",
+      
+        "Extraction uses pdf.js's textContent API: the reader walks each page's text items, reconstructs line breaks from Y-positions and paragraphs from line spacing — the same engine Firefox uses for its built-in viewer. A scanned PDF has no text layer to extract, so the tool will return empty output rather than hallucinate content; OCR is the tool for that.",
+        "Compared with select-all → copy in a viewer (which often scrambles reading order across columns), the reconstructed text follows the document's true reading order. And because extraction is local, a contract or an unpublished manuscript can be mined for quotes without ever touching a third-party server — the same guarantee the rest of the suite makes.",
       ],
       steps: [
         "Drop a PDF with selectable text.",

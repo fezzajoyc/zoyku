@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Point at any image that contains text — a photo of a page, a scan, a screenshot — and get the characters back as editable text. Recognition is powered by Tesseract, loaded on demand inside your browser tab; the image itself is never uploaded anywhere.",
         "The output lands in an editable box, so you can fix the occasional misread before copying it or downloading it as a .txt file. Clean, evenly lit, straight-on shots give the best results.",
+      
+        "Recognition runs on Tesseract compiled to WebAssembly, loaded on demand inside the tab — the image is decoded locally and fed to the engine as raw pixels. Accuracy is best on clean, high-contrast text at natural size; a phone photo of a page benefits from good lighting and a straight-on angle far more than from any resolution bump.",
+        "Compared with OS-level text extraction or cloud OCR APIs, the image never leaves your device and there is no account, quota or latency beyond the first model download. The editable output box exists because OCR is probabilistic — a quick scan-and-fix beats trusting a black-box result that silently misreads a serial number.",
       ],
       steps: [
         "Drop in one image (PNG, JPG or WebP) that contains text.",

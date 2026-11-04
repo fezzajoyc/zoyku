@@ -15,6 +15,9 @@ export default defineTool({
       intro: [
         "Turn a .docx into a clean, shareable PDF: paragraphs, headings and bold runs are re-typeset onto A4 pages with proper margins, so the output looks tidy even without Word installed. Reading, printing and sending become friction-free.",
         "This is an honest text-focused conversion, not a pixel clone of Word's layout: images, tables and page decorations from the original are not carried over. What you get is your document's text in a reliable, universally readable PDF — generated entirely on your device.",
+      
+        "Conversion parses the .docx XML directly: paragraphs, headings, bold/italic runs and lists are mapped onto pdf-lib text layout at a readable 11 pt with A4 margins. The output is a real PDF with selectable text — not a screenshot of the document — so printing, searching and copying work exactly as a native PDF should.",
+        "Compared with opening in Word and saving as PDF (which requires Word installed and licensed), this handles the file with no dependencies. The honest scope: this is a text-focused re-typeset, so images, tables and exact Word layout do not carry over — for pixel-identical conversion, the dedicated Office tooling is the right path.",
       ],
       steps: [
         "Drop a .docx file (Word 2007 and newer).",
