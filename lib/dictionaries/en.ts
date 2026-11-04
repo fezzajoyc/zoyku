@@ -160,6 +160,7 @@ const en = {
       lines: "Lines",
       readingTime: "Reading time",
       readingMinutes: "{n} min read",
+      emptyHint: "Start typing or paste your text — every stat updates live as you type.",
       uniqueWords: "Unique words",
       avgWordLen: "Avg word length",
       pages: "Pages",

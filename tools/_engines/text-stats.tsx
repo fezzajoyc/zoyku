@@ -50,14 +50,31 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
 
   return (
     <ToolPanel>
-      <textarea
-        className="field"
-        rows={10}
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder={t.common.input}
-        aria-label={t.common.input}
-      />
+      <div className="relative">
+        <textarea
+          className="field"
+          rows={10}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={t.common.input}
+          aria-label={t.common.input}
+        />
+        {input !== "" && (
+          <button
+            type="button"
+            onClick={() => setInput("")}
+            aria-label={t.common.clear}
+            className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full border hairline bg-[var(--color-card)] text-[13px] text-[var(--color-sub)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
+          >
+            ×
+          </button>
+        )}
+      </div>
+      {!hasText && (
+        <p className="mt-3 text-center text-[13px] text-[var(--color-sub)]">
+          {t.text.stats.emptyHint}
+        </p>
+      )}
       <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
         {cells.map((c, i) => (
           <div

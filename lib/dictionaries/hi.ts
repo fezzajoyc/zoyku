@@ -142,6 +142,7 @@ const hi = {
       lines: "लाइनें",
       readingTime: "पढ़ने का समय",
       readingMinutes: "{n} मिनट का पढ़ाई",
+      emptyHint: "टाइप करना शुरू करें या टेक्स्ट पेस्ट करें — सारी गणनाएँ लाइव अपडेट होती हैं।",
       uniqueWords: "अनूठे शब्द",
       avgWordLen: "औसत शब्द लंबाई",
       pages: "पेज",

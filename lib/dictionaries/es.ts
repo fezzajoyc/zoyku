@@ -140,6 +140,7 @@ const es: Dictionary = {
       lines: "Líneas",
       readingTime: "Tiempo de lectura",
       readingMinutes: "{n} min de lectura",
+      emptyHint: "Empieza a escribir o pega tu texto: todas las estadísticas se actualizan al instante.",
       uniqueWords: "Palabras únicas",
       avgWordLen: "Long. media palabra",
       pages: "Páginas",

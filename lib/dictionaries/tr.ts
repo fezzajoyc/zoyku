@@ -142,6 +142,7 @@ const tr = {
       lines: "Satır",
       readingTime: "Okuma süresi",
       readingMinutes: "{n} dk okuma",
+      emptyHint: "Yazmaya başlayın veya metninizi yapıştırın — tüm istatistikler anında güncellenir.",
       uniqueWords: "Benzersiz kelime",
       avgWordLen: "Ort. kelime uzunluğu",
       pages: "Sayfa",

@@ -8,10 +8,13 @@ export function CopyButton({
   value,
   className = "",
   label,
+  onCopied,
 }: {
   value: string | (() => string);
   className?: string;
   label?: string;
+  /** 复制成功后的附加动作(如密码工具的定时隐藏明文) */
+  onCopied?: () => void;
 }) {
   const { t } = useI18n();
   const [done, setDone] = useState(false);
@@ -33,7 +36,8 @@ export function CopyButton({
     setDone(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setDone(false), 1600);
-  }, [value]);
+    onCopied?.();
+  }, [value, onCopied]);
 
   return (
     <button

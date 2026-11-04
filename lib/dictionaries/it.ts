@@ -143,6 +143,7 @@ const it = {
       lines: "Righe",
       readingTime: "Tempo di lettura",
       readingMinutes: "{n} min di lettura",
+      emptyHint: "Inizia a digitare o incolla il testo: tutte le statistiche si aggiornano in tempo reale.",
       uniqueWords: "Parole uniche",
       avgWordLen: "Lung. media parola",
       pages: "Pagine",

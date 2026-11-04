@@ -428,6 +428,14 @@ function Results({ outs }: { outs: Out[] }) {
     }
   }
 
+  const [savedName, setSavedName] = useState<string | null>(null);
+
+  const saveOne = (name: string, blob: Blob) => {
+    downloadBlob(blob, name);
+    setSavedName(name);
+    setTimeout(() => setSavedName((cur) => (cur === name ? null : cur)), 1400);
+  };
+
   return (
     <div className="rounded-2xl border hairline p-4">
       <p className="mb-2 text-[13.5px] font-semibold">{t.common.output}</p>
@@ -436,9 +444,9 @@ function Results({ outs }: { outs: Out[] }) {
           <li key={o.name} className="flex items-center gap-2.5 text-[14px]">
             <span className="min-w-0 flex-1 truncate">{o.name}</span>
             <span className="mono flex-none text-[12.5px] text-[var(--color-sub)]">{formatBytes(o.blob.size)}</span>
-            <button type="button" onClick={() => downloadBlob(o.blob, o.name)}
+            <button type="button" onClick={() => saveOne(o.name, o.blob)}
               className="flex-none rounded-full border hairline px-3 py-1 text-[12.5px] font-medium hover:bg-[var(--color-surface)]">
-              {t.common.download}
+              {savedName === o.name ? "✓" : t.common.download}
             </button>
           </li>
         ))}

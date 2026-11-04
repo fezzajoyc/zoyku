@@ -143,6 +143,7 @@ const id = {
       lines: "Baris",
       readingTime: "Waktu baca",
       readingMinutes: "{n} mnt baca",
+      emptyHint: "Mulai mengetik atau tempel teks Anda — semua statistik diperbarui secara langsung.",
       uniqueWords: "Kata unik",
       avgWordLen: "Rata-rata panjang kata",
       pages: "Halaman",

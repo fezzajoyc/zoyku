@@ -145,6 +145,7 @@ const ar: Dictionary = {
       lines: "الأسطر",
       readingTime: "زمن القراءة",
       readingMinutes: "{n} دقيقة قراءة",
+      emptyHint: "ابدأ الكتابة أو الصق نصك — تُحدَّث جميع الإحصاءات فوراً أثناء الكتابة.",
       uniqueWords: "كلمات فريدة",
       avgWordLen: "متوسط طول الكلمة",
       pages: "صفحات",

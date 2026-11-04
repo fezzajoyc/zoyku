@@ -140,6 +140,7 @@ const zh: Dictionary = {
       lines: "行数",
       readingTime: "阅读时长",
       readingMinutes: "约 {n} 分钟",
+      emptyHint: "开始输入或粘贴文本——所有统计随输入实时更新。",
       uniqueWords: "不重复词",
       avgWordLen: "平均词长",
       pages: "页数",

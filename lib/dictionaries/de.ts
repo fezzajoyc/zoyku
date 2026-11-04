@@ -143,6 +143,7 @@ const de = {
       lines: "Zeilen",
       readingTime: "Lesezeit",
       readingMinutes: "{n} Min. Lesezeit",
+      emptyHint: "Tippen Sie oder fügen Sie Text ein — alle Statistiken aktualisieren sich live.",
       uniqueWords: "Eindeutige Wörter",
       avgWordLen: "Ø Wortlänge",
       pages: "Seiten",

@@ -140,6 +140,7 @@ const ja: Dictionary = {
       lines: "行数",
       readingTime: "読了時間",
       readingMinutes: "約 {n} 分",
+      emptyHint: "入力またはペーストすると、すべての統計がリアルタイムで更新されます。",
       uniqueWords: "ユニークな単語",
       avgWordLen: "平均単語長",
       pages: "ページ数",

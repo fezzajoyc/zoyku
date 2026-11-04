@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { downloadBlob, formatBytes } from "@/components/client-ui";
 import { Icon } from "@/components/icons";
@@ -57,6 +58,13 @@ export function ResultList({
   onDownloadAll?: () => void;
 }) {
   const { locale, t } = useI18n();
+  const [savedName, setSavedName] = useState<string | null>(null);
+
+  const saveOne = (r: ImgResult) => {
+    saveResult(r);
+    setSavedName(r.name);
+    setTimeout(() => setSavedName((cur) => (cur === r.name ? null : cur)), 1400);
+  };
   if (rows.length === 0 && !busy) return null;
 
   const done = rows.filter((r) => r.ok);
@@ -133,11 +141,11 @@ export function ResultList({
             {r.ok && r.blob && (
               <button
                 type="button"
-                onClick={() => saveResult(r)}
+                onClick={() => saveOne(r)}
                 className="inline-flex flex-none items-center gap-1.5 rounded-full border hairline px-3 py-1.5 text-[13px] font-medium transition-colors hover:bg-[var(--color-surface)]"
               >
                 <Icon name="download" size={13} />
-                {ERR_SAVE_ONE[locale] ?? ERR_SAVE_ONE.en}
+                {savedName === r.name ? "✓" : ERR_SAVE_ONE[locale] ?? ERR_SAVE_ONE.en}
               </button>
             )}
           </li>

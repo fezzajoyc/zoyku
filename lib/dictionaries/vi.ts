@@ -143,6 +143,7 @@ const vi = {
       lines: "Dòng",
       readingTime: "Thời gian đọc",
       readingMinutes: "{n} phút đọc",
+      emptyHint: "Bắt đầu nhập hoặc dán văn bản — mọi số liệu cập nhật trực tiếp khi bạn gõ.",
       uniqueWords: "Từ duy nhất",
       avgWordLen: "Độ dài từ trung bình",
       pages: "Số trang",

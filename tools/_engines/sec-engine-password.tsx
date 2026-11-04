@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
@@ -110,6 +110,8 @@ const LABELS: Record<string, Record<string, string>> = {
   sepUnderscore: { en: "Underscore (_)", zh: "下划线 (_)", ja: "アンダースコア (_)", es: "Guion bajo (_)", pt: "Sublinhado (_)", fr: "Souligné (_)", de: "Unterstrich (_)", ru: "Подчёркивание (_)", it: "Trattino basso (_)", tr: "Alt çizgi (_)", ko: "밑줄 (_)", ar: "شرطة سفلية (_)", hi: "अंडरस्कोर (_)", id: "Garis bawah (_)", vi: "Gạch dưới (_)", },
   sepSpace: { en: "Space", zh: "空格", ja: "スペース", es: "Espacio", pt: "Espaço", fr: "Espace", de: "Leerzeichen", ru: "Пробел", it: "Spazio", tr: "Boşluk", ko: "공백", ar: "مسافة", hi: "स्पेस", id: "Spasi", vi: "Khoảng trắng", },
   sepNone: { en: "None", zh: "无", ja: "なし", es: "Ninguno", pt: "Nenhum", fr: "Aucun", de: "Keine", ru: "Нет", it: "Nessuno", tr: "Yok", ko: "없음", ar: "بدون", hi: "कोई नहीं", id: "Tanpa", vi: "Không", },
+  showOut: { en: "Show password", zh: "显示密码", ja: "パスワードを表示", es: "Mostrar contraseña", pt: "Mostrar senha", fr: "Afficher le mot de passe", de: "Passwort anzeigen", ru: "Показать пароль", it: "Mostra password", tr: "Şifreyi göster", ko: "비밀번호 표시", ar: "إظهار كلمة المرور", hi: "पासवर्ड दिखाएँ", id: "Tampilkan kata sandi", vi: "Hiện mật khẩu" },
+  hideOut: { en: "Hide (auto-hides 10s after copy)", zh: "隐藏(复制后 10 秒自动隐藏)", ja: "表示を隠す(コピー 10 秒後に自動非表示)", es: "Ocultar (se oculta 10 s tras copiar)", pt: "Ocultar (auto-oculta 10 s após copiar)", fr: "Masquer (masquage auto 10 s après copie)", de: "Verbergen (10 s nach Kopieren automatisch)", ru: "Скрыть (автоскрытие через 10 с после копирования)", it: "Nascondi (auto-nasconde dopo 10 s dalla copia)", tr: "Gizle (kopyaladıktan 10 sn sonra otomatik gizlenir)", ko: "숨기기(복사 후 10초 뒤 자동 숨김)", ar: "إخفاء (يُخفى تلقائياً بعد 10 ثوانٍ من النسخ)", hi: "छिपाएँ (कॉपी के 10 सेकंड बाद अपने आप छिप जाएगा)", id: "Sembunyikan (otomatis 10 dtk setelah disalin)", vi: "Ẩn (tự ẩn sau 10 giây kể từ khi sao chép)" },
   localNote: {
     en: "Generated in your browser with crypto.getRandomValues — never sent, never stored.",
     zh: "由浏览器通过 crypto.getRandomValues 本地生成——不发送、不存储。",
@@ -137,6 +139,8 @@ export function SecPasswordGeneratorEngine() {
   const [capitalize, setCapitalize] = useState(true);
   const [addNumber, setAddNumber] = useState(false);
   const [out, setOut] = useState("");
+  const [revealed, setRevealed] = useState(true);
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const bits = useMemo(() => {
     if (mode === "passphrase") {
@@ -292,9 +296,22 @@ export function SecPasswordGeneratorEngine() {
         )}
 
         <div className="rounded-xl bg-[var(--color-surface)] px-4 py-5 text-center">
-          <p className="mono break-all text-[20px] font-semibold leading-7 tracking-wide sm:text-[24px]">
-            {out || "—"}
+          <p className="mono break-all text-[20px] font-semibold leading-7 tracking-wide sm:text-[24px]" aria-live="polite">
+            {out ? (revealed ? out : "•".repeat(Math.min(out.length, 28))) : "—"}
           </p>
+          {out && (
+            <button
+              type="button"
+              onClick={() => {
+                setRevealed((v) => !v);
+                if (hideTimer.current) clearTimeout(hideTimer.current);
+              }}
+              className="mt-2 inline-flex items-center gap-1 rounded-full border hairline px-3 py-1 text-[12px] font-medium text-[var(--color-sub)] transition-colors hover:bg-[var(--color-card)]"
+              aria-pressed={revealed}
+            >
+              {revealed ? "🙈" : "👁"} {revealed ? L("hideOut") : L("showOut")}
+            </button>
+          )}
         </div>
 
         {bits > 0 && (
@@ -317,7 +334,13 @@ export function SecPasswordGeneratorEngine() {
         )}
 
         <div className="flex flex-wrap gap-2.5">
-          <CopyButton value={out} />
+          <CopyButton
+            value={out}
+            onCopied={() => {
+              if (hideTimer.current) clearTimeout(hideTimer.current);
+              hideTimer.current = setTimeout(() => setRevealed(false), 10_000);
+            }}
+          />
           <button
             type="button"
             onClick={generate}
