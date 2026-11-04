@@ -88,6 +88,8 @@ export const CALC_TOOLS = [
   shoeSizeConverter,
   stopwatch,
   countdownTimer,
+  etaCalculator,
+  ipv4SubnetCalculator,
 ];
 
 import overtimePayCalculator from "./overtime-pay-calculator";
@@ -99,3 +101,5 @@ import heartRateZonesCalculator from "./heart-rate-zones-calculator";
 import shoeSizeConverter from "./shoe-size-converter";
 import stopwatch from "./stopwatch";
 import countdownTimer from "./countdown-timer";
+import etaCalculator from "./eta-calculator";
+import ipv4SubnetCalculator from "./ipv4-subnet-calculator";

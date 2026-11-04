@@ -6,6 +6,7 @@ import ipLookup from "./ip-lookup";
 import whoisLookup from "./whois-lookup";
 import randomNumber from "./random-number";
 import totpGenerator from "./totp-generator";
+import tokenGenerator from "./token-generator";
 
 export const SECURITY_TOOLS = [
   passwordGenerator,
@@ -16,4 +17,5 @@ export const SECURITY_TOOLS = [
   whoisLookup,
   randomNumber,
   totpGenerator,
+  tokenGenerator,
 ];

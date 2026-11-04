@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { dict, HTML_LANG } from "@/lib/i18n";
 import { CATEGORIES, isCategory, isLocale, LOCALES, type Locale } from "@/lib/site";
 import { toolsByCategory } from "@/tools/registry";
-import { Breadcrumb, Container, SectionHead, ToolCard } from "@/components/ui";
+import { categoryIntro } from "@/tools/_lib/category-intros";
+import { categoryFaqPool } from "@/tools/_lib/category-faqs";
+import { Breadcrumb, Container, Prose, SectionHead, ToolCard } from "@/components/ui";
 import { JsonLd } from "@/components/jsonld";
 import { SITE } from "@/lib/site";
 import { fill } from "@/tools/_lib/types";
@@ -57,6 +59,17 @@ export default async function CategoryPage({
           url: `${SITE.domain}/${locale}/categories/${cat}`,
         }}
       />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: categoryFaqPool(cat, locale).map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }}
+      />
       <Breadcrumb
         items={[
           { label: "Zoyku", href: `/${locale}` },
@@ -67,6 +80,10 @@ export default async function CategoryPage({
       <p className="mt-2 max-w-2xl text-[16px] leading-6 text-[var(--color-sub)]">
         {t.categories[cat].desc}
       </p>
+
+      <div className="mx-auto mt-8 max-w-3xl">
+        <Prose paragraphs={categoryIntro(cat, locale)} />
+      </div>
 
       <div className="mt-8">
         <SectionHead title={fill(t.tools.count, { count: tools.length })} />
@@ -88,6 +105,18 @@ export default async function CategoryPage({
             >
               {t.categories[c].name}
             </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-12 max-w-3xl">
+        <SectionHead title={t.tool.faq} />
+        <div>
+          {categoryFaqPool(cat, locale).map((f, i) => (
+            <details key={i} className="faq" open={i === 0}>
+              <summary>{f.q}</summary>
+              <p className="faq-a">{f.a}</p>
+            </details>
           ))}
         </div>
       </section>

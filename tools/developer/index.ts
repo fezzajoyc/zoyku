@@ -36,8 +36,16 @@ import xmlToJson from "./xml-to-json";
 import jsonToXml from "./json-to-xml";
 import placeholderImageGenerator from "./placeholder-image-generator";
 import cronExplainer from "./cron-explainer";
+import jsonViewer from "./json-viewer";
+import chmodCalculator from "./chmod-calculator";
+import ulidGenerator from "./ulid-generator";
+import userAgentParser from "./user-agent-parser";
 
 export const DEV_TOOLS = [
+  jsonViewer,
+  chmodCalculator,
+  ulidGenerator,
+  userAgentParser,
   jsonFormatter,
   jsonMinifier,
   jsonValidator,
