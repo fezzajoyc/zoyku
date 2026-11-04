@@ -5197,4 +5197,20 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Token, UUID mü ULID mi?', a: 'Tanımlayıcı tahmin edilemez olmalıysa opak rastgele token (bu araç) kullanın: API anahtarları, oturumlar, webhook sırları. UUID/ULID paralel üretilen ya da zamana göre sıralanan tanımlayıcılar içindir — zamanlama ya da adet bilgisi sızdırır ve güvenlik yükü taşımamalıdır. Sıralanabilir bir ID gerekiyorsa ULID üreticiyi kullanın.' },
     ],
   },
+  "extract-audio": {
+    name: "Videodan MP3'ye",
+    tagline: 'Herhangi bir videonun ses parçasını MP3 olarak çıkarın — MP4, MOV, WebM ve daha fazlası, ffmpeg.wasm ile tamamen tarayıcınızda dönüştürülür. Yükleme yok, sunucu yok.',
+    intro: ["Yolda dinlemek için dersler, video dosyalarına sıkışmış podcast kayıtları, transkripsiyon için ses istediğiniz röportajlar, telefonunuz için film müzikleri — bu araç bir videodan ses parçasını ayırır ve her yerde çalan standart bir MP3'e kodlar.",
+        "Dönüştürme ffmpeg.wasm üzerinde çalışır — sayısız masaüstü dönüştürücüyü çalıştıran FFmpeg'in WebAssembly'ye derlenip tarayıcınızın belleğinde çalışan hâli. Video diskten bellek içi sanal dosya sistemine okunur, demux edilir, ses akışı kod çözülür ve libmp3lame ile yeniden kodlanır; sonuç indirme olarak döner. Videonun tek bir baytı bile ağa dokunmaz.",
+        'İlk kullanım motoru bir kez indirir (yaklaşık 31 MB); tarayıcınız önbelleğe alır, sonraki her dönüşüm anında başlar. Tek iş parçacıklı sürüm SharedArrayBuffer gerektirmez: site özel başlıklar olmadan her yerde çalışır — dosyalarınızı kimseye göndermeden.'],
+    steps: ['Bir video dosyası bırakın — MP4, MOV, WebM, MKV ve diğer yaygın kaplar çalışır.',
+        'MP3 kalitesi seçin: müzik için 320 kbps, genel kullanım için 192 kbps, konuşma içeriğinde yer tasarrufu için 128 kbps.',
+        "«Sesi çıkar»ya tıklayın ve MP3'ü indirin. Uzun videolar zaman alır — çubuk gerçek kodlama ilerlemesini yansıtır."],
+    faqs: [
+        { q: 'Videom bir yere yükleniyor mu?', a: "Hayır. ffmpeg.wasm tarayıcınızın belleğinde çalışır: video yerel olarak sanal bir dosya sistemine okunur, dönüştürülür ve MP3 cihazınızda üretilir. Tek ağ isteği, genel bir CDN'den motoru bir kez indirmektir — dosyanız buna dahil değildir." },
+        { q: 'İlk dönüşüm neden yavaş?', a: 'İlk çalıştırma WebAssembly motorunu indirir (~31 MB) — tek seferlik bir maliyet; sonrasında tarayıcı önbelleği anında sağlar. Dönüşümler kendileri gerçek zamana yakın hızda çalışır: ses kodlamak video yeniden kodlamaktan çok daha hafiftir.' },
+        { q: 'Hangi kaliteyi seçmeliyim?', a: '320 kbps müzik için şeffaftır; 192 kbps podcast ve dersler dahil çoğu içerik için tatlı noktadır; 128 kbps konuşma dosyalarını küçük tutar. Dikkat: MP3 kaynağın kalitesini aşamaz — düşük bit hızlı kaynak video, ayardan bağımsız olarak düşük kalır.' },
+        { q: 'Araç ses parçası bulunamadı diyor — neden?', a: "Bazı videolar gerçekten sessizdir; birkaç kap (ham .ts akışları, bazı .flv) hızlı demuxer tarafından işlenmez. Önce MP4'e dönüştürün veya dosyanın oynatıcınızda sesle çaldığını doğrulayın." },
+    ],
+  },
 };

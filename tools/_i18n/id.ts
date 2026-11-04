@@ -5197,4 +5197,20 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Token, UUID, atau ULID?', a: 'Gunakan token acak opak (alat ini) saat pengidentifikasi tidak boleh ditebak: kunci API, sesi, rahasia webhook. UUID/ULID untuk pengidentifikasi yang dibuat paralel atau bisa diurutkan waktu — mereka membocorkan informasi waktu atau jumlah dan tak seharusnya menanggung peran keamanan. Perlu ID yang bisa diurutkan? Pakai generator ULID.' },
     ],
   },
+  "extract-audio": {
+    name: 'Video ke MP3',
+    tagline: 'Ekstrak trek audio dari video apa pun sebagai MP3 — MP4, MOV, WebM, dan lainnya, dikonversi sepenuhnya di browser dengan ffmpeg.wasm. Tanpa unggah, tanpa server.',
+    intro: ['Kuliah untuk didengar di perjalanan, rekaman podcast yang terjebak dalam file video, wawancara yang Anda inginkan sebagai audio untuk ditranskrip, soundtrack untuk ponsel — alat ini memisahkan trek audio dari video dan mengodekannya sebagai MP3 standar yang bisa diputar di mana saja.',
+        'Konversi berjalan di atas ffmpeg.wasm — FFmpeg yang sama yang menggerakkan konverter desktop tanpa terhitung, dikompilasi ke WebAssembly dan berjalan di memori browser Anda. Video dibaca dari disk ke sistem berkas virtual dalam memori, didemux, trek audio didekode dan dikode ulang dengan libmp3lame, dan hasilnya kembali sebagai unduhan. Tak satu byte pun video menyentuh jaringan.',
+        'Pemakaian pertama mengunduh mesin sekali (sekitar 31 MB); browser Anda meng-cache-nya, sehingga setiap konversi berikutnya langsung mulai. Versi single-thread tidak butuh SharedArrayBuffer: situs bekerja di mana saja tanpa header khusus — dan tanpa mengirim file Anda kepada siapa pun.'],
+    steps: ['Jatuhkan file video — MP4, MOV, WebM, MKV, dan wadah umum lainnya didukung.',
+        'Pilih kualitas MP3: 320 kbps untuk musik, 192 kbps untuk penggunaan umum, 128 kbps untuk menghemat ruang pada konten lisan.',
+        'Klik Ekstrak audio dan unduh MP3-nya. Video panjang memakan waktu — bilah kemajuan mencerminkan progres pengodean yang sebenarnya.'],
+    faqs: [
+        { q: 'Apakah video saya diunggah ke mana pun?', a: 'Tidak. ffmpeg.wasm berjalan di memori browser Anda: video dibaca lokal ke sistem berkas virtual, dikonversi, dan MP3 dihasilkan di perangkat Anda. Satu-satunya permintaan jaringan adalah unduhan sekali mesin dari CDN publik — file Anda bukan bagian darinya.' },
+        { q: 'Mengapa konversi pertama lambat?', a: 'Eksekusi pertama mengunduh mesin WebAssembly (~31 MB) — biaya sekali; setelah itu cache browser menyajikannya seketika. Konversinya sendiri berjalan mendekati kecepatan waktu nyata atau lebih cepat: mengode audio jauh lebih ringan daripada mengode ulang video.' },
+        { q: 'Kualitas mana yang dipilih?', a: '320 kbps transparan untuk musik; 192 kbps adalah titik terbaik untuk sebagian besar konten termasuk podcast dan kuliah; 128 kbps menjaga file lisan tetap kecil. Catatan: MP3 tidak melampaui kualitas sumber — video sumber ber-bitrate rendah tetap rendah apa pun pengaturannya.' },
+        { q: 'Alat bilang trek audio tidak ditemukan — mengapa?', a: 'Beberapa video memang tanpa suara; sedikit wadah (stream .ts mentah, sebagian .flv) tidak ditangani demuxer cepat. Konversi dulu ke MP4, atau pastikan file berbunyi di pemutar Anda.' },
+    ],
+  },
 };

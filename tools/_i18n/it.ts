@@ -5179,4 +5179,20 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Token, UUID o ULID?', a: "Usa token casuali opachi (questo strumento) quando l'identificatore non deve essere indovinabile: chiavi API, sessioni, segreti webhook. UUID/ULID servono per identificatori generati in parallelo o ordinabili nel tempo — rivelano ritmo o conteggio e non devono portare peso di sicurezza. Per un ID ordinabile, usa il generatore ULID." },
     ],
   },
+  "extract-audio": {
+    name: 'Video in MP3',
+    tagline: 'Estrai la traccia audio di qualsiasi video come MP3 — MP4, MOV, WebM e altri, convertito interamente nel browser con ffmpeg.wasm. Nessun upload, nessun server.',
+    intro: ['Lezioni da ascoltare in viaggio, registrazioni di podcast intrappolate in file video, interviste che vuoi come audio da trascrivere, colonne sonore per il telefono — questo strumento separa la traccia audio da un video e la codifica come MP3 standard riproducibile ovunque.',
+        'La conversione gira su ffmpeg.wasm — lo stesso FFmpeg che alimenta innumerevoli convertitori desktop, compilato in WebAssembly ed eseguito nella memoria del tuo browser. Il video viene letto dal disco in un filesystem virtuale in memoria, demultiplexato, la traccia audio decodificata e ricodificata con libmp3lame, e il risultato torna come download. Nemmeno un byte del video tocca la rete.',
+        "Il primo uso scarica il motore una volta (circa 31 MB); il browser lo mette in cache, ogni conversione successiva parte all'istante. La build single-thread non richiede SharedArrayBuffer: il sito funziona ovunque senza header speciali — e senza inviare i tuoi file a nessuno."],
+    steps: ['Trascina un file video — MP4, MOV, WebM, MKV e altri contenitori comuni funzionano.',
+        "Scegli la qualità MP3: 320 kbps per la musica, 192 kbps per l'uso generale, 128 kbps per risparmiare spazio sulla parola.",
+        "Clicca Estrai audio e scarica l'MP3. I video lunghi richiedono tempo — la barra riflette l'avanzamento reale della codifica."],
+    faqs: [
+        { q: 'Il mio video viene caricato da qualche parte?', a: "No. ffmpeg.wasm gira nella memoria del tuo browser: il video viene letto localmente in un filesystem virtuale, convertito, e l'MP3 è generato sul tuo dispositivo. L'unica richiesta di rete è il download una tantum del motore da un CDN pubblico — il tuo file non ne fa parte." },
+        { q: 'Perché la prima conversione è lenta?', a: "La prima esecuzione scarica il motore WebAssembly (~31 MB) — un costo una tantum; dopo, la cache del browser lo serve all'istante. Le conversioni in sé girano quasi in tempo reale: codificare audio è molto più leggero che ricodificare video." },
+        { q: 'Quale qualità scegliere?', a: "320 kbps è trasparente per la musica; 192 kbps è il punto giusto per la maggior parte dei contenuti, podcast e lezioni inclusi; 128 kbps tiene piccoli i file di voce. Nota: l'MP3 non supera la qualità della sorgente — un video a basso bitrate resta basso a prescindere." },
+        { q: 'Lo strumento dice che non ha trovato una traccia audio — perché?', a: 'Alcuni video sono davvero muti; pochi contenitori (stream .ts grezzi, alcuni .flv) non sono gestiti dal demuxer rapido. Convertili prima in MP4 o verifica che il file suoni nel tuo player.' },
+    ],
+  },
 };

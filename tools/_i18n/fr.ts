@@ -5185,4 +5185,20 @@ export const fr: Record<string, ToolCopy> = {
         { q: 'Token, UUID ou ULID ?', a: "Utilisez des tokens aléatoires opaques (cet outil) quand l'identifiant doit être indevinable : clés d'API, sessions, secrets de webhook. UUID/ULID servent aux identifiants générés en parallèle ou triables par temps — ils fuient le rythme ou le compte et ne doivent pas porter de rôle de sécurité. Pour un ID triable, utilisez le générateur ULID." },
     ],
   },
+  "extract-audio": {
+    name: 'Vidéo vers MP3',
+    tagline: "Extrayez la piste audio de n'importe quelle vidéo en MP3 — MP4, MOV, WebM et plus, converti entièrement dans votre navigateur avec ffmpeg.wasm. Aucun envoi, aucun serveur.",
+    intro: ["Des cours à écouter dans les transports, des enregistrements de podcasts coincés dans des fichiers vidéo, des interviews à retranscrire, des bandes-son pour votre téléphone — cet outil sépare la piste audio d'une vidéo et l'encode en MP3 standard lisible partout.",
+        "La conversion tourne sur ffmpeg.wasm — le même FFmpeg qui propulse d'innombrables convertisseurs de bureau, compilé en WebAssembly et exécuté dans la mémoire de votre navigateur. La vidéo est lue dans un système de fichiers virtuel en mémoire, démuxée, la piste audio décodée puis ré-encodée avec libmp3lame, et le résultat revient en téléchargement. Aucun octet de la vidéo ne traverse le réseau.",
+        "La première utilisation télécharge le moteur une fois (environ 31 Mo) ; votre navigateur le met en cache, chaque conversion suivante démarre instantanément. La version monothread n'exige pas SharedArrayBuffer : le site fonctionne partout sans en-têtes spéciaux — sans envoyer vos fichiers à personne."],
+    steps: ['Déposez un fichier vidéo — MP4, MOV, WebM, MKV et autres conteneurs courants fonctionnent.',
+        "Choisissez la qualité MP3 : 320 kbps pour la musique, 192 kbps pour l'usage général, 128 kbps pour la voix en petits fichiers.",
+        "Cliquez sur Extraire l'audio et téléchargez le MP3. Les vidéos longues prennent du temps — la barre reflète la progression réelle de l'encodage."],
+    faqs: [
+        { q: 'Ma vidéo est-elle envoyée quelque part ?', a: "Non. ffmpeg.wasm tourne dans la mémoire de votre navigateur : la vidéo est lue localement dans un système de fichiers virtuel, convertie, et le MP3 est généré sur votre appareil. La seule requête réseau est le téléchargement unique du moteur depuis un CDN public — votre fichier n'y figure pas." },
+        { q: 'Pourquoi la première conversion est-elle lente ?', a: "Le premier lancement télécharge le moteur WebAssembly (~31 Mo) — un coût unique, ensuite le cache du navigateur le sert instantanément. Les conversions elles-mêmes tournent quasiment en temps réel : encoder de l'audio est bien plus léger que ré-encoder de la vidéo." },
+        { q: 'Quelle qualité choisir ?', a: "320 kbps est transparent pour la musique ; 192 kbps est le point d'équilibre pour la plupart des contenus, podcasts et cours compris ; 128 kbps garde les fichiers de voix compacts. Notez que le MP3 ne dépasse pas la qualité de la source — une vidéo peu compressée le reste quel que soit le réglage." },
+        { q: "L'outil dit qu'aucune piste audio n'a été trouvée — pourquoi ?", a: "Certaines vidéos sont réellement muettes ; quelques conteneurs (flux .ts bruts, certains .flv) échappent au démuxeur rapide. Convertissez-les d'abord en MP4, ou vérifiez que le fichier sonne dans votre lecteur." },
+    ],
+  },
 };

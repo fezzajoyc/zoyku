@@ -13,6 +13,8 @@
     "build:mcp": "esbuild mcp/server.ts --bundle --platform=node --format=esm --target=node20 --outfile=mcp/dist/server.mjs --legal-comments=none"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/types": "^0.12.4",
     "@modelcontextprotocol/sdk": "^1.32.2",
     "@vercel/analytics": "^2.0.1",
     "@zxcvbn-ts/core": "^3.0.2",

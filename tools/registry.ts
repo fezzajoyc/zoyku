@@ -9,6 +9,7 @@ import { SEO_TOOLS } from "./seo";
 import { SECURITY_TOOLS } from "./security";
 import { CALC_TOOLS } from "./calculators";
 import { UTILITY_TOOLS } from "./utility";
+import { MEDIA_TOOLS } from "./media";
 
 export const ALL_TOOLS: ToolDef[] = [
   ...TEXT_TOOLS,
@@ -20,6 +21,7 @@ export const ALL_TOOLS: ToolDef[] = [
   ...SECURITY_TOOLS,
   ...CALC_TOOLS,
   ...UTILITY_TOOLS,
+  ...MEDIA_TOOLS,
 ];
 
 export const TOOL_BY_SLUG = new Map<string, ToolDef>(

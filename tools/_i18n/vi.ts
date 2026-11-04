@@ -5185,4 +5185,20 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Token, UUID hay ULID?', a: 'Dùng token ngẫu nhiên mờ đục (công cụ này) khi định danh không được đoán ra: khóa API, phiên, bí mật webhook. UUID/ULID dành cho định danh sinh song song hay sắp được theo thời gian — chúng rò rỉ nhịp hay số lượng và không nên gánh vai trò bảo mật. Cần ID sắp được? Dùng trình tạo ULID.' },
     ],
   },
+  "extract-audio": {
+    name: 'Video sang MP3',
+    tagline: 'Tách track âm thanh từ bất kỳ video nào thành MP3 — MP4, MOV, WebM và hơn thế, chuyển đổi hoàn toàn trong trình duyệt bằng ffmpeg.wasm. Không tải lên, không máy chủ.',
+    intro: ['Bài giảng để nghe trên đường đi, bản ghi podcast mắc kẹt trong file video, cuộc phỏng vấn bạn muốn thành âm thanh để phiên âm, soundtrack cho điện thoại — công cụ này tách track âm thanh khỏi video và mã hóa thành MP3 chuẩn phát được ở mọi nơi.',
+        'Việc chuyển đổi chạy trên ffmpeg.wasm — chính FFmpeg đã thúc đẩy vô số bộ chuyển desktop, được biên dịch sang WebAssembly và chạy trong bộ nhớ trình duyệt của bạn. Video được đọc từ đĩa vào hệ thống tập tin ảo trong bộ nhớ, tách luồng, track âm thanh được giải mã rồi mã hóa lại bằng libmp3lame, và kết quả trả về như một bản tải xuống. Không một byte video nào chạm mạng.',
+        'Lần dùng đầu tải engine một lần (khoảng 31 MB); trình duyệt cache nó, mọi lần chuyển sau bắt đầu tức thì. Bản single-thread không cần SharedArrayBuffer: site chạy mọi nơi không cần header đặc biệt — và không gửi file của bạn cho ai.'],
+    steps: ['Kéo thả một file video — MP4, MOV, WebM, MKV và các container phổ biến khác đều chạy.',
+        'Chọn chất lượng MP3: 320 kbps cho nhạc, 192 kbps cho dùng chung, 128 kbps để tiết kiệm dung lượng với nội dung lời nói.',
+        'Nhấn Trích xuất âm thanh và tải MP3. Video dài mất thời gian — thanh tiến độ phản ánh tiến độ mã hóa thực tế.'],
+    faqs: [
+        { q: 'Video của tôi có được tải lên đâu không?', a: 'Không. ffmpeg.wasm chạy trong bộ nhớ trình duyệt: video được đọc cục bộ vào hệ thống tập tin ảo, chuyển đổi, và MP3 được tạo trên thiết bị của bạn. Yêu cầu mạng duy nhất là tải engine một lần từ CDN công cộng — file của bạn không nằm trong đó.' },
+        { q: 'Vì sao lần chuyển đầu chậm?', a: 'Lần chạy đầu tải engine WebAssembly (~31 MB) — chi phí một lần; sau đó cache của trình duyệt cung cấp tức thì. Bản thân việc chuyển chạy gần thời gian thực hoặc nhanh hơn: mã hóa âm thanh nhẹ hơn nhiều so với mã hóa lại video.' },
+        { q: 'Chọn chất lượng nào?', a: '320 kbps trong suốt với nhạc; 192 kbps là điểm ngọt cho phần lớn nội dung kể cả podcast và bài giảng; 128 kbps giữ file lời nói nhỏ gọn. Lưu ý: MP3 không vượt quá chất lượng nguồn — video nguồn bitrate thấp vẫn thấp bất kể cài đặt.' },
+        { q: 'Công cụ báo không tìm thấy track âm thanh — tại sao?', a: 'Vài video thật sự câm; một số container (stream .ts thô, vài .flv) bộ demux nhanh không xử lý được. Chuyển chúng sang MP4 trước, hoặc kiểm tra file có phát kèm âm thanh trong trình phát của bạn không.' },
+    ],
+  },
 };
