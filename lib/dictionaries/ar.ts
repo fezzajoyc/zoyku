@@ -151,6 +151,9 @@ const ar: Dictionary = {
       speakingTime: "وقت التحدث",
       keywordsTitle: "الكلمات الأكثر تكراراً",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "حدود المنصات",
+      charsLeft: "تبقى {n}",
+      charsOver: "تجاوز بـ {n}",
     },
   },
 

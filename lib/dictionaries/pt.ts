@@ -146,6 +146,9 @@ const pt: Dictionary = {
       speakingTime: "Tempo de fala",
       keywordsTitle: "Palavras-chave principais",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Limites por plataforma",
+      charsLeft: "faltam {n}",
+      charsOver: "{n} acima",
     },
   },
 

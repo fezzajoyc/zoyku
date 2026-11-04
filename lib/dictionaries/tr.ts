@@ -148,6 +148,9 @@ const tr = {
       speakingTime: "Konuşma süresi",
       keywordsTitle: "En sık geçen kelimeler",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Platform sınırları",
+      charsLeft: "{n} kaldı",
+      charsOver: "{n} fazla",
     },
   },
 

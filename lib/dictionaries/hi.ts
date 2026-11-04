@@ -148,6 +148,9 @@ const hi = {
       speakingTime: "बोलने का समय",
       keywordsTitle: "मुख्य कीवर्ड",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "प्लेटफ़ॉर्म सीमाएँ",
+      charsLeft: "{n} बचे",
+      charsOver: "{n} अधिक",
     },
   },
 

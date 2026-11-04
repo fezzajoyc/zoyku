@@ -151,6 +151,9 @@ const fr: Dictionary = {
       speakingTime: "Temps de lecture à voix haute",
       keywordsTitle: "Mots-clés principaux",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Limites par plateforme",
+      charsLeft: "reste {n}",
+      charsOver: "{n} de trop",
     },
   },
 

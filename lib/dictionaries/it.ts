@@ -149,6 +149,9 @@ const it = {
       speakingTime: "Tempo di parlata",
       keywordsTitle: "Parole chiave principali",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Limiti per piattaforma",
+      charsLeft: "{n} rimanenti",
+      charsOver: "{n} in più",
     },
   },
 

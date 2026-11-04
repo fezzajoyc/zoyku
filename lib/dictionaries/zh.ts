@@ -146,6 +146,9 @@ const zh: Dictionary = {
       speakingTime: "演讲时长",
       keywordsTitle: "高频词",
       keywordCount: "{count}次({pct}%)",
+      limitsTitle: "平台字数限制",
+      charsLeft: "剩 {n}",
+      charsOver: "超 {n}",
     },
   },
 

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { countTextStats as countStats, computeTextInsights } from "../_lib/transforms";
+import { countTextStats as countStats, computeTextInsights, checkPlatformLimits } from "../_lib/transforms";
 import { fill } from "../_lib/types";
 
 
@@ -13,6 +13,11 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
   const [input, setInput] = useState("");
   const stats = useMemo(() => countStats(input), [input]);
   const insights = useMemo(() => computeTextInsights(input, stats), [input, stats]);
+  // 平台限制校验:character 视角(character-counter)才显示,词数视角不掺和
+  const platformLimits = useMemo(
+    () => (primary === "characters" && input !== "" ? checkPlatformLimits(input, stats.characters) : []),
+    [primary, input, stats.characters],
+  );
   const hasText = input.trim() !== "";
 
   // 阅读时长:拉丁词 220 wpm + CJK 逐字 300 cpm,分开算——
@@ -93,6 +98,34 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
                 <span className="font-medium text-[var(--color-ink)]">{k.word}</span>
                 <span className="tabular-nums text-[var(--color-sub)]">
                   {fill(t.text.stats.keywordCount, { count: k.count, pct: k.pct })}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+      {platformLimits.length > 0 && (
+        <div className="mt-3 border-t hairline pt-3">
+          <p className="text-[12.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">
+            {t.text.stats.limitsTitle}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {platformLimits.map((p) => (
+              <span
+                key={p.name}
+                className={`inline-flex items-baseline gap-1.5 rounded-lg border px-2.5 py-1 text-[12.5px] ${
+                  p.ok
+                    ? "border-[var(--color-good)]/30 bg-[rgba(52,199,89,0.08)]"
+                    : "border-[var(--color-bad)]/30 bg-[rgba(255,59,48,0.08)]"
+                }`}
+              >
+                <span className={`font-medium ${p.ok ? "text-[var(--color-good)]" : "text-[var(--color-bad)]"}`}>
+                  {p.name}
+                </span>
+                <span className="tabular-nums text-[var(--color-sub)]">
+                  {p.ok
+                    ? fill(t.text.stats.charsLeft, { n: p.limit - p.used })
+                    : fill(t.text.stats.charsOver, { n: p.used - p.limit })}
                 </span>
               </span>
             ))}

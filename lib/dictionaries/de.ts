@@ -149,6 +149,9 @@ const de = {
       speakingTime: "Sprechzeit",
       keywordsTitle: "Top-Schlüsselwörter",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Plattform-Limits",
+      charsLeft: "{n} übrig",
+      charsOver: "{n} über",
     },
   },
 

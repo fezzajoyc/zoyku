@@ -149,6 +149,9 @@ const ru = {
       speakingTime: "Время речи",
       keywordsTitle: "Топ ключевых слов",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Лимиты платформ",
+      charsLeft: "осталось {n}",
+      charsOver: "{n} сверх",
     },
   },
 

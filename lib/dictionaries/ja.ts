@@ -146,6 +146,9 @@ const ja: Dictionary = {
       speakingTime: "発話時間",
       keywordsTitle: "頻出キーワード",
       keywordCount: "{count}回({pct}%)",
+      limitsTitle: "プラットフォーム制限",
+      charsLeft: "残り {n}",
+      charsOver: "{n} 超過",
     },
   },
 

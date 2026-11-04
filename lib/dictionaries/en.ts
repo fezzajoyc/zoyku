@@ -166,6 +166,9 @@ const en = {
       speakingTime: "Speaking time",
       keywordsTitle: "Top keywords",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Platform limits",
+      charsLeft: "{n} left",
+      charsOver: "{n} over",
     },
   },
 

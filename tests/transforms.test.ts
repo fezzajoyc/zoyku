@@ -6,6 +6,7 @@
  */
 import { describe, it, expect } from "vitest";
 import {
+  checkPlatformLimits,
   cleanText,
   computeTextInsights,
   countTextStats,
@@ -882,5 +883,56 @@ describe("computeTextInsights(打磨程序 R3:word-counter 对标新增)", () =>
     expect(ins.avgWordLen).toBe(0);
     expect(ins.pages).toBe(0);
     expect(ins.topKeywords).toEqual([]);
+  });
+});
+
+describe("computeTextInsights 二轮修复(character-counter R1 发现)", () => {
+  it("单字符词算唯一词:a b c → unique=3(修前 0,与 words=3 矛盾)", () => {
+    const ins = computeTextInsights("a b c");
+    expect(ins.uniqueWords).toBe(3);
+    expect(ins.topKeywords).toEqual([]); // top5 榜仍过滤单字符
+  });
+
+  it("CJK 二字组不跨空格:你好世界 测试 不产出'界测'", () => {
+    const ins = computeTextInsights("你好世界 测试");
+    expect(ins.topKeywords.some((k) => k.word === "界测")).toBe(false);
+    expect(ins.uniqueWords).toBe(4); // 你好/好世/世界/测试
+  });
+
+  it("同频并列时按字典序稳定排序", () => {
+    const ins = computeTextInsights("bird cat bird cat dog");
+    expect(ins.topKeywords.map((k) => [k.word, k.count])).toEqual([["bird", 2], ["cat", 2], ["dog", 1]]);
+  });
+});
+
+describe("checkPlatformLimits(character-counter R3 新增)", () => {
+  it("各平台口径与 ok 判断", () => {
+    const r = checkPlatformLimits("x".repeat(50));
+    const byName = Object.fromEntries(r.map((p) => [p.name, p]));
+    expect(byName["X / Twitter"]).toMatchObject({ limit: 280, used: 50, ok: true });
+    expect(byName["Meta title"]).toMatchObject({ limit: 60, used: 50, ok: true });
+    expect(byName["Meta description"]).toMatchObject({ limit: 160, used: 50, ok: true });
+    expect(byName["SMS"]).toMatchObject({ limit: 160, ok: true });
+  });
+
+  it("超限给 used 与 ok=false", () => {
+    const r = checkPlatformLimits("x".repeat(300));
+    const x = r.find((p) => p.name === "X / Twitter")!;
+    expect(x.ok).toBe(false);
+    expect(x.used).toBe(300);
+    expect(x.limit).toBe(280);
+  });
+
+  it("SMS 双口径:含 CJK/emoji 按 70,纯 GSM 按 160", () => {
+    expect(checkPlatformLimits("你好").find((p) => p.name === "SMS")!.limit).toBe(70);
+    expect(checkPlatformLimits("hi 😀").find((p) => p.name === "SMS")!.limit).toBe(70);
+    expect(checkPlatformLimits("plain ascii text").find((p) => p.name === "SMS")!.limit).toBe(160);
+    // 欧洲引号/欧元符属 GSM 扩展,仍按 160
+    expect(checkPlatformLimits("café “quote” €5").find((p) => p.name === "SMS")!.limit).toBe(160);
+  });
+
+  it("显式传 chars 时不重复统计", () => {
+    const r = checkPlatformLimits("anything", 10);
+    expect(r.every((p) => p.used === 10)).toBe(true);
   });
 });

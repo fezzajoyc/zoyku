@@ -983,28 +983,28 @@ export function computeTextInsights(text: string, stats?: ReturnType<typeof coun
   const s = stats ?? countTextStats(text);
   const CJK_ONLY_RE = /[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g;
   const cjk = s.cjkChars;
-  // 拉丁词小写、剔除纯数字,取词频 top;CJK 无空格分词,按二字组切片统计
   const freq = new Map<string, number>();
-  let latinTotal = 0;
-  for (const tok of text.replace(CJK_ONLY_RE, " ").toLowerCase().match(/[^\s\d]+/g) ?? []) {
-    if (tok.length < 2) continue;
+  // 拉丁词小写、剔除纯数字进词频(len≥1 都算唯一词;a/I 这类单字符词是正常词汇,top5 榜单再过滤 len≥2)
+  const latinTokens = [...text.replace(CJK_ONLY_RE, " ").toLowerCase().match(/[^\s\d]+/g) ?? []];
+  for (const tok of latinTokens) {
     freq.set(tok, (freq.get(tok) ?? 0) + 1);
-    latinTotal++;
   }
-  const cjkChars = [...text.match(CJK_ONLY_RE) ?? []];
-  for (let i = 0; i + 1 < cjkChars.length; i++) {
-    const bigram = cjkChars[i] + cjkChars[i + 1];
-    freq.set(bigram, (freq.get(bigram) ?? 0) + 1);
+  // CJK 二字组按连续 CJK 段滑窗——不许跨空格/标点组词(修前"你好世界 测试"会产出"界测")
+  for (const seg of text.match(/[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]+/g) ?? []) {
+    const chars = [...seg];
+    for (let i = 0; i + 1 < chars.length; i++) {
+      const bigram = chars[i] + chars[i + 1];
+      freq.set(bigram, (freq.get(bigram) ?? 0) + 1);
+    }
   }
   const totalWords = s.words || 1;
   const topKeywords = [...freq.entries()]
-    .filter(([w]) => !/^\d+$/.test(w))
-    .sort((a, b) => b[1] - a[1])
+    .filter(([w]) => w.length >= 2 && !/^\d+$/.test(w))
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, 5)
     .map(([word, count]) => ({ word, count, pct: Math.round((count / totalWords) * 1000) / 10 }));
   const latinWords = s.words - cjk;
-  const latinLenSum = [...text.replace(CJK_ONLY_RE, " ").match(/[^\s\d]+/g) ?? []]
-    .reduce((n, tok) => n + tok.length, 0);
+  const latinLenSum = latinTokens.reduce((n, tok) => n + tok.length, 0);
   return {
     uniqueWords: freq.size,
     avgWordLen: latinWords > 0 ? Math.round((latinLenSum / latinWords) * 10) / 10 : 0,
@@ -1162,4 +1162,26 @@ export function romanConvert(s: string, toRoman = false): string {
     }
   }
   return check === t ? String(sum) : "";
+}
+
+/** 平台字数限制(2026 主流口径,character-counter 的实时校验用)。
+ *  SMS 双口径:含非 GSM 字符(CJK/emoji 等)按 70 字/段,纯 GSM 按 160 字/段。 */
+export const PLATFORM_LIMITS: { name: string; limit: number }[] = [
+  { name: "X / Twitter", limit: 280 },
+  { name: "X Premium", limit: 4000 },
+  { name: "Instagram", limit: 2200 },
+  { name: "LinkedIn", limit: 3000 },
+  { name: "Meta title", limit: 60 },
+  { name: "Meta description", limit: 160 },
+];
+
+const GSM_RE = /^[\n\r\t\u0000-\u007f\u00a0\u2018-\u201d\u20ac\u00c4\u00e4\u00c5\u00e5\u00c6\u00e6\u00c7\u00e8\u00c9\u00e9\u00d1\u00f1\u00d2\u00f3\u00f4\u00f6\u00f8\u00df\u00a4\u00a5\u00a7\u00a1\u00c9\u00cb\u00eb\u00cc\u00ec\u00cd\u00ee\u00cf\u00ef\u00d3\u00d4\u00d8\u00f9\u00fa\u00fb\u00fc]*$/; // GSM 03.38 基本集(含 é è ü Å ß 等)
+
+export function checkPlatformLimits(text: string, chars?: number) {
+  const used = chars ?? countTextStats(text).characters;
+  const smsLimit = GSM_RE.test(text) ? 160 : 70;
+  return [
+    ...PLATFORM_LIMITS.map((p) => ({ ...p, used, ok: used <= p.limit })),
+    { name: "SMS", limit: smsLimit, used, ok: used <= smsLimit },
+  ];
 }

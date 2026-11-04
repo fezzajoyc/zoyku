@@ -151,6 +151,9 @@ const ko: Dictionary = {
       speakingTime: "발표 시간",
       keywordsTitle: "주요 키워드",
       keywordCount: "{count}회({pct}%)",
+      limitsTitle: "플랫폼 글자 수 제한",
+      charsLeft: "{n}자 남음",
+      charsOver: "{n}자 초과",
     },
   },
 

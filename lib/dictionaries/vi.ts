@@ -149,6 +149,9 @@ const vi = {
       speakingTime: "Thời gian nói",
       keywordsTitle: "Từ khóa hàng đầu",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Giới hạn nền tảng",
+      charsLeft: "còn {n}",
+      charsOver: "vượt {n}",
     },
   },
 

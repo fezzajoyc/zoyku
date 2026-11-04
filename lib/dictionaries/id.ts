@@ -149,6 +149,9 @@ const id = {
       speakingTime: "Waktu bicara",
       keywordsTitle: "Kata kunci teratas",
       keywordCount: "{count}× ({pct}%)",
+      limitsTitle: "Batas platform",
+      charsLeft: "sisa {n}",
+      charsOver: "{n} lebih",
     },
   },
 
