@@ -5012,4 +5012,19 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Bagaimana aksen dan emoji?', a: 'Huruf beraksen dikembalikan ke huruf dasarnya (É → Echo); emoji dan karakter di luar alfabet ditampilkan apa adanya karena tidak bisa dieja.' },
     ],
   },
+  "hmac-generator": {
+    name: 'Generator HMAC',
+    tagline: 'Hitung tanda tangan HMAC-SHA-256/384/512 pesan apa pun dengan kunci rahasia — langsung di browser Anda via WebCrypto. Penting untuk verifikasi webhook, autentikasi API, dan penandatanganan permintaan.',
+    intro: ['HMAC (Hash-based Message Authentication Code) membuktikan bahwa pesan berasal dari pemegang kunci rahasia bersama — tanpa mengirimkan kuncinya. Stripe, GitHub, Slack, dan kebanyakan webhook menandatangani payload seperti ini; tempel tanda tangan dan kunci Anda di sini untuk mereproduksi serta memverifikasinya.',
+        'Pilih SHA-256 sebagai standar, SHA-512 untuk margin maksimal, SHA-1 hanya jika API lama menuntutnya. Keluaran hex dan Base64 ditampilkan berdampingan — sesuai format yang diharapkan layanannya.'],
+    steps: ['Masukkan kunci rahasia bersama — string yang sama dengan yang diberikan server atau penyedia webhook.',
+        'Tempel isi pesan mentah (byte persis: JSON, query string, timestamp+payload — apa yang ditandatangani API).',
+        'Bandingkan tanda tangan hex atau Base64 yang dihasilkan dengan header X-Signature, atau gunakan untuk menandatangani permintaan Anda sendiri.'],
+    faqs: [
+        { q: 'Apa bedanya HMAC dengan hash biasa?', a: 'Siapa pun bisa menghitung SHA-256(pesan). HMAC(rahasia, pesan) membutuhkan kunci: hanya pemiliknya yang bisa mereproduksi tanda tangan. Ini bukti asal-usul dan integritas, bukan sekadar checksum.' },
+        { q: 'Mengapa webhook memakai HMAC?', a: 'Saat Stripe atau GitHub mengirim POST ke endpoint Anda, mereka menyertakan tanda tangan HMAC dari body. Hitung ulang dengan kunci webhook Anda; jika cocok, permintaan itu benar-benar dari mereka — tanpa kunci tidak ada yang bisa memalsukannya.' },
+        { q: 'Apakah kunci rahasia saya aman di sini?', a: 'Aman — semua perhitungan berjalan di WebCrypto browser Anda. Kunci dan pesan tidak pernah keluar dari perangkat; tidak ada yang dicatat atau dikirim. Meski begitu, sebagai kebiasaan, ganti kunci yang Anda tempel di situs mana pun secara berkala.' },
+        { q: 'HMAC-SHA-256 atau HMAC-SHA-512?', a: 'SHA-256 adalah standar universal. SHA-512 memberi margin lebih besar dan justru lebih cepat di CPU 64-bit; pilih jika spesifikasi mengizinkan. Hindari SHA-1 kecuali sistem lama menuntut.' },
+    ],
+  },
 };

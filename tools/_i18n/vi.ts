@@ -5000,4 +5000,19 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Dấu thanh và emoji?', a: 'Chữ có dấu được quy về chữ gốc (É → Echo); emoji và ký tự ngoài bảng chữ cái được giữ nguyên kèm ghi chú vì không thể đánh vần.' },
     ],
   },
+  "hmac-generator": {
+    name: 'Trình tạo HMAC',
+    tagline: 'Tính chữ ký HMAC-SHA-256/384/512 cho bất kỳ thông điệp nào với khóa bí mật — ngay trong trình duyệt qua WebCrypto. Công cụ cần thiết để xác minh webhook, xác thực API và ký yêu cầu.',
+    intro: ['HMAC (Hash-based Message Authentication Code) chứng minh thông điệp đến từ người giữ khóa bí mật chung — mà không cần gửi khóa đi. Stripe, GitHub, Slack và hầu hết webhook đều ký payload theo cách này; dán chữ ký và khóa của bạn vào đây để tái tạo và đối chiếu.',
+        'Chọn SHA-256 làm mặc định, SHA-512 để có biên an toàn tối đa, SHA-1 chỉ khi API cũ yêu cầu. Kết quả hiển thị cả hex lẫn Base64 — dùng đúng định dạng mà dịch vụ mong đợi.'],
+    steps: ['Nhập khóa bí mật chung — chính là chuỗi mà máy chủ hay nhà cung cấp webhook đã cấp.',
+        'Dán phần thân thông điệp thô (đúng từng byte: JSON, query string, timestamp+payload — cái mà API ký).',
+        'So sánh chữ ký hex hoặc Base64 vừa tạo với tiêu đề X-Signature, hoặc dùng để ký yêu cầu của chính bạn.'],
+    faqs: [
+        { q: 'HMAC khác gì băm thông thường?', a: 'Ai cũng tính được SHA-256(thông điệp). HMAC(bí mật, thông điệp) đòi hỏi khóa: chỉ người giữ khóa mới tái tạo được chữ ký. Đây là bằng chứng nguồn gốc và toàn vẹn, không chỉ là checksum.' },
+        { q: 'Vì sao webhook dùng HMAC?', a: 'Khi Stripe hay GitHub POST vào endpoint của bạn, họ kèm chữ ký HMAC của phần thân. Tính lại bằng khóa webhook; khớp nghĩa là yêu cầu thật sự đến từ họ — không có khóa thì không ai giả mạo nổi.' },
+        { q: 'Dán khóa bí mật vào đây có an toàn không?', a: 'An toàn — toàn bộ phép tính chạy trong WebCrypto của trình duyệt. Khóa và thông điệp không bao giờ rời thiết bị; không ghi log hay truyền đi đâu. Dù vậy, như thói quen chung, hãy xoay vòng các khóa bạn dán vào bất kỳ trang web nào.' },
+        { q: 'HMAC-SHA-256 hay HMAC-SHA-512?', a: 'SHA-256 là chuẩn phổ biến. SHA-512 cho biên lớn hơn và thậm chí nhanh hơn trên CPU 64-bit; dùng khi đặc tả cho phép. Tránh SHA-1 trừ khi hệ thống cũ bắt buộc.' },
+    ],
+  },
 };

@@ -5000,4 +5000,19 @@ export const fr: Record<string, ToolCopy> = {
         { q: 'Accents et emojis ?', a: 'Les lettres accentuées reviennent à leur base (É → Echo) ; emojis et caractères hors alphabet sont signalés tels quels car impossible à épeler.' },
     ],
   },
+  "hmac-generator": {
+    name: 'Générateur HMAC',
+    tagline: "Calculez des signatures HMAC-SHA-256/384/512 avec une clé secrète — directement dans votre navigateur via WebCrypto. Indispensable pour vérifier les webhooks, l'authentification d'API et la signature de requêtes.",
+    intro: ["HMAC (Hash-based Message Authentication Code) prouve qu'un message provient de celui qui détient le secret partagé — sans jamais transmettre ce secret. Stripe, GitHub, Slack et la plupart des webhooks signent leurs charges ainsi ; collez la signature et votre clé ici pour la reproduire et la vérifier.",
+        "Choisissez SHA-256 par défaut, SHA-512 pour une marge maximale, SHA-1 seulement si une API ancienne l'exige. Sorties hex et Base64 affichées — selon l'encodage attendu par le service."],
+    steps: ['Saisissez la clé secrète partagée — la même chaîne que vous a donnée le serveur ou le fournisseur du webhook.',
+        "Collez le corps brut du message (octets exacts : JSON, query string, timestamp+payload — ce que l'API signe).",
+        "Comparez la signature hex ou Base64 générée avec l'en-tête X-Signature, ou utilisez-la pour signer votre propre requête."],
+    faqs: [
+        { q: 'Quelle différence entre HMAC et un hachage simple ?', a: "N'importe qui peut calculer SHA-256(message). HMAC(secret, message) exige le secret : seul son détenteur peut reproduire la signature. C'est une preuve d'origine et d'intégrité, pas un simple checksum." },
+        { q: 'Pourquoi les webhooks utilisent-ils HMAC ?', a: "Quand Stripe ou GitHub poste vers votre endpoint, ils incluent une signature HMAC du corps. Recalculez-la avec votre secret webhook ; si elle correspond, la requête vient vraiment d'eux — sans la clé, personne ne peut la falsifier." },
+        { q: 'Mon secret est-il en sécurité ici ?', a: "Oui — tout le calcul se fait dans le WebCrypto de votre navigateur. Le secret et le message ne quittent jamais l'appareil ; rien n'est journalisé ni transmis. Par habitude, faites tout de même tourner les secrets collés sur un site web." },
+        { q: 'HMAC-SHA-256 ou HMAC-SHA-512 ?', a: "SHA-256 est le standard universel. SHA-512 offre plus de marge et est même plus rapide sur CPU 64 bits ; utilisez-le quand la spec le permet. Évitez SHA-1 sauf exigence d'un système ancien." },
+    ],
+  },
 };

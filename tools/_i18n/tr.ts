@@ -5012,4 +5012,19 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Aksanlar ve emojiler?', a: 'Aksanlı harfler temel harfe indirgenir (É → Echo); emojiler ve alfabe dışı karakterler harflendirilemedikleri için olduğu gibi işaretlenir.' },
     ],
   },
+  "hmac-generator": {
+    name: 'HMAC Üretici',
+    tagline: 'Gizli bir anahtarla herhangi bir mesajın HMAC-SHA-256/384/512 imzasını hesaplayın — tarayıcınızda WebCrypto ile. Webhook doğrulama, API kimlik doğrulama ve istek imzalama için vazgeçilmez.',
+    intro: ["HMAC (Hash-based Message Authentication Code), bir mesajın paylaşılan gizli anahtara sahip kişiden geldiğini kanıtlar — anahtarı iletmeden. Stripe, GitHub, Slack ve çoğu webhook payload'larını böyle imzalar; imzayı ve gizli anahtarınızı buraya yapıştırıp yeniden üretip doğrulayabilirsiniz.",
+        'Varsayılan SHA-256, maksimum pay için SHA-512, yalnızca eski bir API istiyorsa SHA-1 seçin. Hex ve Base64 çıktıları ikisi de gösterilir — servisin beklediği formata göre kullanın.'],
+    steps: ['Paylaşılan gizli anahtarı girin — sunucunun veya webhook sağlayıcısının verdiği dizgiyle aynı olmalı.',
+        "İmzalanacak ham mesaj gövdesini yapıştırın (tam baytlar: JSON, sorgu dizgisi, zaman damgası+payload — API'nin imzaladığı şey).",
+        'Üretilen hex veya Base64 imzayı X-Signature başlığıyla karşılaştırın ya da kendi isteğinizi imzalamak için kullanın.'],
+    faqs: [
+        { q: 'HMAC ile düz hash arasındaki fark nedir?', a: 'SHA-256(mesaj) herkes tarafından hesaplanabilir. HMAC(gizli, mesaj) gizli anahtar gerektirir: yalnızca sahibi imzayı yeniden üretebilir. Bu bir kaynak ve bütünlük kanıtıdır, sıradan bir sağlama toplamı değil.' },
+        { q: "Webhook'lar neden HMAC kullanır?", a: "Stripe veya GitHub endpoint'inize POST attığında gövdenin HMAC imzasını ekler. Webhook gizli anahtarınızla yeniden hesaplayın; eşleşirse istek gerçekten onlardandır — anahtar olmadan kimse sahtesini yapamaz." },
+        { q: 'Gizli anahtarımı buraya girmek güvenli mi?', a: "Evet — tüm hesaplama tarayıcınızın WebCrypto'sunda olur. Gizli anahtar ve mesaj asla cihazdan çıkmaz; hiçbir şey kaydedilmez veya iletilmez. Yine de alışkanlık olarak, herhangi bir siteye girdiğiniz anahtarları düzenli yenileyin." },
+        { q: 'HMAC-SHA-256 mi HMAC-SHA-512 mi?', a: "SHA-256 evrensel standarttır. SHA-512 daha fazla pay verir ve 64-bit CPU'larda daha da hızlıdır; şartname izin veriyorsa onu seçin. SHA-1'i yalnızca eski sistem zorluyorsa kullanın." },
+    ],
+  },
 };

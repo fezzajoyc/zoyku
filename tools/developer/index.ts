@@ -20,6 +20,7 @@ import sha256Generator from "./sha256-generator";
 import sha1Generator from "./sha1-generator";
 import sha384Generator from "./sha384-generator";
 import sha512Generator from "./sha512-generator";
+import hmacGenerator from "./hmac-generator";
 import regexTester from "./regex-tester";
 import jsonToCsv from "./json-to-csv";
 import csvToJson from "./csv-to-json";
@@ -59,6 +60,7 @@ export const DEV_TOOLS = [
   sha1Generator,
   sha384Generator,
   sha512Generator,
+  hmacGenerator,
   regexTester,
   jsonToCsv,
   csvToJson,
