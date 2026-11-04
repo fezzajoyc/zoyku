@@ -80,7 +80,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "mortgage_payment",
     title: "Mortgage payment",
-    description: "Monthly mortgage payment (P&I) via standard amortization, plus loan amount, total interest and total paid. Also returns the yearly amortization schedule.",
+    description: "Mortgage payment calculator: monthly principal & interest via standard amortization, plus loan amount, total interest and total paid. Also returns the yearly amortization schedule.",
     schema: {
       home_price: z.number().positive(),
       down_payment: z.number().min(0).describe("down payment in currency units (not %)"),
@@ -98,7 +98,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "compound_interest",
     title: "Compound interest",
-    description: "Future value with regular contributions (annuity-due: contribution at period start). Returns total, contributed, interest and a year-by-year schedule.",
+    description: "Compound interest calculator: future value of a lump sum or savings plan with regular contributions (annuity-due: contribution at period start). Returns total, contributed, interest and a year-by-year schedule.",
     schema: {
       principal: z.number().min(0),
       monthly_contribution: z.number().min(0).describe("monthly deposit"),
@@ -117,7 +117,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "salary_breakdown",
     title: "Salary to hourly",
-    description: "Break an annual salary down to hourly/daily/weekly/biweekly/monthly. Optional unpaid days off raise the effective hourly rate (same salary over fewer worked days).",
+    description: "Salary to hourly calculator: break an annual salary down to hourly/daily/weekly/biweekly/monthly. Optional unpaid days off raise the effective hourly rate (same salary over fewer worked days).",
     schema: {
       annual_salary: z.number().positive(),
       hours_per_week: z.number().positive().max(168).default(40),
@@ -129,7 +129,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "hourly_to_salary",
     title: "Hourly to salary",
-    description: "Convert an hourly rate to daily/weekly/biweekly/monthly/annual pay.",
+    description: "Hourly to salary calculator: convert an hourly rate to daily/weekly/biweekly/monthly/annual pay.",
     schema: {
       hourly_rate: z.number().positive(),
       hours_per_week: z.number().positive().max(168).default(40),
@@ -159,7 +159,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "bmr",
     title: "Basal metabolic rate",
-    description: "BMR via the Mifflin-St Jeor equation (1990). Estimate only — not medical advice. Metric units.",
+    description: "BMR (basal metabolic rate) calculator via the Mifflin-St Jeor equation (1990). Estimate only — not medical advice. Metric units.",
     schema: {
       weight_kg: z.number().positive(),
       height_cm: z.number().positive(),
@@ -171,7 +171,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "tdee",
     title: "Daily calorie needs (TDEE)",
-    description: "Total daily energy expenditure = BMR (Mifflin-St Jeor) × activity factor (sedentary 1.2 … very active 1.9). Estimate only — not medical advice.",
+    description: "TDEE calculator (daily calorie needs): total daily energy expenditure = BMR (Mifflin-St Jeor) × activity factor (sedentary 1.2 … very active 1.9). Estimate only — not medical advice.",
     schema: {
       weight_kg: z.number().positive(),
       height_cm: z.number().positive(),
@@ -347,7 +347,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "text_stats",
     title: "Word/character statistics",
-    description: "Word count (CJK-aware), characters with/without spaces, sentences, paragraphs, lines.",
+    description: "Word counter and character counter (CJK-aware, like the website tool): words, characters with/without spaces, sentences, paragraphs, lines.",
     schema: { text: z.string() },
     run: (a) => json(countTextStats(a.text)),
   },
@@ -425,7 +425,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "apy",
     title: "APY from nominal rate",
-    description: "Effective annual yield (APY) from a nominal rate and compounding frequency: APY = (1 + r/n)^n − 1. Also returns the reverse (APY → nominal APR).",
+    description: "APY calculator: effective annual yield from a nominal rate and compounding frequency: APY = (1 + r/n)^n − 1. Also returns the reverse (APY → nominal APR).",
     schema: {
       nominal_rate_pct: z.number().min(0),
       frequency: z.enum(["daily", "monthly", "quarterly", "annually"]).default("monthly"),
