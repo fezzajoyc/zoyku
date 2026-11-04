@@ -36,11 +36,16 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
   ];
   const cells = [defs.find((d) => d.key === primary)!, ...defs.filter((d) => d.key !== primary)];
 
-  // 第二行洞察指标(wordcounter.net 对标,全部本地计算)
+  // 第二/三行洞察指标(wordcounter.net DETAILS 对标,全部本地计算)
   const insightCells = [
     { label: t.text.stats.uniqueWords, value: insights.uniqueWords },
     { label: t.text.stats.avgWordLen, value: insights.avgWordLen },
     { label: t.text.stats.pages, value: insights.pages },
+  ];
+  const writingCells = [
+    { label: t.text.stats.avgSentence, value: insights.avgSentenceWords },
+    { label: t.text.stats.longestSentence, value: insights.longestSentenceWords },
+    { label: t.text.stats.readingLevel, value: insights.readingGrade },
   ];
 
   return (
@@ -67,6 +72,12 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
       {hasText && (
         <div className="mt-2.5 grid grid-cols-3 gap-2.5">
           {insightCells.map((c) => (
+            <div key={c.label} className="rounded-xl px-4 py-2.5">
+              <p className="mono text-[15px] font-semibold tabular-nums text-[var(--color-ink)]">{c.value}</p>
+              <p className="mt-0.5 text-[12.5px] text-[var(--color-sub)]">{c.label}</p>
+            </div>
+          ))}
+          {writingCells.map((c) => (
             <div key={c.label} className="rounded-xl px-4 py-2.5">
               <p className="mono text-[15px] font-semibold tabular-nums text-[var(--color-ink)]">{c.value}</p>
               <p className="mt-0.5 text-[12.5px] text-[var(--color-sub)]">{c.label}</p>

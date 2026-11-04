@@ -1021,12 +1021,46 @@ export function computeTextInsights(text: string, stats?: ReturnType<typeof coun
     .map(([word, count]) => ({ word, count, pct: Math.round((count / totalWords) * 1000) / 10 }));
   const latinWords = s.words - cjk;
   const latinLenSum = latinTokens.reduce((n, tok) => n + tok.length, 0);
+
+  // 句子级写作指标(对标 wordcounter.net DETAILS):平均句长/最长句/Flesch-Kincaid 年级
+  const sentenceList = (text.match(/[^.!?。！？…]+[.!?。！？…]+|[^.!?。！？…]+$/g) ?? [])
+    .map((sent) => sent.trim())
+    .filter(Boolean);
+  const sentWords = sentenceList.map((sent) => {
+    const c = (sent.match(CJK_RE) ?? []).length;
+    // 与 countTextStats 同口径:剔 CJK 后再剔全角句读,防止"文本。"的"。"单独成词
+    return (sent.replace(CJK_RE, " ").replace(CJK_PUNCT_RE, " ").match(/[^\s]+/g) ?? []).length + c;
+  });
+  const avgSentenceWords = sentWords.length
+    ? Math.round((sentWords.reduce((a, b) => a + b, 0) / sentWords.length) * 10) / 10
+    : 0;
+  const longestSentenceWords = sentWords.length ? Math.max(...sentWords) : 0;
+  // Flesch-Kincaid Grade = 0.39*(words/sentences) + 11.8*(syllables/words) - 15.59
+  // 音节启发式:元音组计数,尾 silent e 不计,至少 1
+  const syllablesOf = (w: string): number => {
+    const w2 = w.toLowerCase().replace(/[^a-z]/g, "");
+    if (!w2) return 0;
+    let n = (w2.match(/[aeiouy]+/g) ?? []).length;
+    if (w2.length > 2 && w2.endsWith("e") && !/[aeiouy]{2}e$/.test(w2)) n--;
+    return Math.max(1, n);
+  };
+  const totalSyllables = latinTokens.reduce((sum, tok) => sum + syllablesOf(tok), 0) + cjk; // CJK 每字 1 音节
+  const readingGrade =
+    s.sentences > 0 && s.words > 0
+      ? Math.round(
+          (0.39 * (s.words / s.sentences) + 11.8 * (totalSyllables / s.words) - 15.59) * 10,
+        ) / 10
+      : 0;
+
   return {
     uniqueWords: freq.size,
     avgWordLen: latinWords > 0 ? Math.round((latinLenSum / latinWords) * 10) / 10 : 0,
     pages: Math.ceil(s.words / 250), // 出版惯例:250 词/页
     speakingMinutes: Math.max(1, Math.round(latinWords / 130 + cjk / 180)), // 演讲语速慢于阅读
     topKeywords,
+    avgSentenceWords,
+    longestSentenceWords,
+    readingGrade,
   };
 }
 

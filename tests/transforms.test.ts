@@ -985,3 +985,29 @@ describe("deepSortKeys(json-formatter R3 新增)", () => {
     expect(out.indexOf('"z"')).toBeLessThan(out.indexOf('"a"'));
   });
 });
+
+describe("writing metrics(word-counter 第 3 轮:Flesch-Kincaid/句长)", () => {
+  it("平均句长与最长句", () => {
+    const ins = computeTextInsights("One two three. Four five six seven eight. Nine.");
+    expect(ins.avgSentenceWords).toBe(3); // 句词数 3/5/1 → 9/3
+    expect(ins.longestSentenceWords).toBe(5);
+  });
+
+  it("Flesch-Kincaid 年级:简单句低年级", () => {
+    // "I see the cat." → 5词1句,音节 I=1 see=1 the=1 cat=1 → FK=0.39*5+11.8*0.8-15.59 = -5.36 → 负值钳 0?
+    const ins = computeTextInsights("I see the cat.");
+    expect(ins.readingGrade).toBeLessThan(3); // 极简单句
+  });
+
+  it("复杂长句年级更高", () => {
+    const simple = computeTextInsights("I see the cat.").readingGrade;
+    const hard = computeTextInsights("The comprehensive implementation demonstrates extraordinary characteristics.").readingGrade;
+    expect(hard).toBeGreaterThan(simple);
+  });
+
+  it("CJK 每字 1 音节计入年级", () => {
+    const ins = computeTextInsights("你好世界 测试 文本。");
+    expect(ins.avgSentenceWords).toBe(8); // 单句全 CJK:8 字逐字计词
+    expect(ins.longestSentenceWords).toBe(8);
+  });
+});
