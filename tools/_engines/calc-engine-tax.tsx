@@ -78,7 +78,7 @@ export function CalcEngineTax({ kind }: { kind: string }) {
                   onClick={() => setRate(String(v))}
                   className={`mono rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
                     rate === String(v)
-                      ? "border-transparent bg-[var(--color-ink)] text-white"
+                      ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                       : "hairline hover:bg-[var(--color-surface)]"
                   }`}
                 >

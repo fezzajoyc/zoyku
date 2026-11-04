@@ -361,7 +361,7 @@ export function DevCronExplainerEngine() {
                       onClick={() => setUtc(v)}
                       className={`rounded-full border px-3 py-1 text-[12.5px] font-medium transition-colors ${
                         utc === v
-                          ? "border-transparent bg-[var(--color-ink)] text-white"
+                          ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                           : "hairline hover:bg-[var(--color-surface)]"
                       }`}
                     >

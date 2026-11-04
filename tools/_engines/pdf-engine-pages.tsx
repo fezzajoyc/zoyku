@@ -308,11 +308,11 @@ export function PdfPagesEngine({ op }: { op: Op }) {
                 <Label>{tr(UI.everyN, locale)} / {tr(UI.ranges, locale)}</Label>
                 <div className="flex gap-2">
                   <button type="button" onClick={() => setSplitMode("every")}
-                    className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${splitMode === "every" ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"}`}>
+                    className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${splitMode === "every" ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"}`}>
                     {tr(UI.everyN, locale)}
                   </button>
                   <button type="button" onClick={() => setSplitMode("ranges")}
-                    className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${splitMode === "ranges" ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"}`}>
+                    className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${splitMode === "ranges" ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"}`}>
                     {tr(UI.ranges, locale)}
                   </button>
                 </div>

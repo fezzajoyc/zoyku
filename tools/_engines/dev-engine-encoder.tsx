@@ -173,7 +173,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
               onClick={() => setComponent(true)}
               className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
                 component
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
+                  ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                   : "hairline hover:bg-[var(--color-surface)]"
               }`}
             >
@@ -184,7 +184,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
               onClick={() => setComponent(false)}
               className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
                 !component
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
+                  ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                   : "hairline hover:bg-[var(--color-surface)]"
               }`}
             >

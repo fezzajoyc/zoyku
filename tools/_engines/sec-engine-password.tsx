@@ -233,7 +233,7 @@ export function SecPasswordGeneratorEngine() {
               onClick={() => setMode(m)}
               className={`rounded-full border px-4 py-1.5 text-[13px] font-medium transition-colors ${
                 mode === m
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
+                  ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                   : "hairline hover:bg-[var(--color-surface)]"
               }`}
             >

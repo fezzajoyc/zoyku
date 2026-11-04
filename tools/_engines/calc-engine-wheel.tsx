@@ -303,7 +303,7 @@ export function CalcEngineWheel() {
             type="button"
             onClick={spin}
             disabled={spinning || names.length < 2}
-            className="w-44 rounded-full bg-[var(--color-ink)] px-8 py-3 text-[15px] font-semibold text-white transition-opacity hover:opacity-85 disabled:opacity-40"
+            className="w-44 rounded-full bg-[var(--color-ink)] px-8 py-3 text-[15px] font-semibold text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity hover:opacity-85 disabled:opacity-40"
           >
             {spinning ? pick(locale, S.spinning) : pick(locale, S.spin)}
           </button>

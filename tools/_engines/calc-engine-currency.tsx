@@ -229,7 +229,7 @@ export function CalcEngineCurrency() {
           <button
             type="button"
             onClick={() => void load(true)}
-            className="mt-2.5 inline-flex rounded-full bg-[var(--color-ink)] px-4 py-1.5 text-[13.5px] font-medium text-white"
+            className="mt-2.5 inline-flex rounded-full bg-[var(--color-ink)] px-4 py-1.5 text-[13.5px] font-medium text-white dark:bg-white dark:text-[#1d1d1f]"
           >
             {pick(locale, { en: "Retry", zh: "重试", ja: "再試行", es: "Reintentar", pt: "Tentar novamente" })}
           </button>

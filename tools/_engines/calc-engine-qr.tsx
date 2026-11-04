@@ -116,7 +116,7 @@ export function CalcEngineQr() {
               type="button"
               disabled={!ready}
               onClick={downloadPng}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white transition-opacity disabled:opacity-40"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity disabled:opacity-40"
             >
               {t.common.download} PNG
             </button>

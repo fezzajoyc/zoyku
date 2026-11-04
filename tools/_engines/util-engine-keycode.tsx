@@ -19,7 +19,7 @@ type KeyRecord = {
 const MOD_KEY = (on: boolean, label: string) => (
   <span
     className={`mono rounded-md border px-2 py-0.5 text-[13px] font-medium transition-colors ${
-      on ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline text-[var(--color-sub)]"
+      on ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline text-[var(--color-sub)]"
     }`}
   >
     {label}

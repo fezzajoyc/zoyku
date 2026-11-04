@@ -289,7 +289,7 @@ export function DevEngineSheet({ mode }: { mode: Mode }) {
               aria-pressed={activeDelim === d.id}
               className={`mono rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
                 activeDelim === d.id
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
+                  ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                   : "hairline hover:bg-[var(--color-surface)]"
               }`}
             >
@@ -382,7 +382,7 @@ export function DevEngineSheet({ mode }: { mode: Mode }) {
               type="button"
               onClick={() => void downloadXlsx()}
               disabled={aoa.length === 0 || busy}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white transition-opacity disabled:opacity-40"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity disabled:opacity-40"
             >
               {pick(locale, L.downloadXlsx)}
             </button>
@@ -416,7 +416,7 @@ export function DevEngineSheet({ mode }: { mode: Mode }) {
                 type="button"
                 onClick={downloadCsv}
                 disabled={rows.length === 0}
-                className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white transition-opacity disabled:opacity-40"
+                className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity disabled:opacity-40"
               >
                 {pick(locale, L.downloadCsv)}
               </button>

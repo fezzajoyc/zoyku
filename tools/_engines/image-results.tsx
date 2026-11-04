@@ -82,7 +82,7 @@ export function ResultList({
           <button
             type="button"
             onClick={onDownloadAll}
-            className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-3.5 py-1.5 text-[13px] font-medium text-white transition-opacity hover:opacity-85"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-3.5 py-1.5 text-[13px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity hover:opacity-85"
           >
             <Icon name="download" size={14} />
             {ERR_SAVE_ALL[locale] ?? ERR_SAVE_ALL.en}

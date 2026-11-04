@@ -303,7 +303,7 @@ export function CalcEngineScientific() {
               type="button"
               onClick={() => setDegrees(d)}
               className={`mono rounded-full px-3.5 py-1 text-[12.5px] font-semibold transition-colors ${
-                degrees === d ? "bg-[var(--color-ink)] text-white" : "text-[var(--color-sub)] hover:text-[var(--color-ink)]"
+                degrees === d ? "bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "text-[var(--color-sub)] hover:text-[var(--color-ink)]"
               }`}
             >
               {d ? "DEG" : "RAD"}

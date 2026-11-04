@@ -124,7 +124,7 @@ export function PdfPageNumEngine() {
                 type="button"
                 onClick={() => setPos(p)}
                 className={`rounded-lg border px-2.5 py-1.5 text-[12px] font-medium transition-colors ${
-                  pos === p ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"
+                  pos === p ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"
                 }`}
               >
                 {p.startsWith("t") ? tr(UI.top, locale) : tr(UI.bottom, locale)}

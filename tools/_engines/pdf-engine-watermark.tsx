@@ -130,7 +130,7 @@ export function PdfWatermarkEngine() {
               <div className="flex gap-2">
                 {(["center", "tile"] as const).map((m) => (
                   <button key={m} type="button" onClick={() => setLayout(m)}
-                    className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${layout === m ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"}`}>
+                    className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${layout === m ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"}`}>
                     {tr(UI[m], locale)}
                   </button>
                 ))}

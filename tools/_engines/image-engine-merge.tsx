@@ -103,7 +103,7 @@ export function ImageMergeEngine() {
                 type="button"
                 onClick={() => setLayout(l)}
                 className={`rounded-lg border px-2.5 py-1.5 text-[12.5px] font-medium transition-colors ${
-                  layout === l ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"
+                  layout === l ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"
                 }`}
               >
                 {trL(l)}

@@ -69,7 +69,7 @@ export function DevHtmlToMarkdownEngine({ sample = "" }: { sample?: string }) {
 
   const pillCls = (active: boolean): string =>
     `mono rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-      active ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"
+      active ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"
     }`;
 
   return (

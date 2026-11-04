@@ -111,7 +111,7 @@ const FORMAT_LABEL: Record<ImgFormat, string> = {
 function chipCls(active: boolean): string {
   return `rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
     active
-      ? "border-transparent bg-[var(--color-ink)] text-white"
+      ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
       : "hairline hover:bg-[var(--color-surface)]"
   }`;
 }
@@ -435,7 +435,7 @@ export function ImageCanvasEngine({
                 title={L.lockAspect[locale] ?? L.lockAspect.en}
                 aria-pressed={lock}
                 className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors ${
-                  lock ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"
+                  lock ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"
                 }`}
               >
                 <Icon name="link" size={15} />

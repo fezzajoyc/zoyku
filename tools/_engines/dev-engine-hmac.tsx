@@ -88,7 +88,7 @@ export function DevHmacEngine({ algos = ["SHA-256"], defaultAlgo }: { algos?: Al
                 type="button"
                 onClick={() => setAlgo(a)}
                 className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
-                  algo === a ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"
+                  algo === a ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"
                 }`}
               >
                 {a}

@@ -113,7 +113,7 @@ export function DevRegexEngine({
               aria-pressed={flags[f]}
               className={`mono h-8 w-9 rounded-lg border text-[14px] font-semibold transition-colors ${
                 flags[f]
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
+                  ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                   : "hairline hover:bg-[var(--color-surface)]"
               }`}
             >

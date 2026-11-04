@@ -181,7 +181,7 @@ export function HomeWorkspace({
           onClick={() => setCat("all")}
           className={`flex flex-none items-center gap-2 rounded-full px-4 py-2 text-[13.5px] font-medium transition-all duration-180 ${
             cat === "all"
-              ? "bg-[var(--color-ink)] text-white shadow-xs dark:bg-white dark:text-[#1d1d1f]"
+              ? "bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f] shadow-xs dark:bg-white dark:text-[#1d1d1f]"
               : "bg-[var(--color-surface)] text-[var(--color-sub)] hover:text-[var(--color-ink)]"
           }`}
         >
@@ -206,7 +206,7 @@ export function HomeWorkspace({
             onClick={() => setCat(cat === "pinned" ? "all" : "pinned")}
             className={`flex flex-none items-center gap-1.5 rounded-full px-4 py-2 text-[13.5px] font-medium transition-all duration-180 ${
               cat === "pinned"
-                ? "bg-[var(--color-ink)] text-white shadow-xs dark:bg-white dark:text-[#1d1d1f]"
+                ? "bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f] shadow-xs dark:bg-white dark:text-[#1d1d1f]"
                 : "bg-[var(--color-surface)] text-[var(--color-sub)] hover:text-[var(--color-ink)]"
             }`}
           >
@@ -240,7 +240,7 @@ export function HomeWorkspace({
               }}
               className={`flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-[13.5px] font-medium transition-all duration-180 ${
                 isCatActive
-                  ? "bg-[var(--color-ink)] text-white shadow-xs dark:bg-white dark:text-[#1d1d1f]"
+                  ? "bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f] shadow-xs dark:bg-white dark:text-[#1d1d1f]"
                   : "bg-[var(--color-surface)] text-[var(--color-sub)] hover:text-[var(--color-ink)]"
               }`}
             >

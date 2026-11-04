@@ -108,7 +108,7 @@ export function DevBase64ImageEngine({ sample = "" }: { sample?: string }) {
   const tabCls = (active: boolean): string =>
     `rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
       active
-        ? "border-transparent bg-[var(--color-ink)] text-white"
+        ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
         : "hairline hover:bg-[var(--color-surface)]"
     }`;
 

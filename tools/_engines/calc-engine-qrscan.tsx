@@ -270,7 +270,7 @@ export function CalcEngineQrScan() {
               type="button"
               onClick={scanning ? stopCam : startCam}
               disabled={camState === "starting"}
-              className="rounded-full bg-[var(--color-ink)] px-6 py-2.5 text-[14px] font-semibold text-white transition-opacity hover:opacity-85 disabled:opacity-40"
+              className="rounded-full bg-[var(--color-ink)] px-6 py-2.5 text-[14px] font-semibold text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity hover:opacity-85 disabled:opacity-40"
             >
               {scanning ? pick(locale, S.stop) : pick(locale, S.start)}
             </button>

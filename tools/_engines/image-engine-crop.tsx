@@ -222,7 +222,7 @@ export function ImageCropEngine({ accept = "image/*" }: { accept?: string }) {
               onClick={() => setActive(i)}
               className={`mono max-w-52 truncate rounded-full border px-2.5 py-1 text-[12.5px] font-medium transition-colors ${
                 i === active
-                  ? "border-transparent bg-[var(--color-ink)] text-white"
+                  ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                   : "hairline hover:bg-[var(--color-surface)]"
               }`}
             >
@@ -254,7 +254,7 @@ export function ImageCropEngine({ accept = "image/*" }: { accept?: string }) {
                 onClick={() => setPreset(p)}
                 className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   aspect === p.ratio
-                    ? "border-transparent bg-[var(--color-ink)] text-white"
+                    ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
                     : "hairline hover:bg-[var(--color-surface)]"
                 }`}
               >

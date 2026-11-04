@@ -220,7 +220,7 @@ export function ExtractAudioEngine() {
             {(["320k", "192k", "128k"] as const).map((b) => (
               <button key={b} type="button" onClick={() => setBitrate(b)}
                 aria-pressed={bitrate === b}
-                className={`rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${bitrate === b ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"}`}>
+                className={`rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${bitrate === b ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"}`}>
                 {b === "320k" ? tr2(UI.qHigh, locale) : b === "128k" ? tr2(UI.qSmall, locale) : tr2(UI.qStd, locale)}
               </button>
             ))}
@@ -255,7 +255,7 @@ export function ExtractAudioEngine() {
 
         <div className="flex flex-wrap gap-2.5">
           <button type="button" onClick={run} disabled={busy || !file}
-            className="rounded-full bg-[var(--color-ink)] px-5 py-2 text-[14px] font-medium text-white transition-opacity disabled:opacity-40">
+            className="rounded-full bg-[var(--color-ink)] px-5 py-2 text-[14px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity disabled:opacity-40">
             {tr2(UI.start, locale)}
           </button>
           {file && !busy && <button type="button" onClick={reset} className="rounded-full border hairline px-3.5 py-2 text-[13px] font-medium hover:bg-[var(--color-surface)]">{t.common.reset}</button>}

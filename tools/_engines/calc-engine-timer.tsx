@@ -172,7 +172,7 @@ export function CalcEngineTimer() {
   const btn = (primary: boolean) =>
     `rounded-full px-5 py-2 text-sm font-medium transition-colors ${
       primary
-        ? "bg-[var(--color-ink)] text-white hover:opacity-90"
+        ? "bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f] hover:opacity-90"
         : "border hairline hover:bg-[var(--color-surface)]"
     }`;
 

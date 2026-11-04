@@ -259,11 +259,11 @@ export function PdfCropEngine() {
               <Label>{tr(SHARED.pageRange, locale)}</Label>
               <div className="flex gap-2">
                 <button type="button" onClick={() => setApplyMode("all")}
-                  className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${applyMode === "all" ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"}`}>
+                  className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${applyMode === "all" ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"}`}>
                   {tr(UI.applyAll, locale)}
                 </button>
                 <button type="button" onClick={() => setApplyMode("range")}
-                  className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${applyMode === "range" ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"}`}>
+                  className={`rounded-full border px-3 py-1.5 text-[13px] font-medium ${applyMode === "range" ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"}`}>
                   {tr(UI.applyRange, locale)}
                 </button>
               </div>

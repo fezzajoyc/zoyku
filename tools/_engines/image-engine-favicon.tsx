@@ -265,7 +265,7 @@ export function ImageFaviconEngine() {
                     type="button"
                     onClick={() => setRadius(r)}
                     className={`rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
-                      radius === r ? "border-transparent bg-[var(--color-ink)] text-white" : "hairline hover:bg-[var(--color-surface)]"
+                      radius === r ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]" : "hairline hover:bg-[var(--color-surface)]"
                     }`}
                   >
                     {r === 0 ? trL("square") : r === 25 ? trL("rounded") : trL("circle")}
@@ -340,7 +340,7 @@ export function ImageFaviconEngine() {
           <button
             type="button"
             onClick={() => void zipAll()}
-            className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-85"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2.5 text-[14px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity hover:opacity-85"
           >
             <Icon name="download" size={15} />
             {trL("zip")}
