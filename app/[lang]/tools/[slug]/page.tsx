@@ -26,16 +26,16 @@ export async function generateMetadata({
   const tool = TOOL_BY_SLUG.get(slug);
   if (!isLocale(lang) || !tool) return {};
   const c = toolCopy(tool, lang);
-  // SERP 差异化后缀:竞品标题都堆 "online free",我们把隐私 USP 打进每条结果
+  // SERP 后缀:覆盖竞品都在抢的高频查询词根(online/free),保留隐私差异点
   const USP: Partial<Record<Locale, string>> = {
-    en: "Free, No Upload",
-    zh: "免费·不上传",
+    en: "Online Free, No Upload",
+    zh: "在线免费·不上传",
     ja: "無料・アップロード不要",
-    es: "Gratis, sin subidas",
-    pt: "Grátis, sem envios",
-    fr: "Gratuit, sans envoi",
-    de: "Kostenlos, ohne Upload",
-    ru: "Бесплатно, без загрузки",
+    es: "Online gratis, sin subidas",
+    pt: "Online grátis, sem envios",
+    fr: "En ligne gratuit, sans envoi",
+    de: "Online kostenlos, ohne Upload",
+    ru: "Онлайн бесплатно, без загрузки",
     it: "Gratis, senza upload",
     tr: "Ücretsiz, yüklemesiz",
     ko: "무료 · 업로드 없음",
@@ -172,7 +172,7 @@ export default async function ToolPage({
       {!embed && (
         <NextToolsBar
           locale={locale}
-          tools={related.slice(0, 4).map((r) => {
+          tools={related.slice(0, 8).map((r) => {
             const rc = toolCopy(r, locale);
             return { slug: r.slug, category: r.category, icon: r.icon, name: rc.name };
           })}
