@@ -161,7 +161,7 @@ export function DevMarkdownEngine({ sample = "" }: { sample?: string }) {
             {html ? (
               <div dangerouslySetInnerHTML={{ __html: html }} />
             ) : (
-              <p className="text-[14px] text-[#a1a1a6]">{pick(L.preview, locale)}…</p>
+              <p className="text-[14px] text-[var(--color-sub)]">{pick(L.preview, locale)}…</p>
             )}
           </div>
         </div>

@@ -155,7 +155,7 @@ export function DevRegexEngine({
           <>
             <div className="whitespace-pre-wrap break-words rounded-xl border hairline bg-[var(--color-surface)] p-3 text-[14px] leading-6">
               {text === "" ? (
-                <span className="text-[#a1a1a6]">{pick(L.noMatch, locale)}</span>
+                <span className="text-[var(--color-sub)]">{pick(L.noMatch, locale)}</span>
               ) : (
                 segments.map((seg, i) =>
                   seg.hit ? (
