@@ -14,7 +14,8 @@ export default defineTool({
       intro: [
         "Enter height and weight in centimeters and kilograms, or feet, inches and pounds, and the calculator shows your Body Mass Index to one decimal together with the WHO category it falls into — underweight, normal, overweight or obesity — with the matching row highlighted in the reference table.",
         "The result updates as you type, so it is easy to see how a few kilograms move you between bands. BMI is a screening measure, not a diagnosis: it does not distinguish muscle from fat.",
-      ],
+        "BMI is calculated exactly as the WHO defines it: weight in kilograms divided by the square of height in meters (kg/m²), with no rounding until the final display. The standard thresholds apply — below 18.5 underweight, 18.5–24.9 normal, 25–29.9 overweight, 30 and above obesity.",
+        "BMI is a screening measure, not a diagnosis: it does not distinguish muscle from fat, so athletes can read high and older adults low. Use it to track broad trends over time or to sanity-check a weight goal, and consult a healthcare professional before acting on the category alone.",],
       steps: [
         "Choose metric (cm + kg) or imperial (ft + in + lb) units.",
         "Type your height and weight.",

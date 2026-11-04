@@ -15,7 +15,8 @@ export default defineTool({
       intro: [
         "Enter the home price, down payment, interest rate and term to get the monthly principal-and-interest payment from the standard amortization formula banks use. Add yearly property tax, yearly insurance and monthly HOA dues to see the full PITI amount most lenders quote.",
         "The loan amount, the total interest over the life of the loan and a year-by-year amortization table update live as you type, so you can compare a 20% down payment against 10%, or a 15-year term against 30, in seconds.",
-      ],
+        "The monthly payment comes from the standard amortization formula M = P · r(1+r)^n / ((1+r)^n − 1), where P is the loan amount, r is the monthly rate (annual rate ÷ 12) and n is the number of monthly payments. Because r compounds monthly, a 6% annual rate is applied as 0.5% per month, which is how fixed-rate mortgages actually amortize.",
+        "Compared with a bare monthly-payment tool, this one extends the same formula with taxes, insurance and HOA to give a realistic PITI, and shows total interest so you can compare a 15-year against a 30-year term directly. It is an estimate for planning — your lender's exact figures depend on their fees and escrow setup.",],
       steps: [
         "Enter the home price and the down payment as a percent or an amount.",
         "Set the annual interest rate and the term in years.",

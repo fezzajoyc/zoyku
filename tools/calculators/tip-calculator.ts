@@ -14,7 +14,8 @@ export default defineTool({
       intro: [
         "Enter the bill, tap a preset tip (10/15/18/20/25%) or type your own, and say how many people are splitting. You instantly get the tip amount, the grand total and the per-person share, so nobody does mental arithmetic while the waiter waits.",
         "Everything recalculates live as numbers change, works for any currency, and runs entirely on your device — handy abroad, where your own data connection may be the only reliable one.",
-      ],
+        "Standard US restaurant etiquette puts full table service around 15–20% and excellent service at 20% or more, which is why the presets start there; bars and coffee counters commonly sit closer to 10–15%. The per-person split divides the tipped total evenly, so everyone shares the tip rather than paying on their own subtotal.",
+        "Unlike a generic percentage tool, tip-specific presets and the party-size split are built in, so the three numbers you need — tip, total, per person — appear at once and update as you adjust any of them. It works with any currency and runs locally, which matters when roaming data is slow or expensive.",],
       steps: [
         "Type the bill amount.",
         "Pick a tip preset or enter a custom percentage.",

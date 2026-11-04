@@ -14,7 +14,8 @@ export default defineTool({
       intro: [
         "Enter the original price and a discount percentage, and instantly see what you actually pay and how much you save. A second, optional discount handles the “extra 10% off sale prices” case that always trips shoppers up.",
         "Stacked discounts are applied one after another, and the tool shows the effective combined rate — because 20% + 10% off is 28% off, not 30%, a difference that adds up on big-ticket items.",
-      ],
+        "Stacked discounts multiply rather than add: taking an extra 10% off a price already reduced by 20% leaves 0.9 × 0.8 = 72% of the original, an effective 28% discount. The calculator shows that effective rate explicitly, alongside the absolute amount saved, so you can judge a deal in money terms rather than in stacked labels.",
+        "You can also run it in reverse scenarios — compare two offers with different list prices and different discount rates to see which costs less out of pocket, something store signs never do for you. Note that discounts shown are off the stated list price; whether that list price is itself fair is a separate question.",],
       steps: [
         "Type the original price.",
         "Enter the discount percentage — and an optional second, stacked one.",

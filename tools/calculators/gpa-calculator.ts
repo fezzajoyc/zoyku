@@ -15,7 +15,8 @@ export default defineTool({
       intro: [
         "Add each course with its credit hours and letter grade, and the calculator applies the standard 4.0 quality-point table — A = 4.0, A− = 3.7, B+ = 3.3, and so on — weighting every grade by its credits. A four-credit A counts for more than a three-credit A, exactly as your transcript says.",
         "Already have grades behind you? Enter your prior GPA and the credits earned so far, and the semester result blends into a cumulative GPA using the same weighted average your registrar runs. Incomplete rows are skipped rather than guessed, so the number only reflects courses you actually filled in.",
-      ],
+        "The 4.0 letter table used here (A = 4.0, A− = 3.7, B+ = 3.3, B = 3.0, down the scale) is the most common US convention, but institutions vary — some add 0.3 per plus rather than 0.33, and some weight honors courses above 4.0. Check your school's table when exact figures matter for applications or standing.",
+        "Unlike a simple average of grades, the credit-weighted cumulative mode folds your prior GPA and earned credits into the same calculation your registrar uses, so one strong semester moves your cumulative GPA less when you have many credits behind you. Results are estimates for planning; the official transcript is always authoritative.",],
       steps: [
         "Add a row per course: name (optional), credit hours and letter grade.",
         "Leave prior fields empty for your first semester, or enter your GPA so far.",

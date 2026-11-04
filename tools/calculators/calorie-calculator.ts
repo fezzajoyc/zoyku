@@ -15,7 +15,8 @@ export default defineTool({
       intro: [
         "Daily energy needs are your BMR multiplied by an activity factor: 1.2 sedentary, 1.375 lightly active, 1.55 moderately active, 1.725 very active and 1.9 extra active. That product — total daily energy expenditure (TDEE) — is what keeping your current weight takes. The BMR itself comes from the Mifflin-St Jeor equation (1990).",
         "Pick a goal and the tool adjusts the maintenance figure: about −500 kcal/day to lose roughly 0.5 kg per week, +500 kcal/day to gain, or no change to maintain. The ±500 kcal heuristic follows from 1 kg of body fat storing ≈ 7,700 kcal. Everything here is an estimate — real metabolism adapts as your weight and habits change.",
-      ],
+        "The activity multipliers follow the widely used Harris–Benedict-style convention, and Mifflin–St Jeor itself is: men 10 × weight (kg) + 6.25 × height (cm) − 5 × age + 5, women the same expression with −161 instead of +5. Weight-loss and gain targets are set as deviations from maintenance rather than arbitrary fixed deficits.",
+        "Compared with a plain BMR tool, this one converts the estimate into actionable daily targets for cutting, maintaining or bulking. Keep in mind these are population averages — individual needs vary with body composition, metabolism and training load, so adjust based on measured results over weeks, not on the first number you see.",],
       steps: [
         "Choose your sex, units and enter height, weight and age.",
         "Pick the activity level that matches a typical week.",

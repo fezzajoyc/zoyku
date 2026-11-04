@@ -15,7 +15,8 @@ export default defineTool({
       intro: [
         "Compound interest is interest on interest: each period the balance earns a share of the annual rate, and every deposit you add starts earning its own interest too. This calculator runs that recursion period by period for an initial deposit plus regular monthly contributions, at monthly, quarterly or annual compounding.",
         "The result is the final balance, the total you put in, and the interest the compounding generated — plus a year-by-year table so you can see exactly when the curve starts to bend. Everything recalculates live, and the formula used is printed right under the numbers, so you can check it against your bank's own projection.",
-      ],
+        "Compounding follows the standard recurrence Bₜ₊₁ = Bₜ × (1 + i) + C, where i is the periodic rate (annual rate ÷ compounding periods per year) and C is the contribution made each period. Monthly compounding at 8% therefore earns slightly more than annual compounding at 8%, because interest starts earning interest sooner.",
+        "The tool separates principal deposited from interest earned, so you can see the crossover point where growth from interest overtakes your own contributions — usually decades out at moderate rates. Results assume the rate stays constant, which real investments do not; treat the output as a planning scenario rather than a forecast.",],
       steps: [
         "Enter the initial deposit and the amount you will add every month (0 for a one-off deposit).",
         "Set the annual interest rate, the number of years and how often interest compounds.",

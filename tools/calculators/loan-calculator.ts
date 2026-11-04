@@ -14,7 +14,8 @@ export default defineTool({
       intro: [
         "Everything the EMI view gives you — monthly payment, total interest, total repayment — plus a yearly amortization schedule that shows exactly how much of each year's payments is interest and how much is principal, and what balance remains at the end of every year.",
         "It is the fastest way to understand why extra payments in the early years are so valuable: the table makes the interest-heavy years impossible to miss.",
-      ],
+        "Payments are computed with the standard amortization formula M = P · r(1+r)^n / ((1+r)^n − 1) using the monthly rate r and term n you enter. The yearly table then splits each payment by the same rule lenders use: interest for the period equals the outstanding balance × r, and whatever remains reduces principal.",
+        "That split is why the schedule matters more than the headline payment. On a long loan the early years are interest-heavy, so an extra payment made in year one removes far more future interest than the same payment made in year ten — the table makes that visible instead of leaving you to trust a rule of thumb.",],
       steps: [
         "Enter the loan amount, annual rate and tenure in years or months.",
         "Read the monthly payment, total interest and total repayment.",

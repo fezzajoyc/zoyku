@@ -15,7 +15,8 @@ export default defineTool({
       intro: [
         "Your basal metabolic rate (BMR) is the energy your body spends just staying alive — breathing, circulating blood, keeping warm — before any movement or digestion. This calculator uses the Mifflin-St Jeor equation, published in 1990 and still the most accurate widely used predictor for modern populations: men 10 × weight (kg) + 6.25 × height (cm) − 5 × age + 5; women the same expression minus 161.",
         "Enter your details in metric or imperial units and the result updates as you type. Treat the number as a population-level estimate — typically within about ±10% of a lab measurement — not a medical diagnosis.",
-      ],
+        "Mifflin–St Jeor is chosen over the older Harris–Benedict equation because validation studies (notably the 2005 ADA comparison) found it predicts measured resting energy expenditure more accurately for today's populations. It needs only weight, height, age and sex — no lab equipment, unlike calorimetry, which is the gold standard.",
+        "A BMR figure on its own is not your daily requirement; it must be multiplied by an activity factor (the basis of a TDEE estimate) to reflect real life. Treat the result as a starting point for planning intake — individual metabolic rates can deviate by around 10% or more in either direction.",],
       steps: [
         "Choose your sex and metric (cm + kg) or imperial (ft + in + lb) units.",
         "Enter your height, weight and age.",

@@ -14,7 +14,8 @@ export default defineTool({
       intro: [
         "The three questions people actually ask: “what is 15% of 200?”, “30 is what percent of 150?” and “sales went from 480 to 610 — by what percent?”. Switch modes with one click and the formula adapts to each case.",
         "Percent change is signed and labeled as an increase or a decrease, so a drop from 500 to 400 clearly reads as −20%, not a confusing positive number.",
-      ],
+        "Under the hood each mode is one line of arithmetic: X% of N is (X ÷ 100) × N; “A is what percent of B” is A ÷ B × 100; and percent change is (new − old) ÷ |old| × 100, with the old value's magnitude in the denominator so increases and decreases are symmetric.",
+        "Compared with doing this in a spreadsheet or search box, the three phrasings are one click apart and percent change is signed and labeled — a fall from 500 to 400 reads as −20% (a 20% decrease), not an easy-to-misread positive number. That makes it handy for invoices, grades, price checks and quick homework alike.",],
       steps: [
         "Pick the mode: X% of Y, X is what % of Y, or % change.",
         "Type the two values into the two boxes.",
