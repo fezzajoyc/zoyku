@@ -19,6 +19,9 @@ import pdfToPpt from "./pdf-to-ppt";
 import wordToPdf from "./word-to-pdf";
 import pdfToText from "./pdf-to-text";
 import ocrPdf from "./ocr-pdf";
+import unlockPdf from "./unlock-pdf";
+import flattenPdf from "./flatten-pdf";
+import pdfCrop from "./pdf-crop";
 
 export const PDF_TOOLS: ToolDef[] = [
   mergePdf,
@@ -41,4 +44,7 @@ export const PDF_TOOLS: ToolDef[] = [
   pdfToText,
   ocrPdf,
   pageNumbersPdf,
+  unlockPdf,
+  flattenPdf,
+  pdfCrop,
 ];

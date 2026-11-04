@@ -86,6 +86,8 @@ export function proxy(req: NextRequest) {
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
     pathname === "/llms.txt" ||
+    pathname === "/mcp" ||
+    pathname.startsWith("/mcp/") ||
     pathname === "/manifest.webmanifest"
   ) {
     return NextResponse.next();
