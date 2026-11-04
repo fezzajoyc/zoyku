@@ -82,7 +82,16 @@ export default async function LangLayout({
               name: SITE.name,
               url: SITE.domain,
               inLanguage: HTML_LANG[locale] ?? HTML_LANG.en,
-              potentialAction: undefined,
+              // ghb-next 学习项:SearchAction 让 Google 直接从结果页唤起站内搜索
+              // (tools-directory 组件已读 ?q= 参数,落点齐备)
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${SITE.domain}/${locale}/tools?q={search_term_string}`,
+                },
+                "query-input": "required name=search_term_string",
+              },
             }}
           />
           <JsonLd
