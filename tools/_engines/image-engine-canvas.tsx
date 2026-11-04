@@ -42,64 +42,64 @@ const L: Record<string, Record<string, string>> =  {
   outputFormat: {
     en: "Output format", zh: "输出格式", ja: "出力フォーマット",
     es: "Formato de salida", pt: "Formato de saída",
-  },
+  fr: "Format de sortie", de: "Ausgabeformat", ru: "Формат вывода", it: "Formato di output", tr: "Çıktı biçimi", ko: "출력 형식", ar: "صيغة الإخراج", hi: "आउटपुट फ़ॉर्मैट", id: "Format keluaran", vi: "Định dạng đầu ra"},
   quality: {
     en: "Quality", zh: "画质", ja: "品質", es: "Calidad", pt: "Qualidade",
-  },
+  fr: "Qualité", de: "Qualität", ru: "Качество", it: "Qualità", tr: "Kalite", ko: "품질", ar: "الجودة", hi: "गुणवत्ता", id: "Kualitas", vi: "Chất lượng"},
   original: {
     en: "Same as original", zh: "与原图相同", ja: "元画像と同じ",
     es: "Igual que el original", pt: "Igual ao original",
-  },
-  width: { en: "Width", zh: "宽度", ja: "幅", es: "Ancho", pt: "Largura" },
-  height: { en: "Height", zh: "高度", ja: "高さ", es: "Alto", pt: "Altura" },
+  fr: "Identique à l'original", de: "Wie Original", ru: "Как в оригинале", it: "Come l'originale", tr: "Orijinal ile aynı", ko: "원본과 동일", ar: "مثل الأصل", hi: "मूल जैसा", id: "Sama seperti asli", vi: "Giống bản gốc"},
+  width: { en: "Width", zh: "宽度", ja: "幅", es: "Ancho", pt: "Largura", fr: "Largeur", de: "Breite", ru: "Ширина", it: "Larghezza", tr: "Genişlik", ko: "너비", ar: "العرض", hi: "चौड़ाई", id: "Lebar", vi: "Chiều rộng" },
+  height: { en: "Height", zh: "高度", ja: "高さ", es: "Alto", pt: "Altura", fr: "Hauteur", de: "Höhe", ru: "Высота", it: "Altezza", tr: "Yükseklik", ko: "높이", ar: "الارتفاع", hi: "ऊँचाई", id: "Tinggi", vi: "Chiều cao" },
   lockAspect: {
     en: "Lock aspect ratio", zh: "锁定宽高比", ja: "アスペクト比を固定",
     es: "Bloquear proporción", pt: "Manter proporção",
-  },
-  scale: { en: "Scale", zh: "缩放比例", ja: "拡大率", es: "Escala", pt: "Escala" },
+  fr: "Verrouiller les proportions", de: "Seitenverhältnis sperren", ru: "Сохранять пропорции", it: "Blocca proporzioni", tr: "En-boy oranını kilitle", ko: "가로세로 비 고정", ar: "تثبيت نسبة الأبعاد", hi: "आस्पेक्ट रेशो लॉक करें", id: "Kunci rasio aspek", vi: "Khóa tỉ lệ khung hình"},
+  scale: { en: "Scale", zh: "缩放比例", ja: "拡大率", es: "Escala", pt: "Escala", fr: "Échelle", de: "Skalierung", ru: "Масштаб", it: "Scala", tr: "Ölçek", ko: "배율", ar: "المقياس", hi: "स्केल", id: "Skala", vi: "Tỉ lệ" },
   rotateCW: {
     en: "Rotate 90° CW", zh: "顺时针旋转 90°", ja: "90° 右に回転",
     es: "Girar 90° horario", pt: "Girar 90° horário",
-  },
+  fr: "Pivoter 90° horaire", de: "90° im Uhrzeigersinn", ru: "Повернуть на 90° по часовой", it: "Ruota di 90° orario", tr: "90° saat yönünde", ko: "90° 시계 방향 회전", ar: "تدوير 90° مع عقارب الساعة", hi: "90° दक्षिणावर्त घुमाएँ", id: "Putar 90° searah jarum jam", vi: "Xoay 90° theo chiều kim đồng hồ"},
   rotateCCW: {
     en: "Rotate 90° CCW", zh: "逆时针旋转 90°", ja: "90° 左に回転",
     es: "Girar 90° antihorario", pt: "Girar 90° anti-horário",
-  },
+  fr: "Pivoter 90° antihoraire", de: "90° gegen Uhrzeigersinn", ru: "Повернуть на 90° против часовой", it: "Ruota di 90° antiorario", tr: "90° saat yönünün tersine", ko: "90° 반시계 방향 회전", ar: "تدوير 90° عكس عقارب الساعة", hi: "90° वामावर्त घुमाएँ", id: "Putar 90° berlawanan arah jam", vi: "Xoay 90° ngược chiều kim đồng hồ"},
   rotate180: {
     en: "Rotate 180°", zh: "旋转 180°", ja: "180° 回転",
     es: "Girar 180°", pt: "Girar 180°",
-  },
+  fr: "Pivoter à 180°", de: "180° drehen", ru: "Повернуть на 180°", it: "Ruota di 180°", tr: "180° döndür", ko: "180° 회전", ar: "تدوير 180°", hi: "180° घुमाएँ", id: "Putar 180°", vi: "Xoay 180°"},
   flipH: {
     en: "Flip horizontal", zh: "水平翻转", ja: "左右反転",
     es: "Voltear horizontal", pt: "Espelhar horizontal",
-  },
+  fr: "Miroir horizontal", de: "Horizontal spiegeln", ru: "Отразить по горизонтали", it: "Specchia orizzontale", tr: "Yatay çevir", ko: "좌우 반전", ar: "قلب أفقي", hi: "क्षैतिज पलटें", id: "Cermin horizontal", vi: "Lật ngang"},
   flipV: {
     en: "Flip vertical", zh: "垂直翻转", ja: "上下反転",
     es: "Voltear vertical", pt: "Espelhar vertical",
-  },
+  fr: "Miroir vertical", de: "Vertikal spiegeln", ru: "Отразить по вертикали", it: "Specchia verticale", tr: "Dikey çevir", ko: "상하 반전", ar: "قلب رأسي", hi: "लंबवत पलटें", id: "Cermin vertikal", vi: "Lật dọc"},
   stripNote: {
     en: "The image is re-encoded from raw pixels, which removes EXIF, GPS coordinates and all other metadata. Visual quality is kept at 92%.",
     zh: "图片会从原始像素重新编码,从而移除 EXIF、GPS 坐标等全部元数据,画质保持在 92%。",
     ja: "画像は生ピクセルから再エンコードされ、EXIF・GPS 座標などのメタデータがすべて削除されます。画質は 92% を維持します。",
     es: "La imagen se recodifica desde los píxeles originales, lo que elimina EXIF, las coordenadas GPS y todos los demás metadatos. La calidad visual se mantiene en el 92%.",
     pt: "A imagem é recodificada a partir dos pixels originais, o que remove EXIF, coordenadas GPS e todos os outros metadados. A qualidade visual é mantida em 92%.",
-  },
+  fr: "L'image est ré-encodée depuis les pixels bruts : EXIF, coordonnées GPS et toutes les autres métadonnées sont supprimées. La qualité visuelle est conservée à 92 %.", de: "Das Bild wird aus den rohen Pixeln neu kodiert: EXIF, GPS-Koordinaten und alle anderen Metadaten werden entfernt. Die visuelle Qualität bleibt bei 92 %.", ru: "Изображение перекодируется из исходных пикселей: EXIF, GPS-координаты и прочие метаданные удаляются. Визуальное качество сохраняется на 92 %.", it: "L'immagine viene ricodificata dai pixel grezzi: EXIF, coordinate GPS e tutti gli altri metadati vengono rimossi. La qualità visiva resta al 92%.", tr: "Görsel ham piksellerden yeniden kodlanır: EXIF, GPS koordinatları ve diğer tüm meta veriler kaldırılır. Görsel kalite %92 olarak korunur.", ko: "이미지는 원시 픽셀에서 다시 인코딩되어 EXIF·GPS 좌표 등 모든 메타데이터가 제거됩니다. 화질은 92% 유지됩니다.", ar: "تُعاد ترميز الصورة من البكسلات الخام، ما يزيل EXIF وإحداثيات GPS وكل البيانات الوصفية الأخرى. تُحافَظ على جودة بصرية 92%.", hi: "इमेज को रॉ पिक्सेल से फिर से एनकोड किया जाता है, जिससे EXIF, GPS निर्देशांक और बाकी सारा मेटाडेटा हट जाता है। विज़ुअल क्वालिटी 92% बनी रहती है।", id: "Gambar dikodekan ulang dari piksel mentah, sehingga EXIF, koordinat GPS, dan semua metadata lain dihapus. Kualitas visual tetap 92%.", vi: "Ảnh được mã hóa lại từ pixel thô, loại bỏ EXIF, tọa độ GPS và mọi siêu dữ liệu khác. Chất lượng hình ảnh được giữ ở 92%."},
   webpFallback: {
     en: "This browser cannot encode WebP — JPEG was used instead.",
     zh: "当前浏览器不支持 WebP 编码,已改用 JPEG。",
     ja: "このブラウザは WebP エンコードに対応していないため、JPEG で保存しました。",
     es: "Este navegador no puede generar WebP: se usó JPEG en su lugar.",
     pt: "Este navegador não gera WebP: foi usado JPEG no lugar.",
-  },
-  px: { en: "Pixels", zh: "像素", ja: "ピクセル", es: "Píxeles", pt: "Pixels" },
-  pct: { en: "Percent", zh: "百分比", ja: "パーセント", es: "Porcentaje", pt: "Porcentagem" },
+  fr: "Ce navigateur ne peut pas encoder en WebP — JPEG utilisé à la place.", de: "Dieser Browser kann kein WebP kodieren — JPEG wurde verwendet.", ru: "Этот браузер не может кодировать WebP — использован JPEG.", it: "Questo browser non può codificare in WebP — è stato usato JPEG.", tr: "Bu tarayıcı WebP kodlayamıyor — JPEG kullanıldı.", ko: "이 브라우저는 WebP 인코딩을 지원하지 않습니다 — JPEG로 저장했습니다.", ar: "لا يمكن لهذا المتصفح ترميز WebP — استُخدم JPEG بدلاً منه.", hi: "यह ब्राउज़र WebP एनकोड नहीं कर सकता — JPEG का उपयोग किया गया।", id: "Browser ini tidak dapat mengodekan WebP — JPEG digunakan sebagai gantinya.", vi: "Trình duyệt này không thể mã hóa WebP — đã dùng JPEG thay thế."},
+  px: { en: "Pixels", zh: "像素", ja: "ピクセル", es: "Píxeles", pt: "Pixels", fr: "Pixels", de: "Pixel", ru: "Пиксели", it: "Pixel", tr: "Piksel", ko: "픽셀", ar: "بكسل", hi: "पिक्सेल", id: "Piksel", vi: "Pixel" },
+  pct: { en: "Percent", zh: "百分比", ja: "パーセント", es: "Porcentaje", pt: "Porcentagem", fr: "Pourcentage", de: "Prozent", ru: "Проценты", it: "Percentuale", tr: "Yüzde", ko: "백분율", ar: "النسبة المئوية", hi: "प्रतिशत", id: "Persen", vi: "Phần trăm" },
   appliedTo: {
     en: "Applied to all files",
     zh: "对所有文件生效",
     ja: "すべてのファイルに適用",
     es: "Se aplica a todos los archivos",
     pt: "Aplicado a todos os arquivos",
-  },
+  fr: "Appliqué à tous les fichiers", de: "Auf alle Dateien angewendet", ru: "Применить ко всем файлам", it: "Applica a tutti i file", tr: "Tüm dosyalara uygula", ko: "모든 파일에 적용", ar: "تطبيق على كل الملفات", hi: "सभी फ़ाइलों पर लागू", id: "Terapkan ke semua berkas", vi: "Áp dụng cho mọi tệp"},
 } satisfies Record<string, Record<string, string>>;
 
 const FORMAT_LABEL: Record<ImgFormat, string> = {

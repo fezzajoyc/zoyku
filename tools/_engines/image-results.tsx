@@ -31,14 +31,14 @@ const ERR: Record<"decode" | "encode", Record<string, string>> = {
     zh: "无法将该文件读取为图片。",
     ja: "このファイルは画像として読み込めませんでした。",
     es: "No se pudo leer este archivo como imagen.",
-    pt: "Não foi possível ler este arquivo como imagem.",
+    pt: "Não foi possível ler este arquivo como imagem.", fr: "Impossible de lire ce fichier comme image.", de: "Datei konnte nicht als Bild gelesen werden.", ru: "Не удалось прочитать файл как изображение.", it: "Impossibile leggere questo file come immagine.", tr: "Dosya görsel olarak okunamadı.", ko: "이 파일을 이미지로 읽을 수 없습니다.", ar: "تعذّرت قراءة هذا الملف كصورة.", hi: "यह फ़ाइल इमेज के रूप में नहीं पढ़ी जा सकी।", id: "Berkas ini tidak dapat dibaca sebagai gambar.", vi: "Không thể đọc tệp này dưới dạng hình ảnh.",
   },
   encode: {
     en: "The result could not be generated.",
     zh: "生成结果失败。",
     ja: "結果を生成できませんでした。",
     es: "No se pudo generar el resultado.",
-    pt: "Não foi possível gerar o resultado.",
+    pt: "Não foi possível gerar o resultado.", fr: "Impossible de générer le résultat.", de: "Ergebnis konnte nicht erstellt werden.", ru: "Не удалось создать результат.", it: "Impossibile generare il risultato.", tr: "Sonuç oluşturulamadı.", ko: "결과를 생성하지 못했습니다.", ar: "تعذّر إنشاء النتيجة.", hi: "परिणाम जेनरेट नहीं हो सका।", id: "Hasil tidak dapat dibuat.", vi: "Không thể tạo kết quả.",
   },
 };
 
@@ -152,7 +152,7 @@ const ERR_SAVE_ALL: Record<string, string> = {
   zh: "全部下载",
   ja: "すべて保存",
   es: "Descargar todo",
-  pt: "Baixar tudo",
+  pt: "Baixar tudo", fr: "Tout télécharger", de: "Alle herunterladen", ru: "Скачать всё", it: "Scarica tutto", tr: "Tümünü indir", ko: "모두 다운로드", ar: "تنزيل الكل", hi: "सब डाउनलोड करें", id: "Unduh semua", vi: "Tải tất cả",
 };
 
 const ERR_SAVE_ONE: Record<string, string> = {
@@ -160,7 +160,7 @@ const ERR_SAVE_ONE: Record<string, string> = {
   zh: "下载",
   ja: "保存",
   es: "Guardar",
-  pt: "Salvar",
+  pt: "Salvar", fr: "Enregistrer", de: "Speichern", ru: "Сохранить", it: "Salva", tr: "Kaydet", ko: "저장", ar: "حفظ", hi: "सेव करें", id: "Simpan", vi: "Lưu",
 };
 
 /** 批量下载:拉开间隔避免浏览器拦截连续下载。 */
