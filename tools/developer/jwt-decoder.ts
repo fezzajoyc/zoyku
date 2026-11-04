@@ -16,8 +16,10 @@ export default defineTool({
       tagline:
         "Decode JWT tokens online: inspect the header and payload claims with human-readable exp and iat timestamps. Decoding only — nothing is verified or uploaded.",
       intro: [
-        "Paste a JSON Web Token and instantly see its three parts separately: the header (algorithm and token type), the payload (the actual claims) and the signature. Both JSON sections are pretty-printed, and timestamps like iat, nbf and exp are translated into plain dates in your locale, with exp marked as expired or still active.",
-        "Everything is decoded locally with Base64URL — the token is never sent anywhere and never verified. Remember: decoding shows what a token says, not what it is allowed to do. Signature verification always requires the secret or public key on a trusted system.",
+        "Debugging an auth flow, checking which claims a token really carries, or explaining to a teammate why the API returned 401 — paste the JWT here and its contents are on screen in a second, with nothing leaving the browser.",
+        "The three dot-separated parts are split and pretty-printed separately: the header (alg, typ), the payload (iss, exp, sub and your custom claims) and the signature shown as-is. Malformed Base64URL is reported instead of silently producing garbage.",
+        "Decoding follows RFC 7519: each segment is Base64URL — the JWT variant of Base64 that swaps +/ for -_ and drops padding — then parsed as JSON. Everything happens locally; the token is never transmitted and never verified.",
+        "That last point is the crux: decoding shows what a token says, not what it is allowed to do. Signature verification (HS256 shared secret or RS256 public key) always happens on the server, so treat every claim you read here as untrusted until that check passes."
       ],
       steps: [
         "Paste the JWT (the three dot-separated parts) into the input box.",

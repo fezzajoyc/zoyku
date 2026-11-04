@@ -11,7 +11,12 @@ export default defineTool({
     en: {
       name: 'SHA-512 Generator',
       tagline: 'Compute SHA-512 hashes of text or files in your browser with native WebCrypto — the strongest SHA-2 digest for checksums, HMAC and archival integrity. 100% client-side.',
-      intro: ['Paste text to see its 512-bit SHA-512 digest live, or drop a file to fingerprint it locally. On 64-bit hardware SHA-512 is actually faster than SHA-256, which makes it the natural pick for hashing large archives and backups.', 'SHA-512 appears in password hashing peperk refinements, HMAC-SHA512 API signatures, disk-image verification and long-term archival checksums where the widest security margin matters. Copy the hex digest in one click and compare it with any published checksum.'],
+      intro: [
+        "Hashing large installers or disk images, generating long-term archival checksums, or signing API payloads where the widest margin matters — paste text or drop a file and the 512-bit digest updates live, entirely in your browser.",
+        "The digest is 128 hexadecimal characters (64 bytes). On 64-bit CPUs SHA-512 actually outpaces SHA-256 because it works on 64-bit words internally, so even large files hash quickly without a single byte leaving your device.",
+        "Everything runs through the native WebCrypto SubtleCrypto digest API, which implements FIPS 180-4: 1024-bit blocks, 80 rounds of 64-bit words. Results match sha512sum, OpenSSL and every other standards-compliant tool.",
+        "That margin is why modern Linux /etc/shadow password entries, HMAC-SHA512 API signatures and archival manifests build on it — when a checksum must still be trustworthy decades from now, 512 bits is the conventional answer."
+      ],
       steps: ['Type or paste the text — the digest updates as you type.', 'Or switch to File mode and drop a file to hash it locally.', 'Copy the hexadecimal digest and compare it with the expected value.'],
       faqs: [
           { q: 'q', a: 'a' },

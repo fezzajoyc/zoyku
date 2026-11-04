@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Generate MD5 hashes of any text or file instantly in your browser — perfect for checksums, dedup keys and legacy integrations. One-way, never uploaded.",
       intro: [
-        "Type text to see its 128-bit MD5 digest live, or drop in a file to fingerprint it without uploading a single byte. Hashing happens locally with a mature JavaScript implementation of the MD5 algorithm.",
-        "MD5 remains everywhere: download checksums, file dedup keys, cache busters, legacy system integrations. Just remember what it is not for — despite its age, MD5 is cryptographically broken, so never use it for passwords, signatures or anything an attacker could tamper with.",
+        "Comparing a download against the checksum a mirror publishes, generating keys for a cache or dedup table, or integrating with a legacy system that still expects MD5 — paste text or drop a file and the 128-bit digest appears instantly, computed locally.",
+        "Output is 32 lowercase hexadecimal characters, updating as you type; file hashing stays on your device, so nothing is uploaded. The implementation follows RFC 1321 and matches md5sum and every other conformant tool.",
+        "MD5 (Rivest, 1991) compresses input through a Merkle-Damgard construction into a 128-bit digest. It is fast by design — exactly why it survives in checksums, content addressing and non-cryptographic fingerprints.",
+        "Cryptographically, though, it is broken: practical collisions have existed since 2004, and the 2012 Flame malware forged a Microsoft code-signing certificate with an MD5 collision. Use it for compatibility and integrity checks only — for signatures or password storage, move to SHA-256 or a dedicated password hash."
       ],
       steps: [
         "Type or paste the text — the MD5 digest updates live.",

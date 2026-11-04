@@ -12,8 +12,10 @@ export default defineTool({
       name: "JSON ⇄ YAML Converter",
       tagline: "Convert JSON to YAML and back — config-file ready, with a swap-to-continue workflow and precise error messages.",
       intro: [
-        "Two-way conversion between JSON and YAML: paste JSON, get clean 2-space YAML for your config files; paste YAML, get JSON. The swap button flips the direction so you can round-trip in one panel.",
-        "Powered by js-yaml with precise error reporting — a bad indent or duplicate key shows you exactly what went wrong instead of a cryptic failure.",
+        "Kubernetes manifests, GitHub Actions workflows and docker-compose files are YAML; almost every API speaks JSON — converting between the two is a daily chore. Paste one side, take the other, and flip direction with the swap button in the same panel.",
+        "JSON comes back pretty-printed with 2-space indentation; YAML comes back in clean block style rather than flow style, so output reads like a hand-written config file rather than a machine dump.",
+        "Conversion is powered by js-yaml, the parser behind many build and config tools. Errors are precise: a bad indent or a duplicate key is reported at the actual problem instead of failing with a cryptic message.",
+        "The converter also helps you dodge classic YAML traps that js-yaml inherits from YAML 1.1: the bare word Norway parses as boolean false, 1.0 is a float while 1 is an integer, and unquoted version strings can surprise you. Round-tripping through JSON forces every type to be explicit — one reason JSON remains the safer wire format."
       ],
       steps: [
         "Paste JSON or YAML depending on direction.",

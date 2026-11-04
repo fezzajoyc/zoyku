@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Decode Base64 back into readable text with proper UTF-8 handling — data URIs, API payloads and encoded config values become clear instantly. Private and free.",
       intro: [
-        "Paste Base64 and see the decoded text live. Decoding goes through the standard TextDecoder, so multibyte UTF-8 content — accents, emoji, CJK — comes out correctly instead of turning into mojibake.",
-        "It is forgiving in the useful ways: whitespace and line breaks in the input are ignored, and data URI prefixes such as data:image/png;base64, are stripped automatically before decoding.",
+        "Reading an Authorization: Basic header, inspecting a JWT segment, or pulling original content back out of a data URI — paste the string and see the decoded text live, without opening a REPL or writing a throwaway script.",
+        "Decoding runs through the standard TextDecoder with UTF-8, so multibyte content — accents, emoji, CJK characters — round-trips correctly instead of turning into mojibake. Whitespace, line breaks and data:...;base64, prefixes are handled automatically.",
+        "The tool implements RFC 4648: the standard alphabet with + and /, padding with = signs, decoded locally in your browser — the input never leaves the page.",
+        "Where command-line equivalents need coaxing (openssl base64 -d rejects wrapped input unless you strip newlines first), this decoder is forgiving by default and keeps details like UTF-8 multibyte handling out of your way — paste, read, copy."
       ],
       steps: [
         "Paste the Base64 string into the input box.",

@@ -11,8 +11,12 @@ export default defineTool({
     en: {
       name: "chmod Calculator",
       tagline: "Toggle read/write/execute per owner, group and others to get the octal and rwx symbolic modes live, with setuid/setgid/sticky and a ready chmod command.",
-      intro: ["Unix file permissions are a 3×3 matrix: owner, group and others each get read (4), write (2) and execute (1), and the three per-class digits stack into the familiar octal mode — read+write+execute for owner plus read+execute for everyone else is 755, rendered rwxr-xr-x. Checking boxes is far faster than recomputing octal digits in your head.",
-        "The three special bits are covered too: setuid (4000) runs a program as the file's owner, setgid (2000) as its group, and sticky (1000) on a directory lets only the owner delete entries — think /tmp with its 1777. Prefer working backwards? Type a number like 644 and the checkboxes sync to it, then copy the ready-made chmod command."],
+      intro: [
+        "Setting permissions on a deploy script, debugging an nginx 403, or writing a Dockerfile COPY --chmod line — Unix file permissions are a 3×3 matrix: owner, group and others each get read (4), write (2) and execute (1), and the digits stack into the octal mode. Check boxes instead of recomputing in your head.",
+        "The three special bits are covered too: setuid (4000) runs a program as the file's owner, setgid (2000) as its group, and sticky (1000) on a directory lets only the owner delete entries — think /tmp with its 1777.",
+        "Prefer working backwards? Type a number like 644 and the checkboxes sync to it, then copy the ready-made chmod command. Symbolic and octal forms are kept in sync live, so the mapping between rwxr-xr-x and 755 is always visible.",
+        "Man pages define the bits but never show the arithmetic; this calculator makes the 4-2-1 weighting explicit and renders the resulting permission string as the kernel sees it — faster and less error-prone than mental octal, especially once setuid/setgid bits enter the mix."
+      ],
       steps: ["Check read, write and execute for owner, group and others.", "Optionally enable setuid, setgid or sticky and watch the four-digit mode appear.", "Type a numeric mode like 644 into the reverse field to sync the checkboxes.", "Copy the chmod command and run it in your terminal."],
       faqs: [
         { q: "What is the difference between 644 and 664?", a: "Only the group digit changes: 644 gives the group read-only access (rw-r--r--), while 664 also lets the group write (rw-rw-r--). Both leave others with read-only. Use 644 for personal files and 664 when a shared group edits the file." },

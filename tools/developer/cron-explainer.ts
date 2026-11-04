@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Turn any cron expression into plain language: a field-by-field breakdown, the next five run times in your timezone, and one-click presets.",
       intro: [
-        "Cron expressions are five or six cryptic fields that decide when jobs run — and a single wrong character can silently schedule nothing, or fire at 3 a.m. every Sunday. Paste an expression and this tool explains each field in plain words (minute, hour, day of month, month, day of week, plus seconds when present), then shows the next five execution times so you can confirm the schedule does what you think it does.",
-        "Validation is honest and inline: out-of-range values, backwards ranges and unsupported Quartz extensions like L, W and # get a specific, friendly error instead of a shrug. Five common presets — every minute, hourly, daily at midnight, weekdays at 9:00 and quarterly — are one click away as starting points.",
+        "Cron expressions are five or six cryptic fields that decide when jobs run — and one wrong character can silently schedule nothing, or fire at 3 a.m. every Sunday. Paste an expression and see each field explained in plain words, then the next five execution times so you can confirm the schedule does what you think.",
+        "Validation is honest and inline: out-of-range values, backwards ranges and unsupported Quartz extensions like L, W and # get a specific error instead of a shrug. Five common presets — every minute, hourly, daily at midnight, weekdays at 9:00, quarterly — are one click away.",
+        "The parser follows standard Vixie cron semantics: five fields (minute, hour, day of month, month, day of week), with the day-of-month / day-of-week OR rule that surprises even veterans — when both are restricted, cron fires on either match.",
+        "General schedulers like crontab.guru explain the fields but stop there; this tool also previews actual fire times, which is the only reliable way to catch the month-edge pitfalls (Feb 30 never exists, */31 skips short months) before they hit production."
       ],
       steps: [
         "Type a cron expression, or click a preset to start from a known-good one.",

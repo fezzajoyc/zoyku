@@ -12,8 +12,10 @@ export default defineTool({
       name: "JSON Path Query",
       tagline: "Extract any value from JSON with a path like $.user.name or $.items[0].id — instant, forgiving, no jq syntax to learn.",
       intro: [
-        "Point at exactly the value you need: dot notation, array indexes and quoted keys all work ($.items[0].id, $['weird key']). Great for pulling one field out of a huge API response.",
-        "Never throws — a bad path returns a plain-language reason (key not found, index out of range) so you can fix it and retry.",
+        "Pulling one field out of a huge API response, sanity-checking a config value, or asserting on a nested payload in a test — a path query beats scrolling through pretty-printed JSON. Enter a path and the matching values appear instantly.",
+        "Dot notation, array indexes and quoted keys all work ($.items[0].id, $['weird key']), so the everyday JSONPath subset needs no query-language learning. Results render as formatted JSON you can copy straight into code or a fixture.",
+        "The evaluator runs entirely in the browser, walking the parsed document only as deep as the path requires — no regex over raw text, so keys containing dots or brackets still resolve once quoted.",
+        "Full engines like JSONPath-plus or JMESPath bring dozens of operators — filters, wildcards, slices — with heavyweight syntax to match. This tool covers the common case of pointing at concrete values, with errors written in plain language (key not found, index out of range) instead of a library stack trace."
       ],
       steps: [
         "Paste your JSON.",

@@ -11,7 +11,12 @@ export default defineTool({
     en: {
       name: 'SHA-1 Generator',
       tagline: 'Compute SHA-1 hashes of text or files in your browser with native WebCrypto — still common in Git commits and legacy checksums. Fully client-side.',
-      intro: ["Paste text to see its 160-bit SHA-1 digest live, or drop a file to fingerprint it locally. The browser's WebCrypto engine does the work, so even large files are hashed without a single byte leaving your device.", 'SHA-1 is legacy but alive: Git still identifies objects with it and plenty of older systems verify downloads against SHA-1 checksums. Use this tool for compatibility and verification — for anything security-critical, choose SHA-256 or stronger instead.'],
+      intro: [
+        "Verifying a legacy download checksum, matching a Git object ID, or talking to an older system that still publishes SHA-1 — paste text or drop a file and its 160-bit digest appears live, computed entirely inside your browser.",
+        "Output is lowercase hexadecimal, exactly 40 characters, and updates as you type; file mode hashes locally so nothing is uploaded. The digest follows FIPS 180-4 and matches any other correct SHA-1 implementation byte for byte.",
+        "Hashing runs through the native WebCrypto SubtleCrypto API, the same audited code path your browser uses for TLS — faster and far less bug-prone than a hand-rolled JavaScript implementation.",
+        "For new designs, avoid it: SHA-1 has been collision-broken since the 2017 SHAttered attack and NIST deprecated it for signatures back in 2011 (Git now pairs it with collision detection). Use SHA-256 instead — this tool exists for compatibility with what already ships."
+      ],
       steps: ['Type or paste the text — the digest updates as you type.', 'Or switch to File mode and drop a file to hash it locally.', 'Copy the hexadecimal digest and compare it with the expected value.'],
       faqs: [
           { q: 'q', a: 'a' },

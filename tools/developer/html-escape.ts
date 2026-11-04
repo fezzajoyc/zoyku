@@ -20,8 +20,10 @@ export default defineTool({
       tagline:
         "Escape or unescape HTML entities live as you type: & < > and quotes become safe references, with an optional numeric mode for non-ASCII characters.",
       intro: [
-        "Encode the five characters that break HTML — ampersand, angle brackets and both quote styles — into their named entities, or paste entities back into readable text. A second toggle switches accented and non-Latin characters to numeric references like &#233;, useful for legacy systems and email templates.",
-        "Both directions run live in one panel, and the readout shows exactly how the character count changed, so a broken double-escape is visible at a glance.",
+        "Encode the five characters that break HTML — ampersand, angle brackets and both quote styles — into their named entities, or paste entities back into readable text. Essential before injecting user content into templates, emails or rich-text fields.",
+        "A second toggle switches accented and non-Latin characters to numeric references like &#233; for legacy systems and email clients. The readout shows exactly how the character count changed, so a broken double-escape is visible at a glance.",
+        "Escaping follows the HTML5 named character reference list: &amp; is applied first and unescaped last, which is the ordering rule that prevents double-escaping. Only the five markup-significant characters are touched by default — the rest of your text passes through byte for byte.",
+        "Unlike regex one-liners that miss the ampersand-first ordering or escape everything indiscriminately, this tool handles both directions in one panel and keeps quotes optional per context — attributes need them escaped, text nodes do not."
       ],
       steps: [
         "Paste HTML or escaped text into the input box.",

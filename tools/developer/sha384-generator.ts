@@ -11,7 +11,12 @@ export default defineTool({
     en: {
       name: 'SHA-384 Generator',
       tagline: 'Compute SHA-384 hashes of text or files in your browser via native WebCrypto — the mid-size SHA-2 variant used in TLS 1.2 and code signing. Fully client-side.',
-      intro: ['Paste text to see its 384-bit SHA-384 digest live, or drop a file to fingerprint it locally. SHA-384 is SHA-512 truncated to 384 bits: the same strength class as SHA-512 with a shorter output that fits certificates and HMAC configurations where the 512-bit form is overkill.', 'You will meet SHA-384 in TLS 1.2 cipher suites, macOS system integrity checks and enterprise code-signing chains. Copy the hex digest in one click and compare it with the value your vendor or specification publishes.'],
+      intro: [
+        "Meeting TLS 1.2 cipher-suite requirements, matching enterprise code-signing digests, or filling a certificate configuration that expects exactly 384 bits — paste text or drop a file and the digest appears instantly, computed locally.",
+        "Output is 96 lowercase hexadecimal characters (48 bytes). SHA-384 is SHA-512 truncated to 384 bits but with different initial hash values, so it is a distinct FIPS 180-4 algorithm — you cannot reproduce it by cutting a SHA-512 digest short.",
+        "Hashing goes through native WebCrypto SubtleCrypto, which follows FIPS 180-4; results match sha384sum, OpenSSL and every other compliant implementation. Text and file inputs never leave your device.",
+        "Compared with SHA-256, SHA-384 offers a larger security margin and pairs naturally with the P-384 elliptic curve in ECDSA — the reason TLS 1.2 suites such as ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 specify it. Pick SHA-512 instead when raw speed on 64-bit hardware matters most."
+      ],
       steps: ['Type or paste the text — the digest updates as you type.', 'Or switch to File mode and drop a file to hash it locally.', 'Copy the hexadecimal digest and compare it with the expected value.'],
       faqs: [
           { q: 'q', a: 'a' },

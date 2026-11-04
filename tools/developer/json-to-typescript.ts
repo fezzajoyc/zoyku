@@ -13,8 +13,10 @@ export default defineTool({
       name: "JSON to TypeScript",
       tagline: "Generate TypeScript interfaces from any JSON — nested objects, arrays and unions, ready to paste into your project.",
       intro: [
-        "Paste a JSON response and get typed interfaces instantly: nested objects become named interfaces, arrays of objects merge into one shape, mixed arrays become unions. Root name is configurable.",
-        "Built for API work — paste an endpoint response, copy the types, and let the compiler catch shape changes for you.",
+        "Building a typed API client: paste a sample response from your endpoint and copy out ready-to-use TypeScript interfaces instead of hand-transcribing dozens of nested fields. The output drops straight into a .ts file and compiles as-is.",
+        "Nested objects become named interfaces, arrays of objects merge into one shape, and mixed arrays become union types — the same collapse a human reviewer would perform. The root interface name is configurable so it fits your codebase naming.",
+        "The mapper runs entirely in the browser and emits standard TypeScript syntax (interface declarations over string, number, boolean and null), with no helper runtime or external dependency, so output works on any modern compiler.",
+        "Where general generators like quicktype target a dozen languages at once, this tool answers the narrow question fast: what does this payload look like as types? Pair it with the compiler — excess-property and null checks then catch API shape drift the moment the backend changes."
       ],
       steps: [
         "Paste your JSON (an API response works best).",
