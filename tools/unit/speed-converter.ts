@@ -10,8 +10,10 @@ export default unitTool({
       name: "Speed Converter",
       tagline: "km/h, mph, knots, m/s and more — convert running pace, wind speed and vehicle speed instantly.",
       intro: [
-        "Convert speed units used by different countries and sports: kilometers per hour, miles per hour, knots for sailing and aviation, meters per second for physics.",
-        "Useful when renting a car abroad, reading a marine forecast or comparing treadmill and outdoor paces.",
+        "Drivers checking whether 120 km/h exceeds a 65 mph limit, runners converting treadmill pace between min/km and min/mile, pilots and sailors working with knots, and engineers comparing airflow in m/s versus ft/s all need speed conversion — often mid-task, where a wrong decimal matters.",
+        "Results show six significant digits: 100 km/h is exactly 62.1371 mph, and 1 knot is exactly 1.852 km/h by definition. The knot's factor is exact because the nautical mile is defined as precisely 1,852 meters by the 1929 International Hydrographic Conference.",
+        "All units convert through meters per second using exact definitions: the mile is 1,609.344 m exactly, so mph factors carry no rounding error even after chained conversions. Mach numbers, which depend on air temperature and pressure, are deliberately excluded to avoid implying false precision.",
+        "Speed is where unit chaos bites hardest: km/h, mph, knots, m/s and pace units each belong to a different world. This converter shows them all simultaneously from one input, instead of making you pick a pair and re-enter values for each comparison.",
       ],
       faq: [
         {

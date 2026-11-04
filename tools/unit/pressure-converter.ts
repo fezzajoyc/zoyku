@@ -10,8 +10,10 @@ export default unitTool({
       name: "Pressure Converter",
       tagline: "bar, psi, pascal, atmosphere, mmHg and more — for tires, diving, weather and HVAC.",
       intro: [
-        "Convert pressure units used by different industries: psi for tire gauges, bar for European specs, pascal and kPa in engineering, mmHg in medicine and meteorology.",
-        "All factors are exact by definition where the standard defines them exactly (e.g. 1 atm = 101,325 Pa).",
+        "Engineers checking whether a 10-bar rated valve exceeds a 150 psi spec, divers converting tank pressure between bar and psi, meteorologists reading millibar maps as hectopascals, and HVAC technicians comparing kPa gauge readings with inches of mercury all hit pressure conversion in daily work.",
+        "Six significant digits keep safety-relevant margins visible: 1 bar is exactly 100,000 Pa, and 1 psi is 6,894.76 Pa — a value you can verify against NIST tables. Gauge units (bar, psi, which read zero at atmospheric pressure) and absolute units are distinguished, because mixing them is the classic pressure-conversion mistake.",
+        "Every unit routes through the pascal, the SI derived unit (1 N/m²). Factors follow international definitions: standard atmosphere = 101,325 Pa exactly, torr = 1/760 atm exactly, and the bar = 10⁵ Pa exactly. Chained conversions accumulate no rounding because factors are carried at full precision.",
+        "Pressure is the unit family where mixing systems causes real accidents — psi gauges on bar-rated equipment have failed catastrophically. This tool displays bar, psi, kPa, MPa, atm, torr and mmHg together from one input, so cross-system checks happen at a glance.",
       ],
       faq: [
         {

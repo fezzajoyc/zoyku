@@ -12,8 +12,10 @@ export default unitTool({
       tagline:
         "Convert length and distance instantly: meters, feet, inches, miles, centimeters and more — right in your browser.",
       intro: [
-        "Convert between metric and imperial length units without typing into a search box. Enter any amount and see meters, feet, inches, miles and every other unit at once.",
-        "Useful for DIY projects, travel planning, engineering drawings and school homework — anywhere a quick, exact conversion beats guessing.",
+        "Travelers converting luggage dimensions from inches to centimeters for airline limits, woodworkers translating imperial plans to metric stock, runners tracking miles versus kilometers, and designers converting CSS units all use length conversion constantly — it's the most-converted physical quantity in the world.",
+        "Six significant digits by default: 1 inch is exactly 2.54 cm and 1 mile is exactly 1,609.344 m — both defined, not measured, since the 1959 international yard agreement. Converting inches → feet → meters in a chain loses nothing because every factor is exact.",
+        "The meter is the SI base unit; every imperial unit has an exact metric definition (1 ft = 0.3048 m exactly). Nautical miles, light years and astronomical units use their standard IAU/international values, so even specialized conversions stay authoritative rather than approximate.",
+        "Instead of one fixed pair, every length unit from millimeters to nautical miles updates simultaneously as you type. That makes the tool useful for shopping, construction, homework and travel planning alike — anywhere you need more than two units at once.",
       ],
       faq: [
         {

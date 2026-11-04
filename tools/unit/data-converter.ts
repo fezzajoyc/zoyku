@@ -12,8 +12,10 @@ export default unitTool({
       tagline:
         "Convert bytes, KB, MB, GB and TB — both decimal (1000) and binary (1024) conventions, side by side.",
       intro: [
-        "Convert digital storage units with the decimal/binary distinction made explicit: KB means 1000 bytes, KiB means 1024 bytes. Most 'why is my disk smaller than advertised' confusion comes from mixing these two.",
-        "Use it to check download sizes, disk usage, memory specs and hosting bandwidth caps.",
+        "Developers checking whether a 4.7 GB movie fits a 32 GB drive, admins sizing memory in MiB while disks are marketed in MB, and anyone comparing internet plans in Mbps with file sizes in megabytes all run into the decimal-versus-binary data unit problem — the reason a '500 GB' drive reports 465 GiB.",
+        "Both systems are supported explicitly: decimal units (1 MB = 10⁶ bytes, what drive makers advertise) and binary units (1 MiB = 1,048,576 bytes, what your OS reports). The well-known ~7% gap is made visible and explainable instead of mysterious.",
+        "Decimal prefixes follow SI (kilo=10³, mega=10⁶, giga=10⁹); binary prefixes follow IEC 80000-13 (kibi=2¹⁰, mebi=2²⁰, gibi=2³⁰). The byte is 8 bits exactly. Conversions between any pair route through bytes at full precision, so no chained rounding ever accumulates.",
+        "Most converters pick one convention silently, which is exactly how 'missing' gigabytes confuse people. This tool shows decimal and binary families side by side with distinct names (MB vs MiB), so the gap between advertised and reported capacity always has an answer.",
       ],
       faq: [
         {

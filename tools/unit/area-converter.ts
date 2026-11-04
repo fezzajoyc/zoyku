@@ -10,8 +10,10 @@ export default unitTool({
       name: "Area Converter",
       tagline: "Square meters, square feet, acres, hectares and more — for real estate, land and flooring.",
       intro: [
-        "Convert land and surface units across systems: square meters, square feet, acres, hectares and square miles, all shown at once for any input.",
-        "Typical uses: comparing property listings from different countries, planning gardens and farms, estimating flooring or paint coverage.",
+        "Home buyers comparing apartment sizes listed in square meters against US square feet, farmers converting acreage between hectares and acres, surveyors reconciling land records across measurement systems, and architects checking floor plans against local code requirements all run into area conversion daily.",
+        "Conversions run at full double precision and display six significant digits — enough that 1 acre shows as exactly 4,046.86 m² rather than a rounded 4,000. Chained conversions (acres → hectares → m²) stay accurate because every unit routes through one exact SI base factor instead of hand-tuned pairwise tables.",
+        "Every unit maps to square meters through its official SI factor: the foot is defined as exactly 0.3048 m by international agreement, so the square foot is exactly 0.09290304 m² — no approximations involved. Historic units like the US survey acre differ from the international acre by only 4 parts per million, well below display precision.",
+        "Most online converters round aggressively or limit you to a fixed unit pair. Here all area units are visible at once — type one value and every equivalent updates live, so you can compare square meters, square feet, acres, hectares and more side by side without re-selecting units.",
       ],
       faq: [
         {

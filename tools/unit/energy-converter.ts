@@ -10,8 +10,10 @@ export default unitTool({
       name: "Energy Converter",
       tagline: "Calories, kilojoules, joules, kWh, Wh and BTU — food labels, electricity bills and physics in one place.",
       intro: [
-        "Convert energy units across contexts: food calories (kcal) vs chemistry calories (cal), electricity in kWh, heating in BTU, physics in joules.",
-        "Clear distinction between cal and kcal — the mix-up behind many diet-label misunderstandings — with exact standard factors.",
+        "Nutritionists comparing food calories (kcal) with joules on EU labels, engineers converting kWh to megajoules for energy audits, physicists working in electronvolts, and homeowners comparing heater outputs in BTU against air conditioners in watts all cross energy unit systems.",
+        "Six significant digits with definitions stated: the thermochemical calorie is exactly 4.184 J (the definition used here), and 1 kWh is exactly 3.6 MJ by definition — a rare exactness worth knowing when reading electricity bills.",
+        "The joule is the SI unit; every factor is a defined constant (1 cal = 4.184 J, 1 BTU ≈ 1,055.06 J with the ISO value, 1 eV = 1.602176634×10⁻¹⁹ J exact per the 2019 SI redefinition). Watt-hours convert exactly because they are joules × 3,600.",
+        "Energy spans nutrition, engineering and physics, each with its own units — calories, kWh, BTU, eV — and comparing them manually invites errors. This converter displays them together: type one value and see joules, calories, kilowatt-hours, BTU and electronvolts at once.",
       ],
       faq: [
         {

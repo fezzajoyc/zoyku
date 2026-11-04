@@ -12,8 +12,10 @@ export default unitTool({
       tagline:
         "Convert kilograms, pounds, ounces, stones and grams instantly — free, private and works offline.",
       intro: [
-        "Switch between metric and imperial weight units in one place: kilograms, pounds, ounces, stones, carats and more, all recalculated as you type.",
-        "Handy for cooking with foreign recipes, checking luggage limits, gym training logs and shipping calculations.",
+        "Shoppers comparing a 5 lb bag of flour with a 2 kg one, travelers checking airline baggage allowances in kilograms against bathroom scales in pounds, athletes converting bodyweight between systems for training plans, and kitchens scaling recipes across grams and ounces all need weight conversion.",
+        "Six significant digits: the pound is defined as exactly 0.45359237 kg by international agreement, so pounds↔kilograms never drift. Mass and force are kept distinct — kilograms and pounds here are always mass; newtons belong to the force world and are not mixed in.",
+        "The kilogram is the SI base unit; every other unit has an exact factor (1 oz = 28.349523125 g exactly, a stone is exactly 14 lb). Precious-metal traders use troy ounces (31.1034768 g exactly) — kept separate from avoirdupois ounces to prevent the costly confusion that occasionally hits gold pricing.",
+        "Weight confusion between pounds, kilograms, stones and ounces crosses cultures daily — and the troy/avoirdupois ounce trap trips even professionals. This converter shows all common mass units together from one input, with each system labeled clearly.",
       ],
       faq: [
         {

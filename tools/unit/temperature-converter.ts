@@ -11,8 +11,10 @@ export default unitTool({
       name: "Temperature Converter",
       tagline: "Celsius to Fahrenheit and Kelvin, instantly. Live results plus freezing and boiling reference points.",
       intro: [
-        "Convert Celsius, Fahrenheit and Kelvin in one step. Unlike linear units, temperature scales need offset formulas — this tool applies them correctly, including below-zero values.",
-        "Good for recipes with foreign oven settings, weather reports, lab work and HVAC specifications.",
+        "Cooks converting US oven temperatures (350 °F) for a European recipe, travelers checking weather forecasts across °C/°F, engineers reconciling process specs in Kelvin, and students verifying physics homework all convert temperatures — and unlike other units, temperature uses offset formulas, not factors.",
+        "Formulas are exact: °F = °C × 9/5 + 32 and K = °C + 273.15. The 9/5 ratio and the 32° and 273.15 offsets are definitions, so a converted value carries no accumulated error. Six significant digits keep 36.6 °C at 97.88 °F rather than a vague 98.",
+        "Because temperature scales have different zero points, each conversion applies both a scale factor and an offset — which is why multiplying by 1.8 alone (a classic mistake) gives wrong Fahrenheit values. Kelvin is absolute: 0 K is thermodynamic zero, and negative Kelvin temperatures don't exist.",
+        "Temperature is the one unit family where the familiar 'multiply by a factor' mental model fails. This converter applies the correct offset formulas for Celsius, Fahrenheit, Kelvin and Rankine simultaneously, so oven settings, weather and lab values all translate correctly at a glance.",
       ],
       faq: [
         {

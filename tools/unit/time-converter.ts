@@ -10,8 +10,10 @@ export default unitTool({
       name: "Time Unit Converter",
       tagline: "Seconds, minutes, hours, days, weeks, months and years — with the month/year caveat explained.",
       intro: [
-        "Convert durations between time units. Because calendar months and years vary in length, this tool uses the conventional averages (30.44 days per month, 365.2425 days per year) and says so — no silent rounding.",
-        "Useful for project estimates, subscription pricing comparisons, scientific timing and countdowns.",
+        "Developers converting milliseconds to minutes for timeout configs, project managers turning work hours into person-days, students checking how many seconds a semester contains, and scientists switching between microseconds and nanoseconds all need time units — and the answer must be exact, not approximate.",
+        "Six significant digits, with exactness where it exists: a minute is exactly 60 seconds, an hour exactly 3,600, a day exactly 86,400. Years and months are shown using their conventional averages (365.25-day Julian year) because calendar months vary from 28 to 31 days — the averages are labeled as such.",
+        "Every unit is a fixed multiple of the second, the SI base unit of time. The conversion chain never rounds intermediate values, so converting nanoseconds → hours → days keeps every digit intact. Calendar-dependent units use the standard mean values rather than pretending calendar precision.",
+        "Time spans five orders of magnitude in daily use — from milliseconds in code to decades in planning. This converter displays the whole ladder simultaneously, so you can see that 90 minutes is 1.5 hours, 5,400 seconds and 0.0625 days without re-entering anything.",
       ],
       faq: [
         {

@@ -10,8 +10,10 @@ export default unitTool({
       name: "Volume Converter",
       tagline: "Liters, gallons, cups, milliliters and cubic meters — US and UK units clearly labeled.",
       intro: [
-        "Convert kitchen and engineering volume units with the US/UK distinction spelled out: a US gallon is 3.785 L, a UK (imperial) gallon is 4.546 L — 20% apart, so mixing them ruins recipes.",
-        "Built for cooking, brewing, aquarium dosing, fuel figures and concrete estimates.",
+        "Cooks scaling US recipes that list cups and fluid ounces into milliliters, engineers comparing liters with cubic inches for engine displacement, aquarium owners calculating gallons versus liters, and anyone filling a pool or fuel tank across measurement systems runs into volume conversion.",
+        "Six significant digits: the US gallon is defined as exactly 3.785411784 liters, so conversions are exact at full precision. Be aware that US and imperial gallons differ by about 20% — a UK gallon is 4.54609 L — and this tool separates the two systems explicitly.",
+        "All units convert through the liter (or equivalently cubic meters): 1 L = 0.001 m³ exactly. US customary factors are the legal definitions from the 1959 agreement; imperial factors come from the 1824 British Weights and Measures Act as refined since. Kitchen units (cup, tablespoon) use the US legal definitions.",
+        "Volume is the classic place where US customary, imperial and metric collide — a 'gallon' means different things by country. This converter shows liters, gallons (US and imperial), quarts, cups, milliliters and cubic units all at once, with the system of each unit made explicit.",
       ],
       faq: [
         {
