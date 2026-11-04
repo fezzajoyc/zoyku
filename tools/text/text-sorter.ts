@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Sort any list of lines alphabetically, backwards, by length or by number — locale-aware and instant, right in your browser.",
       intro: [
-        "Paste a list of names, URLs, prices, tasks or log lines and reorder it with one click: A→Z for directories and indexes, Z→A for ranked lists, shortest-first for cleanup passes, numeric order so 'item 10' lands after 'item 2' instead of between 'item 1' and 'item 2'.",
-        "Sorting uses the browser's locale-aware collation, so accented characters sort where a human expects them instead of after the whole alphabet.",
+        "Paste a list of names, URLs, prices, tasks or log lines and reorder it with one click: A→Z for directories and indexes, Z→A for ranked lists, shortest-first for cleanup passes, and numeric order so 'item 10' lands after 'item 2' instead of between 'item 1' and 'item 2'.",
+        "Sorting uses the browser's Intl.Collator with numeric ordering enabled, so accented characters sort where a human expects them (é beside e, not after z) and embedded numbers compare as values, not text — version-like strings such as v1.9 and v1.10 come out in true order.",
+        "Length mode sorts by raw character count, which is handy for pushing the longest lines to the top or bottom of a list. Input splits on both Windows CRLF and Unix LF line endings, so pasting straight from a text editor, terminal or spreadsheet export behaves identically.",
+        "Compared with spreadsheet sorting, there is no column import, no formula and no file upload — paste, sort, copy. When the list you actually want is a de-duplicated one, run remove-duplicate-lines first; the two tools share the same line-splitting behavior, so results line up.",
       ],
       steps: [
         "Paste your list into the input box — one entry per line.",

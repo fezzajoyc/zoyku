@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Compare two versions of a text word by word, with additions and deletions highlighted — no account, no upload, no size fuss.",
       intro: [
-        "Paste the original on the left and the edited version on the right: changed words light up immediately, deletions in one color and additions in another. It is the quickest way to review a contract revision, an editor's rewrite or a colleague's last-minute edits to a paragraph.",
-        "The comparison runs entirely in your browser — long contracts, unpublished manuscripts and confidential text never touch a server.",
+        "Paste the original on the left and the edited version on the right: changed words highlight immediately, deletions in one color and additions in another. It is the quickest way to review a contract revision, an editor's rewrite, a release-note edit or a colleague's last-minute changes to a paragraph.",
+        "The comparison is word-level, not character-level: 'the contract expires in March' becoming 'the contract expires in April' highlights only March → April, not the whole sentence. Punctuation travels with its word, so sentences that were merely re-flowed stay readable instead of lighting up end to end.",
+        "The engine is the widely used jsdiff word-diff library, built on longest-common-subsequence comparison — the same algorithm family behind git's diff tooling — so results match what command-line review tools produce, without a terminal or command syntax to remember.",
+        "Everything runs entirely in your browser — long contracts, unpublished manuscripts and confidential text never touch a server. For mechanical cleanup before or after a diff, remove-duplicate-lines and remove-extra-spaces in the related row normalize the input so trivial whitespace noise does not drown real changes.",
       ],
       steps: [
         "Paste the original text into the left box.",

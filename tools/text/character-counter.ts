@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Count characters with and without spaces, plus words, sentences, paragraphs and lines as you type — perfect for tweets, titles and meta descriptions.",
       intro: [
-        "A character counter built for hard limits: social posts, meta titles, meta descriptions, ad copy, SMS and app fields that count every character. The panel shows characters with spaces and without, so you always know which number the platform cares about.",
-        "Counts update as you type, and nothing leaves your browser — paste unpublished drafts, client copy or confidential text without worrying about it being stored or sent anywhere.",
+        "A character counter built for hard limits: meta titles around 60 characters, meta descriptions around 155, SMS segments, ad headlines and app form fields that count every keystroke. The panel shows characters with spaces and without, plus words, sentences and lines, so you always know which number the platform in front of you cares about.",
+        "Characters are counted as Unicode code points, so an emoji outside the Basic Multilingual Plane (anything above U+FFFF — most smileys and flag sequences) counts as 1, not 2. The no-spaces figure strips every whitespace character including tabs and newlines, matching how form validators usually measure.",
+        "Everything recalculates on each keystroke with no count button and no delay, and every metric updates independently — you can watch a title approach its target length while the word total keeps changing. Nothing leaves your browser: paste unpublished drafts, client copy or confidential text without it being stored or sent anywhere.",
+        "Compared with word-counter, which is oriented to essays and reading time, this page keeps character totals front and center for tight limits. For text that also needs reshaping before it fits, case-converter and remove-extra-spaces sit one click away in the related-tools row.",
       ],
       steps: [
         "Paste or type your text into the box.",

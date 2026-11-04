@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Generate 1–50 paragraphs of classic lorem ipsum filler for mockups, wireframes and CMS testing — one click to regenerate and copy.",
       intro: [
-        "Lorem ipsum has been the printing industry's placeholder since the 1500s: scrambled Latin from Cicero's 'De Finibus' that looks like real text but carries no meaning, so nobody mistakes a draft for finished copy. Pick a paragraph count, press the button and paste it into your layout.",
-        "The text is generated locally with a seeded pseudo-random generator, so every batch is different — and nothing you do on this site ever leaves the browser.",
+        "Lorem ipsum has been the printing industry's placeholder since the 1500s: scrambled Latin drawn from Cicero's 'De Finibus Bonorum et Malorum' that looks like real text but carries no meaning, so nobody mistakes a draft for finished copy. Pick a paragraph count, press the button and paste it into your layout.",
+        "Output varies every run: each paragraph gets 3–5 sentences and each sentence 8–19 words drawn from a lorem vocabulary, produced by a seeded pseudo-random generator so two presses never hand you identical blocks. Paragraphs are separated by blank lines, ready to paste into design tools or multi-column layouts.",
+        "Generation happens entirely in your browser — no lorem API, no network call, no rate limit — and nothing you do on this site is stored or uploaded, which also means the generator keeps working offline.",
+        "Compared with copying the one fixed 'Lorem ipsum dolor sit amet' block from an old template, fresh varied filler exposes more layout problems: uneven line lengths, orphan words and paragraph-count overflow. When you move on to real content, the related text tools count, clean and format it.",
       ],
       steps: [
         "Set how many paragraphs you need (1–50).",

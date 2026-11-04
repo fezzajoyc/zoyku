@@ -13,8 +13,10 @@ export default defineTool({
       name: "Case Converter",
       tagline: "Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case and 6 more styles — live.",
       intro: [
-        "Eleven case styles on one page: sentence case for writing, Title Case for headlines, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE for code, plus alternating and inverse for fun.",
-        "Everything recalculates as you type — no button mashing, and the conversion never leaves your browser.",
+        "Eleven case styles on one page: sentence case for body writing, Title Case for headlines, lowercase and UPPERCASE for quick fixes, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE for code identifiers, plus alternating and inverse case for tests and jokes.",
+        "Title Case follows the editorial small-words convention: articles, short conjunctions and prepositions (a, an, the, and, of, to, vs …) stay lowercase unless they open or close the title. Sentence case re-capitalizes after Western (. ! ?) and full-width (。！？) sentence marks, so mixed Chinese-English text is handled too.",
+        "Code styles split identifiers intelligently: camelCase boundaries such as parseHTMLValue are split before conversion, and accented Latin letters (é, ñ, ü) are kept rather than discarded. Alternating case alternates letters only — punctuation and digits keep their positions — and inverse swaps each character's case in place.",
+        "Everything recalculates as you type with no button mashing, and the conversion never leaves your browser. Compared with find-and-replace or hand-written regexes, this applies all eleven transforms at once so you can compare outputs side by side before pasting.",
       ],
       steps: [
         "Paste or type your text into the input box.",

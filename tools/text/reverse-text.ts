@@ -22,7 +22,9 @@ export default defineTool({
         "Flip any text backwards character by character, or reverse the order of whole lines — Unicode-safe, instant and fully local.",
       intro: [
         "Two reversals in one tool: mirror the characters of your text (the classic 'txet esrever' trick for games, bios and puzzle clues) or flip the order of lines so the last line comes first — handy for logs, chat exports and lists pasted bottom-up.",
-        "Reversal works on Unicode code points, not raw bytes, so accented letters and most emoji survive intact instead of turning into mojibake.",
+        "Reversal works on Unicode code points, not raw UTF-16 bytes, so precomposed accented letters like é and CJK characters survive intact instead of turning into mojibake. Line mode splits on both Windows CRLF and Unix LF endings, so exports from any operating system flip cleanly.",
+        "One honest edge case: emoji built from multiple code points — ZWJ sequences, skin-tone modifiers, flag pairs — are split at code-point level, so a composite emoji may come apart. Letters, digits, punctuation and single-code-point symbols reverse perfectly.",
+        "Compared with hunting for a hidden command in a word processor, this runs as you type with instant copy. It also pairs naturally with fancy-text-generator: reversed text plus Unicode variants is a common combo for social bios, and neither tool sends your text anywhere.",
       ],
       steps: [
         "Paste or type the text you want to flip.",

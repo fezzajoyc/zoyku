@@ -13,8 +13,10 @@ export default defineTool({
       name: "Word Counter",
       tagline: "Count words, characters, sentences and reading time live as you type — CJK text handled correctly.",
       intro: [
-        "A real-time word counter for essays, posts, SEO copy and translations. It shows words, characters with and without spaces, sentences, paragraphs, lines and estimated reading time in one grid.",
-        "Mixed-language text is counted properly: English-style words are tokenized by whitespace while Chinese, Japanese and Korean characters are counted individually, which matches how word limits actually work in those languages.",
+        "A real-time word counter for essays, blog posts, SEO copy, ad copy and translated documents. It shows words, characters with and without spaces, sentences, paragraphs, lines and estimated reading time in one grid, updating on every keystroke — useful whenever a draft has a limit, from a 300-word abstract to a 5,000-word article.",
+        "Mixed-language text is counted the way limits actually work: English-style words are tokenized by whitespace, while Chinese (U+4E00–9FFF), Japanese kana (U+3040–30FF) and Korean hangul (U+AC00–D7AF) characters are each counted individually and added to the total — a 500-character Chinese passage reports roughly 500 words.",
+        "Sentence detection splits on both Western punctuation (. ! ? …) and full-width CJK marks (。！？…), so a mixed English-Chinese document is segmented correctly instead of collapsing into one giant sentence. Paragraphs are counted as blocks separated by blank lines, and reading time is estimated at about 220 words per minute with CJK weighted by character count.",
+        "Unlike a word processor's status bar, this counter shows every metric at once and never uploads your text — paste unpublished drafts, client copy or confidential contracts freely. Related tools split the job further: character-counter focuses on hard per-character limits, and sentence-counter isolates sentence density for readability checks.",
       ],
       steps: [
         "Paste or write your text in the box — statistics update instantly.",

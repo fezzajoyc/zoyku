@@ -20,7 +20,9 @@ export default defineTool({
         "Turn any headline into a clean URL slug — lowercase, accent-free and hyphenated — ready for SEO-friendly links.",
       intro: [
         "A slug is the part of a URL that names the page — /tools/slug-generator, for example. Good slugs are lowercase, use hyphens instead of spaces and keep only letters and numbers, which makes links readable in search results, easy to copy and safe across servers and frameworks.",
-        "Paste a title in any language: accents are stripped (café → cafe), punctuation and spaces collapse into single hyphens, and the result is trimmed so no slug starts or ends with a dash.",
+        "Paste a title in any language: accents are stripped with Unicode NFD decomposition (café → cafe, über → uber), punctuation and spaces collapse into single hyphens, and the result is trimmed so no slug starts or ends with a dash. Double spaces, underscores and symbols all fold to the same clean form.",
+        "NFD decomposition splits accented letters and removes the combining marks in the U+0300–036F range, which is why German umlauts, French accents and Vietnamese diacritics reduce predictably. One trade-off to know: CJK, Cyrillic and other non-Latin scripts produce an empty slug, so transliterate those titles first.",
+        "Compared with letting a CMS auto-slug silently or hand-editing URLs, you see exactly what the algorithm does to each character and copy the result with one click. Pair it with case-converter for kebab-case identifiers in code, which follows the same lowercase-hyphen convention.",
       ],
       steps: [
         "Type or paste the page title into the input box.",

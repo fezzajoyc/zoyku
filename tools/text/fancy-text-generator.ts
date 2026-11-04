@@ -13,8 +13,10 @@ export default defineTool({
       tagline:
         "Turn plain text into 12 Unicode styles — bold, italic, script, double-struck, circled, fullwidth and more — and copy any one with a single click.",
       intro: [
-        "Type once and get twelve Unicode variants at once: mathematical bold, italic, bold italic, script, bold script, double-struck, monospace, circled, squared and fullwidth alphabets, plus combining-character strikethrough and underline.",
-        "Because these are real Unicode characters — not fonts — the results paste intact into Instagram bios, TikTok captions, Discord nicknames, tweet drafts and chat apps. Characters outside the Latin alphabet, such as Chinese, Japanese or emoji, are passed through untouched so nothing turns into missing-glyph boxes.",
+        "Type once and get twelve Unicode variants at once: mathematical bold, italic, bold italic, script, bold script, double-struck, monospace, circled, squared and fullwidth alphabets, plus combining-character strikethrough and underline. Each style previews your actual text live, so you can compare before copying.",
+        "The mapping follows the Unicode Mathematical Alphanumeric Symbols block (U+1D400 upward), including its official quirks: italic small h is unassigned in that block, so the tool substitutes the Planck-constant symbol ℎ (U+210E), and script plus double-struck letters that already exist as Letterlike Symbols (ℬ, ℂ, ℍ …) use those code points — the same characters mathematical typesetting uses.",
+        "Because these are real Unicode characters — not fonts — the results paste intact into Instagram bios, TikTok captions, Discord nicknames, tweet drafts and chat apps. Characters outside the Latin alphabet and digits, such as Chinese, Japanese or emoji, are passed through untouched so nothing turns into missing-glyph boxes.",
+        "Compared with a font-swap app or a screenshot, the output stays selectable, searchable text that any platform accepts as plain characters. Font coverage differs by site: if a style renders oddly somewhere, bold, circled or fullwidth have the broadest glyph support, as the FAQ below details.",
       ],
       steps: [
         "Type or paste your text — a sample is already loaded to play with.",

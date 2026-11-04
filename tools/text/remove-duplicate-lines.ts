@@ -23,7 +23,10 @@ export default defineTool({
       name: "Remove Duplicate Lines",
       tagline: "Delete repeated lines from lists and logs while keeping the original order — with case and trim options.",
       intro: [
-        "Paste any list — emails, URLs, keywords, log lines — and get back the same list with duplicates removed in one pass. Options cover the usual variants: ignore letter case, trim whitespace before comparing, drop empty lines, or sort the result.",
+        "Paste any list — email addresses, URLs, keywords, coupon codes, log lines — and get back the same list with duplicates removed in one pass. The first occurrence keeps its position and every later repeat is dropped, which is usually what you want when cleaning a mailing list or a keyword export.",
+        "Four options cover the usual variants: ignore letter case so 'Apple' and 'apple' collapse to one entry, trim surrounding whitespace so ' item' matches 'item', drop empty lines left over from double pastes, and sort the result after de-duplication so the cleaned list comes out ordered.",
+        "De-duplication uses a hash set, so it runs in linear time — a list of tens of thousands of lines is processed instantly instead of grinding through pairwise comparisons. Case folding is a simple lowercase mapping; accents stay significant, so 'Café' and 'café' remain two entries unless ignoring case makes them equal.",
+        "Compared with spreadsheet Remove Duplicates, there is no workbook, no column selection and no file upload — the list never leaves your browser. Pair it with text-sorter for ordered output, or run remove-extra-spaces first to normalize spacing and catch near-duplicates that differ only in whitespace.",
       ],
       steps: [
         "Paste your list into the input box — one entry per line.",
