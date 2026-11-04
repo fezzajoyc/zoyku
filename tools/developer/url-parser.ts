@@ -11,7 +11,7 @@ export default defineTool({
       sample: "https://example.com/shop/shoes?color=red&size=42&utm_source=newsletter#reviews",
     },
   },
-  related: ["url-decoder", "url-encoder", "http-status-codes", "jwt-decoder"],
+  related: ["url-decoder", "url-encoder", "http-status-codes", "jwt-decoder", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "html-minifier"],
   copy: {
     en: {
       name: "URL Parser",

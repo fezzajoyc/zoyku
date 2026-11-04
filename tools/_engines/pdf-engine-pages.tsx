@@ -54,6 +54,9 @@ export function PdfPagesEngine({ op }: { op: Op }) {
   // rearrange state
   const [order, setOrder] = useState<number[]>([]);
   const [thumbs, setThumbs] = useState<string[]>([]);
+  // merge drag-to-reorder (HTML5 DnD; ↑/↓ buttons remain as fallback)
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [overIdx, setOverIdx] = useState<number | null>(null);
 
   const single = op !== "merge";
   const file = files[0];
@@ -141,6 +144,15 @@ export function PdfPagesEngine({ op }: { op: Op }) {
       const next = [...prev];
       const j = i + dir;
       [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
+  };
+
+  const reorderFiles = (from: number, to: number) => {
+    setFiles((prev) => {
+      const next = [...prev];
+      const [f] = next.splice(from, 1);
+      next.splice(to, 0, f);
       return next;
     });
   };
@@ -266,18 +278,27 @@ export function PdfPagesEngine({ op }: { op: Op }) {
       )}
       {files.length > 0 && (
         <div className={`space-y-3 ${files.length > 0 && !single ? "mt-3" : ""}`}>
-          <ul className="space-y-2">
+          <ul className="space-y-2" onDragEnd={() => { setDragIdx(null); setOverIdx(null); }}>
             {files.map((f, i) => (
-              <FileRow
+              <li
                 key={`${f.name}-${i}`}
-                name={f.name}
-                size={single && count ? `${tr(SHARED.pages, locale)}: ${count} · ${formatBytes(f.size)}` : formatBytes(f.size)}
-                first={i === 0}
-                last={i === files.length - 1}
-                onUp={op === "merge" && i > 0 ? () => setFiles((p) => { const n = [...p]; [n[i - 1], n[i]] = [n[i], n[i - 1]]; return n; }) : undefined}
-                onDown={op === "merge" && i < files.length - 1 ? () => setFiles((p) => { const n = [...p]; [n[i + 1], n[i]] = [n[i], n[i + 1]]; return n; }) : undefined}
-                onRemove={() => removeAt(i)}
-              />
+                draggable={op === "merge"}
+                onDragStart={(e) => { setDragIdx(i); e.dataTransfer.effectAllowed = "move"; }}
+                onDragOver={(e) => { if (dragIdx !== null && dragIdx !== i) { e.preventDefault(); e.dataTransfer.dropEffect = "move"; setOverIdx(i); } }}
+                onDragLeave={() => setOverIdx((p) => (p === i ? null : p))}
+                onDrop={(e) => { e.preventDefault(); if (dragIdx !== null && dragIdx !== i) reorderFiles(dragIdx, i); setDragIdx(null); setOverIdx(null); }}
+                className={`rounded-xl ${overIdx === i ? "ring-2 ring-[var(--color-ink)]" : ""}`}
+              >
+                <FileRow
+                  name={f.name}
+                  size={single && count ? `${tr(SHARED.pages, locale)}: ${count} · ${formatBytes(f.size)}` : formatBytes(f.size)}
+                  first={i === 0}
+                  last={i === files.length - 1}
+                  onUp={op === "merge" && i > 0 ? () => setFiles((p) => { const n = [...p]; [n[i - 1], n[i]] = [n[i], n[i - 1]]; return n; }) : undefined}
+                  onDown={op === "merge" && i < files.length - 1 ? () => setFiles((p) => { const n = [...p]; [n[i + 1], n[i]] = [n[i], n[i + 1]]; return n; }) : undefined}
+                  onRemove={() => removeAt(i)}
+                />
+              </li>
             ))}
           </ul>
 

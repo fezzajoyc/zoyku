@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "clock",
   engine: { component: CalcEngineSalary, props: { mode: "salary2hourly" } },
-  related: ["hourly-to-salary", "emi-calculator", "loan-calculator", "compound-interest-calculator"],
+  related: ["hourly-to-salary", "emi-calculator", "loan-calculator", "compound-interest-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Salary to Hourly Calculator",

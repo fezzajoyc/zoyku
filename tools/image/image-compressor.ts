@@ -10,7 +10,7 @@ export default defineTool({
     component: ImageCanvasEngine,
     props: { op: "compress", accept: "image/*", defaultFormat: "image/jpeg", defaultQuality: 0.7, suffix: "-min" },
   },
-  related: ["convert-image", "image-resizer", "webp-converter", "png-to-jpg"],
+  related: ["convert-image", "image-resizer", "webp-converter", "png-to-jpg", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "Image Compressor",

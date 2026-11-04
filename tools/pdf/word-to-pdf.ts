@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "file",
   engine: { component: PdfOfficeEngine, props: { target: "fromdocx" } },
-  related: ["pdf-to-word", "merge-pdf", "watermark-pdf", "compress-pdf", "sign-pdf"],
+  related: ["pdf-to-word", "merge-pdf", "watermark-pdf", "compress-pdf", "sign-pdf", "split-pdf", "delete-pdf-pages", "pdf-to-ppt", "ocr-pdf", "rotate-pdf"],
   copy: {
     en: {
       name: "Word to PDF",

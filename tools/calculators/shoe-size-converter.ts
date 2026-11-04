@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "ruler",
   engine: { component: CalcEngineShoeSize },
-  related: ["length-converter", "bmi-calculator", "heart-rate-zones-calculator", "cooking-conversion"],
+  related: ["length-converter", "bmi-calculator", "heart-rate-zones-calculator", "cooking-conversion", "body-fat-calculator", "tip-calculator", "date-calculator", "age-calculator", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "Shoe Size Converter",

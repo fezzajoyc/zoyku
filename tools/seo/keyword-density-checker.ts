@@ -6,7 +6,7 @@ export default defineTool({
   category: "seo",
   icon: "calc",
   engine: { component: SeoDensityEngine },
-  related: ["serp-preview", "schema-markup-generator", "meta-tag-generator"],
+  related: ["serp-preview", "schema-markup-generator", "meta-tag-generator", "utm-builder", "open-graph-generator", "sitemap-generator", "hreflang-generator", "canonical-tag-generator", "robots-txt-generator"],
   copy: {
     en: {
       name: "Keyword Density Checker",

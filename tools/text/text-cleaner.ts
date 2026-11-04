@@ -18,7 +18,7 @@ export default defineTool({
       ],
     },
   },
-  related: ["remove-extra-spaces", "remove-duplicate-lines", "case-converter", "word-counter"],
+  related: ["remove-extra-spaces", "remove-duplicate-lines", "case-converter", "word-counter", "text-diff", "text-sorter", "lorem-ipsum-generator", "sentence-counter", "text-to-binary", "reverse-text"],
   copy: {
     en: {
       name: "Text Cleaner",

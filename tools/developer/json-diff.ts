@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "search",
   engine: { component: DevEngineJsonPlus, props: { mode: "diff" } },
-  related: ["json-formatter", "json-validator", "json-to-typescript", "text-diff", "json-path-query"],
+  related: ["json-formatter", "json-validator", "json-to-typescript", "text-diff", "json-path-query", "md5-generator", "sha256-generator", "base64-image", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "JSON Diff",

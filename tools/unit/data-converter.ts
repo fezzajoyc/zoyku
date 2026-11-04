@@ -5,7 +5,7 @@ export default unitTool({
   icon: "layers",
   cat: "data",
   
-  related: ["weight-converter", "length-converter", "timestamp-converter", "energy-converter"],
+  related: ["weight-converter", "length-converter", "timestamp-converter", "energy-converter", "area-converter", "volume-converter", "time-converter", "temperature-converter", "speed-converter", "pressure-converter"],
   copy: {
     en: {
       name: "Data Size Converter",

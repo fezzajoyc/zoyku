@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "hash",
   engine: { component: TextStats, props: { primary: "characters" } },
-  related: ["word-counter", "sentence-counter", "case-converter", "text-cleaner"],
+  related: ["word-counter", "sentence-counter", "case-converter", "text-cleaner", "text-diff", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "lorem-ipsum-generator", "text-to-binary"],
   copy: {
     en: {
       name: "Character Counter",

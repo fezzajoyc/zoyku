@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "search",
   engine: { component: DevEngineJsonPlus, props: { mode: "query" } },
-  related: ["json-formatter", "json-diff", "json-to-typescript"],
+  related: ["json-formatter", "json-diff", "json-to-typescript", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "JSON Path Query",

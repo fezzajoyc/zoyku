@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "file",
   engine: { component: PdfPagesEngine, props: { op: "delete" } },
-  related: ["split-pdf", "rearrange-pdf-pages", "rotate-pdf", "merge-pdf", "compress-pdf"],
+  related: ["split-pdf", "rearrange-pdf-pages", "rotate-pdf", "merge-pdf", "compress-pdf", "pdf-to-ppt", "ocr-pdf", "pdf-to-text", "jpg-to-pdf", "page-numbers-pdf"],
   copy: {
     en: {
       name: "Delete PDF Pages",

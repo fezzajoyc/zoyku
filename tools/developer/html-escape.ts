@@ -13,7 +13,7 @@ export default defineTool({
       sample: `<a href="/docs?a=1&b=2">Tom & Jerry's "favorites"</a>`,
     },
   },
-  related: ["html-formatter", "html-minifier", "url-encoder", "url-decoder"],
+  related: ["html-formatter", "html-minifier", "url-encoder", "url-decoder", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "json-path-query"],
   copy: {
     en: {
       name: "HTML Escape / Unescape",

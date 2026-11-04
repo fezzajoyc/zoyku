@@ -9,7 +9,7 @@ export default defineTool({
     component: ImageCanvasEngine,
     props: { op: "rotate", accept: "image/*", suffix: "-rotated" },
   },
-  related: ["crop-image", "image-resizer", "convert-image", "image-compressor"],
+  related: ["crop-image", "image-resizer", "convert-image", "image-compressor", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Rotate Image",

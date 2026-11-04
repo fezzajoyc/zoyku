@@ -9,7 +9,7 @@ export default defineTool({
   category: "developer",
   icon: "key",
   engine: { component: DevEncoderEngine, props: { codec: "jwt-decode", sample: SAMPLE } },
-  related: ["base64-decoder", "hash-generator", "sha256-generator", "json-formatter"],
+  related: ["base64-decoder", "hash-generator", "sha256-generator", "json-formatter", "md5-generator", "base64-image", "json-validator", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "JWT Decoder",

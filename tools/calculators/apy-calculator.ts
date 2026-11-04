@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "swap",
   engine: { component: CalcEngineApy },
-  related: ["compound-interest-calculator", "mortgage-calculator", "loan-calculator", "discount-calculator", "profit-calculator"],
+  related: ["compound-interest-calculator", "mortgage-calculator", "loan-calculator", "discount-calculator", "profit-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator"],
   copy: {
     en: {
       name: "APY Calculator",

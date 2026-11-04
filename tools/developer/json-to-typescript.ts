@@ -7,7 +7,7 @@ export default defineTool({
   icon: "code",
   
   engine: { component: DevEngineJsonPlus, props: { mode: "to-ts" } },
-  related: ["json-formatter", "json-validator", "json-diff", "json-path-query", "json-yaml-converter"],
+  related: ["json-formatter", "json-validator", "json-diff", "json-path-query", "json-yaml-converter", "md5-generator", "sha256-generator", "base64-image", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "JSON to TypeScript",

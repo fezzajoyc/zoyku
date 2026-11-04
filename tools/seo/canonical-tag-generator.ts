@@ -63,7 +63,7 @@ export default defineTool({
   category: "seo",
   icon: "link",
   engine: { component: SeoTagsEngine, props },
-  related: ["meta-tag-generator", "hreflang-generator", "sitemap-generator", "utm-builder"],
+  related: ["meta-tag-generator", "hreflang-generator", "sitemap-generator", "utm-builder", "open-graph-generator", "keyword-density-checker", "serp-preview", "robots-txt-generator", "schema-markup-generator"],
   copy: {
     en: {
       name: "Canonical Tag Generator",

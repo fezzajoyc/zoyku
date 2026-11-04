@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "sparkle",
   engine: { component: EmojiPickerEngine },
-  related: ["fancy-text-generator", "case-converter", "lorem-ipsum-generator", "character-counter"],
+  related: ["fancy-text-generator", "case-converter", "lorem-ipsum-generator", "character-counter", "text-diff", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "word-counter", "sentence-counter"],
   copy: {
     en: {
       name: "Emoji Picker",

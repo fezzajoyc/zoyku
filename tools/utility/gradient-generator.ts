@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "palette",
   engine: { component: CalcEngineGradient },
-  related: ["contrast-checker", "color-converter", "color-picker", "image-border"],
+  related: ["contrast-checker", "color-converter", "color-picker", "image-border", "grade-calculator"],
   copy: {
     en: {
       name: "CSS Gradient Generator",

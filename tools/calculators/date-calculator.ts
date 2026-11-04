@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "rotate",
   engine: { component: CalcEngineDate, props: { kind: "date" } },
-  related: ["age-calculator", "timestamp-converter", "time-converter", "timezone-converter"],
+  related: ["age-calculator", "timestamp-converter", "time-converter", "timezone-converter", "body-fat-calculator", "tip-calculator", "cooking-conversion", "calorie-calculator", "aspect-ratio-calculator", "bmr-calculator"],
   copy: {
     en: {
       name: "Date Calculator",

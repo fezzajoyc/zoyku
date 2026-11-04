@@ -6,7 +6,7 @@ export default defineTool({
   category: "seo",
   icon: "file",
   engine: { component: SeoSitemapEngine },
-  related: ["robots-txt-generator", "canonical-tag-generator", "hreflang-generator", "meta-tag-generator"],
+  related: ["robots-txt-generator", "canonical-tag-generator", "hreflang-generator", "meta-tag-generator", "utm-builder", "open-graph-generator", "keyword-density-checker", "serp-preview", "schema-markup-generator"],
   copy: {
     en: {
       name: "XML Sitemap Generator",

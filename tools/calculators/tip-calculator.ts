@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineBasic, props: { kind: "tip" } },
-  related: ["fuel-cost-calculator", "percentage-calculator", "discount-calculator", "currency-converter"],
+  related: ["fuel-cost-calculator", "percentage-calculator", "discount-calculator", "currency-converter", "body-fat-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "Tip Calculator",

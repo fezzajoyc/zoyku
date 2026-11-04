@@ -7,7 +7,7 @@ export default defineTool({
   icon: "sparkle",
   featured: true,
   engine: { component: PdfCompressEngine },
-  related: ["merge-pdf", "split-pdf", "jpg-to-pdf", "image-compressor", "pdf-to-jpg"],
+  related: ["merge-pdf", "split-pdf", "jpg-to-pdf", "image-compressor", "pdf-to-jpg", "delete-pdf-pages", "pdf-to-ppt", "ocr-pdf", "rotate-pdf", "pdf-to-text"],
   copy: {
     en: {
       name: "Compress PDF",

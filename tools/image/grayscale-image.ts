@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "palette",
   engine: { component: ImageGrayscaleEngine },
-  related: ["image-compressor", "convert-image", "rotate-image", "watermark-image", "merge-images"],
+  related: ["image-compressor", "convert-image", "rotate-image", "watermark-image", "merge-images", "image-border", "image-splitter", "compress-image-to-size", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "Grayscale Image",

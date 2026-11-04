@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "shuffle",
   engine: { component: DevUuidEngine },
-  related: ["hash-generator", "md5-generator", "sha256-generator"],
+  related: ["hash-generator", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "url-encoder", "html-minifier", "url-decoder", "json-path-query"],
   copy: {
     en: {
       name: "UUID Generator",

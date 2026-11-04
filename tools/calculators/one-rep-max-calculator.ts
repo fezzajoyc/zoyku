@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineOrm },
-  related: ["pace-calculator", "bmi-calculator", "sleep-calculator", "percentage-calculator"],
+  related: ["pace-calculator", "bmi-calculator", "sleep-calculator", "percentage-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "One Rep Max Calculator",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "crop",
   engine: { component: CalcEngineConverters, props: { kind: "aspect" } },
-  related: ["color-picker", "color-converter", "binary-converter", "qr-generator"],
+  related: ["color-picker", "color-converter", "binary-converter", "qr-generator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Aspect Ratio Calculator",

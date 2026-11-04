@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "crop",
   engine: { component: ImageRoundEngine },
-  related: ["crop-image", "image-resizer", "watermark-image", "grayscale-image", "image-compressor"],
+  related: ["crop-image", "image-resizer", "watermark-image", "grayscale-image", "image-compressor", "image-border", "image-splitter", "compress-image-to-size", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Round Image Corners",

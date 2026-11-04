@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "calc",
   engine: { component: PdfOfficeEngine, props: { target: "xlsx" } },
-  related: ["pdf-to-word", "pdf-to-text", "ocr-pdf", "merge-pdf", "split-pdf"],
+  related: ["pdf-to-word", "pdf-to-text", "ocr-pdf", "merge-pdf", "split-pdf", "delete-pdf-pages", "pdf-to-ppt", "compress-pdf", "rotate-pdf", "rearrange-pdf-pages"],
   copy: {
     en: {
       name: "PDF to Excel",

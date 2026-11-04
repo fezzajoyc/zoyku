@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "swap",
   engine: { component: DevEncoderEngine, props: { codec: "base64-encode" } },
-  related: ["base64-decoder", "url-encoder", "hash-generator", "jwt-decoder"],
+  related: ["base64-decoder", "url-encoder", "hash-generator", "jwt-decoder", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "html-minifier"],
   copy: {
     en: {
       name: "Base64 Encoder",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "security",
   icon: "shield",
   engine: { component: SecPasswordStrengthEngine },
-  related: ["password-generator", "totp-generator", "hash-generator", "uuid-generator"],
+  related: ["password-generator", "totp-generator", "hash-generator", "uuid-generator", "whois-lookup", "ip-lookup", "email-validator", "dns-lookup", "random-number"],
   copy: {
     en: {
       name: "Password Strength Checker",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineMortgage },
-  related: ["loan-calculator", "emi-calculator", "compound-interest-calculator", "currency-converter"],
+  related: ["loan-calculator", "emi-calculator", "compound-interest-calculator", "currency-converter", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Mortgage Calculator",

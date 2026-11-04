@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "layers",
   engine: { component: ImageSvgEngine },
-  related: ["image-resizer", "convert-image", "screenshot-tool", "image-compressor"],
+  related: ["image-resizer", "convert-image", "screenshot-tool", "image-compressor", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "SVG to PNG Converter",

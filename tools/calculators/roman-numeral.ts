@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "text",
   engine: { component: CalcEngineConverters, props: { kind: "roman" } },
-  related: ["binary-converter", "date-calculator", "timestamp-converter", "scientific-calculator"],
+  related: ["binary-converter", "date-calculator", "timestamp-converter", "scientific-calculator", "body-fat-calculator", "tip-calculator", "cooking-conversion", "age-calculator", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "Roman Numeral Converter",

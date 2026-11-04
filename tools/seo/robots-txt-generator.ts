@@ -6,7 +6,7 @@ export default defineTool({
   category: "seo",
   icon: "shield",
   engine: { component: SeoRobotsEngine },
-  related: ["sitemap-generator", "meta-tag-generator", "canonical-tag-generator"],
+  related: ["sitemap-generator", "meta-tag-generator", "canonical-tag-generator", "utm-builder", "open-graph-generator", "keyword-density-checker", "hreflang-generator", "serp-preview", "schema-markup-generator"],
   copy: {
     en: {
       name: "robots.txt Generator",

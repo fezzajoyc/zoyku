@@ -14,7 +14,7 @@ export default defineTool({
       ],
     },
   },
-  related: ["text-sorter", "find-and-replace", "text-cleaner", "remove-duplicate-lines"],
+  related: ["text-sorter", "find-and-replace", "text-cleaner", "remove-duplicate-lines", "text-diff", "remove-extra-spaces", "word-counter", "lorem-ipsum-generator", "sentence-counter", "text-to-binary"],
   copy: {
     en: {
       name: "Reverse Text",

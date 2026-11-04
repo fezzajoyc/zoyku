@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "hash",
   engine: { component: CalcEngineConverters, props: { kind: "binary" } },
-  related: ["roman-numeral", "data-converter", "timestamp-converter", "aspect-ratio-calculator"],
+  related: ["roman-numeral", "data-converter", "timestamp-converter", "aspect-ratio-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Binary Converter",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "swap",
   engine: { component: DevEngineYaml, props: { mode: "json2yaml" } },
-  related: ["json-formatter", "json-minifier", "json-to-typescript"],
+  related: ["json-formatter", "json-minifier", "json-to-typescript", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "JSON ⇄ YAML Converter",

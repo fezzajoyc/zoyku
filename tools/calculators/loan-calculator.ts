@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "layers",
   engine: { component: CalcEngineLoan, props: { kind: "loan" } },
-  related: ["emi-calculator", "percentage-calculator", "gst-calculator", "discount-calculator"],
+  related: ["emi-calculator", "percentage-calculator", "gst-calculator", "discount-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Loan Calculator",

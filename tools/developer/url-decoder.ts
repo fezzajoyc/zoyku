@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "link",
   engine: { component: DevEncoderEngine, props: { codec: "url-decode" } },
-  related: ["url-encoder", "base64-decoder", "base64-encoder"],
+  related: ["url-encoder", "base64-decoder", "base64-encoder", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "html-minifier", "json-path-query"],
   copy: {
     en: {
       name: "URL Decoder",

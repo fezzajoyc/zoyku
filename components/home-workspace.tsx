@@ -148,6 +148,26 @@ export function HomeWorkspace({
         </div>
       </div>
 
+      {/* 热门工具直达条(10015 editorial 位):搜索框正下方,一击到主工具 */}
+      {!query && cat === "all" && (
+        <div className="no-scrollbar mx-auto mt-3.5 flex max-w-4xl items-center gap-2 overflow-x-auto px-1 py-1" aria-label={labels.popular}>
+          {POPULAR_SLUGS.map((slug) => {
+            const tool = tools.find((tl) => tl.slug === slug);
+            if (!tool) return null;
+            return (
+              <Link
+                key={slug}
+                href={`/${locale}/tools/${slug}`}
+                className="inline-flex flex-none items-center gap-1.5 rounded-full border hairline bg-[var(--color-card)] px-3.5 py-1.5 text-[12.5px] font-medium text-[var(--color-ink)] transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-surface)]"
+              >
+                <Icon name={tool.icon} size={13} className="text-[var(--color-accent)]" />
+                {tool.name}
+              </Link>
+            );
+          })}
+        </div>
+      )}
+
       {/* Apple 经典产品分类胶囊架 (Segmented Category Shelf) */}
       <div
         className="no-scrollbar mx-auto mt-6 flex max-w-4xl items-center gap-2 overflow-x-auto px-1 py-1"

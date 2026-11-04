@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "sparkle",
   engine: { component: CalcEngineBasic, props: { kind: "discount" } },
-  related: ["percentage-calculator", "profit-calculator", "vat-calculator", "gst-calculator"],
+  related: ["percentage-calculator", "profit-calculator", "vat-calculator", "gst-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Discount Calculator",

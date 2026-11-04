@@ -7,7 +7,7 @@ export default defineTool({
   category: "image",
   icon: "image",
   engine: { component: ImageHeicEngine },
-  related: ["jpg-to-png", "convert-image", "image-compressor", "exif-remover"],
+  related: ["jpg-to-png", "convert-image", "image-compressor", "exif-remover", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "HEIC to JPG",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "crop",
   engine: { component: ImageSplitterEngine },
-  related: ["merge-images", "crop-image", "image-resizer", "image-compressor", "convert-image"],
+  related: ["merge-images", "crop-image", "image-resizer", "image-compressor", "convert-image", "image-border", "compress-image-to-size", "grayscale-image", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Split Image",

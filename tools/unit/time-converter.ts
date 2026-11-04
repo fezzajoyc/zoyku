@@ -4,7 +4,7 @@ export default unitTool({
   slug: "time-converter",
   icon: "clock",
   cat: "time",
-  related: ["timestamp-converter", "age-calculator", "date-calculator", "speed-converter"],
+  related: ["timestamp-converter", "age-calculator", "date-calculator", "speed-converter", "energy-converter", "area-converter", "data-converter", "volume-converter", "weight-converter", "temperature-converter"],
   copy: {
     en: {
       name: "Time Unit Converter",

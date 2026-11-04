@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "shuffle",
   engine: { component: TextSorter },
-  related: ["remove-duplicate-lines", "remove-extra-spaces", "find-and-replace", "text-cleaner"],
+  related: ["remove-duplicate-lines", "remove-extra-spaces", "find-and-replace", "text-cleaner", "text-diff", "word-counter", "lorem-ipsum-generator", "sentence-counter", "text-to-binary", "reverse-text"],
   copy: {
     en: {
       name: "Text Sorter",

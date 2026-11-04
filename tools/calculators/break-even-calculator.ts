@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "check",
   engine: { component: CalcEngineBreakEven },
-  related: ["profit-calculator", "percentage-calculator", "discount-calculator", "gst-calculator"],
+  related: ["profit-calculator", "percentage-calculator", "discount-calculator", "gst-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Break-Even Calculator",

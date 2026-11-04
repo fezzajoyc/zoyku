@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "palette",
   engine: { component: CalcEngineContrast },
-  related: ["color-converter", "color-picker", "grade-calculator"],
+  related: ["color-converter", "color-picker", "grade-calculator", "gradient-generator"],
   copy: {
     en: {
       name: "Contrast Checker",

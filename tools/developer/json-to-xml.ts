@@ -10,7 +10,7 @@ export default defineTool({
   category: "developer",
   icon: "code",
   engine: { component: DevJsonToXmlEngine, props: { sample: SAMPLE } },
-  related: ["xml-to-json", "xml-formatter", "json-formatter", "json-validator"],
+  related: ["xml-to-json", "xml-formatter", "json-formatter", "json-validator", "md5-generator", "sha256-generator", "base64-image", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "JSON to XML",

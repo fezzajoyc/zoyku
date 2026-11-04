@@ -17,7 +17,7 @@ export default defineTool({
       ],
     },
   },
-  related: ["remove-extra-spaces", "text-sorter", "text-cleaner", "word-counter"],
+  related: ["remove-extra-spaces", "text-sorter", "text-cleaner", "word-counter", "text-diff", "lorem-ipsum-generator", "sentence-counter", "text-to-binary", "reverse-text", "slug-generator"],
   copy: {
     en: {
       name: "Remove Duplicate Lines",

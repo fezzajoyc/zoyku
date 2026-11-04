@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "search",
   engine: { component: ImageMetadataEngine },
-  related: ["exif-remover", "image-compressor", "convert-image", "heic-to-jpg"],
+  related: ["exif-remover", "image-compressor", "convert-image", "heic-to-jpg", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "Image Metadata Viewer",

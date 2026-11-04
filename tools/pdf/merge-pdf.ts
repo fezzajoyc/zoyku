@@ -7,7 +7,7 @@ export default defineTool({
   icon: "layers",
   featured: true,
   engine: { component: PdfPagesEngine, props: { op: "merge" } },
-  related: ["split-pdf", "rotate-pdf", "compress-pdf", "delete-pdf-pages", "jpg-to-pdf"],
+  related: ["split-pdf", "rotate-pdf", "compress-pdf", "delete-pdf-pages", "jpg-to-pdf", "pdf-to-ppt", "ocr-pdf", "pdf-to-text", "rearrange-pdf-pages", "page-numbers-pdf"],
   copy: {
     en: {
       name: "Merge PDF",

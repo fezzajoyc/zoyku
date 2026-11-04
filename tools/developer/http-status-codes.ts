@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "globe",
   engine: { component: DevHttpStatusEngine },
-  related: ["url-parser", "regex-tester", "json-formatter", "hash-generator"],
+  related: ["url-parser", "regex-tester", "json-formatter", "hash-generator", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "HTTP Status Codes",

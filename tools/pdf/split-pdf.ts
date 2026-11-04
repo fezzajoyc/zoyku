@@ -7,7 +7,7 @@ export default defineTool({
   category: "pdf",
   icon: "crop",
   engine: { component: PdfPagesEngine, props: { op: "split" } },
-  related: ["merge-pdf", "delete-pdf-pages", "rearrange-pdf-pages", "rotate-pdf", "pdf-to-jpg"],
+  related: ["merge-pdf", "delete-pdf-pages", "rearrange-pdf-pages", "rotate-pdf", "pdf-to-jpg", "pdf-to-ppt", "compress-pdf", "ocr-pdf", "pdf-to-text", "jpg-to-pdf"],
   copy: {
     en: {
       name: "Split PDF",

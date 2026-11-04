@@ -6,7 +6,7 @@ export default defineTool({
   category: "security",
   icon: "clock",
   engine: { component: SecTotpEngine },
-  related: ["password-generator", "password-strength", "hash-generator"],
+  related: ["password-generator", "password-strength", "hash-generator", "whois-lookup", "ip-lookup", "email-validator", "dns-lookup", "random-number"],
   copy: {
     en: {
       name: "TOTP Generator",

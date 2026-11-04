@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineGrade },
-  related: ["percentage-calculator", "contrast-checker", "emi-calculator", "bmi-calculator"],
+  related: ["percentage-calculator", "contrast-checker", "emi-calculator", "bmi-calculator", "gradient-generator"],
   copy: {
     en: {
       name: "Grade Calculator",

@@ -4,7 +4,7 @@ export default unitTool({
   slug: "area-converter",
   icon: "layers",
   cat: "area",
-  related: ["length-converter", "volume-converter", "weight-converter", "speed-converter"],
+  related: ["length-converter", "volume-converter", "weight-converter", "speed-converter", "energy-converter", "data-converter", "time-converter", "temperature-converter", "pressure-converter"],
   copy: {
     en: {
       name: "Area Converter",

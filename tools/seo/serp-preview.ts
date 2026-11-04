@@ -6,7 +6,7 @@ export default defineTool({
   category: "seo",
   icon: "search",
   engine: { component: SeoSerpEngine },
-  related: ["meta-tag-generator", "open-graph-generator", "keyword-density-checker"],
+  related: ["meta-tag-generator", "open-graph-generator", "keyword-density-checker", "utm-builder", "sitemap-generator", "hreflang-generator", "canonical-tag-generator", "robots-txt-generator", "schema-markup-generator"],
   copy: {
     en: {
       name: "SERP Preview",

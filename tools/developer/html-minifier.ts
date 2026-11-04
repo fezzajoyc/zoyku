@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "crop",
   engine: { component: DevCodeEngine, props: { mode: "html-minify", showSize: true } },
-  related: ["html-formatter", "css-minifier", "javascript-minifier"],
+  related: ["html-formatter", "css-minifier", "javascript-minifier", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "url-encoder", "url-decoder"],
   copy: {
     en: {
       name: "HTML Minifier",

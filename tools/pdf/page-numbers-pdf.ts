@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "file",
   engine: { component: PdfPageNumEngine },
-  related: ["merge-pdf", "split-pdf", "watermark-pdf", "compress-pdf", "rotate-pdf"],
+  related: ["merge-pdf", "split-pdf", "watermark-pdf", "compress-pdf", "rotate-pdf", "delete-pdf-pages", "pdf-to-ppt", "ocr-pdf", "pdf-to-text", "rearrange-pdf-pages"],
   copy: {
     en: {
       name: "Add Page Numbers to PDF",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "key",
   engine: { component: CalcEngineRent },
-  related: ["mortgage-calculator", "emi-calculator", "loan-calculator", "salary-to-hourly", "compound-interest-calculator"],
+  related: ["mortgage-calculator", "emi-calculator", "loan-calculator", "salary-to-hourly", "compound-interest-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator"],
   copy: {
     en: {
       name: "Rent Affordability Calculator",

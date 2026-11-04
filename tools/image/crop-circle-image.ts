@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "palette",
   engine: { component: ImageCircleEngine },
-  related: ["round-corners-image", "crop-image", "image-resizer", "grayscale-image", "image-compressor"],
+  related: ["round-corners-image", "crop-image", "image-resizer", "grayscale-image", "image-compressor", "image-border", "image-splitter", "compress-image-to-size", "heic-to-jpg", "image-metadata-viewer"],
   copy: {
     en: {
       name: "Circle Crop Image",

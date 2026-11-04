@@ -6,7 +6,7 @@ export default defineTool({
   category: "security",
   icon: "check",
   engine: { component: SecEmailValidatorEngine },
-  related: ["dns-lookup", "ip-lookup", "whois-lookup"],
+  related: ["dns-lookup", "ip-lookup", "whois-lookup", "password-generator", "totp-generator", "random-number", "password-strength"],
   copy: {
     en: {
       name: "Email Validator",

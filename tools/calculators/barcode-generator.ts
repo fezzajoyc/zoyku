@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "hash",
   engine: { component: CalcEngineBarcode },
-  related: ["qr-generator", "uuid-generator", "color-picker", "binary-converter"],
+  related: ["qr-generator", "uuid-generator", "color-picker", "binary-converter", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Barcode Generator",

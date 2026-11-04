@@ -8,7 +8,7 @@ export default defineTool({
   category: "developer",
   icon: "swap",
   engine: { component: DevCsvEngine, props: { direction: "json2csv", sample: SAMPLE } },
-  related: ["csv-to-json", "json-formatter", "sql-formatter"],
+  related: ["csv-to-json", "json-formatter", "sql-formatter", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "JSON to CSV",

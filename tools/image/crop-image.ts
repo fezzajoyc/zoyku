@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "crop",
   engine: { component: ImageCropEngine },
-  related: ["image-resizer", "rotate-image", "image-compressor", "screenshot-tool"],
+  related: ["image-resizer", "rotate-image", "image-compressor", "screenshot-tool", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Crop Image",

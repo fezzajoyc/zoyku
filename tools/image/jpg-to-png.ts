@@ -9,7 +9,7 @@ export default defineTool({
     component: ImageCanvasEngine,
     props: { op: "convert", accept: "image/jpeg,.jpg,.jpeg", defaultFormat: "image/png", lockFormat: true, suffix: "" },
   },
-  related: ["png-to-jpg", "convert-image", "webp-converter", "heic-to-jpg"],
+  related: ["png-to-jpg", "convert-image", "webp-converter", "heic-to-jpg", "image-border", "image-splitter", "compress-image-to-size", "image-compressor", "grayscale-image", "crop-circle-image"],
   copy: {
     en: {
       name: "JPG to PNG",

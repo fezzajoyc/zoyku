@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "check",
   engine: { component: PdfSignEngine },
-  related: ["watermark-pdf", "merge-pdf", "split-pdf", "rotate-pdf", "pdf-to-word"],
+  related: ["watermark-pdf", "merge-pdf", "split-pdf", "rotate-pdf", "pdf-to-word", "delete-pdf-pages", "pdf-to-ppt", "compress-pdf", "ocr-pdf", "pdf-to-text"],
   copy: {
     en: {
       name: "Sign PDF",

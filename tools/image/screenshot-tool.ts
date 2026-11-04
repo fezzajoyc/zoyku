@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "download",
   engine: { component: ImageScreenshotEngine },
-  related: ["crop-image", "image-compressor", "svg-converter", "exif-remover"],
+  related: ["crop-image", "image-compressor", "svg-converter", "exif-remover", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Screenshot Tool",

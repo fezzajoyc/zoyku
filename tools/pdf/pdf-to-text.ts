@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "text",
   engine: { component: PdfOfficeEngine, props: { target: "text" } },
-  related: ["ocr-pdf", "pdf-to-word", "pdf-to-excel", "word-counter", "split-pdf"],
+  related: ["ocr-pdf", "pdf-to-word", "pdf-to-excel", "word-counter", "split-pdf", "delete-pdf-pages", "pdf-to-ppt", "compress-pdf", "rotate-pdf", "merge-pdf"],
   copy: {
     en: {
       name: "PDF to Text",

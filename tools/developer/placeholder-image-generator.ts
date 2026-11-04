@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "image",
   engine: { component: CalcEnginePlaceholder },
-  related: ["qr-generator", "base64-image", "color-picker", "aspect-ratio-calculator"],
+  related: ["qr-generator", "base64-image", "color-picker", "aspect-ratio-calculator", "md5-generator", "sha256-generator", "json-validator", "json-formatter", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "Placeholder Image Generator",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineBasic, props: { kind: "percentage" } },
-  related: ["discount-calculator", "profit-calculator", "bmi-calculator", "tip-calculator"],
+  related: ["discount-calculator", "profit-calculator", "bmi-calculator", "tip-calculator", "body-fat-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "Percentage Calculator",

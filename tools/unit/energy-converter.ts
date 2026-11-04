@@ -4,7 +4,7 @@ export default unitTool({
   slug: "energy-converter",
   icon: "sparkle",
   cat: "energy",
-  related: ["pressure-converter", "weight-converter", "temperature-converter", "data-converter"],
+  related: ["pressure-converter", "weight-converter", "temperature-converter", "data-converter", "area-converter", "volume-converter", "time-converter", "speed-converter", "length-converter"],
   copy: {
     en: {
       name: "Energy Converter",

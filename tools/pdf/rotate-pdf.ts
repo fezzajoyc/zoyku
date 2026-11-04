@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "rotate",
   engine: { component: PdfPagesEngine, props: { op: "rotate" } },
-  related: ["merge-pdf", "split-pdf", "delete-pdf-pages", "rearrange-pdf-pages", "compress-pdf"],
+  related: ["merge-pdf", "split-pdf", "delete-pdf-pages", "rearrange-pdf-pages", "compress-pdf", "pdf-to-ppt", "ocr-pdf", "pdf-to-text", "jpg-to-pdf", "page-numbers-pdf"],
   copy: {
     en: {
       name: "Rotate PDF",

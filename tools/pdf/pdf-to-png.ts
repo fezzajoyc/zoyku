@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "image",
   engine: { component: PdfToImagesEngine, props: { format: "png" } },
-  related: ["pdf-to-jpg", "png-to-pdf", "pdf-to-text", "ocr-pdf", "split-pdf"],
+  related: ["pdf-to-jpg", "png-to-pdf", "pdf-to-text", "ocr-pdf", "split-pdf", "delete-pdf-pages", "pdf-to-ppt", "compress-pdf", "rotate-pdf", "merge-pdf"],
   copy: {
     en: {
       name: "PDF to PNG",

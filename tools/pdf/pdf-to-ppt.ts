@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "file",
   engine: { component: PdfOfficeEngine, props: { target: "pptx" } },
-  related: ["word-to-pdf", "pdf-to-jpg", "pdf-to-word", "merge-pdf", "compress-pdf"],
+  related: ["word-to-pdf", "pdf-to-jpg", "pdf-to-word", "merge-pdf", "compress-pdf", "split-pdf", "delete-pdf-pages", "ocr-pdf", "rotate-pdf", "pdf-to-text"],
   copy: {
     en: {
       name: "PDF to PowerPoint",

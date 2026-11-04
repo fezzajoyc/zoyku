@@ -18,7 +18,7 @@ export default defineTool({
       sample: 'Héllo 日'
     },
   },
-  related: ["text-to-binary", "fancy-text-generator", "case-converter", "html-escape"],
+  related: ["text-to-binary", "fancy-text-generator", "case-converter", "html-escape", "text-diff", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "word-counter", "lorem-ipsum-generator"],
   copy: {
     en: {
       name: 'Text to Unicode',

@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "search",
   engine: { component: PdfOcrEngine },
-  related: ["pdf-to-text", "pdf-to-word", "pdf-to-excel", "pdf-to-jpg", "compress-pdf"],
+  related: ["pdf-to-text", "pdf-to-word", "pdf-to-excel", "pdf-to-jpg", "compress-pdf", "split-pdf", "delete-pdf-pages", "pdf-to-ppt", "rotate-pdf", "merge-pdf"],
   copy: {
     en: {
       name: "OCR PDF",

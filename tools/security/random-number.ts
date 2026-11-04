@@ -6,7 +6,7 @@ export default defineTool({
   category: "security",
   icon: "shuffle",
   engine: { component: SecRandomEngine },
-  related: ["password-generator", "uuid-generator", "password-strength"],
+  related: ["password-generator", "uuid-generator", "password-strength", "whois-lookup", "ip-lookup", "email-validator", "totp-generator", "dns-lookup"],
   copy: {
     en: {
       name: "Random Number Generator",

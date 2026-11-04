@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "clock",
   engine: { component: DevCronExplainerEngine },
-  related: ["http-status-codes", "url-parser", "regex-tester", "jwt-decoder"],
+  related: ["http-status-codes", "url-parser", "regex-tester", "jwt-decoder", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "url-encoder"],
   copy: {
     en: {
       name: "Cron Explainer",

@@ -4,7 +4,7 @@ export default unitTool({
   slug: "pressure-converter",
   icon: "shield",
   cat: "pressure",
-  related: ["temperature-converter", "energy-converter", "speed-converter", "length-converter"],
+  related: ["temperature-converter", "energy-converter", "speed-converter", "length-converter", "area-converter", "data-converter", "volume-converter", "weight-converter", "time-converter"],
   copy: {
     en: {
       name: "Pressure Converter",

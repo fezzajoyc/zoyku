@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "hash",
   engine: { component: DevHashEngine, props: { algos: ["SHA-384"] } },
-  related: ["sha256-generator", "sha512-generator", "hash-generator", "jwt-decoder"],
+  related: ["sha256-generator", "sha512-generator", "hash-generator", "jwt-decoder", "md5-generator", "base64-image", "json-validator", "json-formatter", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: 'SHA-384 Generator',

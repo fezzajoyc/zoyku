@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "qr",
   engine: { component: CalcEngineQrScan },
-  related: ["qr-generator", "barcode-generator", "url-decoder", "image-metadata-viewer"],
+  related: ["qr-generator", "barcode-generator", "url-decoder", "image-metadata-viewer", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "QR Code Scanner",

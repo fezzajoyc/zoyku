@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "file",
   engine: { component: DevEngineSheet, props: { mode: "xlsx2csv" } },
-  related: ["csv-to-excel", "csv-to-json", "json-to-csv", "json-formatter"],
+  related: ["csv-to-excel", "csv-to-json", "json-to-csv", "json-formatter", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "Excel to CSV",

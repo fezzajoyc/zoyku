@@ -7,7 +7,7 @@ export default defineTool({
   icon: "text",
   featured: true,
   engine: { component: CaseConverter },
-  related: ["word-counter", "text-cleaner", "slug-generator", "text-sorter"],
+  related: ["word-counter", "text-cleaner", "slug-generator", "text-sorter", "text-diff", "remove-extra-spaces", "remove-duplicate-lines", "lorem-ipsum-generator", "sentence-counter", "text-to-binary"],
   copy: {
     en: {
       name: "Case Converter",

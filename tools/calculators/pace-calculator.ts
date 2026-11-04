@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "clock",
   engine: { component: CalcEnginePace },
-  related: ["one-rep-max-calculator", "sleep-calculator", "bmi-calculator", "time-converter"],
+  related: ["one-rep-max-calculator", "sleep-calculator", "bmi-calculator", "time-converter", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Pace Calculator",

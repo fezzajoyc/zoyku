@@ -12,7 +12,7 @@ export default defineTool({
       sample: "Café Mémoirs — The 2026 Edition (Vol. 2)!",
     },
   },
-  related: ["case-converter", "lorem-ipsum-generator", "remove-extra-spaces", "text-cleaner"],
+  related: ["case-converter", "lorem-ipsum-generator", "remove-extra-spaces", "text-cleaner", "text-diff", "text-sorter", "remove-duplicate-lines", "word-counter", "sentence-counter", "text-to-binary"],
   copy: {
     en: {
       name: "Slug Generator",

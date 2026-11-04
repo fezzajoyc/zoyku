@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "palette",
   engine: { component: CalcEngineColor, props: { kind: "picker" } },
-  related: ["color-converter", "qr-generator", "barcode-generator", "aspect-ratio-calculator"],
+  related: ["color-converter", "qr-generator", "barcode-generator", "aspect-ratio-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Color Picker",

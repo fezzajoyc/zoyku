@@ -8,7 +8,7 @@ export default defineTool({
   category: "developer",
   icon: "check",
   engine: { component: DevCodeEngine, props: { mode: "json-validate", validator: "json", sample: SAMPLE } },
-  related: ["json-formatter", "json-minifier", "jwt-decoder", "regex-tester"],
+  related: ["json-formatter", "json-minifier", "jwt-decoder", "regex-tester", "md5-generator", "sha256-generator", "base64-image", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "JSON Validator",

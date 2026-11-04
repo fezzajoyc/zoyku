@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "file",
   engine: { component: LoremGenerator },
-  related: ["word-counter", "character-counter", "slug-generator", "case-converter"],
+  related: ["word-counter", "character-counter", "slug-generator", "case-converter", "text-diff", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "sentence-counter", "text-to-binary"],
   copy: {
     en: {
       name: "Lorem Ipsum Generator",

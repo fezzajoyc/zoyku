@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "layers",
   engine: { component: ImageMergeEngine },
-  related: ["image-compressor", "crop-image", "jpg-to-pdf", "image-resizer", "grayscale-image"],
+  related: ["image-compressor", "crop-image", "jpg-to-pdf", "image-resizer", "grayscale-image", "image-border", "image-splitter", "compress-image-to-size", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Merge Images",

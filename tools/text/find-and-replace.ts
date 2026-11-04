@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "code",
   engine: { component: FindReplace },
-  related: ["text-diff", "text-cleaner", "remove-duplicate-lines", "text-sorter"],
+  related: ["text-diff", "text-cleaner", "remove-duplicate-lines", "text-sorter", "remove-extra-spaces", "word-counter", "lorem-ipsum-generator", "sentence-counter", "text-to-binary", "reverse-text"],
   copy: {
     en: {
       name: "Find and Replace",

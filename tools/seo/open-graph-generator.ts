@@ -114,7 +114,7 @@ export default defineTool({
   category: "seo",
   icon: "image",
   engine: { component: SeoTagsEngine, props },
-  related: ["meta-tag-generator", "serp-preview", "schema-markup-generator", "utm-builder"],
+  related: ["meta-tag-generator", "serp-preview", "schema-markup-generator", "utm-builder", "keyword-density-checker", "sitemap-generator", "hreflang-generator", "canonical-tag-generator", "robots-txt-generator"],
   copy: {
     en: {
       name: "Open Graph Generator",

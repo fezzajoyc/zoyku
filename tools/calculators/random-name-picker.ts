@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "shuffle",
   engine: { component: CalcEngineWheel },
-  related: ["random-number", "password-generator", "text-sorter", "remove-duplicate-lines"],
+  related: ["random-number", "password-generator", "text-sorter", "remove-duplicate-lines", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Random Name Picker",

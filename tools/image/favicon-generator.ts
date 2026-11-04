@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "sparkle",
   engine: { component: ImageFaviconEngine },
-  related: ["crop-image", "image-resizer", "convert-image", "image-compressor", "png-to-jpg"],
+  related: ["crop-image", "image-resizer", "convert-image", "image-compressor", "png-to-jpg", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image"],
   copy: {
     en: {
       name: "Favicon Generator",

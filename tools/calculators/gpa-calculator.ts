@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "check",
   engine: { component: CalcEngineGpa },
-  related: ["grade-calculator", "percentage-calculator", "age-calculator", "emi-calculator"],
+  related: ["grade-calculator", "percentage-calculator", "age-calculator", "emi-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "GPA Calculator",

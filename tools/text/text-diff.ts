@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "search",
   engine: { component: TextDiff },
-  related: ["find-and-replace", "sentence-counter", "word-counter", "text-cleaner"],
+  related: ["find-and-replace", "sentence-counter", "word-counter", "text-cleaner", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "lorem-ipsum-generator", "text-to-binary", "reverse-text"],
   copy: {
     en: {
       name: "Text Diff",

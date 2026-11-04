@@ -10,7 +10,7 @@ export default defineTool({
   category: "developer",
   icon: "code",
   engine: { component: DevBase64ImageEngine, props: { sample: SAMPLE } },
-  related: ["base64-encoder", "base64-decoder", "hash-generator", "url-encoder"],
+  related: ["base64-encoder", "base64-decoder", "hash-generator", "url-encoder", "md5-generator", "sha256-generator", "json-validator", "json-formatter", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "Base64 Image",

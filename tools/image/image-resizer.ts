@@ -9,7 +9,7 @@ export default defineTool({
     component: ImageCanvasEngine,
     props: { op: "resize", accept: "image/*", suffix: "-resized" },
   },
-  related: ["crop-image", "image-compressor", "convert-image", "rotate-image"],
+  related: ["crop-image", "image-compressor", "convert-image", "rotate-image", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Image Resizer",

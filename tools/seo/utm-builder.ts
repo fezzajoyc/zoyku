@@ -82,7 +82,7 @@ export default defineTool({
   category: "seo",
   icon: "ruler",
   engine: { component: SeoTagsEngine, props },
-  related: ["canonical-tag-generator", "open-graph-generator", "meta-tag-generator"],
+  related: ["canonical-tag-generator", "open-graph-generator", "meta-tag-generator", "keyword-density-checker", "sitemap-generator", "hreflang-generator", "serp-preview", "robots-txt-generator", "schema-markup-generator"],
   copy: {
     en: {
       name: "UTM Link Builder",

@@ -9,7 +9,7 @@ export default defineTool({
   category: "developer",
   icon: "calc",
   engine: { component: DevCodeEngine, props: { mode: "sql-format", sample: SAMPLE } },
-  related: ["json-formatter", "json-to-csv", "csv-to-json"],
+  related: ["json-formatter", "json-to-csv", "csv-to-json", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "SQL Formatter",

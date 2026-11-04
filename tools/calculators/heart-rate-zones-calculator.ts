@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "sparkle",
   engine: { component: CalcEngineHeartRate },
-  related: ["pace-calculator", "one-rep-max-calculator", "bmr-calculator", "sleep-calculator", "water-intake-calculator"],
+  related: ["pace-calculator", "one-rep-max-calculator", "bmr-calculator", "sleep-calculator", "water-intake-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator"],
   copy: {
     en: {
       name: "Heart Rate Zones Calculator",

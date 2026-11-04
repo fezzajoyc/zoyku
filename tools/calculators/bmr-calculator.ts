@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineHealth, props: { kind: "bmr" } },
-  related: ["calorie-calculator", "bmi-calculator", "body-fat-calculator", "ideal-weight-calculator"],
+  related: ["calorie-calculator", "bmi-calculator", "body-fat-calculator", "ideal-weight-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "aspect-ratio-calculator", "barcode-generator"],
   copy: {
     en: {
       name: "BMR Calculator",

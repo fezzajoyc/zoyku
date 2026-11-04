@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "search",
   engine: { component: ImageOcrEngine },
-  related: ["ocr-pdf", "pdf-to-text", "screenshot-tool", "image-metadata-viewer", "convert-image"],
+  related: ["ocr-pdf", "pdf-to-text", "screenshot-tool", "image-metadata-viewer", "convert-image", "image-border", "image-splitter", "compress-image-to-size", "image-compressor", "grayscale-image"],
   copy: {
     en: {
       name: "Image to Text (OCR)",

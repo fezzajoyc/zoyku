@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "clock",
   engine: { component: CalcEngineStopwatch },
-  related: ["countdown-timer", "pace-calculator", "sleep-calculator", "workdays-calculator"],
+  related: ["countdown-timer", "pace-calculator", "sleep-calculator", "workdays-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Stopwatch",

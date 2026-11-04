@@ -7,7 +7,7 @@ export default defineTool({
   icon: "swap",
   featured: true,
   engine: { component: CalcEngineCurrency },
-  related: ["percentage-calculator", "tip-calculator", "profit-calculator", "emi-calculator"],
+  related: ["percentage-calculator", "tip-calculator", "profit-calculator", "emi-calculator", "body-fat-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "Currency Converter",

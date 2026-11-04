@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "image",
   engine: { component: ImageWatermarkEngine },
-  related: ["image-resizer", "crop-image", "exif-remover", "image-compressor", "grayscale-image"],
+  related: ["image-resizer", "crop-image", "exif-remover", "image-compressor", "grayscale-image", "image-border", "image-splitter", "compress-image-to-size", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Watermark Image",

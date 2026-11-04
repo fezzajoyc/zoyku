@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "check",
   engine: { component: CalcEngineWorkdays },
-  related: ["date-calculator", "age-calculator", "timestamp-converter", "timezone-converter"],
+  related: ["date-calculator", "age-calculator", "timestamp-converter", "timezone-converter", "body-fat-calculator", "tip-calculator", "cooking-conversion", "calorie-calculator", "aspect-ratio-calculator", "bmr-calculator"],
   copy: {
     en: {
       name: "Business Days Calculator",

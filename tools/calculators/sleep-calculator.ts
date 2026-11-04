@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "rotate",
   engine: { component: CalcEngineSleep },
-  related: ["pace-calculator", "one-rep-max-calculator", "date-calculator", "age-calculator"],
+  related: ["pace-calculator", "one-rep-max-calculator", "date-calculator", "age-calculator", "body-fat-calculator", "tip-calculator", "cooking-conversion", "calorie-calculator", "aspect-ratio-calculator", "bmr-calculator"],
   copy: {
     en: {
       name: "Sleep Calculator",

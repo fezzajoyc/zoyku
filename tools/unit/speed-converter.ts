@@ -4,7 +4,7 @@ export default unitTool({
   slug: "speed-converter",
   icon: "shuffle",
   cat: "speed",
-  related: ["length-converter", "time-converter", "temperature-converter", "pressure-converter"],
+  related: ["length-converter", "time-converter", "temperature-converter", "pressure-converter", "energy-converter", "area-converter", "data-converter", "volume-converter", "weight-converter"],
   copy: {
     en: {
       name: "Speed Converter",

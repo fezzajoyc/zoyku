@@ -9,7 +9,7 @@ export default defineTool({
     component: DevHashEngine,
     props: { algos: ["SHA-256", "SHA-1", "SHA-384", "SHA-512", "MD5"], defaultAlgo: "SHA-256" },
   },
-  related: ["sha256-generator", "md5-generator", "uuid-generator", "base64-encoder"],
+  related: ["sha256-generator", "md5-generator", "uuid-generator", "base64-encoder", "base64-image", "json-validator", "json-formatter", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "Hash Generator",

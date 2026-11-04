@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "shuffle",
   engine: { component: PdfPagesEngine, props: { op: "rearrange" } },
-  related: ["split-pdf", "delete-pdf-pages", "rotate-pdf", "merge-pdf", "pdf-to-jpg"],
+  related: ["split-pdf", "delete-pdf-pages", "rotate-pdf", "merge-pdf", "pdf-to-jpg", "pdf-to-ppt", "compress-pdf", "ocr-pdf", "pdf-to-text", "jpg-to-pdf"],
   copy: {
     en: {
       name: "Rearrange PDF Pages",

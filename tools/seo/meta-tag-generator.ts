@@ -124,7 +124,7 @@ export default defineTool({
   icon: "code",
   featured: true,
   engine: { component: SeoTagsEngine, props },
-  related: ["serp-preview", "open-graph-generator", "canonical-tag-generator", "schema-markup-generator"],
+  related: ["serp-preview", "open-graph-generator", "canonical-tag-generator", "schema-markup-generator", "utm-builder", "keyword-density-checker", "sitemap-generator", "hreflang-generator", "robots-txt-generator"],
   copy: {
     en: {
       name: "Meta Tag Generator",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "image",
   engine: { component: ImageEngineSize, props: { defaultTargetKb: 100 } },
-  related: ["image-compressor", "image-resizer", "convert-image", "webp-converter"],
+  related: ["image-compressor", "image-resizer", "convert-image", "webp-converter", "image-border", "image-splitter", "grayscale-image", "crop-circle-image", "crop-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Compress Image to Size",

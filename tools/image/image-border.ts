@@ -6,7 +6,7 @@ export default defineTool({
   category: "image",
   icon: "crop",
   engine: { component: ImageBorderEngine },
-  related: ["image-resizer", "round-corners-image", "watermark-image", "crop-image", "image-compressor"],
+  related: ["image-resizer", "round-corners-image", "watermark-image", "crop-image", "image-compressor", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "heic-to-jpg"],
   copy: {
     en: {
       name: "Image Border",

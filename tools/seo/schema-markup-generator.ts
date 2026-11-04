@@ -6,7 +6,7 @@ export default defineTool({
   category: "seo",
   icon: "layers",
   engine: { component: SeoSchemaEngine },
-  related: ["meta-tag-generator", "keyword-density-checker", "serp-preview", "open-graph-generator"],
+  related: ["meta-tag-generator", "keyword-density-checker", "serp-preview", "open-graph-generator", "utm-builder", "sitemap-generator", "hreflang-generator", "canonical-tag-generator", "robots-txt-generator"],
   copy: {
     en: {
       name: "Schema Markup Generator",

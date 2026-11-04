@@ -15,7 +15,7 @@ export default defineTool({
       sample: 'Hi!'
     },
   },
-  related: ["text-to-unicode", "case-converter", "base64-encoder", "text-cleaner"],
+  related: ["text-to-unicode", "case-converter", "base64-encoder", "text-cleaner", "text-diff", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "word-counter", "lorem-ipsum-generator"],
   copy: {
     en: {
       name: 'Text to Binary',

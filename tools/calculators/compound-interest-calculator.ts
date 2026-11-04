@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineCompound },
-  related: ["emi-calculator", "loan-calculator", "discount-calculator", "percentage-calculator"],
+  related: ["emi-calculator", "loan-calculator", "discount-calculator", "percentage-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Compound Interest Calculator",

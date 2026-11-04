@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "clock",
   engine: { component: CalcEngineTime, props: { kind: "timestamp" } },
-  related: ["timezone-converter", "date-calculator", "time-converter", "binary-converter"],
+  related: ["timezone-converter", "date-calculator", "time-converter", "binary-converter", "body-fat-calculator", "tip-calculator", "cooking-conversion", "age-calculator", "calorie-calculator", "aspect-ratio-calculator"],
   copy: {
     en: {
       name: "Unix Timestamp Converter",

@@ -9,7 +9,7 @@ export default defineTool({
   category: "developer",
   icon: "text",
   engine: { component: DevHtmlToMarkdownEngine, props: { sample: SAMPLE } },
-  related: ["markdown-previewer", "html-formatter", "html-escape"],
+  related: ["markdown-previewer", "html-formatter", "html-escape", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "HTML to Markdown",

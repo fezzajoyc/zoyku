@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "clock",
   engine: { component: CalcEngineOvertime },
-  related: ["salary-to-hourly", "hourly-to-salary", "break-even-calculator", "compound-interest-calculator"],
+  related: ["salary-to-hourly", "hourly-to-salary", "break-even-calculator", "compound-interest-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Overtime Pay Calculator",

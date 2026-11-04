@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "calc",
   engine: { component: CalcEngineHealth, props: { kind: "water" } },
-  related: ["bmr-calculator", "calorie-calculator", "bmi-calculator", "age-calculator"],
+  related: ["bmr-calculator", "calorie-calculator", "bmi-calculator", "age-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "aspect-ratio-calculator", "barcode-generator"],
   copy: {
     en: {
       name: "Water Intake Calculator",

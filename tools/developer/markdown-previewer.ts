@@ -9,7 +9,7 @@ export default defineTool({
   category: "developer",
   icon: "text",
   engine: { component: DevMarkdownEngine, props: { sample: SAMPLE } },
-  related: ["html-formatter", "case-converter", "word-counter", "text-diff"],
+  related: ["html-formatter", "case-converter", "word-counter", "text-diff", "md5-generator", "sha256-generator", "base64-image", "json-validator", "json-formatter", "url-encoder"],
   copy: {
     en: {
       name: "Markdown Previewer",

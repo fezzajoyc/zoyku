@@ -6,7 +6,7 @@ export default defineTool({
   category: "security",
   icon: "search",
   engine: { component: SecLookupEngine, props: { kind: "ip" } },
-  related: ["dns-lookup", "whois-lookup", "email-validator"],
+  related: ["dns-lookup", "whois-lookup", "email-validator", "password-generator", "totp-generator", "random-number", "password-strength"],
   copy: {
     en: {
       name: "IP Lookup",

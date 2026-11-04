@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "palette",
   engine: { component: CalcEngineCooking },
-  related: ["volume-converter", "weight-converter", "temperature-converter", "tip-calculator"],
+  related: ["volume-converter", "weight-converter", "temperature-converter", "tip-calculator", "body-fat-calculator", "date-calculator", "age-calculator", "calorie-calculator", "aspect-ratio-calculator", "bmr-calculator"],
   copy: {
     en: {
       name: "Cooking Conversion Calculator",

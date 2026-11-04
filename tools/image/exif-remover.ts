@@ -9,7 +9,7 @@ export default defineTool({
     component: ImageCanvasEngine,
     props: { op: "exif-remove", accept: "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp", suffix: "-clean" },
   },
-  related: ["image-metadata-viewer", "image-compressor", "png-to-jpg", "convert-image"],
+  related: ["image-metadata-viewer", "image-compressor", "png-to-jpg", "convert-image", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "EXIF Remover",

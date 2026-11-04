@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "shield",
   engine: { component: CalcEngineTax, props: { kind: "gst" } },
-  related: ["vat-calculator", "discount-calculator", "profit-calculator", "percentage-calculator"],
+  related: ["vat-calculator", "discount-calculator", "profit-calculator", "percentage-calculator", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "GST Calculator",

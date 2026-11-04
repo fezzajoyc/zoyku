@@ -6,7 +6,7 @@ export default defineTool({
   category: "security",
   icon: "file",
   engine: { component: SecLookupEngine, props: { kind: "whois" } },
-  related: ["dns-lookup", "ip-lookup", "email-validator"],
+  related: ["dns-lookup", "ip-lookup", "email-validator", "password-generator", "totp-generator", "random-number", "password-strength"],
   copy: {
     en: {
       name: "WHOIS Lookup",

@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "code",
   engine: { component: CalcEngineScientific },
-  related: ["percentage-calculator", "binary-converter", "emi-calculator", "roman-numeral"],
+  related: ["percentage-calculator", "binary-converter", "emi-calculator", "roman-numeral", "body-fat-calculator", "tip-calculator", "date-calculator", "cooking-conversion", "age-calculator", "calorie-calculator"],
   copy: {
     en: {
       name: "Scientific Calculator",

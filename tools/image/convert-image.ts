@@ -9,7 +9,7 @@ export default defineTool({
     component: ImageCanvasEngine,
     props: { op: "convert", accept: "image/*", defaultFormat: "image/webp", defaultQuality: 0.9, suffix: "-converted" },
   },
-  related: ["webp-converter", "jpg-to-png", "png-to-jpg", "image-compressor"],
+  related: ["webp-converter", "jpg-to-png", "png-to-jpg", "image-compressor", "image-border", "image-splitter", "compress-image-to-size", "grayscale-image", "crop-circle-image", "crop-image"],
   copy: {
     en: {
       name: "Image Converter",

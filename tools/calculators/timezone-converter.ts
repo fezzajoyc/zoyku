@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "globe",
   engine: { component: CalcEngineTime, props: { kind: "timezone" } },
-  related: ["timestamp-converter", "time-converter", "date-calculator", "age-calculator"],
+  related: ["timestamp-converter", "time-converter", "date-calculator", "age-calculator", "body-fat-calculator", "tip-calculator", "cooking-conversion", "calorie-calculator", "aspect-ratio-calculator", "bmr-calculator"],
   copy: {
     en: {
       name: "Time Zone Converter",

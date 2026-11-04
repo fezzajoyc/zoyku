@@ -6,7 +6,7 @@ export default defineTool({
   category: "text",
   icon: "sparkle",
   engine: { component: TextFancyEngine, props: { sample: "Hello, world! 123" } },
-  related: ["emoji-picker", "case-converter", "text-cleaner", "word-counter"],
+  related: ["emoji-picker", "case-converter", "text-cleaner", "word-counter", "text-diff", "text-sorter", "remove-extra-spaces", "remove-duplicate-lines", "lorem-ipsum-generator", "sentence-counter"],
   copy: {
     en: {
       name: "Fancy Text Generator",

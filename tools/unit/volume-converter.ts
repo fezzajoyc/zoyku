@@ -4,7 +4,7 @@ export default unitTool({
   slug: "volume-converter",
   icon: "crop",
   cat: "volume",
-  related: ["length-converter", "weight-converter", "area-converter", "energy-converter"],
+  related: ["length-converter", "weight-converter", "area-converter", "energy-converter", "data-converter", "time-converter", "temperature-converter", "speed-converter", "pressure-converter"],
   copy: {
     en: {
       name: "Volume Converter",

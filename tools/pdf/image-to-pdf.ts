@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "image",
   engine: { component: ImagesToPdfEngine, props: { kind: "any" } },
-  related: ["jpg-to-pdf", "png-to-pdf", "heic-to-jpg", "merge-pdf", "compress-pdf"],
+  related: ["jpg-to-pdf", "png-to-pdf", "heic-to-jpg", "merge-pdf", "compress-pdf", "split-pdf", "delete-pdf-pages", "pdf-to-ppt", "ocr-pdf", "rotate-pdf"],
   copy: {
     en: {
       name: "Image to PDF",

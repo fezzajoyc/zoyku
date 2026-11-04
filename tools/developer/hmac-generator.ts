@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "key",
   engine: { component: DevHmacEngine, props: { algos: ["SHA-256", "SHA-384", "SHA-512", "SHA-1"], defaultAlgo: "SHA-256" } },
-  related: ["sha256-generator", "sha512-generator", "jwt-decoder", "totp-generator"],
+  related: ["sha256-generator", "sha512-generator", "jwt-decoder", "totp-generator", "md5-generator", "base64-image", "json-validator", "json-formatter", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "HMAC Generator",

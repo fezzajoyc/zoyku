@@ -6,7 +6,7 @@ export default defineTool({
   category: "pdf",
   icon: "palette",
   engine: { component: PdfWatermarkEngine },
-  related: ["sign-pdf", "merge-pdf", "compress-pdf", "split-pdf", "rotate-pdf"],
+  related: ["sign-pdf", "merge-pdf", "compress-pdf", "split-pdf", "rotate-pdf", "delete-pdf-pages", "pdf-to-ppt", "ocr-pdf", "pdf-to-text", "rearrange-pdf-pages"],
   copy: {
     en: {
       name: "Watermark PDF",

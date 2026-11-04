@@ -9,7 +9,7 @@ export default defineTool({
   category: "developer",
   icon: "search",
   engine: { component: DevRegexEngine, props: { defaultPattern: PATTERN, sample: SAMPLE } },
-  related: ["json-validator", "word-counter", "case-converter", "text-diff"],
+  related: ["json-validator", "word-counter", "case-converter", "text-diff", "md5-generator", "sha256-generator", "base64-image", "json-formatter", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "Regex Tester",

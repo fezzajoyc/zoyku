@@ -8,7 +8,7 @@ export default defineTool({
   category: "developer",
   icon: "code",
   engine: { component: DevCodeEngine, props: { mode: "xml-format", sample: SAMPLE } },
-  related: ["xml-validator", "html-formatter", "json-formatter"],
+  related: ["xml-validator", "html-formatter", "json-formatter", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier", "url-decoder"],
   copy: {
     en: {
       name: "XML Formatter",

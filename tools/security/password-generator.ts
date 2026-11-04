@@ -7,7 +7,7 @@ export default defineTool({
   icon: "key",
   featured: true,
   engine: { component: SecPasswordGeneratorEngine },
-  related: ["password-strength", "totp-generator", "random-number", "uuid-generator"],
+  related: ["password-strength", "totp-generator", "random-number", "uuid-generator", "whois-lookup", "ip-lookup", "email-validator", "dns-lookup"],
   copy: {
     en: {
       name: "Password Generator",

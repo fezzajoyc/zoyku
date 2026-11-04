@@ -15,7 +15,7 @@ export default defineTool({
       sample: 'Zoyku 2026'
     },
   },
-  related: ["text-to-binary", "case-converter", "reverse-text", "text-sorter"],
+  related: ["text-to-binary", "case-converter", "reverse-text", "text-sorter", "text-diff", "remove-extra-spaces", "remove-duplicate-lines", "word-counter", "lorem-ipsum-generator", "sentence-counter"],
   copy: {
     en: {
       name: 'NATO Alphabet Converter',
