@@ -16,6 +16,8 @@ export default defineTool({
       intro: [
         "Convert any number of JPG photos into one tidy PDF: ID photos, receipts, homework scans or a camera roll you need to email as a single attachment. Add all the images at once, sort them with the arrow buttons, and choose whether each page hugs the photo or uses A4/Letter with a margin.",
         "The photos are embedded at full original quality — no resizing, no recompression, no watermark. Conversion happens on your device, so even private pictures never touch a server.",
+        "Technical detail that matters: the JPEG data is embedded directly into the PDF using the standard DCTDecode filter, which is exactly how professional tools store photos in PDFs. Your camera's bytes are not decoded and re-encoded — quality is bit-identical to the source images, and the PDF grows only by the structure around them.",
+        "The two page modes follow different conventions: the fit-to-image mode produces pages with the same aspect ratio as each photo (good for viewing and printing photos as-is), while A4 and Letter mode follow ISO 216 and North American paper standards with a margin you control, so the result prints predictably on office printers."
       ],
       steps: [
         "Drop all the JPG images you want to include.",

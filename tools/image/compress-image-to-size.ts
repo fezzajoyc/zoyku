@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Upload forms, email limits and CMS fields demand a size, not a quality slider. Type the ceiling in KB, drop your images, and the tool binary-searches the encoder's quality until the file slips under the line — reporting the exact quality and any downscale it used, per image, in a batch.",
         "It is honest about physics: if the floor of the quality range still exceeds your target, the image is progressively downscaled; if even that cannot reach a tiny budget on a large, detailed photo, you get the closest achievable result, clearly flagged as over target, instead of a silently terrible image.",
+        "The mechanism is a binary search over the encoder's quality parameter: each trial encodes the full image, measures the real output size, and halves the search range until it converges — typically within about eight encode passes. The reported quality value is the actual parameter used, not an estimate, and the same search runs independently for every file in the batch.",
+        "Compression here is the browser's native canvas JPEG encoder, so results are deterministic and run entirely offline. Note the limits honestly: JPEG is lossy, so very small budgets on large photos will cost visible detail, and PNG input with transparency is flattened against a background during encoding — there is no alpha channel in the output."
       ],
       steps: [
         "Drop in one image or a whole batch.",

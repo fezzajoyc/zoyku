@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Drag the corner handles to frame exactly what you want to keep, or type X, Y, width and height directly for pixel-perfect crops. Ratio presets — 1:1 for avatars, 4:3 and 3:2 for prints, 16:9 and 9:16 for video and stories — snap the selection to the right shape instantly.",
         "Working with a set of photos? The same selection is scaled proportionally to every file in the batch, so a whole folder gets cropped consistently. Cropping only cuts pixels — it never rescales — so the kept area stays at full original quality.",
+        "Internally the crop is a canvas drawImage with a source rectangle: pixels outside the selection are discarded, and nothing inside is rescaled or re-compressed beyond the format's own encoding, so the kept region comes out at its original resolution. The ratio presets are not arbitrary — 1:1 matches avatar fields, 16:9 and 9:16 match video and stories formats, 3:2 and 4:3 match classic print sizes.",
+        "That no-rescale behavior is the difference from many phone gallery apps, which silently resize crops to a fixed output dimension. Here a 4000-pixel-wide photo cropped to a quarter stays around 2000 pixels wide, full quality — which is what you want before sending images to a resizer or compressor as a next step."
       ],
       steps: [
         "Drop one or more images; click a file name to preview and crop each one.",

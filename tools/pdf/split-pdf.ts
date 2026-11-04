@@ -16,6 +16,8 @@ export default defineTool({
       intro: [
         "Break a long PDF into smaller files in two ways: cut it every N pages (handy for 1-page-per-file or chapter-sized chunks), or define custom ranges like “1-3, 4-6, 8” and get one file per range. Multiple outputs are bundled into a ZIP automatically.",
         "The split runs on your device with pdf-lib — original files stay untouched, and the pieces never pass through a server. Ideal for confidential documents you would rather not upload anywhere.",
+        "Splitting relies on pdf-lib's copyPages, which moves each page's full content stream, fonts and images into the new file untouched — there is no re-rendering and no quality loss anywhere in the pipeline. A 30 MB source split into five parts yields five files whose sizes add up to roughly the original, since the page data is carried over as-is.",
+        "That is the key difference from printing a PDF range to a new PDF, which rasterizes or re-distills the content and often breaks links and selectable text. Here the pieces are faithful copies, produced locally in your browser; nothing is uploaded, and your original file is left exactly as it was on disk."
       ],
       steps: [
         "Drop the PDF you want to split.",

@@ -16,6 +16,8 @@ export default defineTool({
       intro: [
         "Turn a PDF into shareable images: each page becomes a JPG at the resolution you choose, rendered exactly as the page looks — fonts, colors and images included. Ten pages give you ten numbered files; more than one and you also get a ZIP.",
         "JPG is the format chats, slides and social platforms accept everywhere. Rendering happens locally with pdf.js — the PDF is never uploaded, which matters for contracts and personal documents.",
+        "Rendering is done with pdf.js, Mozilla's PDF engine — the same code that powers Firefox's built-in viewer — so complex pages with embedded fonts, transparency and color profiles come out as they look on screen. The resolution setting controls the canvas scale: 150 DPI is a good default for screen sharing, 300 DPI when the images will be printed.",
+        "One inherent trade-off to know: JPG is a lossy format, so rendered pages are compressed with slight artifacts around sharp text edges. If you need pixel-perfect captures of text-heavy pages, a PNG-based export preserves those better; this tool is optimized for the universal compatibility and small file size that JPG guarantees."
       ],
       steps: [
         "Drop the PDF you want to convert.",

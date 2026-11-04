@@ -18,6 +18,8 @@ export default defineTool({
       intro: [
         "Type the exact width and height in pixels, or scale by a percentage (25%, 50%, 200%…). The aspect-ratio lock keeps proportions correct when you change one side, and unlocking lets you force any custom dimension — useful for platform avatar or banner sizes.",
         "Batch mode applies your settings to every file you drop in, so a folder of photos can be downsized for the web in one pass. Shrinking is done with high-quality smoothing, and the output keeps the original format.",
+        "Resizing runs through the browser's canvas pipeline with high-quality (Lanczos-style) image smoothing enabled, which keeps edges clean when downscaling — noticeably better than the naive nearest-neighbor result many quick tools produce. Upscaling is allowed too, though no algorithm can invent detail, so enlargements beyond about 200% will soften.",
+        "Output keeps the input format: JPG stays JPG, PNG stays PNG with its transparency preserved, so a resized asset can drop straight into the same workflow it came from. Compared with doing this in an image editor, the win is batch speed — one settings panel applied to a whole folder of photos in a single pass, all locally."
       ],
       steps: [
         "Drop one or more images into the box.",

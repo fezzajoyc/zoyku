@@ -16,6 +16,8 @@ export default defineTool({
       intro: [
         "Drop in as many PDFs as you need, arrange them in the exact order you want, and merge them into a single file. Bookings, invoices, scanned chapters, application bundles — anything that arrives as ten separate attachments becomes one tidy document.",
         "Unlike online mergers that upload your files to a server, this tool reads and writes PDFs entirely on your device with pdf-lib. Your contracts, IDs and financial documents never leave your browser.",
+        "Under the hood the merge uses pdf-lib's copyPages: every page is copied byte-for-byte from its source document, so text stays selectable, vector graphics stay sharp and embedded fonts, images and color profiles are never re-encoded. The output keeps PDF version 1.7, and files of mixed page sizes — A4 mixed with Letter, portrait with landscape — coexist in one document without rescaling.",
+        "Compared with merging via printing to a virtual printer or screenshotting pages, nothing is rasterized here, so the merged file is as small as the sum of its sources and just as crisp. Unlike desktop suites, there is no install, no account and no page-count cap; the practical limit is your device's memory, not a paywall."
       ],
       steps: [
         "Drop two or more PDF files into the box (or click to choose them).",

@@ -18,6 +18,8 @@ export default defineTool({
       intro: [
         "One converter for the three formats that matter: PNG for lossless graphics and transparency, JPG for universal photo compatibility, WebP for the smallest files at high quality. Pick the target format, tune the quality slider when the format allows it, and every dropped file is converted in place.",
         "Conversion runs on your device with the browser's own canvas encoder — there is no upload step at all. Each result row shows the size before and after, so you can see immediately whether the format change actually helped.",
+        "The conversions run through the browser's own encoders via canvas: PNG is produced losslessly, JPG is lossy with the quality slider controlling the trade-off, and WebP support depends on your browser — all current versions of Chrome, Edge, Firefox and Safari encode it. Sizes before and after are shown per file, so the format choice is judged on real numbers.",
+        "Two format realities to plan around: converting PNG to JPG flattens transparency onto a solid background (JPG has no alpha channel), and converting JPG to PNG rarely shrinks the file, since PNG is lossless and photographs compress poorly in it. Pick JPG or WebP for photos, PNG for graphics, screenshots and anything with sharp edges or transparency."
       ],
       steps: [
         "Drop any images — mixed formats are fine.",

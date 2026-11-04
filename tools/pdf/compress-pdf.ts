@@ -16,6 +16,8 @@ export default defineTool({
       intro: [
         "Scans and image-heavy reports are often 10× larger than they need to be. This tool re-renders each page at a resolution you pick (72–150 DPI covers screen reading and most printing) and re-encodes it as tuned JPEG, typically cutting file size by 50–90%.",
         "Process several files at once and see the exact savings per file before downloading. Optional grayscale squeezes black-and-white scans even further. Everything runs on your device — compressed or not, your documents stay put.",
+        "Technically the tool rasterizes each page to a canvas, then re-encodes it as JPEG with an encoder quality tuned for documents — text stays legible at 150 DPI while blank areas collapse to almost nothing. Higher quality settings preserve more detail at a larger size, so you can preview the trade-off per file before committing.",
+        "Because compression re-renders the pages, it is inherently lossy: the original vector text becomes an image, and the result is meant for sharing and archiving, not further editing. If you need a lossless pass, keep your source file — this tool never modifies it, and the page dimensions and page count are preserved exactly."
       ],
       steps: [
         "Drop one or more PDF files (batch is welcome).",

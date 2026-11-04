@@ -15,6 +15,8 @@ export default defineTool({
       intro: [
         "Scanned sideways or upside down? Rotate every page at once, or target just the pages that need fixing with a list like “1, 3-5”. The rotation is written into the PDF itself, so it opens right-side up in every reader.",
         "Many viewers only rotate pages temporarily — this tool changes the page /Rotate attribute with pdf-lib on your device, which is why the fix survives printing, sharing and re-uploading.",
+        "Rotation is applied through each page's /Rotate attribute — one of the four standard values 0, 90, 180 or 270 defined by the PDF specification — rather than by re-rendering or moving content. That makes the operation completely lossless: file size barely changes, text remains selectable, and the change is recognized by every conforming PDF reader, viewer and printer.",
+        "The distinction matters because many desktop viewers only rotate pages in their own display state. A page fixed here stays fixed when it is printed, attached to an email, or opened on a phone — the attribute travels inside the file itself. You can also mix orientations within one document, rotating only the pages you list."
       ],
       steps: [
         "Drop the PDF whose pages need rotating.",
