@@ -14,7 +14,9 @@ export default defineTool({
         "Generate valid JSON-LD structured data for Organization, LocalBusiness, Product, Article, FAQPage and HowTo — escaped and ready to paste.",
       intro: [
         "Structured data helps search engines understand the entities on a page: who publishes it, what the product costs, which questions it answers. This generator builds JSON-LD for six of the most used schema.org types, leaves out empty fields, and escapes the output so it is safe inside a <script> tag.",
-        "Pick the type that matches the page, fill in the fields, and paste the block into the head or body. Always run it through a rich results validator before deploying — markup that parses but violates guidelines can earn a manual action.",
+        "JSON-LD is Google's preferred format over inline microdata and RDFa. The @context must be exactly https://schema.org, dates use ISO 8601, and prices are plain numbers — and each type has required properties, so an Article without headline and author fails validation no matter how the rest looks.",
+        "Pick the type that matches the page, fill in the fields, and paste the block into the head or body. Multiple entities can share one @graph, which keeps larger pages readable instead of scattering several script tags down the document.",
+        "Valid markup earns rich results; it is not itself a ranking factor, and eligibility is never guaranteed. Markup that parses but violates guidelines — review stars on a page with no actual reviews, for instance — can earn a manual action, so always run the output through a rich results validator before deploying.",
       ],
       steps: [
         "Pick the schema type that matches the page.",

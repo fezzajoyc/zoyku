@@ -122,7 +122,9 @@ export default defineTool({
         "Build the full set of og: and twitter: meta tags and watch the share card preview update live before you paste anything.",
       intro: [
         "When your link is shared on X, Facebook, LinkedIn, Slack or iMessage, the preview card is built almost entirely from Open Graph tags, with Twitter card tags filling the gaps. This generator outputs both namespaces: og:title, og:type, og:url, og:image, og:image:alt, og:site_name, og:description and og:locale, plus twitter:card, twitter:site and twitter:creator.",
-        "Most platforms fall back to the og: tags when a twitter: tag is missing, so the extras are only needed where they differ. The live preview approximates how a large-image or summary card renders.",
+        "og:image wants an absolute URL, ideally around 1200×630 pixels, and platform caches are aggressive: if you replace the image without changing the filename, the old one keeps showing until you force a refresh in the platform's debugger. og:url should be the canonical address and match the rel=canonical tag.",
+        "Most platforms fall back to og: tags when a twitter: tag is missing, so the extras are only needed where they differ — twitter:card is the real exception, because it selects the large-image summary layout instead of a small square. og:image:alt is easy to forget and matters for screen readers on every share.",
+        "The live preview approximates how a large-image or summary card renders, but each platform truncates differently, so run the final URL through the official debuggers — Facebook Sharing Debugger, X Card Validator, LinkedIn Post Inspector — before launch. Generating both namespaces at once prevents the missing-tag fallbacks those debuggers exist to catch.",
       ],
       steps: [
         "Enter the page title, description and canonical URL.",

@@ -14,7 +14,9 @@ export default defineTool({
         "See how strong a password really is: zxcvbn scoring, realistic crack-time estimates and concrete fixes — all computed locally, never uploaded.",
       intro: [
         "Most meters just count character classes. This checker runs the zxcvbn algorithm — built from real breach data and pattern analysis — which catches keyboard walks, repeated chunks, dates, l33t substitutions and passwords that appear in known leaks.",
-        "You get a 0–4 score, estimated crack times under three attack scenarios, and specific suggestions. Everything is computed in your browser: the password you type never leaves your device.",
+        "zxcvbn scores 0–4 by estimating the number of guesses an offline attacker needs: a score of 3 means at least 10^8 guesses, 4 at least 10^10. Crack times are reported under three attack models — online throttled, online unthrottled and offline against a slow hash — because the same password faces very different adversaries.",
+        "The matcher decomposes your input into dictionary words (including leaked-password lists), spatial keyboard patterns, repeats, sequences and dates, then finds the cheapest way to reconstruct it; that cost is the entropy estimate. Everything is computed in your browser: the password you type never leaves your device.",
+        "The composition rules portals enforce — one upper, one digit, one symbol — steer users toward predictable patterns, which is why NIST SP 800-63B advises checking against breach lists instead of forced complexity. zxcvbn implements that philosophy, flagging passwords the class-counting meters confidently call strong.",
       ],
       steps: [
         "Type or paste the password into the box — use Show if you want to read it.",

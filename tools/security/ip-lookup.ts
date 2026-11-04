@@ -14,7 +14,9 @@ export default defineTool({
         "Find any IP address's country, city, ISP and ASN in seconds — or check your own IP — with a free keyless API, right in your browser.",
       intro: [
         "Every device on the internet carries an IP address that hints at where it is and who routes it. Enter any IPv4 or IPv6 address to see its country and region, city, network operator (ISP), organization and autonomous system number (ASN), plus timezone and approximate coordinates.",
-        "The data comes from the free, keyless ipwho.is database over HTTPS; there is no signup and no quota to watch. One tap checks your own connection, which is handy for confirming a VPN actually changed your visible location.",
+        "Geolocation is network-level, not device-level: results trace to where the ISP's routing infrastructure is registered, so mobile addresses often resolve to the wrong city and corporate ranges land on headquarters. Treat country and ASN as the reliable fields, and city-level accuracy as approximate rather than guaranteed.",
+        "The data comes from the free, keyless ipwho.is database over HTTPS; there is no signup and no quota to watch. IPv4 and IPv6 are both supported, in any common notation, and each answer includes timezone and approximate coordinates alongside the network details.",
+        "Registry whois shows who owns the block, not where it is used, and commercial IP intelligence APIs price per query behind API keys. This tool covers the everyday cases — identifying a log entry, sanity-checking firewall rules — and one tap checks your own connection, handy for confirming a VPN actually changed your visible location.",
       ],
       steps: [
         "Paste an IP into the field, or press Use my IP to inspect your own connection.",

@@ -14,7 +14,9 @@ export default defineTool({
         "Count 1–3 word keyword phrases and their density, with built-in stopword lists for English, Chinese, Japanese, Spanish and Portuguese.",
       intro: [
         "Keyword density is the share of times a phrase appears among all words on the page. This checker tokenizes your text, strips stopwords per language and reports counts and density for one, two and three word phrases — live, as you paste or edit.",
-        "Use it to confirm the page actually says what you want to rank for, not to chase a magic percentage. Copy that reads naturally while covering the topic beats any fixed ratio.",
+        "The denominator matters: counts are computed over real words after stopword removal, so the and of do not bury your topic. One-, two- and three-word phrases are reported separately, because the useful metric for best running shoes is the trigram, not the bare word shoes.",
+        "Tokenization lowercases, strips punctuation and splits on whitespace, then n-grams are counted over the cleaned sequence with stopword removal applied first. Counts and percentages update as you type, and toggling stopwords lets you compare the raw distribution against the content-word view.",
+        "The old 2% keyword density rule is SEO folklore — modern ranking evaluates topic coverage and natural language, and stuffing past natural levels reads as spam. Use the numbers to catch the opposite failure, a page that never names its target phrase, rather than to chase a magic percentage.",
       ],
       steps: [
         "Paste the page copy or a draft into the input box.",

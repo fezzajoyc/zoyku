@@ -14,7 +14,9 @@ export default defineTool({
         "Build a robots.txt with AI crawler blocklists or allowlists, per-bot rules, crawl-delay and sitemap directives — then copy or download.",
       intro: [
         "robots.txt controls crawler access before a page is even fetched. Beyond the classic User-agent: * rules, you can now decide per AI bot: allow search-adjacent crawlers such as OAI-SearchBot and PerplexityBot, block training crawlers like GPTBot, ClaudeBot, Google-Extended, CCBot and Bytespider, or mix your own policy.",
-        "The generator groups user-agents that share a rule, adds crawl-delay where it is honored, and appends your sitemap directive. Copy the file to your domain root at /robots.txt and verify it in Search Console's robots report.",
+        "Rules are case-sensitive prefix matches evaluated longest-first — robots.txt has no wildcards beyond the basic * and $ — and a bare Disallow: with no path means allow everything. Only the file at the domain root applies: rules on example.com never cover blog.example.com.",
+        "The generator groups user-agents that share a rule, since each bot reads only the most specific group matching it, adds crawl-delay where it is honored — Google ignores the directive; use Search Console's crawl settings — and appends your sitemap directive. Copy the file to your domain root at /robots.txt.",
+        "robots.txt controls crawling, not indexing: a disallowed URL can still appear in search results if other sites link to it, so use a noindex meta tag or X-Robots-Tag header when you want removal. Per-AI-bot policies are exactly the case no single default covers — verify the result in Search Console's robots report.",
       ],
       steps: [
         "Pick a preset: allow all, block AI training bots or block everything.",

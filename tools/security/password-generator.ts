@@ -15,7 +15,9 @@ export default defineTool({
         "Generate strong passwords and passphrases in your browser with live entropy estimates — crypto-grade randomness, nothing sent or stored.",
       intro: [
         "Weak and reused passwords cause most account takeovers. This generator creates passwords with your browser's cryptographic random number generator (crypto.getRandomValues) — the same source used for encryption keys — so every character is uniformly random and impossible to predict.",
-        "Choose a classic random password or a memorable passphrase built from a 256-word list, tune the length and character sets, and watch the entropy readout in bits. Everything runs locally: the password is never transmitted, logged or stored.",
+        "Strength is measured in entropy, log2(charset^length): 12 characters over a 95-character printable set give about 78.8 bits, and the passphrase mode's 256-word list yields 8 bits per word — five random words beat most 12-character passwords. The readout shows the real number for your settings instead of a vague strong/weak label.",
+        "Generation uses the browser's CSPRNG seeded by the operating system, mapped onto your chosen character sets without bias, and the passphrase list is filtered to short, unambiguous words. Everything runs locally: the password is never transmitted, logged or stored.",
+        "Password idea websites that generate strings server-side see every password they produce, and composition rules like one digit plus one symbol push people toward Password1!. Drawing the random bytes in the page keeps the secret on your device — then let a password manager remember it, as NIST SP 800-63B recommends.",
       ],
       steps: [
         "Pick Password for random characters or Passphrase for easy-to-type words.",

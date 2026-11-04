@@ -14,7 +14,9 @@ export default defineTool({
         "Generate truly random numbers from any range — singles, batches, unique lottery-style draws — using your browser's cryptographic RNG.",
       intro: [
         "Math.random() is fine for games but biased and predictable. This generator draws from crypto.getRandomValues, your browser's cryptographic random source, with rejection sampling that removes modulo bias — every number in the range is equally likely.",
-        "Draw one number between bounds, a whole batch, or unique draws for raffles and giveaways; sort results ascending or keep draw order. The tool also shows the total entropy of the draw in bits, so you can demonstrate a giveaway was fair.",
+        "If the bounds do not divide 2^32 evenly, values are drawn and rejected until they land in a uniform window, so with inclusive bounds every integer from min to max has exactly 1/(max−min+1) probability. The entropy readout is log2 of that count: a fair six-sided draw carries about 2.58 bits.",
+        "Numbers come from the browser's CSPRNG seeded by the operating system — not from Math.random() or the system clock, both of which can be reconstructed from a few observed outputs. Unique-draw mode samples without replacement, so raffle entries cannot repeat.",
+        "Online true-randomness services trade a network round-trip and an account for entropy you cannot verify locally, while spreadsheet RAND() is fine for dice but not for prizes. For raffles, giveaways and random sampling, cryptographic randomness generated in the page is both fair and auditable — the tool also shows the total entropy of the draw in bits.",
       ],
       steps: [
         "Set the minimum and maximum (both inclusive, negatives welcome).",

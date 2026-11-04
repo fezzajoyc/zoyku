@@ -132,7 +132,9 @@ export default defineTool({
         "Generate title, description, keywords, robots and viewport meta tags with live HTML output you can paste straight into your <head>.",
       intro: [
         "Meta tags are the first thing crawlers read: the title tag is a ranking signal, and the meta description becomes your snippet whenever Google doesn't rewrite it. This generator builds a clean, valid set — title, description, keywords, robots, viewport, author plus an optional canonical link — while you type.",
-        "Every attribute value is HTML-escaped, so quotes and ampersands can't break your markup. Copy the block into your template or CMS head section and adjust it per page.",
+        "Google rewrites a majority of titles and most descriptions when they are badly sized or duplicated, so fit matters: aim for a title within the roughly 580-pixel desktop budget and a description around 150–160 characters. The meta keywords tag is ignored by every major engine and kept only for legacy tooling.",
+        "Every attribute value is HTML-escaped, so quotes and ampersands can't break your markup, and the viewport tag is included because a missing one is the most common mobile-usability failure. Copy the block into your template or CMS head section and adjust it per page.",
+        "Generators that emit only a title tag miss robots and canonical — the tags that decide crawling and duplicate consolidation. Building the full set at once keeps the <head> consistent across templates instead of accumulating conflicting tags page by page, which is what duplicate-content audits usually end up finding.",
       ],
       steps: [
         "Fill in the page title (aim for 50–60 characters) and the meta description (up to ~160).",

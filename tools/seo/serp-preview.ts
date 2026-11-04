@@ -14,7 +14,9 @@ export default defineTool({
         "Preview your Google snippet on desktop and mobile with pixel-level truncation and length meters for the title and description.",
       intro: [
         "Google truncates titles and descriptions by measured pixel width, not character count — a title full of wide letters cuts off sooner than the same number of narrow ones. This preview measures your text the way the results page does and cuts it exactly where Google would.",
-        "Toggle between desktop and mobile pixel budgets, watch the meters, and tune the copy until the whole message survives the cut.",
+        "The desktop budget is roughly 580 pixels of title width and about 155–160 characters of description before the ellipsis; mobile fits slightly less. Proportional fonts are the reason character-count rules mislead: IIIIIIII and MMMMMMMM are the same length in characters and wildly different in pixels.",
+        "The preview applies pixel metrics modeled on the fonts Google uses, so the cut lands where the results page would put it rather than at an arbitrary count. Toggle between desktop and mobile pixel budgets and watch the meters fill as you type.",
+        "Google may still rewrite your snippet when it finds better on-page text, but a title that fits means the words you chose are the ones it starts from. Plugin previews approximate the same idea behind a plugin dependency; measuring here keeps the check independent and works for any template you ship.",
       ],
       steps: [
         "Enter the title tag, meta description and page URL.",

@@ -14,7 +14,9 @@ export default defineTool({
         "Check domain registration data via RDAP — registrar, creation and expiry dates, status codes and nameservers — with clear notes on TLD coverage.",
       intro: [
         "Registration records answer the questions a domain's storefront hides: who runs it, when it was created and when it expires. This tool queries the modern RDAP protocol — the official successor to port-43 WHOIS — over HTTPS and organizes the response into dates, registrar, status codes and nameservers.",
-        "rdap.org routes your query to the registry's official RDAP server. Coverage is broad but not universal: most country-code registries (.cn, .de, .br…) still lack public RDAP servers, and the tool tells you plainly when a TLD isn't covered instead of showing empty fields.",
+        "Status codes come verbatim from the registry: clientTransferProhibited means transfers are locked, redemptionPeriod is the 30-day grace window after deletion before the domain drops, and serverHold means it has been removed from the zone. Expiry dates are exactly what the registry publishes — renewal reminders come from your registrar, not this record.",
+        "Queries run through rdap.org, which routes each request to the authoritative RDAP server for the TLD over HTTPS, returning structured JSON instead of the free-text soup of legacy WHOIS. The result is normalized into comparable fields no matter which registry answered.",
+        "Classic WHOIS differs in format per registry and crosses the network unencrypted; many web WHOIS sites are captcha walls with ads. RDAP is the IANA-standardized, machine-readable replacement — coverage is broad but not universal: most country-code registries (.cn, .de, .br…) still lack public RDAP servers, and the tool says so plainly instead of showing empty fields.",
       ],
       steps: [
         "Enter the domain you're researching (example.com) and press Look up.",

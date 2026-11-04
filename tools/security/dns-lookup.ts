@@ -14,7 +14,9 @@ export default defineTool({
         "Look up A, AAAA, MX, TXT, NS and CNAME records for any domain via DNS-over-HTTPS in a clean table — no terminal or dig commands needed.",
       intro: [
         "DNS records tell you where a domain points, how it sends email and how it proves ownership. This tool resolves any record type through DNS-over-HTTPS (DoH) — the same encrypted channel modern browsers use — and lays the answers out in a readable table.",
-        "It runs on Google's free public resolver, so there is nothing to install and no API key. Handy for checking propagation after a change, verifying SPF/DKIM/DMARC TXT records, or debugging why mail to a domain bounces.",
+        "Answers come back exactly as the authoritative servers publish them, TTL included. DoH returns raw DNS wire data, so a TXT record shows every quoted string segment merged the way resolvers concatenate them — which is exactly what you need when checking SPF, DKIM or DMARC policy strings for syntax errors.",
+        "Queries run against Google's free public resolver over HTTPS: nothing to install, no API key, and the lookup is not visible to the local network the way a plaintext UDP query on port 53 would be. That makes it usable from restrictive or hostile networks where direct DNS is blocked or intercepted.",
+        "Command-line dig and nslookup are precise but platform-bound, and registrar dashboards only show records for domains they host. This tool covers every record type for any domain from any browser — handy for checking propagation after a change or debugging why mail to a domain bounces.",
       ],
       steps: [
         "Type the domain (example.com, no http:// needed) and pick a record type.",

@@ -14,7 +14,9 @@ export default defineTool({
         "Check an email's format locally and verify its domain can receive mail with a live MX lookup, plus typo detection — free, instant, no signup.",
       intro: [
         "A syntactically valid address can still bounce if its domain has no mail servers. This validator first checks the format entirely in your browser — length, characters, dot placement and domain labels — then queries live DNS over HTTPS to see whether the domain actually publishes MX (mail exchange) records.",
-        "It also compares the domain against a list of the most common providers and flags likely typos like gmial.com. Only the domain part is sent over the network; the part before the @ never leaves your browser.",
+        "The format check applies the practical limits of RFC 5321/5322 — total length up to 254 characters, 64 for the local part, domain labels of 1–63 characters — instead of the loose anything@anything regex most forms use. Address syntax in the wild is far narrower than the RFC formally allows, and that is what real mail servers accept.",
+        "The MX lookup runs over DNS-over-HTTPS, the same encrypted channel browsers use for resolving. The result distinguishes three cases: domain has mail servers, domain resolves but accepts no mail, and domain does not exist at all — each a different failure in your signup funnel.",
+        "Syntax regexes alone happily accept gmail.con and pass domains that can never receive mail. Full SMTP verification would require sending probe messages and is out of reach for a browser tool, so MX existence plus typo detection is the honest maximum a client-side checker can offer. Only the domain part is sent over the network; the part before the @ never leaves your browser.",
       ],
       steps: [
         "Type or paste the address into the field and press Validate.",

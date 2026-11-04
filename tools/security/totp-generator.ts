@@ -14,7 +14,9 @@ export default defineTool({
         "Generate 2FA codes offline from any TOTP secret — RFC 6238, 6 or 8 digits, live 30-second countdown. Your secret never leaves the browser.",
       intro: [
         "Authenticator codes don't need an app on your phone. Paste a base32 secret (or a whole otpauth:// setup link from your old authenticator) and this tool computes the same rotating 6- or 8-digit codes as any RFC 6238 authenticator, with a live countdown to the next code.",
-        "Everything is computed locally with WebCrypto's HMAC — no network calls at all. The secret stays in browser memory only, so a lost phone never means a lost second factor.",
+        "Codes follow RFC 6238 exactly: HMAC over an 8-byte big-endian counter of 30-second Unix intervals, then dynamic truncation to 6 or 8 digits — the same parameters Google Authenticator ships with. The countdown shows precisely when the current window ends, so you know whether the code you just read is still good.",
+        "Secrets are decoded from base32 or parsed straight from an otpauth:// link, and the HMAC runs through WebCrypto — no network calls at all. The secret stays in browser memory only and is never written to storage; reloading the page clears it.",
+        "Phone authenticator apps are the right daily default, but they fail exactly when you need them: cracked screen, new phone, secret never backed up. A browser page is the recovery path — and unlike pasting your secret into an online TOTP site, here the key never leaves the device, so a lost phone never means a lost second factor.",
       ],
       steps: [
         "Copy the base32 secret from the service's 2FA setup page (or paste its otpauth:// link).",

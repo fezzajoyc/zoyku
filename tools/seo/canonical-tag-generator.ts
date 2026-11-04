@@ -71,7 +71,9 @@ export default defineTool({
         "Generate a correct rel=canonical link tag and learn how to normalize URLs so search engines index the one version you want.",
       intro: [
         "A canonical tag tells search engines which URL to index when the same content is reachable at several addresses — with and without trailing slash, with query strings, UTM parameters, http/https or www variants. Done right, it consolidates duplicate URLs into one ranking signal instead of splitting it.",
-        "Enter the absolute URL of the preferred version and copy the tag into that page's <head>. The checklist covers the normalization details most implementations get wrong.",
+        "The canonical URL must be absolute — scheme and host included — and each page may carry exactly one rel=canonical. Canonicals pointing at redirected or noindex URLs are ignored, and a canonical that conflicts with hreflang or internal links is one of the most common technical-SEO faults in audits.",
+        "The generator normalizes as you type: lowercase scheme and host, a consistent trailing-slash decision, query parameters kept deliberate and fragments stripped — anchors are never sent to a server, so a #fragment in a canonical is always wrong.",
+        "rel=canonical is a strong hint rather than a directive: Google weighs it alongside internal links and sitemap entries, and Search Console's URL Inspection shows which URL was actually chosen. Making the tag, sitemap and internal links agree works far better than one tag fighting the rest of the site.",
       ],
       steps: [
         "Choose one canonical URL format for your whole site: https, host with or without www, trailing slash or not.",

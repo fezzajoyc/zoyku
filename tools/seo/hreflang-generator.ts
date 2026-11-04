@@ -87,7 +87,9 @@ export default defineTool({
         "Build a complete hreflang link cluster — one link per language plus x-default — from your translated URLs, consistent and bidirectional.",
       intro: [
         "hreflang tells search engines which URL to serve to speakers of each language, which prevents near-duplicate translations from competing with each other. The clusters are bidirectional: every localized page must return the complete set, including a reference back to itself.",
-        "Enter the URL of each language version and the generator emits the full <link rel=\"alternate\"> cluster plus x-default, which should point at your language selector or default-language homepage.",
+        "Values follow BCP 47: en-GB targets British English, pt-BR Brazilian Portuguese, and a bare en matches every other English variant. Google validates each tag strictly — one malformed member can invalidate the whole cluster — so the generator emits the exact format rather than free text.",
+        "Enter the URL of each language version and the generator emits the full <link rel=\"alternate\"> cluster plus x-default, which should point at your language selector or default-language homepage. Paste the block into the <head> of every page in the set.",
+        "HTTP headers and XML sitemaps can carry the same annotations — headers suit PDFs, sitemaps scale to thousands of URLs — but head links are the easiest to audit page by page. Note that hreflang only routes audiences; it does not consolidate ranking signals the way a canonical tag does.",
       ],
       steps: [
         "Paste the absolute URL of each translated version; leave blank the languages you do not have.",

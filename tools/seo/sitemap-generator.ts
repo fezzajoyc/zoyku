@@ -14,7 +14,9 @@ export default defineTool({
         "Paste a URL list and get a valid sitemap.xml with lastmod, per-section changefreq and priority — deduplicated and ready to submit.",
       intro: [
         "A sitemap tells search engines which URLs exist and when they last changed. Paste your list — from a crawler export, CMS or spreadsheet — and the generator deduplicates entries, groups them by first path segment and lets you set changefreq and priority per group while keeping the file protocol-valid.",
-        "The XML follows the sitemaps.org 0.9 protocol that Google, Bing and Yandex accept. Download the file, host it at /sitemap.xml and reference it from robots.txt or submit it directly in Search Console.",
+        "lastmod is the only value search engines actually use — Google ignores changefreq and priority — so set it to the real last-modified date rather than today's build time, or the signal degrades into noise. URLs must be absolute, share one host prefix, and the protocol caps a file at 50,000 URLs or 50 MB uncompressed.",
+        "The XML follows the sitemaps.org 0.9 protocol that Google, Bing and Yandex accept. Download the file, host it at /sitemap.xml and reference it from robots.txt or submit it directly in Search Console; entries are grouped per first path segment so you can split large sites into an index cleanly.",
+        "A sitemap is a discovery aid, not a ranking tool: it helps crawlers find new URLs faster but never forces indexing. Splitting into grouped, indexed files also makes Search Console's per-sitemap error reporting actionable — one giant file with an obscure failure tells you nothing about which URLs are broken.",
       ],
       steps: [
         "Paste one absolute URL per line — up to the 50,000-URL / 50 MB limit per file.",

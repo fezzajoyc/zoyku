@@ -90,7 +90,9 @@ export default defineTool({
         "Add utm_source, medium, campaign, term and content to any URL and get a correctly encoded tracking link you can copy or share.",
       intro: [
         "UTM parameters are the query strings analytics platforms read to attribute traffic: source, medium, campaign, term and content. This builder appends them to your URL with correct percent-encoding, so spaces and special characters survive the trip through ad platforms, QR codes and mail clients.",
-        "Agree on naming conventions before you build links — lowercase, dashes, no dates inside campaign names — or your reports will fragment into near-duplicate campaigns.",
+        "Five parameters carry meaning: utm_source names the referrer, utm_medium the channel, utm_campaign the initiative, with optional utm_term and utm_content for keyword and A/B distinctions. Analytics matches values case-sensitively — Newsletter and newsletter become two campaigns — which is why the all-lowercase convention exists.",
+        "The builder percent-encodes every appended value and shows the final URL ready to copy, keeping parameters after the path and before the fragment. Encoding at build time beats hand-typing ?utm_source=... into an email, where unencoded spaces silently break the link.",
+        "Tagged links power attribution, but conventions rot without discipline: dates inside campaign names fragment reports into near-duplicates, and retagging existing URLs breaks historical comparisons. Agree on lowercase, dashes and stable campaign names before building links — the tool enforces the encoding; the convention is yours.",
       ],
       steps: [
         "Paste the destination URL.",
