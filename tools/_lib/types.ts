@@ -19,6 +19,8 @@ export type ToolCopy = {
   steps: string[];
   /** 2–4 条真实问答 */
   faqs: { q: string; a: string }[];
+  /** 深度内容(可选):2–3 段长尾 SEO 内容——工作原理/边界场景/同类对比;渲染在 FAQ 之后 */
+  deepDive?: { heading: string; paragraphs: string[] }[];
 };
 
 export type ToolDef = {

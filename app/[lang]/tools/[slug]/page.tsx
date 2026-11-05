@@ -206,6 +206,19 @@ export default async function ToolPage({
         <Prose paragraphs={c.intro} />
       </section>
 
+      {c.deepDive && c.deepDive.length > 0 && (
+        <section className="mt-12 max-w-3xl">
+          {c.deepDive.map((d, i) => (
+            <div key={i} className={i > 0 ? "mt-10" : ""}>
+              <h2 className="section-title tracking-tight text-[var(--color-ink)]">{d.heading}</h2>
+              <div className="mt-4">
+                <Prose paragraphs={d.paragraphs} />
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
       <section className="mt-12 max-w-3xl">
         <SectionHead title={t.tool.faq} />
         <div>

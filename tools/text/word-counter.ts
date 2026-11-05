@@ -37,6 +37,31 @@ export default defineTool({
           a: "No hard limit — the counter is limited only by your browser's memory, which comfortably handles book-length text.",
         },
       ],
+      deepDive: [
+        {
+          heading: "How word counting actually works",
+          paragraphs: [
+            "Every counter on the web splits your text into tokens and counts them, but the tokenization rules differ more than you would expect. This tool counts a word as any run of characters separated by spaces or line breaks — the same convention Microsoft Word uses, so school and office word limits match what you see here. Hyphenated compounds like \"state-of-the-art\" count as one word; standalone numbers each count as one word when separated by spaces.",
+            "Characters are counted two ways because two different limits exist in the wild: with spaces (most social platforms count every keystroke, including the spaces) and without spaces (essay forms and some CMS character limits exclude whitespace). Both numbers update live as you type, so you can watch whichever limit you are writing against.",
+            "CJK text — Chinese, Japanese, Korean — is where naive counters break. Counting space-separated tokens in a Chinese paragraph returns almost nothing, because Chinese does not use spaces between words. This tool strips CJK characters out of the word pass, counts each CJK character individually (the standard \"characters ≈ words\" convention for CJK), and adds the two numbers together, so a 500-character Chinese passage reports ≈500 words instead of 1.",
+          ],
+        },
+        {
+          heading: "Reading time, speaking time and grade level",
+          paragraphs: [
+            "Reading time uses 220 words per minute for Latin-script text and 300 characters per minute for CJK — the two speeds differ enough that a mixed-language document needs both. Speaking time runs slower (130 wpm Latin, 180 cpm CJK) because listeners cannot re-read; use it before recording a voiceover or rehearsing a talk.",
+            "The Flesch-Kincaid grade level estimates the US school grade needed to read your text, from sentence length and syllables per word. It is a heuristic: technical jargon with short words can score deceptively low, and a 300-character Korean sentence is one \"word\" to the formula. Treat it as a direction (simpler vs. harder), not a verdict.",
+            "Sentence flow breaks your text into four bands — 1–6 words (punchy), 7–14 (standard), 15–24 (long), 25+ (very long) — and highlights each sentence by band. Varied sentence length reads better than uniform length; if every sentence lands in the same band, try splitting the longest one or merging two short ones.",
+          ],
+        },
+        {
+          heading: "How this compares with other counters",
+          paragraphs: [
+            "Word processors (Word, Google Docs) are the reference for document limits but need an app; browser counters are faster for paste-and-check workflows. Social-platform counters (X, Instagram) bake their platform-specific rules in — this tool keeps a dedicated platform-limits panel instead, so one input serves every platform.",
+            "Privacy is the structural difference: many online counters POST your text to a server for processing. Everything here runs in your browser's JavaScript — the text never leaves your device, which matters for unpublished drafts, client copy or anything under NDA.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "字数统计",
@@ -62,6 +87,31 @@ export default defineTool({
         {
           q: "有字数上限吗?",
           a: "没有人为上限——只受浏览器内存限制,整本书的文本也能算。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "字数统计到底是怎么数的",
+          paragraphs: [
+            "网上的计数器都把文本切成词再数,但切分规则差别比想象大。本工具以空格或换行分隔为一个词——与 Microsoft Word 同一口径,学校与办公场景的字数限制和这里看到的一致。连字符复合词(\"state-of-the-art\")算一个词;空格分隔的独立数字也各算一个词。",
+            "字符数给两个口径,因为现实里存在两种限制:含空格(社交平台按每次击键计,含空格)和不含空格(论文表单、部分 CMS 排除空白)。两个数字随输入实时刷新,盯着你要对的那条限制写就行。",
+            "中日韩文本是朴素计数器翻车的地方——中文不按空格分词,按空格切一段中文几乎得不到词。本工具把 CJK 字符从分词流程中剥离,逐字计数(CJK 通行的\"字符≈词\"口径),两个数相加:500 字中文报 ≈500 词,而不是 1。",
+          ],
+        },
+        {
+          heading: "阅读时长、演讲时长与年级",
+          paragraphs: [
+            "阅读时长对拉丁文本按 220 词/分钟、CJK 按 300 字/分钟——两种速度差异大到混排文档必须分开算。演讲时长更慢(拉丁 130 词/分、CJK 180 字/分),因为听众无法回读;录配音或排练演讲前用它。",
+            "Flesch-Kincaid 年级分按句长与音节/词估算读懂文本所需的美国学制年级。它是启发式:短词堆的技术行话可能得分偏低,300 字的韩语长句对公式只是一个\"词\"。把它当方向(更简单/更难),不是判决。",
+            "句子节奏把文本分四带——1–6 词(短促)、7–14(标准)、15–24(偏长)、25+(过长)——按带高亮每个句子。句长有变化比均匀长度更好读;如果每句都落在同一带,试着拆开最长的或合并两个短句。",
+          ],
+        },
+        {
+          heading: "和其他计数器比",
+          paragraphs: [
+            "文字处理软件(Word、Google Docs)是文档字数限制的参照,但需要装应用;浏览器计数器在粘贴即查的场景更快。社交平台计数器内置平台规则——本工具改为独立的平台限制面板,一份输入服务所有平台。",
+            "隐私是结构性差异:不少在线计数器把文本 POST 到服务器处理。这里的一切都在浏览器 JavaScript 里跑——文本不离开设备,对未发布草稿、客户文案或 NDA 内容很重要。",
+          ],
         },
       ],
     },
@@ -91,6 +141,31 @@ export default defineTool({
           a: "上限はありません。ブラウザのメモリが許す限り、書籍一冊分でも数えられます。",
         },
       ],
+      deepDive: [
+        {
+          heading: "文字数カウントの実際",
+          paragraphs: [
+            "ウェブ上のカウンターはテキストをトークンに分割して数えますが、その分割ルールは思った以上に異なります。このツールは空白または改行で区切られた連なりを 1 語として数えます——Microsoft Word と同じ基準なので、学校やオフィスの語数制限と一致します。ハイフンでつながった複合語(state-of-the-art など)は 1 語、空白で区切られた数字もそれぞれ 1 語です。",
+            "文字数に 2 つの数え方があるのは、世の中に 2 種類の制限があるからです。スペース込み(多くの SNS は空白も 1 文字としてカウント)とスペース除き(論文フォームや一部 CMS は空白を除外)。どちらの数字も入力に合わせてリアルタイムに更新されます。",
+            "CJK(中国語・日本語・韓国語)は素朴なカウンターが壊れる場所です。中国語は語間に空白を使わないため、空白分割ではほぼ何も数えられません。このツールは CJK 文字を単語パスから切り離し、1 字ずつ数え(CJK で一般的な「字数≈語数」の基準)、合計します。500 字の中国語文章は 1 ではなく約 500 語と表示されます。",
+          ],
+        },
+        {
+          heading: "読了時間・発話時間・学年レベル",
+          paragraphs: [
+            "読了時間はラテン文字で 220 語/分、CJK で 300 字/分——速度差が大きいため、混在文書では両方が必要です。発話時間はさらに遅く(ラテン 130 語/分、CJK 180 字/分)、聞き手は読み返せないため。ナレーションの収録や発表の練習の前にご利用ください。",
+            "Flesch-Kincaid 学年レベルは文長と語の音節数から、テキストを読むのに必要な米国の学年を推定します。ヒューリスティックです。短い専門用語の羅列は不当に低く出ることがあり、300 字の韓国語の長文は公式にとって 1 「語」です。判定ではなく方向(易しい/難しい)として扱ってください。",
+            "文章のリズムは 4 バンドに分類します——1–6 語(テンポ良い)、7–14(標準)、15–24(長め)、25+(非常に長い)——文をバンドごとにハイライト。語数に変化があるほうが読みやすく、全文が同じバンドなら最長文を分割するか短文を統合してみてください。",
+          ],
+        },
+        {
+          heading: "他のカウンターとの違い",
+          paragraphs: [
+            "ワープロ(Word、Google Docs)は文書の語数制限の基準ですがアプリが要ります。ブラウザカウンターは貼り付けて確認するワークフローに向いています。SNS のカウンターは平台固有のルールを内蔵——このツールは専用のプラットフォーム制限パネルを設け、1 つの入力で全プラットフォームに対応します。",
+            "プライバシーが構造的な違いです。多くのオンラインカウンターはテキストをサーバーへ送信して処理します。ここはすべてブラウザの JavaScript で動き、テキストは端末の外に出ません。未公開の草稿・クライアント原稿・NDA 文書に重要です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Contador de palabras",
@@ -118,6 +193,31 @@ export default defineTool({
           a: "Sin límite fijo: solo limita la memoria del navegador, que maneja sin problema textos de tamaño libro.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Cómo funciona realmente el conteo de palabras",
+          paragraphs: [
+            "Todos los contadores web dividen el texto en tokens y los cuentan, pero las reglas de división varían más de lo que cabría esperar. Esta herramienta cuenta como palabra cualquier secuencia separada por espacios o saltos de línea — la misma convención que Microsoft Word, así que los límites escolares y de oficina coinciden con lo que ves aquí. Los compuestos con guion (\"state-of-the-art\") cuentan como una palabra; los números separados por espacios cuentan cada uno como una.",
+            "Los caracteres se cuentan de dos maneras porque existen dos límites distintos: con espacios (la mayoría de las plataformas sociales cuentan cada pulsación, incluidos los espacios) y sin espacios (formularios de ensayos y algunos CMS los excluyen). Ambos números se actualizan en vivo mientras escribes.",
+            "El texto CJK — chino, japonés, coreano — es donde los contadores ingenuos fallan: el chino no usa espacios entre palabras, así que dividir por espacios apenas devuelve nada. Esta herramienta separa los caracteres CJK del paso de palabras, los cuenta individualmente (la convención estándar \"caracteres ≈ palabras\" para CJK) y suma ambos: un párrafo chino de 500 caracteres reporta ≈500 palabras, no 1.",
+          ],
+        },
+        {
+          heading: "Tiempo de lectura, de habla y nivel de grado",
+          paragraphs: [
+            "El tiempo de lectura usa 220 palabras por minuto para texto latino y 300 caracteres por minuto para CJK — las dos velocidades difieren lo suficiente como para que un documento mixto necesite ambas. El tiempo de habla es más lento (130 wpm latino, 180 cpm CJK) porque quien escucha no puede releer; úsalo antes de grabar una locución o ensayar una charla.",
+            "El nivel Flesch-Kincaid estima el grado escolar estadounidense necesario para leer tu texto, a partir de la longitud de las frases y las sílabas por palabra. Es una heurística: la jerga técnica con palabras cortas puede puntuar engañosamente bajo, y una frase coreana de 300 caracteres es una \"palabra\" para la fórmula. Trátalo como una dirección (más simple vs. más difícil), no como un veredicto.",
+            "El ritmo de las frases divide tu texto en cuatro bandas — 1–6 palabras (directo), 7–14 (estándar), 15–24 (larga), 25+ (muy larga) — y resalta cada frase según su banda. La longitud variada lee mejor que la uniforme; si todas las frases caen en la misma banda, parte la más larga o une dos cortas.",
+          ],
+        },
+        {
+          heading: "Comparación con otros contadores",
+          paragraphs: [
+            "Los procesadores (Word, Google Docs) son la referencia para límites de documentos pero requieren una app; los contadores web son más rápidos para pegar y verificar. Los contadores sociales integran reglas de cada plataforma — esta herramienta mantiene un panel dedicado de límites por plataforma, así que una entrada sirve para todas.",
+            "La privacidad es la diferencia estructural: muchos contadores envían tu texto a un servidor. Aquí todo corre en el JavaScript de tu navegador — el texto nunca sale de tu dispositivo, algo importante para borradores no publicados, textos de clientes o material bajo NDA.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Contador de palavras",
@@ -143,6 +243,31 @@ export default defineTool({
         {
           q: "Existe limite de tamanho?",
           a: "Sem limite fixo — vale a memória do navegador, que aguenta textos do tamanho de um livro.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Como a contagem de palavras realmente funciona",
+          paragraphs: [
+            "Todo contador na web divide seu texto em tokens e os conta, mas as regras de divisão variam mais do que se espera. Esta ferramenta conta como palavra qualquer sequência separada por espaços ou quebras de linha — a mesma convenção do Microsoft Word, então limitos escolares e corporativos batem com o que você vê aqui. Compostos com hífen (\"state-of-the-art\") contam como uma palavra; números separados por espaços contam um cada um.",
+            "Os caracteres têm duas contagens porque existem dois limites diferentes: com espaços (a maioria das plataformas sociais conta cada tecla, incluindo espaços) e sem espaços (formulários de redação e alguns CMS excluem espaço em branco). Os dois números atualizam ao vivo enquanto você digita.",
+            "Texto CJK — chinês, japonês, coreano — é onde contadores ingênuos falham: o chinês não usa espaços entre palavras, então dividir por espaços quase não retorna nada. Esta ferramenta separa os caracteres CJK da contagem de palavras, conta cada caractere individualmente (a convenção padrão \"caracteres ≈ palavras\" para CJK) e soma os dois: um texto chinês de 500 caracteres reporta ≈500 palavras, não 1.",
+          ],
+        },
+        {
+          heading: "Tempo de leitura, de fala e nível de escolaridade",
+          paragraphs: [
+            "O tempo de leitura usa 220 palavras por minuto para texto latino e 300 caracteres por minuto para CJK — as velocidades diferem o bastante para que um documento misto precise de ambas. O tempo de fala é mais lento (130 wpm latino, 180 cpm CJK) porque quem ouve não pode reler; use antes de gravar uma narração ou ensaiar uma palestra.",
+            "O nível Flesch-Kincaid estima a série escolar americana necessária para ler seu texto, a partir do comprimento das frases e sílabas por palavra. É uma heurística: jargão técnico com palavras curtas pode pontuar baixo demais, e uma frase coreana de 300 caracteres é uma \"palavra\" para a fórmula. Trate como direção (mais simples vs. mais difícil), não veredito.",
+            "O ritmo das frases divide seu texto em quatro faixas — 1–6 palavras (direto), 7–14 (padrão), 15–24 (longa), 25+ (muito longa) — e destaca cada frase pela faixa. Comprimento variado lê melhor que uniforme; se todas caem na mesma faixa, divida a mais longa ou junte duas curtas.",
+          ],
+        },
+        {
+          heading: "Comparação com outros contadores",
+          paragraphs: [
+            "Processadores (Word, Google Docs) são a referência para limitos de documentos mas exigem um app; contadores na web são mais rápidos para colar e verificar. Contadores de redes sociais embutem regras da plataforma — esta ferramenta mantém um painel dedicado de limites, então uma entrada serve para todas.",
+            "Privacidade é a diferença estrutural: muitos contadores enviam seu texto a um servidor. Aqui tudo roda no JavaScript do seu navegador — o texto nunca sai do dispositivo, o que importa para rascunhos não publicados, textos de clientes ou material sob NDA.",
+          ],
         },
       ],
     },
