@@ -164,7 +164,7 @@ const it = {
       limitsTitle: "Limiti per piattaforma",
       charsLeft: "{n} rimanenti",
       charsOver: "{n} in più",
-      trimHint: "Oltre il limite? Riduci del valore indicato, dividi il post o taglia la frase più debole — il pannello parole chiave mostra ciò che resta.",
+      trimHint: "Oltre il limite? Riduci entro il limite o dividi il post — il pannello sopra mostra esattamente quanti caratteri eccedono.",
       sentenceChart: "Lunghezza di ogni frase",
     },
   },

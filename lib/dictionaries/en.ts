@@ -181,7 +181,7 @@ const en = {
       limitsTitle: "Platform limits",
       charsLeft: "{n} left",
       charsOver: "{n} over",
-      trimHint: "Over the limit? Trim the marked count, split the post, or cut the weakest sentence — the strength panel below shows what survives.",
+      trimHint: "Over the limit? Trim down to the limit or split the post — the panel above shows exactly how many characters to cut.",
       sentenceChart: "Sentence length by position",
     },
   },

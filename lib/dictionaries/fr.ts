@@ -166,7 +166,7 @@ const fr: Dictionary = {
       limitsTitle: "Limites par plateforme",
       charsLeft: "reste {n}",
       charsOver: "{n} de trop",
-      trimHint: "Au-dessus de la limite ? Rognez le nombre indiqué, scindez la publication ou coupez la phrase la plus faible — le panneau de mots-clés montre ce qui reste.",
+      trimHint: "Au-dessus de la limite ? Réduisez ou scindez la publication — le panneau ci-dessus indique exactement le nombre de caractères en trop.",
       sentenceChart: "Longueur de chaque phrase",
     },
   },
