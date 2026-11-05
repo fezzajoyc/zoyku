@@ -100,7 +100,7 @@ describe("checkPage", () => {
     expect(issues2.some((i) => i.type === "hreflang-wrong-target" && i.detail.startsWith("ja"))).toBe(true);
   });
 
-  it("JSON-LD 不可解析报 P0;数组或缺 @type 报 P1", () => {
+  it("JSON-LD 不可解析报 P0;数组每项必须带 @type(缺则 P1)", () => {
     const broken = htmlOf().replace(
       '{"@context":"https://schema.org","@type":"FAQPage"}',
       '{"@context": broken,,,}',
@@ -114,7 +114,7 @@ describe("checkPage", () => {
 
     const arr = htmlOf().replace(
       '{"@context":"https://schema.org","@type":"FAQPage"}',
-      '[{"@type":"Thing"}]',
+      '[{"@type":"Thing"},{"context":"no-type"}]',
     );
     const issues2 = checkPage(
       { kind: "home", path: "/en" },

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { dict } from "@/lib/i18n";
 import { isLocale, LOCALES, type Locale } from "@/lib/site";
 import { ALL_TOOLS } from "@/tools/registry";
@@ -5,6 +6,16 @@ import { Container, Prose, SectionHead } from "@/components/ui";
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang: raw } = await params;
+  const lang = isLocale(raw) ? raw : "en";
+  const t = dict(lang as Locale);
+  return {
+    title: t.nav.about,
+    alternates: { canonical: `/${lang}/about` },
+  };
 }
 
 const CONTENT: Partial<Record<Locale, string[]>> = {
@@ -41,7 +52,7 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
   const t = dict(lang as Locale);
   return (
     <Container className="max-w-3xl py-12">
-      <SectionHead title={t.nav.about} />
+      <SectionHead as="h1" title={t.nav.about} />
       <Prose paragraphs={CONTENT[lang as Locale] ?? CONTENT.en!} />
       <p className="mt-6 text-[14px] text-[var(--color-sub)]">
         {ALL_TOOLS.length} tools · {LOCALES.length} languages

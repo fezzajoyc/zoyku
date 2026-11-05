@@ -60,17 +60,21 @@ export function SectionHead({
   sub,
   right,
   badge,
+  as = "h2",
 }: {
   title: string;
   sub?: string;
   right?: ReactNode;
   badge?: ReactNode;
+  /** 独立页面主标题用 h1(每页恰好一个);分类区头保持 h2 */
+  as?: "h1" | "h2";
 }) {
+  const Tag = as;
   return (
     <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
         {badge ? <div className="mb-2.5">{badge}</div> : null}
-        <h2 className="section-title tracking-tight text-[var(--color-ink)]">{title}</h2>
+        <Tag className="section-title tracking-tight text-[var(--color-ink)]">{title}</Tag>
         {sub ? <p className="mt-1.5 text-[15px] sm:text-[16px] leading-relaxed text-[var(--color-sub)]">{sub}</p> : null}
       </div>
       {right}

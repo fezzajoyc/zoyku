@@ -1,0 +1,337 @@
+{
+  "base": "https://zoyku.com",
+  "generatedAt": "2026-11-05T17:03:37.874Z",
+  "sampleCount": 39,
+  "issueCount": 54,
+  "bySeverity": {
+    "P0": 1,
+    "P1": 53,
+    "P2": 0
+  },
+  "issues": [
+    {
+      "url": "https://zoyku.com/en/tools/word-counter.md",
+      "type": "missing-title",
+      "sev": "P0",
+      "detail": ""
+    },
+    {
+      "url": "https://zoyku.com/en",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/pt",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/zh",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/ja",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/ar",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/es",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/",
+      "type": "unexpected-status",
+      "sev": "P1",
+      "detail": "expect redirect, got 200"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/text",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/seo",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/developer",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/image",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/utility",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/security",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/word-counter",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/word-counter",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/merge-pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/merge-pdf",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/zh/categories/pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/image-compressor",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/image-compressor",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/password-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/password-generator",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/json-formatter",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/json-formatter",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/meta-tag-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/meta-tag-generator",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/pdf-to-word",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/pdf-to-word",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/hmac-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/hmac-generator",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/base64-encoder",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/base64-encoder",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/heic-to-jpg",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/heic-to-jpg",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/zh/tools/merge-pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/zh/tools/merge-pdf",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/word-counter.md",
+      "type": "missing-description",
+      "sev": "P1",
+      "detail": ""
+    },
+    {
+      "url": "https://zoyku.com/en/tools/word-counter.md",
+      "type": "h1-count",
+      "sev": "P1",
+      "detail": "got 0"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/word-counter.md",
+      "type": "missing-canonical",
+      "sev": "P1",
+      "detail": ""
+    },
+    {
+      "url": "https://zoyku.com/en/tools/lorem-ipsum-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/lorem-ipsum-generator",
+      "type": "ld+json-invalid",
+      "sev": "P1",
+      "detail": "missing @type or not an object"
+    },
+    {
+      "url": "https://zoyku.com/en/about",
+      "type": "h1-count",
+      "sev": "P1",
+      "detail": "got 0"
+    },
+    {
+      "url": "https://zoyku.com/en/about",
+      "type": "canonical-mismatch",
+      "sev": "P1",
+      "detail": "https://zoyku.com/en want https://zoyku.com/en/about"
+    },
+    {
+      "url": "https://zoyku.com/en/about",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/terms",
+      "type": "h1-count",
+      "sev": "P1",
+      "detail": "got 0"
+    },
+    {
+      "url": "https://zoyku.com/en/terms",
+      "type": "canonical-mismatch",
+      "sev": "P1",
+      "detail": "https://zoyku.com/en want https://zoyku.com/en/terms"
+    },
+    {
+      "url": "https://zoyku.com/en/terms",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/privacy",
+      "type": "h1-count",
+      "sev": "P1",
+      "detail": "got 0"
+    },
+    {
+      "url": "https://zoyku.com/en/privacy",
+      "type": "canonical-mismatch",
+      "sev": "P1",
+      "detail": "https://zoyku.com/en want https://zoyku.com/en/privacy"
+    },
+    {
+      "url": "https://zoyku.com/en/privacy",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/unit-converter",
+      "type": "http-status",
+      "sev": "P1",
+      "detail": "got 404"
+    }
+  ]
+}

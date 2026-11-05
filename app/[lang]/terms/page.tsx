@@ -1,9 +1,20 @@
+import type { Metadata } from "next";
 import { dict } from "@/lib/i18n";
 import { isLocale, LOCALES, type Locale } from "@/lib/site";
 import { Container, Prose, SectionHead } from "@/components/ui";
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang: raw } = await params;
+  const lang = isLocale(raw) ? raw : "en";
+  const t = dict(lang as Locale);
+  return {
+    title: t.footer.terms,
+    alternates: { canonical: `/${lang}/terms` },
+  };
 }
 
 const CONTENT: Partial<Record<Locale, { title: string; body: string[] }>> = {
@@ -55,7 +66,7 @@ export default async function TermsPage({ params }: { params: Promise<{ lang: st
   const content = CONTENT[lang as Locale] ?? CONTENT.en!;
   return (
     <Container className="max-w-3xl py-12">
-      <SectionHead title={content.title} />
+      <SectionHead as="h1" title={content.title} />
       <Prose paragraphs={content.body} />
     </Container>
   );

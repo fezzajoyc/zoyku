@@ -46,7 +46,7 @@ export function samples() {
   // 工具长尾:每类 1 个 + 长标题/长描述历史重灾区 + 边缘样本
   const toolPicks = [
     "word-counter", "merge-pdf", "image-compressor", "json-formatter", "meta-tag-generator",
-    "password-generator", "unit-converter", "hmac-generator", "pdf-to-word", "heic-to-jpg",
+    "password-generator", "bmi-calculator", "hmac-generator", "pdf-to-word", "heic-to-jpg",
     "base64-encoder", "lorem-ipsum-generator",
   ];
   for (const slug of toolPicks) out.push({ kind: "tool", path: `/en/tools/${slug}` });
@@ -87,6 +87,9 @@ export function checkPage(sample, r, locales = LOCALES) {
 
   const html = r.body ?? "";
 
+  // .md 是 text/markdown AI 答案页(无 HTML 结构),HTML 检查全部豁免,只留 status/slow
+  const isMd = sample.path.endsWith(".md");
+  if (!isMd) {
   // title / description / h1
   const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? "";
   if (!title.trim()) issues.push({ url, type: "missing-title", sev: "P0", detail: "" });
@@ -97,7 +100,7 @@ export function checkPage(sample, r, locales = LOCALES) {
   const h1s = html.match(/<h1[ >]/g) ?? [];
   if (h1s.length !== 1) issues.push({ url, type: "h1-count", sev: "P1", detail: `got ${h1s.length}` });
 
-  // noindex:除 .md 纯文本答案页外不允许出现
+  // noindex:不允许出现
   const robotsMeta = html.match(/<meta name="robots" content="([^"]*)"/)?.[1] ?? "";
   if (/noindex/i.test(robotsMeta)) {
     issues.push({ url, type: "unexpected-noindex", sev: "P0", detail: robotsMeta });
@@ -112,8 +115,7 @@ export function checkPage(sample, r, locales = LOCALES) {
   }
 
   // hreflang:15 语 + x-default,目标逐语验证 + self 存在
-  if (!sample.path.endsWith(".md")) {
-    const hreflangs = [...html.matchAll(/hreflang="([^"]+)" href="([^"]+)"/g)];
+    const hreflangs = [...html.matchAll(/hreflang="([^"]+)" href="([^"]+)"/gi)];
     const byLang = new Map(hreflangs.map(([, l, h]) => [l, h]));
     const expectedLangs = [...locales, "x-default"];
     const missing = expectedLangs.filter((l) => !byLang.has(l));
@@ -132,7 +134,9 @@ export function checkPage(sample, r, locales = LOCALES) {
   for (const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
     try {
       const parsed = JSON.parse(m[1]);
-      if (typeof parsed !== "object" || Array.isArray(parsed) || !parsed["@type"]) {
+      const nodes = Array.isArray(parsed) ? parsed : [parsed];
+      const bad = nodes.some((n) => typeof n !== "object" || n === null || Array.isArray(n) || !n["@type"]);
+      if (bad) {
         issues.push({ url, type: "ld+json-invalid", sev: "P1", detail: "missing @type or not an object" });
       }
     } catch (e) {
