@@ -182,6 +182,7 @@ const en = {
       charsLeft: "{n} left",
       charsOver: "{n} over",
       trimHint: "Over the limit? Trim the marked count, split the post, or cut the weakest sentence — the strength panel below shows what survives.",
+      sentenceChart: "Sentence length by position",
     },
   },
 

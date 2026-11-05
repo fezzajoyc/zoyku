@@ -165,6 +165,7 @@ const it = {
       charsLeft: "{n} rimanenti",
       charsOver: "{n} in più",
       trimHint: "Oltre il limite? Riduci del valore indicato, dividi il post o taglia la frase più debole — il pannello parole chiave mostra ciò che resta.",
+      sentenceChart: "Lunghezza di ogni frase",
     },
   },
 

@@ -183,6 +183,29 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
           </ul>
         </div>
       )}
+      {primary === "sentences" && hasText && insights.sentenceWords.length >= 2 && insights.sentenceWords.length <= 60 && (
+        <div className="mt-3 border-t hairline pt-3">
+          <p className="text-[12.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">
+            {t.text.stats.sentenceChart}
+          </p>
+          <div className="mt-2 flex h-16 items-end gap-[3px]" role="img" aria-label={t.text.stats.sentenceChart}>
+            {insights.sentenceWords.map((w, i) => {
+              const maxW = Math.max(...insights.sentenceWords);
+              const h = maxW > 0 ? Math.max(8, Math.round((w / maxW) * 64)) : 8;
+              const band = sentenceBand(w);
+              const color = band === 3 ? "var(--color-bad)" : band === 2 ? "#b8860b" : "var(--color-good)";
+              return (
+                <span
+                  key={i}
+                  title={`${i + 1}: ${w}`}
+                  className="w-full max-w-[18px] flex-none rounded-t-sm transition-all"
+                  style={{ height: h, background: color }}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
       {hasText && insights.topKeywords.length > 0 && (
         <div className="mt-3 border-t hairline pt-3">
           <p className="text-[12.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">

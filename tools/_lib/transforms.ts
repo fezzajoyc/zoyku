@@ -1106,6 +1106,7 @@ export function computeTextInsights(text: string, stats?: ReturnType<typeof coun
     avgSentenceWords,
     longestSentenceWords,
     readingGrade,
+    sentenceWords: sentWords,
   };
 }
 

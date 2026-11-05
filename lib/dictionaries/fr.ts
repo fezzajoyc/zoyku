@@ -167,6 +167,7 @@ const fr: Dictionary = {
       charsLeft: "reste {n}",
       charsOver: "{n} de trop",
       trimHint: "Au-dessus de la limite ? Rognez le nombre indiqué, scindez la publication ou coupez la phrase la plus faible — le panneau de mots-clés montre ce qui reste.",
+      sentenceChart: "Longueur de chaque phrase",
     },
   },
 

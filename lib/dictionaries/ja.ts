@@ -162,6 +162,7 @@ const ja: Dictionary = {
       charsLeft: "残り {n}",
       charsOver: "{n} 超過",
       trimHint: "上限超過?表示の数だけ削るか、投稿を分割するか、一番弱い文を削れば——下のキーワードパネルに残る核心が見えます。",
+      sentenceChart: "文の長さの推移",
     },
   },
 

@@ -165,6 +165,7 @@ const vi = {
       charsLeft: "còn {n}",
       charsOver: "vượt {n}",
       trimHint: "Vượt giới hạn? Cắt đúng số được đánh dấu, tách bài hoặc bỏ câu yếu nhất — bảng từ khóa bên dưới cho thấy phần còn lại.",
+      sentenceChart: "Độ dài từng câu",
     },
   },
 

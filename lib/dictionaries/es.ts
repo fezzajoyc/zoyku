@@ -162,6 +162,7 @@ const es: Dictionary = {
       charsLeft: "quedan {n}",
       charsOver: "{n} de más",
       trimHint: "¿Pasaste el límite? Recorta lo marcado, divide la publicación o corta la frase más débil — el panel de palabras clave muestra lo que queda.",
+      sentenceChart: "Longitud de cada frase",
     },
   },
 
