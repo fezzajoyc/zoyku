@@ -311,7 +311,7 @@ export function CalcEngineScientific() {
           ))}
         </div>
         <span className="text-[12.5px] text-[var(--color-sub)]">
-          {pick(locale, { en: "Live result · no eval, no server", zh: "实时预览 · 无 eval、不联网", ja: "リアルタイム計算・eval なし・通信なし", es: "Resultado en vivo · sin eval ni servidor", pt: "Resultado ao vivo · sem eval e sem servidor" })}
+          {pick(locale, { en: "Live result · no eval, no server", zh: "实时预览 · 无 eval、不联网", ja: "リアルタイム計算・eval なし・通信なし", es: "Resultado en vivo · sin eval ni servidor", pt: "Resultado ao vivo · sem eval e sem servidor", fr: "Résultat en direct · sans eval ni serveur", de: "Live-Ergebnis · ohne eval, ohne Server", ru: "Результат в реальном времени · без eval и без сервера", it: "Risultato live · senza eval né server", tr: "Canlı sonuç · eval yok, sunucu yok", ko: "실시간 결과 · eval 없음 · 서버 없음", ar: "نتيجة فورية · بدون eval أو خادم", hi: "लाइव परिणाम · eval नहीं, सर्वर नहीं", id: "Hasil langsung · tanpa eval, tanpa server", vi: "Kết quả trực tiếp · không eval, không máy chủ" })}
         </span>
       </div>
 
@@ -352,7 +352,7 @@ export function CalcEngineScientific() {
       </div>
 
       <div className="mt-4 flex items-center gap-3">
-        <CopyButton value={preview.ok ? preview.text : ""} label={pick(locale, { en: "Copy result", zh: "复制结果", ja: "結果をコピー", es: "Copiar resultado", pt: "Copiar resultado" })} />
+        <CopyButton value={preview.ok ? preview.text : ""} label={pick(locale, { en: "Copy result", zh: "复制结果", ja: "結果をコピー", es: "Copiar resultado", pt: "Copiar resultado", fr: "Copier le résultat", de: "Ergebnis kopieren", ru: "Копировать результат", it: "Copia risultato", tr: "Sonucu kopyala", ko: "결과 복사", ar: "نسخ النتيجة", hi: "परिणाम कॉपी करें", id: "Salin hasil", vi: "Sao chép kết quả" })} />
       </div>
 
       <div className="mt-3">
@@ -363,6 +363,16 @@ export function CalcEngineScientific() {
             ja: "キーパッドでもキーボードでも入力できます。省略乗算(2π、3(4+1))に対応、% は 100 で割る意味、DEG/RAD で三角関数の単位を切替ます。",
             es: "Escriba con el teclado en pantalla o el suyo. Hay multiplicación implícita (2π, 3(4+1)); % divide entre 100; DEG/RAD cambia las unidades trigonométricas.",
             pt: "Digite pelo teclado da tela ou o físico. Há multiplicação implícita (2π, 3(4+1)); % divide por 100; DEG/RAD troca as unidades trigonométricas.",
+            fr: "Tapez au clavier virtuel ou physique. La multiplication implicite fonctionne (2π, 3(4+1)) ; % divise par 100 ; DEG/RAD bascule les unités trigonométriques.",
+            de: "Tippe über Keypad oder Tastatur. Implizite Multiplikation funktioniert (2π, 3(4+1)); % dividiert durch 100; DEG/RAD schaltet trigonometrische Einheiten.",
+            ru: "Вводите с клавиатуры панели или обычной. Неявное умножение работает (2π, 3(4+1)); % делит на 100; DEG/RAD переключает тригонометрические единицы.",
+            it: "Digita con il tastierino o la tastiera. La moltiplicazione implicita funziona (2π, 3(4+1)); % divide per 100; DEG/RAD cambia le unità trigonometriche.",
+            tr: "Tuş takımı veya klavyenizle yazın. Örtük çarpım çalışır (2π, 3(4+1)); % 100'e böler; DEG/RAD trigonometri birimini değiştirir.",
+            ko: "키패드나 키보드로 입력하세요. 암시적 곱셈이 동작하고(2π, 3(4+1)) %는 100으로 나누며, DEG/RAD로 삼각함수 단위를 바꿉니다.",
+            ar: "اكتب بلوحة المفاتيح أو لوحتك. الضرب الضمني يعمل (2π، 3(4+1))؛ % يقسم على 100؛ وDEG/RAD يبدّل وحدات المثلثات.",
+            hi: "कीपैड या अपने कीबोर्ड से लिखें। अव्यक्त गुणन काम करता है (2π, 3(4+1)); % 100 से भाग देता है; DEG/RAD त्रिकोणमितीय इकाइयाँ बदलता है।",
+            id: "Ketik dengan keypad atau papan tulis Anda. Perkalian implisit berfungsi (2π, 3(4+1)); % membagi 100; DEG/RAD mengganti satuan trigonometri.",
+            vi: "Nhập bằng bàn phím ảo hoặc bàn phím máy. Nhân ngầm hoạt động (2π, 3(4+1)); % chia cho 100; DEG/RAD đổi đơn vị lượng giác.",
           })}
         </Note>
       </div>

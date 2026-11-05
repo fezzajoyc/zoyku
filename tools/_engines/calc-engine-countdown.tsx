@@ -74,13 +74,13 @@ export function CalcEngineCountdown() {
   return (
     <ToolPanel>
       <div className="grid gap-4 sm:grid-cols-3">
-        <Field label={pick(locale, { en: "Hours", zh: "小时", ja: "時間", es: "Horas", pt: "Horas" })}>
+        <Field label={pick(locale, { en: "Hours", zh: "小时", ja: "時間", es: "Horas", pt: "Horas", fr: "Heures", de: "Stunden", ru: "Часы", it: "Ore", tr: "Saat", ko: "시간", ar: "ساعات", hi: "घंटे", id: "Jam", vi: "Giờ" })}>
           <NumIn value={h} onChange={setH} aria="hours" />
         </Field>
-        <Field label={pick(locale, { en: "Minutes", zh: "分钟", ja: "分", es: "Minutos", pt: "Minutos" })}>
+        <Field label={pick(locale, { en: "Minutes", zh: "分钟", ja: "分", es: "Minutos", pt: "Minutos", fr: "Minutes", de: "Minuten", ru: "Минуты", it: "Minuti", tr: "Dakika", ko: "분", ar: "دقائق", hi: "मिनट", id: "Menit", vi: "Phút" })}>
           <NumIn value={m} onChange={setM} aria="minutes" />
         </Field>
-        <Field label={pick(locale, { en: "Seconds", zh: "秒", ja: "秒", es: "Segundos", pt: "Segundos" })}>
+        <Field label={pick(locale, { en: "Seconds", zh: "秒", ja: "秒", es: "Segundos", pt: "Segundos", fr: "Secondes", de: "Sekunden", ru: "Секунды", it: "Secondi", tr: "Saniye", ko: "초", ar: "ثوانٍ", hi: "सेकंड", id: "Detik", vi: "Giây" })}>
           <NumIn value={s} onChange={setS} aria="seconds" />
         </Field>
       </div>
@@ -116,7 +116,7 @@ export function CalcEngineCountdown() {
 
       {done && (
         <p role="status" className="mt-3 text-center text-[15px] font-semibold text-[var(--color-good)]">
-          {pick(locale, { en: "Time's up!", zh: "时间到!", ja: "時間です!", es: "¡Tiempo!", pt: "Tempo esgotado!" })}
+          {pick(locale, { en: "Time's up!", zh: "时间到!", ja: "時間です!", es: "¡Tiempo!", pt: "Tempo esgotado!", fr: "Le temps est écoulé !", de: "Die Zeit ist um!", ru: "Время вышло!", it: "Tempo scaduto!", tr: "Süre doldu!", ko: "시간이 다 되었습니다!", ar: "انتهى الوقت!", hi: "समय समाप्त!", id: "Waktu habis!", vi: "Hết giờ!" })}
         </p>
       )}
 
@@ -128,8 +128,8 @@ export function CalcEngineCountdown() {
           className="rounded-full bg-[var(--color-accent)] px-6 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           {running
-            ? pick(locale, { en: "Pause", zh: "暂停", ja: "一時停止", es: "Pausar", pt: "Pausar" })
-            : pick(locale, { en: "Start", zh: "开始", ja: "スタート", es: "Iniciar", pt: "Iniciar" })}
+            ? pick(locale, { en: "Pause", zh: "暂停", ja: "一時停止", es: "Pausar", pt: "Pausar", fr: "Pause", de: "Pause", ru: "Пауза", it: "Pausa", tr: "Duraklat", ko: "일시정지", ar: "إيقاف مؤقت", hi: "रोकें", id: "Jeda", vi: "Tạm dừng" })
+            : pick(locale, { en: "Start", zh: "开始", ja: "スタート", es: "Iniciar", pt: "Iniciar", fr: "Démarrer", de: "Starten", ru: "Старт", it: "Avvia", tr: "Başlat", ko: "시작", ar: "ابدأ", hi: "शुरू करें", id: "Mulai", vi: "Bắt đầu" })}
         </button>
         <button
           type="button"

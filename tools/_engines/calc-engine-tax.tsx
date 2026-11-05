@@ -14,13 +14,13 @@ import { Field, NumIn, Note, Stats, Tabs, fmt, fmtMoney, pick } from "./calc-ui"
 const GST_RATES = [5, 12, 18, 28];
 
 const S = {
-  amount: { en: "Amount", zh: "金额", ja: "金額", es: "Importe", pt: "Valor" },
-  add: { en: "Add tax (net → gross)", zh: "价外加税(净价 → 含税价)", ja: "税を追加(税抜 → 税込)", es: "Añadir impuesto (neto → bruto)", pt: "Adicionar imposto (líquido → bruto)" },
-  remove: { en: "Remove tax (gross → net)", zh: "价内拆税(含税价 → 净价)", ja: "税を除外(税込 → 税抜)", es: "Extraer impuesto (bruto → neto)", pt: "Remover imposto (bruto → líquido)" },
-  rate: { en: "Tax rate (%)", zh: "税率 (%)", ja: "税率 (%)", es: "Tipo impositivo (%)", pt: "Alíquota (%)" },
-  net: { en: "Net amount (excl. tax)", zh: "净额(不含税)", ja: "税抜額", es: "Importe neto (sin impuesto)", pt: "Valor líquido (sem imposto)" },
-  tax: { en: "Tax amount", zh: "税额", ja: "税額", es: "Importe del impuesto", pt: "Valor do imposto" },
-  gross: { en: "Gross amount (incl. tax)", zh: "含税总额", ja: "税込額", es: "Importe bruto (con impuesto)", pt: "Valor bruto (com imposto)" },
+  amount: { en: "Amount", zh: "金额", ja: "金額", es: "Importe", pt: "Valor", fr: "Montant", de: "Betrag", ru: "Сумма", it: "Importo", tr: "Tutar", ko: "금액", ar: "المبلغ", hi: "राशि", id: "Jumlah", vi: "Số tiền" },
+  add: { en: "Add tax (net → gross)", zh: "价外加税(净价 → 含税价)", ja: "税を追加(税抜 → 税込)", es: "Añadir impuesto (neto → bruto)", pt: "Adicionar imposto (líquido → bruto)", fr: "Ajouter la TVA (net → brut)", de: "Steuer hinzufügen (netto → brutto)", ru: "Добавить налог (нетто → брутто)", it: "Aggiungi tassa (netto → lordo)", tr: "Vergi ekle (net → brüt)", ko: "세금 추가(순 → 총)", ar: "إضافة الضريبة (صافي → إجمالي)", hi: "कर जोड़ें (निवल → सकल)", id: "Tambah pajak (bersih → kotor)", vi: "Cộng thuế (ròng → tổng)" },
+  remove: { en: "Remove tax (gross → net)", zh: "价内拆税(含税价 → 净价)", ja: "税を除外(税込 → 税抜)", es: "Extraer impuesto (bruto → neto)", pt: "Remover imposto (bruto → líquido)", fr: "Retirer la TVA (brut → net)", de: "Steuer entfernen (brutto → netto)", ru: "Убрать налог (брутто → нетто)", it: "Rimuovi tassa (lordo → netto)", tr: "Vergi çıkar (brüt → net)", ko: "세금 제거(총 → 순)", ar: "إزالة الضريبة (إجمالي → صافي)", hi: "कर हटाएँ (सकल → निवल)", id: "Hapus pajak (kotor → bersih)", vi: "Trừ thuế (tổng → ròng)" },
+  rate: { en: "Tax rate (%)", zh: "税率 (%)", ja: "税率 (%)", es: "Tipo impositivo (%)", pt: "Alíquota (%)", fr: "Taux de TVA (%)", de: "Steuersatz (%)", ru: "Ставка налога (%)", it: "Aliquota (%)", tr: "Vergi oranı (%)", ko: "세율 (%)", ar: "معدل الضريبة (%)", hi: "कर दर (%)", id: "Tarif pajak (%)", vi: "Thuế suất (%)" },
+  net: { en: "Net amount (excl. tax)", zh: "净额(不含税)", ja: "税抜額", es: "Importe neto (sin impuesto)", pt: "Valor líquido (sem imposto)", fr: "Montant net (hors TVA)", de: "Nettobetrag (ohne Steuer)", ru: "Сумма без налога", it: "Importo netto (tasse escl.)", tr: "Net tutar (vergi hariç)", ko: "순액(세금 제외)", ar: "المبلغ الصافي (بدون الضريبة)", hi: "निवल राशि (कर रहित)", id: "Jumlah bersih (tanpa pajak)", vi: "Số tiền ròng (không thuế)" },
+  tax: { en: "Tax amount", zh: "税额", ja: "税額", es: "Importe del impuesto", pt: "Valor do imposto", fr: "Montant de la TVA", de: "Steuerbetrag", ru: "Сумма налога", it: "Importo tassa", tr: "Vergi tutarı", ko: "세액", ar: "مبلغ الضريبة", hi: "कर राशि", id: "Jumlah pajak", vi: "Tiền thuế" },
+  gross: { en: "Gross amount (incl. tax)", zh: "含税总额", ja: "税込額", es: "Importe bruto (con impuesto)", pt: "Valor bruto (com imposto)", fr: "Montant brut (TVA incluse)", de: "Bruttobetrag (inkl. Steuer)", ru: "Сумма с налогом", it: "Importo lordo (tasse incl.)", tr: "Brüt tutar (vergi dâhil)", ko: "총액(세금 포함)", ar: "المبلغ الإجمالي (شامل الضريبة)", hi: "सकल राशि (कर सहित)", id: "Jumlah kotor (termasuk pajak)", vi: "Tổng tiền (gồm thuế)" },
 };
 
 function num(s: string): number {

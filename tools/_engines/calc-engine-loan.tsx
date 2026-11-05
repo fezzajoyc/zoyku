@@ -13,19 +13,19 @@ import { Field, NumIn, Note, Sel, Stats, TableBox, fmt, fmtMoney, pick } from ".
  */
 
 const S = {
-  principal: { en: "Loan amount", zh: "贷款金额", ja: "借入額", es: "Importe del préstamo", pt: "Valor do empréstimo" },
-  rate: { en: "Annual interest rate (%)", zh: "年利率 (%)", ja: "年利 (%)", es: "Tasa de interés anual (%)", pt: "Taxa de juros anual (%)" },
-  tenure: { en: "Tenure", zh: "期限", ja: "期間", es: "Plazo", pt: "Prazo" },
-  years: { en: "years", zh: "年", ja: "年", es: "años", pt: "anos" },
-  months: { en: "months", zh: "个月", ja: "か月", es: "meses", pt: "meses" },
-  emi: { en: "Monthly payment (EMI)", zh: "月供 (EMI)", ja: "月々の返済額 (EMI)", es: "Cuota mensual (EMI)", pt: "Parcela mensal (EMI)" },
-  interest: { en: "Total interest", zh: "总利息", ja: "総利息", es: "Interés total", pt: "Total de juros" },
-  pay: { en: "Total payment", zh: "还款总额", ja: "返済総額", es: "Pago total", pt: "Total pago" },
-  year: { en: "Year", zh: "年份", ja: "年", es: "Año", pt: "Ano" },
-  prinPaid: { en: "Principal paid", zh: "已还本金", ja: "返済元本", es: "Capital pagado", pt: "Principal pago" },
-  intPaid: { en: "Interest paid", zh: "已还利息", ja: "支払利息", es: "Interés pagado", pt: "Juros pagos" },
-  balance: { en: "Balance", zh: "剩余本金", ja: "残高", es: "Saldo", pt: "Saldo devedor" },
-  schedule: { en: "Yearly amortization schedule", zh: "年度还款计划表", ja: "年次返済スケジュール", es: "Tabla de amortización anual", pt: "Tabela de amortização anual" },
+  principal: { en: "Loan amount", zh: "贷款金额", ja: "借入額", es: "Importe del préstamo", pt: "Valor do empréstimo", fr: "Montant du prêt", de: "Kreditbetrag", ru: "Сумма кредита", it: "Importo prestito", tr: "Kredi tutarı", ko: "대출 금액", ar: "مبلغ القرض", hi: "ऋण राशि", id: "Jumlah pinjaman", vi: "Số tiền vay" },
+  rate: { en: "Annual interest rate (%)", zh: "年利率 (%)", ja: "年利 (%)", es: "Tasa de interés anual (%)", pt: "Taxa de juros anual (%)", fr: "Taux d'intérêt annuel (%)", de: "Jahreszinssatz (%)", ru: "Годовая ставка (%)", it: "Tasso annuo (%)", tr: "Yıllık faiz oranı (%)", ko: "연간 이자율 (%)", ar: "معدل الفائدة السنوي (%)", hi: "वार्षिक ब्याज दर (%)", id: "Suku bunga tahunan (%)", vi: "Lãi suất năm (%)" },
+  tenure: { en: "Tenure", zh: "期限", ja: "期間", es: "Plazo", pt: "Prazo", fr: "Durée", de: "Laufzeit", ru: "Срок", it: "Durata", tr: "Vade", ko: "기간", ar: "المدة", hi: "अवधि", id: "Jangka waktu", vi: "Thời hạn" },
+  years: { en: "years", zh: "年", ja: "年", es: "años", pt: "anos", fr: "ans", de: "Jahre", ru: "лет", it: "anni", tr: "yıl", ko: "년", ar: "سنوات", hi: "वर्ष", id: "tahun", vi: "năm" },
+  months: { en: "months", zh: "个月", ja: "か月", es: "meses", pt: "meses", fr: "mois", de: "Monate", ru: "месяцев", it: "mesi", tr: "ay", ko: "개월", ar: "أشهر", hi: "महीने", id: "bulan", vi: "tháng" },
+  emi: { en: "Monthly payment (EMI)", zh: "月供 (EMI)", ja: "月々の返済額 (EMI)", es: "Cuota mensual (EMI)", pt: "Parcela mensal (EMI)", fr: "Mensualité (EMI)", de: "Monatsrate (EMI)", ru: "Платёж в месяц (EMI)", it: "Rata mensile (EMI)", tr: "Aylık taksit (EMI)", ko: "월 상환액(EMI)", ar: "القسط الشهري (EMI)", hi: "मासिक किस्त (EMI)", id: "Cicilan bulanan (EMI)", vi: "Trả hàng tháng (EMI)" },
+  interest: { en: "Total interest", zh: "总利息", ja: "総利息", es: "Interés total", pt: "Total de juros", fr: "Intérêts totaux", de: "Gesamtzinsen", ru: "Всего процентов", it: "Interessi totali", tr: "Toplam faiz", ko: "총 이자", ar: "إجمالي الفائدة", hi: "कुल ब्याज", id: "Total bunga", vi: "Tổng tiền lãi" },
+  pay: { en: "Total payment", zh: "还款总额", ja: "返済総額", es: "Pago total", pt: "Total pago", fr: "Paiement total", de: "Gesamtzahlung", ru: "Всего выплат", it: "Pagamento totale", tr: "Toplam ödeme", ko: "총 상환액", ar: "إجمالي الدفع", hi: "कुल भुगतान", id: "Total pembayaran", vi: "Tổng thanh toán" },
+  year: { en: "Year", zh: "年份", ja: "年", es: "Año", pt: "Ano", fr: "Année", de: "Jahr", ru: "Год", it: "Anno", tr: "Yıl", ko: "연도", ar: "السنة", hi: "वर्ष", id: "Tahun", vi: "Năm" },
+  prinPaid: { en: "Principal paid", zh: "已还本金", ja: "返済元本", es: "Capital pagado", pt: "Principal pago", fr: "Capital remboursé", de: "Getilgte Tilgung", ru: "Погашенный долг", it: "Capitale pagato", tr: "Ödenen anapara", ko: "상환 원금", ar: "الأصل المدفوع", hi: "चुकता मूलधन", id: "Pokok dibayar", vi: "Nợ gốc đã trả" },
+  intPaid: { en: "Interest paid", zh: "已还利息", ja: "支払利息", es: "Interés pagado", pt: "Juros pagos", fr: "Intérêts payés", de: "Gezahlte Zinsen", ru: "Выплаченные проценты", it: "Interessi pagati", tr: "Ödenen faiz", ko: "지급 이자", ar: "الفائدة المدفوعة", hi: "चुकता ब्याज", id: "Bunga dibayar", vi: "Tiền lãi đã trả" },
+  balance: { en: "Balance", zh: "剩余本金", ja: "残高", es: "Saldo", pt: "Saldo devedor", fr: "Solde", de: "Restschuld", ru: "Остаток", it: "Saldo", tr: "Kalan bakiye", ko: "잔액", ar: "الرصيد", hi: "शेष", id: "Sisa", vi: "Dư nợ" },
+  schedule: { en: "Yearly amortization schedule", zh: "年度还款计划表", ja: "年次返済スケジュール", es: "Tabla de amortización anual", pt: "Tabela de amortização anual", fr: "Tableau d'amortissement annuel", de: "Jährlicher Tilgungsplan", ru: "Годовой график погашения", it: "Piano di ammortamento annuo", tr: "Yıllık ödeme planı", ko: "연간 상환 일정", ar: "جدول السداد السنوي", hi: "वार्षिक परिशोधन तालिका", id: "Jadwal amortisasi tahunan", vi: "Lịch trả nợ hằng năm" },
 };
 
 function num(s: string): number {
@@ -122,6 +122,16 @@ export function CalcEngineLoan({ kind }: { kind: string }) {
             ja: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1)。銀行で使われる標準的な残高スライド式の公式で、r は月利、n は返済回数です。",
             es: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1), la fórmula estándar de saldo decreciente que usan los bancos, donde r es la tasa mensual y n el número de cuotas.",
             pt: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — a fórmula padrão de saldo decrescente usada pelos bancos, onde r é a taxa mensal e n o número de parcelas.",
+            fr: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — la formule d'amortissement dégressif standard des banques, où r est le taux mensuel et n le nombre de mois.",
+            de: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — die von Banken genutzte Standard-Restschuldformel, wobei r der Monatszins und n die Anzahl der Monate ist.",
+            ru: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — стандартная формула аннуитета банков, где r — месячная ставка, n — число месяцев.",
+            it: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — la formula standard a saldotaggio decrescente usata dalle banche, dove r è il tasso mensile e n il numero di mesi.",
+            tr: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — bankaların kullandığı standart azalan bakiye formülü; r aylık oran, n ay sayısıdır.",
+            ko: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — 은행이 쓰는 표준 원리금 균등 상환 공식입니다(r는 월 이자율, n은 개월 수).",
+            ar: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — الصيغة القياسية للرصيد المتناقص التي تستخدمها البنوك، حيث r المعدل الشهري وn عدد الأشهر.",
+            hi: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — बैंकों द्वारा उपयोग किया जाने वाला मानक घटती-शेष सूत्र, जहाँ r मासिक दर और n महीनों की संख्या है।",
+            id: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — rumus saldo menurun standar yang dipakai bank, dengan r suku bunga bulanan dan n jumlah bulan.",
+            vi: "EMI = P × r × (1+r)ⁿ ÷ ((1+r)ⁿ − 1) — công thức dư nợ giảm dần chuẩn mà ngân hàng dùng, r là lãi suất tháng, n là số tháng.",
           })}
         </Note>
       </div>

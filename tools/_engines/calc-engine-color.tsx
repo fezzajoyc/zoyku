@@ -157,7 +157,7 @@ function Picker() {
               onClick={eyedrop}
               className="w-full rounded-full border hairline px-4 py-2 text-[13.5px] font-medium transition-colors hover:bg-[var(--color-surface)] sm:w-40"
             >
-              {pick(locale, { en: "Pick from screen", zh: "从屏幕取色", ja: "画面からスポイト", es: "Tomar de la pantalla", pt: "Capturar da tela" })}
+              {pick(locale, { en: "Pick from screen", zh: "从屏幕取色", ja: "画面からスポイト", es: "Tomar de la pantalla", pt: "Capturar da tela", fr: "Choisir à l'écran", de: "Vom Bildschirm wählen", ru: "Выбрать с экрана", it: "Scegli dallo schermo", tr: "Ekrandan seç", ko: "화면에서 선택", ar: "اختر من الشاشة", hi: "स्क्रीन से चुनें", id: "Pilih dari layar", vi: "Chọn từ màn hình" })}
             </button>
           )}
         </div>
@@ -179,6 +179,16 @@ function Picker() {
                 ja: "画面スポイトはブラウザの EyeDropper API を使用します。ピクセル色はローカルで取得され、記録されません。",
                 es: "La lupa de pantalla usa la API EyeDropper del navegador: el color se lee localmente y no se registra nada.",
                 pt: "O conta-giros usa a API EyeDropper do navegador — a cor do pixel é lida localmente e nada é registrado.",
+                fr: "La pipette d'écran utilise l'API EyeDropper du navigateur — la couleur du pixel est lue localement, rien n'est enregistré.",
+                de: "Der Bildschirm-Pipette nutzt die EyeDropper-API des Browsers — die Pixelfarbe wird lokal gelesen, nichts wird gespeichert.",
+                ru: "Пипетка экрана использует API EyeDropper браузера — цвет пикселя читается локально, ничего не сохраняется.",
+                it: "Il contagocce dello schermo usa l'API EyeDropper del browser — il colore del pixel è letto localmente, nulla viene registrato.",
+                tr: "Ekran damlalığı tarayıcının EyeDropper API'sini kullanır — piksel rengi yerel olarak okunur, hiçbir şey kaydedilmez.",
+                ko: "화면 스포이드는 브라우저의 EyeDropper API를 사용합니다 — 픽셀 색은 로컬에서 읽히며 기록되지 않습니다.",
+                ar: "قطارة الشاشة تستخدم EyeDropper API في المتصفح — يُقرأ لون البكسل محليًا ولا يُسجل شيء.",
+                hi: "स्क्रीन आइड्रॉपर ब्राउज़र के EyeDropper API का उपयोग करता है — पिक्सेल रंग स्थानीय रूप से पढ़ा जाता है, कुछ भी रिकॉर्ड नहीं होता।",
+                id: "Pipet layar memakai EyeDropper API peramban — warna piksel dibaca lokal, tidak ada yang direkam.",
+                vi: "Ống hút màn hình dùng EyeDropper API của trình duyệt — màu pixel được đọc cục bộ, không ghi lại gì.",
               })
             : pick(locale, {
                 en: "Your browser does not expose the EyeDropper API, so use the swatch input; hex/rgb/hsl values still update live.",
@@ -186,6 +196,16 @@ function Picker() {
                 ja: "このブラウザは EyeDropper API に対応していないため、カラーピッカーをご利用ください。hex/rgb/hsl はリアルタイム更新されます。",
                 es: "Su navegador no expone la API EyeDropper; use el selector de color. Los valores hex/rgb/hsl se actualizan igualmente.",
                 pt: "Seu navegador não expõe a API EyeDropper; use o seletor de cor. Os valores hex/rgb/hsl continuam atualizando.",
+                fr: "Votre navigateur n'expose pas l'API EyeDropper ; utilisez la saisie par nuancier — les valeurs hex/rgb/hsl restent mises à jour en direct.",
+                de: "Dein Browser stellt die EyeDropper-API nicht bereit; nutze die Farbmustereingabe — Hex/RGB/HSL-Werte aktualisieren weiterhin live.",
+                ru: "Ваш браузер не предоставляет API EyeDropper; используйте ввод образцами — значения hex/rgb/hsl по-прежнему обновляются на лету.",
+                it: "Il tuo browser non espone l'API EyeDropper; usa l'input a campioni — i valori hex/rgb/hsl si aggiornano comunque in tempo reale.",
+                tr: "Tarayıcınız EyeDropper API'sini sunmuyor; renk örneği girişini kullanın — hex/rgb/hsl değerleri yine canlı güncellenir.",
+                ko: "브라우저가 EyeDropper API를 지원하지 않습니다 — 색 견본 입력을 사용하세요. hex/rgb/hsl 값은 실시간으로 갱신됩니다.",
+                ar: "متصفحك لا يوفر EyeDropper API؛ استخدم إدخال العينات — تتحدث قيم hex/rgb/hsl فوريًا.",
+                hi: "आपका ब्राउज़र EyeDropper API उपलब्ध नहीं कराता — स्वैच इनपुट उपयोग करें; hex/rgb/hsl मान अब भी लाइव अपडेट होते हैं।",
+                id: "Peramban Anda tidak menyediakan EyeDropper API; gunakan input swatch — nilai hex/rgb/hsl tetap diperbarui langsung.",
+                vi: "Trình duyệt của bạn không hỗ trợ EyeDropper API — hãy dùng nhập ô màu; giá trị hex/rgb/hsl vẫn cập nhật trực tiếp.",
               })}
         </Note>
       </div>
@@ -207,11 +227,21 @@ function Converter() {
       ja: "読み取れない色です。#0071e3、rgb(0, 113, 227)、hsl(211, 100%, 45%) などを試してください。",
       es: "Color no reconocido. Pruebe #0071e3, rgb(0, 113, 227) o hsl(211, 100%, 45%).",
       pt: "Cor não reconhecida. Tente #0071e3, rgb(0, 113, 227) ou hsl(211, 100%, 45%).",
+      fr: "Couleur illisible. Essayez #0071e3, rgb(0, 113, 227) ou hsl(211, 100 %, 45 %).",
+      de: "Keine lesbare Farbe. Versuche #0071e3, rgb(0, 113, 227) oder hsl(211, 100 %, 45 %).",
+      ru: "Не удалось прочитать цвет. Попробуйте #0071e3, rgb(0, 113, 227) или hsl(211, 100 %, 45 %).",
+      it: "Colore non leggibile. Prova #0071e3, rgb(0, 113, 227) o hsl(211, 100%, 45%).",
+      tr: "Okunabilir bir renk değil. #0071e3, rgb(0, 113, 227) veya hsl(211, %100, %45) deneyin.",
+      ko: "읽을 수 있는 색이 아닙니다. #0071e3, rgb(0, 113, 227) 또는 hsl(211, 100%, 45%)를 시도해 보세요.",
+      ar: "لون غير قابل للقراءة. جرّب #0071e3 أو rgb(0, 113, 227) أو hsl(211, 100%, 45%).",
+      hi: "पढ़ने योग्य रंग नहीं। #0071e3, rgb(0, 113, 227) या hsl(211, 100%, 45%) आज़माएँ।",
+      id: "Warna tidak dapat dibaca. Coba #0071e3, rgb(0, 113, 227), atau hsl(211, 100%, 45%).",
+      vi: "Không đọc được màu này. Hãy thử #0071e3, rgb(0, 113, 227) hoặc hsl(211, 100%, 45%).",
     });
 
   return (
     <ToolPanel>
-      <Field label={pick(locale, { en: "Color (hex, rgb() or hsl())", zh: "颜色(hex、rgb() 或 hsl())", ja: "色(hex、rgb()、hsl())", es: "Color (hex, rgb() u hsl())", pt: "Cor (hex, rgb() ou hsl())" })}>
+      <Field label={pick(locale, { en: "Color (hex, rgb() or hsl())", zh: "颜色(hex、rgb() 或 hsl())", ja: "色(hex、rgb()、hsl())", es: "Color (hex, rgb() u hsl())", pt: "Cor (hex, rgb() ou hsl())", fr: "Couleur (hex, rgb() ou hsl())", de: "Farbe (hex, rgb() oder hsl())", ru: "Цвет (hex, rgb() или hsl())", it: "Colore (hex, rgb() o hsl())", tr: "Renk (hex, rgb() veya hsl())", ko: "색상 (hex, rgb() 또는 hsl())", ar: "اللون (hex أو rgb() أو hsl())", hi: "रंग (hex, rgb() या hsl())", id: "Warna (hex, rgb() atau hsl())", vi: "Màu (hex, rgb() hoặc hsl())" })}>
         <TextIn value={input} mono onChange={setInput} aria="color value" spellCheck={false} placeholder="#0071e3" />
       </Field>
       {rgb && (
@@ -237,7 +267,7 @@ function Converter() {
       {invalidMsg && <p className="mt-3 text-[13.5px] text-[var(--color-bad)]" role="alert">{invalidMsg}</p>}
       {rgb && (
         <div className="mt-6 space-y-5">
-          <SwatchRow base={rgb} label={pick(locale, { en: "Tints & shades", zh: "明暗色阶", ja: "ティント & シェード", es: "Tonos y sombras", pt: "Tons e sombras" })} />
+          <SwatchRow base={rgb} label={pick(locale, { en: "Tints & shades", zh: "明暗色阶", ja: "ティント & シェード", es: "Tonos y sombras", pt: "Tons e sombras", fr: "Teintes et nuances", de: "Abstufungen", ru: "Оттенки", it: "Tinte e sfumature", tr: "Tonlar ve gölgeler", ko: "색조 및 음영", ar: "الدرجات والتظليل", hi: "टिंट और शेड", id: "Corak dan bayangan", vi: "Sắc độ và bóng màu" })} />
         </div>
       )}
       <div className="mt-4">
@@ -248,6 +278,16 @@ function Converter() {
             ja: "スウォッチ行は、白(左)と黒(右)に 20/40/60/80% ずつ混ぜた色です。ホバー状態やダークモードのバリエーションに便利です。",
             es: "La fila de muestras mezcla el color con blanco (izquierda) y negro (derecha) al 20/40/60/80% — útil para estados hover y modo oscuro.",
             pt: "A fileira de amostras mistura a cor com branco (esquerda) e preto (direita) a 20/40/60/80% — útil para estados hover e modo escuro.",
+            fr: "La rangée de nuances mélange la couleur avec du blanc (à gauche) et du noir (à droite) à 20/40/60/80 % — pratique pour les états survolés et les variantes sombres.",
+            de: "Die Musterreihe mischt die Farbe mit Weiß (links) und Schwarz (rechts) bei 20/40/60/80 % — praktisch für Hover-Zustände und Dark-Mode-Varianten.",
+            ru: "Ряд образцов смешивает цвет с белым (слева) и чёрным (справа) на 20/40/60/80 % — удобно для hover-состояний и тёмных вариантов.",
+            it: "La riga di campioni mescola il colore con bianco (sinistra) e nero (destra) al 20/40/60/80% — utile per stati hover e varianti dark-mode.",
+            tr: "Renk örneği sırası rengi %20/40/60/80 oranında beyazla (solda) ve siyahla (sağda) karıştırır — hover durumları ve koyu tema varyantları için pratik.",
+            ko: "색 견본 행은 색을 흰색(왼쪽)·검정(오른쪽)과 20/40/60/80% 비율로 섞습니다 — hover 상태와 다크 모드 변형에 유용합니다.",
+            ar: "صف العينات يمزج اللون مع الأبيض (يسارًا) والأسود (يمينًا) بنسب 20/40/60/80% — مفيد لحالات التحويم ونسخ الوضع الداكن.",
+            hi: "स्वैच पंक्ति रंग को 20/40/60/80% पर सफ़ेद (बाएँ) और काले (दाएँ) से मिलाती है — hover स्थितियों और डार्क-मोड संस्करणों के लिए उपयोगी।",
+            id: "Baris swatch mencampur warna dengan putih (kiri) dan hitam (kanan) pada 20/40/60/80% — berguna untuk status hover dan varian mode gelap.",
+            vi: "Hàng ô màu pha màu với trắng (trái) và đen (phải) ở 20/40/60/80% — tiện cho trạng thái hover và biến thể chế tối.",
           })}
         </Note>
       </div>

@@ -92,6 +92,16 @@ function Binary() {
                 ja: "選択した基数では解析できません。不要な文字がないか確認してください。",
                 es: "Ese valor no se puede interpretar en la base elegida: revise los caracteres.",
                 pt: "Não foi possível interpretar esse valor na base escolhida — confira os caracteres.",
+                fr: "Cette valeur n'est pas analysable dans la base choisie — vérifiez les caractères parasites.",
+                de: "Dieser Wert ist in der gewählten Basis nicht parsebar — prüfe auf fremde Zeichen.",
+                ru: "Значение не разбирается в выбранной системе — проверьте на посторонние символы.",
+                it: "Questo valore non si analizza nella base scelta — controlla i caratteri estranei.",
+                tr: "Bu değer seçilen tabanda ayrıştırılamıyor — yabancı karakterleri kontrol edin.",
+                ko: "선택한 진법에서 이 값을 해석할 수 없습니다 — 잘못된 문자를 확인하세요.",
+                ar: "تعذّر تحليل هذه القيمة في النظام المختار — تحقق من الأحرف الدخيلة.",
+                hi: "चुने गए आधार में यह मान पार्स नहीं हुआ — बाहरी वर्ण जाँचें।",
+                id: "Nilai itu tidak terbaca pada basis terpilih — periksa karakter asing.",
+                vi: "Không phân tích được giá trị này ở cơ số đã chọn — kiểm tra ký tự lạ.",
               })
             : pick(locale, {
                 en: "Type in any field and the other three update instantly. Supports arbitrarily large non-negative integers, and HEX groups every 2 digits, BIN every 4 for readability.",
@@ -99,6 +109,16 @@ function Binary() {
                 ja: "どの欄に入力しても他の 3 欄が即時更新されます。大きな非負整数にも対応し、HEX は 2 桁・BIN は 4 桁ずつ区切って表示します。",
                 es: "Escriba en cualquier campo y los otros tres se actualizan al instante. Admite enteros no negativos de cualquier tamaño; HEX se agrupa cada 2 dígitos y BIN cada 4.",
                 pt: "Digite em qualquer campo e os outros três atualizam na hora. Aceita inteiros não negativos de qualquer tamanho; HEX agrupa a cada 2 dígitos e BIN a cada 4.",
+                fr: "Tapez dans n'importe quel champ, les trois autres se mettent à jour instantanément. Gère des entiers non négatifs arbitrairement grands ; HEX regroupe tous les 2 chiffres, BIN tous les 4 pour la lisibilité.",
+                de: "Tippe in ein beliebiges Feld, die anderen drei aktualisieren sofort. Unterstützt beliebig große nicht-negative Ganzzahlen; HEX gruppiert je 2 Ziffern, BIN je 4 zur Lesbarkeit.",
+                ru: "Введите в любое поле — остальные три обновятся мгновенно. Поддерживает сколь угодно большие неотрицательные целые; HEX группирует по 2 цифры, BIN по 4 для читаемости.",
+                it: "Digita in un campo qualsiasi e gli altri tre si aggiornano all'istante. Supporta interi non negativi arbitrariamente grandi; HEX raggruppa ogni 2 cifre, BIN ogni 4 per leggibilità.",
+                tr: "Herhangi bir alana yazın, diğer üçü anında güncellenir. İstenirse kadar büyük negatif olmayan tam sayıları destekler; HEX 2, BIN 4 rakamda bir gruplanır.",
+                ko: "아무 필드에나 입력하면 나머지 세 개가 즉시 갱신됩니다. 매우 큰 음이 아닌 정수를 지원하며, HEX는 2자리·BIN은 4자리씩 묶어 가독성을 높입니다.",
+                ar: "اكتب في أي حقل فتتحدث الحقول الثلاثة الأخرى فورًا. يدعم أعدادًا صحيحة غير سالبة بأي حجم؛ HEX يجمع كل رقمين وBIN كل 4 للقراءة.",
+                hi: "किसी भी फ़ील्ड में लिखें, बाकी तीन तुरंत अपडेट होंगे। बड़ी गैर-ऋणात्मक पूर्ण संख्याएँ समर्थित; HEX हर 2 अंक, BIN हर 4 पर समूहित।",
+                id: "Ketik di kolom mana pun, tiga lainnya langsung diperbarui. Mendukung bilangan bulat non-negatif sangat besar; HEX dikelompokkan tiap 2 digit, BIN tiap 4 agar mudah dibaca.",
+                vi: "Nhập vào trường bất kỳ, ba trường còn lại cập nhật ngay. Hỗ trợ số nguyên không âm lớn tùy ý; HEX nhóm mỗi 2 chữ số, BIN mỗi 4 cho dễ đọc.",
               })}
         </Note>
       </div>
@@ -157,12 +177,22 @@ function Roman() {
     ja: "1〜3999 の整数か、標準的なローマ数字(I、IV、IX、XL、CD、CM など)を入力してください。",
     es: "Introduzca un número entero entre 1 y 3999 o números romanos estándar (I, IV, IX, XL, CD, CM…).",
     pt: "Digite um número inteiro entre 1 e 3999 ou numerais romanos padrão (I, IV, IX, XL, CD, CM…).",
+    fr: "Entrez un nombre entier entre 1 et 3999, ou des chiffres romains standard (I, IV, IX, XL, CD, CM…).",
+    de: "Gib eine ganze Zahl zwischen 1 und 3999 oder Standard-römische Zahlen ein (I, IV, IX, XL, CD, CM…).",
+    ru: "Введите целое число от 1 до 3999 или стандартные римские цифры (I, IV, IX, XL, CD, CM…).",
+    it: "Inserisci un numero intero tra 1 e 3999, o numeri romani standard (I, IV, IX, XL, CD, CM…).",
+    tr: "1 ile 3999 arasında bir tam sayı veya standart Roma rakamları girin (I, IV, IX, XL, CD, CM…).",
+    ko: "1~3999 사이의 정수 또는 표준 로마 숫자를 입력하세요(I, IV, IX, XL, CD, CM…).",
+    ar: "أدخل عددًا صحيحًا بين 1 و3999 أو أرقامًا رومانية قياسية (I, IV, IX, XL, CD, CM…).",
+    hi: "1 से 3999 के बीच पूर्ण संख्या या मानक रोमन अंक दर्ज करें (I, IV, IX, XL, CD, CM…)।",
+    id: "Masukkan bilangan bulat 1–3999, atau angka Romawi standar (I, IV, IX, XL, CD, CM…).",
+    vi: "Nhập số nguyên từ 1 đến 3999, hoặc chữ số La Mã chuẩn (I, IV, IX, XL, CD, CM…).",
   });
 
   return (
     <ToolPanel>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label={pick(locale, { en: "Number", zh: "数字", ja: "数値", es: "Número", pt: "Número" })}>
+        <Field label={pick(locale, { en: "Number", zh: "数字", ja: "数値", es: "Número", pt: "Número", fr: "Nombre", de: "Zahl", ru: "Число", it: "Numero", tr: "Sayı", ko: "숫자", ar: "الرقم", hi: "संख्या", id: "Angka", vi: "Số" })}>
           <NumIn
             value={numStr}
             onChange={(v2) => {
@@ -173,7 +203,7 @@ function Roman() {
             aria="number"
           />
         </Field>
-        <Field label={pick(locale, { en: "Roman numeral", zh: "罗马数字", ja: "ローマ数字", es: "Número romano", pt: "Numeral romano" })}>
+        <Field label={pick(locale, { en: "Roman numeral", zh: "罗马数字", ja: "ローマ数字", es: "Número romano", pt: "Numeral romano", fr: "Chiffre romain", de: "Römische Zahl", ru: "Римская цифра", it: "Numero romano", tr: "Roma rakamı", ko: "로마 숫자", ar: "الرقم الروماني", hi: "रोमन अंक", id: "Angka Romawi", vi: "Chữ số La Mã" })}>
           <TextIn
             value={romanStr}
             mono
@@ -189,7 +219,7 @@ function Roman() {
       </div>
       <div className="mt-5">
         {numStr.trim() === "" && romanStr.trim() === "" ? (
-          <Note>{pick(locale, { en: "Type a number or a numeral — the other side converts live.", zh: "输入数字或罗马数字,另一侧实时换算。", ja: "数値かローマ数字を入力すると、もう片方へ即時変換されます。", es: "Escriba un número o un numeral: el otro lado convierte al instante.", pt: "Digite um número ou um numeral — o outro lado converte na hora." })}</Note>
+          <Note>{pick(locale, { en: "Type a number or a numeral — the other side converts live.", zh: "输入数字或罗马数字,另一侧实时换算。", ja: "数値かローマ数字を入力すると、もう片方へ即時変換されます。", es: "Escriba un número o un numeral: el otro lado convierte al instante.", pt: "Digite um número ou um numeral — o outro lado converte na hora.", fr: "Tapez un nombre ou un chiffre — l'autre côté se convertit en direct.", de: "Zahl oder römische Zahl eingeben — die andere Seite wandelt live um.", ru: "Введите число или римскую цифру — вторая сторона конвертируется на лету.", it: "Digita un numero o una cifra: l'altro lato si converte in tempo reale.", tr: "Sayı veya rakam yazın — diğer taraf canlı dönüşür.", ko: "숫자나 로마 숫자를 입력하세요 — 반대쪽이 실시간 변환됩니다.", ar: "اكتب رقمًا أو رقمًا رومانيًا — يقوم الطرف الآخر بالتحويل فورًا.", hi: "संख्या या रोमन अंक लिखें — दूसरी ओर लाइव रूपांतरित होगी।", id: "Ketik angka atau angka Romawi — sisi lain langsung dikonversi.", vi: "Nhập số hoặc chữ số La Mã — phía kia tự chuyển ngay." })}</Note>
         ) : showErr ? (
           <p className="text-[13.5px] leading-5 text-[var(--color-bad)]" role="alert">{invalid}</p>
         ) : (
@@ -208,6 +238,16 @@ function Roman() {
             ja: "検証は古典的な減算規則に従います。I は V/X の前、X は L/C の前、C は D/M の前のみ。VIIII は不可、IX は有効です。",
             es: "La validación sigue las reglas sustractivas clásicas: I antes de V/X, X antes de L/C, C antes de D/M; VIIII se rechaza y IX se acepta.",
             pt: "A validação segue as regras subtrativas clássicas: I antes de V/X, X antes de L/C, C antes de D/M — VIIII é rejeitado e IX aceito.",
+            fr: "La validation suit les règles soustractives classiques : I devant V/X, X devant L/C, C devant D/M — VIIII est donc rejeté et IX accepté.",
+            de: "Die Validierung folgt den klassischen Subtraktionsregeln: I vor V/X, X vor L/C, C vor D/M — VIIII wird abgelehnt, IX akzeptiert.",
+            ru: "Проверка следует классическим правилам вычитания: I перед V/X, X перед L/C, C перед D/M — VIIII отклоняется, IX принимается.",
+            it: "La validazione segue le regole sottrattive classiche: I prima di V/X, X prima di L/C, C prima di D/M — VIIII viene rifiutato e IX accettato.",
+            tr: "Doğrulama klasik çıkarma kurallarını izler: V/X'den önce I, L/C'den önce X, D/M'den önce C — VIIII reddedilir, IX kabul edilir.",
+            ko: "검증은 고전적인 감산 규칙을 따릅니다: V/X 앞의 I, L/C 앞의 X, D/M 앞의 C — VIIII는 거부되고 IX는 허용됩니다.",
+            ar: "يتبع التحقق قواعد الطرح الكلاسيكية: I قبل V/X، وX قبل L/C، وC قبل D/M — لذلك يُرفض VIIII ويُقبل IX.",
+            hi: "सत्यापन शास्त्रीय घटाव नियमों का पालन करता है: V/X से पहले I, L/C से पहले X, D/M से पहले C — VIIII अस्वीकृत, IX स्वीकृत।",
+            id: "Validasi mengikuti aturan pengurangan klasik: I sebelum V/X, X sebelum L/C, C sebelum D/M — VIIII ditolak, IX diterima.",
+            vi: "Kiểm tra theo quy tắc trừ cổ điển: I trước V/X, X trước L/C, C trước D/M — VIIII bị từ chối, IX được chấp nhận.",
           })}
         </Note>
       </div>
@@ -239,8 +279,8 @@ function Aspect() {
   const okRatio = Number.isFinite(W) && Number.isFinite(H) && W > 0 && H > 0;
   const out = okRatio && Number.isFinite(x) ? (dir === "w" ? (x * H) / W : (x * W) / H) : NaN;
 
-  const wLabel = pick(locale, { en: "Ratio width", zh: "比例宽", ja: "比率の幅", es: "Ancho de la relación", pt: "Largura da proporção" });
-  const hLabel = pick(locale, { en: "Ratio height", zh: "比例高", ja: "比率の高さ", es: "Alto de la relación", pt: "Altura da proporção" });
+  const wLabel = pick(locale, { en: "Ratio width", zh: "比例宽", ja: "比率の幅", es: "Ancho de la relación", pt: "Largura da proporção", fr: "Largeur du ratio", de: "Verhältnis-Breite", ru: "Ширина соотношения", it: "Larghezza rapporto", tr: "Oran genişliği", ko: "비율 너비", ar: "عرض النسبة", hi: "अनुपात चौड़ाई", id: "Lebar rasio", vi: "Bề rộng tỷ lệ" });
+  const hLabel = pick(locale, { en: "Ratio height", zh: "比例高", ja: "比率の高さ", es: "Alto de la relación", pt: "Altura da proporção", fr: "Hauteur du ratio", de: "Verhältnis-Höhe", ru: "Высота соотношения", it: "Altezza rapporto", tr: "Oran yüksekliği", ko: "비율 높이", ar: "ارتفاع النسبة", hi: "अनुपात ऊँचाई", id: "Tinggi rasio", vi: "Bề cao tỷ lệ" });
 
   return (
     <ToolPanel>
@@ -270,21 +310,21 @@ function Aspect() {
         <Field label={hLabel}>
           <NumIn value={rh} onChange={setRh} aria={hLabel} />
         </Field>
-        <Field label={pick(locale, { en: "You know the…", zh: "已知", ja: "わかっている辺", es: "Se conoce…", pt: "Você sabe o…" })}>
+        <Field label={pick(locale, { en: "You know the…", zh: "已知", ja: "わかっている辺", es: "Se conoce…", pt: "Você sabe o…", fr: "Vous connaissez…", de: "Bekannt ist…", ru: "Известно…", it: "Conosci…", tr: "Bilinen…", ko: "다음을 알고…", ar: "تعرف…", hi: "आप जानते हैं…", id: "Anda tahu…", vi: "Bạn biết…" })}>
           <Sel value={dir} onChange={setDir} aria="known dimension">
-            <option value="w">{pick(locale, { en: "Width", zh: "宽度", ja: "幅", es: "Ancho", pt: "Largura" })}</option>
-            <option value="h">{pick(locale, { en: "Height", zh: "高度", ja: "高さ", es: "Alto", pt: "Altura" })}</option>
+            <option value="w">{pick(locale, { en: "Width", zh: "宽度", ja: "幅", es: "Ancho", pt: "Largura", fr: "Largeur", de: "Breite", ru: "Ширина", it: "Larghezza", tr: "Genişlik", ko: "너비", ar: "العرض", hi: "चौड़ाई", id: "Lebar", vi: "Bề rộng" })}</option>
+            <option value="h">{pick(locale, { en: "Height", zh: "高度", ja: "高さ", es: "Alto", pt: "Altura", fr: "Hauteur", de: "Höhe", ru: "Высота", it: "Altezza", tr: "Yükseklik", ko: "높이", ar: "الارتفاع", hi: "ऊँचाई", id: "Tinggi", vi: "Bề cao" })}</option>
           </Sel>
         </Field>
-        <Field label={pick(locale, { en: "Value (px, cm, in…)", zh: "数值(px、cm 等)", ja: "値(px、cm など)", es: "Valor (px, cm…)", pt: "Valor (px, cm…)" })}>
+        <Field label={pick(locale, { en: "Value (px, cm, in…)", zh: "数值(px、cm 等)", ja: "値(px、cm など)", es: "Valor (px, cm…)", pt: "Valor (px, cm…)", fr: "Valeur (px, cm, po…)", de: "Wert (px, cm, in…)", ru: "Значение (px, см, дюймы…)", it: "Valore (px, cm, in…)", tr: "Değer (px, cm, in…)", ko: "값(px, cm, in…)", ar: "القيمة (بكسل، سم، بوصة…)", hi: "मान (px, cm, in…)", id: "Nilai (px, cm, inci…)", vi: "Giá trị (px, cm, in…)" })}>
           <NumIn value={val} onChange={setVal} aria="known value" />
         </Field>
       </div>
       <div className="mt-5 rounded-xl border hairline px-4 py-3.5">
         <span className="text-[13px] font-medium text-[var(--color-sub)]">
           {dir === "w"
-            ? pick(locale, { en: "Height", zh: "高度", ja: "高さ", es: "Alto", pt: "Altura" })
-            : pick(locale, { en: "Width", zh: "宽度", ja: "幅", es: "Ancho", pt: "Largura" })}
+            ? pick(locale, { en: "Height", zh: "高度", ja: "高さ", es: "Alto", pt: "Altura", fr: "Hauteur", de: "Höhe", ru: "Высота", it: "Altezza", tr: "Yükseklik", ko: "높이", ar: "الارتفاع", hi: "ऊँचाई", id: "Tinggi", vi: "Bề cao" })
+            : pick(locale, { en: "Width", zh: "宽度", ja: "幅", es: "Ancho", pt: "Largura", fr: "Largeur", de: "Breite", ru: "Ширина", it: "Larghezza", tr: "Genişlik", ko: "너비", ar: "العرض", hi: "चौड़ाई", id: "Lebar", vi: "Bề rộng" })}
         </span>
         <p className="mono mt-1 text-[20px] font-semibold" aria-live="polite">
           {fmt(out, locale, 2)}
@@ -304,6 +344,16 @@ function Aspect() {
             ja: "比率欄には任意の正数を入れられます。2.35:1 のシネスコや特殊なセンサー比にも対応します。",
             es: "Los campos de relación aceptan cualquier número positivo: sirven 2.35:1 de cine o relaciones de sensores atípicas.",
             pt: "Os campos de proporção aceitam qualquer número positivo — 2.35:1 de cinema e proporções incomuns de sensor funcionam.",
+            fr: "Les champs de ratio acceptent tout nombre positif : les formats cinéma 2,35:1 et les capteurs aux ratios inhabituels fonctionnent aussi.",
+            de: "Die Verhältnisfelder akzeptieren beliebige positive Zahlen — 2,35:1-Kinoformate und ungewöhnliche Sensorverhältnisse funktionieren ebenfalls.",
+            ru: "Поля соотношения принимают любые положительные числа: подойдёт и кинематографическое 2,35:1, и необычные пропорции сенсоров.",
+            it: "I campi del rapporto accettano qualsiasi numero positivo: funzionano anche i formati cinema 2,35:1 e i rapporti dei sensori insoliti.",
+            tr: "Oran alanları herhangi bir pozitif sayıyı kabul eder; 2,35:1 sinema formatları ve sıra dışı sensör oranları da çalışır.",
+            ko: "비율 필드는 모든 양수를 받습니다 — 2.35:1 시네마 스코프나 특수한 센서 비율도 됩니다.",
+            ar: "تقبل حقول النسبة أي أرقام موجبة، لذا تعمل نطاقات السينما 2.35:1 ونسب المستشعرات غير المعتادة أيضًا.",
+            hi: "अनुपात फ़ील्ड कोई भी धनात्मक संख्या लेते हैं — 2.35:1 सिनेमा स्कोप और विचित्र सेंसर अनुपात भी चलते हैं।",
+            id: "Kolom rasio menerima angka positif apa pun, jadi rasio layar sinema 2,35:1 dan rasio sensor aneh juga berfungsi.",
+            vi: "Trường tỷ lệ nhận mọi số dương, nên tỉ lệ điện ảnh 2,35:1 hay tỉ lệ cảm biến lạ đều dùng được.",
           })}
         </Note>
       </div>

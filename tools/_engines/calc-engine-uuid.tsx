@@ -61,9 +61,9 @@ export function CalcEngineUuid() {
           onClick={regenerate}
           className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity hover:opacity-90"
         >
-          {pick(locale, { en: "Generate", zh: "重新生成", ja: "生成", es: "Generar", pt: "Gerar" })}
+          {pick(locale, { en: "Generate", zh: "重新生成", ja: "生成", es: "Generar", pt: "Gerar", fr: "Générer", de: "Generieren", ru: "Сгенерировать", it: "Genera", tr: "Üret", ko: "생성", ar: "توليد", hi: "जेनरेट करें", id: "Hasilkan", vi: "Tạo" })}
         </button>
-        <CopyButton value={() => ids.join("\n")} label={pick(locale, { en: "Copy all", zh: "复制全部", ja: "すべてコピー", es: "Copiar todo", pt: "Copiar tudo" })} />
+        <CopyButton value={() => ids.join("\n")} label={pick(locale, { en: "Copy all", zh: "复制全部", ja: "すべてコピー", es: "Copiar todo", pt: "Copiar tudo", fr: "Tout copier", de: "Alle kopieren", ru: "Копировать всё", it: "Copia tutto", tr: "Tümünü kopyala", ko: "모두 복사", ar: "نسخ الكل", hi: "सभी कॉपी करें", id: "Salin semua", vi: "Sao chép tất cả" })} />
       </div>
 
       <div className="mt-4 overflow-hidden rounded-xl border hairline">
@@ -71,7 +71,7 @@ export function CalcEngineUuid() {
           {ids.map((id, i) => (
             <li key={`${tick}-${i}`} className="flex items-center justify-between gap-3 px-3.5 py-2.5">
               <code className="mono min-w-0 flex-1 truncate text-[14px]">{id}</code>
-              <CopyButton value={id} label={pick(locale, { en: "Copy", zh: "复制", ja: "コピー", es: "Copiar", pt: "Copiar" })} />
+              <CopyButton value={id} label={pick(locale, { en: "Copy", zh: "复制", ja: "コピー", es: "Copiar", pt: "Copiar", fr: "Copier", de: "Kopieren", ru: "Копировать", it: "Copia", tr: "Kopyala", ko: "복사", ar: "نسخ", hi: "कॉपी करें", id: "Salin", vi: "Sao chép" })} />
             </li>
           ))}
         </ul>
@@ -85,6 +85,16 @@ export function CalcEngineUuid() {
             ja: "生成されるのは RFC 4122 バージョン 4 の UUID です。122 ビットのランダム値をデバイスの暗号学的乱数源から取得します。時刻順に並ぶ識別子が必要な場合は、新しい v7 を検討してください。同じ形式で作成時刻順にソートできます。",
             es: "Son UUID versión 4 de RFC 4122: 122 bits aleatorios de la fuente criptográfica de tu dispositivo. Si necesita identificadores ordenados por tiempo, busque la variante v7: misma forma, ordenable por creación.",
             pt: "São UUIDs versão 4 (RFC 4122): 122 bits aleatórios da fonte criptográfica do seu dispositivo. Se precisar de identificadores ordenados por tempo, procure a variante v7 — mesma forma, ordenável por criação.",
+            fr: "Ce sont des UUID RFC 4122 version 4 : 122 bits aléatoires issus de la source cryptographique de votre appareil. Pour des identifiants triés par temps, regardez la variante v7 plus récente — même forme, triable par date de création.",
+            de: "Dies sind UUIDs nach RFC 4122 Version 4: 122 Zufallsbits aus der kryptografischen Quelle deines Geräts. Für zeitgeordnete Kennungen sieh dir die neuere Variante v7 an — gleiche Form, nach Erstellungszeit sortierbar.",
+            ru: "Это UUID версии 4 по RFC 4122: 122 случайных бита из криптографического источника вашего устройства. Если нужны упорядоченные по времени идентификаторы, посмотрите более новую версию v7 — тот же формат, сортируется по времени создания.",
+            it: "Questi sono UUID RFC 4122 versione 4: 122 bit casuali dalla sorgente crittografica del tuo dispositivo. Per identificatori ordinati nel tempo, guarda la variante v7 più recente — stessa forma, ordinabile per data di creazione.",
+            tr: "Bunlar RFC 4122 sürüm 4 UUID'leridir: cihazınızın kriptografik rastgele kaynağından 122 rastgele bit. Zamana göre sıralı tanımlayıcılar gerekiyorsa daha yeni v7 varyantına bakın — aynı biçim, oluşturma zamanına göre sıralanabilir.",
+            ko: "이것들은 RFC 4122 버전 4 UUID입니다: 기기의 암호학적 난수원에서 나온 122비트입니다. 시간 순 정렬 식별자가 필요하면 더 최신인 v7을 보세요 — 같은 형태, 생성 시각으로 정렬 가능합니다.",
+            ar: "هذه معرفات UUID الإصدار 4 وفق RFC 4122: 122 بت عشوائية من مصدر التشفير في جهازك. إن احتجت معرفات مرتبة زمنيًا فابحث عن الإصدار الأحدث v7 — الشكل نفسه وقابل للترتيب حسب وقت الإنشاء.",
+            hi: "ये RFC 4122 संस्करण 4 UUID हैं: आपके डिवाइस के क्रिप्टोग्राफ़िक यादृच्छिक स्रोत से 122 यादृच्छिक बिट। समय-क्रमित पहचानकर्ताओं के लिए नए v7 वेरिएंट को देखें — वही रूप, निर्माण समय से क्रमित।",
+            id: "Ini adalah UUID RFC 4122 versi 4: 122 bit acak dari sumber acak kriptografis perangkat Anda. Butuh pengenal terurut waktu? Lihat varian v7 yang lebih baru — bentuk sama, dapat diurutkan berdasarkan waktu pembuatan.",
+            vi: "Đây là UUID phiên bản 4 theo RFC 4122: 122 bit ngẫu nhiên từ nguồn ngẫu nhiên mật mã của thiết bị. Cần định danh có thứ tự thời gian thì xem biến thể v7 mới hơn — cùng dạng, sắp được theo thời gian tạo.",
           })}
         </Note>
       </div>

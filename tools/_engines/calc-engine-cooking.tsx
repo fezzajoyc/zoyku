@@ -64,20 +64,30 @@ const WEIGHT_UNITS: Array<[CookUnit, string, string, string, string, string]> = 
 ];
 
 const S = {
-  ingredient: { en: "Ingredient", zh: "食材", ja: "材料", es: "Ingrediente", pt: "Ingrediente" },
-  amount: { en: "Amount", zh: "数量", ja: "量", es: "Cantidad", pt: "Quantidade" },
-  from: { en: "From", zh: "从", ja: "変換元", es: "De", pt: "De" },
-  to: { en: "To", zh: "到", ja: "変換先", es: "A", pt: "Para" },
-  result: { en: "Result", zh: "结果", ja: "結果", es: "Resultado", pt: "Resultado" },
-  volume: { en: "Volume", zh: "体积", ja: "体積", es: "Volumen", pt: "Volume" },
-  weight: { en: "Weight", zh: "重量", ja: "重量", es: "Peso", pt: "Peso" },
-  oven: { en: "Oven temperatures", zh: "烤箱温度对照", ja: "オーブン温度の目安", es: "Temperaturas de horno", pt: "Temperaturas de forno" },
+  ingredient: { en: "Ingredient", zh: "食材", ja: "材料", es: "Ingrediente", pt: "Ingrediente", fr: "Ingrédient", de: "Zutat", ru: "Ингредиент", it: "Ingrediente", tr: "Malzeme", ko: "재료", ar: "المكوّن", hi: "सामग्री", id: "Bahan", vi: "Nguyên liệu" },
+  amount: { en: "Amount", zh: "数量", ja: "量", es: "Cantidad", pt: "Quantidade", fr: "Quantité", de: "Menge", ru: "Количество", it: "Quantità", tr: "Miktar", ko: "양", ar: "الكمية", hi: "मात्रा", id: "Jumlah", vi: "Số lượng" },
+  from: { en: "From", zh: "从", ja: "変換元", es: "De", pt: "De", fr: "De", de: "Von", ru: "Из", it: "Da", tr: "Kaynak", ko: "변환 전", ar: "من", hi: "से", id: "Dari", vi: "Từ" },
+  to: { en: "To", zh: "到", ja: "変換先", es: "A", pt: "Para", fr: "Vers", de: "Nach", ru: "В", it: "A", tr: "Hedef", ko: "변환 후", ar: "إلى", hi: "तक", id: "Ke", vi: "Sang" },
+  result: { en: "Result", zh: "结果", ja: "結果", es: "Resultado", pt: "Resultado", fr: "Résultat", de: "Ergebnis", ru: "Результат", it: "Risultato", tr: "Sonuç", ko: "결과", ar: "النتيجة", hi: "परिणाम", id: "Hasil", vi: "Kết quả" },
+  volume: { en: "Volume", zh: "体积", ja: "体積", es: "Volumen", pt: "Volume", fr: "Volume", de: "Volumen", ru: "Объём", it: "Volume", tr: "Hacim", ko: "부피", ar: "الحجم", hi: "आयतन", id: "Volume", vi: "Thể tích" },
+  weight: { en: "Weight", zh: "重量", ja: "重量", es: "Peso", pt: "Peso", fr: "Poids", de: "Gewicht", ru: "Вес", it: "Peso", tr: "Ağırlık", ko: "무게", ar: "الوزن", hi: "वज़न", id: "Berat", vi: "Khối lượng" },
+  oven: { en: "Oven temperatures", zh: "烤箱温度对照", ja: "オーブン温度の目安", es: "Temperaturas de horno", pt: "Temperaturas de forno", fr: "Températures du four", de: "Ofentemperaturen", ru: "Температуры духовки", it: "Temperature del forno", tr: "Fırın sıcaklıkları", ko: "오븐 온도", ar: "درجات حرارة الفرن", hi: "ओवन तापमान", id: "Suhu oven", vi: "Nhiệt độ lò" },
   invalid: {
     en: "Enter an amount of zero or more. Converting between volume and weight needs an ingredient from the list.",
     zh: "请输入 ≥ 0 的数量。体积和重量互转需要从列表中选择食材。",
     ja: "0 以上の量を入力してください。体積と重量の変換にはリストから材料を選ぶ必要があります。",
     es: "Introduzca una cantidad de cero o más. Para convertir entre volumen y peso hay que elegir un ingrediente de la lista.",
     pt: "Digite uma quantidade igual ou maior que zero. Para converter entre volume e peso, escolha um ingrediente da lista.",
+    fr: "Vérifiez les dates : cet outil attend des dates AAAA-MM-JJ et un nombre entier de jours.",
+    de: "Daten prüfen: Das Tool erwartet JJJJ-MM-TT-Daten und eine ganze Zahl von Tagen.",
+    ru: "Проверьте даты: нужен формат ГГГГ-ММ-ДД и целое число дней.",
+    it: "Controlla le date: lo strumento richiede date AAAA-MM-GG e un numero intero di giorni.",
+    tr: "Tarihleri kontrol edin: araç YYYY-AA-GG tarihleri ve tam sayı gün ister.",
+    ko: "날짜를 확인하세요: YYYY-MM-DD 형식의 날짜와 정수 일수가 필요합니다.",
+    ar: "تحقق من التواريخ: تتطلب الأداة تواريخ بصيغة YYYY-MM-DD وعددًا صحيحًا من الأيام.",
+    hi: "तारीखें जाँचें: उपकरण को YYYY-MM-DD तारीखें और पूर्ण दिनों की संख्या चाहिए।",
+    id: "Periksa tanggal: alat ini butuh tanggal YYYY-MM-DD dan jumlah hari bulat.",
+    vi: "Kiểm tra ngày: công cụ cần ngày dạng YYYY-MM-DD và số ngày nguyên.",
   },
   sameDim: {
     en: "Both units measure the same dimension, so the ingredient is not used for this conversion.",
@@ -85,6 +95,16 @@ const S = {
     ja: "両側の単位は同じ次元なので、この変換に材料は使われません。",
     es: "Ambas unidades miden lo mismo, así que el ingrediente no interviene en esta conversión.",
     pt: "As duas unidades medem a mesma grandeza, então o ingrediente não entra nesta conversão.",
+    fr: "Les deux unités mesurent la même dimension ; l'ingrédient n'est pas utilisé pour cette conversion.",
+    de: "Beide Einheiten messen dieselbe Dimension — die Zutat wird für diese Umrechnung nicht benötigt.",
+    ru: "Обе единицы измеряют одну величину — ингредиент для этого перевода не используется.",
+    it: "Entrambe le unità misurano la stessa dimensione: l'ingrediente non serve per questa conversione.",
+    tr: "Her iki birim de aynı boyutu ölçüyor — bu dönüşüm için malzemeye gerek yok.",
+    ko: "두 단위는 같은 차원을 측정합니다 — 이 변환에는 재료 정보가 사용되지 않습니다.",
+    ar: "كلتا الوحدتين تقيسان البعد نفسه — لا يُستخدم المكوّن في هذا التحويل.",
+    hi: "दोनों इकाइयाँ एक ही विमा मापती हैं — इस रूपांतरण में सामग्री की आवश्यकता नहीं।",
+    id: "Kedua satuan mengukur dimensi yang sama — bahan tidak dipakai untuk konversi ini.",
+    vi: "Hai đơn vị đo cùng chiều — không cần dùng nguyên liệu cho phép chuyển này.",
   },
   densityNote: {
     en: "Cup weights are published averages (King Arthur, USDA and similar sources): a scooped cup of flour can vary ±15 %. For baking precision, weigh your ingredients.",
@@ -92,6 +112,16 @@ const S = {
     ja: "1 カップのグラム数は King Arthur・USDA などの公開値の平均です。すくい方で ±15 % ぐらい変わります。製菓・製パンで正確さが必要なときは秤で量ってください。",
     es: "Los pesos por taza son promedios publicados (King Arthur, USDA y similares): una taza de harina puede variar ±15 %. Para precisión en repostería, pese los ingredientes.",
     pt: "Os pesos por xícara são médias publicadas (King Arthur, USDA e afins): uma xícara de farinha pode variar ±15 %. Para precisão na confeitaria, pese os ingredientes.",
+    fr: "Les poids de tasse sont des moyennes publiées (King Arthur, USDA et sources similaires) : une tasse versée de farine ≈ 120 g, une tasse tassée ≈ 160 g. Les écarts de mesure expliquent la plupart des différences de résultat.",
+    de: "Tassengewichte sind veröffentlichte Durchschnittswerte (King Arthur, USDA u. ä.): eine geschüttete Tasse Mehl ≈ 120 g, eine gestrichene ≈ 160 g. Messunterschiede erklären die meisten Abweichungen.",
+    ru: "Веса чашки — опубликованные средние (King Arthur, USDA и похожие): зачерпнутая чашка муки ≈ 120 г, без горки ≈ 160 г. Различия в мерке объясняют большинство расхождений.",
+    it: "I pesi della tazza sono medie pubblicate (King Arthur, USDA e simili): una tazza di farina prelevata ≈ 120 g, livellata ≈ 160 g. Le differenze di misura spiegano la maggior parte delle variazioni.",
+    tr: "Bardak ağırlıkları yayımlanmış ortalamalardır (King Arthur, USDA vb.): doldurulmuş bir bardak un ≈ 120 g, overilmiş ≈ 160 g. Ölçü farkları sonuç değişimlerinin çoğunu açıklar.",
+    ko: "컵 무게는 공개된 평균값입니다(King Arthur, USDA 등): 가득 퍼낸 밀가루 1컵 ≈ 120g, 수평으로 깎은 1컵 ≈ 160g. 계량 방식 차이가 결과 차이의 대부분을 설명합니다.",
+    ar: "أوزان الكوب متوسطات منشورة (King Arthur وUSOما شابه): كوب دقيق مكشوك ≈ 120 غ، مسوّى ≈ 160 غ. اختلاف طريقة القياس يفسر معظم فروق النتيجة.",
+    hi: "कप वज़न प्रकाशित औसत हैं (King Arthur, USDA आदि): डली हुई मैदा की कप ≈ 120 ग्राम, समान कटी हुई ≈ 160 ग्राम। मापन का अंतर ज़्यादातर अंतर समझाता है।",
+    id: "Berat cangkir adalah rata-rata terpublikasi (King Arthur, USDA, dll.): satu cangkir tepung yang ditakar penuh ≈ 120 g, diratakan ≈ 160 g. Perbedaan cara takar menjelaskan sebagian besar perbedaan hasil.",
+    vi: "Trọng lượng cốc là trung bình công bố (King Arthur, USDA v.v.): một cốc bột múc đầy ≈ 120 g, gạt ngang ≈ 160 g. Khác biệt cách đo giải thích phần lớn sai lệch kết quả.",
   },
 };
 
@@ -180,7 +210,7 @@ export function CalcEngineCooking() {
             </BigOut>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <CopyButton value={summary} label={pick(locale, { en: "Copy result", zh: "复制结果", ja: "結果をコピー", es: "Copiar resultado", pt: "Copiar resultado" })} />
+            <CopyButton value={summary} label={pick(locale, { en: "Copy result", zh: "复制结果", ja: "結果をコピー", es: "Copiar resultado", pt: "Copiar resultado", fr: "Copier le résultat", de: "Ergebnis kopieren", ru: "Копировать результат", it: "Copia risultato", tr: "Sonucu kopyala", ko: "결과 복사", ar: "نسخ النتيجة", hi: "परिणाम कॉपी करें", id: "Salin hasil", vi: "Sao chép kết quả" })} />
           </div>
           {sameDim && (
             <div className="mt-3">
