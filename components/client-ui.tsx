@@ -22,6 +22,7 @@ export function CopyButton({
 
   const copy = useCallback(async () => {
     const text = typeof value === "function" ? value() : value;
+    if (!text) return; // 空内容不进剪贴板、不闪 ✓
     try {
       await navigator.clipboard.writeText(text);
     } catch {
