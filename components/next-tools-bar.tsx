@@ -69,7 +69,7 @@ export function NextToolsBar({
                 }}
                 aria-label={isPinned ? labels.pinned[1] : labels.pinned[0]}
                 aria-pressed={isPinned}
-                className={`-mr-1 rounded p-0.5 text-[12px] transition-opacity ${
+                className={`-mr-1 rounded p-1.5 -m-1 text-[12px] transition-opacity max-sm:opacity-100 ${
                   isPinned
                     ? "text-[#f59e0b] opacity-100"
                     : "text-[var(--color-sub)] opacity-0 group-hover:opacity-100"
