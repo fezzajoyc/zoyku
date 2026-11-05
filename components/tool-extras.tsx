@@ -23,12 +23,14 @@ export function RecentTracker({
 }
 
 /** ?embed=1 时隐藏导航/页脚(iframe 小组件模式,外链钩子)。 */
-export function EmbedGate({ active }: { active: boolean }) {
+export function EmbedGate() {
   useEffect(() => {
+    // 客户端自检测 URL:page 已不读 searchParams(保持静态可缓存——CWV 轮实测发现工具页 CDN 全 MISS)
+    const active = new URLSearchParams(window.location.search).get("embed") === "1";
     if (!active) return;
     document.body.classList.add("embed-mode");
     return () => document.body.classList.remove("embed-mode");
-  }, [active]);
+  }, []);
   return null;
 }
 

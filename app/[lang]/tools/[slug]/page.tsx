@@ -65,10 +65,8 @@ export async function generateMetadata({
 
 export default async function ToolPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ lang: string; slug: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
@@ -82,8 +80,9 @@ export default async function ToolPage({
   const related = relatedTools(tool);
   const url = `${SITE.domain}/${locale}/tools/${tool.slug}`;
   const Engine = tool.engine.component;
-  const sp = (await searchParams) as { embed?: string } | undefined;
-  const embed = sp?.embed === "1";
+  // embed 模式(?embed=1)改由客户端 EmbedGate 自检测 + data-embed-hide CSS 隐藏:
+  // 此前读取 searchParams 使页面变 dynamic(private no-cache),CDN 全 MISS 每次回源——CWV 轮实测发现。
+  // embed 访客极少,SSR 仍输出内容(仅 CSS 隐藏),静态化收益远大于 embed 模式的首帧多渲染。
 
   return (
     <Container className="py-10 sm:py-12">
@@ -158,18 +157,16 @@ export default async function ToolPage({
           <h1 className="h1">{c.h1 ?? c.name}</h1>
           <p className="mt-2 max-w-2xl text-[16px] leading-6 text-[var(--color-sub)]">{c.tagline}</p>
         </div>
-        {!embed && (
-          <div className="flex-none pt-1">
-            <PinButton slug={tool.slug} labels={{ pin: t.home.pin, unpin: t.home.unpin }} />
-          </div>
-        )}
+        <div data-embed-hide className="flex-none pt-1">
+          <PinButton slug={tool.slug} labels={{ pin: t.home.pin, unpin: t.home.unpin }} />
+        </div>
       </div>
 
-      <EmbedGate active={embed} />
+      <EmbedGate />
       <Engine {...tool.engine.props} />
       <RecentTracker slug={tool.slug} icon={tool.icon} />
 
-      {!embed && (
+      <div data-embed-hide>
         <NextToolsBar
           locale={locale}
           tools={related.slice(0, 8).map((r) => {
@@ -183,7 +180,7 @@ export default async function ToolPage({
             pinned: [t.home.pin, t.home.unpin],
           }}
         />
-      )}
+      </div>
 
       <p className="mt-4 flex items-start gap-2 text-[13px] leading-5 text-[var(--color-sub)]">
         <Icon name="lock" size={15} className="mt-0.5 flex-none text-[var(--color-good)]" />
@@ -242,11 +239,9 @@ export default async function ToolPage({
         </section>
       )}
 
-      {!embed && (
-        <section className="mt-12 max-w-3xl">
-          <ToolEmbedBox slug={tool.slug} locale={locale} labels={{ title: t.embed?.title ?? "Embed this tool", desc: t.embed?.desc ?? "", copied: t.common.copied, copy: t.common.copy }} />
-        </section>
-      )}
+      <section className="mt-12 max-w-3xl" data-embed-hide>
+        <ToolEmbedBox slug={tool.slug} locale={locale} labels={{ title: t.embed?.title ?? "Embed this tool", desc: t.embed?.desc ?? "", copied: t.common.copied, copy: t.common.copy }} />
+      </section>
 
       <div className="mt-10">
         <Pill tone="good">

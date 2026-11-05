@@ -330,7 +330,8 @@ details.faq {
 
 /* iframe 小组件模式 */
 body.embed-mode header,
-body.embed-mode footer {
+body.embed-mode footer,
+body.embed-mode [data-embed-hide] {
   display: none;
 }
 
