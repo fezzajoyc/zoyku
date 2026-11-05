@@ -20,6 +20,7 @@ export function CalcEngineQr() {
   const [ecc, setEcc] = useState<Ecc>("M");
   const [dark, setDark] = useState("#1d1d1f");
   const [light, setLight] = useState("#ffffff");
+  const [logo, setLogo] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -41,6 +42,29 @@ export function CalcEngineQr() {
           errorCorrectionLevel: ecc,
           color: { dark, light },
         });
+        // LOGO 叠加:中心留白由 EC 纠错冗余兜底(H=30% 冗余最稳);占码面 ≤12%,圆角白底保对比
+        if (logo) {
+          const ctx = canvasRef.current.getContext("2d");
+          if (ctx) {
+            const img = new Image();
+            await new Promise<void>((res, rej) => {
+              img.onload = () => res();
+              img.onerror = () => rej(new Error("logo load failed"));
+              img.src = logo;
+            });
+            const logoSide = Math.round(size * 0.22);
+            const pad = Math.round(logoSide * 0.12);
+            const box = logoSide + pad * 2;
+            const x = (size - box) / 2;
+            const y = (size - box) / 2;
+            ctx.fillStyle = light;
+            ctx.beginPath();
+            const radius = Math.round(box * 0.18);
+            ctx.roundRect(x, y, box, box, radius);
+            ctx.fill();
+            ctx.drawImage(img, x + pad, y + pad, logoSide, logoSide);
+          }
+        }
         if (alive) setReady(true);
       } catch {
         if (alive) setReady(false);
@@ -49,7 +73,7 @@ export function CalcEngineQr() {
     return () => {
       alive = false;
     };
-  }, [text, size, ecc, dark, light]);
+  }, [text, size, ecc, dark, light, logo]);
 
   const downloadPng = async () => {
     if (!canvasRef.current || !ready) return;
@@ -102,6 +126,51 @@ export function CalcEngineQr() {
               </div>
             </Field>
           </div>
+          <Field label={pick(locale, { en: "Logo (optional, center)", zh: "中心 LOGO(可选)", ja: "ロゴ(任意・中央)", es: "Logotipo (opcional, centro)", pt: "Logotipo (opcional, centro)", fr: "Logo (facultatif, centre)", de: "Logo (optional, Mitte)", ru: "Логотип (необяз., центр)", it: "Logo (facoltativo, centro)", tr: "Logo (isteğe bağlı, orta)", ko: "로고(선택, 중앙)", ar: "الشعار (اختياري، الوسط)", hi: "लोगो (वैकल्पिक, केंद्र)", id: "Logo (opsional, tengah)", vi: "Logo (không bắt buộc, giữa)" })}>
+            <div className="flex items-center gap-2.5">
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                className="text-[13px]"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (!f) { setLogo(null); return; }
+                  const reader = new FileReader();
+                  reader.onload = () => setLogo(String(reader.result));
+                  reader.readAsDataURL(f);
+                }}
+                aria-label="logo file"
+              />
+              {logo && (
+                <button
+                  type="button"
+                  onClick={() => setLogo(null)}
+                  className="rounded-full border hairline px-3 py-1.5 text-[13px] font-medium transition-colors hover:bg-[var(--color-surface)]"
+                >
+                  × {t.common.clear}
+                </button>
+              )}
+            </div>
+            <p className="mt-1.5 text-[12.5px] leading-5 text-[var(--color-sub)]">
+              {pick(locale, {
+                en: "Best with error correction H — the code hides the logo from its redundant modules. Keep the logo under ~25% of the code area.",
+                zh: "建议搭配纠错级别 H——码点会从冗余模块里“让出”LOGO 位置,LOGO 面积控制在码面 25% 以内。",
+                ja: "誤り訂正レベル H との併用が最適です。冗余モジュールがロゴ分を吸収します。ロゴはコード面積の 25% 以内に。",
+                es: "Mejor con corrección H: los módulos redundantes dejan espacio al logo. Mantén el logo bajo ~25% del área del código.",
+                pt: "Melhor com correção H: os módulos redundantes abrem espaço ao logo. Mantenha o logo abaixo de ~25% da área do código.",
+                fr: "Idéal avec la correction H : les modules redondants laissent la place au logo. Gardez le logo sous ~25 % de la zone du code.",
+                de: "Am besten mit Korrektur H: Die redundanten Module machen Platz für das Logo. Logo unter ~25 % der Codefläche halten.",
+                ru: "Лучше всего с коррекцией H: избыточные модули освобождают место под логотип. Держите логотип в пределах ~25% площади кода.",
+                it: "Meglio con correzione H: i moduli ridondanti lasciano spazio al logo. Tieni il logo sotto il ~25% dell'area del codice.",
+                tr: "H düzeltme ile en iyi sonuç: yedek modüller logoya yer açar. Logoyu kod alanının ~%25'inin altında tutun.",
+                ko: "오류 복구 H와 함께 쓰는 것이 좋습니다 — 여분 모듈이 로고 자리를 흡수합니다. 로고는 코드 면적의 25% 이내로.",
+                ar: "الأفضل مع تصحيح H: الوحدات الزائدة تترك مكانًا للشعار. حافظ على الشعار أقل من ~25% من مساحة الرمز.",
+                hi: "सुधार H के साथ सबसे अच्छा — अतिरिक्त मॉड्यूल लोगो की जगह बनाते हैं। लोगो को कोड क्षेत्र के ~25% से नीचे रखें।",
+                id: "Paling baik dengan koreksi H — modul redundan memberi ruang bagi logo. Jaga logo di bawah ~25% area kode.",
+                vi: "Nên dùng kèm sửa lỗi H — các mô-đun dự phòng chừa chỗ cho logo. Giữ logo dưới ~25% diện tích mã.",
+              })}
+            </p>
+          </Field>
           <Field label={`${pick(locale, { en: "Size", zh: "尺寸", ja: "サイズ", es: "Tamaño", pt: "Tamanho", fr: "Taille", de: "Größe", ru: "Размер", it: "Dimensione", tr: "Boyut", ko: "크기", ar: "الحجم", hi: "आकार", id: "Ukuran", vi: "Kích thước" })} (${size} px)`}>
             <input type="range" min={128} max={768} step={16} value={size} onChange={(e) => setSize(Number(e.target.value))} className="w-full" aria-label="qr size" />
           </Field>
