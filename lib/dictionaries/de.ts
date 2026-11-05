@@ -144,6 +144,8 @@ const de = {
       readingTime: "Lesezeit",
       readingMinutes: "{n} Min. Lesezeit",
       emptyHint: "Tippen Sie oder fügen Sie Text ein — alle Statistiken aktualisieren sich live.",
+      flowTitle: "Satzrhythmus",
+      flowBands: ["1–6 Wörter · kurz", "7–14 · Standard", "15–24 · lang", "25+ · zu lang"],
       uniqueWords: "Eindeutige Wörter",
       avgWordLen: "Ø Wortlänge",
       pages: "Seiten",

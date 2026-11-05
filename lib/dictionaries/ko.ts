@@ -146,6 +146,8 @@ const ko: Dictionary = {
       readingTime: "읽는 시간",
       readingMinutes: "약 {n}분",
       emptyHint: "입력하거나 붙여넣으면 모든 통계가 실시간으로 업데이트됩니다.",
+      flowTitle: "문장 리듬",
+      flowBands: ["1–6 단어 · 짧은 문장", "7–14 · 표준", "15–24 · 긴 문장", "25+ · 매우 김"],
       uniqueWords: "고유 단어",
       avgWordLen: "평균 단어 길이",
       pages: "페이지 수",

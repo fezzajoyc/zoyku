@@ -993,6 +993,33 @@ export function countTextStats(text: string) {
   return { words, characters, charsNoSpaces, sentences, paragraphs, lines, cjkChars: cjk };
 }
 
+/** 句子流高亮:按词数分 4 带(0 短促/1 中等/2 偏长/3 过长)。
+ *  对标 wordcounter.net Flow Score,阈值参考写作指导常用分段。 */
+export function sentenceBand(words: number): 0 | 1 | 2 | 3 {
+  if (words <= 6) return 0;
+  if (words <= 14) return 1;
+  if (words <= 24) return 2;
+  return 3;
+}
+
+/** 把文本切成 {text, band} 段(句子按带着色;句间分隔符原样保留,band = -1)。
+ *  用于 textarea 背后的高亮叠层。 */
+export function sentenceSegments(text: string): Array<{ text: string; band: number }> {
+  const parts: Array<{ text: string; band: number }> = [];
+  const re = /[^.!?。！？…]+[.!?。！？…]+|[^.!?。！？…]+$/g;
+  let last = 0;
+  for (const m of text.matchAll(re)) {
+    if (m.index! > last) parts.push({ text: text.slice(last, m.index), band: -1 });
+    const sent = m[0];
+    const c = (sent.match(CJK_RE) ?? []).length;
+    const words = (sent.replace(CJK_RE, " ").replace(CJK_PUNCT_RE, " ").match(/[^\s]+/g) ?? []).length + c;
+    parts.push({ text: sent, band: words === 0 ? -1 : sentenceBand(words) });
+    last = m.index! + sent.length;
+  }
+  if (last < text.length) parts.push({ text: text.slice(last), band: -1 });
+  return parts;
+}
+
 /** 关键词洞察(word-counter 深度面板用):唯一词/平均词长/页数/演讲时长/高频词。
  *  对标 wordcounter.net 的统计广度,但全部纯前端。 */
 export function computeTextInsights(text: string, stats?: ReturnType<typeof countTextStats>) {

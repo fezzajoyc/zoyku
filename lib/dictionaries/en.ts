@@ -161,6 +161,8 @@ const en = {
       readingTime: "Reading time",
       readingMinutes: "{n} min read",
       emptyHint: "Start typing or paste your text — every stat updates live as you type.",
+      flowTitle: "Sentence flow",
+      flowBands: ["1–6 words · punchy", "7–14 · standard", "15–24 · long", "25+ · very long"],
       uniqueWords: "Unique words",
       avgWordLen: "Avg word length",
       pages: "Pages",

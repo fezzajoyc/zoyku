@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { countTextStats as countStats, computeTextInsights, checkPlatformLimits } from "../_lib/transforms";
+import { countTextStats as countStats, computeTextInsights, checkPlatformLimits, sentenceSegments, sentenceBand } from "../_lib/transforms";
 import { fill } from "../_lib/types";
 
 
@@ -11,6 +11,7 @@ import { fill } from "../_lib/types";
 export function TextStats({ primary }: { primary: "words" | "characters" | "sentences" }) {
   const { t } = useI18n();
   const [input, setInput] = useState("");
+  const [flowOn, setFlowOn] = useState(true);
   const stats = useMemo(() => countStats(input), [input]);
   const insights = useMemo(() => computeTextInsights(input, stats), [input, stats]);
   // 平台限制校验:character 视角(character-counter)才显示,词数视角不掺和
@@ -51,13 +52,33 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
   return (
     <ToolPanel>
       <div className="relative">
+        {flowOn && hasText && input.length <= 20000 && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre-wrap break-words rounded-xl border border-transparent px-3.5 py-2.5 text-[15px] leading-6 text-transparent"
+          >
+            {sentenceSegments(input).map((seg, i) =>
+              seg.band === -1 ? (
+                <span key={i}>{seg.text}</span>
+              ) : (
+                <mark key={i} className={`rounded px-0.5 flow-band-${seg.band}`}>
+                  {seg.text}
+                </mark>
+              ),
+            )}
+          </div>
+        )}
         <textarea
-          className="field"
+          className="field relative bg-transparent"
           rows={10}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={t.common.input}
           aria-label={t.common.input}
+          onScroll={(e) => {
+            const backdrop = (e.target as HTMLTextAreaElement).previousElementSibling as HTMLElement | null;
+            if (backdrop) backdrop.scrollTop = (e.target as HTMLTextAreaElement).scrollTop;
+          }}
         />
         {input !== "" && (
           <button
@@ -74,6 +95,29 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
         <p className="mt-3 text-center text-[13px] text-[var(--color-sub)]">
           {t.text.stats.emptyHint}
         </p>
+      )}
+      {hasText && input.length <= 20000 && (
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-[var(--color-sub)]">
+          <button
+            type="button"
+            onClick={() => setFlowOn((v) => !v)}
+            aria-pressed={flowOn}
+            className={`rounded-full border px-2.5 py-0.5 font-medium transition-colors ${
+              flowOn
+                ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
+                : "hairline hover:bg-[var(--color-surface)]"
+            }`}
+          >
+            {t.text.stats.flowTitle}
+          </button>
+          {flowOn &&
+            ([0, 1, 2, 3] as const).map((b) => (
+              <span key={b} className="inline-flex items-center gap-1">
+                <span aria-hidden className={`inline-block h-2.5 w-2.5 rounded-sm flow-band-${b}`} />
+                {t.text.stats.flowBands[b]}
+              </span>
+            ))}
+        </div>
       )}
       <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
         {cells.map((c, i) => (

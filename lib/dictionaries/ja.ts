@@ -141,6 +141,8 @@ const ja: Dictionary = {
       readingTime: "読了時間",
       readingMinutes: "約 {n} 分",
       emptyHint: "入力またはペーストすると、すべての統計がリアルタイムで更新されます。",
+      flowTitle: "文のリズム",
+      flowBands: ["1–6語 · 短い", "7–14語 · 標準", "15–24語 · 長め", "25語以上 · 長過ぎ"],
       uniqueWords: "ユニークな単語",
       avgWordLen: "平均単語長",
       pages: "ページ数",

@@ -141,6 +141,8 @@ const pt: Dictionary = {
       readingTime: "Tempo de leitura",
       readingMinutes: "{n} min de leitura",
       emptyHint: "Comece a digitar ou cole seu texto — todas as estatísticas atualizam em tempo real.",
+      flowTitle: "Ritmo das frases",
+      flowBands: ["1–6 palavras · curta", "7–14 · padrão", "15–24 · longa", "25+ · longa demais"],
       uniqueWords: "Palavras únicas",
       avgWordLen: "Compr. médio palavra",
       pages: "Páginas",

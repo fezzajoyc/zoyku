@@ -7,6 +7,8 @@
 import { describe, it, expect } from "vitest";
 import {
   checkPlatformLimits,
+  sentenceBand,
+  sentenceSegments,
   cleanText,
   deepSortKeys,
   computeTextInsights,
@@ -1009,5 +1011,29 @@ describe("writing metrics(word-counter 第 3 轮:Flesch-Kincaid/句长)", () => 
     const ins = computeTextInsights("你好世界 测试 文本。");
     expect(ins.avgSentenceWords).toBe(8); // 单句全 CJK:8 字逐字计词
     expect(ins.longestSentenceWords).toBe(8);
+  });
+});
+
+describe("sentence flow(word-counter 第 4 轮:句子分带高亮)", () => {
+  it("分带阈值:6/14/24 边界", () => {
+    expect(sentenceBand(6)).toBe(0);
+    expect(sentenceBand(7)).toBe(1);
+    expect(sentenceBand(14)).toBe(1);
+    expect(sentenceBand(15)).toBe(2);
+    expect(sentenceBand(24)).toBe(2);
+    expect(sentenceBand(25)).toBe(3);
+  });
+
+  it("sentenceSegments:句子带 band,句间空白 band=-1", () => {
+    const segs = sentenceSegments("One two. Three!");
+    expect(segs).toEqual([
+      { text: "One two.", band: 0 },
+      { text: " Three!", band: 0 }, // 前导空格随第二句(正则语义,高亮视觉无差异)
+    ]);
+  });
+
+  it("CJK 句子按逐字词数分带", () => {
+    const segs = sentenceSegments("你好世界测试文本。");
+    expect(segs[0].band).toBe(1); // 8 字 = 8 词 → 7-14 带
   });
 });

@@ -144,6 +144,8 @@ const it = {
       readingTime: "Tempo di lettura",
       readingMinutes: "{n} min di lettura",
       emptyHint: "Inizia a digitare o incolla il testo: tutte le statistiche si aggiornano in tempo reale.",
+      flowTitle: "Ritmo delle frasi",
+      flowBands: ["1–6 parole · incisiva", "7–14 · standard", "15–24 · lunga", "25+ · molto lunga"],
       uniqueWords: "Parole uniche",
       avgWordLen: "Lung. media parola",
       pages: "Pagine",

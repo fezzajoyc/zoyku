@@ -143,6 +143,8 @@ const tr = {
       readingTime: "Okuma süresi",
       readingMinutes: "{n} dk okuma",
       emptyHint: "Yazmaya başlayın veya metninizi yapıştırın — tüm istatistikler anında güncellenir.",
+      flowTitle: "Cümle ritmi",
+      flowBands: ["1–6 kelime · vurucu", "7–14 · standart", "15–24 · uzun", "25+ · çok uzun"],
       uniqueWords: "Benzersiz kelime",
       avgWordLen: "Ort. kelime uzunluğu",
       pages: "Sayfa",

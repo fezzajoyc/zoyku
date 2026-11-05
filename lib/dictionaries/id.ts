@@ -144,6 +144,8 @@ const id = {
       readingTime: "Waktu baca",
       readingMinutes: "{n} mnt baca",
       emptyHint: "Mulai mengetik atau tempel teks Anda — semua statistik diperbarui secara langsung.",
+      flowTitle: "Ritme kalimat",
+      flowBands: ["1–6 kata · tajam", "7–14 · standar", "15–24 · panjang", "25+ · sangat panjang"],
       uniqueWords: "Kata unik",
       avgWordLen: "Rata-rata panjang kata",
       pages: "Halaman",

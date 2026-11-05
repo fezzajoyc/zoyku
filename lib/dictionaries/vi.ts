@@ -144,6 +144,8 @@ const vi = {
       readingTime: "Thời gian đọc",
       readingMinutes: "{n} phút đọc",
       emptyHint: "Bắt đầu nhập hoặc dán văn bản — mọi số liệu cập nhật trực tiếp khi bạn gõ.",
+      flowTitle: "Nhịp câu",
+      flowBands: ["1–6 từ · ngắn gọn", "7–14 · chuẩn", "15–24 · dài", "25+ · rất dài"],
       uniqueWords: "Từ duy nhất",
       avgWordLen: "Độ dài từ trung bình",
       pages: "Số trang",

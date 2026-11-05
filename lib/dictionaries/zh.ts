@@ -141,6 +141,8 @@ const zh: Dictionary = {
       readingTime: "阅读时长",
       readingMinutes: "约 {n} 分钟",
       emptyHint: "开始输入或粘贴文本——所有统计随输入实时更新。",
+      flowTitle: "句子节奏",
+      flowBands: ["1–6 词 · 短促有力", "7–14 词 · 标准", "15–24 词 · 偏长", "25+ 词 · 过长"],
       uniqueWords: "不重复词",
       avgWordLen: "平均词长",
       pages: "页数",
