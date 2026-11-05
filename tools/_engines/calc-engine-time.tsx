@@ -104,7 +104,9 @@ function Timezone() {
     const ref = new Date(now);
     ref.setUTCHours(12, 0, 0, 0);
     const offFrom = tzOffsetMinutes(from, ref);
-    const wall = new Intl.DateTimeFormat("en-CA", { timeZone: from, year: "numeric", month: "2-digit", day: "2-digit" }).format(ref);
+    // "today" 的基准日取 from 城市的**当前**本地日期(用户此刻所在日),
+    // 而非 UTC 正午 ref 的日期——from 跨过午夜而 UTC 还没过时,正午法会把表慢一天(实测 bug,2026-11-06)。
+    const wall = new Intl.DateTimeFormat("en-CA", { timeZone: from, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(now));
     const [wy, wm, wd] = wall.split("-").map(Number);
     const rows: { h: number; label: string; date: string }[] = [];
     for (let h = 0; h < 24; h++) {
