@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { jsonToTs, jsonDiff, jsonQuery } from "@/tools/_lib/jsontool";
-import { toFullWidth, toHalfWidth } from "@/tools/_lib/transforms";
+import { jsonHintKey, toFullWidth, toHalfWidth } from "@/tools/_lib/transforms";
 
 describe("jsonToTs", () => {
   it("generates a flat interface from a simple object", () => {
@@ -118,5 +118,30 @@ describe("full/half width (CJK case feature)", () => {
   it("handles empty and already-converted strings", () => {
     expect(toFullWidth("")).toBe("");
     expect(toHalfWidth("")).toBe("");
+  });
+});
+
+describe("jsonHintKey (人话错误提示,R3 json-formatter)", () => {
+  it("尾逗号 → trailingComma", () => {
+    expect(jsonHintKey('{"a": 1, "b": 2,}')).toBe("trailingComma");
+    expect(jsonHintKey('[1, 2, 3, ]')).toBe("trailingComma");
+  });
+  it("单引号 → singleQuote", () => {
+    expect(jsonHintKey("{'a': 1}")).toBe("singleQuote");
+    expect(jsonHintKey('{"a": \'x\'}')).toBe("singleQuote");
+  });
+  it("少右括号 → unexpectedEnd", () => {
+    expect(jsonHintKey('{"a": [1, 2')).toBe("unexpectedEnd");
+    expect(jsonHintKey('{"a": "b"')).toBe("unexpectedEnd");
+  });
+  it("未加引号的词 → unquotedWord", () => {
+    expect(jsonHintKey('{a: 1}')).toBe("unquotedWord");
+    expect(jsonHintKey('{"a": tru}')).toBe("unquotedWord");
+  });
+  it("非法转义 → invalidEscape", () => {
+    expect(jsonHintKey('{"a": "b\\x"}')).toBe("invalidEscape");
+  });
+  it("合法 JSON → null", () => {
+    expect(jsonHintKey('{"a": [1, {"b": null}]}')).toBeNull();
   });
 });

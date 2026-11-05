@@ -189,6 +189,39 @@ function lineColOf(s: string, pos: number): { line: number; col: number } {
   return { line, col: stop - last };
 }
 
+/** 常见 JSON 错误的人话提示键(渲染层按 locale 本地化) */
+export type JsonHintKey = "trailingComma" | "singleQuote" | "unexpectedEnd" | "unquotedWord" | "invalidEscape";
+
+/** 由手写扫描的错误消息推断提示键;找不出返回 null。 */
+export function jsonHintKey(s: string): JsonHintKey | null {
+  const e = findJsonError(s);
+  if (!e) return null;
+  const msg = e.msg;
+  const hasSingleQuote = /[:\[]\s*'/.test(s) || /,\s*'/.test(s) || /\{\s*'/.test(s);
+  const hasTrailingComma = /,\s*[}\]]/.test(s);
+  // 尾逗号:扫描器报 "Expected ... " 或 "Unexpected token ']'"/"'}'",且全文存在 ,] / ,} 模式
+  if ((msg.startsWith("Expected") || msg.startsWith("Unexpected token")) && hasTrailingComma) return "trailingComma";
+  if (msg.includes("Invalid escape") || msg.includes("Invalid \\u")) return "invalidEscape";
+  if (msg === "Unterminated string" || msg === "Unexpected end of input") {
+    if (hasSingleQuote) return "singleQuote";
+    return "unexpectedEnd";
+  }
+  if (msg.startsWith("Expected property name")) {
+    // {'a': 1} 单引号键 / {a: 1} 未引号键
+    if (/\{\s*'/.test(s)) return "singleQuote";
+    return "unquotedWord";
+  }
+  if (msg.startsWith("Expected ',' or '}'") && !s.trimEnd().endsWith(",")) {
+    // "Expected ',' or '}', got ''" = 缺右括号
+    return "unexpectedEnd";
+  }
+  if (msg.startsWith("Unexpected token")) {
+    if (hasSingleQuote) return "singleQuote";
+    return "unquotedWord";
+  }
+  return null;
+}
+
 /** 手写 JSON 语法扫描:返回第一个错误(1 基行/列),合法输入返回 null。 */
 export function findJsonError(s: string): { line: number; col: number; msg: string } | null {
   const n = s.length;

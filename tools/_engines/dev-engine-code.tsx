@@ -5,6 +5,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { CopyButton, formatBytes } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import { TRANSFORMS } from "../_lib/transform-registry";
+import { jsonHintKey, type JsonHintKey } from "../_lib/transforms";
 
 /**
  * Developer 类目的格式化/压缩/校验通用引擎:
@@ -56,7 +57,102 @@ const SORT_LABELS: Record<string, string> = {
   id: "Urutkan kunci A→Z",
   vi: "Sắp xếp khóa A→Z",
 };
+const UTF8_HINTS: Record<string, Record<string, string>> = {
+  trailingComma: {
+    en: "Hint: you probably have an extra comma before a closing bracket — remove the last comma in a list or object.",
+    zh: "提示:右括号前很可能多了一个逗号——删掉列表或对象末尾的最后一个逗号。",
+    ja: "ヒント:閉じ括弧の直前に余分なカンマがある可能性があります。リストやオブジェクト末尾のカンマを削除してください。",
+    es: "Sugerencia: probablemente hay una coma extra antes de un corchete de cierre: elimina la última coma de la lista u objeto.",
+    pt: "Dica: provavelmente há uma vírgula extra antes de um colchete de fechamento — remova a última vírgula da lista ou objeto.",
+    fr: "Astuce : il y a probablement une virgule en trop avant une accolade — supprimez la dernière virgule de la liste ou de l'objet.",
+    de: "Hinweis: Vor einer schließenden Klammer steht vermutlich ein überzähliges Komma – entferne das letzte Komma der Liste oder des Objekts.",
+    ru: "Подсказка: скорее всего, лишняя запятая перед закрывающей скобкой — удалите последнюю запятую в списке или объекте.",
+    it: "Suggerimento: probabilmente c'è una virgola in più prima di una parentesi chiusa: rimuovi l'ultima virgola della lista o dell'oggetto.",
+    tr: "İpucu: kapanış parantezinden önce fazladan bir virgül olabilir — liste veya nesnedeki son virgülü kaldırın.",
+    ko: "힌트: 닫는 괄호 앞에 쉼표가 하나 더 있을 가능성이 높습니다 — 목록이나 객체의 마지막 쉼표를 삭제하세요.",
+    ar: "تلميح: على الأرجح توجد فاصلة زائدة قبل قوس الإغلاق — احذف الفاصلة الأخيرة من القائمة أو الكائن.",
+    hi: "संकेत: संभवतः बंद होने वाले ब्रैकेट से पहले एक अतिरिक्त कॉमा है — सूची या ऑब्जेक्ट का अंतिम कॉमा हटाएँ।",
+    id: "Petunjuk: kemungkinan ada koma ekstra sebelum kurung penutup — hapus koma terakhir pada daftar atau objek.",
+    vi: "Gợi ý: có thể có dấu phẩy thừa trước dấu ngoặc đóng — hãy xóa dấu phẩy cuối cùng trong danh sách hoặc đối tượng.",
+  },
+  singleQuote: {
+    en: "Hint: JSON strings must use double quotes (\") — single quotes (') are not valid.",
+    zh: "提示:JSON 字符串必须用双引号(\")——单引号(')不合法。",
+    ja: "ヒント:JSON の文字列はダブルクォート(\")必須です。シングルクォート(')は使えません。",
+    es: "Sugerencia: las cadenas JSON deben usar comillas dobles (\") — las comillas simples (') no son válidas.",
+    pt: "Dica: strings em JSON devem usar aspas duplas (\") — aspas simples (') não são válidas.",
+    fr: "Astuce : les chaînes JSON doivent utiliser des guillemets doubles (\") — les apostrophes (') ne sont pas valides.",
+    de: "Hinweis: JSON-Strings müssen doppelte Anführungszeichen (\") verwenden – einfache (') sind ungültig.",
+    ru: "Подсказка: строки в JSON должны быть в двойных кавычках (\") — одинарные (') недопустимы.",
+    it: "Suggerimento: le stringhe JSON devono usare virgolette doppie (\") — gli apostrofi (') non sono validi.",
+    tr: "İpucu: JSON dizeleri çift tırnak (\") kullanmalıdır — tek tırnak (') geçersizdir.",
+    ko: "힌트: JSON 문자열은 큰따옴표(\")를 써야 합니다 — 작은따옴표(')는 유효하지 않습니다.",
+    ar: "تلميح: يجب أن تستخدم سلاسل JSON علامات اقتباس مزدوجة (\") — علامات الاقتباس المفردة (') غير صالحة.",
+    hi: "संकेत: JSON स्ट्रिंग में डबल कोट (\") ही इस्तेमाल करें — सिंगल कोट (') मान्य नहीं है।",
+    id: "Petunjuk: string JSON harus memakai tanda kutip ganda (\") — tanda kutip tunggal (') tidak valid.",
+    vi: "Gợi ý: chuỗi JSON phải dùng dấu nháy kép (\") — dấu nháy đơn (') không hợp lệ.",
+  },
+  unexpectedEnd: {
+    en: "Hint: the JSON ended early — check for a missing closing bracket or brace.",
+    zh: "提示:JSON 提前结束——检查是否少了右括号或右花括号。",
+    ja: "ヒント:JSON が途中で終わっています。閉じ括弧の打ち漏れを確認してください。",
+    es: "Sugerencia: el JSON terminó antes de tiempo: revisa si falta un corchete o llave de cierre.",
+    pt: "Dica: o JSON terminou mais cedo — verifique se falta um colchete ou chave de fechamento.",
+    fr: "Astuce : le JSON s'est terminé prématurément — vérifiez qu'il ne manque pas une accolade ou un crochet fermant.",
+    de: "Hinweis: Der JSON-Text endet vorzeitig – prüfe, ob eine schließende Klammer fehlt.",
+    ru: "Подсказка: JSON оборвался — проверьте, не пропущена ли закрывающая скобка.",
+    it: "Suggerimento: il JSON è finito troppo presto — controlla se manca una parentesi chiusa.",
+    tr: "İpucu: JSON erken bitti — eksik kapanış parantezi olup olmadığını kontrol edin.",
+    ko: "힌트: JSON이 도중에 끝났습니다 — 닫는 괄호가 빠졌는지 확인하세요.",
+    ar: "تلميح: انتهى JSON مبكرًا — تحقق من عدم وجود قوس إغلاق ناقص.",
+    hi: "संकेत: JSON जल्दी खत्म हो गया — बंद होने वाला ब्रैकेट छूटा तो नहीं, जाँचें।",
+    id: "Petunjuk: JSON berhenti terlalu dini — periksa apakah ada kurung penutup yang hilang.",
+    vi: "Gợi ý: JSON kết thúc sớm — kiểm tra xem có thiếu dấu ngoặc đóng không.",
+  },
+  unquotedWord: {
+    en: "Hint: this word needs to be in double quotes — keys and text values in JSON must be quoted.",
+    zh: "提示:这个词需要用双引号包起来——JSON 的键和文本值都必须加引号。",
+    ja: "ヒント:この単語はダブルクォートで囲む必要があります。JSON のキーと文字列値は必ず引用符で囲みます。",
+    es: "Sugerencia: esta palabra necesita comillas dobles — las claves y los valores de texto en JSON deben ir entre comillas.",
+    pt: "Dica: esta palavra precisa de aspas duplas — chaves e valores de texto em JSON devem estar entre aspas.",
+    fr: "Astuce : ce mot doit être entre guillemets doubles — les clés et les valeurs textuelles du JSON doivent être citées.",
+    de: "Hinweis: Dieses Wort muss in doppelte Anführungszeichen – Schlüssel und Textwerte müssen in JSON zitiert werden.",
+    ru: "Подсказка: это слово нужно заключить в двойные кавычки — ключи и текстовые значения в JSON обязательно в кавычках.",
+    it: "Suggerimento: questa parola va tra virgolette doppie — chiavi e valori testuali in JSON devono essere quotati.",
+    tr: "İpucu: bu kelime çift tırnak içine alınmalı — JSON'da anahtarlar ve metin değerleri tırnak içinde olmalıdır.",
+    ko: "힌트: 이 단어는 큰따옴표로 감싸야 합니다 — JSON의 키와 문자열 값은 반드시 따옴표로 감쌉니다.",
+    ar: "تلميح: هذه الكلمة تحتاج إلى علامتي اقتباس مزدوجتين — المفاتيح والقيم النصية في JSON يجب أن تكون بين علامتي اقتباس.",
+    hi: "संकेत: इस शब्द को डबल कोट में लपेटें — JSON में कुंजियाँ और टेक्स्ट मान अनिवार्य रूप से कोट में होते हैं।",
+    id: "Petunjuk: kata ini perlu tanda kutip ganda — kunci dan nilai teks dalam JSON wajib dikutip.",
+    vi: "Gợi ý: từ này cần đặt trong dấu nháy kép — khóa và giá trị văn bản trong JSON bắt buộc phải có nháy.",
+  },
+  invalidEscape: {
+    en: "Hint: valid escapes are \\\" \\\\ \\/ \\b \\f \\n \\r \\t and \\uXXXX — check the backslash usage.",
+    zh: "提示:合法转义只有 \\\" \\\\ \\/ \\b \\f \\n \\r \\t 和 \\uXXXX——检查反斜杠用法。",
+    ja: "ヒント:有効なエスケープは \\\" \\\\ \\/ \\b \\f \\n \\r \\t と \\uXXXX です。バックスラッシュの使い方を確認してください。",
+    es: "Sugerencia: los escapes válidos son \\\" \\\\ \\/ \\b \\f \\n \\r \\t y \\uXXXX — revisa el uso de la barra invertida.",
+    pt: "Dica: as escapes válidas são \\\" \\\\ \\/ \\b \\f \\n \\r \\t e \\uXXXX — verifique o uso da barra invertida.",
+    fr: "Astuce : les échappements valides sont \\\" \\\\ \\/ \\b \\f \\n \\r \\t et \\uXXXX — vérifiez l'usage de l'antislash.",
+    de: "Hinweis: Gültige Escapes sind \\\" \\\\ \\/ \\b \\f \\n \\r \\t und \\uXXXX – prüfe die Backslash-Verwendung.",
+    ru: "Подсказка: допустимые escape: \\\" \\\\ \\/ \\b \\f \\n \\r \\t и \\uXXXX — проверьте использование обратной косой черты.",
+    it: "Suggerimento: le escape valide sono \\\" \\\\ \\/ \\b \\f \\n \\r \\t e \\uXXXX — controlla l'uso del backslash.",
+    tr: "İpucu: geçerli kaçış dizileri \\\" \\\\ \\/ \\b \\f \\n \\r \\t ve \\uXXXX — ters bölü kullanımını kontrol edin.",
+    ko: "힌트: 유효한 이스케이프는 \\\" \\\\ \\/ \\b \\f \\n \\r \\t 와 \\uXXXX 입니다 — 백슬래시 사용을 확인하세요.",
+    ar: "تلميح: رموز التهريب الصالحة هي \\\" \\\\ \\/ \\b \\f \\n \\r \\t و \\uXXXX — تحقق من استخدام الشرطة المائلة العكسية.",
+    hi: "संकेत: मान्य एस्केप केवल \\\" \\\\ \\/ \\b \\f \\n \\r \\t और \\uXXXX हैं — बैकस्लैश का उपयोग जाँचें।",
+    id: "Petunjuk: escape yang valid adalah \\\" \\\\ \\/ \\b \\f \\n \\r \\t dan \\uXXXX — periksa penggunaan backslash.",
+    vi: "Gợi ý: các escape hợp lệ là \\\" \\\\ \\/ \\b \\f \\n \\r \\t và \\uXXXX — kiểm tra cách dùng dấu \\.",
+  },
+};
+
 const utf8Bytes = (s: string) => new TextEncoder().encode(s).length;
+
+/** 由原始输入推导人话提示字典;非 JSON 错误返回 null */
+function jsonHintDict(source: string, errText: string): Record<string, string> | null {
+  if (!errText.startsWith("Line ")) return null;
+  const key = jsonHintKey(source);
+  return key ? UTF8_HINTS[key] : null;
+}
 
 export function DevCodeEngine({ mode, indent = false, showSize = false, validator, sort = false, sample }: Props) {
   const { locale, t } = useI18n();
@@ -182,12 +278,25 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
           </p>
         )}
         {run.err && (
-          <p
-            className="mono whitespace-pre-wrap rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]"
-            role="alert"
-          >
-            {run.err}
-          </p>
+          <>
+            <p
+              className="mono whitespace-pre-wrap rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]"
+              role="alert"
+            >
+              {run.err}
+            </p>
+            {(() => {
+              const hint = mode === "json-beautify" || mode === "json-validate" || mode === "json-minify"
+                ? jsonHintDict(input, run.err)
+                : null;
+              if (!hint) return null;
+              return (
+                <p className="text-[13px] leading-5 text-[var(--color-sub)]" role="note">
+                  {hint[locale] ?? hint.en}
+                </p>
+              );
+            })()}
+          </>
         )}
 
         <textarea
