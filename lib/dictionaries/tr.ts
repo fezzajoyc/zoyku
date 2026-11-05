@@ -163,6 +163,7 @@ const tr = {
       limitsTitle: "Platform sınırları",
       charsLeft: "{n} kaldı",
       charsOver: "{n} fazla",
+      trimHint: "Sınırı aştınız mı? Belirtilen kadar kırpın, gönderiyi bölün veya en zayıf cümleyi çıkarın — aşağıdaki anahtar kelime paneli kalanı gösterir.",
     },
   },
 

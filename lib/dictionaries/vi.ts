@@ -164,6 +164,7 @@ const vi = {
       limitsTitle: "Giới hạn nền tảng",
       charsLeft: "còn {n}",
       charsOver: "vượt {n}",
+      trimHint: "Vượt giới hạn? Cắt đúng số được đánh dấu, tách bài hoặc bỏ câu yếu nhất — bảng từ khóa bên dưới cho thấy phần còn lại.",
     },
   },
 

@@ -1276,7 +1276,7 @@ export function checkPlatformLimits(text: string, chars?: number) {
   const used = chars ?? countTextStats(text).characters;
   const smsLimit = GSM_RE.test(text) ? 160 : 70;
   return [
-    ...PLATFORM_LIMITS.map((p) => ({ ...p, used, ok: used <= p.limit })),
-    { name: "SMS", limit: smsLimit, used, ok: used <= smsLimit },
+    ...PLATFORM_LIMITS.map((p) => ({ ...p, used, ok: used <= p.limit, pct: Math.min(1, used / p.limit) })),
+    { name: "SMS", limit: smsLimit, used, ok: used <= smsLimit, pct: Math.min(1, used / smsLimit) },
   ];
 }

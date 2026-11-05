@@ -161,6 +161,7 @@ const zh: Dictionary = {
       limitsTitle: "平台字数限制",
       charsLeft: "剩 {n}",
       charsOver: "超 {n}",
+      trimHint: "超限了?按上面的数字精简、拆成两条,或删掉最弱的一句——下方关键词面板显示留下的核心。",
     },
   },
 

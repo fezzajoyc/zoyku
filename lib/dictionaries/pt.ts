@@ -161,6 +161,7 @@ const pt: Dictionary = {
       limitsTitle: "Limites por plataforma",
       charsLeft: "faltam {n}",
       charsOver: "{n} acima",
+      trimHint: "Passou do limite? Corte o valor indicado, divida a publicação ou tire a frase mais fraca — o painel de palavras-chave mostra o que sobra.",
     },
   },
 

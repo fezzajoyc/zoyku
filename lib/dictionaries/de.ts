@@ -164,6 +164,7 @@ const de = {
       limitsTitle: "Plattform-Limits",
       charsLeft: "{n} übrig",
       charsOver: "{n} über",
+      trimHint: "Über dem Limit? Kürzen Sie um den angegebenen Wert, teilen Sie den Beitrag oder streichen Sie den schwächsten Satz — das Schlüsselwort-Panel zeigt, was bleibt.",
     },
   },
 

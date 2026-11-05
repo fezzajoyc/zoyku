@@ -201,6 +201,11 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
               </span>
             ))}
           </div>
+          {platformLimits.some((p) => !p.ok) && (
+            <p className="mt-2 text-[12.5px] leading-5 text-[var(--color-sub)]">
+              {t.text.stats.trimHint}
+            </p>
+          )}
         </div>
       )}
       {platformLimits.length > 0 && (
@@ -212,19 +217,30 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
             {platformLimits.map((p) => (
               <span
                 key={p.name}
-                className={`inline-flex items-baseline gap-1.5 rounded-lg border px-2.5 py-1 text-[12.5px] ${
+                className={`inline-flex flex-col gap-1 rounded-lg border px-2.5 py-1 text-[12.5px] ${
                   p.ok
                     ? "border-[var(--color-good)]/30 bg-[rgba(52,199,89,0.08)]"
                     : "border-[var(--color-bad)]/30 bg-[rgba(255,59,48,0.08)]"
                 }`}
               >
-                <span className={`font-medium ${p.ok ? "text-[var(--color-good)]" : "text-[var(--color-bad)]"}`}>
-                  {p.name}
+                <span className="inline-flex items-baseline gap-1.5">
+                  <span className={`font-medium ${p.ok ? "text-[var(--color-good)]" : "text-[var(--color-bad)]"}`}>
+                    {p.name}
+                  </span>
+                  <span className="tabular-nums text-[var(--color-sub)]">
+                    {p.ok
+                      ? fill(t.text.stats.charsLeft, { n: p.limit - p.used })
+                      : fill(t.text.stats.charsOver, { n: p.used - p.limit })}
+                  </span>
                 </span>
-                <span className="tabular-nums text-[var(--color-sub)]">
-                  {p.ok
-                    ? fill(t.text.stats.charsLeft, { n: p.limit - p.used })
-                    : fill(t.text.stats.charsOver, { n: p.used - p.limit })}
+                <span aria-hidden className="block h-[3px] w-full overflow-hidden rounded-full bg-[var(--color-hairline)]">
+                  <span
+                    className="block h-full rounded-full transition-all"
+                    style={{
+                      width: `${Math.round(p.pct * 100)}%`,
+                      background: p.pct >= 1 ? "var(--color-bad)" : p.pct >= 0.85 ? "#b8860b" : "var(--color-good)",
+                    }}
+                  />
                 </span>
               </span>
             ))}

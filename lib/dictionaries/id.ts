@@ -164,6 +164,7 @@ const id = {
       limitsTitle: "Batas platform",
       charsLeft: "sisa {n}",
       charsOver: "{n} lebih",
+      trimHint: "Lewati batas? Potong sebanyak angka yang ditandai, pisahkan postingannya, atau buang kalimat terlemah — panel kata kunci di bawah menunjukkan sisanya.",
     },
   },
 

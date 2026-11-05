@@ -166,6 +166,7 @@ const ko: Dictionary = {
       limitsTitle: "플랫폼 글자 수 제한",
       charsLeft: "{n}자 남음",
       charsOver: "{n}자 초과",
+      trimHint: "제한 초과? 표시된 수만큼 줄이거나 게시물을 나누거나 가장 약한 문장을 지우세요 — 아래 키워드 패널에 남는 핵심이 보입니다.",
     },
   },
 
