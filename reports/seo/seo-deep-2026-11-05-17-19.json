@@ -1,0 +1,205 @@
+{
+  "base": "https://zoyku.com",
+  "generatedAt": "2026-11-05T17:19:14.786Z",
+  "sampleCount": 39,
+  "issueCount": 32,
+  "bySeverity": {
+    "P0": 0,
+    "P1": 32,
+    "P2": 0
+  },
+  "issues": [
+    {
+      "url": "https://zoyku.com/en",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/zh",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/ja",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/ar",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/es",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/",
+      "type": "unexpected-status",
+      "sev": "P1",
+      "detail": "expect redirect, got 200"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/image",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/text",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/pt",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/developer",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/seo",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/security",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/word-counter",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/zh/categories/pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/categories/utility",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/image-compressor",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/json-formatter",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/bmi-calculator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/meta-tag-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/merge-pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/password-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/zh/tools/merge-pdf",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/hmac-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/heic-to-jpg",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/lorem-ipsum-generator",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/pdf-to-word",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/tools/base64-encoder",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: zh,pt"
+    },
+    {
+      "url": "https://zoyku.com/en/about",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/privacy",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/terms",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    }
+  ]
+}

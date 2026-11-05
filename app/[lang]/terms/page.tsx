@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { dict } from "@/lib/i18n";
 import { isLocale, LOCALES, type Locale } from "@/lib/site";
+import { HTML_LANG } from "@/lib/i18n";
 import { Container, Prose, SectionHead } from "@/components/ui";
 
 export function generateStaticParams() {
@@ -13,7 +14,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t = dict(lang as Locale);
   return {
     title: t.footer.terms,
-    alternates: { canonical: `/${lang}/terms` },
+    alternates: {
+      canonical: `/${lang}/terms`,
+      languages: { ...Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], `/${l}/terms`])), "x-default": "/en/terms" },
+    },
   };
 }
 

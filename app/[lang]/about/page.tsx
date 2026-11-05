@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { dict } from "@/lib/i18n";
 import { isLocale, LOCALES, type Locale } from "@/lib/site";
+import { HTML_LANG } from "@/lib/i18n";
 import { ALL_TOOLS } from "@/tools/registry";
 import { Container, Prose, SectionHead } from "@/components/ui";
 
@@ -14,7 +15,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const t = dict(lang as Locale);
   return {
     title: t.nav.about,
-    alternates: { canonical: `/${lang}/about` },
+    alternates: {
+      canonical: `/${lang}/about`,
+      languages: { ...Object.fromEntries(LOCALES.map((l) => [HTML_LANG[l], `/${l}/about`])), "x-default": "/en/about" },
+    },
   };
 }
 

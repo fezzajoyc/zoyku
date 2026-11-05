@@ -116,9 +116,11 @@ export function checkPage(sample, r, locales = LOCALES) {
 
   // hreflang:15 语 + x-default,目标逐语验证 + self 存在
     const hreflangs = [...html.matchAll(/hreflang="([^"]+)" href="([^"]+)"/gi)];
-    const byLang = new Map(hreflangs.map(([, l, h]) => [l, h]));
+    const byLang = new Map(hreflangs.map(([, l, h]) => [l.toLowerCase(), h]));
     const expectedLangs = [...locales, "x-default"];
-    const missing = expectedLangs.filter((l) => !byLang.has(l));
+    // zh/pt 在 HTML 里以 zh-CN/pt-BR(ISO 地区码形态)输出——URL /zh /pt 的合法等价
+    const langMatches = (l) => byLang.has(l) || (l === "zh" && byLang.has("zh-cn")) || (l === "pt" && byLang.has("pt-br"));
+    const missing = expectedLangs.filter((l) => !langMatches(l));
     if (missing.length) issues.push({ url, type: "hreflang-incomplete", sev: "P1", detail: `missing: ${missing.join(",")}` });
     for (const l of expectedLangs) {
       if (!byLang.has(l)) continue;

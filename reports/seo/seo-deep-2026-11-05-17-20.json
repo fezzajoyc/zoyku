@@ -1,0 +1,37 @@
+{
+  "base": "https://zoyku.com",
+  "generatedAt": "2026-11-05T17:20:05.428Z",
+  "sampleCount": 39,
+  "issueCount": 4,
+  "bySeverity": {
+    "P0": 0,
+    "P1": 4,
+    "P2": 0
+  },
+  "issues": [
+    {
+      "url": "https://zoyku.com/",
+      "type": "unexpected-status",
+      "sev": "P1",
+      "detail": "expect redirect, got 200"
+    },
+    {
+      "url": "https://zoyku.com/en/privacy",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/terms",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    },
+    {
+      "url": "https://zoyku.com/en/about",
+      "type": "hreflang-incomplete",
+      "sev": "P1",
+      "detail": "missing: en,zh,ja,es,pt,fr,de,ru,it,tr,ko,ar,hi,id,vi,x-default"
+    }
+  ]
+}
