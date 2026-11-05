@@ -15,10 +15,19 @@ const L: Record<string, Record<string, string>> =  {
   outputFormat: {
     en: "Output format", zh: "输出格式", ja: "出力フォーマット",
     es: "Formato de salida", pt: "Formato de saída",
+    fr: "Format de sortie", de: "Ausgabeformat", ru: "Формат вывода",
+    it: "Formato di output", tr: "Çıkış biçimi", ko: "출력 형식",
+    ar: "تنسيق الإخراج", hi: "आउटपुट प्रारूप", id: "Format keluaran", vi: "Định dạng đầu ra",
   },
-  quality: { en: "Quality", zh: "画质", ja: "品質", es: "Calidad", pt: "Qualidade" },
+  quality: {
+    en: "Quality", zh: "画质", ja: "品質", es: "Calidad", pt: "Qualidade",
+    fr: "Qualité", de: "Qualität", ru: "Качество", it: "Qualità",
+    tr: "Kalite", ko: "품질", ar: "الجودة", hi: "गुणवत्ता", id: "Kualitas", vi: "Chất lượng",
+  },
   convert: {
     en: "Convert", zh: "开始转换", ja: "変換", es: "Convertir", pt: "Converter",
+    fr: "Convertir", de: "Konvertieren", ru: "Конвертировать", it: "Converti",
+    tr: "Dönüştür", ko: "변환", ar: "تحويل", hi: "कन्वर्ट करें", id: "Konversi", vi: "Chuyển đổi",
   },
   slowNote: {
     en: "HEIC decoding runs entirely on your device — large iPhone photos can take a few seconds each.",
@@ -26,13 +35,16 @@ const L: Record<string, Record<string, string>> =  {
     ja: "HEIC のデコードは端末内で完結します。大きな iPhone 写真は 1 枚数秒かかることがあります。",
     es: "La decodificación HEIC ocurre en tu dispositivo: las fotos grandes de iPhone pueden tardar unos segundos cada una.",
     pt: "A decodificação HEIC acontece no seu dispositivo — fotos grandes de iPhone podem levar alguns segundos cada.",
-  },
-  failed: {
-    en: "Not a valid HEIC/HEIF file (or it is corrupted).",
-    zh: "不是有效的 HEIC/HEIF 文件(或文件已损坏)。",
-    ja: "有効な HEIC/HEIF ファイルではない(または破損しています)。",
-    es: "No es un archivo HEIC/HEIF válido (o está dañado).",
-    pt: "Não é um arquivo HEIC/HEIF válido (ou está corrompido).",
+    fr: "Le décodage HEIC s'effectue entièrement sur votre appareil — les grandes photos iPhone peuvent prendre quelques secondes chacune.",
+    de: "Die HEIC-Dekodierung läuft vollständig auf Ihrem Gerät — große iPhone-Fotos können jeweils einige Sekunden dauern.",
+    ru: "Декодирование HEIC выполняется полностью на вашем устройстве — большие фото с iPhone могут обрабатываться по несколько секунд.",
+    it: "La decodifica HEIC avviene interamente sul tuo dispositivo — le foto iPhone grandi possono richiedere qualche secondo ciascuna.",
+    tr: "HEIC kod çözme tamamen cihazınızda yapılır — büyük iPhone fotoğraflarının her biri birkaç saniye sürebilir.",
+    ko: "HEIC 디코딩은 기기에서 완전히 처리됩니다 — 큰 iPhone 사진은 한 장에 몇 초씩 걸릴 수 있습니다.",
+    ar: "يتم فك ترميز HEIC بالكامل على جهازك — قد تستغرق صور iPhone الكبيرة بضع ثوانٍ لكل صورة.",
+    hi: "HEIC डिकोडिंग पूरी तरह आपके डिवाइस पर होती है — बड़ी iPhone फ़ोटो में से प्रत्येक में कुछ सेकंड लग सकते हैं।",
+    id: "Dekode HEIC berjalan sepenuhnya di perangkat Anda — foto iPhone berukuran besar bisa memakan waktu beberapa detik per foto.",
+    vi: "Việc giải mã HEIC diễn ra hoàn toàn trên thiết bị của bạn — ảnh iPhone lớn có thể mất vài giây mỗi tấm.",
   },
 } satisfies Record<string, Record<string, string>>;
 
@@ -109,7 +121,7 @@ export function ImageHeicEngine({
           id: `${file.name}-${i}-${file.lastModified}`,
           name: file.name,
           ok: false,
-          err: "decode",
+          err: "heic",
           before: file.size,
         });
       }

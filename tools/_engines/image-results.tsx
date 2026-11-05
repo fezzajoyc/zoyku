@@ -14,7 +14,7 @@ export type ImgResult = {
   name: string;
   ok: boolean;
   /** 失败原因:固定键,渲染时按 locale 翻译 */
-  err?: "decode" | "encode";
+  err?: "decode" | "encode" | "heic";
   /** 结果 object URL(预览 + 下载),由生产方负责 revoke */
   url?: string;
   blob?: Blob;
@@ -26,13 +26,30 @@ export type ImgResult = {
   note?: string;
 };
 
-const ERR: Record<"decode" | "encode", Record<string, string>> = {
+const ERR: Record<"decode" | "encode" | "heic", Record<string, string>> = {
   decode: {
     en: "This file could not be read as an image.",
     zh: "无法将该文件读取为图片。",
     ja: "このファイルは画像として読み込めませんでした。",
     es: "No se pudo leer este archivo como imagen.",
     pt: "Não foi possível ler este arquivo como imagem.", fr: "Impossible de lire ce fichier comme image.", de: "Datei konnte nicht als Bild gelesen werden.", ru: "Не удалось прочитать файл как изображение.", it: "Impossibile leggere questo file come immagine.", tr: "Dosya görsel olarak okunamadı.", ko: "이 파일을 이미지로 읽을 수 없습니다.", ar: "تعذّرت قراءة هذا الملف كصورة.", hi: "यह फ़ाइल इमेज के रूप में नहीं पढ़ी जा सकी।", id: "Berkas ini tidak dapat dibaca sebagai gambar.", vi: "Không thể đọc tệp này dưới dạng hình ảnh.",
+  },
+  heic: {
+    en: "Not a valid HEIC/HEIF file (or it is corrupted).",
+    zh: "不是有效的 HEIC/HEIF 文件(或文件已损坏)。",
+    ja: "有効な HEIC/HEIF ファイルではない(または破損しています)。",
+    es: "No es un archivo HEIC/HEIF válido (o está dañado).",
+    pt: "Não é um arquivo HEIC/HEIF válido (ou está corrompido).",
+    fr: "Fichier HEIC/HEIF non valide (ou corrompu).",
+    de: "Keine gültige HEIC/HEIF-Datei (oder sie ist beschädigt).",
+    ru: "Недействительный файл HEIC/HEIF (или он повреждён).",
+    it: "File HEIC/HEIF non valido (o danneggiato).",
+    tr: "Geçerli bir HEIC/HEIF dosyası değil (veya bozuk).",
+    ko: "유효한 HEIC/HEIF 파일이 아닙니다(또는 손상되었습니다).",
+    ar: "ملف HEIC/HEIF غير صالح (أو أنه تالف).",
+    hi: "मान्य HEIC/HEIF फ़ाइल नहीं है (या यह दूषित है)।",
+    id: "Bukan file HEIC/HEIF yang valid (atau file rusak).",
+    vi: "Không phải tệp HEIC/HEIF hợp lệ (hoặc tệp bị hỏng).",
   },
   encode: {
     en: "The result could not be generated.",
