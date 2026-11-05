@@ -1,0 +1,19 @@
+{
+  "base": "https://zoyku.com",
+  "generatedAt": "2026-11-05T17:28:50.295Z",
+  "sampleCount": 39,
+  "issueCount": 1,
+  "bySeverity": {
+    "P0": 0,
+    "P1": 1,
+    "P2": 0
+  },
+  "issues": [
+    {
+      "url": "https://zoyku.com/",
+      "type": "unexpected-status",
+      "sev": "P1",
+      "detail": "expect redirect, got 200"
+    }
+  ]
+}

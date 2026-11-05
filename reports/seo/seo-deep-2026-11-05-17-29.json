@@ -1,0 +1,12 @@
+{
+  "base": "https://zoyku.com",
+  "generatedAt": "2026-11-05T17:29:35.843Z",
+  "sampleCount": 39,
+  "issueCount": 0,
+  "bySeverity": {
+    "P0": 0,
+    "P1": 0,
+    "P2": 0
+  },
+  "issues": []
+}

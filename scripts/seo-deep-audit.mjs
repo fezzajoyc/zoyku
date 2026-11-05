@@ -161,7 +161,7 @@ export function checkPage(sample, r, locales = LOCALES) {
 async function fetchOne(path) {
   const started = Date.now();
   try {
-    const res = await fetch(`${BASE}${path}`, { redirect: "follow", signal: AbortSignal.timeout(20_000) });
+    const res = await fetch(`${BASE}${path}`, { redirect: "manual", signal: AbortSignal.timeout(20_000) });
     const body = res.status === 200 ? await res.text() : "";
     return { status: res.status, body, ms: Date.now() - started };
   } catch (e) {
