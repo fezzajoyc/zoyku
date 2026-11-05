@@ -163,6 +163,12 @@ const en = {
       emptyHint: "Start typing or paste your text — every stat updates live as you type.",
       flowTitle: "Sentence flow",
       flowBands: ["1–6 words · punchy", "7–14 · standard", "15–24 · long", "25+ · very long"],
+      flowTips: {
+        flowGood: "Flow looks good — sentence variety and reading level are in a comfortable range.",
+        longSentences: "Some sentences run 25+ words. Try splitting the longest one — readers lose the thread.",
+        highGrade: "Reading level is high. Shorter words and sentences will reach more readers.",
+        longParagraph: "One long paragraph. A break gives readers room to breathe.",
+      },
       uniqueWords: "Unique words",
       avgWordLen: "Avg word length",
       pages: "Pages",

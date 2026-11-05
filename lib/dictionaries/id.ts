@@ -146,6 +146,12 @@ const id = {
       emptyHint: "Mulai mengetik atau tempel teks Anda — semua statistik diperbarui secara langsung.",
       flowTitle: "Ritme kalimat",
       flowBands: ["1–6 kata · tajam", "7–14 · standar", "15–24 · panjang", "25+ · sangat panjang"],
+      flowTips: {
+        flowGood: "Aliran bagus — variasi kalimat dan tingkat baca berada di rentang nyaman.",
+        longSentences: "Ada kalimat 25+ kata. Coba pisahkan yang terpanjang — pembaca kehilangan alur.",
+        highGrade: "Tingkat baca tinggi. Kata dan kalimat yang lebih pendek menjangkau lebih banyak pembaca.",
+        longParagraph: "Satu paragraf panjang. Pemisahan memberi ruang bernapas bagi pembaca.",
+      },
       uniqueWords: "Kata unik",
       avgWordLen: "Rata-rata panjang kata",
       pages: "Halaman",

@@ -146,6 +146,12 @@ const vi = {
       emptyHint: "Bắt đầu nhập hoặc dán văn bản — mọi số liệu cập nhật trực tiếp khi bạn gõ.",
       flowTitle: "Nhịp câu",
       flowBands: ["1–6 từ · ngắn gọn", "7–14 · chuẩn", "15–24 · dài", "25+ · rất dài"],
+      flowTips: {
+        flowGood: "Nhịp ổn — sự đa dạng câu và cấp độ đọc đang ở vùng dễ chịu.",
+        longSentences: "Có câu trên 25 từ. Hãy tách câu dài nhất — người đọc sẽ mất mạch.",
+        highGrade: "Cấp độ đọc cao. Từ và câu ngắn hơn sẽ đến được nhiều độc giả hơn.",
+        longParagraph: "Một đoạn văn dài. Ngắt đoạn giúp người đọc thở.",
+      },
       uniqueWords: "Từ duy nhất",
       avgWordLen: "Độ dài từ trung bình",
       pages: "Số trang",

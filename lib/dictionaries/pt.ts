@@ -143,6 +143,12 @@ const pt: Dictionary = {
       emptyHint: "Comece a digitar ou cole seu texto — todas as estatísticas atualizam em tempo real.",
       flowTitle: "Ritmo das frases",
       flowBands: ["1–6 palavras · curta", "7–14 · padrão", "15–24 · longa", "25+ · longa demais"],
+      flowTips: {
+        flowGood: "Ritmo bom — variedade de frases e nível de leitura numa faixa confortável.",
+        longSentences: "Há frases com mais de 25 palavras. Divida a mais longa — o lector perde o fio.",
+        highGrade: "O nível de leitura está alto. Palavras e frases mais curtas alcançam mais leitores.",
+        longParagraph: "Um parágrafo muito longo. Uma quebra dá espaço para o leitor respirar.",
+      },
       uniqueWords: "Palavras únicas",
       avgWordLen: "Compr. médio palavra",
       pages: "Páginas",

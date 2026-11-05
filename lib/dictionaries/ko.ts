@@ -148,6 +148,12 @@ const ko: Dictionary = {
       emptyHint: "입력하거나 붙여넣으면 모든 통계가 실시간으로 업데이트됩니다.",
       flowTitle: "문장 리듬",
       flowBands: ["1–6 단어 · 짧은 문장", "7–14 · 표준", "15–24 · 긴 문장", "25+ · 매우 김"],
+      flowTips: {
+        flowGood: "리듬이 좋습니다 — 문장 변화와 읽기 수준이 편안한 범위입니다.",
+        longSentences: "25단어 이상인 문장이 있습니다. 가장 긴 문장을 나누면 흐름이 삽니다.",
+        highGrade: "읽기 수준이 높습니다. 더 짧은 단어와 문장으로 더 많은 독자에게 닿습니다.",
+        longParagraph: "긴 단락 하나. 줄바꿈이 독자에게 숨 통로를 줍니다.",
+      },
       uniqueWords: "고유 단어",
       avgWordLen: "평균 단어 길이",
       pages: "페이지 수",

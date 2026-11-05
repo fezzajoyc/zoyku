@@ -143,6 +143,12 @@ const zh: Dictionary = {
       emptyHint: "开始输入或粘贴文本——所有统计随输入实时更新。",
       flowTitle: "句子节奏",
       flowBands: ["1–6 词 · 短促有力", "7–14 词 · 标准", "15–24 词 · 偏长", "25+ 词 · 过长"],
+      flowTips: {
+        flowGood: "节奏不错——句式变化和阅读难度都在舒适区间。",
+        longSentences: "有句子超过 25 个词。试试拆分最长的那句——读者会跟不上。",
+        highGrade: "阅读门槛偏高。更短的词和句子能让更多读者读懂。",
+        longParagraph: "段落太长了。留点空白,让读者喘口气。",
+      },
       uniqueWords: "不重复词",
       avgWordLen: "平均词长",
       pages: "页数",

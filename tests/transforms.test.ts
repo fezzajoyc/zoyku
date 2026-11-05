@@ -7,6 +7,7 @@
 import { describe, it, expect } from "vitest";
 import {
   checkPlatformLimits,
+  writingSuggestions,
   sentenceBand,
   sentenceSegments,
   cleanText,
@@ -1035,5 +1036,24 @@ describe("sentence flow(word-counter 第 4 轮:句子分带高亮)", () => {
   it("CJK 句子按逐字词数分带", () => {
     const segs = sentenceSegments("你好世界测试文本。");
     expect(segs[0].band).toBe(1); // 8 字 = 8 词 → 7-14 带
+  });
+});
+
+describe("writingSuggestions(word-counter 第 5 轮收官)", () => {
+  it("超长句触发 longSentences", () => {
+    expect(writingSuggestions({ longestSentenceWords: 30, readingGrade: 8, words: 100, paragraphs: 2 })).toEqual(["longSentences"]);
+  });
+  it("高年级触发 highGrade", () => {
+    expect(writingSuggestions({ longestSentenceWords: 12, readingGrade: 15, words: 100, paragraphs: 2 })).toEqual(["highGrade"]);
+  });
+  it("单段 150+ 词触发 longParagraph", () => {
+    expect(writingSuggestions({ longestSentenceWords: 10, readingGrade: 8, words: 200, paragraphs: 1 })).toEqual(["longParagraph"]);
+  });
+  it("全部健康给 flowGood 正反馈", () => {
+    expect(writingSuggestions({ longestSentenceWords: 10, readingGrade: 8, words: 100, paragraphs: 3 })).toEqual(["flowGood"]);
+  });
+  it("多问题叠加按优先级排序", () => {
+    const r = writingSuggestions({ longestSentenceWords: 30, readingGrade: 15, words: 200, paragraphs: 1 });
+    expect(r).toEqual(["longSentences", "highGrade", "longParagraph"]);
   });
 });

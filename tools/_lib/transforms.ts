@@ -993,6 +993,24 @@ export function countTextStats(text: string) {
   return { words, characters, charsNoSpaces, sentences, paragraphs, lines, cjkChars: cjk };
 }
 
+export type SuggestionKey = "flowGood" | "longSentences" | "highGrade" | "longParagraph";
+
+/** 可读性建议:把统计翻译成 0-3 条人话(key 层,文案在字典)。
+ *  优先级:超长句 > 阅读年级 > 长段落;全部健康给 flowGood 正反馈。 */
+export function writingSuggestions(opts: {
+  longestSentenceWords: number;
+  readingGrade: number;
+  words: number;
+  paragraphs: number;
+}): SuggestionKey[] {
+  const out: SuggestionKey[] = [];
+  if (opts.longestSentenceWords >= 25) out.push("longSentences");
+  if (opts.readingGrade >= 13) out.push("highGrade");
+  if (opts.paragraphs === 1 && opts.words > 150) out.push("longParagraph");
+  if (out.length === 0) out.push("flowGood");
+  return out;
+}
+
 /** 句子流高亮:按词数分 4 带(0 短促/1 中等/2 偏长/3 过长)。
  *  对标 wordcounter.net Flow Score,阈值参考写作指导常用分段。 */
 export function sentenceBand(words: number): 0 | 1 | 2 | 3 {

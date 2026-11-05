@@ -148,6 +148,12 @@ const fr: Dictionary = {
       emptyHint: "Commencez à taper ou collez votre texte : toutes les statistiques se mettent à jour en direct.",
       flowTitle: "Rythme des phrases",
       flowBands: ["1–6 mots · percutant", "7–14 · standard", "15–24 · longue", "25+ · très longue"],
+      flowTips: {
+        flowGood: "Le rythme est bon — variété des phrases et niveau de lecture sont confortables.",
+        longSentences: "Certaines phrases dépassent 25 mots. Coupez la plus longue : le lecteur perd le fil.",
+        highGrade: "Le niveau de lecture est élevé. Des mots et phrases plus courts toucheront plus de lecteurs.",
+        longParagraph: "Un long paragraphe. Une coupure donne de l'air au lecteur.",
+      },
       uniqueWords: "Mots uniques",
       avgWordLen: "Longueur moyenne",
       pages: "Pages",

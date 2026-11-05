@@ -146,6 +146,12 @@ const de = {
       emptyHint: "Tippen Sie oder fügen Sie Text ein — alle Statistiken aktualisieren sich live.",
       flowTitle: "Satzrhythmus",
       flowBands: ["1–6 Wörter · kurz", "7–14 · Standard", "15–24 · lang", "25+ · zu lang"],
+      flowTips: {
+        flowGood: "Guter Fluss — Satzvariation und Leseniveau sind im Wohlfühlbereich.",
+        longSentences: "Einige Sätze haben 25+ Wörter. Teilen Sie den längsten — Leser verlieren den Faden.",
+        highGrade: "Das Leseniveau ist hoch. Kürzere Wörter und Sätze erreichen mehr Leser.",
+        longParagraph: "Ein langer Absatz. Ein Umbruch gibt den Lesern Luft.",
+      },
       uniqueWords: "Eindeutige Wörter",
       avgWordLen: "Ø Wortlänge",
       pages: "Seiten",

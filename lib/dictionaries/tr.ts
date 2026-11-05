@@ -145,6 +145,12 @@ const tr = {
       emptyHint: "Yazmaya başlayın veya metninizi yapıştırın — tüm istatistikler anında güncellenir.",
       flowTitle: "Cümle ritmi",
       flowBands: ["1–6 kelime · vurucu", "7–14 · standart", "15–24 · uzun", "25+ · çok uzun"],
+      flowTips: {
+        flowGood: "Akış iyi — cümle çeşitliliği ve okuma seviyesi rahat bir aralıkta.",
+        longSentences: "Bazı cümleler 25+ kelime. En uzunu bölün — okur konuyu kaybeder.",
+        highGrade: "Okuma seviyesi yüksek. Daha kısa kelimeler ve cümleler daha çok okura ulaşır.",
+        longParagraph: "Çok uzun bir paragraf. Bir boşluk okura nefes aldırır.",
+      },
       uniqueWords: "Benzersiz kelime",
       avgWordLen: "Ort. kelime uzunluğu",
       pages: "Sayfa",

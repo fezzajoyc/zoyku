@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { countTextStats as countStats, computeTextInsights, checkPlatformLimits, sentenceSegments, sentenceBand } from "../_lib/transforms";
+import { countTextStats as countStats, computeTextInsights, checkPlatformLimits, sentenceSegments, sentenceBand, writingSuggestions, type SuggestionKey } from "../_lib/transforms";
 import { fill } from "../_lib/types";
 
 
@@ -20,6 +20,18 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
     [primary, input, stats.characters],
   );
   const hasText = input.trim() !== "";
+  const tips = useMemo(
+    () =>
+      hasText
+        ? writingSuggestions({
+            longestSentenceWords: insights.longestSentenceWords,
+            readingGrade: insights.readingGrade,
+            words: stats.words,
+            paragraphs: stats.paragraphs,
+          })
+        : ([] as SuggestionKey[]),
+    [hasText, insights.longestSentenceWords, insights.readingGrade, stats.words, stats.paragraphs],
+  );
 
   // 阅读时长:拉丁词 220 wpm + CJK 逐字 300 cpm,分开算——
   // 旧公式 (words + characters*0.3)/220 把字符又乘了一遍,纯英文 220 词会被算成 2.6 分钟。
@@ -154,6 +166,21 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
           <span>
             {t.text.stats.speakingTime}: {fill(t.text.stats.readingMinutes, { n: insights.speakingMinutes })}
           </span>
+        </div>
+      )}
+      {hasText && tips.length > 0 && (
+        <div className="mt-3 border-t hairline pt-3">
+          <ul className="space-y-1.5">
+            {tips.map((k) => (
+              <li key={k} className="flex gap-2 text-[13.5px] leading-6 text-[var(--color-sub)]">
+                <span
+                  aria-hidden
+                  className={`mt-2 h-1.5 w-1.5 flex-none rounded-full ${k === "flowGood" ? "bg-[var(--color-good)]" : "bg-[var(--color-accent)]"}`}
+                />
+                {t.text.stats.flowTips[k]}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       {hasText && insights.topKeywords.length > 0 && (

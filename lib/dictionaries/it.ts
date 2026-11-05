@@ -146,6 +146,12 @@ const it = {
       emptyHint: "Inizia a digitare o incolla il testo: tutte le statistiche si aggiornano in tempo reale.",
       flowTitle: "Ritmo delle frasi",
       flowBands: ["1–6 parole · incisiva", "7–14 · standard", "15–24 · lunga", "25+ · molto lunga"],
+      flowTips: {
+        flowGood: "Ritmo buono — varietà delle frasi e livello di lettura in una fascia comoda.",
+        longSentences: "Ci sono frasi da oltre 25 parole. Spezza la più lunga: il lettore perde il filo.",
+        highGrade: "Il livello di lettura è alto. Parole e frasi più corte raggiungono più lettori.",
+        longParagraph: "Un paragrafo molto lungo. Un'aandata dà respiro al lettore.",
+      },
       uniqueWords: "Parole uniche",
       avgWordLen: "Lung. media parola",
       pages: "Pagine",
