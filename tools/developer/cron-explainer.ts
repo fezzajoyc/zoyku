@@ -260,32 +260,6 @@ export default defineTool({
       ],
       deepDive: [
         {
-          heading: "Os cinco campos e suas armadilhas",
-          paragraphs: [
-            "Um cron padrão são cinco campos — minuto, hora, dia do mês, mês e dia da semana — separados por espaços. Cada campo aceita um valor, lista, intervalo, passo (\*/15) e os especiais como \*. As armadilhas moram nos detalhes: o passo parte do início da faixa, então \*/15 nos minutos dispara em :00, :15, :30 e :45 — não a cada 15 a partir de agora.",
-            "O truque de dias é a fonte clássica de bugs: quando tanto o dia do mês quanto o dia da semana estão restringidos (não \*), a maioria dos crons executa se QUALQUER um casar — não os dois. Um trabalho pensado como \"dia 1, se for segunda\" vira \"dia 1 OU todas as segundas\". Essa ambiguidade vem das primeiras implementações Unix e segue viva na maioria dos sistemas.",
-            "São sete campos se o agendador usa a extensão de segundos (Quartz, Spring, bibliotecas Node), e nomes como JAN ou MON são aceitos conforme a implementação. Ao colar uma expressão entre sistemas, verifique primeiro qual dialeto cada um espera — este explicador segue o cron padrão de cinco campos.",
-          ],
-        },
-        {
-          heading: "Fuso horário e horário de verão: onde as agendas quebram",
-          paragraphs: [
-            "Cron não entende de fuso: dispara pelo relógio do sistema onde o agendador roda. Um servidor em UTC e uma reunião esperada no horário local diferem pelo deslocamento — e esse deslocamento não é constante se houver horário de verão em qualquer lado. Trabalhos que parecem \"todo dia às 9:00\" silenciosamente rodam às 8:00 por meio ano.",
-            "O horário de verão tem arestas próprias. A maioria dos crons não \"recupera\" uma execução quando o relógio volta, e a execução das 2:30 desaparece por inteiro no dia do salto de primavera — o trabalho simplesmente não roda naquela noite. Se um trabalho diário importa, agende num cronômetro sem horário de verão (UTC) ou verifique como seu agendador trata as transições.",
-            "Fusos com mudanças legais recentes (houve várias na última década) valem quando o sistema atualiza sua base tz — não na hora. Uma agenda validada hoje pode mudar de hora efetiva após uma atualização do sistema, mais um motivo para conferir a próxima execução real em vez de confiar na expressão.",
-          ],
-        },
-        {
-          heading: "Do cron lido ao cron confiável",
-          paragraphs: [
-            "Explicar a expressão é o primeiro passo; o segundo é conferir a próxima execução real, não a que você imagina. \"0 9 \* \* 1-5\" é \"9:00 em dias úteis\" só se o sistema roda no seu fuso e não há horário de verão naquela semana. O bom hábito é validar a expressão aqui e depois confirmar as duas ou três próximas execuções no próprio agendador (crontab -l, a UI do scheduler, os logs).",
-            "Legibilidade também importa no longo prazo: \"0 3 \* \* 6\" pode estar certo e ainda assim obrigar cada leitor futuro a contar nos dedos. Comentar a expressão junto ao trabalho (ou usar um agendador que aceite descrições) evita que o próximo responsável — normalmente você, em seis meses — reinterprete a intenção.",
-            "Este explicador roda inteiro no seu navegador: a expressão colada nunca sai do seu dispositivo, e a análise é texto puro — sem acesso ao seu crontab real, sem conexões de rede. Cole expressões de produção com confiança.",
-          ],
-        },
-      ],
-      deepDive: [
-        {
           heading: "Os cinco campos e a regra OR que ninguém lembra",
           paragraphs: [
             "O cron padrão avalia cinco campos da esquerda para a direita: minuto (0-59), hora (0-23), dia do mês (1-31), mês (1-12) e dia da semana (0-7, onde 0 e 7 são ambos domingo). Cada campo aceita um valor, um intervalo (9-17), uma lista (0,15,30) ou um passo (*/5, cada 5 valores a partir do piso do campo). Um job dispara quando todos os campos batem — com uma exceção famosa: quando tanto o dia do mês quanto o dia da semana estão restritos, o job roda num dia que corresponda a QUALQUER um dos dois.",
