@@ -38,6 +38,32 @@ export default defineTool({
           a: "No — this is an estimate, not medical advice. Athletes and very muscular people sit above the band while perfectly healthy, and some conditions shift the healthy range. Discuss a target weight with a healthcare professional.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Where the Devine formula comes from",
+          paragraphs: [
+            "The Devine formula was published by Dr. B. J. Devine in 1975 — but not as a fitness goal. It emerged from work on drug dosing, first digoxin and later other medications whose safe dose depends on body size: 50 kg for the first 5 feet of height plus 2.3 kg per additional inch for men, 45.5 kg for women.",
+            "Clinicians needed a quick, height-based estimate of a “dosing weight,” and Devine's became the most-cited ideal-weight equation in the medical literature — so widely reprinted that generations of readers assumed it defined what a person should weigh. It never did.",
+            "The second number this calculator shows is the healthy BMI band: your height in meters squared multiplied by 18.5 and by 24.9, the normal-range limits in the WHO classification. This anchors the answer in population health data rather than in a dosing shortcut.",
+          ],
+        },
+        {
+          heading: "Why the answer is a range, not a number",
+          paragraphs: [
+            "The two methods usually disagree by a few kilograms, and the disagreement is the message: there is no single ideal weight. Frame size, muscle mass, age and ethnic differences in body composition all shift what is healthy for a given height, which is exactly why the WHO defines a band rather than a target.",
+            "Read the two outputs together as a bracket: most adults whose weight sits between the Devine figure and the BMI band edges are within the range clinicians would consider reasonable. If your current weight sits outside both, the gap tells you the direction of change, not how fast to pursue it.",
+            "Also note what the number does not capture: at the same BMI, someone who trains carries more lean tissue than someone who does not, and research on older adults suggests a slightly higher weight can even be protective. Healthy weight is personal enough that a conversation with a professional beats any formula.",
+          ],
+        },
+        {
+          heading: "Common misuses",
+          paragraphs: [
+            "The oldest misuse is treating Devine as an aesthetic standard — a number to diet into. It was designed to calculate drug doses; using it as a body goal imports a dosing convenience into a decision it was never meant to inform.",
+            "Athletes and very muscular people sit far above the BMI band while perfectly healthy, because the band assumes average body composition. If you train seriously, ignore both numbers as targets and judge by body-fat trend and performance instead.",
+            "Finally, quick height-weight charts circulating online often trace back to insurance-company tables from the mid-twentieth century, built from applicants' self-reported data — a weaker basis than either method shown here. This calculator runs locally in your browser and stores nothing; use it for orientation, not for diagnosis.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "理想体重计算器",
@@ -65,6 +91,32 @@ export default defineTool({
         {
           q: "这是医疗建议吗?",
           a: "不是——这只是估算,不构成医疗建议。运动员和肌肉发达的人即使完全健康也可能高于区间,某些疾病也会改变健康范围。设定目标体重前请咨询专业人士。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Devine 公式的出身:不是为体重目标发明的",
+          paragraphs: [
+            "Devine 公式由 B. J. Devine 医生于 1975 年发表——但它不是为身材管理设计的。它出自药物剂量研究:地高辛等药物的安全剂量取决于体型,因此需要一个由身高快速估算“给药体重”的办法。男性为 50 公斤加每超 5 英尺以上一英寸 2.3 公斤,女性基础值为 45.5 公斤。",
+            "临床医生要的是快捷的身高换算,而 Devine 公式因此成为医学文献里被引用最多的“理想体重”公式——转载范围太广,以至于几代读者以为它规定了人应该多重。它从来没有这个使命。",
+            "本工具给出的第二个数字是健康 BMI 区间:身高(米)的平方分别乘以 18.5 和 24.9,即 WHO 分级的正常范围上下限。它把答案锚定在人群健康数据上,而不是给药经验公式上。",
+          ],
+        },
+        {
+          heading: "为什么答案是一个区间而不是一个数",
+          paragraphs: [
+            "两种方法通常相差几公斤,而这个“不一致”本身就是信息:不存在唯一的理想体重。骨架大小、肌肉量、年龄以及不同族裔的体成分差异,都会改变某个身高下什么体重算健康——这正是 WHO 给出区间而非目标值的原因。",
+            "把两个输出当括号读:体重落在 Devine 值与 BMI 区间边缘之间的大多数成年人,都在临床上公认的合理范围内。如果现在的体重在两边之外,差距告诉你的是改变的方向,而不是该多快去追。",
+            "还要注意数字看不到的东西:同样 BMI 下,坚持训练的人瘦体组织更多;对老年人的研究甚至提示略高的体重可能有保护作用。健康体重因人而异到什么程度?和专业人员聊一次,胜过任何公式。",
+          ],
+        },
+        {
+          heading: "常见误用",
+          paragraphs: [
+            "最古老的误用是把 Devine 当审美标准——一个要“瘦到”的数字。它本用来计算给药量;把它当身材目标,等于把给药的便利性塞进一个它从未打算回答的问题。",
+            "运动员和肌肉发达者在完全健康的情况下会远超 BMI 区间,因为区间假设的是平均体成分。认真训练的人,请忽略这两个数字作为目标,改看体脂趋势和运动表现。",
+            "另外,网上流传的身高体重速查表,很多源自二十世纪中叶保险公司的核保表,依据还是投保人自报的数据——比本页两种方法的依据都弱。计算器在你的浏览器本地运行,不保存任何数据;用来定位方向,不用来做诊断。",
+          ],
         },
       ],
     },
@@ -96,6 +148,24 @@ export default defineTool({
           a: "いいえ — 推定値であり医療アドバイスではありません。アスリートや筋肉質の人は完全に健康でも帯域を上回ることがあり、病気によっても健康な範囲は変わります。目標体重は専門家と相談して決めてください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "Devine 式の来歴:体重目標のために作られたのではない",
+          paragraphs: [
+            "Devine 式は 1975 年に B. J. Devine 医師が発表しましたが、フィットネス用ではありません。ジゴキシンなど安全用量が体格に依存する薬の投与量研究から生まれた「身長からの投与体重」の簡易推定です:男性は最初の 5 フィートで 50 kg、以降 1 インチごとに +2.3 kg、女性は基準 45.5 kg。",
+            "臨床現場が必要としていたのは手早い身長ベースの換算であり、Devine 式は医学文献で最も引用される「理想体重」式になりました。転載が広まりすぎて、本来の目的を知らずに「あるべき体重」と思われた時代さえあります。",
+            "このツールが示すもう一つの数字は健康 BMI 帯:身長(メートル)の2乗に 18.5 と 24.9 を掛けた、WHO 分類の正常範囲の上下限です。投与の便法ではなく、集団の健康データに答えを固定します。",
+          ],
+        },
+        {
+          heading: "答えが数字ではなく区間である理由",
+          paragraphs: [
+            "2つの方法は通常数 kg ずれ、その不一致こそがメッセージです:単一の理想体重は存在しません。骨格・筋肉量・年齢・体組成の集団差がすべて「その身長で健康な体重」を動かします。WHO が範囲で定義しているのはそのためです。",
+            "2つの出力を括弧として読みます:Devine 値から BMI 帯の端までの間に収まる成人の多くは、臨床的に妥当とされる範囲内です。現在の体重が両方の外にあるなら、差は変化の方向を教えますが、速度までは教えません。",
+            "数字が見えないものにも注意:同じ BMI でも訓練者は除脂肪組織が多く、高齢者ではやや高い体重が保護的に働くという研究もあります。健康体重は専門家との対話に勝る公式は存在しないほど個別性が高い話です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de peso ideal",
@@ -125,6 +195,24 @@ export default defineTool({
           a: "No — es una estimación, no consejo médico. Los deportistas y las personas muy musculosas pueden estar por encima de la banda estando perfectamente sanos, y algunas condiciones desplazan el rango saludable. Comente su peso objetivo con un profesional sanitario.",
         },
       ],
+      deepDive: [
+        {
+          heading: "De dónde viene la fórmula de Devine",
+          paragraphs: [
+            "La fórmula de Devine la publicó el Dr. B. J. Devine en 1975 — y no fue como objetivo estético. Surgió de trabajos sobre dosificación de medicamentos, primero digoxina y luego otros cuyo dosis segura depende del tamaño corporal: 50 kg por los primeros 5 pies de altura más 2,3 kg por pulgada adicional en hombres, 45,5 kg en mujeres.",
+            "Los clínicos necesitaban estimar rápido un “peso de dosificación” desde la altura, y la ecuación de Devine se convirtió en la más citada de la literatura médica — tan reproducida que generaciones de lectores creyeron que definía cuánto debería pesar una persona. Nunca fue para eso.",
+            "El segundo número que muestra esta calculadora es la banda de IMC saludable: tu altura en metros al cuadrado multiplicada por 18,5 y por 24,9, los límites del rango normal de la OMS. Ancla la respuesta en datos de salud poblacional, no en un atajo de dosificación.",
+          ],
+        },
+        {
+          heading: "Por qué la respuesta es un rango y no un número",
+          paragraphs: [
+            "Los dos métodos suelen diferir en unos pocos kilos, y esa diferencia es el mensaje: no existe un peso ideal único. El tamaño de la estructura, la masa muscular, la edad y las diferencias étnicas en composición corporal desplazan qué peso es saludable para una altura dada — por eso la OMS define un rango y no un objetivo.",
+            "Lee las dos salidas como un corchete: la mayoría de adultos cuyo peso cae entre la cifra de Devine y los bordes de la banda de IMC están dentro de lo que la práctica clínica consideraría razonable. Si tu peso actual queda fuera de ambos, la distancia indica la dirección del cambio, no la velocidad.",
+            "Ten en cuenta lo que la cifra no captura: al mismo IMC, quien entrena lleva más tejido magro, y en adultos mayores una cifra algo mayor puede incluso ser protectora. Un peso saludable es tan personal que una consulta profesional supera cualquier fórmula.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de peso ideal",
@@ -152,6 +240,24 @@ export default defineTool({
         {
           q: "Isso é aconselhamento médico?",
           a: "Não — é uma estimativa, não aconselhamento médico. Atletas e pessoas muito musculosas podem ficar acima da faixa estando perfeitamente saudáveis, e algumas condições deslocam a faixa saudável. Discuta seu peso-alvo com um profissional de saúde.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "De onde vem a fórmula de Devine",
+          paragraphs: [
+            "A fórmula de Devine foi publicada pelo Dr. B. J. Devine em 1975 — e não como meta estética. Ela surgiu de estudos sobre dosagem de medicamentos, primeiro digoxina e depois outros cuja dose segura depende do tamanho corporal: 50 kg pelos primeiros 5 pés de altura mais 2,3 kg por polegada adicional para homens, 45,5 kg para mulheres.",
+            "Os clínicos precisavam estimar rapidamente um “peso de dosagem” a partir da altura, e a equação de Devine se tornou a mais citada da literatura médica — tão reimpressa que gerações de leitores acreditaram que ela definia quanto uma pessoa deveria pesar. Nunca foi para isso.",
+            "O segundo número que esta calculadora mostra é a faixa de IMC saudável: sua altura em metros ao quadrado multiplicada por 18,5 e por 24,9, os limites do intervalo normal da OMS. Isso ancora a resposta em dados de saúde populacional, não em um atalho de dosagem.",
+          ],
+        },
+        {
+          heading: "Por que a resposta é uma faixa e não um número",
+          paragraphs: [
+            "Os dois métodos costumam divergir em alguns quilos, e essa divergência é a mensagem: não existe um peso ideal único. Estrutura óssea, massa muscular, idade e diferenças étnicas na composição corporal deslocam o que é saudável para uma dada altura — por isso a OMS define uma faixa, não um alvo.",
+            "Leia as duas saídas como um colchete: a maioria dos adultos cujo peso cai entre o valor de Devine e as bordas da faixa de IMC está dentro do que a clínica consideraria razoável. Se seu peso atual está fora de ambos, a distância indica a direção da mudança, não a velocidade.",
+            "Considere o que o número não captura: no mesmo IMC, quem treina carrega mais tecido magro, e em idosos um valor um pouco maior pode até ser protetor. Um peso saudável é tão pessoal que uma conversa com um profissional supera qualquer fórmula.",
+          ],
         },
       ],
     },

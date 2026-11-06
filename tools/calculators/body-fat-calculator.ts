@@ -38,6 +38,32 @@ export default defineTool({
           a: "The formula is printed unclamped, so impossible inputs — for example a waist not larger than the neck — produce impossible outputs. Treat any value below essential-fat level or above ~60% as a measurement error and re-measure. And as always, this estimate is not medical advice.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Inside the Navy circumference method",
+          paragraphs: [
+            "The formula estimates body fat from girth ratios. For men it uses 495 / (1.0324 − 0.19077·log10(waist − neck) + 0.15456·log10(height)) − 450, all measurements in centimeters; for women the girth term becomes log10(waist + hip − neck) with the female coefficients from the same paper. The log terms are why inches around the middle move the estimate so much more than inches of height.",
+            "The method was developed by James Hodgdon and Jack Beckett in 1984 for the US Navy, which needed an annual body-composition screen for tens of thousands of sailors without access to laboratory equipment. It was validated against underwater weighing (hydrostatic densitometry), then the reference standard — and the Navy still uses it today, which is as strong a field test as any formula gets.",
+            "The underlying logic is that fat accumulates predictably at specific sites (abdomen for men, hips and thighs for women) while the neck stays lean, so the waist-to-neck difference carries real information about fat mass that a scale alone cannot see.",
+          ],
+        },
+        {
+          heading: "Reading the categories — and the trend",
+          paragraphs: [
+            "The calculator places your result into the standard bands cited by the American Council on Exercise: for men, 2–5% essential fat, 6–13% athletes, 14–17% fitness, 18–24% average, 25%+ obese; for women, 10–13% essential, 14–20% athletes, 21–24% fitness, 25–31% average, 32%+ obese. Women carry more essential fat because hormonal and reproductive function depends on it.",
+            "Expect an absolute accuracy of roughly ±3–4% against a DXA scan. That sounds like a lot until you notice what the method is actually good at: consistency. Measured at the same sites, same time of day, by the same person, tape estimates track real changes in body composition remarkably well.",
+            "So the practical use is directional: a month of training that moves you from 24% to 22% is a real result even if both readings carry a ±3% error, because the error is largely systematic and cancels when comparing two measurements of the same body.",
+          ],
+        },
+        {
+          heading: "Where tape estimates go wrong",
+          paragraphs: [
+            "Measurement technique dominates the error budget. The neck goes below the larynx with the tape sloping slightly down at the front; the waist sits at the navel for men and the narrowest point for women; the hip at its fullest part. Pull the tape snug but never compressing the skin, breathe out normally, and never measure right after a large meal or a heavy training session.",
+            "Impossible outputs flag impossible inputs: because the formula is printed unclamped, a waist measured smaller than the neck can produce a negative body-fat percentage. Anything below essential-fat level or above roughly 60% means re-measure, not celebrate or panic.",
+            "Muscular and lean individuals can push field methods to their limits, and people whose fat distributes unusually (for example visceral-dominant) can be misread by a girth-based model. For medical, insurance or competitive purposes, a clinical scan remains the reference — this tool is for tracking your own trend.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "体脂率计算器",
@@ -65,6 +91,32 @@ export default defineTool({
         {
           q: "为什么结果是负数或明显不可能?",
           a: "公式按原样输出、不做截断,所以不可能的输入——例如腰围不大于颈围——会得到不可能的输出。低于必需脂肪水平或高于约 60% 的值都应视为测量错误,请重新测量。当然,这个估算不构成医疗建议。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "美国海军围度法的原理与来历",
+          paragraphs: [
+            "公式用围度比值估算体脂。男性公式为 495 / (1.0324 − 0.19077·log10(腰围 − 颈围) + 0.15456·log10(身高)) − 450,单位厘米;女性把围度项换成 log10(腰围 + 臀围 − 颈围),系数来自同一篇论文。对数项解释了为什么腰上多一寸比身高多一寸对结果影响大得多。",
+            "方法由 James Hodgdon 和 Jack Beckett 于 1984 年为美国海军开发——海军需要给数以万计的水兵做年度身体成分筛查,却没有实验室设备可用。它以当时的水下称重法为参照完成验证,海军沿用至今,这对一个公式来说算得上最强的实战检验。",
+            "背后的逻辑是:脂肪沉积位置相对固定(男性在腹部,女性在臀腿),而颈部始终偏瘦,所以腰围与颈围之差携带了体重秤看不到的脂肪信息。",
+          ],
+        },
+        {
+          heading: "分档怎么读,趋势比数字更重要",
+          paragraphs: [
+            "结果按美国运动委员会(ACE)引用的标准分档:男性 2–5% 必需脂肪、6–13% 运动员、14–17% 健康、18–24% 普通、25%+ 肥胖;女性 10–13% 必需、14–20% 运动员、21–24% 健康、25–31% 普通、32%+ 肥胖。女性必需脂肪更高,因为激素与生殖功能依赖它。",
+            "对照 DXA 扫描,绝对精度大约 ±3–4%。听起来不少,但这个方法真正的强项是“一致性”:同一部位、同一时间、同一个人测量,围度法对体成分真实变化的追踪相当可靠。",
+            "所以正确用法是看方向:一个月训练把 24% 降到 22% 就是真实进步,即使两次读数各有 ±3% 误差——因为误差主要是系统性的,对同一身体做两次比较时会互相抵消。",
+          ],
+        },
+        {
+          heading: "围度测量哪里容易出错",
+          paragraphs: [
+            "手法主导误差。颈围在喉结下方、带子前侧略微下斜;腰围男性量肚脐水平、女性量最细处;臀围量最丰满处。带子贴合但不压迫皮肤,正常呼气,不要在大餐后或大训练后立刻测量。",
+            "不可能的输出对应不可能的输入:公式按未截断形式呈现,腰围小于颈围会算出负体脂。低于必需脂肪水平或高于约 60% 的读数都意味着重新量,而不是惊喜或恐慌。",
+            "肌肉发达者会把现场方法推向极限,脂肪分布特殊的人(比如以内脏脂肪为主)也容易被围度模型误读。医疗、保险或竞技用途请以临床扫描为准——这个工具适合追踪自己的趋势。",
+          ],
         },
       ],
     },
@@ -96,6 +148,24 @@ export default defineTool({
           a: "式は補正なしのまま表示しているため、ありえない入力(例:腹囲が首囲以下)はありえない出力になります。必須脂肪未満や約 60% 超の値は測定ミスと考え、測り直してください。なお、この推定は医療アドバイスではありません。",
         },
       ],
+      deepDive: [
+        {
+          heading: "米海軍式の仕組みと来歴",
+          paragraphs: [
+            "式は周囲径の比から体脂肪率を推定します。男性式は 495 / (1.0324 − 0.19077·log10(腹囲 − 首回り) + 0.15456·log10(身長)) − 450(cm 単位)。女性式では囲度項が log10(腹囲 + 臀囲 − 首回り) になり、係数は同じ論文由来です。対数項があるため、腰回りの変化が身長の変化より結果を大きく動かします。",
+            "手法は 1984 年、James Hodgdon と Jack Beckett が米海軍向けに開発しました。数万人の水兵を毎年スクリーニングする必要があり、実験室設備が使えなかったためです。当時の基準だった水中比重測定法に対して検証され、海軍が現在も使用し続けていること自体が実戦的な妥当性の証明です。",
+            "論理の核:脂肪の沈着位置は比較的一定(男性は腹部、女性は臀・太もも)で、首は常に痩せているため、腹囲と首回りの差は体重計では見えない脂肪量の情報を持ちます。",
+          ],
+        },
+        {
+          heading: "カテゴリの読み方と、絶対値よりトレンド",
+          paragraphs: [
+            "結果は ACE(米国運動評議会)引用の標準区分に割り当てられます:男性は 2–5% 必須脂肪 / 6–13% アスリート / 14–17% フィットネス / 18–24% 平均 / 25%+ 肥満。女性は 10–13% 必須 / 14–20% アスリート / 21–24% フィットネス / 25–31% 平均 / 32%+ 肥満。女性の必須脂肪が高いのは、ホルモン機能が脂肪に依存するためです。",
+            "DXA スキャンに対する絶対精度は約 ±3–4%。ただし得意なのは「一貫性」です:同じ部位・同じ時間帯・同じ人による計測なら、体成分の実際の変化をかなり正確に追跡できます。",
+            "実用上は方向性で判断:1か月のトレーニングで 24% → 22% なら、各読み取りに ±3% の誤差があっても実質的な進歩です。誤差はほぼ系統的で、同じ体の2回の比較では相殺されます。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de grasa corporal",
@@ -125,6 +195,24 @@ export default defineTool({
           a: "La fórmula se muestra sin recortes, así que entradas imposibles — por ejemplo, una cintura no mayor que el cuello — producen salidas imposibles. Cualquier valor por debajo del nivel de grasa esencial o por encima del ~60% debe tratarse como error de medición: vuelva a medir. Y como siempre, esta estimación no es consejo médico.",
         },
       ],
+      deepDive: [
+        {
+          heading: "El método de circunferencias de la Marina de EE. UU.",
+          paragraphs: [
+            "La fórmula estima la grasa a partir de razones entre perímetros. Para hombres: 495 / (1,0324 − 0,19077·log10(cintura − cuello) + 0,15456·log10(altura)) − 450, todo en centímetros; para mujeres el término se convierte en log10(cintura + cadera − cuello), con los coeficientes femeninos del mismo artículo. Los logaritmos explican por qué un centímore de cintura mueve el resultado más que uno de altura.",
+            "El método lo desarrollaron James Hodgdon y Jack Beckett en 1984 para la Marina de EE. UU., que necesitaba un cribado anual de composición corporal para decenas de miles de marineros sin laboratorio. Se validó contra el pesaje hidrostático, la referencia de entonces, y la Marina lo sigue usando: una prueba de campo difícil de igualar.",
+            "La lógica de fondo: la grasa se acumula en sitios predecibles (abdomen en hombres, cadera y muslos en mujeres) mientras el cuello permanece magro, así que la diferencia cintura-cuello contiene información que una báscula no ve.",
+          ],
+        },
+        {
+          heading: "Leer las categorías — y la tendencia",
+          paragraphs: [
+            "La calculadora ubica tu resultado en las bandas estándar citadas por el American Council on Exercise: hombres, 2-5 % grasa esencial, 6-13 % atletas, 14-17 % fitness, 18-24 % medio, 25 %+ obesidad; mujeres, 10-13 % esencial, 14-20 % atletas, 21-24 % fitness, 25-31 % medio, 32 %+ obesidad. Las mujeres necesitan más grasa esencial por su función hormonal.",
+            "Frente a un escáner DXA la precisión absoluta ronda el ±3-4 %. Pero la fortaleza real del método es la consistencia: medido en los mismos sitios, a la misma hora y por la misma persona, sigue muy bien los cambios reales de composición corporal.",
+            "El uso práctico es direccional: pasar del 24 % al 22 % en un mes es un resultado real aunque cada lectura lleve ±3 % de error, porque el error es en gran parte sistemático y se cancela al comparar dos mediciones del mismo cuerpo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de gordura corporal",
@@ -152,6 +240,24 @@ export default defineTool({
         {
           q: "Por que o resultado saiu negativo ou impossível?",
           a: "A fórmula é exibida sem cortes, então entradas impossíveis — por exemplo, uma cintura não maior que o pescoço — produzem saídas impossíveis. Qualquer valor abaixo do nível de gordura essencial ou acima de ~60% deve ser tratado como erro de medição: meça de novo. E como sempre, esta estimativa não é aconselhamento médico.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O método de circunferências da Marinha dos EUA",
+          paragraphs: [
+            "A fórmula estima a gordura a partir de razões entre perímetros. Para homens: 495 / (1,0324 − 0,19077·log10(cintura − pescoço) + 0,15456·log10(altura)) − 450, tudo em centímetros; para mulheres o termo vira log10(cintura + quadril − pescoço), com os coeficientes femininos do mesmo artigo. Os logaritmos explicam por que um centímetro de cintura move o resultado mais que um de altura.",
+            "O método foi desenvolvido por James Hodgdon e Jack Beckett em 1984 para a Marinha dos EUA, que precisava de uma triagem anual de composição corporal para dezenas de milhares de marinheiros sem laboratório. Foi validado contra a pesagem hidrostática, referência da época, e a Marinha o usa até hoje — um teste de campo difícil de superar.",
+            "A lógica de fundo: a gordura se acumula em locais previsíveis (abdômen nos homens, quadril e coxas nas mulheres) enquanto o pescoço permanece magro, então a diferença cintura-pescoço carrega informação que a balança não vê.",
+          ],
+        },
+        {
+          heading: "Lendo as categorias — e a tendência",
+          paragraphs: [
+            "A calculadora posiciona seu resultado nas faixas padrão citadas pelo American Council on Exercise: homens, 2-5 % gordura essencial, 6-13 % atletas, 14-17 % fitness, 18-24 % médio, 25 %+ obesidade; mulheres, 10-13 % essencial, 14-20 % atletas, 21-24 % fitness, 25-31 % médio, 32 %+ obesidade. Mulheres precisam de mais gordura essencial pela função hormonal.",
+            "Contra um escâner DXA a precisão absoluta fica em torno de ±3-4 %. Mas a força real do método é a consistência: medido nos mesmos locais, no mesmo horário e pela mesma pessoa, acompanha muito bem as mudanças reais de composição corporal.",
+            "O uso prático é direcional: ir de 24 % para 22 % em um mês é um resultado real mesmo com ±3 % de erro em cada leitura, porque o erro é em grande parte sistemático e se cancela ao comparar duas medidas do mesmo corpo.",
+          ],
         },
       ],
     },

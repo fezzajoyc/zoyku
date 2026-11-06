@@ -36,6 +36,32 @@ export default defineTool({
           a: "Because the formulas stop meaning anything there. Past ~12 reps the result is dominated by local endurance rather than strength, and Brzycki's denominator (37 − reps) collapses toward zero. High-rep sets measure conditioning; if you want a max estimate from them, use a lighter-weight formula designed for endurance work.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Epley vs. Brzycki: two formulas, one bracket",
+          paragraphs: [
+            "Both formulas estimate the weight you could lift exactly once from a set you actually completed. Epley, published in 1985, computes w × (1 + reps/30); Brzycki, from 1993, computes w × 36/(37 − reps). The two agree closely up to about 10 reps and then diverge — Epley runs slightly optimistic at higher rep counts, Brzycki slightly conservative.",
+            "That divergence is why this calculator shows both instead of picking a winner. When the two estimates land within a couple of kilograms, you have a reliable number; when they spread apart, your set sits in the zone where submaximal prediction is shaky and a heavier, shorter test set would sharpen the estimate.",
+            "Accuracy is best from sets of roughly 1-6 clean reps. Past a dozen, the lift becomes a test of local endurance rather than strength, and no strength formula can rescue it — which is why the input caps at 20 reps.",
+          ],
+        },
+        {
+          heading: "Using the percentage table",
+          paragraphs: [
+            "The training table inverts Epley's equation: the most you can lift for n reps is roughly 1RM × 30/(30 + n). Ten reps works out to 75% of 1RM, five to about 86%, three to about 91%. Strength coaches program from exactly these percentages — heavy strength blocks around 85-95% for low reps, hypertrophy work around 65-80% for 6-12 reps, endurance higher still.",
+            "The percentages are the transferable part of the estimate: once you know your 1RM, you never need to test again to set training weights. Change the program, not the max — and recalculate the max itself only every couple of months as your training numbers drift upward.",
+            "Know that real performance drifts by lift: squats tolerate more reps at a given percentage than presses or deadlifts, because the stretch reflex and setup time differ. Treat the table as a starting dose and adjust by how the last reps actually felt.",
+          ],
+        },
+        {
+          heading: "Why you should not test a true 1RM",
+          paragraphs: [
+            "An estimated max exists precisely so you never have to test the real one. A true 1RM attempt demands spotters, fresh technique under maximal load and a properly progressed warm-up; the injury risk is real, and the information gained over a well-executed 3-rep set is marginal.",
+            "The estimation loses little: a hard set of 3-5 reps predicts 1RM within a few percent of a true single for most trained lifters. Competitors peaking for a meet are the exception, and they work with coaches and proper safety setups.",
+            "One more trap: entering sloppy reps. The formulas assume clean, full-range repetitions — grinding the last rep with poor form inflates the estimate. Also remember the max is exercise-specific: a squat 1RM says nothing about your bench.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "极限重量计算器",
@@ -61,6 +87,32 @@ export default defineTool({
         {
           q: "为什么次数最多只能填 20?",
           a: "因为超过这个范围公式就失去意义。约 12 次以上,结果主要由局部耐力而非力量决定,而且 Brzycki 的分母(37 − reps)会趋近于零。高次数组测的是心肺与耐力;若想从中估极限,请改用面向耐力训练的公式。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Epley 与 Brzycki:两个公式,一个区间",
+          paragraphs: [
+            "两个公式都是用你实际完成的一组来推算“刚好能举一次”的重量。Epley(1985 年发表)算 w × (1 + 次数/30);Brzycki(1993)算 w × 36/(37 − 次数)。两者在 10 次以内高度一致,之后开始分岔——次数越多 Epley 越乐观,Brzycki 越保守。",
+            "这正是本工具同时显示两个公式的原因:当两个估计相差只有一两公斤时,结果可信;当两者拉大时,说明这一组落在次极限预测的模糊区,换个更重、次数更短的测试组会更准。",
+            "用 1–6 次干净动作的组预测最准。超过十几次,动作就成了局部耐力测试,任何力量公式都救不回来——这也是输入上限设在 20 次的原因。",
+          ],
+        },
+        {
+          heading: "百分比表怎么用",
+          paragraphs: [
+            "训练表是把 Epley 公式反过来用:能做 n 次的最大重量约为 1RM × 30/(30 + n)。10 次对应 1RM 的 75%,5 次约 86%,3 次约 91%。力量教练正是按这些百分比排课:85–95% 的低次数重块练力量,65–80% 的 6–12 次练肌肥大,耐力组更高。",
+            "百分比是这个估计里最有迁移价值的部分:知道 1RM 之后,设定训练重量不需要再测。调整的是计划,不是最大值——最大值本身每隔一两个月,随着训练重量的自然上浮重算一次即可。",
+            "真实表现因动作而异:同一百分比下,深蹲能做的次数通常多于推举或硬拉,因为牵张反射和预备节奏不同。把表当作起始剂量,按最后几次的真实感受微调。",
+          ],
+        },
+        {
+          heading: "为什么不建议真去测一次极限",
+          paragraphs: [
+            "估算最大值存在的意义,就是让你不必真的去测。真正的 1RM 尝试需要保护者、大重量下不走样的技术和充分的递进热身;受伤风险实打实,而比起一组认真的 3 次测试,多得到的信息非常有限。",
+            "估算损失很小:对多数有训练基础的人,一组 3–5 次的力竭组预测 1RM,和真单次的偏差在几个百分点之内。备赛的运动员是例外,而且他们有教练和完善的安全配置。",
+            "还有个坑:别录入走样的次数。公式假设的是全程标准的动作——最后一次咬牙变形会高估结果。另外记住,最大值是按动作计算的:深蹲的 1RM 说明不了卧推。",
+          ],
         },
       ],
     },
@@ -90,6 +142,24 @@ export default defineTool({
           a: "その範囲を超えると式が意味を持たなくなるからです。12 レップ前後を超えると結果は力よりも局所耐性に支配され、Brzycki の分母(37 − レップ)はゼロに近づきます。高レップのセットは持久力の指標です。そこから最大重量を推定したい場合は、持久系向けの軽負荷式を使ってください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "Epley と Brzycki:2式で1つのレンジを作る",
+          paragraphs: [
+            "どちらの式も、実際に挙げたセットから「ちょうど1回挙がる重量」を推定します。Epley(1985年発表)は w × (1 + 回数/30)、Brzycki(1993年)は w × 36/(37 − 回数)。10回程度まではよく一致し、それ以降は乖離します——高回数では Epley がやや楽観的、Brzycki がやや控えめです。",
+            "この乖離こそ、このツールが両方を表示する理由です。2つの推定が数 kg 以内に収まれば信頼できる数字。開けば、そのセットはサブマックス予測の曖昧な領域にあり、より重く短いテストセットで絞り込むべきサインです。",
+            "精度が高いのは 1〜6 回のきれいなレップ。十数回を超えると局所耐久のテストになり、どの筋力式も救えません——入力上限が 20 回なのはこのためです。",
+          ],
+        },
+        {
+          heading: "パーセンテージ表の使い方",
+          paragraphs: [
+            "トレーニング表は Epley 式の逆算です:n 回挙げられる最大重量はおよそ 1RM × 30/(30 + n)。10回で 1RM の 75%、5回で約 86%、3回で約 91%。ストレングスコーチはまさにこの数値で組む——85〜95% の低回数で筋力、65〜80% の 6〜12回で筋肥大、それ以上で耐久です。",
+            "パーセンテージは推定の中で最も転用しやすい部分:1RM を一度知れば、トレーニング重量を決めるのに再テストは不要です。変えるのはプログラムであって MAX ではない——MAX 自体は1〜2か月ごとに、挙上の自然な上昇に合わせて計算し直すだけで十分です。",
+            "実際の挙上は種目でずれます:同じパーセンテージでも、ストレッチ反射やセットアップの違いから、スクワットはプレスやデッドリフトより多くの回数に耐えます。表は初期用量として、最後の数回の感触で微調整を。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de 1RM",
@@ -117,6 +187,24 @@ export default defineTool({
           a: "Porque a partir de ahí las fórmulas dejan de tener sentido. Pasadas unas 12 repeticiones el resultado depende más de la resistencia local que de la fuerza, y el denominador de Brzycki (37 − reps) se acerca a cero. Las series largas miden capacidad aeróbica; para estimar un máximo con ellas use fórmulas de endurance.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Epley frente a Brzycki: dos fórmulas, un corchete",
+          paragraphs: [
+            "Ambas fórmulas estiman el peso que podrías levantar una sola vez a partir de una serie que ya completaste. Epley, publicada en 1985, calcula w × (1 + reps/30); Brzycki, de 1993, calcula w × 36/(37 − reps). Coinciden de cerca hasta unas 10 repeticiones y luego divergen — Epley se vuelve algo optimista con series largas, Brzycki algo conservadora.",
+            "Esa divergencia es la razón de que esta calculadora muestre ambas: cuando las dos estimaciones caen a un par de kilos de distancia tienes una cifra fiable; cuando se separan, tu serie está en la zona donde la predicción submáxima es débil y convendría una serie más pesada y corta.",
+            "La precisión es máxima con series de 1-6 repeticiones limpias. Más de una docena y el levantamiento se convierte en una prueba de resistencia local que ninguna fórmula de fuerza puede rescatar — por eso la entrada se limita a 20 repeticiones.",
+          ],
+        },
+        {
+          heading: "Cómo usar la tabla de porcentajes",
+          paragraphs: [
+            "La tabla invierte la ecuación de Epley: el máximo que puedes levantar para n repeticiones es aproximadamente 1RM × 30/(30 + n). Diez repeticiones sale al 75 % del 1RM, cinco al 86 %, tres al 91 %. Los entrenadores de fuerza programan con exactamente estos porcentajes: bloques pesados de 85-95 % para fuerza, trabajo de 65-80 % a 6-12 repeticiones para hipertrofia.",
+            "Los porcentajes son la parte transferible del cálculo: una vez conocido tu 1RM, no necesitas volver a probar para fijar cargas. Cambia el programa, no el máximo — y recalcula el máximo solo cada par de meses, según suban tus series de entrenamiento.",
+            "El rendimiento real varía por ejercicio: al mismo porcentaje, la sentadilla aguanta más repeticiones que el press o el peso muerto por el reflejo de estiramiento y el tiempo de preparación. Toma la tabla como dosis inicial y ajusta según cómo sintieras las últimas repeticiones.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de 1RM",
@@ -142,6 +230,24 @@ export default defineTool({
         {
           q: "Por que não posso digitar mais de 20 repetições?",
           a: "Porque além disso as fórmulas deixam de fazer sentido. Acima de ~12 reps o resultado é dominado por resistência local, não por força, e o denominador de Brzycki (37 − reps) caminha para zero. Séries longas medem condicionamento; para estimar um máximo com elas, use fórmulas próprias para endurance.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Epley versus Brzycki: duas fórmulas, um colchete",
+          paragraphs: [
+            "Ambas as fórmulas estimam o peso que você conseguiria levantar uma única vez a partir de uma série que já completou. Epley, publicada em 1985, calcula w × (1 + reps/30); Brzycki, de 1993, calcula w × 36/(37 − reps). Elas coincidem de perto até cerca de 10 repetições e depois divergem — Epley fica um pouco otimista em séries longas, Brzycki um pouco conservadora.",
+            "Essa divergência é o motivo de esta calculadora mostrar as duas: quando as estimativas caem a poucos quilos de distância você tem um número confiável; quando se afastam, sua série está na zona em que a previsão submáxima é frágil e uma série mais pesada e curta afinaria a estimativa.",
+            "A precisão é máxima em séries de 1-6 repetições limpas. Passada uma dúzia, o levantamento vira teste de resistência local que nenhuma fórmula de força resgata — por isso a entrada limita a 20 repetições.",
+          ],
+        },
+        {
+          heading: "Como usar a tabela de percentuais",
+          paragraphs: [
+            "A tabela inverte a equação de Epley: o máximo que você levanta para n repetições é cerca de 1RM × 30/(30 + n). Dez repetições dão 75 % do 1RM, cinco cerca de 86 %, três cerca de 91 %. Treinadores de força programam exatamente com esses percentuais: blocos pesados de 85-95 % para força, trabalho de 65-80 % a 6-12 repetições para hipertrofia.",
+            "Os percentuais são a parte transferível da estimativa: conhecendo seu 1RM, você nunca mais precisa testar para definir cargas. Mude o programa, não o máximo — e recalcule o máximo apenas a cada dois meses, conforme suas séries de treino sobem.",
+            "O desempenho real varia por exercício: no mesmo percentual, o agachamento aguenta mais repetições que o supino ou o levantamento terra, pelo reflexo de alongamento e o tempo de preparação. Tome a tabela como dose inicial e ajuste pela sensação das últimas repetições.",
+          ],
         },
       ],
     },

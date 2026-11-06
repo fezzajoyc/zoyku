@@ -37,6 +37,32 @@ export default defineTool({
           a: "Date arithmetic done in local time can drift a day around DST transitions — a range that crosses the November or March change can come out one day short or long in some browsers. Counting in whole UTC days sidesteps the problem entirely, so a Friday-to-Monday span is 2 workdays everywhere on Earth.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What counts as a “business day” — and what does not",
+          paragraphs: [
+            "The honest answer is that business day is a convention, and conventions differ. This tool counts Monday-to-Friday (or Friday-to-Saturday if you switch the weekend setting) and nothing else by default: it does not carry any built-in public-holiday calendar, because holidays are set by country, by region and sometimes by year in ways no static list gets right. Instead you paste your own holiday lines, so the count is exactly the one your company or contract means.",
+            "Two decisions change a count dramatically and are worth checking every time. First, endpoints: this count is inclusive of both dates, so Monday through Friday in one week is 5, not 3 — some systems count the gap strictly in between and would return 3. Second, whether the start date is consumed in the add/subtract mode: here it is not, so Friday plus one workday is Monday.",
+            "If your contract or SLA says “business days” without defining them, the convention is usually local business days of the governing jurisdiction — which may have weekends other than Sat/Sun and holidays this tool has never heard of. The safe workflow: paste that jurisdiction's holiday list, count here, and put the resulting calendar date in writing.",
+          ],
+        },
+        {
+          heading: "How the count is actually computed",
+          paragraphs: [
+            "The between-mode walks the actual calendar day by day, marking each date as workday or not according to your weekend definition and your holiday lines. Because it walks real dates, the answer always matches what you would get by pointing at a calendar — and holiday lines are matched by exact date, so a holiday on a Saturday removes nothing extra, since that day was already excluded by the weekend rule.",
+            "The add/subtract mode steps forward or backward one workday at a time, skipping non-workdays without consuming them. That is why Saturday plus one workday lands on Monday rather than Sunday: the rest days are passed over, not counted. Repeated queries are cheap — the arithmetic is a plain loop over UTC day numbers.",
+            "Everything runs on UTC day numbers, which are immune to daylight-saving transitions. Local-time date math near the March or November change can drift a day in some environments; counting whole UTC days gives the same Friday-to-Monday-is-2 answer everywhere on Earth, in every season.",
+          ],
+        },
+        {
+          heading: "Where this tool fits, and privacy",
+          paragraphs: [
+            "Typical users: contract notice periods, build and shipping lead times, SLA response windows, payroll cutoffs and visa appointment queues. For anything recurring, save the holiday list once and reuse it all year — pasting ten or fifteen dates takes seconds and turns a guess into a defensible number.",
+            "Compared with spreadsheet workday functions, the differences are transparency and control: spreadsheets hide which day got skipped and why, and many require loading a holiday table from another sheet. Here the inputs — weekend definition and holiday lines — are visible on the page, and the landing date plus weekday shows exactly where the count stopped.",
+            "No holiday data is downloaded and no dates are uploaded: the counting runs in your browser and works offline. Contract timelines and staffing dates are business-sensitive by nature, which is one more reason the computation never leaves your device.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "工作日计算器",
@@ -62,7 +88,33 @@ export default defineTool({
         },
         {
           q: "为什么工具要提 UTC 和夏令时?",
-          a: "用本地时间做日期运算,在夏令时切换附近可能偏差一天——跨 11 月或 3 月调整日的区间在某些浏览器里会差一天。按完整的 UTC 天数计数则完全绕开这个问题:周五到周一是 2 个工作日,这在地球上任何时区都成立。",
+          a: "用本地时间做日期运算,在夏令时切换附近可能偏差一天——跨 11 月或 3 月调整日的区间在某些浏览器里会差一天。按完整的 UTC 天数计数则完全绕开这个问题:周五到周一的跨度是 2 个工作日,这在地球上任何时区都成立。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "什么才算“工作日”——什么不算",
+          paragraphs: [
+            "诚实的回答是:工作日是一种约定,而约定各不相同。本工具默认只数周一到周五(切换周末设置后则是周五到周六),别无其他:它不内置任何法定节假日表,因为节假日按国家、按地区、有时还按年而变,任何静态清单都不可能全对。替代方案是你自己粘贴节假日清单,数出来的就是你们公司或合同所指的那个数。",
+            "两个决定会剧烈改变结果,每次都值得核对。第一是端点:本工具区间统计两端都含,同一周的周一到周五是 5 而不是 3——有些系统只数中间的间隔,会返回 3。第二是加减模式里起点日期是否被消耗:这里不被消耗,所以周五加一个工作日落在周一。",
+            "如果合同或 SLA 只写“工作日”而不定义,惯例通常是管辖法域的当地工作日——那个地方的双休可能不是周六周日,节假日清单本工具也不曾听说过。稳妥的流程:粘贴该法域的节假日清单,在这里计数,再把得到的日历日期白纸黑字写进合同。",
+          ],
+        },
+        {
+          heading: "计数到底是怎么算的",
+          paragraphs: [
+            "区间模式逐日走真实日历,按你的周末定义和节假日清单把每个日期标记为工作日或不是。因为走的是真实日期,答案永远和你手指着日历数出来的一致;节假日按精确日期匹配,落在周六的节假日不会多扣任何东西——那天本来就被周末规则排除了。",
+            "加减模式一次一个工作日地前进或后退,跳过非工作日且不消耗它们。所以周六加一个工作日落在周一而不是周日:休息日被跨过去,而不是被计入。重复查询很便宜——运算就是对 UTC 天数的一个普通循环。",
+            "一切基于 UTC 天数,对夏令时切换免疫。3 月或 11 月拨钟日附近的本地时间日期运算在某些环境会漂移一天;按整 UTC 天计数,周五到周一等于 2 个工作日的答案在任何地方、任何季节都成立。",
+          ],
+        },
+        {
+          heading: "本工具的定位与隐私",
+          paragraphs: [
+            "典型用户:合同通知期、构建与发货交期、SLA 响应窗口、工资截止日、签证预约排队。对重复性需求,一年只需保存一次节假日清单,粘贴十几行日期只要几秒钟,就能把“大概”变成一个站得住的数字。",
+            "和电子表格的工作日函数相比,差别在透明与可控:表格不告诉你哪天被跳过、为什么,不少表格还要先从另一张工作表载入节假日数据。这里的所有输入——周末定义与节假日清单——都摆在页面上,落点日期加星期明明白白显示计数停在哪。",
+            "不下载任何节假日数据,也不上传任何日期:计数在浏览器里完成,离线可用。合同时间线与排班日期天然具有商业敏感性——计算不出设备,又多了一个理由。",
+          ],
         },
       ],
     },
@@ -93,6 +145,32 @@ export default defineTool({
           a: "ローカル時刻での日付演算は DST 切替の前後で 1 日ずれることがあります。11 月や 3 月の切替日をまたぐ範囲は、ブラウザによって 1 日短く(長く)出る可能性があります。UTC の整数日数で数えればこの問題を完全に回避でき、金曜〜月曜は地球上のどこでも 2 営業日です。",
         },
       ],
+      deepDive: [
+        {
+          heading: "何が「営業日」で、何が違うのか",
+          paragraphs: [
+            "正直な答えは、営業日は約束事であり、約束事は人それぞれだ、です。このツールの既定は月曜〜金曜(週末設定を切り替えれば金曜〜土曜)だけを数えることで、それ以外は何も組み込みません。法定祝日のカレンダーは内蔵していません。祝日は国・地域・場合によっては年ごとに変わり、静的な一覧で正しくあり続けることはできないからです。代わりに自分の祝日行を貼り付けることで、会社や契約が指す通りの数が出ます。",
+            "結果を大きく変える判断が 2 つあり、毎回確認する価値があります。第一に両端:このカウントは両端を含み、同じ週の月〜金は 5 です。3 とはなりません(間だけを数えるシステムなら 3 を返します)。第二に加減モードで開始日を消費するかどうか:ここでは消費しないので、金曜 + 1 営業日は月曜です。",
+            "契約や SLA が「営業日」とだけ書いて定義しない場合、慣行上は準拠法域の現地営業日を指すのが普通です。その土地の週末は土日とは限らず、このツールが知らない祝日もあるでしょう。安全な手順は、その法域の祝日リストを貼ってここで数え、出てきた暦日を書面に残すことです。",
+          ],
+        },
+        {
+          heading: "カウントの実際の計算方法",
+          paragraphs: [
+            "間を数えるモードは実際の暦を 1 日ずつたどり、週末の定義と祝日行に従って各日を営業日かどうかで印を付けます。実際の日付をたどるので、答えは指差し確認のカレンダーと必ず一致します。祝日は日付の完全一致で照合するため、土曜に当たる祝日は何も削りません。その日は週末規則ですでに除外済みだからです。",
+            "加減モードは 1 営業日ずつ前後に歩み、営業日でない日を消費せずに飛ばします。だから土曜 + 1 営業日の着地は日曜ではなく月曜です。休みの日を数えずに飛び越える、というのが規則だからです。繰り返しの問い合わせも安価で、実体は UTC 日番号の単純なループです。",
+            "すべて UTC の日番号で動くため、サマータイム切替の影響を受けません。3 月や 11 月の変更日の近くではローカル時刻の日付演算が環境によって 1 日ずれることがありますが、UTC の丸ごと日数で数えれば、金曜〜月曜 = 2 営業日はいつでもどこでも同じです。",
+          ],
+        },
+        {
+          heading: "このツールの立ち位置とプライバシー",
+          paragraphs: [
+            "典型的な利用者:契約の通知期間、ビルドや出荷のリードタイム、SLA の応答時間、給与の締め日、ビザ面接の順番待ち。繰り返し使うなら祝日リストを年に一度保存して使い回すのが得策です。十数行の日付を貼るのは数秒の作業で、当てずっぽうを説明可能な数字に変えます。",
+            "表計算の営業日関数との違いは透明性と制御です。スプレッドシートはどの曜日が飛ばされたのか、なぜなのかを見せず、多くは別シートから祝日表を読み込む必要があります。こちらは入力(週末の定義と祝日行)がすべてページ上にあり、着地日と曜日でカウントがどこで止まったかが明確です。",
+            "祝日データのダウンロードも日付のアップロードもありません。計数はブラウザ内で完結し、オフラインで動きます。契約の時間軸や勤務日程はもともとビジネス上機微な情報です。計算が端末の外に出ないのは、そのためにも意味があります。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de días hábiles",
@@ -121,6 +199,32 @@ export default defineTool({
           a: "La aritmética en hora local puede desviarse un día alrededor de los cambios de horario: un rango que cruza el ajuste de noviembre o marzo puede salir con un día de menos o de más según el navegador. Contar en días UTC completos evita el problema por completo: de viernes a lunes son 2 días hábiles en cualquier zona del mundo.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Qué es un «día hábil» — y qué no",
+          paragraphs: [
+            "La respuesta honesta es que día hábil es una convención, y las convenciones difieren. Esta herramienta cuenta de lunes a viernes (o de viernes a sábado si cambia el ajuste de fin de semana) y nada más por defecto: no trae ningún calendario de festivos incorporado, porque los festivos dependen del país, de la región y a veces del año, de forma que ninguna lista estática lo clava. En su lugar usted pega sus propias líneas de festivos, y el recuento es exactamente el que su empresa o su contrato quiere decir.",
+            "Dos decisiones cambian un recuento dramáticamente y conviene verificarlas siempre. Primero, los extremos: este recuento incluye ambas fechas, así que de lunes a viernes de una misma semana son 5, no 3 — algunos sistemas cuentan solo el hueco intermedio y devolverían 3. Segundo, si la fecha inicial se consume en el modo de suma y resta: aquí no se consume, de modo que viernes más un día hábil es lunes.",
+            "Si su contrato o SLA dice «días hábiles» sin definirlos, la convención suele ser los días hábiles locales de la jurisdicción aplicable — cuyo fin de semana puede no ser sábado y domingo, y con festivos que esta herramienta jamás ha oído nombrar. El flujo seguro: pegue la lista de festivos de esa jurisdicción, cuente aquí y deje la fecha de calendario resultante por escrito.",
+          ],
+        },
+        {
+          heading: "Cómo se calcula el recuento de verdad",
+          paragraphs: [
+            "El modo entre fechas recorre el calendario real día a día, marcando cada fecha como hábil o no según su definición de fin de semana y sus líneas de festivos. Como camina fechas reales, la respuesta siempre coincide con lo que saldría señalando un calendario — y las líneas de festivos se cotejan por fecha exacta, así que un festivo en sábado no descuenta nada de más, porque ese día ya estaba excluido por la regla del fin de semana.",
+            "El modo de suma y resta avanza o retrocede un día hábil cada vez, saltándose los días no hábiles sin consumirlos. Por eso sábado más un día hábil cae en lunes y no en domingo: los días de descanso se sobrevuelan, no se cuentan. Repetir consultas es barato — la aritmética es un bucle sencillo sobre números de día UTC.",
+            "Todo corre sobre números de día UTC, inmunes a las transiciones de horario de verano. La matemática en hora local cerca del cambio de marzo o noviembre puede derivar un día en algunos entornos; contar días UTC completos da la misma respuesta de viernes-a-lunes-son-2 en cualquier lugar y en cualquier estación.",
+          ],
+        },
+        {
+          heading: "Dónde encaja esta herramienta, y privacidad",
+          paragraphs: [
+            "Usuarios típicos: plazos de notificación contractual, lead times de compilación y envío, ventanas de respuesta de SLA, cierres de nómina y colas de citas de visados. Para usos recurrentes, guarde la lista de festivos una vez y reutilícela todo el año — pegar una docena de fechas son segundos y convierte una suposición en un número defendible.",
+            "Frente a las funciones de días hábiles de las hojas de cálculo, las diferencias son transparencia y control: las hojas no le dicen qué día se saltó ni por qué, y muchas exigen cargar la tabla de festivos desde otra hoja. Aquí las entradas — definición de fin de semana y líneas de festivos — están a la vista, y la fecha de destino con su día de la semana muestra exactamente dónde paró el recuento.",
+            "No se descarga ningún dato de festivos ni se sube ninguna fecha: el recuento corre en su navegador y funciona sin conexión. Las líneas de tiempo de contratos y las fechas de personal son sensibles de por sí — una razón más para que el cálculo nunca salga de su dispositivo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de dias úteis",
@@ -147,6 +251,32 @@ export default defineTool({
         {
           q: "Por que a ferramenta fala em UTC e horário de verão?",
           a: "Aritmética em horário local pode desviar um dia perto das transições de horário de verão: um intervalo que cruza o ajuste de novembro ou março pode sair com um dia a menos ou a mais em alguns navegadores. Contar em dias UTC inteiros elimina o problema: de sexta a segunda são 2 dias úteis em qualquer fuso do planeta.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O que conta como «dia útil» — e o que não conta",
+          paragraphs: [
+            "A resposta honesta é que dia útil é uma convenção, e convenções variam. Esta ferramenta conta de segunda a sexta (ou de sexta a sábado, se você trocar o ajuste de fim de semana) e nada mais por padrão: ela não traz nenhum calendário de feriados embutido, porque feriados dependem do país, da região e às vezes do ano, de um jeito que nenhuma lista estática acerta. Em vez disso, você cola suas próprias linhas de feriados, e a contagem é exatamente a que sua empresa ou seu contrato quer dizer.",
+            "Duas decisões mudam uma contagem drasticamente e valem verificação a cada uso. Primeiro, as pontas: esta contagem inclui as duas datas, então de segunda a sexta de uma mesma semana são 5, não 3 — alguns sistemas contam só o vão do meio e devolveriam 3. Segundo, se a data inicial é consumida no modo de soma e subtração: aqui não é, então sexta mais um dia útil é segunda.",
+            "Se seu contrato ou SLA diz «dias úteis» sem defini-los, a convenção costuma ser os dias úteis locais da jurisdição aplicável — cujo fim de semana pode não ser sábado e domingo, e com feriados que esta ferramenta jamais ouviu falar. O fluxo seguro: cole a lista de feriados dessa jurisdição, conte aqui e deixe a data de calendário resultante por escrito.",
+          ],
+        },
+        {
+          heading: "Como a contagem é calculada de verdade",
+          paragraphs: [
+            "O modo entre datas percorre o calendário real dia a dia, marcando cada data como útil ou não conforme sua definição de fim de semana e suas linhas de feriados. Como caminha em datas reais, a resposta sempre coincide com o que você obteria apontando para um calendário — e as linhas de feriados são casadas por data exata, então um feriado num sábado não desconta nada a mais, porque esse dia já estava excluído pela regra do fim de semana.",
+            "O modo de soma e subtração avança ou recua um dia útil por vez, pulando os dias não úteis sem consumi-los. Por isso sábado mais um dia útil cai na segunda e não no domingo: os dias de descanso são sobrevoados, não contados. Repetir consultas é barato — a aritmética é um laço simples sobre números de dia UTC.",
+            "Tudo roda sobre números de dia UTC, imunes às transições de horário de verão. Matemática em horário local perto da virada de março ou novembro pode derivar um dia em alguns ambientes; contar dias UTC inteiros dá a mesma resposta de sexta-a-segunda-são-2 em qualquer lugar e em qualquer estação.",
+          ],
+        },
+        {
+          heading: "Onde esta ferramenta se encaixa, e privacidade",
+          paragraphs: [
+            "Usuários típicos: prazos de notificação contratual, lead times de build e de envio, janelas de resposta de SLA, fechamentos de folha e filas de agendamento de visto. Para usos recorrentes, salve a lista de feriados uma vez e reutilize o ano todo — colar uma dúzia de datas leva segundos e transforma um palpite em um número defensável.",
+            "Comparada com as funções de dias úteis de planilhas, a diferença é transparência e controle: as planilhas não dizem qual dia foi pulado nem por quê, e muitas exigem carregar a tabela de feriados de outra aba. Aqui as entradas — definição de fim de semana e linhas de feriados — ficam à vista na página, e a data de chegada com o dia da semana mostra exatamente onde a contagem parou.",
+            "Nenhum dado de feriado é baixado e nenhuma data é enviada: a contagem roda no seu navegador e funciona offline. Linhas do tempo de contratos e datas de pessoal são sensíveis por natureza — mais uma razão para o cálculo nunca sair do seu aparelho.",
+          ],
         },
       ],
     },

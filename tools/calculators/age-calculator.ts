@@ -36,6 +36,32 @@ export default defineTool({
           a: "Total days lived is the figure used for “days on earth” style milestones and for systems that store ages in days. It is computed from calendar dates in UTC so daylight-saving shifts cannot make it off by one.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Why “age” is not one single number",
+          paragraphs: [
+            "Ask three systems for someone's age and you may get three answers, because age is a convention before it is a computation. The most common convention — the one this calculator uses — is completed age: how many full years, months and days have actually elapsed since birth. Official documents in most countries use this “years only” cut of the same number, which is why a person whose birthday is tomorrow is still legally one year younger today.",
+            "Other conventions exist for historical and cultural reasons. Several East Asian systems traditionally counted a person as one year old at birth and aged everyone together on the new year, which adds one or two years to the Western figure; South Korea formally adopted the international standard for most legal purposes in 2023, ending much of that ambiguity. Some medical and insurance contexts instead use adjusted or rounded ages.",
+            "There is also a time-of-day subtlety this tool deliberately ignores: someone born at 23:50 is, strictly speaking, a few hours younger on any given date than someone born at 00:10 the same day. Because the calculator works on whole calendar dates with no birth time, both get the same age — the convention almost every form and registry follows anyway.",
+          ],
+        },
+        {
+          heading: "Leap days, month lengths and time zones",
+          paragraphs: [
+            "The years/months/days breakdown is real calendar arithmetic, not division by an average. Months are consumed whole from the birth date forward, and leftover days are measured against the actual length of the month that remains — so a span across a 31-day month, a 28-day February or the 2024 leap year all come out exact. A birth date of 29 February is treated as aging on 1 March in common years, matching the convention most jurisdictions use.",
+            "Total days sidestep the calendar entirely: it subtracts UTC day numbers, which are just a count of absolute days. That makes the figure immune to daylight-saving transitions, which can otherwise make a local-time difference land one day short or long. No matter where on Earth you run the page, “days lived” is the same number.",
+            "The next-birthday countdown walks forward from the age-at date to the next occurrence of the birth month and day, and reports the weekday it lands on — useful for planning the party before doing any arithmetic. In a non-leap year, a 29 February birthday is targeted at 1 March for the same reason as above.",
+          ],
+        },
+        {
+          heading: "Compared with spreadsheets, and privacy",
+          paragraphs: [
+            "Spreadsheets can compute age gaps with date-difference functions, but their month arithmetic is a frequent source of errors — the functions are inconsistently documented between products, and it is easy to get an inclusive-exclusive boundary wrong without noticing. This tool shows the breakdown, the totals and the countdown together so you can sanity-check one against another at a glance.",
+            "For official purposes — visas, school enrollment, retirement rules — the documents and the applicable jurisdiction's convention are authoritative, not any calculator. Rules such as “age on 1 January for school cohorts” override pure elapsed time, and this tool does not model them.",
+            "Privacy is structural here: the birth date is entered into your browser only, the arithmetic runs in local JavaScript, and nothing is uploaded, logged or stored. That matters because a full birth date plus a context is enough to identify a person, so a calculator that keeps inputs local is the only kind you should paste real dates of birth into.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "年龄计算器",
@@ -61,6 +87,32 @@ export default defineTool({
         {
           q: "累计天数有什么用?",
           a: "“来到这个世界第 N 天”这类纪念日、以及以天数存储年龄的系统都用得上。它按 UTC 的日历日期计算,不受夏令时影响,不会差一天。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "“年龄”从来不是一个数",
+          paragraphs: [
+            "同一套出生日期,问三个系统可能得到三个答案,因为年龄先是口径、才是计算。本工具用的是最通行的口径——实足年龄:出生以来真正度过的整年、整月、零几天。各国证件上那个“几岁”就是同一个数的只取整年版本,所以明天过生日的人,今天在法律意义上仍然小一岁。",
+            "其他口径出于历史和文化原因而存在。东亚传统上把出生即算一岁、逢新年大家一起长岁,比西式实足岁大一两岁;韩国已于 2023 年在多数法律场景改用国际标准实足岁,这类分歧大大减少。医疗、保险等场景有时也会用调整过的或取整的年龄。",
+            "还有一个人为忽略的细节:严格来说,23:50 出生的人比同一天 00:10 出生的人在任何一个日期上都小几个小时。本工具按整天日历日期计算、不采集出生时间,两者得到同样的年龄——这几乎也是所有表格和登记系统的默认做法。",
+          ],
+        },
+        {
+          heading: "闰日、月长与时区",
+          paragraphs: [
+            "几年几月零几天是真实的日历运算,不是除以平均月长。从出生日期起整月整月地消耗,余下天数按所在月份的实际长度计量——跨 31 天的大月、28 天的二月、2024 这样的闰年都精确无误。2 月 29 日出生的人按平年 3 月 1 日长岁,与多数司法辖区的惯例一致。",
+            "累计天数则完全绕开日历:它减的是 UTC 天数序号,本质上是绝对天数的差。夏令时切换无法影响它——用本地时间求差可能在切换日前后差出一天。无论在地球哪个角落打开页面,“来到世界第 N 天”都是同一个数。",
+            "下一个生日倒计时从计算日起向后找到出生月日的下一次出现,并给出落点是星期几——开派对之前先看日子。平年里 2 月 29 日的生日同样按 3 月 1 日锁定。",
+          ],
+        },
+        {
+          heading: "与电子表格比,以及隐私",
+          paragraphs: [
+            "电子表格也能算日期差,但月级运算常出错的两个原因:各产品的日期差函数文档不统一,以及含头含尾边界很容易弄反而不自知。本工具把拆分、累计、倒计时放在一起,互相一对照,错没错一眼便知。",
+            "官方用途——签证、入学、退休规则——以文件和所在辖区的口径为准,不是任何计算器。诸如“按 1 月 1 日统一计算入学年龄”这类规则会覆盖纯粹的经过时间,本工具不建模这些规则。",
+            "隐私是结构性的:出生日期只进你的浏览器,运算在本地 JavaScript 里完成,不上传、不留存。完整的出生日期加上一点上下文足以锁定一个人,所以要贴真实生日,就该用输入不出本地的计算器。",
+          ],
         },
       ],
     },
@@ -90,6 +142,32 @@ export default defineTool({
           a: "「生まれて N 日目」の記念日や、年齢を日数で扱うシステムで使われます。UTC の暦日から計算するため、サマータイムによって 1 日ずれることはありません。",
         },
       ],
+      deepDive: [
+        {
+          heading: "「年齢」はひとつの数ではない",
+          paragraphs: [
+            "同じ生年月日でも、尋ねるシステムによって答えが変わることがあります。年齢は計算の前に約束事だからです。このツールが使うのは最も一般的な満年齢:生まれてから実際に経過した満の年・か月・日です。各国の証明書に記載される「歳」は同じ数の年の部分だけを切り出したもので、明日誕生日の人は今日の時点で法律上まだひとつ若いのです。",
+            "別の数え方も歴史的・文化的な理由で存在します。東アジアでは伝統的に出生時に 1 歳とし、新年に全員が一緒に歳を取る方式が使われてきました(西方式より 1〜2 歳大きくなる)。韓国は 2023 年に多くの法律場面で国際標準の満年齢を採用し、この曖昧さは大きく減りました。医療や保険の場面では調整済み・丸め込みの年齢が使われることもあります。",
+            "意図的に無視している細かい点もひとつ。厳密に言えば、23:50 生まれは同日の 00:10 生まれよりどの日付時点でも数時間若いはずです。この計算は暦日単位で生まれた時刻を扱わないため、両者は同じ年齢になります。これはほぼすべての申請書や登記システムの前提と同じです。",
+          ],
+        },
+        {
+          heading: "うるう日・月の長さ・タイムゾーン",
+          paragraphs: [
+            "歳・か月・日の内訳は本当の暦計算で、平均月長による除算ではありません。生年月日からか月をまるごと消化し、残りの日は当月の実際の長さで測ります。31 日の月、28 日の 2 月、2024 年のようなうるう年も正確です。2 月 29 日生まれは平年では 3 月 1 日にひとつ年を取ると扱い、多くの法域の慣行と一致します。",
+            "累計日数は暦を完全に回避します。引き算の対象は UTC の日番号、つまり絶対的な日数です。ローカル時刻の差分はサマータイム切替の前後で 1 日ずれることがありますが、この数字は影響を受けません。地球上のどこで開いても「生まれて N 日目」は同じ数です。",
+            "次の誕生日カウントダウンは、起算日から生まれ月日の次の出現日へ進み、その曜日も報告します。パーティーの計画は計算より先に日程から。平年の 2 月 29 日の誕生日は、同じ理由で 3 月 1 日に合わせられます。",
+          ],
+        },
+        {
+          heading: "表計算との比較とプライバシー",
+          paragraphs: [
+            "表計算でも日付差は求められますが、か月単位の演算はよく間違えます。製品ごとに差関数の仕様が一致していないことと、両端を含むか含まないかの境界を間違えても気づきにくいことが原因です。このツールは内訳・累計・カウントダウンを並べて見せるので、互いを突き合わせて正誤をひと目で確認できます。",
+            "公式な用途(ビザ、入学、退職の規定)では、書類とその法域の取り決めが優先です。「1 月 1 日時点の年齢で学年を決める」のような行政の規則は純粋な経過時間に優先し、このツールはそれをモデル化しません。",
+            "プライバシーは構造的な違いです。生年月日はブラウザの中だけに入力され、計算はローカルの JavaScript で完結し、送信も記録も保存もありません。完全な生年月日は少しの文脈と組み合わせるだけで個人を特定できます。本物の誕生日を入力するなら、入力が端末の外に出ない計算器を選ぶべきです。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de edad",
@@ -117,6 +195,32 @@ export default defineTool({
           a: "Los días vividos en total se usan en hitos tipo «días en la Tierra» y en sistemas que almacenan la edad en días. Se calcula con fechas de calendario en UTC, de modo que el horario de verano no puede alterarlo en uno.",
         },
       ],
+      deepDive: [
+        {
+          heading: "«Edad» no es un solo número",
+          paragraphs: [
+            "Pregunte a tres sistemas la edad de una persona y puede obtener tres respuestas, porque la edad es una convención antes que un cálculo. La más habitual — la que usa esta calculadora — es la edad cumplida: los años, meses y días completos que han pasado de verdad desde el nacimiento. El «años» de los documentos oficiales en la mayoría de países es el mismo número cortado en los años completos, razón por la que quien cumple mañana sigue siendo legalmente un año menor hoy.",
+            "Otras convenciones existen por razones históricas y culturales. Varios sistemas de Asia Oriental contaban tradicionalmente a la persona como de un año al nacer y todos cumplían juntos en el año nuevo, lo que añade uno o dos años a la cifra occidental; Corea del Sur adoptó formalmente el estándar internacional para la mayoría de efectos legales en 2023, y buena parte de esa ambigüedad desapareció. En contextos médicos y aseguradores a veces se usan edades ajustadas o redondeadas.",
+            "Hay también un matiz horario que esta herramienta ignora deliberadamente: en rigor, alguien nacido a las 23:50 es unas horas menor en cualquier fecha que alguien nacido a las 00:10 del mismo día. Como la calculadora trabaja con fechas completas sin hora de nacimiento, ambos obtienen la misma edad — la convención que casi todo formulario y registro aplica de todos modos.",
+          ],
+        },
+        {
+          heading: "Bisiestos, longitudes de mes y zonas horarias",
+          paragraphs: [
+            "El desglose en años/meses/días es aritmética de calendario real, no una división por un mes promedio. Los meses se consumen enteros desde la fecha de nacimiento y los días restantes se miden según la longitud real del mes en curso, así que un tramo por un mes de 31 días, un febrero de 28 o el año bisiesto 2024 salen exactos. Un nacimiento el 29 de febrero se trata como que cumple el 1 de marzo en años comunes, igual que la convención de la mayoría de jurisdicciones.",
+            "Los días totales evitan el calendario por completo: restan números de día UTC, que no son más que un recuento de días absolutos. Por eso la cifra es inmune a los cambios de horario de verano, que con horas locales pueden dejar una diferencia un día corta o larga. Donde sea que abra la página, «días vividos» es el mismo número.",
+            "La cuenta atrás al cumpleaños avanza desde la fecha de cálculo hasta la próxima aparición del mes y día de nacimiento, e indica el día de la semana en que cae — útil para planear la fiesta antes de hacer cuentas. En un año no bisiesto, un cumpleaños de 29 de febrero se fija en el 1 de marzo por la misma razón.",
+          ],
+        },
+        {
+          heading: "Frente a las hojas de cálculo, y privacidad",
+          paragraphs: [
+            "Las hojas de cálculo también calculan diferencias de fechas, pero su aritmética de meses es fuente frecuente de errores: las funciones de diferencia están documentadas de forma desigual entre productos y es fácil invertir un límite de inclusión sin darse cuenta. Esta herramienta muestra el desglose, los totales y la cuenta atrás juntos, de modo que contrastar unos con otros es un vistazo.",
+            "Para fines oficiales — visados, escolarización, reglas de jubilación — mandan los documentos y la convención de la jurisdicción aplicable, no una calculadora. Reglas como «la edad a 1 de enero fija el cohort escolar» prevalecen sobre el tiempo transcurrido, y esta herramienta no las modeliza.",
+            "La privacidad es estructural: la fecha de nacimiento se introduce solo en su navegador, la aritmética corre en JavaScript local y nada se sube, se registra ni se guarda. Una fecha de nacimiento completa con un poco de contexto basta para identificar a una persona, así que si va a pegar fechas reales, hágalo en una calculadora cuyos datos no salgan del dispositivo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de idade",
@@ -142,6 +246,32 @@ export default defineTool({
         {
           q: "Para que serve o total de dias?",
           a: "Os dias vividos aparecem em marcos do tipo «dias na Terra» e em sistemas que guardam idade em dias. O cálculo usa datas de calendário em UTC, então o horário de verão não pode alterá-lo em um.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "«Idade» não é um número só",
+          paragraphs: [
+            "Pergunte a três sistemas a idade de uma pessoa e pode receber três respostas, porque idade é uma convenção antes de ser um cálculo. A mais comum — a que esta calculadora usa — é a idade cumprida: os anos, meses e dias completos que realmente passaram desde o nascimento. Os «anos» dos documentos oficiais na maioria dos países são o mesmo número cortado nos anos inteiros, por isso quem faz aniversário amanhã continua legalmente um ano mais novo hoje.",
+            "Outras convenções existem por razões históricas e culturais. Vários sistemas do Leste Asiático tradicionalmente contavam a pessoa com um ano ao nascer, e todos cumpriam juntos no ano-novo, o que soma um ou dois anos à cifra ocidental; a Coreia do Sul adotou formalmente o padrão internacional para a maioria dos efeitos legais em 2023, e boa parte dessa ambiguidade acabou. Em contextos médicos e de seguros às vezes se usam idades ajustadas ou arredondadas.",
+            "Há ainda uma sutileza de horário que esta ferramenta ignora de propósito: estritamente, alguém nascido às 23:50 é algumas horas mais novo em qualquer data do que alguém nascido às 00:10 do mesmo dia. Como a calculadora trabalha com datas inteiras, sem hora de nascimento, ambos recebem a mesma idade — a convenção que quase todo formulário e registro aplica de qualquer forma.",
+          ],
+        },
+        {
+          heading: "Bissextos, comprimento dos meses e fusos",
+          paragraphs: [
+            "O detalhamento em anos/meses/dias é aritmética de calendário real, não uma divisão por um mês médio. Os meses são consumidos inteiros a partir da data de nascimento e as sobras são medidas pelo comprimento real do mês em curso, então um trecho por um mês de 31 dias, um fevereiro de 28 ou o ano bissexto de 2024 sai exato. Quem nasce em 29 de fevereiro é tratado como fazend aniversário em 1º de março em anos comuns, como manda a convenção da maioria das jurisdições.",
+            "O total de dias contorna o calendário por completo: subtrai números de dia UTC, que não são nada além de uma contagem de dias absolutos. Por isso a cifra é imune às transições de horário de verão, que com horas locais podem deixar uma diferença um dia curta ou longa. Em qualquer canto do planeta, «dias vividos» é o mesmo número.",
+            "A contagem para o próximo aniversário avança da data de cálculo até a próxima ocorrência do mês e dia de nascimento e informa o dia da semana em que cai — planeje a festa antes de fazer contas. Em ano não bissexto, um aniversário de 29 de fevereiro é fixado em 1º de março pelo mesmo motivo.",
+          ],
+        },
+        {
+          heading: "Comparação com planilhas, e privacidade",
+          paragraphs: [
+            "Planilhas também calculam diferenças de datas, mas a aritmética de meses é fonte frequente de erro: as funções de diferença têm documentação desigual entre produtos e é fácil inverter um limite de inclusão sem perceber. Esta ferramenta mostra detalhamento, totais e contagem juntos, então cruzar um com outro é coisa de um relance.",
+            "Para fins oficiais — vistos, matrícula escolar, regras de aposentadoria — valem os documentos e a convenção da jurisdição aplicável, não uma calculadora. Regras como «a idade em 1º de janeiro define a turma escolar» prevalecem sobre o tempo decorrido, e esta ferramenta não as modela.",
+            "A privacidade é estrutural: a data de nascimento entra apenas no seu navegador, a aritmética roda em JavaScript local e nada é enviado, registrado ou guardado. Uma data de nascimento completa com um pouco de contexto basta para identificar uma pessoa, então se vai colar datas reais, que seja numa calculadora cujos dados não saiam do aparelho.",
+          ],
         },
       ],
     },

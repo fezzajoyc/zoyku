@@ -37,6 +37,32 @@ export default defineTool({
           a: "No — this is an estimate, not medical advice. Illness, medication, pregnancy and unusual body compositions all shift real energy expenditure, so discuss any diet change with a healthcare professional.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Mifflin-St Jeor vs. the older equations",
+          paragraphs: [
+            "This tool uses the Mifflin-St Jeor equation, published in 1990: for men, 10 × weight (kg) + 6.25 × height (cm) − 5 × age + 5, and for women the same expression minus 161 instead of the +5. It was fitted to measured resting energy expenditure and validated against indirect calorimetry, the lab gold standard that measures oxygen consumption directly.",
+            "The alternative you will meet most often is Harris-Benedict, originally published in 1919 and revised in 1984. A widely cited 2005 American Dietetic Association comparison found Mifflin-St Jeor more accurate for modern populations, which is why this calculator standardizes on it. A third option, Katch-McArdle, uses lean body mass instead of weight and can be sharper for people who know their body-fat percentage — but it requires a number most people do not have.",
+            "The practical takeaway: differences between these equations are typically tens of kilocalories, smaller than the day-to-day variation in your own expenditure. If two calculators disagree slightly, the formula choice is usually the reason, and neither is wrong.",
+          ],
+        },
+        {
+          heading: "Reading the number: BMR is not your daily burn",
+          paragraphs: [
+            "BMR is the floor, not the budget. It covers breathing, circulation, cell repair and temperature regulation at complete rest — roughly 60–70% of what most sedentary adults burn in a day. Your real total daily energy expenditure (TDEE) is BMR multiplied by an activity factor, from about 1.2 for a desk-bound day to around 1.9 for heavy physical work or daily hard training.",
+            "That multiplication matters more than the formula itself. Two people with identical BMR can burn 800+ kcal apart per day purely from lifestyle. This calculator deliberately reports only BMR; the calorie calculator on this site takes the next step and applies the activity factor and a goal for you.",
+            "A useful sanity check: BMR scales mainly with weight, height and age, so if the result shifts sharply after a small input change, re-check the units — kg versus lb is the classic mix-up.",
+          ],
+        },
+        {
+          heading: "Common mistakes and honest limits",
+          paragraphs: [
+            "Every predictive equation carries individual error. Mifflin-St Jeor lands within roughly ±10% of lab measurement for most adults, but individuals with very high or low muscle mass, thyroid conditions, or certain medications can sit well outside that band. Treat the output as a planning starting point, not a physiological fact.",
+            "Do not use BMR to justify eating below it. Resting metabolism is already covered by the lean tissue keeping you alive; aggressive deficits below BMR are a decision for a healthcare professional, not a calculator. Likewise, metabolic adaptation means the number you calculated at 90 kg stops being accurate at 80 kg — recalculate as your weight changes.",
+            "Like everything on this site, the calculation runs entirely in your browser: no inputs are sent anywhere, so there is no reason to hesitate over entering real figures.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "基础代谢率计算器",
@@ -64,6 +90,32 @@ export default defineTool({
         {
           q: "这是医疗建议吗?",
           a: "不是——这只是估算,不构成医疗建议。疾病、药物、怀孕和特殊体成分都会改变真实能耗,调整饮食前请咨询专业人士。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "为什么选 Mifflin–St Jeor 而不是更老的公式",
+          paragraphs: [
+            "本工具用的是 1990 年发表的 Mifflin–St Jeor 公式:男性为 10 × 体重(kg)+ 6.25 × 身高(cm) − 5 × 年龄 + 5,女性用同一表达式减 161 而不是加 5。它由实测静息能耗数据拟合而来,并以间接测热法(实验室金标准)做过验证。",
+            "最常见的备选是 1919 年发表、1984 年修订的 Harris–Benedict 公式。美国饮食协会 2005 年的一项对比研究发现,Mifflin–St Jeor 对现代人群的预测更准,这正是本工具选用它的原因。另一个选择 Katch–McArdle 用瘦体重而非体重计算,对知道自身体脂率的人可能更贴合,但前提是得有这个数。",
+            "实用结论:这几个公式之间的差异通常只有几十千卡,小于你自己每天能耗的正常波动。两个计算器结果略有出入时,多半是公式口径不同,而不是谁算错了。",
+          ],
+        },
+        {
+          heading: "BMR 只是下限,不是你每天的总消耗",
+          paragraphs: [
+            "基础代谢是地板,不是预算。它只覆盖呼吸、血液循环、细胞修复和体温维持——久坐成年人一天消耗的大头(约六到七成)都在这里。真正的每日总消耗(TDEE)等于 BMR 乘以活动系数:久坐日约 1.2,重体力劳动或每天大强度训练可到 1.9 左右。",
+            "这一步乘法比选哪个公式更重要:两个 BMR 完全相同的人,仅因生活方式不同,每天消耗可以差出 800 千卡以上。本工具只报 BMR;站内的卡路里计算器负责下一步,帮你乘上活动系数并按目标调整。",
+            "一个自查技巧:BMR 主要随体重、身高、年龄变化。如果改动很小的输入却让结果大幅跳动,先检查单位——公斤误填成磅是最常见的乌龙。",
+          ],
+        },
+        {
+          heading: "常见误用与诚实的误差范围",
+          paragraphs: [
+            "任何预测公式都有个体误差。Mifflin–St Jeor 对多数成年人的偏差在实测值 ±10% 左右,但肌肉量特别高或特别低、有甲状腺问题或服用特定药物的人,可能落在区间之外。把它当作规划的起点,而不是生理事实。",
+            "别拿 BMR 当作“可以吃到这个数以下”的依据。静息代谢对应的是维持你活着的那部分组织;低于 BMR 的激进热量缺口应该和医生讨论,而不是问计算器。另外,代谢会随体重变化适应:90 公斤时算出的数,到 80 公斤时已不再准确,减重过程中要定期重算。",
+            "和站内所有工具一样,计算完全在你的浏览器里完成,输入不会上传到任何地方,可以放心填真实数据。",
+          ],
         },
       ],
     },
@@ -95,6 +147,24 @@ export default defineTool({
           a: "いいえ — 推定値であり医療アドバイスではありません。病気・薬・妊娠・特異な体組成は実際の消費を変えるため、食事を変える前には専門家に相談してください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "なぜ Mifflin-St Jeor 式なのか",
+          paragraphs: [
+            "このツールは1990年発表の Mifflin-St Jeor 式を使います。男性は「10 × 体重(kg)+ 6.25 × 身長(cm) − 5 × 年齢 + 5」、女性は同じ式から +5 の代わりに −161。実測の安静時エネルギー消費量に基づいて作られ、間接熱量測定(ラボの金標準)で検証されています。",
+            "最もよく見かける代替式は、1919年発表・1984年改訂の Harris-Benedict 式です。2005年のアメリカ食事療法協会の比較研究では、現代人に対する精度で Mifflin-St Jeor が上回るとされ、これが採用理由です。体内脂肪率が分かる人には Katch-McArdle 式(除脂肪体重ベース)も選択肢ですが、入力値が必要な点がネックです。",
+            "実用上のポイント:式の違いによる差は通常数十 kcal で、日々の消費量の自然な変動より小さものです。計算結果が少し違っても、それは式の違いによるもので、どちらが間違っているわけではありません。",
+          ],
+        },
+        {
+          heading: "BMR は下限であり、1日の総消費ではない",
+          paragraphs: [
+            "基礎代謝は「床」であって「予算」ではありません。呼吸・血液循環・細胞修復・体温維持だけをカバーし、座り仕事中心の成人の1日消費の約6〜7割に相当します。実際の総消費量(TDEE)は BMR × 活動係数で、デスクワーク中心なら約1.2、重労働や毎日のハードトレーニングなら約1.9。",
+            "この掛け算の方が式の選択より影響が大きく、同じ BMR の二人でも生活スタイル次第で1日の消費は800 kcal 以上変わります。このツールは BMR のみを表示し、活動係数と目標の適用はカロリー計算ツールが担当します。",
+            "セルフチェックとして:BMR は主に体重・身長・年齢で決まります。入力の小さな変更で結果が大きく動いたら、単位(kg と lb の取り違え)を確認しましょう。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de metabolismo basal",
@@ -124,6 +194,24 @@ export default defineTool({
           a: "No — es una estimación, no consejo médico. Enfermedades, medicamentos, el embarazo y composiciones corporales atípicas alteran el gasto real; consulte con un profesional sanitario antes de cambiar su dieta.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Por qué Mifflin-St Jeor y no las fórmulas más antiguas",
+          paragraphs: [
+            "Esta herramienta usa la ecuación de Mifflin-St Jeor, publicada en 1990: para hombres, 10 × peso (kg) + 6,25 × altura (cm) − 5 × edad + 5; para mujeres, la misma expresión restando 161 en lugar de sumar 5. Se ajustó a mediciones reales del gasto energético en reposo y se validó frente a la calorimetría indirecta, el estándar de laboratorio.",
+            "La alternativa más habitual es Harris-Benedict, publicada en 1919 y revisada en 1984. Una comparación de la American Dietetic Association de 2005 concluyó que Mifflin-St Jeor predice mejor en poblaciones actuales, y por eso esta calculadora se basa en ella. Existe también Katch-McArdle, que usa la masa magra en vez del peso y puede ajustarse mejor si conoces tu porcentaje de grasa corporal.",
+            "En la práctica: las diferencias entre estas ecuaciones suelen ser de decenas de kilocalorías, menores que la variación natural de tu propio gasto diario. Si dos calculadoras difieren un poco, casi siempre se debe a la fórmula, no a un error.",
+          ],
+        },
+        {
+          heading: "El TMB es el suelo, no tu gasto diario",
+          paragraphs: [
+            "El metabolismo basal cubre respiración, circulación, reparación celular y temperatura corporal en reposo completo: en torno al 60-70 % de lo que quema un adulto sedentario. El gasto total real (TDEE) es el TMB multiplicado por un factor de actividad: unos 1,2 en un día de escritorio y hasta 1,9 con trabajo físico intenso o entrenamiento diario exigente.",
+            "Esa multiplicación importa más que la fórmula: dos personas con el mismo TMB pueden diferir en más de 800 kcal al día solo por su estilo de vida. Esta calculadora muestra solo el TMB; la calculadora de calorías del sitio aplica el factor de actividad y tu objetivo.",
+            "Un consejo de comprobación: el TMB depende sobre todo del peso, la altura y la edad. Si un cambio pequeño de entrada mueve mucho el resultado, revisa las unidades — confundir kg con lb es el error clásico.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de metabolismo basal",
@@ -151,6 +239,24 @@ export default defineTool({
         {
           q: "Isso é aconselhamento médico?",
           a: "Não — é uma estimativa, não aconselhamento médico. Doenças, medicamentos, gravidez e composições corporais atípicas alteram o gasto real; converse com um profissional de saúde antes de mudar a dieta.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Por que Mifflin-St Jeor e não as fórmulas mais antigas",
+          paragraphs: [
+            "Esta ferramenta usa a equação de Mifflin-St Jeor, publicada em 1990: para homens, 10 × peso (kg) + 6,25 × altura (cm) − 5 × idade + 5; para mulheres, a mesma expressão com −161 em vez de +5. Ela foi ajustada a medições reais de gasto energético em repouso e validada contra calorimetria indireta, o padrão-ouro de laboratório.",
+            "A alternativa mais comum é Harris-Benedict, publicada em 1919 e revisada em 1984. Uma comparação da American Dietetic Association de 2005 concluiu que Mifflin-St Jeor prevê melhor nas populações atuais, e é por isso que esta calculadora a adota. Há também Katch-McArdle, que usa massa magra em vez de peso e pode ser mais precisa para quem conhece o próprio percentual de gordura.",
+            "Na prática: as diferenças entre essas equações ficam na casa de dezenas de calorias, menores que a variação natural do seu próprio gasto diário. Se duas calculadoras divergem um pouco, quase sempre é a fórmula, não um erro.",
+          ],
+        },
+        {
+          heading: "A TMB é o piso, não o seu gasto diário",
+          paragraphs: [
+            "O metabolismo basal cobre respiração, circulação, reparo celular e temperatura corporal em repouso completo: cerca de 60-70 % do que um adulto sedentário queima por dia. O gasto total real (TDEE) é a TMB multiplicada por um fator de atividade: cerca de 1,2 num dia de escritório e até 1,9 com trabalho físico pesado ou treino diário intenso.",
+            "Essa multiplicação importa mais do que a escolha da fórmula: duas pessoas com a mesma TMB podem gastar mais de 800 kcal a mais por dia só pelo estilo de vida. Esta calculadora mostra apenas a TMB; a calculadora de calorias do site aplica o fator de atividade e o seu objetivo.",
+            "Uma dica de conferência: a TMB depende principalmente de peso, altura e idade. Se uma pequena mudança de entrada altera muito o resultado, verifique as unidades — trocar kg por lb é o erro clássico.",
+          ],
         },
       ],
     },
