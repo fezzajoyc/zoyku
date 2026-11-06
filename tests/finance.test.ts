@@ -5,6 +5,7 @@ import {
   compound,
   hourlyToSalary,
   mortgage,
+  mortgageAccelerated,
   mortgagePayment,
   salaryBreakdown,
   type BreakEvenResult,
@@ -543,5 +544,58 @@ describe("breakEven: impossible economics and invalid inputs yield NaN with no p
 
   it.each(invalid)("rejects breakEven(%p, %p, %p)", (fixed, price, variable) => {
     expectBreakEvenNaN(breakEven(fixed, price, variable));
+  });
+});
+
+// ─────────────────────────── mortgageAccelerated ───────────────────────────
+
+describe("mortgageAccelerated: 240k @6%/30y with +200/mo extra", () => {
+  const base = mortgage(240000, 6, 30);
+  const acc = mortgageAccelerated(240000, 6, 30, 200);
+
+  it("pays off earlier than the 360-month standard plan", () => {
+    expect(acc.months).toBeLessThan(360);
+    expect(acc.monthsSaved).toBe(360 - acc.months);
+    expect(acc.monthsSaved).toBeGreaterThan(0);
+  });
+
+  it("saves interest, and the saved amount equals base interest minus accelerated interest", () => {
+    expect(acc.totalInterest).toBeLessThan(base.totalInterest);
+    expect(acc.interestSaved).toBeCloseTo(base.totalInterest - acc.totalInterest, 6);
+    expect(acc.interestSaved).toBeGreaterThan(0);
+  });
+
+  it("reconciles month-by-month: every month interest = balance × r and payment = min(monthlyPI + extra, balance + interest)", () => {
+    const r = 6 / 1200;
+    let bal = 240000;
+    let sumInt = 0;
+    for (let m = 1; m <= acc.months; m++) {
+      const interest = bal * r;
+      const pay = Math.min(base.monthlyPI + 200, bal + interest);
+      bal = bal + interest - pay;
+      sumInt += interest;
+    }
+    expect(bal).toBeCloseTo(0, 6);
+    expect(sumInt).toBeCloseTo(acc.totalInterest, 6);
+  });
+
+  it("emits yearly rows whose principal sums to exactly the loan", () => {
+    const sumPrin = acc.schedule.reduce((s, r) => s + r.principal, 0);
+    expect(sumPrin).toBeCloseTo(240000, 6);
+  });
+
+  it("degenerate inputs: zero/negative extra returns all-NaN", () => {
+    for (const extra of [0, -50, NaN]) {
+      const a = mortgageAccelerated(240000, 6, 30, extra);
+      expect(Number.isNaN(a.months)).toBe(true);
+      expect(Number.isNaN(a.interestSaved)).toBe(true);
+      expect(a.schedule).toHaveLength(0);
+    }
+  });
+
+  it("a huge extra payment pays off in 1 month with interest = first month's balance × r", () => {
+    const a = mortgageAccelerated(240000, 6, 30, 1000000);
+    expect(a.months).toBe(1);
+    expect(a.totalInterest).toBeCloseTo(240000 * (6 / 1200), 6);
   });
 });

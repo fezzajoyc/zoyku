@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, Stats, TableBox, fmtMoney, pick } from "./calc-ui";
-import { mortgage } from "../_lib/finance";
+import { mortgage, mortgageAccelerated } from "../_lib/finance";
+import { fill } from "../_lib/types";
 import { DonutChart, BalanceChart, chartText } from "./calc-charts";
 
 /**
@@ -32,6 +33,10 @@ const S = {
   tax: { en: "Property tax / year (optional)", zh: "房产税/年(可选)", ja: "固定資産税/年(任意)", es: "Impuesto anual (opcional)", pt: "IPTU / ano (opcional)", fr: "Taxe foncière / an (facultatif)", de: "Grundsteuer / Jahr (optional)", ru: "Налог на недвижимость / год (необяз.)", it: "Imposta immobiliare / anno (facoltativa)", tr: "Emlak vergisi / yıl (isteğe bağlı)", ko: "재산세 / 연(선택)", ar: "ضريبة العقار / سنة (اختياري)", hi: "संपत्ति कर / वर्ष (वैकल्पिक)", id: "Pajak properti / tahun (opsional)", vi: "Thuế nhà đất / năm (không bắt buộc)" },
   insurance: { en: "Insurance / year (optional)", zh: "保险/年(可选)", ja: "保険料/年(任意)", es: "Seguro anual (opcional)", pt: "Seguro / ano (opcional)", fr: "Assurance / an (facultatif)", de: "Versicherung / Jahr (optional)", ru: "Страховка / год (необяз.)", it: "Assicurazione / anno (facoltativa)", tr: "Sigorta / yıl (isteğe bağlı)", ko: "보험 / 연(선택)", ar: "التأمين / سنة (اختياري)", hi: "बीमा / वर्ष (वैकल्पिक)", id: "Asuransi / tahun (opsional)", vi: "Bảo hiểm / năm (không bắt buộc)" },
   hoa: { en: "HOA / month (optional)", zh: "物业费/月(可选)", ja: "管理費/月(任意)", es: "Cuota mensual (opcional)", pt: "Condomínio / mês (opcional)", fr: "Charges copro. / mois (facultatif)", de: "Hausgeld / Monat (optional)", ru: "Взносы ТСЖ / мес. (необяз.)", it: "Spese condominio / mese (facoltative)", tr: "Site aidatı / ay (isteğe bağlı)", ko: "관리비 / 월(선택)", ar: "رسوم الصيانة / شهر (اختياري)", hi: "HOA / माह (वैकल्पिक)", id: "Iuran perumahan / bulan (opsional)", vi: "Phí quản lý / tháng (không bắt buộc)" },
+  extra: { en: "Extra monthly payment (optional)", zh: "每月额外还款(可选)", ja: "毎月の追加返済(任意)", es: "Pago extra mensual (opcional)", pt: "Pagamento extra mensal (opcional)", fr: "Mensualité supplémentaire (facultatif)", de: "Extra-Zahlung / Monat (optional)", ru: "Доп. платёж / мес. (необяз.)", it: "Rata extra mensile (facoltativa)", tr: "Ek aylık ödeme (isteğe bağlı)", ko: "매월 추가 상환(선택)", ar: "دفعة إضافية شهريًا (اختياري)", hi: "अतिरिक्त मासिक भुगतान (वैकल्पिक)", id: "Cicilan ekstra / bulan (opsional)", vi: "Trả thêm mỗi tháng (không bắt buộc)" },
+  payoff: { en: "Payoff time", zh: "还清时长", ja: "完済まで", es: "Duración de la amortización", pt: "Tempo de quitação", fr: "Durée de remboursement", de: "Laufzeit bis Tilgung", ru: "Срок погашения", it: "Tempo di estinzione", tr: "Ödeme süresi", ko: "상환 기간", ar: "مدة السداد", hi: "चुकौती समय", id: "Waktu lunas", vi: "Thời gian allong" },
+  saved: { en: "Interest saved vs standard", zh: "较标准计划省息", ja: "標準より節約できる利息", es: "Interés ahorrado vs estándar", pt: "Juros economizados vs padrão", fr: "Intérêts économisés vs standard", de: "Zinsersparnis vs. Standard", ru: "Экономия процентов", it: "Interessi risparmiati vs standard", tr: "Standarta göre faiz tasarrufu", ko: "표준 대비 절감 이자", ar: "الفائدة الموفَّرة مقارنة بالقياسي", hi: "मानक की तुलना में बचा ब्याज", id: "Bunga dihemat vs standar", vi: "Tiền lãi tiết kiệm so với chuẩn" },
+  monthsLess: { en: "{n} months earlier", zh: "提前 {n} 个月", ja: "{n} か月早い", es: "{n} meses antes", pt: "{n} meses mais cedo", fr: "{n} mois plus tôt", de: "{n} Monate früher", ru: "на {n} мес. раньше", it: "{n} mesi prima", tr: "{n} ay önce", ko: "{n}개월 더 빠름", ar: "قبل بـ {n} شهرًا", hi: "{n} महीने पहले", id: "{n} bulan lebih cepat", vi: "sớm hơn {n} tháng" },
   currency: { en: "Currency", zh: "币种", ja: "通貨", es: "Moneda", pt: "Moeda", fr: "Devise", de: "Währung", ru: "Валюта", it: "Valuta", tr: "Para birimi", ko: "통화", ar: "العملة", hi: "मुद्रा", id: "Mata uang", vi: "Đồng tiền" },
   monthly: { en: "Monthly payment (P&I)", zh: "月供(本息)", ja: "毎月の返済額(元利)", es: "Cuota mensual (capital e interés)", pt: "Parcela mensal (principal + juros)", fr: "Mensualité (capital + intérêts)", de: "Monatsrate (Tilgung + Zins)", ru: "Платёж в месяц (долг + %)", it: "Rata mensile (capitale + interessi)", tr: "Aylık ödeme (ana para + faiz)", ko: "월 상환액(원리금)", ar: "القسط الشهري (أصل + فائدة)", hi: "मासिक भुगतान (मूल + ब्याज)", id: "Cicilan bulanan (pokok + bunga)", vi: "Trả hàng tháng (gốc + lãi)" },
   piti: { en: "Total monthly (PITI)", zh: "每月总支出(PITI)", ja: "毎月の合計(PITI)", es: "Total mensual (PITI)", pt: "Total mensal (PITI)", fr: "Mensualité totale (PITI)", de: "Monatsrate gesamt (PITI)", ru: "Всего в месяц (PITI)", it: "Mensile totale (PITI)", tr: "Toplam aylık (PITI)", ko: "월 총액(PITI)", ar: "الإجمالي الشهري (PITI)", hi: "कुल मासिक (PITI)", id: "Total bulanan (PITI)", vi: "Tổng hàng tháng (PITI)" },
@@ -59,6 +64,7 @@ export function CalcEngineMortgage() {
   const [tax, setTax] = useState("");
   const [insurance, setInsurance] = useState("");
   const [hoa, setHoa] = useState("");
+  const [extra, setExtra] = useState("");
   const [currency, setCurrency] = useState("USD");
 
   const p = num(price);
@@ -77,6 +83,11 @@ export function CalcEngineMortgage() {
   const res = useMemo(
     () => mortgage(loan, annual, years),
     [loan, annual, years],
+  );
+  const extraN = num(extra);
+  const accel = useMemo(
+    () => mortgageAccelerated(loan, annual, years, extraN),
+    [loan, annual, years, extraN],
   );
 
   const extrasOK = [taxY, insY, hoaM].every((v) => !Number.isFinite(v) || v >= 0);
@@ -112,6 +123,9 @@ export function CalcEngineMortgage() {
         </Field>
         <Field label={pick(locale, S.hoa)}>
           <NumIn value={hoa} onChange={setHoa} aria="HOA per month" placeholder="0" />
+        </Field>
+        <Field label={pick(locale, S.extra)}>
+          <NumIn value={extra} onChange={setExtra} aria="extra monthly payment" placeholder="0" />
         </Field>
         <Field label={pick(locale, S.currency)}>
           <Sel value={currency} onChange={setCurrency} aria="currency">
@@ -156,6 +170,30 @@ export function CalcEngineMortgage() {
           })}
         </Note>
       </div>
+
+      {Number.isFinite(accel.months) && accel.monthsSaved > 0 && (
+        <div className="mt-4">
+          <Note>
+            {pick(locale, {
+              en: `With this extra payment the loan pays off in ${accel.months} months (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) and saves ${money(accel.interestSaved)} in interest.`,
+              zh: `按此额外还款,贷款将在 ${accel.months} 个月内还清(${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}),共节省利息 ${money(accel.interestSaved)}。`,
+              ja: `この追加返済では ${accel.months} か月で完済(${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })})、利息を ${money(accel.interestSaved)} 節約できます。`,
+              es: `Con este pago extra el préstamo se amortiza en ${accel.months} meses (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) y ahorra ${money(accel.interestSaved)} de intereses.`,
+              pt: `Com este pagamento extra o financiamento quita em ${accel.months} meses (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) e economiza ${money(accel.interestSaved)} de juros.`,
+              fr: `Avec cette mensualité supplémentaire, le prêt est remboursé en ${accel.months} mois (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) et économise ${money(accel.interestSaved)} d'intérêts.`,
+              de: `Mit dieser Extra-Zahlung ist der Kredit in ${accel.months} Monaten getilgt (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) und spart ${money(accel.interestSaved)} Zinsen.`,
+              ru: `С таким доплатой кредит закрывается за ${accel.months} мес. (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}), экономия по процентам — ${money(accel.interestSaved)}.`,
+              it: `Con questa rata extra il prestito si estingue in ${accel.months} mesi (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) e risparmia ${money(accel.interestSaved)} di interessi.`,
+              tr: `Bu ek ödemeyle kredi ${accel.months} ayda kapanır (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) ve ${money(accel.interestSaved)} faiz tasarrufu sağlar.`,
+              ko: `이 추가 상환으로 ${accel.months}개월 만에 상환 완료(${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}), 이자 ${money(accel.interestSaved)} 절감.`,
+              ar: `بهذه الدفعة الإضافية يُسدَّد القرض في ${accel.months} شهرًا (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) وتُوفَّر فائدة قدرها ${money(accel.interestSaved)}.`,
+              hi: `इस अतिरिक्त भुगतान से ऋण ${accel.months} महीनों में चुक जाएगा (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) और ${money(accel.interestSaved)} ब्याज बचेगा।`,
+              id: `Dengan cicilan ekstra ini pinjaman lunas dalam ${accel.months} bulan (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) dan menghemat bunga ${money(accel.interestSaved)}.`,
+              vi: `Với khoản trả thêm này, khoản vay allong hết sau ${accel.months} tháng (${fill(pick(locale, S.monthsLess), { n: accel.monthsSaved })}) và tiết kiệm ${money(accel.interestSaved)} tiền lãi.`,
+            })}
+          </Note>
+        </div>
+      )}
 
       {Number.isFinite(res.monthlyPI) && res.totalInterest > 0 && (
         <div className="mt-5">

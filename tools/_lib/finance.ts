@@ -112,6 +112,60 @@ export function mortgage(loanAmount: number, annualRatePct: number, years: numbe
   return { monthlyPI, totalInterest: sumInt, totalPaid: loanAmount + sumInt, schedule: rows };
 }
 
+export type AcceleratedResult = {
+  months: number;
+  totalInterest: number;
+  interestSaved: number;
+  monthsSaved: number;
+  schedule: MortgageRow[];
+};
+
+/** 额外月供加速还款:在标准月供之上每月多还 extra(利率不变,按余额计息)。
+ *  返回实际还清月数、总利息、相比标准计划的利息节省与提前月数,以及按年汇总表。 */
+export function mortgageAccelerated(
+  loanAmount: number,
+  annualRatePct: number,
+  years: number,
+  extraMonthly: number,
+): AcceleratedResult {
+  const base = mortgage(loanAmount, annualRatePct, years);
+  const extra = Number.isFinite(extraMonthly) ? extraMonthly : 0;
+  if (!Number.isFinite(base.monthlyPI) || !(extra > 0)) {
+    return { months: NaN, totalInterest: NaN, interestSaved: NaN, monthsSaved: NaN, schedule: [] };
+  }
+  const cap = Math.round(years * 12);
+  const r = annualRatePct / 1200;
+  const pay = base.monthlyPI + extra;
+  let bal = loanAmount;
+  let sumInt = 0;
+  let m = 0;
+  let yPrin = 0;
+  let yInt = 0;
+  const rows: MortgageRow[] = [];
+  while (bal > 0.005 && m < cap * 2) {
+    m++;
+    const interest = bal * r;
+    let prin = pay - interest;
+    if (prin > bal) prin = bal;
+    bal -= prin;
+    yPrin += prin;
+    yInt += interest;
+    sumInt += interest;
+    if (m % 12 === 0 || bal <= 0.005) {
+      rows.push({ year: Math.ceil(m / 12), principal: yPrin, interest: yInt, balance: Math.max(bal, 0) });
+      yPrin = 0;
+      yInt = 0;
+    }
+  }
+  return {
+    months: m,
+    totalInterest: sumInt,
+    interestSaved: base.totalInterest - sumInt,
+    monthsSaved: cap - m,
+    schedule: rows,
+  };
+}
+
 // ─────────────────────────── 年薪 ↔ 时薪(Salary) ───────────────────────────
 // 基准:hourly = 年薪 ÷ (每周小时 × 每年周数);日薪按每周 5 个工作日。
 // 无薪休假按天扣减工作周:有效周数 = 周数 − 天数/5;"调整后时薪" 是把同一年薪
