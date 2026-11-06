@@ -89,6 +89,32 @@ export default defineTool({
           a: "下载的是矢量 SVG,任何 DPI 下都不失真。排版时务必保留两侧的空白静区——裁掉静区是扫描失败最常见的原因。",
         },
       ],
+      deepDive: [
+        {
+          heading: "Code128 与 EAN-13:两种码制,两种用途",
+          paragraphs: [
+            "这两种格式为不同的工作而存在,不能互相替代。EAN-13 和 UPC-A 是 GS1 零售码制:定长、纯数字,绑定你向 GS1 成员组织注册取得的公司前缀,全球收银台扫描器都认识。CODE128 是物流码制:变长、全 ASCII、内部随便用——库位、资产标签、序列号、运单号都行。",
+            "差别体现在密度和容错上。CODE128 会在 A 子集(大写+控制符)、B 子集(全字母数字)、C 子集(数字成对)之间自动切换,一长串数字可以两位一码打包——这就是同样一个数字,CODE128 标签比 EAN-13 明显更窄的原因。EAN-13 则按标准固定模块宽度,让任何收银扫描器都能不看印刷方、快速可靠地读出。",
+            "一条实用规则:如果零售商或平台会分配商品编号,就把这个编号按 EAN-13/UPC-A 打印,不要用别的码制重新编码——他们的系统按 GS1 编号对账。所有不出你自己运营范围的编码,CODE128 更简单也更灵活。",
+          ],
+        },
+        {
+          heading: "校验位:为什么输入会被纠正",
+          paragraphs: [
+            "零售码制都以一个模 10 校验字符收尾,由其余数字按权重求和得出。EAN-13 从右往左交替按 1、3 加权,校验位让总和凑到 10 的倍数。它能抓住两类最常见的真实错误:抄错一位数字,以及相邻两位互换(相邻位交换的差是 3−1=2 的倍数关系,大部分但并非全部互换都能查出)。",
+            "本生成器接受 12 位自动补第 13 位,或输入完整 13 位做校验——末位不对的输入会被拒绝,而不是印出去。如果是从纸质单据抄号,输 12 位让工具算校验位更稳妥:虽然不能验证,但能暴露对不上的情况。",
+            "同一套模 10 校验覆盖 GS1 整条物流编码族,这个习惯可以直接迁移:如果某个条码标签看起来完好,却在收银台或库存系统里持续读不出来,损坏的校验位是首先要怀疑的对象之一。",
+          ],
+        },
+        {
+          heading: "静区、条宽与印刷尺寸",
+          paragraphs: [
+            "每种码制都保留静区——条两侧的空白,扫描器靠它定位符号的起点。GS1 对最小静区宽度按绝对尺寸规定,不按像素。把条形码贴着文字或盒子边缘裁切排版时,代码可能整条不可读,尽管每根条看起来都完美。宁可多留边距,小标签尤其如此。",
+            "条宽和条高与扫描器能力是权衡关系。条越窄,对打印分辨率和扫描光学要求越高;条越高,扫描器斜着打也有更长的纵向命中带。手持和收银场景按所用标准的最小印刷尺寸来,不要为了排版硬缩——一天扫两百次的码,付得起它占的那点标签面积。",
+            "输出是矢量 SVG,同一文件任何尺寸都清晰;不会随缩放变化的是物理规律。正式开印前用你的扫描器、你的实际标签纸把每个新格式都试扫一遍——迭代全程在浏览器内本地完成,任何内容都不需要离开你的设备。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "バーコード生成",
@@ -114,6 +140,32 @@ export default defineTool({
         {
           q: "出力の解像度は?",
           a: "ダウンロードはベクター SVG のため、どの DPI でもにじみません。配置の際は両端の空白(クワイエットゾーン)を必ず残してください。削るとスキャン不能になる最も多い原因です。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "CODE128 と EAN-13:二つの用途、二つの規格",
+          paragraphs: [
+            "この二つは別の仕事のために作られた規格で、置き換えができません。EAN-13 と UPC-A は GS1 の小売向けシンボル体系です。固定長・数字のみで、GS1 加盟団体から取得した企業プレフィックスに紐づき、世界のどのレジのスキャナーでも読めます。CODE128 は物流向けで、可変長・全 ASCII・社内用途には自由。棚番号、資産タグ、シリアル番号、配送参照番号に使えます。",
+            "差は密度と耐性に現れます。CODE128 は A(大文字+制御文字)、B(英数字全般)、C(数字ペア)のサブセットを自動で切り替え、数字の連続は 2 桁を 1 コード語に詰めます。同じ数字でも EAN-13 より CODE128 の方が明らかに細くなるのはこのためです。逆に EAN-13 はモジュール幅が規格で固定され、印字者が誰であれ、レジのスキャナーが高速かつ確実に読めるように設計されています。",
+            "実務の原則:小売店やプラットフォームが商品番号を発行するなら、その番号は EAN-13/UPC-A で印字し、別の形式で再エンコードしないこと。相手のシステムは GS1 番号で照合します。自社の運用から出ないコードなら、CODE128 の方が簡単で柔軟です。",
+          ],
+        },
+        {
+          heading: "チェックディジットと、入力が訂正される理由",
+          paragraphs: [
+            "小売向けシンボル体系は、他の桁の重み付き和から算出するモジュロ 10 のチェックキャラクタで終わります。EAN-13 は右から 1 と 3 を交互に重みとして掛け、合計が 10 の倍数になるように最後の桁を決めます。これで防げるのは実務で最も多い二つのミス、1 桁の打ち間違いと隣接桁の入れ替わり(入れ替わりの差は重み 3−1=2 に係るため、すべてではなく多くのケースを検出)です。",
+            "本ジェネレーターは 12 桁の入力に 13 桁目を自動計算するか、13 桁を入れて検証するかのどちらも受け付けます。末尾が誤りの入力は黙って印字されるのではなく拒否されます。紙の伝票から番号を写す場合は、12 桁を入れてツールに計算させる方が安全です。検証はできませんが、食い違いが明らかになります。",
+            "同じモジュロ 10 の一族は GS1 の物流コード全体に広がっており、末尾桁を確認する習慣はそのまま持ち越せます。ラベルは綺麗なのにレジや在庫アプリでだけ読み取りが続けて失敗する場合、壊れたチェックディジットは真っ先に疑うべき原因の一つです。",
+          ],
+        },
+        {
+          heading: "クワイエットゾーン、バー幅、印刷サイズ",
+          paragraphs: [
+            "どのシンボル体系もクワイエットゾーンを確保します。バーの両側の空白で、スキャナーはここでシンボルの始まりを見つけます。GS1 は最小幅をピクセルではなく絶対寸法で定めています。コードを文字や箱の端にぴったり配置して切り詰めると、各バーが完璧に見えてもコード全体が読めなくなることがあります。余白は必要に感じるより多めに。小さいラベルほどそうです。",
+            "バーの幅と高さはスキャナー能力とのトレードオフです。バーが細いほど印刷解像度と読取光学への要求が上がり、バーが高いほど斜めに読んでも縦方向の命中帯が長くなります。ハンディやレジでの読み取りでは、レイアウトに合わせてラベルを縮めるより、規格の最小印字サイズに従ってください。1 日 200 回読まれるコードなら、占めるラベル面積はすぐに元が取れます。",
+            "出力はベクター SVG のため、同じファイルがどのサイズでも鮮明です。縮んでも変わらないのは物理法則の側です。本番の印刷前に、実際のスキャナーと実際のラベル用紙で新しいフォーマットを必ず試し読みしてください。反復作業はブラウザ内でローカルに完結し、何もデバイスの外へ出ません。",
+          ],
         },
       ],
     },
@@ -143,6 +195,32 @@ export default defineTool({
           a: "La descarga es un SVG vectorial, así que escala a cualquier DPI sin difuminarse. Mantenga las zonas silenciosas (los márgenes en blanco de los lados) al colocarlo: recortarlas es la causa más habitual de lecturas fallidas.",
         },
       ],
+      deepDive: [
+        {
+          heading: "CODE128 frente a EAN-13: dos trabajos, dos simbologías",
+          paragraphs: [
+            "Estos formatos existen para trabajos distintos y no son intercambiables. EAN-13 y UPC-A son simbologías minoristas de GS1: longitud fija, solo numéricas, ligadas a un prefijo de empresa que se licencia a una organización miembro de GS1, y reconocidas por todos los escáneres de caja del mundo. CODE128 es una simbología logística: longitud variable, ASCII completo, de uso libre para cualquier cosa interna — ubicaciones de almacén, etiquetas de activos, números de serie, referencias de envío.",
+            "La diferencia se nota en densidad y tolerancia. CODE128 alterna automáticamente entre sus subconjuntos A (mayúsculas y control), B (alfanumérico completo) y C (pares de dígitos), de modo que una serie larga de dígitos se empaqueta de dos en dos; por eso una etiqueta CODE128 con el mismo número que un EAN-13 resulta claramente más estrecha. EAN-13, en cambio, fija los anchos de módulo por norma para que cualquier escáner de caja lo descodifique con rapidez sin importar quién lo imprimió.",
+            "Una regla práctica: si un minorista o mercado le asignará un número de producto, imprímalo como EAN-13/UPC-A y no lo recodifique en otro formato, porque sus sistemas lo cotejan por el número GS1. Para todo lo que nunca sale de su propia operación, CODE128 es más simple y más flexible.",
+          ],
+        },
+        {
+          heading: "El dígito de control y por qué se corrige la entrada",
+          paragraphs: [
+            "Las simbologías minoristas terminan con un carácter de control módulo-10 calculado como suma ponderada de los demás dígitos. En EAN-13 los dígitos se ponderan 1 y 3 alternando desde la derecha; el dígito final es el que hace que el total llegue al siguiente múltiplo de 10. Esto detecta los dos fallos más comunes: una cifra mal escrita y dos dígitos adyacentes intercambiados (el intercambio altera el peso en 3−1=2, así que muchos, aunque no todos, los intercambios se detectan).",
+            "Este generador acepta 12 dígitos y calcula el 13.º, o bien los 13 completos con verificación: una entrada con dígito final erróneo se rechaza en lugar de reimprimirse en silencio. Si transcribe un número desde papel, introducir 12 dígitos y dejar que la herramienta calcule el dígito es el flujo más seguro: no validará, pero revelará la discrepancia.",
+            "La misma familia módulo-10 cubre toda la logística GS1, y el hábito de verificar el dígito final se traslada: si un código se lee bien en la etiqueta pero falla sistemáticamente en la caja o en su inventario, un dígito de control dañado es de las primeras sospechas.",
+          ],
+        },
+        {
+          heading: "Zonas silenciosas, ancho de barra y tamaño de impresión",
+          paragraphs: [
+            "Toda simbología reserva zonas silenciosas: márgenes en blanco a ambos lados de las barras que los escáneres usan para localizar el inicio del símbolo. GS1 especifica anchos mínimos en tamaño absoluto, no en píxeles. Al recortar o colocar un código pegado a texto o al borde de una caja, puede volverse ilegible aunque cada barra parezca perfecta. Deje más margen del que parece necesario, sobre todo en etiquetas pequeñas.",
+            "El ancho y alto de barra se compensan con la capacidad del escáner. Barras estrechas exigen más resolución de impresión y óptica; barras altas dan una banda vertical mayor para acertar en ángulo. Para lectura manual o en caja, siga el tamaño mínimo de impresión de su norma en vez de encoger etiquetas por el diseño: un código que se escanea 200 veces al día paga con creces el espacio de etiqueta que ocupa.",
+            "Como la salida es un SVG vectorial, el mismo archivo se mantiene nítido a cualquier tamaño; lo que no escala es la física. Pruebe cada formato nuevo con su escáner real y su soporte de impresión real antes de una tirada, e itere sin que nada salga de su navegador: el renderizado ocurre localmente.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Gerador de código de barras",
@@ -168,6 +246,32 @@ export default defineTool({
         {
           q: "Qual é a resolução da saída?",
           a: "O download é um SVG vetorial, então escala para qualquer DPI sem perder nitidez. Ao posicionar, mantenha as zonas silenciosas (as margens em branco dos lados) — cortá-las é a causa mais comum de leituras que falham.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "CODE128 contra EAN-13: dois trabalhos, duas simbologias",
+          paragraphs: [
+            "Esses formatos existem para trabalhos diferentes e não são intercambiáveis. EAN-13 e UPC-A são simbologias varejistas da GS1: comprimento fixo, só numéricas, ligadas a um prefixo de empresa licenciado junto a uma organização membro da GS1, e reconhecidas por todos os leitores de caixa do mundo. CODE128 é uma simbologia logística: comprimento variável, ASCII completo, de uso livre para qualquer coisa interna — endereços de depósito, etiquetas de ativos, números de série, referências de envio.",
+            "A diferença aparece na densidade e na tolerância. O CODE128 alterna automaticamente entre os subconjuntos A (maiúsculas e controle), B (alfanumérico completo) e C (pares de dígitos), então uma sequência longa de dígitos é empacotada de dois em dois; por isso uma etiqueta CODE128 com o mesmo número de um EAN-13 sai bem mais estreita. O EAN-13, ao contrário, fixa as larguras de módulo por norma para que qualquer leitor de caixa decodifique rápido, independentemente de quem imprimiu.",
+            "Uma regra prática: se um varejista ou marketplace vai atribuir um número de produto, imprima-o como EAN-13/UPC-A e não o recodifique em outro formato, porque os sistemas dele casam pelo número GS1. Para tudo que nunca sai da sua própria operação, o CODE128 é mais simples e mais flexível.",
+          ],
+        },
+        {
+          heading: "O dígito verificador e por que a entrada é corrigida",
+          paragraphs: [
+            "As simbologias varejistas terminam com um caractere verificador módulo-10, calculado como soma ponderada dos demais dígitos. No EAN-13, os dígitos recebem peso 1 e 3 alternando a partir da direita; o dígito final faz o total chegar ao próximo múltiplo de 10. Isso detecta as duas falhas mais comuns: um dígito digitado errado e dois dígitos adjacentes trocados (a troca altera o peso em 3−1=2, então muitas — embora não todas — as trocas sejam detectadas).",
+            "Este gerador aceita 12 dígitos e calcula o 13º, ou os 13 completos com verificação: uma entrada com dígito final errado é rejeitada em vez de reimpressa em silêncio. Se você está transcrevendo um número de um papel, digitar 12 dígitos e deixar a ferramenta calcular é o fluxo mais seguro: não vai validar, mas vai revelar a divergência.",
+            "A mesma família módulo-10 cobre toda a logística GS1, e o hábito de conferir o dígito final se transfere: se um código parece perfeito na etiqueta mas falha sempre no caixa ou no seu inventário, um dígito verificador corrompido é das primeiras suspeitas.",
+          ],
+        },
+        {
+          heading: "Zonas silenciosas, largura de barra e tamanho de impressão",
+          paragraphs: [
+            "Toda simbologia reserva zonas silenciosas: margens em branco dos dois lados das barras que os leitores usam para achar o início do símbolo. A GS1 especifica larguras mínimas em tamanho absoluto, não em pixels. Ao cortar ou posicionar um código encostado em texto ou na borda da caixa, ele pode ficar ilegível mesmo com cada barra parecendo perfeita. Deixe margem maior do que parece necessário, sobretudo em etiquetas pequenas.",
+            "Largura e altura de barra se compensam com a capacidade do leitor. Barras finas exigem mais resolução de impressão e óptica; barras altas dão uma faixa vertical maior para acertar em ângulo. Para leitura manual ou no caixa, siga o tamanho mínimo de impressão da sua norma em vez de encolher etiquetas pelo layout: um código lido 200 vezes por dia paga sobejamente o espaço de etiqueta que ocupa.",
+            "Como a saída é um SVG vetorial, o mesmo arquivo fica nítido em qualquer tamanho; o que não escala é a física. Teste cada formato novo com o seu leitor real e o seu papel de etiqueta real antes da tirada, e itere sem nada sair do navegador: a renderização acontece localmente.",
+          ],
         },
       ],
     },

@@ -34,6 +34,32 @@ export default defineTool({
           a: "No. The SVG is built from a string template in your browser and raster versions are drawn on a local canvas. Nothing leaves the page, so it works offline and is safe for unreleased designs.",
         },
       ],
+      deepDive: [
+        {
+          heading: "SVG as the source format: text that scales",
+          paragraphs: [
+            "A placeholder does not need a raster file — it needs a rectangle with a label. Expressing it as SVG means the output is a few lines of readable markup: a rect, a text element, maybe a fill attribute. That text is the reason SVG copies cleanly into HTML, JSX, Figma or a README, and why it can be re-edited afterwards — change the label or the hex color in the markup and the image updates. A PNG of the same thing is frozen pixels nobody can adjust without regenerating.",
+            "SVG also scales: the same 1 KB file renders crisply at 64×64 in an avatar slot and at 1200×630 in a hero mockup, because a vector drawing has no resolution. Raster placeholders either look blurry when stretched or waste bytes when oversized. For wireframes and documentation — the main habitats of placeholders — the vector path is usually strictly better.",
+            "The two raster formats earn their place in specific niches. PNG suits platforms that sanitize or mangle inline SVG (some CMSes, email clients and chat apps strip or break it), and JPG wins when the placeholder mimics a photo because JPEG compression handles gradients and noise better than PNG's palette approach. Same preview, three delivery formats — the choice belongs to the target platform, not to taste.",
+          ],
+        },
+        {
+          heading: "The dimensions that matter in real layouts",
+          paragraphs: [
+            "Certain sizes recur because platforms fix them. The 1200×630 rectangle is the canonical open-graph / social-preview card size — the ratio most platforms crop link previews into. 256×256 and similar powers of two match avatar and icon slots. 16:9 rectangles (1280×720) line up with video embeds. Choosing a placeholder with the final asset's aspect ratio means the mockup never shifts when the real image arrives, because layout reflow is the expensive bug these images exist to prevent.",
+            "The 1–5000 pixel cap is not arbitrary. Below 1 pixel an image cannot render meaningfully; above a few thousand, browsers and design tools start choking on canvas allocations — a 5000×5000 PNG at full quality is already tens of megabytes of raw pixel data before compression. Placeholder generators rarely need more, and rejecting extreme sizes with a clear message beats producing a file that will not open anywhere.",
+            "One habit worth adopting: keep label text inside the image but keep real dimensions in the surrounding markup. An img tag with explicit width and height attributes plus a placeholder at the same ratio gives you a stable layout box now and a drop-in replacement later — no CSS surgery when the real asset lands.",
+          ],
+        },
+        {
+          heading: "Why generation stays on your machine",
+          paragraphs: [
+            "Placeholder images show up earliest in a project's life — wireframes of unreleased products, mockups of features under NDA, internal dashboards nobody outside the company should see. That makes the usual online-generator workflow uncomfortable: type your dimensions into a service and the request (often including a project-revealing label) hits someone else's server and may be logged. This tool builds the SVG from a string template and draws raster versions on a local canvas — no network request carries your design at any point.",
+            "Local generation also removes the account-and-watermark economy that surrounds many placeholder services: no sign-up, no rate limits per day, no branding baked into the corner of your mockup. The file you download is exactly the file you specified, and the SVG markup you copy is yours to modify.",
+            "It also works offline once the page is loaded, which matters more than it sounds: designers and developers often work in transit or on restricted networks, and a tool that dies without connectivity is useless in exactly the situations where a quick placeholder is needed. Generate, download, close the tab — nothing was ever transmitted.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "占位图生成器",
@@ -59,6 +85,32 @@ export default defineTool({
         {
           q: "数据会被上传吗?",
           a: "不会。SVG 由浏览器里的字符串模板拼出,位图版本由本地画布渲染。没有任何数据离开页面,离线可用,也适合未发布的设计稿。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "SVG 作为源格式:会缩放的文本",
+          paragraphs: [
+            "占位图不需要位图文件——它需要的只是一个带文字的矩形。用 SVG 表达,产物就是几行可读的标记:一个 rect、一个 text、或许一个 fill 属性。正因为它是文本,SVG 才能干净地复制进 HTML、JSX、Figma 或 README,并且事后可再编辑——直接改标记里的文字或十六进制色值,图片随之更新。同一内容的 PNG 是冻结的像素,不重新生成谁也改不了。",
+            "SVG 还能任意缩放:同一个 1 KB 的文件,在 64×64 的头像位上清晰、在 1200×630 的首图位上也清晰,因为矢量图没有分辨率概念。位图占位图要么拉伸后发糊,要么尺寸过大浪费字节。占位图的主场——线框图和文档——矢量路径几乎总是严格更优。",
+            "两种位图格式各有专攻。PNG 适合会清洗或破坏内联 SVG 的平台(部分 CMS、邮件客户端和聊天工具会把 SVG 剥掉或弄坏);当占位图要模仿照片时,JPG 胜出,因为 JPEG 压缩处理渐变和噪点比 PNG 的调色板方式更在行。预览完全相同、三种交付格式——选择取决于目标平台,而不是个人口味。",
+          ],
+        },
+        {
+          heading: "真实版面里的那些关键尺寸",
+          paragraphs: [
+            "有些尺寸反复出现,因为平台把它们定死了。1200×630 是开放图谱/社交预览卡片的经典尺寸——大多数平台按这个比例裁剪链接预览。256×256 这类 2 的幂对应头像和图标位。16:9 的矩形(1280×720)与视频嵌入对齐。占位图按最终素材的长宽比来做,真实图片到位时版面就不会跳动——布局回流正是这些图片存在的目的所要避免的那个 bug。",
+            "1–5000 像素的上限不是拍脑袋。小于 1 像素的图无法有意义地渲染;超过几千像素,浏览器和设计工具就会在 canvas 分配上吃力——一张全质量 5000×5000 的 PNG,压缩前就是几十 MB 的原始像素数据。占位图几乎从不需要这么大,对极端尺寸给出明确拒绝,好过产出一个哪儿都打不开的文件。",
+            "值得养成的习惯:文字写在图里,真实尺寸写在外层标记里。img 标签带显式的 width/height 属性,占位图用相同比例——现在版面盒稳定,将来真实素材直接换入即可,不需要动 CSS。",
+          ],
+        },
+        {
+          heading: "为什么生成要留在本机",
+          paragraphs: [
+            "占位图出现在项目最早期的阶段:未发布产品的线框图、保密协议下的功能稿、不该被外部看到的公司内部面板。这让常规的在线生成器工作流变得别扭:把尺寸输入某个服务,请求(常常带着能暴露项目的文字)就打到了别人的服务器上,还可能被记日志。本工具用字符串模板拼 SVG、用本地画布画位图——任何时刻都没有网络请求带走你的设计。",
+            "本地生成还顺带绕开了许多占位图服务的账号与水印经济学:无需注册、没有每日次数限制、模型角落里也没有烙上的品牌标识。你下载的文件就是你所指定的文件,复制的 SVG 标记归你随意修改。",
+            "页面加载后还能离线使用,这件事比听起来重要:设计师和开发者常在通勤路上或受限网络里工作,离线就死掉的工具,恰恰在急需一张占位图的时刻帮不上忙。生成、下载、关掉标签页——从头到尾没有传输过任何东西。",
+          ],
         },
       ],
     },
@@ -113,6 +165,32 @@ export default defineTool({
         {
           q: "¿Se envía algo a un servidor?",
           a: "No. El SVG se construye con una plantilla de texto en su navegador y las versiones raster se dibujan en un lienzo local. Nada sale de la página: funciona sin conexión y es seguro para diseños sin publicar.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "SVG como formato fuente: texto que escala",
+          paragraphs: [
+            "A un marcador no le hace falta un archivo raster — necesita un rectángulo con una etiqueta. Expresarlo como SVG hace que la salida sean unas líneas de marcado legible: un rect, un elemento de texto, quizá un atributo de relleno. Precisamente por ser texto, el SVG se copia limpio en HTML, JSX, Figma o un README, y se puede editar después: cambia la etiqueta o el color hexadecimal en el marcado y la imagen se actualiza. Un PNG de lo mismo son píxeles congelados que nadie puede retocar sin regenerarlo.",
+            "El SVG además escala: el mismo archivo de 1 KB se ve nítido en un hueco de avatar de 64×64 y en un mockup hero de 1200×630, porque un dibujo vectorial no tiene resolución. Los marcadores raster o se ven borrosos al estirarlos o desperdician bytes al sobredimensionarse. Para wireframes y documentación — el hábitat natural de los marcadores — la vía vectorial es casi siempre estrictamente mejor.",
+            "Los dos formatos raster tienen su nicho específico. PNG conviene en plataformas que sane o rompa el SVG en línea (algunos CMS, clientes de correo y chats lo eliminan o lo estropean), y JPG gana cuando el marcador imita una foto, porque la compresión JPEG maneja gradientes y ruido mejor que el enfoque de paleta de PNG. Misma vista previa, tres formatos de entrega — la elección la dicta la plataforma destino, no el gusto.",
+          ],
+        },
+        {
+          heading: "Las dimensiones que importan en diseños reales",
+          paragraphs: [
+            "Ciertos tamaños se repiten porque las plataformas los fijan. El rectángulo de 1200×630 es el tamaño canónico de las tarjetas open-graph / vista previa social — la proporción en la que la mayoría de plataformas recorta las vistas previas de enlaces. 256×256 y similares potencias de dos coinciden con los huecos de avatar e iconos. Los rectángulos 16:9 (1280×720) se alinean con los vídeos incrustados. Elegir un marcador con la relación de aspecto del recurso final significa que la maqueta no salta cuando llega la imagen real, porque el reflow del layout es el bug que estas imágenes existen para prevenir.",
+            "El límite de 1–5000 píxeles no es arbitrario. Por debajo de 1 píxel una imagen no puede renderizar con sentido; por encima de unos miles, los navegadores y las herramientas de diseño empiezan a sufrir con las asignaciones de canvas — un PNG de 5000×5000 a calidad completa son ya decenas de megabytes de datos de píxel sin comprimir. Los generadores de marcadores casi nunca necesitan más, y rechazar tamaños extremos con un mensaje claro es mejor que producir un archivo que no abrirá nadie.",
+            "Un hábito que merece adoptarse: la etiqueta dentro de la imagen, las dimensiones reales en el marcado que la rodea. Una etiqueta img con atributos width y height explícitos más un marcador con la misma proporción te da ahora una caja de layout estable y luego un reemplazo directo — sin cirugía de CSS cuando llegue el recurso real.",
+          ],
+        },
+        {
+          heading: "Por qué la generación se queda en tu máquina",
+          paragraphs: [
+            "Las imágenes de marcador aparecen en la etapa más temprana de un proyecto: wireframes de productos sin lanzar, mockups de funciones bajo NDA, dashboards internos que nadie fuera de la empresa debería ver. Eso hace incómodo el flujo habitual del generador en línea: escribes tus dimensiones en un servicio y la petición (a menudo con una etiqueta que revela el proyecto) golpea el servidor de otro y puede quedar registrada. Esta herramienta construye el SVG desde una plantilla de texto y dibuja las versiones raster en un canvas local — ninguna petición de red lleva tu diseño en ningún momento.",
+            "La generación local también elimina la economía de cuentas y marcas de agua que rodea a muchos servicios de marcadores: sin registro, sin límites diarios, sin branding horneado en la esquina de tu mockup. El archivo que descargas es exactamente el que especificaste, y el marcado SVG que copias es tuyo para modificar.",
+            "Además funciona sin conexión una vez cargada la página, lo que importa más de lo que suena: diseñadores y desarrolladores trabajan a menudo en tránsito o en redes restringidas, y una herramienta que muere sin conectividad es inútil justo en las situaciones donde hace falta un marcador rápido. Generar, descargar, cerrar la pestaña — nunca se transmitió nada.",
+          ],
         },
       ],
     },

@@ -203,6 +203,32 @@ export default defineTool({
           a: "Modela un producto con costos unitarios constantes, el caso clásico de manual. Para una mezcla de productos use su promedio ponderado de precio menos costo variable; con descuentos por volumen o costos fijos escalonados, recalcule por escenario.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Fijos frente a variables: la división que lo decide todo",
+          paragraphs: [
+            "Todo el análisis descansa en una decisión de clasificación: qué costos son fijos y cuáles variables. Los fijos — alquiler, sueldos de plantilla, seguros, suscripciones de software — no se mueven con el volumen dentro del periodo analizado. Los variables — materiales, embalaje por unidad, comisiones de pago, envío por pedido — escalan con cada unidad vendida. El margen de contribución, precio menos costo variable, es tan honesto como esta división.",
+            "Los costos reales rara vez caen limpiamente en una sola bolsa. La electricidad tiene una base fija más una parte variable por máquina; un vendedor a comisión mezcla ambas. La convención práctica es clasificar según qué ocurre al vender una unidad más: si el costo subiría con esa venta, va en V; si no, en F. Ante la duda, póngalo en variable — eso hace su estimación de equilibrio conservadora en vez de optimista.",
+            "Esta división explica por qué la fórmula funciona: los fijos deben pagarse completos se venda lo que se venda, y cada venta aporta su margen a esa pila. Cuando 500 ventas han aportado 20 cada una, los 10.000 de costos fijos están cubiertos y cada unidad siguiente genera beneficio puro. Esa es la lógica detrás de la tabla de beneficio.",
+          ],
+        },
+        {
+          heading: "Cómo leer el margen y la tabla de beneficio",
+          paragraphs: [
+            "El ratio de margen — margen de contribución dividido por precio — indica cuánto de cada dólar vendido queda disponible para combatir los costos fijos. Un margen del 40% significa que 60 céntimos de cada venta los consume el costo variable. Los negocios de margen bajo necesitan mucho volumen para equilibrase; los de margen alto sobreviven con menos ventas pero suelen cargar costos fijos mayores (software, I+D), lo que vuelve a subir su punto de equilibrio. El ratio hace visible esa contrapartida.",
+            "La tabla a 0,5×, 1,5× y 2× del equilibrio muestra la forma del desenlace. Por debajo del punto, las pérdidas se acumulan linealmente — a media carga se pierde exactamente la mitad de los costos fijos. Por encima, el beneficio se acumula con la misma pendiente constante. La simetría es el mensaje: fijadas las economías unitarias, la única palanca hasta el punto es el volumen, y después de él cada unidad aporta el mismo margen.",
+            "Use la tabla para verificar objetivos: si el techo realista del primer año es 2× el equilibrio, la pérdida en 0,5× le dice cuánto efectivo puede quemar el negocio antes de tener que reajustar precios o recortar costos. La distancia entre esas dos filas es su margen de maniobra.",
+          ],
+        },
+        {
+          heading: "Dónde se dobla el modelo de manual",
+          paragraphs: [
+            "La fórmula asume que precio y costo variable son líneas planas, y la realidad es curva. Los descuentos por volumen de materiales reducen V al crecer; las horas extra, los límites de capacidad y el flete urgente lo elevan. El propio precio suele bajar a escala al empujar hacia segmentos menos dispuestos. Todo esto dobla las rectas en curvas, y el número único de equilibrio se convierte en un rango. Recalcule por escenario en vez de extrapolar una respuesta.",
+            "Los negocios multiproducto afrontan lo mismo: la fórmula cubre un producto, así que una mezcla necesita un margen de contribución promedio ponderado por la cuota de ventas esperada — y la mezcla cambia al crecer el volumen. Los fijos también pueden ser escalonados: el segundo almacén o la décima contratación hacen saltar F, no lo hacen crecer suavemente.",
+            "Nada de esto vuelve inútil el modelo — sigue siendo la comprobación de viabilidad más rápida para un producto, un cambio de precio o un puesto en un mercado. Tome la salida como línea base de planificación, recalcul con entradas pesimistas y optimistas, y recuerde la advertencia del denominador: con un margen cercano a cero, un pequeño deslizamiento de costos mueve el equilibrio de alcanzable a imposible.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de ponto de equilíbrio",
@@ -230,6 +256,32 @@ export default defineTool({
         {
           q: "Serve para vários produtos ou custos variáveis?",
           a: "A ferramenta modela um produto com custo unitário constante, o caso clássico de livro. Para um mix de produtos use sua média ponderada de preço menos custo variável; com descontos por volume ou custos fixos em degraus, refaça a conta por cenário.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Fixos versus variáveis: a divisão que decide tudo",
+          paragraphs: [
+            "Toda a análise descansa numa decisão de classificação: quais custos são fixos e quais são variáveis. Fixos — aluguel, salários de equipe, seguros, assinaturas de software — não se movem com o volume dentro do período analisado. Variáveis — matéria-prima, embalagem por unidade, taxas de pagamento, frete por pedido — escalam com cada unidade vendida. A margem de contribuição, preço menos custo variável, é tão honesta quanto essa divisão.",
+            "Custos reais raramente caem limpos em uma das caixas. Energia elétrica tem uma base fixa mais uma parte por máquina; um vendedor por comissão mistura as duas. A convenção prática é classificar pelo que acontece ao vender uma unidade a mais: se o custo subiria com essa venda, ele é V; se não, é F. Na dúvida, coloque no custo variável — isso torna sua estimativa de equilíbrio conservadora em vez de otimista.",
+            "Essa divisão explica por que a fórmula funciona: os custos fixos precisam ser pagos por inteiro venda-se o que for, e cada venda contribui com sua margem para essa pilha. Quando 500 vendas contribuíram com 20 cada, os 10.000 de custo fixo estão cobertos e cada unidade seguinte gera lucro puro. Essa é a lógica por trás da tabela de lucro.",
+          ],
+        },
+        {
+          heading: "Como ler a margem e a tabela de lucro",
+          paragraphs: [
+            "O índice de margem — margem de contribuição dividida pelo preço — diz quanto de cada real vendido fica disponível para combater os custos fixos. Uma margem de 40% significa que 60 centavos de cada venda são consumidos pelo custo variável. Negócios de margem baixa precisam de muito volume para equilibrar; os de margem alta sobrevivem com menos vendas mas costumam carregar custos fixos mais pesados (software, P&D), o que empurra o ponto de equilíbrio de volta para cima. O índice torna essa troca visível.",
+            "A tabela a 0,5×, 1,5× e 2× do equilíbrio mostra a forma do desfecho. Abaixo do ponto, os prejuízos se acumulam linearmente — a meia carga você perde exatamente metade do custo fixo. Acima, o lucro se acumula na mesma inclinação constante. A simetria é a mensagem: definidas as economias por unidade, a única alavanca até o ponto é volume, e depois dele cada unidade rende a mesma margem.",
+            "Use a tabela para conferir metas: se o teto realista do primeiro ano é 2× o equilíbrio, o prejuízo em 0,5× diz quanto caixa o negócio pode queimar antes de ter de reajustar preços ou cortar custos. A distância entre essas duas linhas é seu espaço de planejamento.",
+          ],
+        },
+        {
+          heading: "Onde o modelo de livro entorta",
+          paragraphs: [
+            "A fórmula assume que preço e custo variável são linhas retas, e a realidade é curva. Descontos por volume de matéria-prima derrubam V conforme a escala cresce; horas extras, limites de capacidade e frete urgente o elevam. O próprio preço costuma cair na expansão, ao alcançar segmentos menos dispostos a comprar. Tudo isso entorta as retas em curvas, e o número único de equilíbrio vira uma faixa. Refaça por cenário em vez de extrapolar uma resposta.",
+            "Negócios multiproduto enfrentam o mesmo: a fórmula cobre um produto, então um mix exige uma margem de contribuição média ponderada pela participação esperada de vendas — e o mix muda conforme o volume cresce. Custos fixos também podem ser em degraus: o segundo galpão ou a décima contratação faz F dar um salto, não crescer suavemente.",
+            "Nada disso torna o modelo inútil — ele continua sendo a checagem de viabilidade mais rápida para um produto, uma mudança de preço ou um estande. Trate a saída como linha de base de planejamento, rode de novo com entradas pessimistas e otimistas, e lembre do aviso do denominador: com margem perto de zero, um pequeno deslize de custo move o equilíbrio de alcançável para impossível.",
+          ],
         },
       ],
     },
