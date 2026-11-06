@@ -36,6 +36,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Sehr schlanke, rein textuelle PDFs sind bereits effizient und lassen sich womöglich nicht weiter komprimieren — die Tabelle sagt Ihnen das ehrlich. Senken Sie DPI oder Qualität und versuchen Sie es erneut, oder akzeptieren Sie, dass das Original schon schlank war.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Verlustbehaftet vs. verlustfrei: was Komprimieren mit einem PDF wirklich macht",
+        paragraphs: [
+          "Ein PDF ist kein Bild der Seiten, sondern ein Programm, das sie beschreibt. Text liegt als Glyphen und Koordinaten vor, Grafiken als Zeichnungsbefehle, Bilder als eingebettete, komprimierte Bitmaps. Genau deshalb kann ein einseitiges Text-PDF nur wenige Kilobyte wiegen, während dieselbe Seite bei 150 DPI als Rasterbild hundertfach schwerer ausfällt. Wenn ein PDF schwer ist, lebt das Gewicht fast immer in den eingebetteten Bildern: Fotos, Logos und vor allem Scans, bei denen jede Seite eine riesige Bitmap ist.",
+          "Dieses Tool geht bewusst den Weg der Rasterung: Jede Seite wird in der von Ihnen gewählten DPI neu gerendert und als JPEG neu kodiert. Das ist verlustbehaftete Komprimierung — der ursprünglich markierbare Text wird zu Pixeln — und das wird hier offen gesagt, weil viele Tools es verschweigen. Dafür erhalten Sie Vorhersehbarkeit: Ein 40-MB-Scan in schlecht komprimiertem Bitmap wird zu einigen hundert Kilobyte fein abgestimmtem JPEG, und bei 150 DPI ist der Ausdruck für die meisten Dokumente visuell nicht mehr zu unterscheiden.",
+          "Für scanlastige PDFs gibt es keinen wirklich verlustfreien Kurzweg, weil die Quelldaten bereits Pixel sind. Bei Text- und Vektor-PDFs existieren zwar verlustfreie Tricks (doppelte Objekte entfernen, Datenströme neu komprimieren), doch sie sparen typischerweise nur wenige Prozent — deshalb meldet das Tool ehrlich, wenn eine Datei kaum schrumpft: Sind die Seiten schon schlank, lässt sich ohne Verlust nichts mehr herauspressen.",
+        ],
+      },
+      {
+        heading: "DPI und Qualität wählen: eine kleine Entscheidungstabelle",
+        paragraphs: [
+          "Die DPI (dots per inch) bestimmen, mit wie vielen Pixeln jede Seite gerendert wird; die JPEG-Qualität legt fest, wie stark diese Pixel komprimiert werden. Beides multipliziert sich: Eine Letter-Seite hat bei 72 DPI rund 612×792 Pixel, bei 150 DPI etwa 1275×1650 — rund viermal so viele. Für die Bildschirmansicht genügen 72–96 DPI, denn ein üblicher Laptop zeigt eine PDF-Seite ohnehin nur in dieser effektiven Auflösung. Zum Drucken ist 150 DPI die praktische Untergrenze für lesbaren Fließtext; 300 DPI spielen nur bei Fotos oder winzige Schriftgrößen eine Rolle, die Sie vergrößern wollen.",
+          "Die JPEG-Qualität wirkt sich zwischen 60 und 80 geringer aus als man denkt — dieser Bereich ist meist der Sweet Spot, in dem Artefakte in Dokumenten unsichtbar bleiben. Unter etwa 50 verschmieren die blockförmigen JPEG-Artefakte die Kanten der Buchstaben, und um die Zeichen entstehen graue Höfe. Graustufen sind der stille dritte Hebel: Ein Schwarz-Weiß-Scan, der in Farbe gespeichert wird, verschwendet zwei Drittel seiner Bits — allein der Wechsel zu Grau spart oft ein Drittel oder mehr, ohne sichtbaren Unterschied.",
+          "Der Workflow, der funktioniert: Komprimieren Sie zuerst eine repräsentative Datei, öffnen Sie das Ergebnis mit 100 % Zoom und prüfen Sie den kleinsten Text, der Ihnen wichtig ist. Ist er sauber lesbar, wenden Sie diese Einstellungen auf den ganzen Stapel an. Die Vorher-Nachher-Tabelle zeigt die Ersparnis pro Datei, sodass Ausreißer — Dateien, die kaum schrumpfen — auf einen Blick sichtbar sind, statt in einem Durchschnitt unterzugehen.",
+        ],
+      },
+      {
+        heading: "Warum Dokumente lokal verarbeitet werden sollten",
+        paragraphs: [
+          "Ein PDF ist ein Container und trägt — anders als ein Bild — routinemäßig mehr als seinen sichtbaren Inhalt: Formularfeldwerte, Anmerkungen, eingebettete Schriften, mitunter Anhänge und Metadaten mit Autorennamen, Softwareversionen und Revisionshistorie. Eine solche Datei zu einem Komprimierungsdienst hochzuladen bedeutet, all das mitzuliefern — die meisten Menschen prüfen nie, was sonst noch darin steckt, bevor sie auf Hochladen klicken. Verträge, Krankenakten, Gehaltsabrechnungen und gescannte Ausweise sind genau die Dateien, die am häufigsten komprimiert werden — und genau die, die am wenigsten auf einen Server gehören.",
+          "Dieses Tool läuft vollständig in Ihrem Browser: Die Datei wird in den Speicher Ihres Geräts gelesen, von der Canvas neu gerendert und von JavaScript neu kodiert — nirgendwohin übertragen. Es gibt keine Server-Warteschlange, keine Aufbewahrungsfrist, der Sie vertrauen müssten, und keine Löschrichtlinie, die Sie verifizieren müssten. Sie können während der Komprimierung die Netzverbindung kappen, und sie läuft trotzdem zu Ende.",
+          "Praktisch ändert das auch den Arbeitsablauf: Weil nichts hochgeladen wird, gibt es weder Wartezeit noch ein Größenlimit aus der Übertragung — ein 200-MB-Scan-Stapel läuft genauso flott durch wie eine 2-MB-Datei, begrenzt nur durch den Arbeitsspeicher Ihrer Maschine. Die komprimierte Datei schreibt der Download-Mechanismus Ihres eigenen Browsers, sie landet also wie eine selbst gespeicherte Datei im Download-Ordner.",
+        ],
+      },
+    ],
   },
   "delete-pdf-pages": {
     name: "PDF-Seiten löschen",
@@ -62,6 +88,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Was passiert mit der Seitennummerierung?",
         a: "Die Seiten rücken automatisch nach: Nach dem Löschen der Seiten 2–4 wird die ehemalige Seite 5 zur Seite 2. Interne Links, die auf gelöschte Seiten zeigten, können dadurch brechen.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Seiten löschen berührt den Seitenbaum, nicht den Inhalt",
+        paragraphs: [
+          "In einem PDF steckt ein Seitenbaum: eine geordnete Liste von Verweisen, wobei jeder auf ein Seitenobjekt zeigt, das wiederum auf seine Inhaltsströme, Schriften und Bilder verweist. Eine Seite zu löschen ist eine Operation an diesem Baum — der Verweis wird aus der Liste entfernt —, während die Inhaltsströme, Schriften und Bilder der gelöschten Seite schlicht nicht mehr referenziert werden und entfallen. An den verbleibenden Seiten wird nichts neu gezeichnet, neu kodiert oder sonstwie verändert.",
+          "Daraus folgt eine praktisch wichtige Eigenschaft: Das Löschen von Seiten ist für die behaltenen Seiten ein perfektes verlustfreies Verfahren. Schriften bleiben exakt so eingebettet wie zuvor, die Bildauflösung wird nicht angetastet, Text bleibt markierbar, und sogar die internen Objektnummern der verbleibenden Seiten bleiben meist gleich. Anders als bei der Komprimierung gibt es keinen Qualitätsregler, weil nichts neu verarbeitet wird.",
+          "Umgekehrt gilt ebenso: Was auf den gelöschten Seiten lebte, verschwindet vollständig. Enthielt eine Seite eine Anmerkung oder eine versteckte Ebene, die Sie behalten wollten, sorgen Sie dafür, dass sie auf einer verbleibenden Seite liegt — das Tool arbeitet auf Seitenebene und kann keinen Inhalt von einer Seite auf eine andere heben. Dafür verwenden Sie stattdessen einen Extraktions- oder Merge-Workflow.",
+        ],
+      },
+      {
+        heading: "Häufige Fallen beim Löschen von Seiten",
+        paragraphs: [
+          "Der häufigste Fehler ist das Miszählen durch eine Diskrepanz zwischen der Anzeige des Viewers und der internen Seitenreihenfolge. Seitenbeschriftungen — die „1, 2, iii, A-4“, die am Rand eines PDFs gedruckt steht — sind nur eine Anzeigeschicht über der echten Reihenfolge; ein Dokument, dessen Beschriftungen pro Kapitel neu beginnen, hat darunter trotzdem eine einzige lineare Seitenfolge. Dieses Tool arbeitet stets auf der echten Folge, angezeigt als 1 bis N — prüfen Sie Positionen also am Inhalt, nicht an der aufgedruckten Beschriftung.",
+          "Eine zweite Falle ist das Löschen von Seiten, von denen andere Seiten abhängen. Ein Inhaltsverzeichnis oder Register mit dem Hinweis „siehe Seite 12“ enthält einen Klartextverweis (oder in besseren Dokumenten eine Link-Anmerkung auf ein Seitenobjekt). Löschen Sie Seite 12, verrottet der Klartextverweis still, und der Link kann brechen oder an die falsche Stelle springen. Das Tool warnt davor nicht — das kann verlässlich kein Tool —, suchen Sie Ihr Dokument also vor einem großen Schnitt nach Querverweisen ab.",
+          "Drittens: Manche Viewer cachen die alte Datei. Wirkt die gelöschte Version unverändert, schließen und öffnen Sie das PDF erneut oder prüfen die Dateigröße — die neue Datei sollte kleiner sein. Und handelt es sich um ein Formular, dessen spätere Seiten Felddefinitionen enthalten, auf die frühere Seiten verweisen, testen Sie das Formular nach dem Eingriff.",
+        ],
+      },
+      {
+        heading: "Warum die Datei nie Ihr Gerät verlässt",
+        paragraphs: [
+          "Seiten werden oft gerade aus Datenschutzgründen gelöscht: eine Seite mit Personendaten, ein Gehaltsanhang oder ein Entwurf, der nicht zirkulieren sollte. Dieselbe Datei an einen Webdienst zu schicken, der die Löschung ausführt, vereitelt diesen Zweck — ausgerechnet die Seite, die verschwinden sollte, liegt nun in der Warteschlange und im Log eines anderen. Dieses Tool erledigt den Eingriff lokal in Ihrem Browser, die Datei passiert das Netzwerk zu keinem Zeitpunkt.",
+          "Die Mechanik ist vollständig clientseitig: Das PDF wird in JavaScript geparst, die von Ihnen gewählten Seitenverweise werden aus dem Baum entfernt, und eine frische Datei wird in Ihre Downloads geschrieben. Kein Konto, kein Upload-Fortschrittsbalken, keine Aufbewahrungsrichtlinie, an die man glauben müsste. Offline funktioniert alles exakt gleich.",
+          "Ein nützlicher Habitus nach dem Löschen: Suchen Sie im Ergebnis mit der Textsuche nach Begriffen von den entfernten Seiten. Das zehnsekündige Kontrollzept bestätigt, dass die heiklen Inhalte die Ausgabedatei wirklich nicht mehr enthalten — und es erinnert daran, dass hier ganze Seiten verschwinden, nicht einzelne Wörter innerhalb einer Seite.",
+        ],
       },
     ],
   },
@@ -92,6 +144,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nein — eine PDF-Seite ist statisch, Sie erhalten das erste Einzelbild. Verwandeln Sie Animationen in Videos oder teilen Sie das GIF direkt.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Warum Bilder und PDFs zwei verschiedene Welten sind",
+        paragraphs: [
+          "Eine JPEG- oder PNG-Datei ist ein flaches Pixelraster ohne Begriff von Seiten, Größe oder Layout — sie ist schlicht ein Bild. Ein PDF hingegen ist ein Seitenbeschreibungsformat: Es definiert Seiten mit physischen Maßen (in Points, wobei 72 Points einem Zoll entsprechen) und platziert Inhalte auf diesen Seiten. Bilder in ein PDF zu verwandeln bedeutet also eine echte Layoutentscheidung, nicht bloß das Ändern der Dateiendung.",
+          "Dieses Tool bettet jedes Bild in eine PDF-Seite ein, die auf das Bild zugeschnitten ist, und bewahrt dessen Pixeldaten, statt sie neu zu komprimieren. Deshalb ist eine so durchgeführte Bild-zu-PDF-Wandlung visuell verlustfrei: Die Pixel, die Sie im Ergebnis sehen, sind die Pixel, die Sie hineingesteckt haben. Auch die Dateigröße bleibt nahe an der Summe der Bilder, denn das PDF ist nur der Container.",
+          "Es lohnt sich, die Alternative zu kennen: Manche Konverter kodieren alles in eine einzige JPEG-Qualitätsstufe um, was PNGs mit scharfem Text oder Strichgrafiken still degradieren kann. Die Originalbilddaten unverändert im PDF-Container zu behalten, umgeht diesen Fehlermodus völlig — Ihr Screenshot bleibt innerhalb des PDFs exakt so scharf wie außerhalb.",
+        ],
+      },
+      {
+        heading: "Reihenfolge, Ausrichtung und der Aufbau mehrseitiger Dokumente",
+        paragraphs: [
+          "Da ein PDF eine geordnete Seitenfolge ist, wird die Reihenfolge, in der Sie Bilder hinzufügen, zur Seitenreihenfolge des Dokuments. Bei einem gescannten Vertrag, einem Belegheft oder einem Fotosatz ist der verlässliche Habitus, die Bilder vor dem Hinzufügen nach Dateinamen zu sortieren — Dateinamen sortieren deterministisch, die Erinnerung an „ich habe sie doch der Reihe nach hochgeladen“ nicht. Eine spätere Umsortierung ist mit einem Seiten-Neuanordner möglich, aber es ist billiger, es gleich beim Einfügen richtig zu machen.",
+          "Gemischte Formate sind normal und werden pro Seite behandelt: Ein Stapel Fotos, teils Querformat, teils Hochformat, erzeugt Seiten, die jeweils dem Bildformat entsprechen. Brauchen Sie ein einheitliches Papierformat (etwa A4 zum Drucken), schicken Sie das Ergebnis anschließend durch einen Beschnitt- oder Größenanpassungsschritt — Bilder erst in Originalgröße einpacken und dann normalisieren schlägt den Versuch, beim Erzeugen alles in ein Format zu pressen.",
+          "Noch ein Wort zur Auflösung: Die PDF-Seite übernimmt die Pixelmaße des Bildes, umgelegt auf 72 Pixel pro Zoll, sodass ein 3000 Pixel breites Foto zu einer sehr großen Seite wird. Für Archiv und Zoom ist das korrekt; für druckgroßen Output zählt, dass das Quellbild genug Pixel für die Zieldruckgröße mitbringt — am Einpacken ändert das in beide Richtungen nichts.",
+        ],
+      },
+      {
+        heading: "Ihre Bilder bleiben auf Ihrem Gerät",
+        paragraphs: [
+          "Fotos und Scans gehören zu den persönlichsten Dateien überhaupt — Familienbilder, Ausweiskopien, Belege, medizinische Aufnahmen. Sie an einen Online-Konverter zu schicken bedeutet, dass Kopien auf dem Speicher eines anderen landen, bevor Sie das Ergebnis überhaupt gesehen haben. Dieses Tool verpackt vollständig in Ihrem Browser: Bilder werden von der Platte in den Speicher gelesen, von JavaScript in PDF-Seitenobjekte eingebettet, und die fertige Datei wird lokal geschrieben. Kein Upload, keine Serverkopie, keine Speicherung.",
+          "Weil nichts übertragen wird, verschwindet mit dem Transfer auch die Größengrenze. Online-Konverter deckeln Uploads oft bei 10–20 MB oder drosseln kostenlose Nutzer; hier konvertiert ein Ordner mit 50 großen Fotos so flott wie einer mit dreien, begrenzt nur durch den Gerätespeicher. Auch tempo ist ein Vorteil ohne Netz-Roundtrips — der langsamste Schritt wird Ihre Festplatte, nicht die Bandbreite eines anderen.",
+          "Ein Datenschutzhabitus, der sich lohnt: Fotos von Smartphones tragen EXIF-Metadaten inklusive GPS-Koordinaten. Beim Einbetten ins PDF bleiben diese Daten erhalten, so wie sie im Originalbild steckten. Wenn Sie konvertierte PDFs breit teilen, ziehen Sie in Betracht, die Ortsdaten an der Quelle zu entfernen — das Einpacken ins PDF fügt Metadaten weder hinzu noch weg, es bewahrt, was da war.",
+        ],
+      },
+    ],
   },
   "jpg-to-pdf": {
     name: "JPG zu PDF",
@@ -118,6 +196,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Kann ich JPG mit PNG oder anderen Formaten mischen?",
         a: "Ja — nutzen Sie für gemischte Stapel das allgemeine Bilder-zu-PDF-Tool; es konvertiert andere Formate automatisch, bevor es sie einbettet.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vom Kamerafilm zum Dokument: warum es diese Wandlung gibt",
+        paragraphs: [
+          "Institutionen akzeptieren keine zwanzig einzelnen JPEG-Anhänge. Eine Mietbewerbung, ein Versicherungsfall, eine Spesenabrechnung — man will ein einziges PDF, Seiten in Ordnung, das sich wie ein Papierdokument drucken, stempeln und archivieren lässt. Das ist der ganze Grund, warum JPG-zu-PDF existiert: Es macht aus einem Stapel Fotos ein paginiertes, geordnetes, eindateiiges Dokument, mit dem Behördensysteme umgehen können.",
+          "Die Wandlung selbst ist strukturell einfach: Jedes JPEG wird zu einer PDF-Seite, und die komprimierten JPEG-Daten können sogar unverändert eingebettet werden, denn PDF unterstützt JPEG (DCTDecode) als nativen Bildfilter. Ein sauber gebauter Konverter dekomprimiert und rekomprimiert Ihre Fotos nicht — er wickelt die vorhandenen Bytes in einen Seitencontainer, was Null Qualitätsverlust und fast kein Größenwachstum bedeutet.",
+          "Wichtiger als das, was das Tool tut, ist, was Sie wählen: Die Reihenfolge der Bilder wird zur Seitenfolge, und die Auflösung jedes Bildes bestimmt, wie sich die Seite beim Zoomen und Drucken verhält. Die Aufgabe des Tools ist, nicht im Weg zu stehen — keine erzwungene Neukomprimierung, keine überraschende Größenänderung, nur treues Verpacken.",
+        ],
+      },
+      {
+        heading: "Praktische Montagegewohnheiten, die Nacharbeit sparen",
+        paragraphs: [
+          "Benennen Sie Ihre Dateien vor dem Start mit führenden Nummern: 01-front.jpg, 02-inside.jpg, 03-signature.jpg. Dateinamenreihenfolge ist die einzige Ordnung, auf die sich alle verständigen können, und sie überlebt jeden Übertragungsweg — Messenger, Cloud-Ordner, E-Mail. Kamerafotos sortieren nach Zeitstempel, was für chronologische Sätze passt, für eine „Dokumentenordnung“ entlang eines Formularaufbaus aber nutzlos ist.",
+          "Prüfen Sie die Ausrichtung vor der Wandlung. Ein gedreht aufgenommenes Foto verlässt sich auf ein EXIF-Orientierungsflag, und manche PDF-Viewer beachten es, manche nicht — der Empfänger hält dann seitlich gedrehte Seiten in der Hand. Zeigt ein Foto in Ihrem Dateimanager aufrecht, im fertigen PDF aber quer, ist das Flag der Schuldige — die tatsächlichen Pixel zu drehen behebt es dauerhaft.",
+          "Für druck bestimmte Dokumente lohnt die Frage, ob einheitliche Seitenformate wichtig sind. Jedes Bild in seiner eigenen Größe einzupacken genügt für Ansicht und Archiv; beim Druck können gemischte Seitenmaße für Skalierungsüberraschungen in der Druckerei sorgen. Erst konvertieren, dann die Seitengröße in einem zweiten Durchgang normalisieren, hält jeden Schritt einfach und umkehrbar.",
+        ],
+      },
+      {
+        heading: "Fotos, Ausweise und die Frage der lokalen Verarbeitung",
+        paragraphs: [
+          "Was Menschen mit diesem Tool am häufigsten wandeln, ist genau das Heikelste: Passscans für ein Visumantrag, Ausweisfotos zur Kontoverifizierung, Belege mit sichtbaren Kartennummern. Auf eine Konverterseite hochgeladen bedeutet, dass eine Kopie Ihrer Ausweisdokumente auf einem unbekannten Server unter unbekannter Aufbewahrungsrichtlinie liegt, bevor Sie das Ergebnis überhaupt geprüft haben.",
+          "Dieses Tool verpackt in Ihrem Browser: JPEGs werden lokal gelesen, von JavaScript in PDF-Strukturen eingebettet, und das Ergebnis wird von Ihrem eigenen Gerät gespeichert. Die Dateien passieren das Netz in keine Richtung — es gibt kein Serverprotokoll, keine Drittkopie und keine Löschgeschichte, an die man glauben müsste.",
+          "Als praktische Dividende: Ohne Upload-Zeit und Größenlimits wandeln Sie einen ganzen Ordner in einem Durchgang — fünfzig Fotos einer Wohnungsbesichtigung, ein ganzer Schuhkarton Belege. Übertragungslastige Konverter zwingen Sie zum Zerlegen und Warten; lokal ist die einzige Grenze der Gerätespeicher, und der ganze Job ist meist in Sekunden fertig.",
+        ],
       },
     ],
   },
@@ -148,6 +252,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nein. Das Zusammenfügen geschieht lokal in Ihrem Browser mit JavaScript. Nichts wird an einen Server gesendet, und das zusammengeführte PDF entsteht auf Ihrem eigenen Gerät.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Zusammenführen ist Seitenbaum-Chirurgie, kein Neu-Rendern",
+        paragraphs: [
+          "Eine verbreitete Sorge beim PDF-Zusammenführen ist, das Tool „verarbeite“ die Seiten neu — kodiere Bilder um, rendere Text neu, verschlechtere still die Qualität. In einem sauber gebauten Merger passiert nichts davon. Die Seiten jedes PDFs leben in einem internen Verweisbaum, und das Zusammenführen spliced diese Bäume zu einem neuen Dokument: Die Seitenfolge wird aneinandergereiht, Verweise werden umnummeriert, um Kollisionen zu vermeiden, aber die Inhaltsströme, Schriften und Bilder selbst werden Byte für Byte kopiert.",
+          "Deshalb ist ein gutes Zusammenführen von Konstruktion wegen verlustfrei. Text bleibt markierbar, die Bildauflösung bleibt exakt wie sie war, Vektorgrafiken behalten ihre Kurven. Die Ausgabeseiten sind inhaltlich von den Eingabeseiten nicht zu unterscheiden — verändert hat sich, salopp gesagt, nur das Inhaltsverzeichnis des Containers.",
+          "Zwei strukturelle Realitäten sind gut zu wissen. Erstens beginnt die Seitennummerierung neu: Seite 1 von Dokument B folgt auf die letzte Seite von Dokument A, gleichgültig, was gedruckt auf den Seiten steht. Zweitens überleben Lesezeichen, Links und benannte Ziele je nachdem, wie sorgfältig der Merger die internen Verweise ummappt — Tools, die nur den Seitenbaum aneinanderkleben, können interne Links veröden lassen.",
+        ],
+      },
+      {
+        heading: "Reihenfolge, Duplikate und die Checkliste vor dem Zusammenführen",
+        paragraphs: [
+          "Die Mergereihenfolge ist die Reihenfolge, in der Sie Dateien hinzufügen — und genau da passiert der häufigste Fehler: das Deckblatt landet hinter dem Anhang. Der verlässliche Habitus ist, die Quelldateien mit numerischen Präfixen zu benennen (01-vertrag.pdf, 02-anhang.pdf), sodass die beabsichtigte Ordnung auf einen Blick sichtbar ist und jede Dateiauswahl-Sortierung übersteht. Prüfen Sie die Folge im zusammengeführten Ergebnis, bevor Sie es verteilen — ein zweisekündiges Durchblättern findet, was eine Stunde Peinlichkeit nicht wiedergutmacht.",
+          "Gemischte Seitenformate sind in PDF legal und lassen sich sauber zusammenführen — denken Sie aber an den Empfänger: Ein Dokument, in dem A4-Seiten mit Letter-Seiten abwechseln, druckt überall schlecht. Wenn sich die Quellen unterscheiden, entscheiden Sie vor dem Zusammenführen, ob Sie die Seitengröße hinterher normalisieren oder den Mix akzeptieren.",
+          "Ein weiterer Checklistenpunkt: Formulare. Zwei PDFs mit Formularfeldern zusammenzuführen kann Feldnamen kollidieren lassen — zwei Felder, beide „Unterschrift“ getauft, teilen sich am Ende einen Wert, sodass die Eingabe im einen beide füllt. Das Standardheilmittel ist, die Eingaben vor dem Zusammenführen zu glätten (Flatten), denn geglättete Seiten tragen keine Feldmechanik mehr mit sich.",
+        ],
+      },
+      {
+        heading: "Dokumente verbinden, ohne eines der beiden hochzuladen",
+        paragraphs: [
+          "Zusammengeführt wird meist ausgerechnet mit den Dateien, die nie hochgeladen werden sollten: der Vertrag samt Anhängen, die Bewerbung samt Ausweisscan, der Arztbericht samt Bildgebungszusammenfassung. Beide Teile an einen Online-Merger zu schicken, erzeugt ein einzelnes, kombiniertes Dokument auf dem Server eines anderen — die vollständigste, heikelste Version Ihrer Unterlagen, in einer bequemen Datei, in deren Logs.",
+          "Dieses Tool führt den Verbund vollständig in Ihrem Browser aus. Beide Quell-PDFs werden in JavaScript auf Ihrem Gerät geparst, die Seitenbäume werden im Speicher vereinigt, und die zusammengeführte Datei wird direkt in Ihre Downloads geschrieben. Kein Teil irgendeines Dokuments wird übertragen, eingereiht oder irgendwo gespeichert, und das Zusammenführen funktioniert identisch mit gezogenem Netzkabel.",
+          "Ein Durchsatzvorteil kommt obendrauf: Ohne Upload- und Download-Roundtrips schafft auch das Zusammenführen großer Dateien — ein 100-MB-Scan-Dossier plus ein 50-MB-Anhang — Sekunden, begrenzt nur durch den lokalen Speicher. So wird es praktikabel, am Ende jeder Arbeitssitzung zusammenzuführen und pro Projekt eine gepflegte Masterdatei zu halten, statt Fragmente über Postfächer zu verstreuen.",
+        ],
+      },
+    ],
   },
   "ocr-pdf": {
     name: "PDF OCR",
@@ -176,6 +306,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nicht zuverlässig. Tesseract ist auf gedruckten Text trainiert — ordentliche Typografie funktioniert, geschriebene Handschrift ergibt meist nur wirres Zeug.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Was OCR aus einer gescannten Seite gewinnen kann — und was nicht",
+        paragraphs: [
+          "Ein Scan ist schlicht ein Foto von Papier — der Computer sieht graue Pixel, keine Buchstaben. OCR (optical character recognition) ist der Vorgang, in diesen Pixeln Buchstabenformen zu erkennen und den erkannten Text als unsichtbare, durchsuchbare Ebene unter das Originalbild zu hängen. Nach der OCR können Sie Text markieren, nach einer Phrase suchen und einen Absatz kopieren, obwohl die sichtbare Seite weiterhin das gescannte Foto ist.",
+          "Ehrliche Grenzen gehören dazu. Die OCR-Genauigkeit hängt vor allem von der Scanqualität ab: 300-DPI-Scans sauber gesetzten Texts werden typischerweise sehr gut erkannt, während niedrig aufgelöste Fotos, schiefe Seiten, schwache Kopien und Handschrift rasch abfallen. Erkannter Text ist nie garantiert perfekt — ein strichförmiges Mal kann zum falschen Zeichen werden, und heikle Details wie Beträge oder Namen verdienen eine menschliche Gegenlesung, bevor Sie sich auf den Text verlassen.",
+          "Was OCR wirklich nicht kann: Text zurückgewinnen, der im Bild nicht lesbar ist, übersetzen oder einen grundschlechten Scan reparieren. Müht sich das menschliche Auge mit einer Seite, müht sich die Erkennung mehr. Neu zu scannen in höherer Auflösung ist oft die bessere Investition als jede Nachbearbeitung.",
+        ],
+      },
+      {
+        heading: "Spracheinstellungen und Durchsuchbarkeit: brauchbare Ergebnisse bekommen",
+        paragraphs: [
+          "OCR ist sprachbewusst, und die falsche Sprache zu wählen ist der häufigste Qualitätskiller. Erkennungsmaschinen bewerten Buchstabenfolgen gegen die Statistik der gewählten Sprache — schieben Sie spanischen Text durch ein rein englisches Modell, wird jeder akzentuierte Buchstabe verdächtig, und ñ, á, ü zerfallen in Rauschen. Mehrsprachige Dokumente brauchen die entsprechenden Sprachen aktiviert, sonst kommen die Passagen in der Minderheitensprache als Kauderwelsch heraus.",
+          "Die Durchsuchbarkeit hat noch eine weitere Ebene: Die erkannte Textebene liegt hinter dem Bild, die Suche im Viewer findet die Phrase und springt zur richtigen Seite, während die Pixel darunter unangetastet bleiben. Das ist die übliche „Sandwich“-Struktur, die jedes ernsthafte OCR-Produkt erzeugt — Ihr Archiv behält sein ursprüngliches Aussehen und gewinnt doch die Volltextsuche, das Beste aus beiden Welten für die Aktenaufbewahrung.",
+          "Ein praktischer Workflow für Archive: OCR-en Sie den ganzen Stapel einmal mit der richtigen Sprache, und stichproben Sie anschließend, indem Sie nach ein paar bekannten Phrasen suchen (ein Name, ein Datum, eine Rechnungsnummer). Treffen die Suchen, funktioniert die Textebene; treffen sie nicht, stimmt die Sprache nicht oder die Scanqualität liegt unter der Erkennungsschwelle — das Suchergebnis sagt Ihnen, welche Seiten neu gescannt werden sollten.",
+        ],
+      },
+      {
+        heading: "Erkennung auf Ihrem Gerät, nicht im Archiv eines anderen",
+        paragraphs: [
+          "Dokumente, die OCR brauchen, sind überproportional die heiklen: alte Steuerakten, Patientenakten, Personalakten, Grundbuchauszüge, Zeugnisse. Sie durch einen Web-OCR-Dienst zu jagen bedeutet, dass der voll lesbare Text Ihrer Unterlagen — extrahiert, indiziert, maschinell durchsuchbar — auf einer Infrastruktur liegt, von der Sie nichts wissen. Text ist sogar tragfähiger als das gescannte Bild selbst: Einmal extrahiert, lässt er sich kopieren, indizieren oder schürfen, ohne dass Sie je davon erfahren.",
+          "Dieses Tool erkennt Text vollständig in Ihrem Browser: Die gescannten Seiten werden auf Ihrem Gerät verarbeitet, die Textebene wird lokal angehängt, und das durchsuchbare PDF wird direkt auf die Platte geschrieben. Keine Seite Ihres Archivs wird hochgeladen, kein extrahierter Text verlässt Ihre Maschine. Offline funktioniert alles gleich — passend für Archive, die aus gutem Grund auf luftisolierten Maschinen leben.",
+          "Kennen Sie den Kompromiss vorab: Die browserbasierte Erkennung eines großen Stapels braucht Zeit und Speicher, weil die Rechnung auf Ihrer Hardware statt in einem Rechenzentrum läuft. Bei einem 20-Seiten-Scan sind das Sekunden; bei einem 500-Seiten-Archiv eine Kaffeepause. Der Lohn: Der intimste Schritt der Digitalisierung Ihrer Unterlagen geschieht vollständig unter Ihrer Kontrolle.",
+        ],
+      },
+    ],
   },
   "page-numbers-pdf": {
     name: "PDF-Seitenzahlen hinzufügen",
@@ -198,6 +354,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Wirken die Zahlen bei gemischten Seitenformaten einheitlich?",
         a: "Jede Seite wird relativ zu ihrer eigenen Breite und Höhe gestempelt, deshalb landet die Zahl bei gemischten Ausrichtungen und Formaten immer in derselben visuellen Ecke.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Wie Seitenzahl-Overlays in einem PDF funktionieren",
+        paragraphs: [
+          "Ein bestehendes PDF mit Seitenzahlen zu versehen, verarbeitet die Seiten nicht neu. Der ursprüngliche Inhalt — Text, Bilder, alles — bleibt unberührt; das Tool hängt an den Inhaltsstrom jeder Seite eine kleine zusätzliche Zeichnungsanweisung an, die die Zahl an der gewählten Position malt. Technisch ist das ein Overlay: neue Tinte über der bestehenden Seite, wie ein Stempel, der nachträglich aufgesetzt wird.",
+          "Deshalb ist die Nummerierung sicher und vom Quellmaterial her umkehrbar: Die Originaldatei bleibt unverändert auf Ihrer Platte, und die nummerierte Ausgabe unterscheidet sich von ihr nur durch jene paar zusätzlichen Zeichnungsbefehle. Für die Zahlen werden Schriften dem Dokument hinzugefügt oder Standardschriften gezeichnet; bei üblichen Größen (9–12 pt) beanspruchen die Zahlen einen winzigen Bruchteil jeder Seite.",
+          "Die Formatoptionen spiegeln, was echte Dokumente nutzen: schlichte Ziffern (1, 2, 3) für die meisten Fälle, oder Muster wie „Seite 3 von 12“ für Verträge und Berichte, bei denen die Gesamtzahl zählt. Die Gesamtzahl wird beim Nummerieren aus der tatsächlichen Seitenzahl berechnet, sie stimmt also immer mit dem Dokument überein, das Sie erzeugen.",
+        ],
+      },
+      {
+        heading: "Platzierungsentscheidungen: Ränder, erste Seiten und Kollisionen",
+        paragraphs: [
+          "Der klassische Platz ist unten mittig oder unten rechts, innerhalb des unteren Rands — dort, wo Leser ihn erwarten und Drucker ihn nicht abschneiden. Drucker können oft nicht bis zum Papier rand drucken, sodass eine zu randnahe Zahl auf manchen Maschinen abgeschnitten wird, obwohl sie am Bildschirm gut aussieht. Etwa einen halben Zoll (rund 36 pt) Abstand zur Seitenkante ist die sichere Zone.",
+          "Deckblätter und Titelblätter tragen üblicherweise keine Zahl — eine aufgedruckte „1“ auf dem Cover wirkt wie ein Versehen. Dafür bieten Nummerierungswerkzeuge typischerweise einen Startversatz: Beginnen Sie bei Seite 2 (oder nach dem Inhaltsverzeichnis), dann passen die sichtbaren Zahlen zum Hauptteil, während das Cover sauber bleibt. Beachten Sie, dass der Versatz bestimmt, ab welcher Seite die Zählung startet — „Seite 1“ landet dort, wo Sie sie hinzeigen lassen.",
+          "Kollisionen sind die zweite Falle: Tragen die Quellseiten bereits gedruckte Zahlen (etwa weil Sie separat nummerierte Kapitel zusammengeführt haben), erzeugt das Überlagern neuer Zahlen zwei konkurrierende Zahlen pro Seite. Das Overlay kann die alte Tinte nicht ausradieren — das erforderte Rasterung oder Inhaltschirurgie. Führen Sie in dem Fall unnummerierte Quellen zusammen, oder übernehmen Sie die Nummerierung eines Dokuments und verzichten auf das Überlagern.",
+        ],
+      },
+      {
+        heading: "Ein lokaler Eingriff für Dokumente, die in Umlauf kommen",
+        paragraphs: [
+          "Nummerieren ist meist der letzte Schliff, bevor ein Dokument hinausgeht: der Vertrag zur Gegenzeichnung, der Bericht für den Vorstand, das Manuskript zur Einreichung. Genau bei diesen Dateien ist „eben schnell auf eine Nummerierungsseite hochladen“ der falsche Handel — ein nummerierter Vertrag, auf einen Drittanbieter-Server geladen, ist Ihr fast fertiges Rechtsdokument in den Logs eines anderen, für das Addieren von zwei Ziffern pro Seite.",
+          "Dieses Tool erledigt das Overlay vollständig in Ihrem Browser: Seiten werden lokal verarbeitet, die Zahlen werden im Speicher in den Seiteninhalt gezeichnet, und das Ergebnis schreibt Ihr Gerät. Das Dokument verlässt Ihre Maschine in keiner Form, und der Vorgang ist sofort — es gibt gar keine Upload-Phase, auf die man wartet.",
+          "Ein kleiner Qualitätshabitus: Blättern Sie nach der Nummerierung durch das Ergebnis und prüfen Sie auf ein paar Seiten, ob die Zahlen mit Fußnoten, Bildunterschriften oder Inhalten im unteren Rand kollidieren — dichte wissenschaftliche Layouts laufen manchmal dorthin, wo man Rand erwartet. Kollidiert es, hilft das Verschieben nach oben oder auf die andere Seite, ohne etwas anderes anzufassen.",
+        ],
       },
     ],
   },
@@ -228,6 +410,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Werte landen exakt wie gedruckt als Text — führende Nullen und regionale Dezimalkommas bleiben erhalten. Excel behandelt sie als Zeichenketten, bis Sie die Spalte umwandeln.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Warum PDF-zu-Excel die schwerste Wandlung ist — ehrlich erklärt",
+        paragraphs: [
+          "Word-Dokumente haben Absätze, Tabellenkalkulationen haben Raster; ein PDF hat beides nicht — es hat gesetzte Glyphen an Koordinaten. Wenn ein PDF wie eine Tabelle aussieht, ist dieser Eindruck eine Illusion, zusammengesetzt aus einzeln positionierten Zeichen, die zufällig fluchten. Nach Excel zu konvertieren bedeutet, das Raster zurückzuengineering: Welche Zeichen bilden eine Zelle, wo beginnen und enden die Spalten, welche Zeilen gehören zusammen? Kein Metadatum im PDF beantwortet diese Fragen zuverlässig.",
+          "Deshalb unterscheiden sich PDF-zu-Excel-Werkzeuge wild in der Qualität, und deshalb warnt jedes ehrliche davor. Saubere, digital erzeugte PDFs mit regelmäßigen Tabellen extrahieren gut; gescannte Tabellen, verbundene Zellen, verschachtelte Kopfzeilen und mehrseitige Tabellen mit wiederholten Köpfen sind die Stellen, an denen Ergebnisse abdriften. Zahlen können in die falsche Spalte rutschen — und eine verschobene Zeile in einer Finanztafel ist schlimmer als eine gescheiterte Wandlung, weil sie still scheitert.",
+          "Praktische Erwartung: Betrachten Sie das Ergebnis als Erstentwurf einer Rekonstruktion, nicht als zertifizierten Export. Stichproben Sie Summen und ein paar Beispielzeilen gegen die Quelle. Stammt das PDF ursprünglich aus Excel (keine Scan-Marken, scharfer Text), ist die Rückextraktion meist nah dran. Ist es ein Scan, laufen Sie erst OCR und rechnen mit manueller Korrektur.",
+        ],
+      },
+      {
+        heading: "Das Ergebnis lesen: was Sie prüfen, bevor Sie es glauben",
+        paragraphs: [
+          "Drei Kontrollen fangen die meisten Extraktionsfehler. Erstens Zeilen- und Spaltenzahlen: Das Blatt sollte so viele Datenzeilen und Spalten haben wie die Quelltabelle — Abweichungen um eins bedeuten meist, dass eine Kopfzeile verschluckt wurde oder eine umbrochene Zelle zu zwei Zeilen wurde. Zweitens Zahlintegrität: Prüfen Sie, ob Werte wie 1,234.56 ihr Dezimaltrennzeichen behielten und nicht zu Text wurden (linksbündige „Zahlen“ in Excel sind meist Zeichenketten).",
+          "Drittens die Ausrichtung der Summen: Summiert die Quelltabelle eine Spalte, verifizieren Sie, dass die extrahierte Spalte noch auf dieselbe Figur summiert. Ein einziges verrutschtes Zellwerk bricht die Prüfkette auf eine Art, die dem Auge leicht entgeht, im Gebrauch aber fatal ist. Bei mehrseitigen Tabellen prüfen Sie, ob der auf jeder Seite wiederholte Kopf zu duplizierten Zeilen im Blatt wurde — die meisten Tools exportieren ihn wörtlich.",
+          "Verbundene Zellen sind der ewige Störenfried: Eine vertikale Verbindung (eine Bezeichnung über mehrere Zeilen) wird meist zum Wert in der ersten Zeile mit Leerfeldern darunter. Brauchen nachgelagerte Formeln die wiederholte Bezeichnung, füllt ein Ausfüllen nach unten in Excel in einer Sekunde und erspart eine Stunde Verwirrung.",
+        ],
+      },
+      {
+        heading: "Finanztabellen verdienen lokale Verarbeitung",
+        paragraphs: [
+          "Die Tabellen, die Menschen nach Excel wandeln, sind überproportional finanziell: Kontoauszüge, Rechnungen, Läufe der Lohnbuchhaltung, Steuerblätter. Das ist exakt die Datenmenge, die Sie nicht hochladen sollten — ein extrahierter Kontoauszug ist eine vollständige Transaktionshistorie in maschinenlesbarer Form, und sein Upload an einen Konverter übergibt diese Historie an einen unbekannten Dritten samt Kopie in dessen Logs.",
+          "Dieses Tool parst und rekonstruiert die Tabellen vollständig in Ihrem Browser: Das PDF wird lokal gelesen, Zellgrenzen werden auf Ihrem Gerät erschlossen, und die Arbeitsmappe wird lokal erzeugt und gespeichert. Keine Seite Ihres Auszugs wird irgendwohin übertragen, keine extrahierte Zahl verlässt Ihre Maschine — offline läuft die Wandlung identisch.",
+          "Angesichts der oben empfohlenen manuellen Prüfung macht lokale Verarbeitung zudem die Iteration gratis: Wandeln, ansehen, justieren, neu wandeln — so oft nötig, ohne je etwas erneut hochzuladen. Der Workflow, der vertrauenswürdige Tabellen liefert — konvertieren, verifizieren, korrigieren —, ist nur dann angenehm, wenn jeder Zyklus Sekunden kostet statt eines Upload-Roundtrips.",
+        ],
+      },
+    ],
   },
   "pdf-to-jpg": {
     name: "PDF zu JPG",
@@ -254,6 +462,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Kann ich nur einige Seiten konvertieren?",
         a: "Dieses Tool konvertiert das ganze Dokument und benennt die Dateien nach Seitenzahl, sodass Sie nur die benötigten behalten. Nutzen Sie zuerst PDF teilen, wenn Sie vorab einen bestimmten Bereich wollen.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rasterung: was es bedeutet, eine Seite in ein JPG zu verwandeln",
+        paragraphs: [
+          "Eine PDF-Seite ist eine Beschreibung — Textglyphen, Vektorformen, eingebettete Bilder, von einem Renderer zusammengesetzt. Ein JPG ist ein flaches Pixelraster. Seite-zu-Bild zu wandeln heißt, diese Beschreibung mit einer gewählten Auflösung durch einen Renderer zu jagen und das Ergebnis als Pixel zu speichern. Alles, was das PDF besonders machte, bleibt zurück: Text hört auf, markierbar zu sein, Vektorlinien hören auf, unendlich scharf zu sein, und die Seite ist exakt so scharf, wie ihre Pixeldichte es erlaubt.",
+          "Für die beabsichtigten Jobs ist dieser Handel meist der richtige: ein Seitenbild in eine Präsentation einfügen, einen Dokument-Screenshot im Chat posten, einer E-Mail eine visuelle Vorschau anhängen, an der der Empfänger nichts editieren soll. Ein gerastertes Blatt ist auch ein natürliches Nur-Lese-Format — was Sie schicken, ist was die anderen sehen, ohne Schriftsubstitution und ohne umbruchfähiges Layout.",
+          "Die Auflösung ist der eine Regler, der zählt. Bei 150 DPI ist eine Letter-Seite rund 1275×1650 Pixel — knackig am Bildschirm und ausreichend für den Alltagsdruck. Bei 72 DPI ist sie leichtgewichtig und gut für Vorschaubilder; bei 300 DPI druckwürdig, aber schwer. Nach dem Ziel zu wählen (Bildschirm vs. Druck) schlägt jedes Ratengeknacke.",
+        ],
+      },
+      {
+        heading: "Eine Seite oder viele: Ausgabestruktur und Qualität",
+        paragraphs: [
+          "Ein mehrseitiges PDF kann nicht ein einziges JPG sein, also liefern Konverter entweder eine nummerierte Serie (page-1.jpg, page-2.jpg, …) oder ein ZIP-Archiv. Die nummerierte Serie ist freundlicher, um einzelne Seiten in andere Tools zu picken; das Archiv ist freundlicher, um Dutzende auf einmal herunterzuladen. In beiden Fällen folgt die Nummerierung der internen Seitenfolge des PDFs — die, wie bei allen Seitentools, nicht mit aufgedruckten Beschriftungen übereinstimmen muss, falls das Dokument kurios nummeriert war.",
+          "JPEG-Komprimierung passt zu Seiten mit Fotos und Farbverläufen, wo ihre Artefakte unsichtbar bleiben. Bei Seiten mit überwiegend scharfem Text oder Strichgrafik können JPEGs blockige Artefakte bei niedriger Qualität ein feines „Mückenrauschen“ um die Buchstaben streuen; wirkt Ihr Ergebnis um den Text leicht matschig, erhöhen Sie Qualität oder DPI, statt es hinzunehmen.",
+          "Der weiße Hintergrund wiegt schwerer als man denkt: JPEG kennt keine Transparenz, also rendern Seiten mit transparenten Bereichen standardmäßig auf Weiß. Für Dokumente meist erwünscht — hatte die Quelle aber Dark-Mode oder farbige Hintergründe, prüfen Sie das erste Ausgabebild, bevor Sie einen ganzen Stapel laufen lassen.",
+        ],
+      },
+      {
+        heading: "Ihre Dokumente auf dem eigenen Gerät rendern",
+        paragraphs: [
+          "Ein PDF bündelt oft die PapierSpur eines Menschen: Auszüge, Briefe, medizinische Berichte, Vereinbarungen. Seiten zu Bildern zu rendern und sie an einen Konverter hochzuladen bedeutet, dass der vollständige visuelle Datensatz Ihr Gerät verlässt, bevor Sie gewählt haben, welche einzelne Seite Sie eigentlich brauchten. Extrahierte Bilder lassen sich zudem leicht weiterverteilen — eine Bilddatei reist weiter als ein PDF mit intakten Metadaten.",
+          "Dieses Tool rendert jede Seite lokal in Ihrem Browser: Das PDF wird geparst und auf der Canvas Ihres Geräts in der gewählten DPI gezeichnet, im Speicher zu JPEG kodiert und direkt von Ihrem Browser gespeichert. Kein Seitenbild wird hochgeladen, kein Server rendert Ihre Dokumente, und die ganze Wandlung läuft mit getrennter Netzverbindung.",
+          "Lokales Rendern bedeutet auch, dass Sie ohne Mehraufwand selektiv sein können: alle Seiten rendern, dann nur die zwei behalten, die Sie brauchten, den Rest löschen, bevor er je außerhalb Ihrer Maschine existierte. Für eine Einseiten-Figur in einem 100-Seiten-Bericht ist genau diese Selektivität der Punkt — Sie bekommen das gewünschte Bild und sonst nichts.",
+        ],
       },
     ],
   },
@@ -284,6 +518,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Seiten werden auf einen weißen Hintergrund gerendert, die Ausgabe ist also ein deckendes PNG. Das entspricht dem Druckverhalten von PDFs und vermeidet Überraschungen mit schwarzem Hintergrund in Viewern.",
       },
     ],
+    deepDive: [
+      {
+        heading: "PNG vs. JPG für Seitenfotos: wann was gewinnt",
+        paragraphs: [
+          "PNG und JPG machen aus PDF-Seiten beide Pixel, kodieren sie aber mit entgegengesetzten Philosophien. JPG nutzt verlustbehaftete Komprimierung, abgestimmt auf Fotografie: winzige Dateien, unsichtbare Artefakte auf Verläufen, feines Flaum auf harten Kanten. PNG nutzt verlustfreie Komprimierung, abgestimmt auf flache Grafik: Text, Diagramme, Screenshots und alles mit scharfen Kanten oder Flächenfarben bleibt pixelgenau — um den Preis größerer Dateien bei fotografischen Inhalten.",
+          "Die Faustregel lautet: Seiten aus Text, Tabellen, Charts und Strichzeichnungen gehören ins PNG — die Buchstaben bleiben bei jedem Zoom knackig, und Komprimierung verschmiert nie eine Diagrammlinie. Seiten aus gescannten Fotos oder alles, was von kontinuierlicher Bildtonigkeit beherrscht wird, gehört ins JPG — ein PNG würde die Größe aufblähen, ohne sichtbaren Gewinn.",
+          "Außerdem hält PNG exakte Farben, wo JPGs Chroma-Komprimierung gesättigte Markenfarben sacht verschieben kann, und PNG-Dateien vertragen erneutes Speichern ohne Generationsverlust: Ein PNG zu editieren und neu zu speichern degradiert es nie, während wiederholte JPG-Neukodierungen Artefakte anhäufen. Für Seiten, die weiterverarbeitet werden sollen, ist PNG die Archivwahl.",
+        ],
+      },
+      {
+        heading: "Schärfe, Skalierung und Anmerkungen zur Transparenz",
+        paragraphs: [
+          "Weil PNG verlustfrei ist, ist die Auflösung der einzige Qualitätsregler — rendern Sie mit 150 DPI für Bildschirmarbeit, mit 300 DPI für druckwürdige Aufnahmen. Es gibt keinen Komprimierungsregler, den man falsch stellen könnte, was eine ganze Fehlerklasse beseitigt: Ein PNG ist entweder mit genug Pixeln gerendert oder nicht, und ein Neu-Render mit höherer DPI ist die vollständige Kur gegen Weichheit.",
+          "Ein echter Vorteil gegenüber JPG: PNG unterstützt Transparenz. Eine Seite, die als PNG mit erhaltenem Hintergrund gerendert wird, lässt sich auf jeden beliebigen Hintergrund komponieren; JPG flacht stets auf eine Vollfarbe ab, meist Weiß. Für Diagrammseiten, die in Slides oder Designdateien landen, erspart das einen manuellen Hintergrundentfernungsschritt.",
+          "Achten Sie bei dichten Seiten auf die Dateigrößen: Ein 300-DPI-PNG einer fotoreichen Seite kann Dutzende Megabyte wiegen. Geht das Ziel auf eine Webseite oder in eine Chatnachricht, schadet diese Größe mehr, als die Treue hilft — senken Sie für genau solche Seiten die DPI oder wechseln Sie zu JPG.",
+        ],
+      },
+      {
+        heading: "Seiten ablichten, ohne sie irgendwohin zu schicken",
+        paragraphs: [
+          "Am häufigsten fangen Menschen PDF-Seiten als Bilder ein, um sie wiederzuverwenden: ein Chart für einen Bericht, eine Unterschriftenseite als Nachweis, ein Diagramm für Schulungsmaterial. Jedes eingefangene Bild ist eine in sich geschlossene Kopie, die weit über das Originaldokument hinausreisen kann — genau deshalb zählt, wer die Wandlung ausführt. Eine vertrauliche Seite an einen Konverter hochzuladen legt die pixelgenaue Kopie auf fremder Infrastruktur ab, bevor Sie überhaupt etwas damit anfangen.",
+          "Dieses Tool rendert und kodiert vollständig in Ihrem Browser: Das PDF wird auf die Canvas Ihres Geräts in der gewählten DPI gezeichnet, im Speicher verlustfrei zu PNG kodiert und von Ihrem Browser gespeichert. Keine Seite wird hochgeladen, es existiert zu keinem Zeitpunkt eine Kopie außerhalb Ihres Geräts, und die Wandlung gelingt mit gezogenem Netzstecker.",
+          "Der praktische Nutzen wächst bei Stapeljobs: Ein 200-Seiten-Handbuch in PNGs zu wandeln erzeugt hunderte Dateien, und das lokal bedeutet keine Upload-Wartezeit, keine Größenlimits pro Datei, keine Stapelwarteschlangen — nur die Rendergeschwindigkeit Ihres Geräts, die bei einer modernen Maschine typischerweise schneller ist, als der Upload desselben Inhalts gewesen wäre.",
+        ],
+      },
+    ],
   },
   "pdf-to-ppt": {
     name: "PDF zu PowerPoint",
@@ -310,6 +570,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Wie groß wird die .pptx-Datei?",
         a: "Etwa so groß wie alle Seitenbilder zusammen — ein 20-seitiges PDF in hoher Auflösung kann Zehnerpotenzen an Megabyte erreichen. Komprimieren Sie das Quell-PDF zuerst, wenn Sie eine leichtere Präsentation brauchen.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Was PDF-zu-PPT ehrlich liefern kann",
+        paragraphs: [
+          "Ein als PDF exportiertes Slide-Deck ist geglättet: Die editierbaren Textboxen, Formen und Platzhalter der ursprünglichen Präsentation sind im PDF zu gesetzten Glyphen und Rechtecken geworden. Zurückwandeln heißt Rekonstruktion — der Konverter muss erraten, welche Glyphen eine Textbox bilden, was Form war und was Bild, und wo alles auf der Folienleinwand saß. Kein Metadatum führt zurück zur ursprünglichen Struktur.",
+          "Die ehrliche Erwartung: Sie erhalten Folien, die wie das Original aussehen, mit markierbarem und editierbarem Text an ungefähr richtigen Positionen. Zurückbekommen Sie nicht die exakte Verschachtelung des Originals, keine Animationen (die im PDF nie existierten), keine Masterfolien-Struktur und keine präzisen Theme-Tokens. Schriften können substituiert werden, wenn die Originale nicht eingebettet waren.",
+          "Wo diese Wandlung glänzt: ein editierbares Deck zurückholen, wenn die .pptx verloren ist und nur das PDF überlebte; zwei Folien aus dem Deck eines Kollegen ziehen, um sie in Ihrem zu nutzen; inhaltliche Anpassungen an einem erhaltenen Deck vornehmen, ohne die Quelle anfordern zu müssen. Wo sie enttäuscht: Design-Decks aus überlappenden Elementen — sie rekonstruieren sich als gestapelte Ebenen, die richtig aussehen, sich beim Editieren aber fummelig anfühlen.",
+        ],
+      },
+      {
+        heading: "Editiererwartungen und der Umgang mit dem Ergebnis",
+        paragraphs: [
+          "Planen Sie nachzubessern, nicht auf Identität zu hoffen. Die häufigsten Aufräumarbeiten nach der Wandlung: Textboxen, deren Rahmen etwas größer sind als ihr sichtbarer Text (Klicken wählt also mehr als erwartet), Bilder an nah-dran-aber-nicht-exakt-Positionen und Schriftgrößen, auf die nächste verfügbare Größe gerundet. Keines davon verändert, wie die Folien im Präsentationsmodus aussehen; es ändert, wie ordentlich sich die Datei editieren lässt.",
+          "Ein praktischer Workflow: PDF zu PPT wandeln, dann sofort die Folien prüfen, die Ihnen am wichtigsten sind — meist die Titelfolie und eine Inhaltsfolie. Schriften und ein Layout richten; hält die Struktur, korrigieren Sie den Rest serienweise über die Masterfolie. Hält sie nicht — wild überlappende Boxen —, war das Design des Quellddecks zu sehr geschichtet, um sauber umzukehren, und diese speziellen Folien neu aufzubauen ist schneller, als gegen die Wandlung zu kämpfen.",
+          "Charts verdienen eine eigene Erwähnung: Ein Chart, der im PDF ein eingebettetes Bild war, bleibt im PPT ein Bild (keine editierbaren Chartdaten); ein als Vektorformen gezeichneter Chart rekonstruiert sich als gruppierte Formen, die Sie umfärben, aber nicht mit neuen Zahlen neu plotten können. In beiden Fällen lässt sich der Datenhintergrund eines Charts nicht aus dem PDF zurückgewinnen — er war nie darin.",
+        ],
+      },
+      {
+        heading: "Decks reisen — halten Sie sie zu Hause, bis sie gewandelt sind",
+        paragraphs: [
+          "Präsentationen sind von Haus aus geschäftlich vertraulich: Strategie-Decks, Finanzreviews, M&A-Unterlagen, unveröffentlichte Produktpläne. Ein PDF eines solchen Decks enthält alles außer den Sprechernotizen — und es an einen Wandlungsdienst hochzuladen bedeutet, dass der vollständige visuelle Inhalt einer internen Präsentation auf dem Server eines anderen lesbar ist, oft binnen Minuten nach der Sitzung, in der sie gezeigt wurde.",
+          "Dieses Tool rekonstruiert die Folien vollständig in Ihrem Browser: Das PDF wird auf Ihrem Gerät geparst und gerendert, Folienelemente werden lokal neu aufgebaut, und die PPT-Datei wird direkt von Ihrem Browser gespeichert. Nichts wird hochgeladen, es gibt keine Verarbeitungswarteschlange, und die Wandlung läuft offline identisch — das Deck existiert in keiner Form außerhalb Ihrer Maschine.",
+          "Da gewandelte Decks ohnehin editiert werden sollen, passt lokale Verarbeitung auch in den Workflow: wandeln, in Ihrer Präsentationssoftware öffnen, so oft nachbessern wie nötig, ohne zwischen Versuchen neu hochzuladen. Jeder Wandlungsversuch kostet Sekunden und sonst nichts — Sie können also frei probieren, prüfen und justieren, bis sich das Deck so verhält, wie Sie es brauchen.",
+        ],
       },
     ],
   },
@@ -340,6 +626,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Kein künstliches. Hunderte Seiten funktionieren; die praktische Grenze ist der Browser-Speicher, typischerweise deutlich jenseits von 100-MB-Dokumenten.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Die Textebene: was ein PDF wirklich über seine Wörter speichert",
+        paragraphs: [
+          "Ein digital erzeugtes PDF speichert seinen Text als Folge von Zeichnungsoperationen: Zeige diese Glyphe, an dieser Position, in dieser Schrift. Die Wörter sind wirklich drin — deshalb funktioniert Strg+F in solchen Dokumenten. Text zu extrahieren ist daher keine Erkennung, sondern Dekodierung: die Textebene in Lesereihenfolge wieder herauslesen. Es ist keine Bildverarbeitung im Spiel, und die Treue ist nur dadurch begrenzt, wie das Dokument konstruiert wurde.",
+          "Die klassischen Komplikationen sind Reihenfolge und Trennung. PDFs beschreiben Glyphen nach Position, nicht nach logischem Fluss, daher extrahieren mehrspaltige Layouts, Randspalten und Tabellen eventuell in visueller statt in Lesereihenfolge — Spalten zeilenweise ineinandergeflochten. Anständige Extraktoren nutzen Layoutheuristiken, um Spalten zu erkennen und den Fluss zu rekonstruieren, aber stark designte Dokumente können trotzdem durch einander gewürfelt herauskommen.",
+          "Die andere Lücke sind Scans: Eine gescannte Seite hat überhaupt keine Textebene, nur Pixel, daher liefert schlichte Extraktion nichts. Scans brauchen zuerst OCR (das ist ein eigenes Tool), und OCR-behandelte Dateien gewinnen eine Textebene, die die Extraktion dann lesen kann.",
+        ],
+      },
+      {
+        heading: "Lesereihenfolge, Kodierungsrandfälle und praktische Kontrollen",
+        paragraphs: [
+          "Wenn eine Extraktion verworren aussieht, ist es fast immer das Layout: zweispaltige Fachartikel kommen als ineinandergeflochtene Fragmente heraus, oder Fußnoten landen mitten im Satz. Schnelle Abhilfe: dasselbe Dokument mit einem anderen Extraktor laufen lassen, um die Ordnungen zu vergleichen, oder akzeptieren, dass Sie bei designten Layouts seitenweise extrahieren und von Hand zusammensetzen. Zeilenumbrüche im extrahierten Text spiegeln die Zeilenstruktur des PDFs — Absätze neu fließen zu lassen ist darum oft ein Aufräumschritt in Ihrem Editor.",
+          "Kodierungsrandfälle zeigen sich als Rätselzeichen: Ligaturen (fi, fl), die als einzelne Glyphen ankommen, Akzente, die kippen, wenn das PDF eine nichtstandardisierte Schriftkodierung nutzt, und mathematische Symbole, die schlecht auf Klartext mappen. Klartext-Ausgabe kennt weder Fett noch Kursiv, weder Tabellen noch Bilder — alles wird zu Zeichen, also müssen Strukturen, die Sie behalten wollen, von Hand notiert werden.",
+          "Ein Verstandescheck, bevor Sie sich auf extrahierten Text verlassen: Suchen Sie im Ergebnis nach einer Phrase, die Sie auf der ersten Seite sehen, und vergleichen Sie die Zeichenzahl mit der Erwartung. Extrahiert ein 10-Seiten-Bericht zu 300 Zeichen, ist die Textebene kaputt oder rein bildlich — das ehrliche leere Ergebnis des Tools bei einem Scan ist besser, als still Inhalte fallen zu lassen.",
+        ],
+      },
+      {
+        heading: "Dokumente lokal extrahieren — besonders die heiklen",
+        paragraphs: [
+          "Textextraktion ist oft der erste Schritt bei Dokumenten, die Sie nicht selbst verfasst haben: Rechtverträge, Finanzberichte, Forschungsaufsätze, interne Notizen. Sie auf eine Textextraktionsseite hochzuladen bedeutet, dass der voll lesbare Inhalt — die tragfähigste, kopierbarste Form Ihres Dokuments — über den Server eines anderen läuft. Extrahierter Text lässt sich sogar leichter weiterverteilen als die Originaldatei: Er trägt überhaupt keine Metadatenspur.",
+          "Dieses Tool dekodiert die Textebene vollständig in Ihrem Browser: Das PDF wird lokal geparst, Glyphen werden auf Ihrem Gerät zurück auf Zeichen gemappt, und die Klartextdatei wird von Ihrem Browser gespeichert. Nichts wird hochgeladen, nichts wird irgendwo protokolliert — mit getrennter Netzverbindung funktioniert die Extraktion exakt gleich.",
+          "Weil Extraktion schnell und frei von Netz-Roundtrips ist, passt sie zum Workflow „viele extrahieren, dann suchen“: Text aus einem ganzen Ordner von PDFs ziehen, alles in ein durchsuchbares Dokument einfügen oder als Korpus nutzen — und keine dieser Quellen verlässt je Ihre Maschine. Für Literaturreviews und Vertragsvergleiche ist genau diese Kombination aus Datenschutz und Tempo, die Massenextraktion praktikabel macht.",
+        ],
+      },
+    ],
   },
   "pdf-to-word": {
     name: "PDF zu Word",
@@ -366,6 +678,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Überleben Tabellen und Bilder die Konvertierung?",
         a: "Bilder wandern nicht in die .docx. Tabellen kommen als einfache Textzeilen an — brauchbar, aber für alles Komplexe bauen Sie echte Tabellen in Word neu.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Die Treuegrenze: was die Reise nach Word überlebt",
+        paragraphs: [
+          "Ein PDF beschreibt fertige Erscheinung; ein Word-Dokument beschreibt Struktur — Absätze, Formatvorlagen, Listen, Überschriften. Zwischen beiden zu wandeln ist Übersetzung, nicht Dekodierung, und jede Wandlung muss entscheiden, wie viel Struktur sie allein aus der Erscheinung rekonstruiert. Gut gebaute Konverter rekonstruieren Absatzgrenzen, Überschriftenebenen aus Schriftgrößen und Tabellen aus fluchtendem Text; einfache kippen Textzeilen in einen einzigen Fluss.",
+          "Was eine gute Wandlung gut übersteht: Fließtext mit Absatzwechseln, einfache Tabellen, grundlegende Fett-/Kursiv-Betonung und die Lesereihenfolge typischer Dokumente. Was selten perfekt überlebt: exakte Schriften (Word substituiert die nächste verfügbare), mehrspaltige Layouts (meist auf eine Spalte geglättet), Kopf- und Fußzeilen (oft in den Fließtext gemischt oder fallen gelassen) und alles Interaktive wie Formularfelder oder Anmerkungen.",
+          "Die ehrlichste Einordnung: PDF-zu-Word ist ausgezeichnet, um editierbare Prosa zurückzugewinnen, gut genug für typische Geschäftsdokumente — und strukturell falsch für stark designte Seiten wie Poster, komplexe Magazinlayout- und Formulare. Für die letzte Kategorie liefert die Wandlung ein editierbares Chaos; das Layout nativ in Word neu aufzubauen ist oft schneller, als die Wandlung zu flicken.",
+        ],
+      },
+      {
+        heading: "Scans, OCR und der Workflow um die Wandlung",
+        paragraphs: [
+          "Die größte Weiche in der PDF-zu-Word-Qualität ist, ob die Quelle digital oder gescannt ist. Ein digitales PDF trägt seinen Text und wandelt direkt. Ein gescanntes PDF trägt nur Pixel, also ist die Kette länger: OCR, um eine Textebene zu erzeugen, dann Rekonstruktion zu Word-Absätzen — und die Genauigkeitsgrenzen der OCR kommen nun zu denen der Wandlung hinzu. Handschrift, Stempel und Randnotizen verschlechtern das Ergebnis weiter.",
+          "Praktische Erwartung je Quelle: Ein digital geborener Vertrag wandelt zu etwas, das Sie mit mäßiger Aufräumung editieren und fertigstellen können. Ein sauberer 300-DPI-Scan gesetzten Texts wird editierbar, aber Sie müssen Zeile für Zeile gegenlesen — OCR-Fehler in Verträgen und Namen sind genau die Fehler, die Sie sich nicht leisten können. Ein Foto einer Seite bei schlechtem Licht wandelt ungeachtet des Werkzeugs schlecht; scannen Sie stattdessen ordentlich neu.",
+          "Lesen Sie nach der Wandlung jedes wichtigen Dokuments strukturierend in Word durch, nicht nur sehend: Prüfen Sie Absatzwechsel, Listennummerierung und Tabellenzellen — genau dort irren sich Wandlungen still, während die Seite noch richtig aussieht.",
+        ],
+      },
+      {
+        heading: "Verträge und Berichte sollten lokal wandeln",
+        paragraphs: [
+          "Die Dokumente, die Menschen am ehesten in editierbares Word bringen wollen, sind die verbindlichsten: Verträge zur Neuverhandlung, Richtlinien zur Aktualisierung, Berichte zur Wiederverwendung, Transkripte zur Annotierung. Ein Vertrags-PDF an einen Konverter hochzuladen bedeutet, dass Ihr Rechtstext über die Server eines Dritten läuft — und die extrahierte Word-Kopie, leichter zu editieren und zu verteilen als das Original, ist genau das Artefakt, das Sie am wenigsten im Speicher eines anderen wissen wollen.",
+          "Dieses Tool führt die ganze Wandlung in Ihrem Browser aus: Das PDF wird lokal geparst, die Textstruktur auf Ihrem Gerät rekonstruiert, und die Word-Datei wird lokal erzeugt und gespeichert. In keine Richtung wird etwas übertragen, und die Wandlung läuft vollständig offline — ein Vertrag unter NDA lässt sich mit demselben Seelenfrieden wandeln wie eine Speisekarte.",
+          "Lokale Wandlung hält zudem die Prüfschleife eng: wandeln, in Word öffnen, die nötigen Fixes notieren, justieren, nötigenfalls erneut wandeln — alles binnen Sekunden pro Zyklus und ohne je neu hochzuladen. Diese enge Schleife macht sorgfältige Gegenlesung überhaupt machbar, und sorgfältige Gegenlesung — nicht die Wandlung selbst — ist es, was die Integrität des Dokuments tatsächlich schützt.",
+        ],
       },
     ],
   },
@@ -396,6 +734,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Verlustfreie PNG-Daten sind von Natur aus umfangreich. Wenn Sie eine kleinere Datei brauchen, schicken Sie das Ergebnis durch PDF komprimieren — das tauscht etwas Detailtreue gegen Größe.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Warum PNG-Eingaben eine andere Behandlung verdienen als JPEG",
+        paragraphs: [
+          "PNG und JPEG sehen dem flüchtigen Auge ähnlich, kodieren Pixel aber mit entgegengesetzten Kompromissen. PNG ist verlustfrei: Jedes Pixel bleibt exakt erhalten, was es zum Format für Screenshots, Diagramme, gescannten Text und alles mit scharfen Kanten macht. JPEG ist verlustbehaftet und auf Fotografie abgestimmt. PNGs in ein PDF zu wickeln bedeutet darum meist, Inhalte zu handhaben, die von Verlustfreiheit profitieren — und ein Konverter, der PNG still zu JPEG umkodiert, wirft exakt die Eigenschaft weg, für die Sie PNG gewählt hatten.",
+          "Dieses Tool bettet die Bilddaten ohne destruktive Neukomprimierung ein, daher bleiben Screenshots im PDF pixelknackig: Der Text im Screenshot bleibt bei jedem Zoom lesbar, und Diagrammlinien bleiben sauber. Das PDF ist der Container; die verlustfreien PNG-Pixel reiten unangetastet darin.",
+          "Ein feines Detail, gut zu wissen: PNG unterstützt Transparenz, PDF-Seiten nicht. Ein transparentes PNG auf einer PDF-Seite wird auf einen Hintergrund komponiert — weiß nach Konvention. Hat Ihr Screenshot eine Transparenz, die zählt (ein Logo, ein Overlay), prüfen Sie die erste Ausgabeseite, statt es anzunehmen.",
+        ],
+      },
+      {
+        heading: "Screenshots, Scans und ihre geordnete Zusammenführung",
+        paragraphs: [
+          "Die häufigsten PNG-zu-PDF-Jobs haben Dokumentform: eine Folge von Screenshots als Anleitung, ein Fehlerbericht mit Beweisbildern, als PNG gespeicherte Zertifikate oder Formulare. Bei allen ist die Seitenfolge das ganze Spiel — eine Anleitung, deren Screenshots durcheinander ankommen, ist nutzlos. Dateien vor dem Hinzufügen als 01-…, 02-… zu benennen, macht die beabsichtigte Ordnung explizit und übersteht die Sortierung jeder Dateiauswahl.",
+          "Screenshots haben pixelgenaue Maße, die selten Papierformaten entsprechen, daher werden die Ausgabeseiten typischerweise auf die jeweiligen Bilder zugeschnitten. Ideal für Bildschirmlesung und Archiv. Geht es zum Druck, wiegt die Unstimmigkeit schwerer: Fragen Sie, ob der Screenshot-Text in der Druckgröße groß genug ist — ein 1080p-Screenshot auf A4 geschrumpft macht kleine UI-Schrift schwer lesbar.",
+          "Bei Mehrbild-Dokumenten schlägt Beständigkeit Vielfalt: Screenshots derselben App-Sitzung teilen Maße und Stil, und das entstehende PDF liest sich als ein stimmiges Dokument. Gemischte Quellen — Screenshots plus Fotos plus Scans — erzeugen Seiten wild unterschiedlicher Größe; zu normalisieren (Quellen zuerst skalieren oder beschneiden) liefert ein weit professionelleres Ergebnis.",
+        ],
+      },
+      {
+        heading: "Nachweise lokal verpacken, ohne einen Zwischenhändler",
+        paragraphs: [
+          "Was Menschen von PNG zu PDF verpacken, ist oft beweisartig oder privat: Screenshots eines Betrugsfalls, Chatprotokolle für einen Streit, Ausweisscans zur Verifizierung, medizinische Befunde. Jedes davon ist ein Ding, das Sie einem Fremden nie in die Hand geben würden — ein Upload an einen Konverter tut genau das, noch bevor das PDF existiert.",
+          "Dieses Tool verpackt vollständig in Ihrem Browser: PNGs werden lokal gelesen, verlustfrei in PDF-Seitenobjekte eingebettet, und das fertige Dokument wird von Ihrem Gerät gespeichert. Nichts wird zu irgendeinem Zeitpunkt hochgeladen, die Screenshots Ihrer Banking-App existieren also auf keinem Server, und der Vorgang läuft ohne Internetverbindung gleich.",
+          "Es gibt auch eine Qualitätsdividende: Weil die PNG-Daten unverändert eingebettet werden, bewahrt das PDF die exakten Pixel Ihrer Aufnahme — wichtig, wenn der Inhalt Nachweis ist, wo ein Komprimierungsartefakt auf einem Zeitstempel oder einer Kontonummer Zweifel an der Echtheit wecken könnte. Was Sie ablichteten, ist exakt das, was der Leser sehen wird.",
+        ],
+      },
+    ],
   },
   "rearrange-pdf-pages": {
     name: "PDF-Seiten umsortieren",
@@ -422,6 +786,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Beeinflusst das Umsortieren die Qualität?",
         a: "Überhaupt nicht. Seiten werden unverändert in das neue Dokument kopiert — nur ihre Sequenz unterscheidet sich.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Umordnen ist reine Seitenbaum-Manipulation",
+        paragraphs: [
+          "Seiten in einem PDF umzuordnen verändert genau eine Sache: die Reihenfolge der Einträge im Seitenbaum des Dokuments. Inhaltsströme, Schriften, Bilder, Anmerkungen — alles bleibt byteidentisch. Nichts wird neu gerendert, nichts neu komprimiert, und der Vorgang ist im strengsten Sinn verlustfrei: Seiten umordnen und zurückumordnen liefert ein dem Original gleichwertiges Dokument.",
+          "Deshalb ist Umordnen auch bei riesigen Dateien augenblicklich, denn keine Seitendaten werden berührt — nur der kleine Index, der sagt „zuerst diese Seite, dann jene“. Die Dateigröße ändert sich kaum, die Qualität ist per Definition identisch.",
+          "Was Umordnen nicht berührt: Interne Links und Lesezeichen können auf Seitenobjekte statt auf Positionen zeigen, daher folgen sie typischerweise ihrer Zielseite — ein Link zu „der Seite mit Kapitel 3“ bleibt nach dem Umordnen korrekt. Aber alles, was eine Position referenzierte (ein gedrucktes „siehe Seite 12“), aktualisiert sich nicht. Querverweis-Kontrollen gelten hier genauso wie beim Löschen.",
+        ],
+      },
+      {
+        heading: "Thumbnail-first-Workflows und die Fehler, die man vermeidet",
+        paragraphs: [
+          "Mit Vorschaubildern statt Seitenzahlen zu arbeiten, ist die größte einzelne Nutzbarkeitsverbesserung beim Umordnen. Seitenbeschriftungen im Viewer widersprechen oft der echten Folge (römische Vorworte, pro Kapitel neu beginnende Nummerierung), aber Thumbnails zeigen den Inhalt direkt. Ziehen Sie die Seite, die Sie sehen, nicht die Zahl, die Sie berechnet haben.",
+          "Die klassischen Fehler: ein doppeltes Seitenpaar nach dem Ziehen übrig zu lassen (ein Anhang doppelt eingefügt) und zu vergessen, dass leere Trennseiten Absicht sein können. Ein schnelles Durchblättern der Endordnung findet beides in Sekunden. Bei Dokumenten aus mehreren Quellen prüfen Sie gleich die Seitengrößen-Konsistenz — das Umordnen ist der natürliche Moment, um eine verirrte Letter-Seite zwischen A4-Seiten zu bemerken.",
+          "Ein Workflow-Tipp: Bei einem falsch geordneten Scan (Seiten, die in verkehrter Reihenfolge durch den Einzug liefen) ist die Korrektur meist ein paar benachbarter Tausch statt eines vollständigen Neumischs. Benachbarte Paare zu tauschen ist schnell und risikoarm; ein Scan komplett neu zu ordnen sollte die Frage wecken, ob sich die Einzugseinstellungen des Scanners für das nächste Mal lohnen.",
+        ],
+      },
+      {
+        heading: "Ordnungskorrekturen, ohne die Datei irgendwohin zu schicken",
+        paragraphs: [
+          "Dokumente, deren Seiten umgeordnet werden müssen, sind routinemäßig ganz und heikel: vollständige Verträge, komplette Bewerbungsmappen, zusammengestellte Beweisbündel. Genau diese Dateien sollten Sie für einen kosmetischen Eingriff nicht hochladen — einen vollständigen Vertrag einer Umordnungseite zu geben, heißt dieser Seite das gesamte Dokument, jede Seite, zu übergeben, um etwas zu fixen, das ein Ziehen und ein Klick kostet.",
+          "Dieses Tool ordnet vollständig in Ihrem Browser um: Das PDF wird lokal geparst, der Seitenbaum-Index im Speicher neu geschrieben, und die umgeordnete Datei wird von Ihrem Gerät gespeichert. Kein einziges Byte des Seiteninhalts wird übertragen, und der Vorgang schließt unabhängig vom Netzstand ab — im Flugmodus machbar.",
+          "Weil nichts neu kodiert wird, bewahrt das Ergebnis jede Eigenschaft der Quelle: durchsuchbarer Text, eingebettete Schriften, Anmerkungen, Formularfelder, Metadaten. Umordnen ist hier rein strukturell — Sie können also so oft umordnen, wie nötig, ganz ohne Qualitätsbedenken: Die zehnte Umordnung ist so verlustfrei wie die erste.",
+        ],
       },
     ],
   },
@@ -452,6 +842,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nein. Nur das Rotations-Flag ändert sich; der Seiteninhalt bleibt unangetastet, die Qualität ist identisch, und der Text bleibt auswählbar.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Drehung ist Metadatum, nicht Pixel",
+        paragraphs: [
+          "Jede Seite eines PDFs trägt ein Rotationsflag — einen schlichten Wert (in 90-Grad-Schritten), der Viewern sagt, die Seite gedreht anzuzeigen. Eine Seite mit diesem Tool zu drehen, ändert dieses Flag, nicht den Seiteninhalt: Text, Bilder und Vektoren bleiben exakt, wo sie in der Datei stehen. Deshalb ist Drehen sofort und perfekt verlustfrei, selbst bei Hundert-Megabyte-Dateien.",
+          "Der Flag-Mechanismus erklärt eine bekannte Marotte: Eine Seite kann aufrechten Inhalt tragen, aber quer dargestellt werden (oder umgekehrt), je nach Rotationsflag. Manche Scanner und manche PDF-Erzeuger setzen das Flag, statt den Inhalt wirklich zu drehen. Eine solche Seite zu drehen, kippt das Flag; der zugrundeliegende Inhalt bleibt in jedem Fall unangetastet.",
+          "Eine Konsequenz, gut zu wissen: Weil die Drehung in einem Flag lebt, können Tools, die es ignorieren — manche simple Parser, manche Vorschaubild-Generatoren — die „rohe“ Orientierung zeigen. Und wenn Sie die Seite später rasterisieren (etwa komprimieren), geschieht das Rendern in der gedrehten Orientierung, und die Aufgabe des Flags wird dauerhaft. Drehen vor der Rasterung ist darum die richtige Reihenfolge.",
+        ],
+      },
+      {
+        heading: "Scans, gemischte Orientierungen und praktische Korrekturen",
+        paragraphs: [
+          "Der häufigste Drehjob ist die Scanreparatur: Ein Duplexscanner kippt die Rückseiten, eine Handykamera liefert einen quer liegenden Beleg, ein Stapel kommt mit wechselnden Orientierungen heraus. Genau dafür ist dieses Tool da — die auffälligen Seiten wählen und drehen. Alles-zu-drehen ist hier der falsche Zug; es „repariert“ die richtigen Seiten, indem es sie kaputt macht.",
+          "Bei Dokumenten, die gedruckt oder gebunden werden, denken Sie daran, welche Kante nach der Drehung die Bindekante ist. Eine um 90 Grad gedrehte Seite liest sich am Bildschirm natürlich, kann aber mit ihrer „Oberkante“ entlang der kurzen Blattkante drucken, was die Ränder verschiebt. Ein Probedruck einer Seite vor dem ganzen Stapel spart Papier und Frust.",
+          "Noch ein Wort dazu, warum manche Seiten scheinbar „zurückdrehen“: Merkt sich ein Viewer das Flag und speichert ein anderes Tool die Datei neu, ohne das Flag mitzunehmen, setzt sich die Orientierung zurück. Halten Sie die Bearbeitungskette innerhalb von Flag-bewahrenden Tools (wie diesem); dreht eine Seite nach jedem Fix wieder quer, lässt irgendein Schritt Ihrer Pipeline das Flag fallen.",
+        ],
+      },
+      {
+        heading: "Seiten lokal drehen, zum Nulltarif",
+        paragraphs: [
+          "Drehen ist meist eine Reparatur an Dokumenten, die Sie ohnehin besitzen und denen Sie vertrauen: eigene Scans, Dateien von Kollegen. An lokaler Verarbeitung festzuhalten, ist eine Frage der Konsequenz — ein Dokument, das für keine Operation je zu einem Dritten geht, ist ein Dokument, dessen Exposition Sie vollständig kontrollieren. Es gibt keinen Eingriff, so trivial er sei, der eine Upload-Gewohnheit mit vertraulichen Dateien rechtfertigt.",
+          "Dieses Tool dreht in Ihrem Browser: Das PDF wird lokal gelesen, Seitenflags werden im Speicher aktualisiert, und das Ergebnis wird von Ihrem Gerät gespeichert. Kein Upload geschieht, und da sich nur Flags ändern, ist der Vorgang praktisch sofort, selbst bei sehr großen Dateien — es gibt keinerlei Neukodier-Wartezeit.",
+          "Die Flag-Ebene bedeutet auch, dass Drehen hier sicher umkehrbar ist: Viermal um 90 Grad gedreht sind Sie bitgenau beim Original. Sie können frei experimentieren — eine Seite kippen, ansehen, zurückkippen — ohne jedes Risiko für die Datei; genau die Art risikoarmer Operation, bei der lokale Werkzeuge glänzen.",
+        ],
+      },
+    ],
   },
   "sign-pdf": {
     name: "PDF unterschreiben",
@@ -478,6 +894,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Kann ich jede Seite des Dokuments unterschreiben?",
         a: "Ja. Füllen Sie das Seitenfeld mit einer Liste wie „1-5“ oder lassen Sie eine einzelne Seite; die Unterschrift wird auf jeder gewählten Seite an derselben Position gestempelt.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Was diese Unterschrift ist — und was nicht",
+        paragraphs: [
+          "Dieses Tool setzt ein gezeichnetes oder getipptes Unterschriftsbild auf eine Seite — so, wie Sie einen Ausdruck von Hand unterschreiben würden. Es ist eine elektronische Signatur im weiten Alltagssinn: sichtbare Tinte auf dem Dokument, von Ihnen platziert, von Ihrem eigenen Gerät. Es ist keine digitale Zertifikatssignatur: Es gibt kein kryptografisches Schlüsselpaar, keine Zertifizierungsstelle und keine manipulierbare Prüfung, die ein Viewer verifizieren könnte.",
+          "Der Unterschied zählt rechtlich. Viele Rechtsordnungen akzeptieren einfache elektronische Signaturen für die meisten Alltagsvereinbarungen (Arbeitspapiere, Lieferantenformulare, interne Freigaben), während bestimmte Dokumentklassen qualifizierte digitale Signaturen mit Zertifikat verlangen. Verlangt Ihr Gegenüber oder das Gesetz eine zertifikatsbasierte Signatur, ist dieses Tool das nicht — nutzen Sie einen qualifizierten Signaturdienst.",
+          "Was es Ihnen gibt: ein schneller, kostenloser Weg, Dokumente zu unterschreiben, ohne Papier zu drucken, zu scannen und zu mailen — während das Dokument vollständig auf Ihrer Maschine bleibt. Für die gewaltige Masse alltäglicher Freigaben, bei denen eine sichtbare Unterschrift genügt, deckt das den echten Bedarf.",
+        ],
+      },
+      {
+        heading: "Eine Unterschrift bekommen, die wie Sie aussieht",
+        paragraphs: [
+          "Eine mit der Maus gezeichnete Unterschrift wirkt meist schlechter als Ihre echte Handschrift. Zählt das Ergebnis optisch, gibt es zwei praktische Wege: auf einem Touchscreen zeichnen, falls vorhanden, oder auf weißes Papier unterschreiben, fotografieren, eng zuschneiden und das Bild verwenden. Eine fotografierte Unterschrift auf reinem Weiß importiert sauber und sieht exakt wie Ihre Hand aus.",
+          "Die Platzierung ist die halbe Kunst: Die Unterschrift soll dorthin, wo eine Unterschrift hingehört — über oder neben der Unterschriftslinie, nicht schwebend im Weißraum. Zoomen Sie in den Unterschriftsbereich, platzieren Sie präzise, und skalieren Sie so, dass die Größe zur Schrift des Dokuments passt; eine absatzgroße Unterschrift wirkt aufgeklebt. Prüfen Sie auch die Folgeseite, falls dort Felder weiterlaufen.",
+          "Verstehen Sie, was Sie signieren: Da dies ein Bild-Overlay ist, sperrt es das Dokument nicht. Jeder mit der Datei kann das Bild entfernen oder den Text um es herum ändern. Unterschreiben Sie eine finale Version — erst glätten und fertigstellen — und schicken Sie sie in einer Form, die Sie kontrollieren (PDF, kein editierbarer Entwurf), damit das, was signiert wurde, auch das ist, was zirkuliert.",
+        ],
+      },
+      {
+        heading: "Unterschreiben ist der intimste Akt — halten Sie ihn lokal",
+        paragraphs: [
+          "Eine Unterschrift ist der identitätsbehaftetste Akt, den man an einem Dokument vollzieht — persönlicher als der Inhalt selbst. Ihr Unterschriftsbild einer Signaturwebseite zu überlassen bedeutet, dass eine Kopie Ihrer Handschrift auf dem Server eines anderen liegt: ein wiederverwendbares Artefakt Ihrer Identität, das sich abheben und auf andere Dokumente kleben ließe. Wenige Menschen würden einem Fremden ein Blatt ihrer Unterschriften reichen; einen Upload zu tätigen ist derselbe Akt mit besserem Anstrich.",
+          "Dieses Tool signiert vollständig in Ihrem Browser: Das Dokument wird auf Ihrem Gerät verarbeitet, die Unterschrift wird lokal in die Seite gezeichnet, und die signierte Datei wird von Ihrer Maschine gespeichert. Das Unterschriftsbild wird im Speicher genutzt und nie übertragen; der ganze Vorgang funktioniert offline.",
+          "Ein Habitus, der sich beim lokalen Signieren lohnt: Bewahren Sie Ihre Unterschriftsquelle (Foto oder Zeichnung) in einem privaten Ordner auf, nicht in den allgemeinen Downloads, und erzeugen Sie das signierte PDF pro Dokument. So existiert das wiederverwendbare Unterschriftsartefakt an genau einem von Ihnen kontrollierten Ort, und jedes signierte Dokument ist eine eigene finale Datei — keine gemeinsamen Zwischenprodukte, die herumschwirren.",
+        ],
       },
     ],
   },
@@ -508,6 +950,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nein. Seiten werden bytegenau in neue Dokumente kopiert — der Text bleibt auswählbar und Bilder behalten ihre Originalqualität.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Teilen ist das Spiegelbild des Zusammenführens — genauso verlustfrei",
+        paragraphs: [
+          "Ein PDF zu teilen erzeugt neue Dokumente, die jeweils eine Untermenge der Originalseiten enthalten. Wie beim Zusammenführen arbeitet der Vorgang am Seitenbaum: Jedes Ausgabedokument erhält eine Verweisliste auf die Original-Seitenobjekte, die unverändert kopiert werden. Seiteninhalte werden nie neu gerendert oder komprimiert, also bewahrt jede Teilausgabe die Qualität der Quelle exakt — markierbarer Text, eingebettete Schriften, Bildauflösung, Anmerkungen.",
+          "Es gibt zwei gängige Teilmodi mit unterschiedlicher Anschauung. Bereichsteilen („Seiten 1-5, 6-12“) liefert benannte Pakete für die Verteilung — ein Kapitel pro Empfänger, ein Abschnitt pro Abteilung. Alle-N-Seiten-Teilen („jede 10 Seiten“) ist das Stapelwerkzeug, um einen langen Scan oder Export in verarbeitbare Einheiten zu brechen, etwa um ein Upload-Größenlimit anderswo zu erfüllen.",
+          "Was Teilen nicht tut: Inhalte innerhalb einer Seite herausziehen. Eine Seite, die zur Hälfte Ihr Geheimnis und zur Hälfte etwas Öffentliches trägt, bleibt ganz in dem Ausgabedokument, in das sie fällt. Heikle Inhalte, die sich eine Seite mit teilbaren Inhalten teilen, brauchen eine Umorganisation auf Seitenebene (oder Schwärzung, was ein eigenes, anspruchsvolleres Verfahren ist), bevor Sie teilen.",
+        ],
+      },
+      {
+        heading: "Die Schnitte planen: Bereiche, Grenzen und Dateinamen",
+        paragraphs: [
+          "Die Qualität eines Schnitts entscheidet sich, bevor Sie klicken: an den Grenzen, die Sie ziehen. Schneiden Sie an strukturellen Nähten — Kapitelanfängen, Abschnittswechseln, leeren Trennseiten —, nicht an willkürlichen Seitenzahlen. Ein Kapitel, das mitten im Paket beginnt, stört mehr als eine leicht ungleiche Verteilung. Zuerst das Inhaltsverzeichnis oder die Lesezeichenliste des Dokuments zu überfliegen ist der schnellste Weg zu natürlichen Schnittstellen.",
+          "Namen wiegen mehr als erwartet. Ausgaben eines Schnitts vermehren sich gern — und sechs Dateien namens „output_1.pdf“ bis „output_6.pdf“ garantieren Verwirrung, eine Woche später. Benennen Sie die Pakete beim Entstehen nach Inhalt („vertrag-unterschriften.pdf“, „anhang-A.pdf“); der Schnitt ist der richtige Moment, denn nur jetzt wissen Sie exakt, was jedes Paket enthält.",
+          "Ein Habitus für wiederkehrende Schnitte: Teilen Sie dasselbe lange Dokument immer auf dieselbe Weise (Monatsauszüge pro Kunde, ein Handbuch pro Kapitel), heben Sie die Bereichsliste in einer Notiz auf und nutzen Sie sie wieder. Bereiche sind stabil, solange sich die Seitenzahl der Quelle nicht ändert — und die Notiz dient zugleich als Dokumentation, wie die Sammlung organisiert ist.",
+        ],
+      },
+      {
+        heading: "Dokumente verteilen, ohne eine Mittelsmann-Kopie",
+        paragraphs: [
+          "Teilen geht der Verteilung meist voraus: Kapitel eins an die Prüfer, die Rechnungsseiten an die Buchhaltung, die öffentliche Zusammenfassung an den Kunden. Das zu teilende Dokument ist typischerweise die vollständige, heikel Masterdatei — was den Upload an einen Teilungsdienst besonders verkehrt macht: Sie übergeben das ganze Dokument, um Teile zu erzeugen, die Sie selektiv weitergeben wollen.",
+          "Dieses Tool teilt vollständig in Ihrem Browser: Das Quell-PDF wird lokal geparst, Ausgabedokumente werden im Speicher aus den von Ihnen gewählten Seitenverweisen zusammengesetzt, und jede Datei wird direkt von Ihrem Gerät gespeichert. Die Masterdatei verlässt nie Ihre Maschine, also entstehen die Teile, die Sie geheim halten, und die, die Sie verteilen, unter exakt denselben Datenschutzbedingungen.",
+          "Eine nützliche Folge: Da die Ausgaben bytegetreue Kopien der Originalseiten sind, verifizieren Sie einen Schnitt, indem Sie eine beliebige Ausgabe öffnen und prüfen, dass ihre Seiten pixelidentisch zu den entsprechenden Quellseiten sind. Kein Qualitätsaudit nötig — der Schnitt ist strukturell, nicht generativ; es gibt nichts, das überhaupt hätte degradieren können.",
+        ],
+      },
+    ],
   },
   "watermark-pdf": {
     name: "PDF-Wasserzeichen",
@@ -536,6 +1004,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Die Standard-PDF-Schriften decken lateinischen Text, Interpunktion und häufige Symbole wie © ab. Andere Schriften (Chinesisch, Japanisch, Arabisch…) werden durch ? ersetzt — halten Sie das Wasserzeichen in lateinischen Buchstaben.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Wie ein Wasserzeichen hinzukommt — und was es nicht kann",
+        paragraphs: [
+          "Ein Wasserzeichen ist ein Overlay: Das Tool zeichnet Ihren Text oder Ihr Bild über (oder unter) den Inhalt jeder Seite, an gewählter Position, Größe und Transparenz. Der ursprüngliche Seiteninhalt bleibt unberührt — derselbe Mechanismus wie bei Seitenzahlen, nur größer. Deshalb ist das Wasserzeichen sofort und für das Quelldokument verlustfrei, und deshalb bleibt die Originaldatei auf Ihrer Platte unverändert.",
+          "Die klassische Wahl ist diagonaler, halbtransparenter Text über die Seite — „ENTWURF“, „VERTRAULICH“, ein Firmenname. Die diagonale Platzierung widersteht beiläufigem Zuschneiden, und die Transparenz hält den Fließtext darunter lesbar. Unter-dem-Inhalt-Wasserzeichen (hinter der Textebene gezeichnet) wirken sauberer, können aber von Seiten verdeckt werden, die ein vollflächiges Hintergrundbild über alles malen.",
+          "Seien Sie klar darüber, was ein Wasserzeichen ist: eine Abschreckung und eine Markierung, kein Schloss. Jeder mit einfachen Werkzeugen kann ein Wasserzeichen überdecken oder den unbefleckten Inhalt herausziehen, solange die Textebene intakt ist. Wasserzeichen signalisieren Eigentum und Status („das ist der Entwurf, nicht die Fassung“) an ehrliche Leser und erschweren beiläufigen Missbrauch — einen entschlossenen halten sie nicht auf.",
+        ],
+      },
+      {
+        heading: "Designentscheidungen: Deckkraft, Position und Verhalten pro Seite",
+        paragraphs: [
+          "Die Deckkraft ist der Regler, der ein Wasserzeichen macht oder bricht. Bei rund 10–20 % Transparenz bleibt der Text voll lesbar und die Marke ist da, ohne zu schreien; über etwa 30 % beginnt sie, mit dem Inhalt zu ringen, und Leser blinzeln. Testen Sie auf der Seite mit dem dichtesten Text — ein Wasserzeichen, das auf einem luftigen Cover funktioniert, kann eine dichte Tabellenseite überrollen.",
+          "Die Position soll zur Absicht passen. Eine mittige diagonale Marke sagt „Statusetikett“ (Entwurf, vertraulich). Eine Ecken- oder Fußzeilenmarke liest sich wie ein Stempel und passt zur Zuschreibung — Firmenname, Dokumentherkunft. Bei Dokumenten, die zugeschnitten werden oder deren Ränder kürzen könnten, überlebt die Mittelplatzierung; Eckmarken nahe der Kante können beim Druck abgeschnitten werden.",
+          "Ein Feinheit, die es zu prüfen lohnt: Wasserzeichen gelten standardmäßig für jede Seite, auch für Cover und leere Trennseiten, was manchmal seltsam aussieht. Wirkt das Cover des Ergebnisses überstempelt, so ist das das gleichmäßige Overlay, das seine Arbeit gleichmäßig tut — manche Workflows watermarkieren stattdessen erst nach der Montage und ersetzen das Cover-Wasserzeichen, indem sie ein sauberes Cover obendrauf legen.",
+        ],
+      },
+      {
+        heading: "Entwürfe lokal markieren, bevor sie zirkulieren",
+        paragraphs: [
+          "Wasserzeichen landen meist genau auf den Dokumenten in Bewegung: Entwürfe für das Review, vertrauliche Auszüge zur Kommentierung, Rechnungen und Auszüge mit dem Namen des Ausstellers. Das sind Arbeitsdokumente, deren Publikum per Definition halbvertraut ist — und sie an einen Wasserzeichen-Dienst hochzuladen übergibt das unbefleckte Original einem Dritten genau in dem Moment, in dem es in Umlauf kommen soll.",
+          "Dieses Tool watermarkiert in Ihrem Browser: Seiten werden lokal verarbeitet, die Marke wird im Speicher in den Seiteninhalt gezeichnet, und das Ergebnis wird von Ihrem Gerät gespeichert. Das unbefleckte Original verlässt nie Ihre Maschine; was zirkuliert, ist nur die markierte Kopie, die Sie zu erzeugen wählten.",
+          "Es gibt auch eine Workflow-Dividende: Weil Wasserzeichen sofort und lokal sind, ist es billig, markierte Varianten pro Publikum zu erzeugen — „ENTWURF — für internes Review“ an eine Gruppe, eine Kopie mit dem Empfängernamen an eine andere. Solche Empfänger-Markierung ist die klassische Leck-Rückverfolgung, und sie wird erst praktisch, wenn jede Variante Sekunden und null Uploads kostet.",
+        ],
+      },
+    ],
   },
   "word-to-pdf": {
     name: "Word zu PDF",
@@ -562,6 +1056,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Werden alte .doc-Dateien oder nicht-lateinischer Text unterstützt?",
         a: "Nur .docx wird unterstützt. Der Text nutzt die PDF-Standardschriften, lateinischbasierte Sprachen rendern also korrekt, während andere Schriften (Chinesisch, Arabisch…) vorerst durch ? ersetzt werden.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Warum Word-zu-PDF meist die verlässliche Richtung ist",
+        paragraphs: [
+          "Die Wandlung zwischen Word und PDF ist asymmetrisch, und Word-zu-PDF ist die leichte Richtung. Ein Word-Dokument hat alle Struktur, die ein Renderer braucht — Text, Formatvorlagen, Tabellen, Bilder, Seitenlayout —, und ein PDF zu erzeugen heißt schlicht, diese Struktur in das Seitenbeschreibungsformat zu rendern. Kein Erraten im Spiel: Was Sie in Word sehen, wird gezeichnet.",
+          "Deshalb ist das Ergebnis einer guten Word-zu-PDF-Wandlung von Konstruktion wegen treu: Schriften, Abstände, Tabellen und Umbrüche landen wie beabsichtigt, und das PDF friert sie ein, sodass jeder Viewer auf jedem Gerät dasselbe zeigt. Dieses Einfrieren ist der ganze Sinn des Formats — ein Vertrag, der auf Ihrem Laptop, auf dem Handy des Empfängers und in der Druckvorstufe identisch aussieht.",
+          "Die Zuverlässigkeitsasymmetrie zählt für die Planung: Wandeln Sie Word-zu-PDF im letzten Moment, wenn das Dokument fertig ist, und planen Sie nie, zurück nach Word zu konvertieren, um weiterzueditieren. PDF-zu-Word ist Rekonstruktion (und verlustbehaftet in der Struktur); die .docx-Datei selbst ist die Masterkopie, die Sie behalten.",
+        ],
+      },
+      {
+        heading: "Schriften, Felder und die Checkliste vor der Wandlung",
+        paragraphs: [
+          "Schriften sind die klassische Word-zu-PDF-Falle. Nutzt das Dokument eine Schrift, die auf der wandelnden Maschine nicht installiert ist, substituiert der Renderer eine ähnliche, und die Abstände verschieben sich sacht — eine Unterschriftslinie kann driften, eine Tabelle anders umbrechen. Gute Wandlung bettet die gerenderten Schriften ein, das Ergebnis ist also in sich geschlossen; aber die richtige Schrift muss zum Wandlungszeitpunkt vorhanden sein. Auf der Maschine zu wandeln, auf der das Dokument entstand, ist der sichere Standard.",
+          "Prüfen Sie die lebenden Teile vor der Wandlung: Inhaltsverzeichnisfelder, Seitenzahlverweise und Querverweise sollten aktualisiert sein (Strg+A, dann F9 in Word), damit das PDF endgültige Zahlen trägt, nicht veraltete. Prüfen Sie auch, ob das Dokument Kommentare oder nachverfolgte Änderungen enthält — ob diese ins PDF geraten, hängt vom Renderer ab, und ein PDF mit sichtbaren Markierungen an einen Vertragspartner zu schicken ist der klassische Offenlegungsunfall.",
+          "Noch ein Habitus: Vergleichen Sie nach der Wandlung die Seitenzahlen und werfen Sie einen Blick auf die erste und letzte Seite. Hat das PDF eine Seite mehr oder weniger als Word anzeigt, hat etwas neu umbrochen — meist eine Schriftsubstitution —, und das zu finden, ist vor dem Senden besser als danach.",
+        ],
+      },
+      {
+        heading: "Finale Dokumente werden lokal finalisiert",
+        paragraphs: [
+          "Word-zu-PDF ist der Schritt, der die offizielle Form eines Dokuments erzeugt: der Lebenslauf zur Einreichung, die Rechnung zum Versand, die Abschlussarbeit zur Hinterlegung, der Vertrag zur Unterschrift. Diese finalen Artefakte sind die schützenswertesten — und auch die, die am häufigsten auf Wandlungsseiten hochgeladen werden; die nahezu finale Version Ihres Lebenslaufs oder Vertrags liegt also auf dem Server eines Fremden, bevor Sie sie je an den echten Empfänger schicken.",
+          "Dieses Tool rendert die Wandlung vollständig in Ihrem Browser: Die Dokumentstruktur wird auf Ihrem Gerät verarbeitet, das PDF im Speicher erzeugt, und das Ergebnis wird lokal gespeichert. Nichts wird in irgendeiner Phase hochgeladen — die finale Version Ihres Dokuments existiert an genau zwei Orten: in Ihrer .docx und im PDF, beide auf Ihrer Maschine.",
+          "Lokale Wandlung macht auch Versionsdisziplin praktisch: Da jede Wandlung Sekunden kostet, erzeugen Sie das PDF nach jeder Änderung neu, statt ein veraltetes zu pflegen — das PDF stimmt stets mit der letzten .docx. Dieser Habitus beseitigt das klassische Problem „welche Version habe ich geschickt?“ völlig, und er funktioniert nur, wenn Wandeln frei von Upload-Reibung ist.",
+        ],
       },
     ],
   },

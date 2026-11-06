@@ -36,6 +36,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Những PDF rất đơn giản, thuần văn bản vốn đã tối ưu nên có thể không nén được thêm — bảng kết quả sẽ nói thật với bạn. Hạ DPI hoặc chất lượng rồi thử lại, hoặc chấp nhận rằng bản gốc đã nhẹ.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Có mất dữ liệu hay không: nén thực sự làm gì với một PDF",
+        paragraphs: [
+          "PDF không phải là bức ảnh của các trang — nó là một chương trình mô tả chúng. Văn bản được lưu dưới dạng glyph và tọa độ, đồ họa vector dưới dạng lệnh vẽ, còn ảnh là bitmap nén nhúng bên trong. Chính cấu trúc này giải thích vì sao một PDF một trang thuần văn bản chỉ nặng vài kilobyte, trong khi cùng trang đó raster hóa ở 150 DPI có thể nặng gấp trăm lần. Khi một PDF trở nên nặng nề, cân nặng gần như luôn nằm ở các ảnh nhúng: hình chụp, logo và trên hết là bản scan — nơi mỗi trang là một bitmap khổng lồ.",
+          "Công cụ này chủ động chọn con đường raster hóa: mỗi trang được vẽ lại ở DPI bạn chọn rồi mã hóa lại thành JPEG. Đó là nén có mất dữ liệu — chữ chọn được biến thành điểm ảnh — và chúng tôi nói thẳng điều đó, vì nhiều công cụ hay giấu khuyết điểm này. Đổi lại bạn nhận được sự dự đoán được: một bản scan 40 MB lưu dưới dạng bitmap nén kém sẽ thành vài trăm kilobyte JPEG được tinh chỉnh tốt, và ở 150 DPI bản in ra nhìn chung khó phân biệt bằng mắt với bản gốc.",
+          "Với PDF nhiều bản scan, không có lối tắt nào thực sự không mất dữ liệu, vì dữ liệu nguồn vốn dĩ đã là điểm ảnh. Với PDF văn bản và vector, các mẹo không mất dữ liệu (xóa đối tượng trùng lặp, nén lại luồng dữ liệu) có tồn tại nhưng thường chỉ tiết kiệm được vài phần trăm — vì vậy công cụ nói thật khi một file hầu như không nhỏ lại: nếu các trang vốn đã gọn nhẹ, không còn gì để bóp mà không chấp nhận mất dữ liệu.",
+        ],
+      },
+      {
+        heading: "Chọn DPI và chất lượng: một bảng quyết định",
+        paragraphs: [
+          "DPI (điểm mỗi inch) quyết định mỗi trang được vẽ bằng bao nhiêu điểm ảnh; chất lượng JPEG quyết định những điểm ảnh đó bị nén mạnh đến đâu. Hai con số này nhân với nhau: một trang khổ letter ở 72 DPI có khoảng 612×792 điểm ảnh, ở 150 DPI khoảng 1275×1650 — gấp gần bốn lần. Để đọc trên màn hình, 72–96 DPI là đủ dư, vì màn hình laptop điển hình vốn hiển thị trang PDF ở đúng độ phân giải hiệu dụng ấy. Để in ấn, 150 DPI là mức sàn thực tế cho chữ in đọc được; 300 DPI chỉ cần thiết cho ảnh in hoặc chữ nhỏ mà bạn định phóng to.",
+          "Chất lượng JPEG ít quan trọng hơn người ta tưởng trong khoảng 60 đến 80 — đó thường là vùng ngọt ngào nơi lỗi nén không nhìn ra trên tài liệu. Dưới khoảng 50, các khối lỗi vuông của JPEG bắt đầu làm nhòe mép chữ và những quầng xám xuất hiện quanh các ký tự. Chế độ xám là đòn bẩy thứ ba thầm lặng: một bản scan đen trắng lưu dưới dạng màu lãng phí hai phần ba số bit, nên chỉ riêng việc chuyển sang xám thường cắt bớt một phần ba dung lượng trở lên mà không chênh lệch gì nhìn thấy được.",
+          "Quy trình hiệu quả là: nén thử một file đại diện trước, mở kết quả ở mức thu phóng 100% và kiểm tra chữ nhỏ nhất mà bạn quan tâm. Nếu đọc rõ ràng, hãy áp thông số đó cho cả lô. Bảng trước/sau hiển thị mức tiết kiệm theo từng file, nên những điểm bất thường (file hầu như không co lại) hiện ra ngay lập tức thay vì bị giấu trong con số trung bình.",
+        ],
+      },
+      {
+        heading: "Vì sao xử lý cục bộ lại quan trọng với tài liệu",
+        paragraphs: [
+          "PDF là một container và, khác với ảnh, thường mang theo nhiều hơn nội dung hiển thị: giá trị trường biểu mẫu, chú thích, font nhúng, đôi khi cả tệp đính kèm và metadata tiết lộ tác giả, phiên bản phần mềm và lịch sử chỉnh sửa. Tải một file như vậy lên dịch vụ nén nghĩa là trao đi tất cả những thứ đó — đa số mọi người chưa bao giờ kiểm tra bên trong file trước khi bấm tải lên. Hợp đồng, hồ sơ y tế, bảng lương và giấy tờ tùy thân đã scan chính là những file được nén nhiều nhất, và cũng chính là những file ít đáng để tải lên nhất.",
+          "Công cụ này chạy hoàn toàn trong trình duyệt của bạn: file được đọc vào bộ nhớ trên thiết bị, vẽ lại bằng canvas và mã hóa lại bằng JavaScript, không bao giờ được truyền đi đâu cả. Không có hàng đợi phía máy chủ, không có thời gian lưu trữ nào để phải tin tưởng, không có chính sách xóa nào để phải xác minh. Bạn có thể ngắt mạng giữa chừng quá trình nén và nó vẫn hoàn tất.",
+          "Trên thực tế, điều này cũng thay đổi quy trình làm việc. Vì không có gì được tải lên nên không có thời gian chờ và không có giới hạn dung lượng từ băng thông — một lô bản scan 200 MB chạy mượt như lô 2 MB, giới hạn duy nhất là bộ nhớ máy bạn. File nén xong được ghi bằng cơ chế tải xuống của chính trình duyệt, nên nó nằm trong thư mục Downloads như bất kỳ file nào bạn tự lưu.",
+        ],
+      },
+    ],
   },
   "delete-pdf-pages": {
     name: "Xóa trang PDF",
@@ -62,6 +88,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Đánh số trang thay đổi thế nào?",
         a: "Các trang tự khép lại: sau khi xóa trang 2-4, trang 5 cũ trở thành trang 2. Các liên kết nội bộ trỏ tới trang đã xóa có thể ngừng hoạt động.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Xóa trang đụng vào cây trang, không đụng vào nội dung",
+        paragraphs: [
+          "Bên trong một PDF có cây trang: một danh sách có thứ tự các tham chiếu, mỗi tham chiếu trỏ tới một đối tượng trang, mà đối tượng trang lại trỏ tới các luồng nội dung, font và ảnh của nó. Xóa một trang là thao tác trên cây này — tham chiếu bị gỡ khỏi danh sách — trong khi các luồng nội dung, font và ảnh của trang đó chỉ đơn giản là không còn được tham chiếu và bị bỏ đi. Không một chút gì của các trang còn lại bị vẽ lại, mã hóa lại hay thay đổi theo bất kỳ cách nào.",
+          "Điều này có một hệ quả thực dụng đáng biết: xóa trang là thao tác hoàn toàn không mất dữ liệu đối với những trang bạn giữ lại. Font vẫn nhúng nguyên như cũ, độ phân giải ảnh không bị đụng tới, chữ vẫn chọn được, và thậm chí số đối tượng nội bộ của các trang còn lại thường giữ nguyên. Khác với nén, ở đây không có núm chỉnh chất lượng nào vì không có gì bị xử lý lại.",
+          "Chiều ngược lại cũng đúng: bất cứ thứ gì nằm trên các trang bị xóa sẽ biến mất hoàn toàn. Nếu một trang chứa chú thích hoặc lớp ẩn mà bạn cần, hãy chắc chắn nó nằm trên trang được giữ lại — công cụ làm việc ở cấp độ trang và không thể bốc nội dung từ trang này sang trang khác. Muốn vậy, hãy dùng quy trình trích xuất hoặc gộp file.",
+        ],
+      },
+      {
+        heading: "Những bẫy thường gặp khi xóa trang",
+        paragraphs: [
+          "Lỗi phổ biến nhất là đếm nhầm vì trình xem hiển thị và thứ tự trang nội bộ không khớp nhau. Nhãn trang — những con số “1, 2, iii, A-4” in ở góc PDF — chỉ là lớp hiển thị đè lên trình tự thật; một tài liệu mà nhãn đếm lại từ đầu mỗi chương vẫn có một trình tự trang tuyến tính duy nhất bên dưới. Công cụ này luôn làm việc trên trình tự thật, hiển thị dạng 1..N, nên hãy xác minh vị trí bằng nội dung chứ không phải bằng nhãn in sẵn.",
+          "Bẫy thứ hai là xóa những trang mà trang khác phụ thuộc vào. Một mục lục hay chỉ mục ghi “xem trang 12” chứa tham chiếu văn bản thuần (hoặc trong những tài liệu tốt hơn là chú thích liên kết trỏ tới đối tượng trang). Nếu bạn xóa trang 12, tham chiếu văn bản âm thầm hỏng và liên kết có thể chết hoặc nhảy đến sai chỗ. Công cụ sẽ không cảnh báo về điều này — không công cụ nào làm được đáng tin — nên hãy lướt qua tài liệu tìm các tham chiếu chéo trước khi xóa số lượng lớn.",
+          "Thứ ba, nhớ rằng một số trình xem có bộ nhớ đệm file cũ. Nếu bản đã xóa trông chẳng thay đổi, hãy đóng rồi mở lại PDF, hoặc kiểm tra dung lượng — file mới phải nhỏ hơn. Và nếu tài liệu là biểu mẫu mà các trang sau chứa định nghĩa trường được tham chiếu từ trước, hãy thử lại biểu mẫu sau khi chỉnh sửa.",
+        ],
+      },
+      {
+        heading: "Vì sao file không bao giờ rời khỏi thiết bị của bạn",
+        paragraphs: [
+          "Xóa trang vốn dĩ thường được làm vì lý do riêng tư: bỏ trang chứa dữ liệu cá nhân, phụ lục lương thưởng, hay bản thảo chưa đáng lưu hành. Gửi chính file đó lên một dịch vụ web để xóa thì phản lại mục đích ban đầu — chính trang bạn muốn biến mất giờ nằm trong hàng đợi và nhật ký của người khác. Công cụ này thực hiện việc chỉnh sửa cục bộ, ngay trong trình duyệt, nên file không hề đi qua mạng ở bất kỳ thời điểm nào.",
+          "Cơ chế hoàn toàn phía máy khách: PDF được phân tích bằng JavaScript, các tham chiếu trang bạn chọn bị gỡ khỏi cây, và file mới được ghi thẳng vào thư mục tải xuống. Không cần tài khoản, không thanh tiến trình tải lên, không chính sách lưu trữ nào phải tin mù quáng. Mất mạng thì nó vẫn hoạt động y hệt.",
+          "Một thói quen hữu ích sau khi xóa: chạy tìm kiếm văn bản trên kết quả với những từ khóa từng có trên các trang đã bỏ. Mười giây kiểm tra ấy xác nhận nội dung nhạy cảm đã thật sự biến mất khỏi file đầu ra — và nó cũng nhắc bạn rằng xóa ở đây là xóa cả trang, chứ không phải xóa từng từ trong một trang.",
+        ],
       },
     ],
   },
@@ -92,6 +144,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — trang PDF là tĩnh nên bạn chỉ nhận được khung hình đầu tiên. Hãy chuyển ảnh động thành video hoặc chia sẻ chính file GIF.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao ảnh và PDF là hai loài khác nhau",
+        paragraphs: [
+          "File JPEG hay PNG là một lưới điểm ảnh phẳng, không có khái niệm trang, khổ giấy hay bố cục — nó chỉ đơn thuần là một ảnh. PDF ngược lại là định dạng mô tả trang: nó định nghĩa các trang với kích thước vật lý (tính bằng point, trong đó 72 point bằng một inch) và đặt nội dung lên những trang ấy. Chuyển ảnh thành PDF vì thế là một quyết định bố cục thực sự, chứ không chỉ đổi đuôi file.",
+          "Công cụ này bọc mỗi ảnh trong một trang PDF có kích thước đúng bằng ảnh, giữ nguyên dữ liệu điểm ảnh gốc thay vì nén lại. Vì vậy việc chuyển ảnh sang PDF theo cách này là không mất chất về mặt hình ảnh: những điểm ảnh bạn thấy trong kết quả chính là những điểm ảnh bạn đưa vào. Dung lượng cũng gần bằng tổng các ảnh, vì PDF chỉ là cái vỏ chứa.",
+          "Đáng hiểu thêm về hướng ngược lại: một số bộ chuyển mã hóa lại toàn bộ thành một mức chất lượng JPEG duy nhất, có thể âm thầm làm hỏng PNG chứa chữ sắc nét hoặc line art. Giữ nguyên dữ liệu ảnh gốc bên trong container PDF tránh hoàn toàn kiểu hỏng ấy — ảnh chụp màn hình của bạn vẫn sắc nét trong PDF như khi nó nằm ngoài.",
+        ],
+      },
+      {
+        heading: "Thứ tự, hướng trang và ghép nhiều trang",
+        paragraphs: [
+          "Vì PDF là một chuỗi trang có thứ tự, thứ tự bạn thêm ảnh chính là thứ tự trang của tài liệu. Với hợp đồng scan, sổ biên nhận hay bộ ảnh, thói quen đáng tin là sắp ảnh theo tên file trước khi thêm — tên file sắp theo thứ tự xác định, còn trí nhớ kiểu “chắc mình đã tải theo đúng thứ tự” thì không. Sắp lại sau đó vẫn khả thi bằng công cụ sắp trang, nhưng làm đúng ngay từ lúc thêm thì đỡ tốn công hơn.",
+          "Kích thước lẫn lộn là chuyện bình thường và được xử lý theo từng trang: một lô ảnh lẫn ngang lẫn dọc sẽ cho ra các trang khớp với tỷ lệ từng ảnh. Nếu cần khổ giấy thống nhất (ví dụ A4 để in), hãy chạy kết quả qua bước cắt hoặc đổi kích thước sau đó — bọc ảnh ở kích thước gốc trước rồi chuẩn hóa sẽ hơn là cố ép mọi thứ vào một khổ ngay khi tạo.",
+          "Một lưu ý về độ phân giải: trang PDF lấy kích thước điểm ảnh của ảnh tính theo 72 điểm ảnh mỗi inch, nên ảnh rộng 3000 điểm ảnh sẽ thành một trang rất lớn. Điều đó đúng cho lưu trữ và thu phóng; còn để in đúng khổ, điều quan trọng là ảnh nguồn có đủ điểm ảnh cho cỡ in đích — việc bọc vào PDF không làm thay đổi điều đó theo cách nào cả.",
+        ],
+      },
+      {
+        heading: "Ảnh của bạn ở lại trên thiết bị",
+        paragraphs: [
+          "Ảnh chụp và bản scan thuộc nhóm file cá nhân nhất mà người ta có — hình gia đình, scan giấy tờ tùy thân, biên lai, ảnh y tế. Gửi chúng lên một dịch vụ chuyển đổi trực tuyến nghĩa là các bản sao đã nằm trên kho lưu trữ của người khác trước khi bạn kịp xem kết quả. Công cụ này bọc ảnh hoàn toàn trong trình duyệt của bạn: ảnh được đọc từ đĩa vào bộ nhớ, nhúng vào các đối tượng trang PDF bằng JavaScript, và file hoàn chỉnh được ghi ngay tại máy. Không tải lên, không bản sao trên máy chủ, không lưu giữ gì cả.",
+          "Vì không có sự truyền tải, trần giới dung lượng cũng biến theo. Các dịch vụ trực tuyến thường giới hạn tải lên 10–20 MB hoặc hạn chế người dùng miễn phí; ở đây, một thư mục 50 ảnh lớn chuyển đổi mượt như ba ảnh, giới hạn duy nhất là bộ nhớ thiết bị. Chuyển hàng loạt còn nhanh hơn vì không có vòng đi-về qua mạng — bước chậm nhất là đĩa của bạn chứ không phải băng thông của ai đó.",
+          "Một thói quen riêng tư đáng áp dụng: ảnh chụp từ điện thoại mang metadata EXIF gồm cả tọa độ GPS. Việc nhúng chúng vào PDF giữ nguyên dữ liệu đó như trong ảnh gốc. Nếu bạn chia sẻ PDF đã chuyển rộng rãi, hãy cân nhắc xóa dữ liệu vị trí ngay từ nguồn — bọc ảnh vào PDF không thêm cũng không bớt metadata, nó chỉ bảo toàn những gì vốn có.",
+        ],
+      },
+    ],
   },
   "jpg-to-pdf": {
     name: "JPG sang PDF",
@@ -118,6 +196,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có thể trộn JPG với PNG hoặc định dạng khác?",
         a: "Có — dùng công cụ tổng quát Ảnh sang PDF cho các lô lẫn loại; nó tự chuyển các định dạng khác trước khi nhúng.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Từ thư viện ảnh sang tài liệu: vì sao chuyển đổi này tồn tại",
+        paragraphs: [
+          "Các cơ quan nhà nước không chấp nhận hai mươi tệp JPEG rời rạc. Đơn thuê nhà, yêu cầu bồi thường bảo hiểm, báo cáo chi phí — họ muốn một file PDF duy nhất, các trang theo thứ tự, có thể in, đóng dấu và lưu trữ như một tài liệu giấy. Đó là toàn bộ lý do JPG-to-PDF tồn tại: biến một đống ảnh thành một tài liệu có phân trang, có thứ tự, gói trong một file mà các hệ thống hành chính có thể xử lý.",
+          "Bản thân chuyển đổi rất đơn giản về cấu trúc: mỗi JPEG thành một trang PDF, và dữ liệu nén JPEG thậm chí có thể được nhúng nguyên vẹn, vì PDF hỗ trợ JPEG (DCTDecode) như một bộ lọc ảnh gốc. Một bộ chuyển tốt không giải nén rồi nén lại ảnh của bạn — nó bọc các byte sẵn có vào container trang, nghĩa là không mất chất và gần như không tăng dung lượng.",
+          "Cái bạn quyết định còn quan trọng hơn cái công cụ làm: thứ tự ảnh trở thành thứ tự trang, và độ phân giải từng ảnh quyết định trang hiển thị thế nào khi thu phóng hay in. Việc của công cụ là không làm phiền — không nén lại ép buộc, không đổi kích thước bất ngờ, chỉ gói gọn trung thực.",
+        ],
+      },
+      {
+        heading: "Thói quen ghép file thực dụng giúp khỏi làm lại",
+        paragraphs: [
+          "Đặt tên file có số ở đầu trước khi bắt đầu: 01-bia.jpg, 02-trong.jpg, 03-chu-ky.jpg. Thứ tự tên file là thứ tự duy nhất mà mọi bên cùng công nhận, và nó sống sót qua mọi phương thức chuyển file — ứng dụng nhắn tin, thư mục đám mây, email. Ảnh chụp thẳng từ máy ảnh sắp theo dấu thời gian, ổn cho bộ ảnh theo trình tự thời gian nhưng vô dụng với “thứ tự tài liệu” theo cấu trúc một biểu mẫu.",
+          "Kiểm tra hướng ảnh trước khi chuyển. Ảnh chụp xoay máy dựa vào cờ hướng EXIF, và một số trình xem PDF tôn trọng cờ này trong khi số khác không, khiến người nhận thấy các trang nằm ngang. Nếu ảnh hiển thị thẳng trong trình quản lý file nhưng lại nằm ngang trong PDF thành phẩm, thủ phạm là cờ EXIF — xoay hẳn các điểm ảnh sẽ sửa vĩnh viễn.",
+          "Với tài liệu để in, hãy cân nhắc khổ trang có cần thống nhất không. Bọc mỗi ảnh theo kích thước riêng thì ổn khi xem và lưu trữ; còn để in, khổ trang lẫn lộn gây ra bất ngờ về tỉ lệ tại nhà in. Chuyển đổi trước, rồi chuẩn hóa khổ trang trong một bước sau, giúp mỗi bước đơn giản và dễ quay lại.",
+        ],
+      },
+      {
+        heading: "Ảnh, giấy tờ tùy thân và câu hỏi xử lý cục bộ",
+        paragraphs: [
+          "Những thứ người ta chuyển bằng công cụ này thường trùng khớp với những thứ nhạy cảm nhất: scan hộ chiếu để làm visa, ảnh thẻ để xác minh tài khoản, biên lai còn hiện số thẻ. Tải chúng lên trang chuyển đổi nghĩa là một bản sao giấy tờ tùy thân của bạn nằm trên một máy chủ xa lạ, chịu một chính sách lưu giữ xa lạ, trước cả khi bạn kiểm tra kết quả.",
+          "Công cụ này đóng gói ngay trong trình duyệt của bạn: JPEG được đọc cục bộ, nhúng vào cấu trúc PDF bằng JavaScript, và kết quả được lưu bởi chính thiết bị. File không đi qua mạng theo bất kỳ hướng nào, nên không có nhật ký máy chủ, không bản sao của bên thứ ba, không câu chuyện về xóa dữ liệu phải tin.",
+          "Còn một khoản lời thực dụng: không thời gian tải lên và không giới hạn dung lượng nghĩa là bạn có thể chuyển cả thư mục — năm mươi ảnh khảo sát bất động sản, cả hộp biên lai — trong một lượt. Các dịch vụ phụ thuộc mạng buộc bạn chia lô và chờ đợi; còn cục bộ, giới hạn duy nhất là bộ nhớ thiết bị, và toàn bộ công việc thường xong trong vài giây.",
+        ],
       },
     ],
   },
@@ -148,6 +252,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc gộp diễn ra cục bộ trong trình duyệt bằng JavaScript. Không gì được gửi đến máy chủ nào, và PDF gộp được tạo ngay trên thiết bị của bạn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Gộp file là phẫu thuật cây trang, không phải vẽ lại",
+        paragraphs: [
+          "Nỗi lo phổ biến về gộp PDF là công cụ sẽ “xử lý lại” các trang — mã hóa lại ảnh, vẽ lại chữ, âm thầm giảm chất lượng. Trong một bộ gộp làm đúng cách, không điều nào trong số đó xảy ra. Các trang của mỗi PDF sống trong một cây tham chiếu nội bộ, và gộp file là ghép những cây ấy vào một tài liệu mới: thứ tự trang được nối tiếp nhau, các tham chiếu được đánh số lại để tránh xung đột, nhưng bản thân các luồng nội dung, font và ảnh được sao chép từng byte nguyên vẹn.",
+          "Vì vậy một phép gộp tốt là không mất chất theo đúng nghĩa cấu trúc. Chữ vẫn chọn được, độ phân giải ảnh nguyên vẹn, đồ họa vector giữ nguyên các đường cong. Các trang đầu ra, xét về nội dung, không thể phân biệt với trang đầu vào — thứ thay đổi chỉ là “mục lục” của container, nói cho đúng.",
+          "Có hai thực tế cấu trúc đáng biết. Thứ nhất, đánh số trang bắt đầu lại: trang 1 của tài liệu B nối tiếp trang cuối của tài liệu A, bất kể nhãn in sẵn. Thứ hai, dấu trang, liên kết và điểm đến được đặt tên có thể sống sót hoặc không, tùy mức cẩn thận của bộ gộp khi ánh xạ lại tham chiếu nội bộ — những công cụ chỉ ghép cây trang có thể để liên kết nội bộ treo lơ lửng.",
+        ],
+      },
+      {
+        heading: "Thứ tự, file trùng và danh mục kiểm tra trước khi gộp",
+        paragraphs: [
+          "Thứ tự gộp là thứ tự bạn thêm file, và đó cũng là lỗi phổ biến nhất: đóng trang bìa sau phụ lục. Thói quen đáng tin là đặt tiền tố số vào tên file nguồn (01-hop-dong.pdf, 02-phu-luc.pdf) để thứ tự mong muốn hiện ra ngay lập tức và sống sót qua mọi kiểu sắp xếp của hộp thoại chọn file. Kiểm tra lại trình tự trên đầu ra trước khi phát hành — lật thử hai giây bắt được điều mà một giờ xấu hổ không cứu nổi.",
+          "Khổ trang lẫn lộn là hợp lệ trong PDF và gộp sạch sẽ, nhưng hãy nghĩ đến người nhận: một tài liệu mà trang A4 xen kẽ trang khổ letter sẽ in xấu ở mọi máy. Nếu các nguồn khác khổ nhau, hãy quyết định trước khi gộp: chuẩn hóa khổ sau đó, hoặc chấp nhận sự lẫn lộn.",
+          "Một mục danh sách nữa: biểu mẫu. Gộp hai PDF cùng chứa trường biểu mẫu có thể va chạm tên trường — hai trường cùng tên “chu_ky” có thể chung một giá trị, gõ vào một là tự động điền cả hai. Làm phẳng các file trước khi gộp là cách trị chuẩn, vì trang đã làm phẳng không còn cơ chế trường nào nữa.",
+        ],
+      },
+      {
+        heading: "Ghép tài liệu mà không tải lên cả hai",
+        paragraphs: [
+          "Gộp file thường được làm chính với những file không bao giờ đáng tải lên: hợp đồng kèm phụ lục, đơn xin kèm scan giấy tờ, báo cáo y tế kèm tóm tắt chẩn đoán hình ảnh. Gửi cả hai phần lên một dịch vụ gộp trực tuyến tạo ra một tài liệu hợp nhất trên máy chủ của người khác — phiên bản đầy đủ và nhạy cảm nhất của hồ sơ của bạn, gói trong một file tiện lợi, trong nhật ký của họ.",
+          "Công cụ này thực hiện phép ghép hoàn toàn trong trình duyệt. Cả hai PDF nguồn được phân tích bằng JavaScript ngay trên thiết bị, các cây trang được nối trong bộ nhớ, và file gộp xong được ghi thẳng vào thư mục tải xuống. Không một phần nào của hai tài liệu được truyền đi, xếp hàng hay lưu trữ ở đâu cả, và việc gộp vẫn y hệt khi rút cáp mạng.",
+          "Còn một lợi thế thông lượng: không có vòng tải lên-tải xuống, gộp cả file lớn — hồ sơ scan 100 MB cộng phụ lục 50 MB — xong trong vài giây, giới hạn chỉ là bộ nhớ cục bộ. Điều đó khiến việc gộp vào cuối mỗi phiên làm việc trở nên khả thi, giữ một file gốc gọn gàng cho mỗi dự án thay vì rải mảnh vụn khắp hộp thư.",
+        ],
+      },
+    ],
   },
   "ocr-pdf": {
     name: "OCR PDF",
@@ -176,6 +306,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không đáng tin. Tesseract được huấn luyện trên chữ in — typography ngay ngắn thì ổn, chữ viết tay khó đọc thường ra rác.",
       },
     ],
+    deepDive: [
+      {
+        heading: "OCR có thể và không thể khôi phục gì từ một trang scan",
+        paragraphs: [
+          "Một bản scan chỉ là tấm ảnh chụp giấy — máy tính nhìn thấy điểm ảnh xám, chứ không phải chữ cái. OCR (nhận dạng ký tự quang học) là quá trình nhận ra hình dạng chữ trong các điểm ảnh đó và gắn văn bản nhận được vào trang như một lớp vô hình, tìm kiếm được, nằm dưới ảnh gốc. Sau OCR, bạn có thể chọn chữ, tìm một cụm từ, sao chép một đoạn — dù trang nhìn thấy vẫn là tấm ảnh scan.",
+          "Giới hạn trung thực thì quan trọng. Độ chính xác của OCR phụ thuộc vào chất lượng scan trước hết: scan 300 DPI của chữ in sạch nhận dạng rất tốt, trong khi ảnh chụp độ phân giải thấp, trang bị nghiêng, bản photocopy mờ và chữ viết tay xấu đi rất nhanh. Văn bản nhận được không bao giờ đảm bảo hoàn hảo — một vết bẩn có thể thành một ký tự sai, và chi tiết trọng yếu như số tiền hay tên riêng xứng đáng được người đọc soát lại trước khi bạn tin vào văn bản trích xuất.",
+          "OCR thật sự không thể làm gì: khôi phục chữ không đọc được trong ảnh, dịch thuật, hay cứu một bản scan hỏng căn bản. Nếu mắt người còn chật vật với một trang, máy nhận dạng sẽ chật vật hơn. Scan lại ở độ phân giải cao hơn thường là khoản đầu tư tốt hơn mọi hậu xử lý.",
+        ],
+      },
+      {
+        heading: "Cài đặt ngôn ngữ và khả năng tìm kiếm: để có đầu ra dùng được",
+        paragraphs: [
+          "OCR có nhận thức ngôn ngữ, và chọn sai ngôn ngữ là kẻ giết chất lượng phổ biến nhất. Bộ máy nhận dạng chấm điểm chuỗi ký tự dựa trên thống kê của ngôn ngữ đã chọn — chạy văn bản tiếng Việt qua mô hình chỉ có tiếng Anh thì mọi ký tự có dấu đều đáng ngờ, và ơ, ư, ệ tan ra thành nhiễu. Tài liệu đa ngôn ngữ cần bật đúng các ngôn ngữ tương ứng, nếu không các đoạn ngôn ngữ thiểu số sẽ thành vô nghĩa.",
+          "Khả năng tìm kiếm còn một tầng nữa: lớp văn bản nhận dạng nằm sau ảnh, nên tìm kiếm trong trình xem sẽ ra cụm từ và nhảy đúng trang, nhưng các điểm ảnh bên dưới vẫn nguyên vẹn. Đó là cấu trúc “bánh mì kẹp” chuẩn mà mọi sản phẩm OCR nghiêm túc đều cho ra, và nó nghĩa là kho tài liệu của bạn giữ nguyên diện mạo gốc trong khi có thêm tìm kiếm toàn văn — cả hai lợi thế cùng lúc cho việc lưu trữ hồ sơ.",
+          "Một quy trình thực dụng cho kho lưu trữ: OCR cả lô một lần với đúng ngôn ngữ, rồi kiểm tra ngẫu nhiên bằng cách tìm vài cụm từ đã biết (một cái tên, một ngày, một số hóa đơn). Nếu tìm ra, lớp văn bản hoạt động; nếu không, hoặc ngôn ngữ sai hoặc chất lượng scan dưới ngưỡng nhận dạng — kết quả tìm kiếm chỉ cho bạn những trang nào cần scan lại.",
+        ],
+      },
+      {
+        heading: "Nhận dạng ngay trên thiết bị, không phải trong kho của ai đó",
+        paragraphs: [
+          "Những tài liệu cần OCR thường lệch hẳn về phía nhạy cảm: sổ thuế cũ, hồ sơ y tế, hồ sơ nhân sự, giấy tờ nhà đất, bảng điểm. Đưa chúng qua một dịch vụ OCR web nghĩa là toàn bộ văn bản đọc được của hồ sơ bạn — đã được trích xuất, lập chỉ mục, tìm kiếm được bằng máy — nằm trên hạ tầng mà bạn không biết gì về nó. Văn bản còn dễ mang đi hơn cả ảnh scan: một khi đã trích xuất, nó có thể bị sao chép, lập chỉ mục hay khai thác mà bạn không hề hay biết.",
+          "Công cụ này nhận dạng chữ hoàn toàn trong trình duyệt của bạn: các trang scan được xử lý trên thiết bị, lớp văn bản được gắn cục bộ, và PDF tìm kiếm được được ghi thẳng ra đĩa. Không trang nào trong kho của bạn được tải lên, không văn bản trích xuất nào rời khỏi máy. Hoạt động offline cũng vậy — rất hợp với những kho tài liệu vì lý do chính đáng mà sống trên máy không nối mạng.",
+          "Hãy chuẩn bị một sự đánh đổi bạn nên biết trước: nhận dạng trong trình duyệt với một lô lớn tốn thời gian và bộ nhớ, vì phép tính diễn ra trên phần cứng của bạn thay vì trung tâm dữ liệu. Bản scan 20 trang là vài giây; kho 500 trang là một ly cà phê. Khoản thu là bước riêng tư nhất của việc số hóa hồ sơ diễn ra hoàn toàn trong tay bạn.",
+        ],
+      },
+    ],
   },
   "page-numbers-pdf": {
     name: "Thêm số trang vào PDF",
@@ -198,6 +354,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Số trang có nhất quán giữa các khổ giấy?",
         a: "Mỗi trang được đóng dấu theo đúng chiều rộng và cao của chính nó, nên các trang khác hướng và khác khổ đều nhận số ở cùng một góc nhìn trực quan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Đánh số trang đè lên hoạt động thế nào trong một PDF",
+        paragraphs: [
+          "Thêm số trang vào PDF có sẵn không xử lý lại các trang. Nội dung gốc — chữ, ảnh, tất cả — nguyên vẹn; công cụ chỉ nối thêm một lệnh vẽ nhỏ vào luồng nội dung của mỗi trang để vẽ số ở vị trí bạn chọn. Về kỹ thuật đây là lớp phủ: mực mới vẽ lên trên trang hiện có, như con dấu đóng sau đó.",
+          "Đó là lý do đánh số an toàn và có thể quay lại từ nguồn gốc: file gốc vẫn nằm trên đĩa không đổi, và bản đánh số chỉ khác bản gốc bởi vài lệnh vẽ thêm ấy. Font dùng cho số được thêm vào tài liệu hoặc vẽ bằng font chuẩn, và ở cỡ thông thường (9–12 pt) số chiếm một phần rất nhỏ của mỗi trang.",
+          "Các tùy chọn định dạng phản chiếu những gì tài liệu thật dùng: chữ số đơn thuần (1, 2, 3) cho đa số trường hợp, hoặc mẫu như “Trang 3 của 12” cho hợp đồng và báo cáo nơi tổng số có ý nghĩa. Tổng được tính từ số trang thật tại thời điểm đánh số, nên luôn khớp với tài liệu bạn tạo ra.",
+        ],
+      },
+      {
+        heading: "Quyết định vị trí: lề, trang đầu và va chạm",
+        paragraphs: [
+          "Vị trí kinh điển là giữa-dưới hoặc phải-dưới, nằm trong lề dưới — nơi người đọc mong đợi và máy in không cắt mất. Máy in thường không in được sát mép giấy tuyệt đối, nên số đặt quá gần mép vật lý có thể bị cắt trên một số máy dù nhìn trên màn hình vẫn ổn. Giữ số cách mép trang khoảng nửa inch (khoảng 36 pt) là vùng an toàn.",
+          "Trang bìa và trang tiêu đề thường không nên mang số — một chữ “1” đóng trên bìa trông như sơ suất. Các công cụ đánh số thường có tùy chọn bắt đầu lệch cho đúng việc này: bắt đầu đếm từ trang 2 (hoặc sau mục lục), để số hiển thị khớp với phần thân trong khi bìa giữ sạch. Lưu ý phần lệch ảnh hưởng đến trang nào được tính là số 1, nên “Trang 1” sẽ rơi đúng nơi bạn chỉ.",
+          "Va chạm là bẫy còn lại: nếu các trang nguồn đã có số in sẵn (ví dụ bạn gộp các chương được đánh số riêng), việc phủ số mới tạo ra hai số cạnh tranh trên mỗi trang. Lớp phủ không thể xóa mực cũ — điều đó đòi hỏi raster hóa hoặc phẫu thuật nội dung. Khi đó, hãy gộp các nguồn chưa đánh số, hoặc chấp nhận một cách đánh số và bỏ qua lớp phủ.",
+        ],
+      },
+      {
+        heading: "Một chỉnh sửa cục bộ cho những tài liệu sắp lưu hành",
+        paragraphs: [
+          "Đánh số thường là nét chấm phá cuối cùng trước khi tài liệu đi ra ngoài: hợp đồng chờ đối tác ký, báo cáo trình hội đồng, bản thảo nộp đi. Đây chính là những file mà “tải lên trang đánh số trực tuyến” là sự đánh đổi sai — một hợp đồng đã đánh số được tải lên máy chủ của bên thứ ba là văn bản pháp lý gần hoàn chỉnh của bạn nằm trong nhật ký của ai đó chỉ để thêm hai chữ số mỗi trang.",
+          "Công cụ này thực hiện lớp phủ hoàn toàn trong trình duyệt: các trang được xử lý cục bộ, số được vẽ vào nội dung trang trong bộ nhớ, và đầu ra được ghi bởi thiết bị của bạn. Tài liệu không rời khỏi máy của bạn dưới bất kỳ hình thức nào, và thao tác diễn ra tức thì — thậm chí không có giai đoạn tải lên để chờ.",
+          "Một thói quen chất lượng nhỏ: sau khi đánh số, mở kết quả và lật vài trang kiểm tra số không đè lên chú thích chân trang, ghi chú hay nội dung ở lề dưới — những bố cục học thuật dày đặc đôi khi đẩy nội dung vào vùng bạn nghĩ là lề. Nếu thấy va chạm, dịch vị trí lên trên hoặc sang phía kia là giải quyết được, không đụng gì khác.",
+        ],
       },
     ],
   },
@@ -228,6 +410,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Giá trị được đưa vào dạng văn bản đúng như bản in, giữ số 0 ở đầu và dấu phẩy thập phân theo vùng miền — Excel coi đó là chuỗi cho tới khi bạn chuyển đổi cột.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao PDF-to-Excel là chuyển đổi khó nhất, nói thật lòng",
+        paragraphs: [
+          "Tài liệu Word có đoạn văn; bảng tính có lưới; PDF không có cả hai — nó chỉ có các glyph được đặt tại tọa độ. Khi một PDF trông như một bảng, vẻ ngoài đó là ảo ảnh lắp ráp từ từng ký tự được định vị khớp nhau. Chuyển sang Excel nghĩa là kiến thiết ngược cái lưới: những ký tự nào tạo thành một ô, cột bắt đầu và kết thúc ở đâu, và những hàng nào thuộc về nhau. Không có metadata nào trong PDF trả lời đáng tin những câu hỏi ấy.",
+          "Vì vậy chất lượng các công cụ PDF-to-Excel chênh lệch rất lớn, và mọi công cụ trung thực đều cảnh báo điều đó. Các PDF sinh ra từ máy tính với bảng đều đặn trích xuất tốt; bảng scan, ô gộp, tiêu đề lồng nhau và bảng nhiều trang có tiêu đề lặp lại là những chỗ kết quả lệch. Số có thể rơi vào cột sai, và một hàng lệch trong bảng tài chính còn tệ hơn cả chuyển đổi thất bại — vì nó thất bại trong im lặng.",
+          "Kỳ vọng thực dụng: coi đầu ra là bản dựng phác thảo đầu tiên, không phải xuất chuẩn hóa. Soát lại tổng số và vài hàng mẫu so với nguồn. Nếu PDF vốn được tạo từ Excel (không có dấu vết scan, chữ sắc nét), trích xuất ngược thường gần đúng. Nếu là bản scan, hãy chạy OCR trước và chuẩn bị sửa tay.",
+        ],
+      },
+      {
+        heading: "Đọc kết quả: kiểm tra gì trước khi tin",
+        paragraphs: [
+          "Ba phép kiểm tra bắt được đa số lỗi trích xuất. Thứ nhất, số hàng và số cột: sheet phải có cùng số hàng thân bảng và cột như bảng nguồn — lỗi lệch một thường nghĩa là tiêu đề bị nuốt hoặc một ô xuống dòng thành hai hàng. Thứ hai, toàn vẹn số liệu: kiểm tra các con số kiểu 1.234,56 giữ nguyên dấu thập phân và không biến thành văn bản (các “số” căn trái trong Excel thường là chuỗi ký tự).",
+          "Thứ ba, khớp tổng: nếu bảng nguồn cộng một cột, hãy xác minh cột trích xuất vẫn cộng ra cùng con số. Một ô đặt sai chỗ làm gãy chuỗi kiểm toán theo kiểu mắt thường dễ bỏ sót nhưng tử sức khi sử dụng. Với bảng nhiều trang, kiểm tra xem tiêu đề lặp lại ở mỗi trang có thành các hàng trùng trong sheet không — đa số công cụ xuất nguyên xi.",
+          "Ô gộp là kẻ rắc rối vĩnh cửu: gộp dọc (một nhãn trải qua vài hàng) thường thành giá trị ở hàng đầu và ô trống bên dưới. Nếu công thức phía sau cần nhãn lặp lại, fill-down trong Excel mất một giây và tiết kiệm một giờ bối rối.",
+        ],
+      },
+      {
+        heading: "Bảng tài chính xứng đáng được xử lý cục bộ",
+        paragraphs: [
+          "Các bảng người ta chuyển sang Excel thường lệch về phía tài chính: sao kê ngân hàng, hóa đơn, bảng lương, tờ khai thuế. Đó chính là loại dữ liệu không nên tải lên — một sao kê được trích xuất là lịch sử giao dịch đầy đủ ở dạng máy đọc được, và tải nó lên một dịch vụ chuyển đổi là trao lịch sử ấy cho một bên thứ ba xa lạ với bản sao trong nhật ký của họ.",
+          "Công cụ này phân tích và dựng lại các bảng hoàn toàn trong trình duyệt của bạn: PDF được đọc cục bộ, ranh giới ô được suy diễn trên thiết bị, và bảng tính được tạo ra và lưu tại máy. Không trang nào của sao kê được truyền đi đâu cả, không con số trích xuất nào rời khỏi máy — chuyển đổi vẫn y hệt khi offline.",
+          "Với bước soát tay đã khuyến nghị ở trên, xử lý cục bộ còn giúp việc lặp lại miễn phí: chuyển, xem, chỉnh rồi chuyển lại bao nhiêu lần tùy thích mà không phải tải lên lại gì. Quy trình tạo ra bảng tính đáng tin — chuyển, xác minh, sửa — chỉ dễ chịu khi mỗi vòng lặp tốn vài giây thay vì một chuyến đi qua mạng.",
+        ],
+      },
+    ],
   },
   "pdf-to-jpg": {
     name: "PDF sang JPG",
@@ -254,6 +462,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Chỉ chuyển được một vài trang?",
         a: "Công cụ chuyển cả tài liệu và đặt tên file theo số trang nên bạn giữ lại đúng những trang cần. Muốn chọn trước một vùng trang cụ thể, hãy dùng Tách PDF trước.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Raster hóa: biến một trang thành JPG nghĩa là gì",
+        paragraphs: [
+          "Một trang PDF là một bản mô tả — glyph chữ, hình vector, ảnh nhúng do bộ dựng lắp ráp lại. Một JPG là một lưới điểm ảnh phẳng. Chuyển trang thành ảnh nghĩa là đưa bản mô tả ấy qua bộ dựng ở độ phân giải đã chọn và lưu kết quả thành điểm ảnh. Mọi thứ từng làm nên sự đặc biệt của PDF bị bỏ lại: chữ không còn chọn được, đường vector không còn sắc vô hạn, và trang trở nên sắc đúng bằng mật độ điểm ảnh cho phép.",
+          "Sự đánh đổi ấy thường là đúng cho các mục đích dự kiến: nhúng ảnh trang vào bài thuyết trình, đăng ảnh chụp tài liệu lên nhóm chat, đính kèm bản xem trước vào email mà người nhận không nên chỉnh sửa. Một trang đã raster hóa cũng là định dạng “chỉ đọc” tự nhiên — bạn gửi gì họ thấy nấy, không có font nào bị thay thế và không có bố cục nào bị chảy.",
+          "Độ phân giải là núm vặn duy nhất thật sự quan trọng. Ở 150 DPI, trang khổ letter có khoảng 1275×1650 điểm ảnh — sắc nét trên màn hình và đủ cho in thường ngày. Ở 72 DPI nhẹ và ổn cho thumbnail; ở 300 DPI đạt cấp in ấn nhưng nặng. Chọn theo đích đến (màn hình hay in giấy) hơn là đoán mò.",
+        ],
+      },
+      {
+        heading: "Một trang hay nhiều trang: cấu trúc đầu ra và chất lượng",
+        paragraphs: [
+          "Một PDF nhiều trang không thể là một JPG, nên bộ chuyển hoặc cho ra chuỗi file đánh số (trang-1.jpg, trang-2.jpg, …) hoặc một kho ZIP. Chuỗi đánh số thân thiện hơn khi muốn lấy từng trang cho công cụ khác; kho ảnh thuận tiện hơn khi tải hàng chục file một lúc. Dù cách nào, đánh số theo thứ tự trang nội bộ của PDF — và như mọi công cụ trang, thứ tự này có thể không khớp nhãn trang in sẵn nếu tài liệu đánh số khác thường.",
+          "Nén JPEG hợp với trang có ảnh và dải màu chuyển tiếp, nơi các lỗi nén không nhìn thấy. Với trang chủ yếu là chữ sắc nét hoặc line art, các khối lỗi của JPEG có thể tạo “nhiễu muỗi” mờ quanh chữ ở mức chất lượng thấp; nếu đầu ra hơi nhòe quanh chữ, hãy tăng chất lượng hoặc DPI thay vì chấp nhận.",
+          "Nền trắng quan trọng hơn người ta tưởng: JPEG không có trong suốt, nên các vùng trong suốt của trang được vẽ lên nền trắng theo mặc định. Đó thường là điều mong muốn với tài liệu, nhưng nếu nguồn dùng chế độ tối hay nền màu, hãy xem ảnh đầu ra đầu tiên trước khi chạy cả lô.",
+        ],
+      },
+      {
+        heading: "Vẽ tài liệu của bạn ngay trên thiết bị của mình",
+        paragraphs: [
+          "Một PDF thường gom cả dòng giấy tờ của một con người: sao kê, thư từ, báo cáo y tế, thỏa thuận. Vẽ các trang thành ảnh rồi tải lên dịch vụ chuyển đổi nghĩa là toàn bộ hồ sơ hình ảnh rời khỏi thiết bị của bạn trước cả khi bạn chọn ra đúng trang mình cần. Đáng chú ý là những ảnh trích xuất cũng dễ phát tán — một file ảnh đi được xa hơn một PDF với metadata còn nguyên.",
+          "Công cụ này vẽ từng trang cục bộ trong trình duyệt của bạn: PDF được phân tích và vẽ lên canvas của thiết bị ở DPI đã chọn, mã hóa thành JPEG trong bộ nhớ, và lưu trực tiếp bởi trình duyệt. Không ảnh trang nào được tải lên, không máy chủ nào dựng tài liệu của bạn, và toàn bộ chuyển đổi chạy được cả khi ngắt mạng.",
+          "Vẽ cục bộ còn cho phép chọn lọc mà không tốn thêm gì: vẽ tất cả các trang, rồi chỉ giữ lại hai trang bạn cần, xóa phần còn lại trước khi chúng từng tồn tại ngoài máy của bạn. Với một hình vẽ đơn nằm trong báo cáo 100 trang, tính chọn lọc ấy chính là tất cả — bạn có được ảnh mình muốn và không hơn.",
+        ],
       },
     ],
   },
@@ -284,6 +518,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Trang được kết xuất trên nền trắng nên kết quả là PNG đặc. Điều đó trùng với cách PDF in ra và tránh tình trạng nền đen bất ngờ trong trình xem.",
       },
     ],
+    deepDive: [
+      {
+        heading: "PNG hay JPG cho ảnh chụp trang: khi nào bên nào thắng",
+        paragraphs: [
+          "PNG và JPG cùng biến trang PDF thành điểm ảnh, nhưng mã hóa theo hai triết lý ngược nhau. JPG dùng nén mất dữ liệu tinh chỉnh cho ảnh chụp: file nhỏ, lỗi không thấy trên dải màu, hơi nhòe trên mép cứng. PNG dùng nén không mất dữ liệu tinh chỉnh cho hình phẳng: chữ, biểu đồ, ảnh chụp màn hình và bất cứ thứ gì có mép sắc hay vùng màu đặc đều giữ nguyên từng điểm ảnh, với cái giá là file to hơn với nội dung ảnh chụp.",
+          "Vậy nguyên tắc cầm tay: trang chứa chữ, bảng, biểu đồ và hình vẽ đường nét thuộc về PNG — chữ giữ sắc ở mọi mức thu phóng và nén không bao giờ làm nhòe một đường biểu đồ. Trang chứa ảnh scan, hay bất kỳ trang nào chi phối bởi ảnh liên tục tông, thuộc về JPG — PNG sẽ phình to dung lượng mà không được gì nhìn thấy được.",
+          "PNG còn giữ màu chính xác trong khi nén sắc độ của JPG có thể dịch nhẹ các màu thương hiệu bão hòa, và file PNG lưu lại không mất thế hệ: chỉnh sửa rồi lưu lại PNG không bao giờ suy giảm, còn mã hóa lại JPG nhiều lần thì lỗi cộng dồn. Với các trang sẽ được chỉnh tiếp, PNG là lựa chọn lưu trữ.",
+        ],
+      },
+      {
+        heading: "Độ sắc, tỉ lệ và những lưu ý về trong suốt",
+        paragraphs: [
+          "Vì PNG không mất dữ liệu, núm chất lượng duy nhất là độ phân giải — vẽ ở 150 DPI cho công việc màn hình, 300 DPI cho ảnh chụp cấp in. Không có thanh trượt nén nào để vặn sai, loại bỏ cả một lớp lỗi: một PNG hoặc được vẽ với đủ điểm ảnh hoặc không, và vẽ lại ở DPI cao hơn là cách trị triệt để độ mềm.",
+          "Một lợi thế thật sự so với JPG: PNG hỗ trợ trong suốt. Trang vẽ ra PNG với nền được giữ nguyên có thể ghép lên bất kỳ nền nào khác; JPG luôn dẹt về một màu đặc, thường là trắng. Với các trang biểu đồ dùng cho slide hay file thiết kế, điều này tiết kiệm được bước xóa nền thủ công.",
+          "Chú ý dung lượng với các trang dày đặc: một PNG 300 DPI của trang nhiều ảnh có thể nặng hàng chục megabyte. Nếu đích đến là trang web hay tin nhắn, kích thước đó gây hại nhiều hơn độ trung thực mang lại — hạ DPI hoặc chuyển sang JPG cho đúng những trang ấy.",
+        ],
+      },
+      {
+        heading: "Chụp trang mà không gửi chúng đi đâu cả",
+        paragraphs: [
+          "Người ta thường chụp trang PDF thành ảnh để tái sử dụng: một biểu đồ cho báo cáo, trang chữ ký làm bằng chứng, một sơ đồ cho tài liệu đào tạo. Mỗi ảnh chụp là một bản sao tự chứa, có thể đi xa hơn nhiều so với tài liệu gốc — và đó chính là lý do phải quan tâm ai xử lý phép chuyển đổi. Tải một trang mật lên dịch vụ chuyển đổi là đặt bản sao chuẩn từng điểm ảnh lên hạ tầng của người khác trước cả khi bạn làm gì đó với nó.",
+          "Công cụ này vẽ và mã hóa hoàn toàn trong trình duyệt của bạn: PDF được vẽ lên canvas của thiết bị ở DPI đã chọn, mã hóa thành PNG không mất dữ liệu trong bộ nhớ, và lưu bởi trình duyệt. Không trang nào được tải lên, không bản sao nào tồn tại ngoài thiết bị của bạn ở bất kỳ thời điểm nào, và chuyển đổi hoàn tất cả khi rút mạng.",
+          "Lợi thế thực dụng cộng dồn với các lô việc: chuyển một tài liệu hướng dẫn 200 trang thành PNG tạo ra hàng trăm file, và làm việc đó cục bộ nghĩa là không chờ tải lên, không trần dung lượng từng file, không hàng đợi lô — chỉ tốc độ vẽ của thiết bị bạn, mà với máy hiện đại thường nhanh hơn cả việc tải lên cùng nội dung ấy.",
+        ],
+      },
+    ],
   },
   "pdf-to-ppt": {
     name: "PDF sang PowerPoint",
@@ -310,6 +570,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "File .pptx nặng bao nhiêu?",
         a: "Xấp xỉ tổng dung lượng các ảnh trang — PDF 20 trang ở độ phân giải cao có thể tới vài chục MB. Hãy nén PDF gốc trước nếu cần bộ slide nhẹ hơn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "PDF-to-PPT thật sự mang lại được gì",
+        paragraphs: [
+          "Một bộ slide xuất ra PDF đã bị dẹt hóa: các khối văn bản, hình khối và placeholder có thể chỉnh sửa của bản trình bày gốc thành những glyph và hình chữ nhật được đặt vị trí trong PDF. Chuyển ngược lại là dựng lại — bộ chuyển phải đoán những glyph nào tạo thành một khối văn bản, cái gì là hình khối hay ảnh, và mọi thứ nằm ở đâu trên khung slide. Không có dấu vết metadata nào dẫn về cấu trúc gốc.",
+          "Vậy kỳ vọng trung thực là: bạn nhận được các slide trông giống bản gốc, với văn bản chọn và sửa được, ở vị trí xấp xỉ đúng. Bạn không lấy lại được cấu trúc lồng nhau chính xác của bản gốc, hiệu ứng hoạt hình (từ trước tới nay chưa từng tồn tại trong PDF), cấu trúc slide mẫu hay các token chủ đề chính xác. Font có thể bị thay thế nếu bản gốc không nhúng font.",
+          "Chỗ chuyển đổi này tỏa sáng: khôi phục bộ slide có thể chỉnh sửa khi file .pptx đã mất và chỉ còn PDF; kéo hai slide từ bộ slide của đồng nghiệp để dùng vào của bạn; chỉnh nội dung nhỏ trên một bộ slide nhận được mà không cần xin nguồn. Chỗ nó gây thất vọng: bộ slide thiết kế kỹ xây trên các phần tử chồng nhau, sẽ được dựng lại thành các lớp chồng trông đúng nhưng hơi khó chịu khi chỉnh sửa.",
+        ],
+      },
+      {
+        heading: "Kỳ vọng khi chỉnh sửa và cách làm việc với kết quả",
+        paragraphs: [
+          "Hãy định sẵn sẽ tinh chỉnh, đừng kỳ vọng giống hệt. Những việc dọn dẹp thường gặp sau chuyển đổi: khối văn bản có biên lớn hơn chữ nhìn thấy (bấm vào chọn nhiều hơn mong đợi), ảnh ở vị trí gần mà không chính xác, và cỡ font bị làm tròn về cỡ gần nhất. Không điều nào trong số đó ảnh hưởng vẻ ngoài slide ở chế độ trình chiếu; chúng ảnh hưởng độ gọn gàng khi chỉnh file.",
+          "Một quy trình thực dụng: chuyển PDF sang PPT, rồi kiểm tra ngay các slide quan trọng nhất với bạn — thường là slide tiêu đề và một slide nội dung. Sửa font và một bố cục; nếu cấu trúc giữ vững, sửa hàng loạt phần còn lại qua slide mẫu. Nếu cấu trúc không giữ nổi — các khối chồng chéo loạn xạ — thiết kế bản gốc có quá nhiều lớp để dựng ngược sạch sẽ, và vẽ tay lại đúng những slide ấy sẽ nhanh hơn là cãi nhau với kết quả chuyển đổi.",
+          "Biểu đồ cần nhắc riêng: một biểu đồ từng là ảnh nhúng trong PDF sẽ vẫn là ảnh trong PPT (không sửa được dữ liệu biểu đồ); một biểu đồ vẽ bằng hình khối vector sẽ dựng lại thành nhóm hình khối, tô lại màu được nhưng không vẽ lại với số liệu mới. Dù cách nào, dữ liệu đằng sau biểu đồ không thể khôi phục từ PDF — nó chưa từng có ở trong đó.",
+        ],
+      },
+      {
+        heading: "Bộ slide hay đi xa; hãy giữ chúng ở nhà đến khi chuyển xong",
+        paragraphs: [
+          "Bản trình bày mặc định là mật của doanh nghiệp: slide chiến lược, đánh giá tài chính, tài liệu M&A, kế hoạch sản phẩm chưa phát hành. Một PDF của bộ slide ấy chứa tất cả trừ phần ghi chú của người nói — và tải nó lên dịch vụ chuyển đổi nghĩa là toàn bộ nội dung hình ảnh của một bản trình bày nội bộ đọc được trên máy chủ của người khác, thường chỉ vài phút sau cuộc họp nơi nó được trình bày.",
+          "Công cụ này dựng lại các slide hoàn toàn trong trình duyệt của bạn: PDF được phân tích và vẽ trên thiết bị, các phần tử slide dựng lại cục bộ, và file PPT được lưu trực tiếp bởi trình duyệt. Không gì được tải lên, không có hàng đợi xử lý, và chuyển đổi vẫn y hệt khi offline — bộ slide không tồn tại ngoài máy của bạn dưới bất kỳ hình thức nào.",
+          "Với những bộ slide chuyển đổi vốn để chỉnh sửa, xử lý cục bộ còn khớp quy trình: chuyển, mở trong phần mềm trình chiếu, tinh chỉnh bao nhiêu tùy ý mà không phải tải lại giữa các lần. Mỗi lần thử chỉ tốn vài giây và không gì khác — bạn có thể thử, xem và điều chỉnh tự do đến khi bộ slide ứng xử như bạn cần.",
+        ],
       },
     ],
   },
@@ -340,6 +626,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không giới hạn nhân tạo. Vài trăm trang vẫn ổn; trần thực tế là bộ nhớ trình duyệt, thường vượt xa tài liệu 100 MB.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Lớp văn bản: PDF thật sự lưu gì về chữ của nó",
+        paragraphs: [
+          "Một PDF sinh ra từ máy tính lưu văn bản như một chuỗi lệnh vẽ: hiện glyph này, ở vị trí này, bằng font này. Các từ thật sự nằm trong đó — đó là lý do Ctrl+F hoạt động trên những tài liệu như vậy. Trích xuất văn bản vì thế không phải là nhận dạng mà là giải mã: đọc lớp văn bản theo thứ tự đọc. Không có xử lý ảnh nào liên quan, và độ trung thực chỉ bị giới hạn bởi cách tài liệu được dựng nên.",
+          "Rắc rối kinh điển là thứ tự và gạch nối. PDF mô tả glyph theo vị trí chứ không theo luồng logic, nên bố cục nhiều cột, cột bên và bảng có thể trích xuất theo thứ tự thị giác thay vì thứ tự đọc — các cột đan xen từng dòng. Bộ trích xuất decent dùng heuristics bố cục để nhận cột và dựng lại luồng đọc, nhưng tài liệu thiết kế đậm vẫn có thể ra xáo trộn.",
+          "Khoảng trống kia là bản scan: một trang scan không có lớp văn bản nào cả, chỉ có điểm ảnh, nên trích xuất thuần trả về không có gì. Scan cần OCR trước (đó là một công cụ riêng), và file đã OCR sẽ có lớp văn bản mà trích xuất đọc được.",
+        ],
+      },
+      {
+        heading: "Thứ tự đọc, các trường hợp mã hóa đặc biệt và kiểm tra thực dụng",
+        paragraphs: [
+          "Khi kết quả trích xuất trông xáo trộn, gần như luôn là bố cục: bài báo hai cột trích xuất thành các mảnh đan xen, hoặc chú thích rơi vào giữa câu. Cách xử lý nhanh: thử cùng tài liệu với một công cụ khác để so thứ tự, hoặc chấp nhận rằng với bố cục thiết kế đậm bạn có thể muốn trích xuất từng trang rồi ghép tay. Các dấu xuống dòng trong văn bản trích xuất phản chiếu cấu trúc dòng của PDF, nên nối lại đoạn văn thường là bước dọn dẹp trong trình soạn thảo của bạn.",
+          "Trường hợp mã hóa đặc biệt hiện lên thành ký tự bí ẩn: các ligature (fi, fl) đến như một glyph duy nhất, dấu bị lỗi nếu PDF dùng mã hóa font không chuẩn, và các ký hiệu toán ánh xạ kém sang văn bản thuần. Đầu ra văn bản thuần không có đậm, nghiêng, bảng hay ảnh — mọi thứ thành ký tự, nên cấu trúc đáng giữ phải ghi lại thủ công.",
+          "Một phép kiểm tra hợp lý trước khi tin văn bản trích xuất: tìm trong kết quả một cụm từ bạn nhìn thấy ở trang đầu, và so số ký tự với kỳ vọng. Một báo cáo 10 trang mà chỉ trích xuất ra 300 ký tự thì lớp văn bản hỏng hoặc chỉ toàn ảnh — kết quả trống trung thực của công cụ trên một bản scan tốt hơn nhiều so với âm thầm làm mất nội dung.",
+        ],
+      },
+      {
+        heading: "Trích xuất tài liệu cục bộ, đặc biệt là những tài liệu nhạy cảm",
+        paragraphs: [
+          "Trích xuất văn bản thường là bước đầu tiên khi xử lý những tài liệu bạn không phải tác giả: thỏa thuận pháp lý, báo cáo tài chính, bài nghiên cứu, bản ghi nhớ nội bộ. Tải chúng lên một trang trích xuất nghĩa là toàn bộ nội dung đọc được — dạng dễ mang đi, dễ sao chép nhất của tài liệu của bạn — đi qua máy chủ của người khác. Văn bản trích xuất còn dễ phát tán hơn cả file gốc: nó không mang theo vết metadata nào cả.",
+          "Công cụ này giải mã lớp văn bản hoàn toàn trong trình duyệt của bạn: PDF được phân tích cục bộ, glyph được ánh xạ ngược thành ký tự trên thiết bị, và file văn bản thuần được lưu bởi trình duyệt. Không gì được tải lên, không gì được ghi nhật ký ở đâu cả — khi ngắt mạng, trích xuất vẫn hoạt động y hệt.",
+          "Vì trích xuất nhanh và không có vòng đi qua mạng, nó khớp với quy trình “trích xuất nhiều rồi tìm kiếm”: bóc văn bản từ cả thư mục PDF, dán hết vào một tài liệu tìm kiếm được hoặc dùng làm corpus, và không một nguồn nào trong số đó rời khỏi máy của bạn. Với việc rà soát tài liệu và so sánh hợp đồng, cặp đôi riêng tư cộng tốc độ ấy chính là điều khiến trích xuất hàng loạt trở nên khả thi.",
+        ],
+      },
+    ],
   },
   "pdf-to-word": {
     name: "PDF sang Word",
@@ -366,6 +678,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Bảng và ảnh có giữ lại được không?",
         a: "Ảnh không được đưa vào .docx. Bảng chuyển thành các dòng văn bản thuần — dùng được, nhưng bảng phức tạp bạn sẽ cần dựng lại trong Word.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ranh giới trung thực: gì sống sót qua chuyến đi về Word",
+        paragraphs: [
+          "PDF mô tả diện mạo cuối cùng; tài liệu Word mô tả cấu trúc — đoạn văn, kiểu dáng, danh sách, tiêu đề. Chuyển đổi giữa hai định dạng là dịch thuật, không phải giải mã, và mỗi phép chuyển phải quyết định dựng lại bao nhiêu cấu trúc chỉ từ diện mạo. Bộ chuyển tốt dựng lại ranh giới đoạn văn, cấp tiêu đề từ cỡ font, và bảng từ văn bản căn đều; bộ chuyển đơn giản đổ các dòng chữ vào một luồng duy nhất.",
+          "Những gì sống sót tốt trong một chuyển đổi tốt: văn bản thân với ngắt đoạn, bảng đơn giản, nhấn đậm/nghiêng cơ bản, và thứ tự đọc trong tài liệu điển hình. Những gì hiếm khi sống sót hoàn hảo: font chính xác (Word thay bằng font gần nhất), bố cục nhiều cột (thường bị dẹt thành một cột), đầu trang chân trang (có thể trộn vào thân văn bản hoặc bị bỏ), và bất cứ thứ gì tương tác như trường biểu mẫu hay chú thích.",
+          "Cách nói trung thực nhất: PDF-to-Word xuất sắc trong việc khôi phục văn xuôi có thể chỉnh, đủ tốt cho tài liệu văn phòng điển hình, và sai lệch về cấu trúc với các trang thiết kế đậm — poster, bố cục tạp chí phức tạp, biểu mẫu. Với nhóm cuối ấy, chuyển đổi cho bạn một đống hỗn độn có thể chỉnh; dựng lại bố cục trực tiếp trong Word thường nhanh hơn là sửa kết quả chuyển đổi.",
+        ],
+      },
+      {
+        heading: "Scan, OCR và quy trình quanh phép chuyển đổi",
+        paragraphs: [
+          "Nhánh rẽ lớn nhất trong chất lượng PDF-to-Word là nguồn tài liệu là máy sinh hay là scan. PDF máy sinh mang theo văn bản và chuyển trực tiếp. PDF scan chỉ có điểm ảnh, nên chuỗi chuyển đổi dài hơn: OCR tạo lớp văn bản, rồi dựng lại thành các đoạn Word — và giới hạn chính xác của OCR nay đè thêm lên giới hạn của chính chuyển đổi. Chữ viết tay, con dấu và ghi chú lề làm kết quả xấu thêm.",
+          "Kỳ vọng thực dụng theo loại nguồn: hợp đồng sinh từ máy chuyển thành thứ bạn chỉnh và hoàn thiện với một ít dọn dẹp. Bản scan sạch 300 DPI chữ in chuyển thành thứ bạn chỉnh được nhưng phải soát từng dòng — lỗi OCR trong hợp đồng và tên riêng chính là những lỗi không thể chấp nhận. Ảnh chụp trang trong ánh sáng kém thì chuyển xấu dù dùng công cụ nào; hãy scan lại cho đàng hoàng.",
+          "Sau khi chuyển bất kỳ tài liệu quan trọng nào, hãy đọc một lượt cấu trúc trong Word, không chỉ đọc bằng mắt: kiểm tra ngắt đoạn, đánh số danh sách và ô bảng, vì đó là những chỗ chuyển đổi sai lặng lẽ trong khi trang vẫn trông ổn.",
+        ],
+      },
+      {
+        heading: "Hợp đồng và báo cáo nên được chuyển đổi cục bộ",
+        paragraphs: [
+          "Những tài liệu người ta muốn ở dạng Word có thể chỉnh thường là những tài liệu ràng buộc nhất: hợp đồng để đàm phán lại, chính sách để cập nhật, báo cáo để tái sử dụng, bảng điểm để chú thích. Tải PDF hợp đồng lên một dịch vụ chuyển đổi nghĩa là văn bản pháp lý của bạn đi qua máy chủ của bên thứ ba — và bản Word trích xuất, vốn còn dễ chỉnh và dễ phát tán hơn bản gốc, chính là hiện vật bạn ít muốn nhất nằm trong kho của người khác.",
+          "Công cụ này thực hiện toàn bộ chuyển đổi trong trình duyệt của bạn: PDF được phân tích cục bộ, cấu trúc văn bản dựng lại trên thiết bị, và file Word được tạo ra và lưu tại máy. Không gì được truyền đi theo bất kỳ hướng nào, và chuyển đổi chạy hoàn toàn offline — một hợp đồng nằm trong cam kết bảo mật có thể chuyển đổi với sự an tâm như một thực đơn.",
+          "Chuyển đổi cục bộ còn giữ vòng soát sát sườn: chuyển, mở trong Word, ghi các chỗ cần sửa, điều chỉnh rồi chuyển lại nếu cần — mỗi vòng chỉ vài giây và không bao giờ phải tải lên lại. Vòng lặp sát ấy là điều khiến việc soát kỹ khả thi, và chính việc soát kỹ, chứ không phải phép chuyển đổi, mới bảo vệ toàn vẹn của tài liệu.",
+        ],
       },
     ],
   },
@@ -396,6 +734,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Dữ liệu PNG không mất dữ liệu vốn lớn. Nếu cần file nhỏ hơn, hãy chạy kết quả qua Nén PDF — đổi một chút độ trung thực lấy dung lượng.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao PNG đầu vào cần cách xử lý khác với JPEG",
+        paragraphs: [
+          "PNG và JPEG nhìn qua mắt thường giống nhau nhưng mã hóa điểm ảnh theo hai sự đánh đổi ngược nhau. PNG không mất dữ liệu: mọi điểm ảnh được giữ chính xác, khiến nó là định dạng của ảnh chụp màn hình, biểu đồ, chữ scan và bất cứ thứ gì có mép sắc. JPEG mất dữ liệu và được tinh chỉnh cho ảnh chụp. Bọc PNG vào PDF vì thế thường là xử lý nội dung được lợi từ việc giữ không mất dữ liệu — và một bộ chuyển âm thầm mã hóa lại PNG thành JPEG đã vứt bỏ đúng thuộc tính mà bạn chọn PNG vì nó.",
+          "Công cụ này nhúng dữ liệu ảnh mà không nén lại phá hủy, nên ảnh chụp màn hình giữ sắc từng điểm ảnh bên trong PDF: chữ trong ảnh chụp vẫn đọc được ở mọi mức thu phóng, và các đường biểu đồ giữ sạch. PDF là cái vỏ; các điểm ảnh không mất dữ liệu của PNG nằm bên trong nguyên vẹn.",
+          "Một chi tiết tinh tế đáng biết: PNG hỗ trợ trong suốt, trang PDF thì không. Một PNG trong suốt đặt lên trang PDF sẽ được ghép lên một nền — theo quy ước là trắng. Nếu ảnh chụp màn hình của bạn có vùng trong suốt có ý nghĩa (một logo, một lớp phủ), hãy xem trang đầu của kết quả thay vì giả định.",
+        ],
+      },
+      {
+        heading: "Ảnh chụp màn hình, bản scan và ghép chúng theo thứ tự",
+        paragraphs: [
+          "Công việc PNG-to-PDF phổ biến nhất mang hình dạng tài liệu hóa: một chuỗi ảnh chụp màn hình tạo thành hướng dẫn, báo cáo lỗi kèm ảnh bằng chứng, chứng chỉ hay biểu mẫu đã scan lưu thành PNG. Với tất cả những việc ấy, thứ tự trang là cả trò chơi — một hướng dẫn mà các ảnh chụp đến sai trình tự thì vô dụng. Đặt tên file 01-…, 02-… trước khi thêm khiến thứ tự mong muốn hiện rõ và sống sót qua mọi kiểu sắp xếp của hộp chọn file.",
+          "Ảnh chụp màn hình có kích thước đúng từng điểm ảnh, hiếm khi khớp khổ giấy, nên các trang đầu ra thường có kích thước theo từng ảnh. Điều đó lý tưởng cho đọc trên màn hình và lưu trữ. Nếu đích đến là bản in, sự lệch khổ quan trọng hơn: hãy cân nhắc chữ trong ảnh chụp có đủ to ở cỡ in không, vì thu một ảnh chụp 1080p xuống A4 khiến chữ giao diện nhỏ khó đọc.",
+          "Với tài liệu nhiều ảnh, đồng nhất hơn là đa dạng: các ảnh chụp từ cùng phiên ứng dụng dùng chung kích thước và phong cách, và PDF kết quả đọc như một tài liệu mạch lạc. Nguồn lẫn lộn — ảnh chụp màn hình cộng ảnh chụp cộng bản scan — cho ra các trang chênh nhau cực lớn; chuẩn hóa (đổi kích thước hay cắt nguồn trước) cho kết quả chuyên nghiệp hơn hẳn.",
+        ],
+      },
+      {
+        heading: "Đóng gói bằng chứng ngay tại máy, không qua tay môi giới",
+        paragraphs: [
+          "Nội dung người ta đóng gói từ PNG sang PDF thường mang tính bằng chứng hay riêng tư: ảnh chụp giao dịch gian lận, nhật ký chat cho một tranh chấp, scan giấy tờ để xác minh, kết quả xét nghiệm y tế. Mỗi thứ đó là loại điều bạn không bao giờ trao cho người lạ — nhưng tải lên dịch vụ chuyển đổi thì đúng là làm điều ấy, trước cả khi PDF tồn tại.",
+          "Công cụ này đóng gói hoàn toàn trong trình duyệt của bạn: PNG được đọc cục bộ, nhúng không mất dữ liệu vào các đối tượng trang PDF, và tài liệu hoàn chỉnh được lưu bởi thiết bị của bạn. Không gì được tải lên ở bất kỳ thời điểm nào, nên ảnh chụp ứng dụng ngân hàng của bạn không bao giờ tồn tại trên máy chủ nào, và thao tác vẫn vậy khi không có mạng.",
+          "Còn một khoản lợi về chất lượng: vì dữ liệu PNG được nhúng nguyên xi, PDF giữ đúng những điểm ảnh bạn chụp — điều quan trọng khi nội dung là bằng chứng, nơi một lỗi nén trên dấu thời gian hay số tài khoản có thể gây hoài nghi tính xác thực. Bạn chụp cái gì, người đọc thấy chính xác cái đó.",
+        ],
+      },
+    ],
   },
   "rearrange-pdf-pages": {
     name: "Sắp xếp lại trang PDF",
@@ -422,6 +786,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Sắp xếp lại có ảnh hưởng chất lượng?",
         a: "Hoàn toàn không. Các trang được sao chép nguyên vẹn vào tài liệu mới — chỉ thứ tự thay đổi.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sắp lại trang là thao tác thuần túy trên cây trang",
+        paragraphs: [
+          "Sắp lại thứ tự trang trong PDF chỉ thay đổi đúng một thứ: thứ tự các mục trong cây trang của tài liệu. Luồng nội dung trang, font, ảnh, chú thích — tất cả giữ nguyên từng byte. Không gì được vẽ lại, không gì được nén lại, và thao tác không mất dữ liệu theo nghĩa chặt nhất: sắp lại trang rồi sắp về chỗ cũ cho ra tài liệu tương đương bản gốc.",
+          "Điều đó khiến việc sắp lại diễn ra tức thì kể cả với file khổng lồ, vì không một dữ liệu trang nào bị đụng tới — chỉ có mục lục nhỏ xíu ghi “trang này trước, trang kia sau” bị đổi. Dung lượng gần như không đổi, và chất lượng giống hệt theo đúng định nghĩa.",
+          "Sắp lại không đụng những gì: liên kết nội bộ và dấu trang có thể trỏ tới đối tượng trang thay vì vị trí, nên chúng thường theo đúng trang mục tiêu của mình — một liên kết tới “trang chứa chương 3” vẫn đúng sau khi sắp lại. Nhưng bất cứ thứ gì tham chiếu theo vị trí (một ghi chú in “xem trang 12”) không tự cập nhật. Danh mục kiểm tra tham chiếu chéo áp dụng ở đây y như khi xóa trang.",
+        ],
+      },
+      {
+        heading: "Quy trình thumbnail-first và những lỗi đáng tránh",
+        paragraphs: [
+          "Làm việc qua thumbnail thay vì số trang là cải thiện khả năng dùng lớn nhất trong việc sắp trang. Nhãn trang trong trình xem thường bất đồng với trình tự thật (tài liệu có phần mở số la mã, đánh số đếm lại mỗi chương), nhưng thumbnail hiển thị thẳng nội dung. Kéo trang bạn nhìn thấy, không phải con số bạn tính ra.",
+          "Những lỗi kinh điển: để lại một cặp trang trùng sau khi kéo (phụ lục được chèn hai lần), và quên rằng các trang trắng phân cách có thể là chủ ý. Lật lướt nhanh thứ tự cuối cùng bắt được cả hai trong vài giây. Với tài liệu ghép từ nhiều nguồn, cũng hãy kiểm tra độ nhất quán khổ trang trong lúc đó — sắp trang là khoảnh khắc tự nhiên để để ý một trang khổ letter lạc vào giữa các trang A4.",
+          "Một mẹo quy trình: khi sửa bản scan sai thứ tự (trang được nạp vào khay giấy lệch trật tự), phép sửa thường là vài cặp hoán đổi kề nhau chứ không phải xáo toàn bộ. Sửa các cặp kề nhau nhanh và ít rủi ro; còn việc sắp lại toàn bộ một bản scan nên gợi câu hỏi liệu có đáng chỉnh thiết lập khay nạp của máy scan cho lần sau.",
+        ],
+      },
+      {
+        heading: "Sửa thứ tự mà không gửi file đi đâu cả",
+        paragraphs: [
+          "Những tài liệu cần sắp lại trang thường là tài liệu hoàn chỉnh và nhạy cảm: hợp đồng nguyên vẹn, trọn bộ hồ sơ ứng tuyển, bó bằng chứng đã ghép. Đây chính là những file không nên tải lên chỉ để sửa cosmetics — gửi cả hợp đồng đến một trang sắp trang trao cho họ toàn bộ tài liệu, từng trang một, để đổi lấy một thao tác kéo và bấm.",
+          "Công cụ này sắp lại hoàn toàn trong trình duyệt của bạn: PDF được phân tích cục bộ, chỉ mục cây trang được viết lại trong bộ nhớ, và file đã sắp được lưu bởi thiết bị. Không một byte nội dung trang nào được truyền đi, và thao tác hoàn tất tức thì bất kể trạng thái mạng — bạn làm được cả ở chế độ máy bay.",
+          "Vì không gì được mã hóa lại, đầu ra giữ mọi thuộc tính của nguồn: văn bản tìm kiếm được, font nhúng, chú thích, trường biểu mẫu, metadata. Sắp trang ở đây thuần cấu trúc, nghĩa là bạn có thể sắp lại bao nhiêu lần tùy thích mà không lo chất lượng — lần sắp thứ mười vẫn không mất dữ liệu như lần đầu.",
+        ],
       },
     ],
   },
@@ -452,6 +842,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Chỉ cờ xoay thay đổi; nội dung trang nguyên vẹn nên chất lượng y hệt và chữ vẫn chọn được.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Xoay là metadata, không phải điểm ảnh",
+        paragraphs: [
+          "Mỗi trang trong PDF mang một cờ xoay — một giá trị đơn giản (bước 90 độ) báo cho trình xem hiển thị trang theo hướng đã xoay. Xoay trang bằng công cụ này thay đổi cờ đó, không phải nội dung trang: chữ, ảnh và vector đứng đúng vị trí cũ trong file. Đó là lý do xoay diễn ra tức thì và không mất dữ liệu hoàn hảo, kể cả với file hàng trăm megabyte.",
+          "Cơ chế cờ giải thích một hiện tượng quen thuộc: một trang có thể chứa nội dung dựng đứng nhưng hiển thị nằm ngang (hoặc ngược lại) tùy cờ xoay. Một số máy scan và một số bộ tạo PDF đặt cờ thay vì xoay thật nội dung. Xoay trang như vậy là lật cờ; nội dung bên dưới không bị đụng tới theo cách nào cả.",
+          "Một hệ quả đáng biết: vì xoay nằm trong cờ, những công cụ bỏ qua nó — một số parser sơ khai, một số bộ tạo thumbnail — có thể hiển thị hướng “thô”. Và nếu sau đó bạn raster hóa trang (ví dụ nén), việc vẽ diễn ra theo hướng đã xoay và công việc của cờ trở nên vĩnh viễn. Xoay trước khi raster hóa vì thế là đúng trình tự.",
+        ],
+      },
+      {
+        heading: "Bản scan, hướng lẫn lộn và các cách sửa thực dụng",
+        paragraphs: [
+          "Công việc xoay phổ biến nhất là sửa scan: máy scan hai mặt lật các mặt sau, máy ảnh điện thoại cho ra biên lai nằm ngang, một lô ra với hướng xen kẽ. Sửa từng trang đúng là việc của công cụ này — chọn những trang lệch và xoay chúng. Xoay tất cả là nước đi sai ở đây; nó “sửa” những trang đúng bằng cách làm hỏng chúng.",
+          "Với tài liệu sẽ in hoặc đóng gáy, hãy nghĩ xem mép nào là mép đóng gáy sau khi xoay. Một trang xoay 90 độ đọc tự nhiên trên màn hình nhưng có thể in với “đỉnh” dọc theo cạnh ngắn tờ giấy, thay đổi cách lề rơi xuống. In thử một trang trước khi chạy cả lô tiết kiệm giấy và sự bực bội.",
+          "Một lưu ý về việc vì sao có trang hình như “tự xoay lại”: nếu một trình xem ghi nhớ cờ và một công cụ khác lưu lại file mà không mang theo cờ, hướng bị đặt lại. Giữ chuỗi chỉnh sửa trong các công cụ bảo toàn cờ (như công cụ này) tránh việc đặt lại; nếu một trang cứ trở lại nằm ngang sau mỗi lần sửa, một bước nào đó trong quy trình của bạn đang đánh rơi cờ.",
+        ],
+      },
+      {
+        heading: "Xoay trang ngay tại máy, miễn phí hoàn toàn",
+        paragraphs: [
+          "Xoay thường là phép sửa áp lên những tài liệu bạn vốn đã có và tin tưởng: bản scan của chính mình, file đồng nghiệp gửi. Lý do vẫn nên đòi xử lý cục bộ là nhất quán về nguyên tắc — một tài liệu không bao giờ đến tay bên thứ ba cho bất kỳ thao tác nào là một tài liệu có bề mặt lộ thông tin do bạn toàn quyền kiểm soát. Không có thao tác nào quá vặt vãnh để đáng hình thành thói quen tải lên với các file mật.",
+          "Công cụ này xoay ngay trong trình duyệt của bạn: PDF được đọc cục bộ, cờ các trang được cập nhật trong bộ nhớ, và đầu ra được lưu bởi thiết bị. Không có gì tải lên, và vì chỉ có cờ thay đổi, thao tác hiệu quả là tức thì kể cả với file rất lớn — không có chờ mã hóa lại dưới bất kỳ hình thức nào.",
+          "Bản chất mức cờ còn khiến xoay ở đây đảo ngược an toàn: xoay 90 độ bốn lần là bạn trở về đúng bản gốc, từng bit một. Bạn có thể thử nghiệm tự do — lật một trang, xem nó, lật về — mà không có rủi ro gì cho file, và đó chính là loại thao tác nhàn hạ mà công cụ cục bộ tỏa sáng.",
+        ],
+      },
+    ],
   },
   "sign-pdf": {
     name: "Ký PDF",
@@ -478,6 +894,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Ký được mọi trang của tài liệu?",
         a: "Được. Điền danh sách vào ô trang như “1-5” hoặc để một trang; chữ ký được đóng ở cùng vị trí trên từng trang được chọn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Chữ ký này thật sự là gì — và không phải là gì",
+        paragraphs: [
+          "Công cụ này thêm một hình chữ ký vẽ tay hoặc gõ chữ lên trang — giống cách bạn ký lên bản in bằng tay. Đó là chữ ký điện tử theo nghĩa rộng thường ngày: mực nhìn thấy được trên tài liệu, do bạn đặt, từ thiết bị của chính mình. Nó không phải chữ ký số bằng chứng thư số: không có cặp khóa mật mã, không có nhà cấp chứng nhận, và không có cơ chế phát hiện can thiệp mà trình xem có thể xác minh.",
+          "Sự phân biệt này quan trọng về mặt pháp lý. Nhiều nơi tài phán chấp nhận chữ ký điện tử đơn giản cho phần lớn thỏa thuận thường ngày (giấy tờ nhân sự, biểu mẫu nhà cung cấp, phê duyệt nội bộ), trong khi một số nhóm tài liệu cụ thể có thể yêu cầu chữ ký số đủ tiêu chuẩn có chứng thư. Nếu đối tác hay pháp luật yêu cầu chữ ký dựa trên chứng thư, công cụ này không phải thứ đó — hãy dùng dịch vụ ký số đủ tiêu chuẩn.",
+          "Nó mang lại cho bạn: cách ký tài liệu nhanh, miễn phí mà không cần in, scan, gửi giấy tờ qua lại, đồng thời giữ tài liệu hoàn toàn trên máy của bạn. Với lượng khổng lồ các phê duyệt thường ngày mà chữ ký nhìn thấy được là đủ, điều đó phủ đúng nhu cầu thật.",
+        ],
+      },
+      {
+        heading: "Để có chữ ký trông giống bạn",
+        paragraphs: [
+          "Chữ ký vẽ bằng chuột thường xấu hơn chữ ký tay thật của bạn. Nếu diện mạo có ý nghĩa, hai lựa chọn thực dụng: vẽ trên màn hình cảm ứng nếu có, hoặc ký lên một tờ giấy trắng, chụp ảnh, cắt sát nét rồi dùng file ảnh đó. Chữ ký chụp trên giấy trắng tinh nhập vào sạch sẽ và trông đúng như tay bạn.",
+          "Vị trí là một nửa nghệ thuật: chữ ký nên nằm nơi chữ ký thuộc về — phía trên hoặc cạnh dòng chữ ký, không trôi nổi trong khoảng trắng. Thu phóng tới vùng chữ ký, đặt chính xác, và chỉnh cỡ để tỉ lệ khớp với văn bản tài liệu; chữ ký to bằng cả đoạn văn trông như dán vào. Cũng kiểm tra trang tiếp theo nếu biểu mẫu còn tiếp tục ở đó.",
+          "Hãy hiểu mình đang ký gì: vì đây là lớp phủ ảnh, nó không khóa tài liệu. Bất kỳ ai có file đều có thể gỡ ảnh hay sửa văn bản quanh nó. Hãy ký phiên bản cuối — làm phẳng và chốt trước — rồi gửi ở dạng bạn kiểm soát (PDF, không phải bản thảo có thể chỉnh), để cái được ký cũng là cái được lưu hành.",
+        ],
+      },
+      {
+        heading: "Ký là hành động riêng tư nhất; hãy giữ nó cục bộ",
+        paragraphs: [
+          "Chữ ký là hành động chứa nhiều bản sắc nhất được thực hiện trên một tài liệu — cá nhân hơn cả nội dung. Tra hình chữ ký của bạn cho một trang web ký số nghĩa là bản sao chữ ký tay của bạn nằm trên máy chủ của người khác: một hiện vật tái sử dụng được của bản sắc bạn, có thể bị bóc ra dán vào tài liệu khác. Rất ít người trao cho người lạ một tờ đầy chữ ký của mình; tải một chữ ký lên cũng chính là hành động đó với vẻ ngoài đẹp hơn.",
+          "Công cụ này ký hoàn toàn trong trình duyệt của bạn: tài liệu được xử lý trên thiết bị, chữ ký được vẽ vào trang cục bộ, và file đã ký được lưu bởi máy bạn. Hình chữ ký được dùng trong bộ nhớ và không bao giờ được truyền đi, và toàn bộ thao tác chạy offline.",
+          "Một thói quen đáng áp dụng khi ký cục bộ: giữ nguồn chữ ký (ảnh hay nét vẽ) trong thư mục riêng tư thay vì thư mục tải xuống chung, và tạo PDF đã ký riêng cho từng tài liệu. Như vậy hiện vật chữ ký tái sử dụng chỉ tồn tại đúng một nơi bạn kiểm soát, và mỗi tài liệu đã ký là một file cuối riêng biệt — không có bản trung gian chung nào trôi nổi.",
+        ],
       },
     ],
   },
@@ -508,6 +950,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Trang được sao chép từng byte vào tài liệu mới nên chữ vẫn chọn được và ảnh giữ nguyên chất lượng gốc.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tách file là hình ảnh đối xứng của gộp file — và cũng không mất dữ liệu",
+        paragraphs: [
+          "Tách một PDF tạo ra các tài liệu mới, mỗi tài liệu chứa một tập con các trang gốc. Như khi gộp, thao tác làm việc trên cây trang: mỗi tài liệu đầu ra nhận một danh sách tham chiếu trỏ tới các đối tượng trang gốc, được sao chép nguyên xi. Nội dung trang không bao giờ bị vẽ lại hay nén lại, nên mỗi đầu ra giữ chất lượng của nguồn một cách chính xác — văn bản chọn được, font nhúng, độ phân giải ảnh, chú thích.",
+          "Có hai chế độ tách phổ biến với trực giác khác nhau. Tách theo khoảng (“trang 1-5, 6-12”) tạo ra các khối có tên để phân phối — một chương cho mỗi người nhận, một phần cho mỗi phòng ban. Tách mỗi N trang (“mỗi 10 trang”) là công cụ hàng loạt để phá một bản scan hay xuất liệu dài thành các đơn vị xử lý được, ví dụ để đáp ứng giới hạn dung lượng tải lên ở đâu đó.",
+          "Tách không làm gì: trích xuất nội dung bên trong một trang. Một trang chứa nửa thông tin mật và nửa công khai vẫn nguyên vẹn ở đầu ra nào nó rơi vào. Nội dung nhạy cảm dùng chung trang với nội dung chia sẻ được cần tổ chức lại theo trang (hoặc tẩy xóa, một thao tác khác khó hơn nhiều) trước khi tách.",
+        ],
+      },
+      {
+        heading: "Kế hoạch đường cắt: khoảng, ranh giới và đặt tên file",
+        paragraphs: [
+          "Chất lượng của phép tách được quyết định trước khi bạn bấm: bằng nơi bạn vẽ ranh giới. Cắt tại các đường nối cấu trúc — đầu chương, ngắt phần, trang trắng phân cách — chứ không phải theo số trang tùy hứng. Một chương bắt đầu nửa chừng trong một khối còn khó chịu hơn cả một phân bổ hơi lệch. Lướt mục lục hay danh sách dấu trang của tài liệu trước là cách nhanh nhất tìm điểm cắt tự nhiên.",
+          "Đặt tên quan trọng hơn tưởng tượng. Đầu ra của phép tách có xu hướng sinh sôi — và sáu file tên “output_1.pdf” đến “output_6.pdf” đảm bảo sự rối loạn một tuần sau đó. Hãy đặt tên khối theo nội dung (“hop-dong-chu-ky.pdf”, “phu-luc-A.pdf”) ngay khi tạo ra chúng; lúc tách chính là thời điểm hợp lý, vì đó là khi bạn biết chính xác từng khối chứa gì.",
+          "Một thói quen cho việc tách lặp lại: nếu bạn tách cùng một tài liệu dài cùng một cách nhiều lần (sao kê hàng tháng tách theo khách hàng, tài liệu hướng dẫn tách theo chương), hãy giữ danh sách khoảng trong một ghi chú và dùng lại. Các khoảng ổn định miễn là số trang nguồn không đổi — và ghi chú ấy kiêm luôn tài liệu mô tả bộ sưu tập được tổ chức thế nào.",
+        ],
+      },
+      {
+        heading: "Phân phối tài liệu mà không có bản sao của môi giới",
+        paragraphs: [
+          "Tách file thường đi trước phân phối: gửi chương một cho người phản biện, các trang hóa đơn cho kế toán, bản tóm tắt công khai cho khách hàng. Tài liệu bị tách thường là bản gốc đầy đủ và nhạy cảm — điều đó khiến việc tải nó lên dịch vụ tách đặc biệt ngược đời: bạn trao cả tài liệu để tạo ra những mảnh mà bạn định chọn lọc trao đi.",
+          "Công cụ này tách hoàn toàn trong trình duyệt của bạn: PDF nguồn được phân tích cục bộ, các tài liệu đầu ra được lắp trong bộ nhớ từ những tham chiếu trang bạn chọn, và từng file được lưu trực tiếp bởi thiết bị. Bản gốc không bao giờ rời khỏi máy của bạn, nên các phần bạn giữ kín và các phần bạn phát hành được tạo ra dưới cùng điều kiện riêng tư.",
+          "Một hệ quả hữu ích: vì đầu ra là bản sao từng byte của trang gốc, bạn có thể xác minh phép tách bằng cách mở bất kỳ đầu ra nào và kiểm tra các trang của nó giống hệt từng điểm ảnh với trang nguồn tương ứng. Không cần kiểm toán chất lượng — phép tách là cấu trúc chứ không phải sáng tạo, nên chẳng có gì có thể suy giảm từ đầu.",
+        ],
+      },
+    ],
   },
   "watermark-pdf": {
     name: "Watermark PDF",
@@ -536,6 +1004,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Font PDF chuẩn gồm chữ Latinh, dấu câu và ký hiệu quen như ©. Các chữ hệ khác (Trung, Nhật, Ả Rập…) bị thay bằng ? — hãy giữ watermark bằng chữ Latinh.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Hình mờ được thêm vào thế nào — và nó không làm được gì",
+        paragraphs: [
+          "Hình mờ là một lớp phủ: công cụ vẽ chữ hay ảnh của bạn lên trên (hoặc dưới) nội dung của mọi trang, ở vị trí, kích thước và độ trong suốt đã chọn. Nội dung trang gốc nguyên vẹn — cùng cơ chế với số trang, chỉ là to hơn. Đó là lý do đóng mờ diễn ra tức thì và không mất dữ liệu đối với tài liệu nguồn, và file gốc trên đĩa của bạn vẫn không bị đụng tới.",
+          "Lựa chọn kinh điển là chữ bán trong suốt chéo qua trang — “NHÁP”, “MẬT”, tên công ty. Vị trí chéo chống được việc cắt gọn qua loa, và độ trong suốt giữ văn bản thân vẫn đọc được bên dưới. Hình mờ nằm dưới nội dung (vẽ sau lớp chữ) trông sạch hơn nhưng có thể bị các trang vẽ một ảnh nền toàn trang đè lên che khuất.",
+          "Hãy rõ ràng về bản chất hình mờ: một răn đe và dấu đánh dấu, không phải ổ khóa. Bất kỳ ai có công cụ cơ bản đều có thể che hình mờ hay bóc nội dung chưa đóng mờ nếu lớp văn bản còn nguyên. Hình mờ báo hiệu quyền sở hữu và trạng thái (“đây là bản nháp, không phải bản cuối”) cho người đọc trung thực và gây khó khăn cho việc lạm dụng vô tâm — nhưng không chặn được người có chủ đích.",
+        ],
+      },
+      {
+        heading: "Quyết định thiết kế: độ đậm, vị trí và hành vi theo từng trang",
+        paragraphs: [
+          "Độ đậm là núm quyết định hình mờ sống hay chết. Khoảng 10–20% trong suốt, chữ vẫn đọc hoàn toàn và dấu hiện diện mà không hét lên; trên khoảng 30% nó bắt đầu đánh nhau với nội dung và người đọc phải nheo mắt. Hãy thử trên trang chữ dày nhất — hình mờ ổn trên bìa thưa có thể giẫm đạp lên một trang bảng biểu dày đặc.",
+          "Vị trí nên khớp ý định. Một dấu chéo giữa trang nói “nhãn trạng thái” (nháp, mật). Dấu ở góc hay chân trang đọc như con dấu và hợp với ghi nguồn — tên công ty, nguồn gốc tài liệu. Với tài liệu sẽ bị cắt gọn hay nơi lề có thể bị xén, đặt giữa sống sót; dấu góc sát mép có thể bị mất khi in.",
+          "Một tinh tế đáng kiểm tra: hình mờ áp lên mọi trang theo mặc định, gồm cả bìa và trang trắng phân cách, đôi khi trông kỳ. Nếu trang bìa của đầu ra trông bị đóng dấu quá tay, đó là lớp phủ đồng nhất đang làm việc đồng nhất — một số quy trình thay vào đó đóng mờ sau khi ghép và xóa mờ trên bìa bằng cách thêm lại một trang bìa sạch lên trên.",
+        ],
+      },
+      {
+        heading: "Đóng dấu bản nháp ngay tại máy, trước khi chúng lưu hành",
+        paragraphs: [
+          "Hình mờ thường được áp lên chính những tài liệu đang chuyển động: bản nháp gửi đi phản biện, đoạn trích mật chia sẻ để góp ý, hóa đơn và sao kê mang tên đơn vị phát hành. Đây là các tài liệu làm việc mà khán giả của nó bán tín bán yếu theo định nghĩa — và tải chúng lên dịch vụ đóng mờ là trao bản gốc chưa đóng mờ cho bên thứ ba đúng vào khoảnh khắc nó sắp lưu hành.",
+          "Công cụ này đóng mờ ngay trong trình duyệt của bạn: các trang được xử lý cục bộ, dấu được vẽ vào nội dung trang trong bộ nhớ, và đầu ra được lưu bởi thiết bị. Bản gốc chưa đóng mờ không bao giờ rời khỏi máy của bạn; thứ lưu hành chỉ là bản đã đánh dấu mà bạn chủ động tạo ra.",
+          "Còn một khoản lợi quy trình: vì đóng mờ tức thì và cục bộ, việc tạo các biến thể theo từng khán giả rất rẻ — “NHÁP — để phản biện nội bộ” cho nhóm này, một bản có tên người nhận cho nhóm khác. Đánh dấu theo từng người nhận là kỹ thuật truy vết rò rỉ kinh điển, và nó chỉ khả thi khi tạo mỗi biến thể tốn vài giây và không lần tải lên nào.",
+        ],
+      },
+    ],
   },
   "word-to-pdf": {
     name: "Word sang PDF",
@@ -562,6 +1056,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Hỗ trợ file .doc cũ hay chữ không Latinh?",
         a: "Chỉ hỗ trợ .docx. Văn bản dùng font chuẩn PDF nên các ngôn ngữ gốc Latinh hiển thị đúng, còn hệ chữ khác (Trung, Ả Rập…) tạm thời bị thay bằng ?.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao Word-to-PDF thường là chiều đáng tin",
+        paragraphs: [
+          "Chuyển đổi giữa Word và PDF là bất đối xứng, và Word-to-PDF là chiều dễ. Một tài liệu Word có mọi cấu trúc mà bộ dựng cần — chữ, kiểu dáng, bảng, ảnh, bố cục trang — và tạo PDF đơn giản là dựng cấu trúc ấy thành định dạng mô tả trang. Không có gì phải đoán: bạn thấy gì trong Word thì thứ đó được vẽ ra.",
+          "Vì vậy đầu ra của một chuyển đổi Word-to-PDF tốt là trung thực theo đúng cấu trúc: font, khoảng cách, bảng và ngắt trang rơi đúng ý, và PDF đóng băng chúng để mọi trình xem trên mọi thiết bị hiển thị cùng một thứ. Sự đóng băng ấy chính là toàn bộ điểm của định dạng — một hợp đồng nhìn giống hệt trên laptop của bạn, điện thoại của người nhận và máy RIP của nhà in.",
+          "Sự bất đối xứng về độ tin cậy quan trọng khi kế hoạch công việc: chuyển Word-to-PDF vào khoảnh khắc cuối, khi tài liệu đã hoàn chỉnh, và đừng bao giờ định chuyển ngược về Word để chỉnh tiếp. PDF-to-Word là dựng lại (và mất cấu trúc); file .docx chính là bản gốc cần giữ.",
+        ],
+      },
+      {
+        heading: "Font, trường động và danh mục kiểm tra trước khi chuyển",
+        paragraphs: [
+          "Font là cái bẫy kinh điển của Word-to-PDF. Nếu tài liệu dùng font không có trên máy chuyển đổi, bộ dựng thay bằng font giống tương tự và khoảng cách dịch chuyển tinh vi — một dòng chữ ký có thể trôi, một bảng có thể xuống dòng khác. Chuyển đổi tốt nhúng các font nó dựng, nên đầu ra tự chứa; nhưng font đúng phải hiện diện tại thời điểm chuyển. Chuyển trên máy đã soạn tài liệu là mặc định an toàn.",
+          "Kiểm tra các phần động trước khi chuyển: trường mục lục, tham chiếu số trang và tham chiếu chéo nên được cập nhật (Ctrl+A rồi F9 trong Word) để PDF mang con số cuối cùng chứ không phải con số cũ. Cũng kiểm tra tài liệu có chú thích hay thay đổi được theo dõi không — chúng có hiện trong PDF hay không tùy bộ dựng, và gửi một PDF còn hiện markup cho đối tác là tai nạn tiết lộ kinh điển.",
+          "Một thói quen nữa: sau khi chuyển, so số trang và liếc trang đầu với trang cuối. Nếu PDF nhiều hoặc ít hơn Word một trang, có thứ gì bị chảy — thường là do thay thế font — và đáng tìm hiểu trước khi gửi hơn là sau.",
+        ],
+      },
+      {
+        heading: "Tài liệu cuối cùng nên được chốt ngay tại máy",
+        paragraphs: [
+          "Word-to-PDF là bước tạo ra hình thức chính thức của một tài liệu: hồ sơ xin việc để nộp, hóa đơn để gửi, luận văn để nộp kho, hợp đồng để ký. Những hiện vật cuối cùng ấy là đáng bảo vệ nhất, và cũng là những thứ bị tải lên các trang chuyển đổi nhiều nhất — nghĩa là phiên bản gần cuối của hồ sơ hay hợp đồng của bạn nằm trên máy chủ của người xa lạ trước khi bạn kịp gửi cho người nhận thật.",
+          "Công cụ này dựng phép chuyển đổi hoàn toàn trong trình duyệt của bạn: cấu trúc tài liệu được xử lý trên thiết bị, PDF được tạo trong bộ nhớ, và đầu ra được lưu cục bộ. Không gì được tải lên ở bất kỳ giai đoạn nào — phiên bản cuối của tài liệu của bạn tồn tại đúng hai nơi: file .docx gốc và PDF bạn tạo ra, cả hai trên máy bạn.",
+          "Chuyển đổi cục bộ còn khiến kỷ luật phiên bản trở nên thực tế: vì mỗi lần chuyển chỉ tốn vài giây, bạn có thể tạo lại PDF sau mỗi lần chỉnh thay vì giữ một bản cũ — PDF luôn khớp .docx mới nhất. Thói quen ấy xóa sổ hoàn toàn vấn đề kinh điển “mình đã gửi phiên bản nào nhỉ”, và nó chỉ hoạt động khi chuyển đổi không có ma sát tải lên.",
+        ],
       },
     ],
   },
@@ -623,6 +1143,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không có cách an toàn nào trong trình duyệt. Loại bỏ metadata không mất dữ liệu đòi hỏi viết lại cấu trúc file — PNG có thể làm sạch không mất dữ liệu bằng công cụ chuyên dụng, nhưng với JPEG, cách đáng tin và đơn giản chính là mã hóa lại. Ảnh PNG đầu vào ở đây giữ từng điểm ảnh nguyên vẹn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "EXIF giấu gì bên trong ảnh của bạn",
+        paragraphs: [
+          "Mỗi ảnh từ máy ảnh hay điện thoại hiện đại mang theo nhiều hơn những điểm ảnh. Khối EXIF lưu model máy ảnh, ống kính, thông số phơi sáng, dấu thời gian — và nặng hệ quả nhất là tọa độ GPS trong nhiều trường hợp. Một tấm ảnh đời thường đăng lên mạng có thể tiết lộ chính xác căn phòng hay góc phố nơi nó được chụp.",
+          "Khối này thường còn chứa một ảnh xem trước nhỏ nhúng sẵn và, trên một số thiết bị, lịch sử phần mềm và chỉnh sửa. Ảnh chụp màn hình và ảnh tải từ nơi khác thường có rất ít hoặc không có EXIF, nên trình xem metadata đôi khi hiện “không tìm thấy gì” — sự vắng mặt ấy là bình thường, không phải lỗi.",
+          "Gỡ EXIF không phải để che giấu việc làm xấu; đó là vệ sinh thường quy trước khi công bố. Nhà báo, nhà hoạt động, nhân viên y tế và người dùng thường đều có lý do chính đáng để tách nội dung bức ảnh khỏi metadata ghi chép của nó.",
+        ],
+      },
+      {
+        heading: "Gỡ đi thì thay đổi gì — và không thay đổi gì",
+        paragraphs: [
+          "Gỡ EXIF để ảnh nhìn thấy nguyên vẹn: kích thước, màu sắc và chất lượng giữ y nguyên. Cái biến mất là khối metadata, nên file trở nên vô danh — không máy ảnh, không vị trí, không dấu thời gian đính kèm.",
+          "Gỡ không đổi nội dung điểm ảnh, nghĩa là thông tin nhìn thấy được vẫn nhìn thấy. Nếu ảnh chụp một biển báo, một thẻ tên hay một màn hình có chữ, gỡ EXIF không giúp gì; bạn cần cắt hay che những vùng đó riêng.",
+          "Gắn vị trí địa lý là lý do đa số người quan tâm, nhưng dấu thời gian cũng đáng lo: kết hợp với các bài đăng công khai khác, ngày tạo có thể giúp dựng nên lộ trình di chuyển hay thói quen của ai đó. Gỡ metadata toàn phần đóng cả hai kênh cùng lúc.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ chính là toàn bộ ý nghĩa",
+        paragraphs: [
+          "Có một sự trớ trêu khi tải ảnh lên một công cụ “riêng tư”: file nhạy cảm về riêng tư khi ấy đi qua máy chủ của người khác, thứ nhìn thấy chính xác metadata mà bạn đang định gỡ — gồm cả thẻ GPS. Một công cụ gỡ dựa trên tải lên tự phản bội phần lớn mục đích của chính nó.",
+          "Công cụ này đọc và viết lại file hoàn toàn trong trình duyệt của bạn. Ảnh được giải mã cục bộ, metadata bị gỡ bỏ, và file sạch được tạo ra trên thiết bị của bạn; không gì được truyền đi đâu cả, nên chính dữ liệu bạn muốn biến mất chưa từng rời khỏi tay bạn.",
+          "Một thói quen thực dụng: gỡ metadata ở bước cuối trước khi chia sẻ, từ file xuất ra mà bạn thực định đăng. Giữ bản gốc có EXIF làm bản chủ — nó còn giữ thông tin hữu ích như thông số phơi sáng cho việc chỉnh sửa sau này.",
+        ],
+      },
+    ],
   },
   "favicon-generator": {
     name: "Trình tạo Favicon",
@@ -652,6 +1198,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Trình duyệt hiện đại dùng PNG favicon qua thẻ <link> thoải mái, và đoạn mã công cụ tạo ra là đủ. .ico kiểu cũ chỉ còn ý nghĩa với trình duyệt rất già, hiếm đến mức đa số trang web có thể bỏ qua.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao favicon cần nhiều kích thước",
+        paragraphs: [
+          "Favicon không phải là một file duy nhất: cùng một dấu hiệu được hiển thị ở 16 px trong tab trình duyệt, 32 px trong một số tab retina và thanh tác vụ, khoảng 180 px làm Apple touch icon trên màn hình chính iOS, và 512 px cho màn hình cài đặt Android và PWA. Phục vụ một file 16 px duy nhất cho mọi bối cảnh khiến icon màn hình chính trông như vệt điểm ảnh nhòe.",
+          "Trình duyệt chọn icon khai báo lớn nhất khớp với bối cảnh và thu nhỏ một cách mượt mà, nhưng chúng không thể phóng to — nguồn 16 px kéo lên 512 px là mờ không thể cứu. Đó là lý do bộ tạo bắt đầu từ ảnh nguồn độ phân giải cao và tạo cả thang kích thước một lần.",
+          "Bộ khai báo thực dụng phủ vùng chung: 16 và 32 px cho tab, 180 px cho iOS, 192 và 512 px cho manifest Android/PWA. Khai báo đủ tất cả trong HTML với các thẻ link đúng để mỗi nền tảng chọn cỡ phù hợp nhất của nó.",
+        ],
+      },
+      {
+        heading: "Thiết kế dấu hiệu sống sót qua 16 điểm ảnh",
+        paragraphs: [
+          "Phần lớn logo chết ở 16 px: đường mảnh nhập vào nhau thành nhiễu, chữ cái thành cục mờ, chi tiết hai màu biến mất. Cách an toàn cho favicon là rút dấu hiệu về một phần tử nhận ra được duy nhất — một chữ, một biểu tượng, một hình — thay vì thu nhỏ cả logo đầy đủ.",
+          "Thử ở đúng kích thước đích, không phải ở độ phân giải đầy đủ: cái đọc rõ ở 512 px có thể vô hình ở 16 px. Tương phản cao, nét đậm và hình dáng đơn giản sống sót qua thu nhỏ; gradient và viền mảnh thì không.",
+          "Cũng cân nhắc mặt tối: tab và hệ điều hành vẽ icon trên cả nền sáng lẫn nền tối. Dấu hiệu đen tinh trên nền trong suốt biến mất ở dark mode, trắng tinh biến mất ở light mode. Thêm một viền tương phản nhẹ hay một hình nền đặc khiến icon hoạt động ở cả hai.",
+        ],
+      },
+      {
+        heading: "Tạo cục bộ và riêng tư thương hiệu",
+        paragraphs: [
+          "Favicon là hạt giống của nhận diện hình ảnh thương hiệu, và logo đang trong quá trình phát triển thường là bảo mật — dấu hiệu sản phẩm chưa phát hành, các phương án đổi mới. Tạo bộ favicon cục bộ trong trình duyệt nghĩa là một thiết kế chưa từng công khai không bao giờ chạm vào hàng đợi tải lên.",
+          "Công cụ vẽ ảnh nguồn của bạn xuống từng kích thước đích ngay trong trình duyệt thiết bị, cho ra các bản thu nhỏ sạch từ bản gốc đầy đủ độ phân giải. Không máy chủ nào thấy tác phẩm, và các file được tạo tải thẳng về đĩa của bạn.",
+          "Mẹo quy trình: tạo lại bộ khi dấu hiệu nguồn thay đổi, và giữ việc tạo ra là tái lập được — cùng ảnh nguồn phải luôn cho ra cùng bộ favicon, để một kích thước thiếu có thể được tạo lại bất cứ lúc nào.",
+        ],
+      },
+    ],
   },
   "grayscale-image": {
     name: "Ảnh đen trắng",
@@ -674,6 +1246,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao PNG của tôi to hơn sau khi chuyển?",
         a: "Grayscale không đổi cách nén: ảnh nhiều nhiễu có thể nén khác đi chút ít. Chọn JPG cho ảnh chụp và PNG chỉ cho đồ họa phẳng.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao grayscale hơn hẳn “xóa màu đi”",
+        paragraphs: [
+          "Cách ngây thơ để làm ảnh xám là lấy trung bình ba kênh đỏ, lục, lam bằng nhau. Cách đó bỏ qua cách thị giác con người hoạt động: ta nhạy với ánh sáng lục nhiều hơn đỏ, và gần như không nhạy với lam. Lấy trung bình bằng nhau khiến cỏ lục và gạch đỏ — vốn sáng ngang nhau trong mắt — ra sai độ sáng tương đối.",
+          "Chuyển đổi đúng chuẩn dùng các trọng số độ sáng rút ra từ cách mắt cảm nhận mỗi màu gốc, xấp xỉ 0,299 đỏ + 0,587 lục + 0,114 lam (các hệ số ITU-R BT.601 mà chuẩn truyền hình chuẩn hóa từ nhiều thập kỷ trước). Công cụ này chuyển đổi với trọng số thị giác như vậy, nên kết quả xám khớp với điều mắt bạn thực thấy trong bản màu gốc.",
+          "Kết quả còn là một công cụ dựng nguyên thủy hữu ích cho việc chỉnh sửa: nhiều nhiếp ảnh gia chuyển sang xám trước để đánh giá cấu trúc tông của ảnh — có đen thật, trắng thật và các tông giữa mượt hay không — trước khi bận tâm đến màu sắc.",
+        ],
+      },
+      {
+        heading: "Định dạng đầu ra và cái gì được giữ nguyên",
+        paragraphs: [
+          "Chuyển đổi grayscale chỉ đổi dữ liệu màu — hình học điểm ảnh nguyên vẹn, nên kích thước, độ sắc và bố cục sống sót chính xác. Nhờ đó an toàn khi áp ở bất kỳ giai đoạn nào của quy trình mà không có tác dụng phụ dây chuyền như khi lấy mẫu lại.",
+          "Chọn định dạng vẫn quan trọng: lưu PNG khi ảnh chứa chữ, đồ họa phẳng hay khi bạn muốn trung thực tối đa và không mất gì thêm; lưu JPG cho nội dung ảnh chụp nơi dung lượng có ý nghĩa. Một JPEG grayscale thường nhỏ hơn bản màu vì các kênh màu mang phần lớn dữ liệu bị nén đi.",
+          "Một khác biệt tinh tế đáng biết: một ảnh grayscale thật và một ảnh màu mà ba kênh tình cờ bằng nhau đều có thể “nhìn xám”, nhưng chúng được lưu khác nhau. Các công cụ và máy in có thể xử lý chúng khác nhau; nếu hành vi chính xác quan trọng với quy trình in, hãy giữ PNG.",
+        ],
+      },
+      {
+        heading: "Grayscale có ích ở đâu — và riêng tư",
+        paragraphs: [
+          "Các cách dùng kinh điển vượt ngoài thẩm mỹ: bản scan tài liệu đọc sạch hơn khi không có sắc màu từ đèn máy scan; kiểm tra khả năng tiếp cận dùng grayscale để xác minh thiết kế vẫn hoạt động mà không dựa vào màu; và bản in định cất thành đen trắng nên luôn được xem trước bằng xám.",
+          "Nó cũng là công cụ gỡ lỗi cho ảnh: nếu một chân dung có sắc màu lạ hay tông da không đều, chuyển sang xám tách vấn đề tông khỏi vấn đề màu, cho biết bạn nên sửa phơi sáng hay cân bằng trắng.",
+          "Như mọi công cụ ở đây, chuyển đổi chạy hoàn toàn trong trình duyệt của bạn — ảnh không bao giờ rời khỏi thiết bị. Grayscale một lô bản scan cá nhân, bản nháp của khách hay tài liệu riêng mà chẳng cái nào chạm vào máy chủ.",
+        ],
       },
     ],
   },
@@ -704,6 +1302,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc chuyển đổi diễn ra trong trình duyệt bằng bộ giải mã HEIC cục bộ. Ảnh ở lại thiết bị của bạn suốt quá trình — công cụ thậm chí chạy được cả khi offline sau khi trang đã tải.",
       },
     ],
+    deepDive: [
+      {
+        heading: "HEIC thật sự là gì — và vì sao nó tồn tại",
+        paragraphs: [
+          "HEIC là định dạng container đằng sau định dạng ảnh Hiệu suất Cao của Apple, trở thành mặc định cho ảnh máy iPhone từ iOS 11. Nó dựa trên cùng họ nén video HEVC và lưu ảnh với kích thước khoảng một nửa so với JPEG tương đương — vì vậy điện thoại có thể chụp ảnh độ phân giải cao mà bộ nhớ không đầy.",
+          "Sự đánh đổi là khả năng tương thích. HEIC được hỗ trợ tốt trong hệ sinh thái Apple và ở một số phiên bản Windows và Android gần đây, nhưng nhiều trang web, cổng chính phủ, máy in, phần mềm cũ và thiết bị không phải Apple vẫn mong đợi JPG. Một ảnh mở tốt trên điện thoại của bạn có thể bị từ chối ngay khi tải lên đâu đó.",
+          "Chuyển sang JPG đánh đổi dung lượng lấy tính phổ quát: file kết quả lớn hơn nhưng mở được ở đâu cũng được, từ trình duyệt một thập kỷ tuổi đến nhà in. Đó là sự đánh đổi đúng mỗi khi đích đến nằm ngoài tay bạn.",
+        ],
+      },
+      {
+        heading: "Chi tiết chuyển đổi đáng biết",
+        paragraphs: [
+          "JPEG là định dạng mất dữ liệu, nên chuyển HEIC sang JPG là mã hóa lại, không phải đóng gói lại. Với cài đặt chất lượng cao, khác biệt không cảm nhận được trên ảnh thường; với cài thấp, bạn kế thừa các lỗi nén đè lên phần nén gốc. Hãy dùng chất lượng cao nhất trừ khi dung lượng quan trọng hơn độ trung thực.",
+          "Metadata có thể không sống sót qua chuyển đổi: HEIC hỗ trợ các tính năng JPEG không có, như bản đồ chiều sâu dùng bởi chế độ Chân dung. Một JPEG thuần mang ảnh nhìn thấy, kích thước và EXIF chuẩn, nhưng không có các phần mở rộng riêng của Apple. Nếu bạn dựa vào việc chỉnh độ sâu của ảnh sau này, hãy giữ bản HEIC gốc.",
+          "Chuyển hàng loạt là quy trình thực tế: thư viện iPhone chứa hàng trăm hay hàng nghìn file HEIC, và chúng thường cần chuyển ngay khi phải đi đến máy PC, một biểu mẫu web hay ổ đĩa dùng chung. Hãy chuyển đúng những gì đích đến cần, và giữ các bản HEIC gốc làm nguồn sự thật.",
+        ],
+      },
+      {
+        heading: "Riêng tư quan trọng nhất với ảnh cá nhân",
+        paragraphs: [
+          "Ảnh máy chụp thuộc nhóm file nhạy cảm nhất mà người ta có: khoảnh khắc gia đình, nội thất nhà cửa, thói quen du lịch. Các trang chuyển ảnh yêu cầu tải lên nhìn thấy tất cả những điều ấy — và thẻ vị trí EXIF thậm chí có thể ghi lại nơi từng bức được chụp.",
+          "Bộ chuyển này chạy hoàn toàn trong trình duyệt của bạn: HEIC được giải mã và mã hóa lại thành JPG ngay trên thiết bị, không gì được truyền đi. Đó là lựa chọn hợp lý cho thư viện cá nhân chính vì không có máy chủ nào từng nhìn thấy những bức ảnh.",
+          "Một mẹo liên quan: nếu bạn định chia sẻ JPG công khai thay vì chỉ mở nó ở đâu đó, hãy cân nhắc gỡ luôn EXIF vị trí — đổi định dạng tự nó không gỡ metadata vị trí trừ khi công cụ bỏ nó trong lúc mã hóa lại.",
+        ],
+      },
+    ],
   },
   "image-compressor": {
     name: "Nén ảnh",
@@ -730,6 +1354,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Ảnh của tôi có bị tải lên máy chủ?",
         a: "Không. Việc nén do bộ mã hóa canvas dựng sẵn của trình duyệt thực hiện. File không bao giờ rời khỏi thiết bị — bạn thậm chí có thể ngắt mạng và nó vẫn chạy.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Nén mất dữ liệu thật sự vứt bỏ gì",
+        paragraphs: [
+          "Nén kiểu JPEG hoạt động trong ba nước đi: chuyển ảnh thành dữ liệu tần suất, vứt bỏ các thành phần tần suất cao mà mắt bạn ít nhạy nhất, rồi đóng gói phần còn lại hiệu quả. Đó là lý do nén gần như vô hình trên ảnh chụp — da mịn và trời xanh mất rất ít — trong khi chữ mép cứng và nét mảnh chịu thiệt trước tiên, hiện quầng ringing quanh chữ.",
+          "Thanh chất lượng ánh xạ sang lượng thông tin tần suất được giữ lại. Ở mức cao, dữ liệu bị vứt thực sự không cảm nhận được; khi xuống thấp, hiện tượng khối xuất hiện trong dải màu và nhiễu được khuếch đại quanh các mép. Không có con số “tốt nhất” phổ quát: một ảnh chi tiết rộn ràng có thể ổn ở 60 trong khi ảnh chụp màn hình cần 85 mới sạch.",
+          "Nén là một chiều. Mỗi lần lưu lại vứt thêm thông tin, nên chỉnh sửa rồi lưu đi lưu lại một JPEG ở chất lượng trung bình cộng dồn lỗi qua từng thế hệ — hiện tượng gọi là mất chất theo thế hệ. Hãy luôn giữ bản gốc, và nén một lần duy nhất, ở cuối quy trình.",
+        ],
+      },
+      {
+        heading: "Chọn chất lượng, và khi nào kích thước hơn thanh trượt",
+        paragraphs: [
+          "Một thang khởi điểm thực dụng: 80–90 cho ảnh chính và bất cứ thứ gì có chữ; 60–80 cho ảnh thường trên web; dưới 50 chỉ khi giới hạn dung lượng cứng ép buộc. Sau đó hãy phán đoán bằng mắt ở đúng kích thước ảnh sẽ được hiển thị — lỗi nhìn thấy ở thu phóng 100% có thể biến mất hoàn toàn ở chiều rộng trang.",
+          "Khi cả chất lượng thấp cũng không chạm tới dung lượng mục tiêu, số điểm ảnh mới là vấn đề thật. Giảm một nửa cả hai chiều bỏ đi khoảng ba phần tư số điểm ảnh — một bậc mà thanh chất lượng không thể sánh. Hãy đổi kích thước trước, nén sau — hai đòn bẩy hoạt động ở hai thang khác nhau.",
+          "Hãy nhìn các con số byte trước/sau thay vì giả định: một số file đã nén tốt gần như không co thêm, và nén lại chúng chỉ tốn chất lượng. Nếu file vốn đã nén đẹp, tối ưu tốt nhất là để yên hoặc đổi kích thước nó.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ và độ khớp quy trình",
+        paragraphs: [
+          "Nén chạy hoàn toàn trong trình duyệt của bạn: ảnh được giải mã, mã hóa lại và đo lường cục bộ, không có bước tải lên. Nhờ đó dùng được cho công việc của khách, ảnh sản phẩm chưa phát hành hay tài liệu cá nhân mà bạn không muốn trao cho một dịch vụ web xa lạ nào.",
+          "Vì xử lý tức thì, quy trình tự nhiên là lặp lại: thử một giá trị chất lượng, xem bản xem trước và dung lượng, chỉnh, lặp lại. Đây chính xác là điều khiến bộ nén dựa trên tải lên trở nên đau đớn, vì mỗi lần thử tốn một chuyến đi qua mạng.",
+          "Hãy đặt công cụ vào đúng vị trí: nó là bước cuối trước khi công bố. Chỉnh sửa và retouch trước trên bản gốc, xuất một lần, rồi nén chính bản xuất đó. Nén sớm nghĩa là mọi lần chỉnh sau đều nén lại một file đã tổn thương.",
+        ],
       },
     ],
   },
@@ -760,6 +1410,29 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. File được mở ở chế độ chỉ đọc; công cụ giải mã một bản sao trong bộ nhớ và không bao giờ ghi đè lên file gốc. Ảnh của bạn được hiển thị và phân tích hoàn toàn trên thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Các tầng metadata bên trong một file ảnh",
+        paragraphs: [
+          "Metadata trong file ảnh nằm theo từng tầng. Tầng container luôn hiện diện: định dạng file, kích thước điểm ảnh, dung lượng và độ sâu màu. Bên trên là EXIF — hãng và model máy ảnh, ống kính, khẩu, tốc độ màn trập, ISO, tiêu cự, trạng thái flash, dấu thời gian chụp. Sâu hơn nữa là các khối riêng theo định dạng: các chunk tEXt/iTXt của PNG, marker comment của JPEG, đôi khi cả hồ sơ màu nhúng (ICC) và cả thumbnail — vốn tự nó là những ảnh nhỏ.",
+          "Trình xem đọc các tầng này mà không đụng vào điểm ảnh, và đó chính là cách an toàn để soi một file: không gì được giải mã thành file mới, không gì được ghi lại, và không gì có thể hỏng trong quá trình. Bạn thấy gì chính là file thật sự mang — kể cả những phần mà tác giả gốc có thể không biết là có.",
+        ],
+      },
+      {
+        heading: "Dữ liệu GPS của EXIF: tiêu đề riêng tư",
+        paragraphs: [
+          "Phần lớn máy ảnh điện thoại gắn tọa độ GPS vào mỗi ảnh theo mặc định. Tọa độ chính xác đủ đặt một bức ảnh trong vòng vài mét — nghĩa là một tấm ảnh đời thường có thể lặng lẽ tiết lộ nhà của bạn, trường của con bạn hay phòng khách sạn của bạn. Trước khi chia sẻ ảnh công khai, kiểm tra thẻ GPS là thói quen metadata có giá trị nhất.",
+          "Nếu có dữ liệu GPS và bạn định công bố ảnh, hãy đưa nó qua trình gỡ EXIF sau đó. Trình xem metadata và trình gỡ metadata là hai nửa của một quy trình: xem trước để biết gì sẽ rò rỉ, gỡ sau để chắc chắn nó không rò rỉ. Lưu ý là chia sẻ lại qua ứng dụng nhắn tin thường tự gỡ metadata, nhưng chia sẻ file trực tiếp — email, link đám mây, tải lên — thì không.",
+        ],
+      },
+      {
+        heading: "Soi file mà không tải lên",
+        paragraphs: [
+          "File được phân tích cục bộ trong trình duyệt của bạn: các byte thô được đọc từ đĩa vào bộ nhớ và các bảng metadata được giải mã tại đó. Không gì được truyền đi, nên soi những ảnh nhạy cảm là an toàn tuyệt đối — bằng chứng cho một tranh chấp, ảnh công việc có thẻ vị trí, ảnh nằm trong cam kết bảo mật — không rủi ro lộ gì.",
+          "Vì không có tải lên, không có trần kích thước: bản gốc máy ảnh 50 megapixel được soi nhanh đúng bằng thumbnail. Hãy ghép trình xem với trình gỡ EXIF cho một vòng kiểm-tra- rồi-dọn hoàn chỉnh, cả hai chạy trên thiết bị của bạn.",
+        ],
+      },
+    ],
   },
   "image-resizer": {
     name: "Đổi kích thước ảnh",
@@ -786,6 +1459,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Ảnh PNG sau khi đổi kích thước còn giữ độ trong suốt?",
         a: "Có. Việc đổi kích thước giữ nguyên định dạng gốc nên độ trong suốt của PNG và kênh alpha của WebP nguyên vẹn. Chỉ khi chuyển sang JPG, độ trong suốt mới bị phủ trắng.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Thu phóng cho đẹp: hướng nào, preset nào",
+        paragraphs: [
+          "Đổi kích thước có hai hướng với bản chất khác nhau. Thu nhỏ bỏ điểm ảnh, và làm tốt thì gần như không mất gì nhìn thấy được — một ảnh thu về một nửa chiều rộng rồi xem ở cỡ trang không thể phân biệt với bản gốc. Phóng to bịa ra những điểm ảnh chưa từng được chụp, đó là lý do nó chỉ có thể làm mềm hay nhòe.",
+          "Giữ tỷ lệ bị khóa trừ khi đích đến thật sự đòi hỏi méo: chỉnh rộng-cao tự do kéo hình tròn thành bầu dục và khuôn mặt thành phiên bản nhà quỷ. Các nền tảng thường tự cắt hay tự thêm viền để ép tỷ lệ của chúng, nên méo tay hiếm khi là điều ai muốn.",
+          "Các preset phổ biến ánh xạ sang ràng buộc thật: rộng 1920 px khớp màn hình full-HD và đa số cột nội dung blog, 1080 px hợp bài đăng mạng xã hội, 512 px trở xuống phục vụ avatar và icon. Thu về đúng kích thước hiển thị thay vì giao một bản gốc máy ảnh 6000 px là khoản tăng tốc trang lớn nhất có thể có.",
+        ],
+      },
+      {
+        heading: "Trình tự thao tác: đổi kích thước trước khi nén",
+        paragraphs: [
+          "Nếu ảnh cần cả đổi kích thước lẫn nén, hãy đổi kích thước trước. Mỗi điểm ảnh bị bỏ là dữ liệu mà bộ nén không phải mã hóa, và mức giảm tỷ lệ với diện tích — giảm nửa chiều rộng và chiều cao còn một phần tư số điểm ảnh. Không cài đặt chất lượng nào sánh được bậc ấy.",
+          "Đổi kích thước còn tương tác với định dạng: đổi kích thước một PNG ảnh chụp màn hình vẫn không mất dữ liệu, trong khi đổi kích thước một JPG là nén lại và thêm một vòng lỗi. Khi có thể, hãy đổi kích thước từ nguồn ít nén nhất mà bạn có và để định dạng cuối được quyết sau cùng.",
+          "Một chi tiết mọi người hay bỏ sót: sau khi thu nhỏ, làm sắc nhẹ có thể khôi phục độ sắc mà nội suy làm mất — nhưng làm sắc quá tay một ảnh đã thu tạo quầng xấu hơn cả độ mềm. Sự tiết chế áp dụng với làm sắc hơn với bất kỳ cài đặt nào khác ở đây.",
+        ],
+      },
+      {
+        heading: "Đổi kích thước cục bộ và riêng tư",
+        paragraphs: [
+          "Các công việc đổi kích thước thường dính đến nhóm ảnh riêng tư nhất: giấy tờ tùy thân được chỉnh cỡ cho một biểu mẫu, ảnh gia đình thu nhỏ để chia sẻ, ảnh sản phẩm chưa phát hành chuẩn bị cho một listing. Gửi chúng lên một dịch vụ đổi kích thước dựa trên tải lên là trao bản gốc đầy đủ độ phân giải cho kho lưu trữ của người lạ.",
+          "Công cụ này đổi kích thước hoàn toàn trong trình duyệt của bạn: giải mã, co giãn và mã hóa lại diễn ra trên thiết bị, và đầu ra tải xuống trực tiếp. Không gì được truyền đi, nên không có bản sao nào của bản gốc nằm đâu khác ngoài máy của bạn.",
+          "Chế độ hàng loạt khớp với trường hợp lặp lại — một bộ ảnh cùng cần một chiều rộng web. Áp một kích thước cho cả thư mục, tải kết quả về thành ZIP, và giữ bản gốc nguyên vẹn làm nguồn sự thật cho mọi lần đổi kích thước sau này.",
+        ],
       },
     ],
   },
@@ -816,6 +1515,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. JPEG chưa bao giờ lưu độ trong suốt nên không gì lấy lại được — PNG chuyển đổi của bạn hoàn toàn đặc. Muốn tách nền, bạn cần công cụ xóa nền chuyên dụng.",
       },
     ],
+    deepDive: [
+      {
+        heading: "JPG sang PNG có thể và không thể khôi phục gì",
+        paragraphs: [
+          "Sự thật đầu tiên cần chấp nhận: chuyển JPG sang PNG không làm ảnh tốt hơn. PNG không mất dữ liệu, nhưng nó chỉ giữ được cái đang tồn tại — mà cái tồn tại trong một JPG vốn đã là kết quả của nén mất dữ liệu. Các lỗi nén đã nướng vào file sẽ đi vào PNG nguyên xi.",
+          "Điều chuyển đổi mang lại là một tương lai an toàn. PNG giữ mọi điểm ảnh chính xác, nên từ khoảnh khắc chuyển đổi trở đi, chỉnh sửa, cắt và lưu lại không tốn một chút chất lượng nào. Giữ JPG làm bản làm việc nghĩa là mỗi lần lưu đều nén lại và cộng dồn tổn thương.",
+          "Vậy mô hình tư duy đúng là “ổn định hóa”: chuyển đổi đáng làm khi JPG là bản sao tốt nhất của bạn và bạn định tiếp tục chỉnh, lưu trữ hay xuất lại. Nó vô nghĩa như một tuyên bố thẩm mỹ — chẳng ai nhìn vào PNG mà thấy nó đẹp hơn.",
+        ],
+      },
+      {
+        heading: "Kỳ vọng dung lượng và hành vi định dạng",
+        paragraphs: [
+          "Hãy chuẩn bị file sẽ phình to. Nén thông minh của JPEG vứt dữ liệu mà PNG phải lưu trung thực, nên cùng bức ảnh dưới dạng PNG thường lớn gấp nhiều lần bản JPG — PNG trả tiền cho sự chính xác, kể cả ghi lại từng lỗi mà JPG để lại.",
+          "Với nội dung ảnh chụp, mức giá ấy thường không đáng trừ khi bạn cần nó: giữ ảnh là JPG để chia sẻ, và chuyển sang PNG khi ảnh bước vào quy trình chỉnh sửa nơi việc lưu đi lưu lại nếu không sẽ làm suy giảm nó.",
+          "Nơi chuyển đổi thật sự tỏa sáng là trường hợp hỗn hợp: ảnh chứa chữ hay đồ họa phẳng mà bị lưu nhầm thành JPG. Chúng đã hỏng, nhưng đóng băng chúng trong PNG chặn sự tổn thương khỏi tăng thêm theo mỗi lần chỉnh hay lưu tiếp.",
+        ],
+      },
+      {
+        heading: "Quy trình chỉnh sửa và xử lý cục bộ",
+        paragraphs: [
+          "Quy tắc thực dụng cho các đường ống chỉnh sửa: chuyển sang PNG ở đầu, làm toàn bộ chỉnh sửa trong vùng không mất dữ liệu, và chỉ xuất sang JPG ở bước giao cuối cùng. Như vậy bước mất dữ liệu diễn ra đúng một lần, ở cuối, thay vì một lần mỗi lần chỉnh.",
+          "Kho lưu trữ và bản gốc được lợi vì lý do khác: định dạng trôi và phần mềm già đi, nhưng dữ liệu điểm ảnh không mất dữ liệu của PNG là đại diện bền nhất cho những gì file thật sự chứa. Chuyển bản sao tốt nhất của bạn sang PNG là một hợp đồng bảo hiểm nhỏ chống các sai lầm nén lại trong tương lai.",
+          "Như mọi nơi trên trang này, chuyển đổi chạy cục bộ trong trình duyệt của bạn — giải mã, mã hóa và tải xuống diễn ra trên thiết bị, không tải lên. Vì vậy chuyển ảnh cá nhân hay bản gốc của khách chưa từng phơi chúng cho một máy chủ bên thứ ba.",
+        ],
+      },
+    ],
   },
   "merge-images": {
     name: "Gộp ảnh",
@@ -838,6 +1563,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Thứ tự có quan trọng?",
         a: "Có — ảnh được đặt theo thứ tự trong danh sách, từ trái sang phải, từ trên xuống. Xóa và thêm lại để đổi thứ tự.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Chọn bố cục: ngang, dọc hay lưới",
+        paragraphs: [
+          "Gộp ảnh là một quyết định bố cục trước khi là quyết định kỹ thuật. Gộp ngang hợp với chuỗi đọc từ trái sang phải — so sánh trước/sau, bước một cạnh bước hai. Xếp dọc hợp với danh sách và nội dung kiểu chat, nơi mỗi ảnh nối tiếp xuống dưới. Bố cục lưới hợp với ghép ảnh và so sánh nhiều tấm nơi không có thứ tự đọc nào chi phối.",
+          "Biến số ẩn là kích thước đầu vào khác nhau. Khi các ảnh gộp không dùng chung một chiều, công cụ phải quyết định: kéo giãn để khớp (méo mó), đệm để khớp (thêm viền nền), hay căn về một cạnh và chấp nhận bất đối xứng. Biết mình đang nhận hành vi nào chặn đứng phần lớn bất ngờ.",
+          "Khoảng cách và màu nền là lớp hoàn thiện: vài điểm ảnh khoảng hở với nền trung tính biến hai ảnh áp sát nhau thành một tổng thể có chủ đích. Trên nền trong suốt, khoảng hở vẫn trong suốt trong đầu ra PNG — điều quan trọng với các lớp phủ.",
+        ],
+      },
+      {
+        heading: "Hành vi định dạng khi gộp",
+        paragraphs: [
+          "Gộp thường không mất dữ liệu về cấu trúc — đó là hợp thành, không phải nén — nhưng định dạng đầu ra quyết định điều gì xảy ra tiếp theo. Đầu ra PNG giữ chính xác mọi điểm ảnh đầu vào và giữ trong suốt; đó là mặc định an toàn cho ảnh chụp màn hình, đồ họa và bất cứ thứ gì có chữ.",
+          "Đầu ra JPG nướng kết quả gộp thành một hình chữ nhật phẳng: các khoảng hở trong suốt thành màu nền đặc, và cả tổng thể chịu một vòng nén mất dữ liệu. Điều đó ổn với tổng thể ảnh chụp và bắt buộc về dung lượng khi nhiều ảnh lớn gộp vào một file.",
+          "Chú ý kích thước tổng: gộp dọc cộng chiều cao và giữ chiều rộng lớn nhất, nên một thư mục ảnh chụp màn hình cao có thể cho ra kết quả cao hơn mức nhiều trình xem hiển thị dễ chịu. Tách hay co nguồn trước khi gộp đôi khi hơn là một đầu ra khổng lồ duy nhất.",
+        ],
+      },
+      {
+        heading: "Gộp cục bộ giữ cho tổng thể được riêng tư",
+        paragraphs: [
+          "Ảnh gộp thường kết hợp nội dung nhạy cảm: so sánh hai dashboard nội bộ, ảnh chụp tài liệu lộ đường dẫn file và tên người dùng, ảnh trước/sau cá nhân. Một dịch vụ gộp dựa trên tải lên thấy từng đầu vào trọn vẹn — tổng thể cùng mọi mảnh của nó.",
+          "Công cụ này hợp thành hoàn toàn trong trình duyệt của bạn: mỗi ảnh được giải mã và vẽ lên một canvas dùng chung cục bộ, và file gộp xong được ghi vào đĩa của bạn. Không đầu vào nào rời khỏi thiết bị, nên các mảnh riêng tư đúng bằng kết quả cuối.",
+          "Thứ tự quan trọng cho việc tái lập: ghi lại hay giữ thứ tự ảnh được thêm, vì một phép gộp đảo hay xáo trộn cho ra file nhìn giống nhưng nghĩa khác — chết người với so sánh trước/sau nơi hướng chính là toàn bộ thông điệp.",
+        ],
       },
     ],
   },
@@ -869,6 +1620,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Độ chính xác của OCR phụ thuộc nhiều vào nguồn: ảnh mờ, trang cong, font nhỏ và nền rối đều gây đọc nhầm. Dùng ảnh sắc nhất bạn có, cắt đúng vùng chữ, và chuẩn bị soát lỗi — nhất là các con số và ký tự trông giống nhau.",
       },
     ],
+    deepDive: [
+      {
+        heading: "OCR biến điểm ảnh thành văn bản thế nào",
+        paragraphs: [
+          "Nhận dạng ký tự quang học là một đường ống, không phải một bước đơn lẻ: trước hết ảnh được tiền xử lý (chỉnh tương phản, giảm nhiễu, thẳng hàng), rồi bố cục được phân tích để tìm những vùng trông như khối chữ, sau đó một mô hình nhận dạng ánh xạ từng hình dạng ký tự thành một chữ cái, và cuối cùng các mảnh được lắp lại thành dòng và đoạn.",
+          "Độ chính xác phụ thuộc nhiều vào chất lượng nguồn. Bản scan sạch, độ phân giải cao của chữ in với tương phản tốt có thể tiến gần nhận dạng hoàn hảo; ảnh độ phân giải thấp, trang nghiêng, font trang trí và chữ viết tay đều làm độ chính xác tụt mạnh. Nguyên tắc cầm tay: ảnh càng giống tài liệu photocopy thì kết quả càng tốt.",
+          "Cài đặt ngôn ngữ quan trọng ngang chất lượng ảnh: bộ nhận dạng cần biết mong đợi bảng chữ cái và hình dạng từ nào. OCR một hóa đơn tiếng Nhật bằng mô hình tiếng Anh cho ra vô nghĩa đầy tự tin — luôn khớp mô hình với ngôn ngữ của văn bản.",
+        ],
+      },
+      {
+        heading: "Lấy kết quả tốt hơn từ nguồn không hoàn hảo",
+        paragraphs: [
+          "Vài thói quen nâng độ chính xác đáng kể. Cắt bỏ vùng quanh không liên quan trước khi chạy nhận dạng, làm thẳng hay chụp lại trang bị nghiêng, và tăng tương phản nếu chữ quá mờ — ảnh chụp màn hình của chữ thường thắng ảnh chụp màn hình vật lý vì không có phối cảnh hay chói lóa.",
+          "Cẩn thận với các cặp ký tự mà mô hình hay nhầm ở chất lượng thấp: 0 và O, 1 với l và I, rn và m. Số trong bảng, mã và số tiền xứng đáng một lượt soát tay — một chữ số sai trong số tài khoản hay mức giá là lỗi OCR kinh điển.",
+          "Hãy coi đầu ra là bản nháp, không phải bản chép nguyên văn: soát mọi thứ bạn sẽ dán vào tài liệu, và giữ ảnh gốc. Tổ hợp nhận dạng máy nhanh cộng một lượt kiểm tra ngắn của người vượt xa độ tin cậy của riêng cái nào.",
+        ],
+      },
+      {
+        heading: "Riêng tư là lý do OCR cục bộ có ý nghĩa",
+        paragraphs: [
+          "Những tài liệu người ta OCR đúng là những tài liệu nhạy cảm: hợp đồng, scan giấy tờ tùy thân, phiếu lương, biên lai có số thẻ, ghi chú viết tay. Các dịch vụ OCR dựa trên tải lên nhận trọn vẹn bức ảnh — và do đó cả văn bản cùng mọi dữ liệu cá nhân trong đó — trên hạ tầng của người khác.",
+          "Công cụ này thực hiện nhận dạng hoàn toàn trong trình duyệt của bạn: ảnh được xử lý trên thiết bị và văn bản trích xuất ở lại trên màn hình của bạn. Không gì được truyền đi, nên OCR tài liệu mật không mang rủi ro tải lên nào.",
+          "Một hệ quả thực dụng: bạn có thể OCR tài liệu nằm trong cam kết bảo mật, giấy tờ y tế hay hồ sơ nội bộ mà không cần đọc chính sách riêng tư của ai trước, vì không có bên ngoài nào tham gia vào quá trình xử lý.",
+        ],
+      },
+    ],
   },
   "png-to-jpg": {
     name: "PNG sang JPG",
@@ -897,6 +1674,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Chuyển đổi chỉ đổi cách mã hóa; không thể thêm chi tiết. Nếu bản PNG đã trông mềm, bản JPG sẽ mềm y hệt (thêm nhiễu nén nhẹ nếu chất lượng quá thấp).",
       },
     ],
+    deepDive: [
+      {
+        heading: "Khi không mất dữ liệu chạm mặt mất dữ liệu",
+        paragraphs: [
+          "PNG lưu mọi điểm ảnh chính xác: nén không mất dữ liệu, nên giải mã trả về đúng ảnh cũ. JPEG vứt dữ liệu mà mắt ít khả năng để ý, đánh đổi độ trung thực lấy file nhỏ hơn nhiều. Chuyển PNG sang JPG vì thế là chọn mất thông tin để lấy kích thước.",
+          "Với ảnh chụp, sự đánh đổi gần như vô hình: một ảnh lưu từ PNG sang JPG ở chất lượng cao nhìn như cũ và thường co lại nhiều lần. Tổn thương tập trung ở nơi PNG đang bảo vệ độ chính xác — mép cứng, chữ, đồ họa màu phẳng và dải màu đều — nơi JPEG tạo quầng ringing và dải màu băng.",
+          "Một tổn thất cấu trúc là toàn phần: trong suốt. Kênh alpha của PNG không thể sống sót trong JPG, nên các vùng trong suốt phải được tô bằng màu nền, thường là trắng. Nếu PNG của bạn có vùng nhìn xuyên và nền đích không phải trắng, hãy chuẩn bị thấy một hộp màu trừ khi bạn tô đúng màu trước.",
+        ],
+      },
+      {
+        heading: "Khi nào chuyển đổi đáng — và khi nào thì không",
+        paragraphs: [
+          "Hãy chuyển khi dung lượng hay khả năng tương thích đòi hỏi: nền tảng từ chối tải lên PNG, biểu mẫu giới hạn dung lượng, thư viện ảnh hàng trăm tấm. Một PNG mang nội dung ảnh chụp gần như luôn lãng phí byte — máy ảnh không bao giờ xuất PNG, nên một PNG ảnh chụp thường đến từ đường ống chụp màn hình hay một lần xuất nhầm, và JPG giảm nó một nửa mà không chênh lệch nhìn thấy.",
+          "Đừng chuyển khi độ chính xác là điều cốt lõi: logo, ảnh chụp giao diện, biểu đồ, pixel art và bất cứ thứ gì có chữ nên ở lại PNG. Chuyển chúng sang JPG mua được ít dung lượng và đánh mất các mép sắc không thể khôi phục.",
+          "Câu hỏi tô nền xứng đáng một quyết định chứ không phải một mặc định: trắng hợp đa số bối cảnh in và tài liệu; một màu khớp trang đích hợp đồ họa web. Chọn màu tô có chủ đích là khác biệt giữa một chuyển đổi sạch và một chuyển đổi lộ liễu.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi cục bộ giữ file được riêng tư",
+        paragraphs: [
+          "Chuyển đổi chạy hoàn toàn trong trình duyệt của bạn: PNG được giải mã, ghép lên nền đã chọn, mã hóa lại thành JPG và trả về — tất cả trên thiết bị của bạn. Không có bước tải lên nghĩa là ảnh chụp công cụ nội bộ, tài liệu khách hàng hay tài liệu cá nhân chưa từng chạm vào máy chủ.",
+          "Xử lý tức thì, nên quy trình thực dụng cho lô hỗn hợp là xem nội dung từng ảnh trước: ảnh chụp thì qua chuyển đổi, đồ họa thì ở lại PNG. Không có một cài đặt duy nhất nào thay bạn quyết — câu trả lời đúng phụ thuộc nội dung từng file.",
+          "Giữ bản PNG gốc sau khi chuyển. JPG không đi ngược lại được: một khi chi tiết tần suất cao và kênh alpha đã mất, không công cụ nào khôi phục được, và bản gốc là con đường duy nhất để đổi màu nền khác hay xuất lại không mất dữ liệu sau này.",
+        ],
+      },
+    ],
   },
   "rotate-image": {
     name: "Xoay ảnh",
@@ -923,6 +1726,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Lật ảnh ngang như gương được không?",
         a: "Được — dùng nút “Lật ngang” để đối xứng trái–phải, hoặc “Lật dọc” cho trên–dưới. Có thể kết hợp với mọi góc xoay.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Xoay sắp xếp lại điểm ảnh — nhưng không bao giờ lấy mẫu lại chúng",
+        paragraphs: [
+          "Xoay 90 độ là trường hợp sạch: mọi điểm ảnh chuyển sang tọa độ mới và không cần nội suy, nên nội dung ảnh sau đó giống từng điểm ảnh với trước. Kích thước đơn giản là hoán đổi — ảnh 4000×3000 thành 3000×4000.",
+          "Góc tùy ý thì khác: không hình chữ nhật xoay nào khớp lại được vào lưới điểm ảnh gốc, nên các góc phải được tô bằng màu nền và nội dung phải được nội suy để rơi đúng các điểm lưới. Đó là lý do nghiêng 10 độ hiện các tam giác ở góc và lý do xoay mạnh trên ảnh nhỏ làm mềm các mép.",
+          "Hệ quả thực dụng là ưu tiên các lượt xoay tròn 90 độ khi có thể, và làm xoay góc tự do từ nguồn độ phân giải cao nhất có sẵn. Nếu cần chỉnh 5 độ, hãy làm trên bản gốc, không phải trên bản sao đã đổi kích thước.",
+        ],
+      },
+      {
+        heading: "Vì sao ảnh chụp từ điện thoại ra nằm ngang: hướng EXIF",
+        paragraphs: [
+          "Vấn đề kinh điển “ảnh điện thoại nằm ngang” không phải lỗi xoay — đó là metadata. Máy ảnh ghi cách cảm biến được cầm vào một cờ hướng EXIF và lưu các điểm ảnh theo một hướng cố định; trình xem đọc cờ hiển thị ảnh thẳng đứng, phần mềm bỏ qua cờ hiển thị nằm ngang.",
+          "Vì vậy cùng một ảnh nhìn đúng trên điện thoại của bạn mà lại nằm ngang trong một công cụ web cũ hay một trình chỉnh ảnh: hai bên bất đồng về việc có tin cờ hay không. Trình duyệt giờ phần lớn tôn trọng cờ, có thể gây bối rối khi cùng file đó xoay bất ngờ sau khi tải xuống và mở lại ở nơi khác.",
+          "Các công cụ xoay như công cụ này làm việc trên điểm ảnh thật và xuất một file có hướng đúng chuẩn, nên kết quả đúng ở mọi nơi bất kể phần mềm tiếp theo xử lý metadata ra sao. Sau một lần xoay có chủ đích, file không còn phụ thuộc vào cờ nữa.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ và các thói quen xoay an toàn",
+        paragraphs: [
+          "Xoay chạy hoàn toàn trong trình duyệt của bạn: ảnh được giải mã, biến đổi và mã hóa lại trên thiết bị, không tải lên. Tài liệu, ảnh gia đình hay ảnh chưa phát hành được xoay mà chẳng cái nào đi đến máy chủ.",
+          "Xoay từ bản gốc, lưu kết quả thành file mới, và giữ cả hai. Xoay góc tùy ý mã hóa lại ảnh, và chồng các thao tác như vậy — xoay, cắt, đổi kích thước, xoay tiếp — cộng dồn mất chất theo thế hệ hệt như lưu JPEG nhiều lần.",
+          "Một thói quen nữa: lật và soi gương không phải là xoay. Ảnh được soi gương đảo trái và phải, điều này có ý nghĩa với chữ, logo và cảnh bất đối xứng dễ nhận ra. Nếu ảnh cần soi gương, hãy dùng công cụ nói rõ điều đó — đầu ra là một ảnh khác thật sự, không chỉ là bản đã xoay.",
+        ],
       },
     ],
   },
@@ -954,6 +1783,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Chỉ các góc bị đụng tới — điểm ảnh bên trong nguyên vẹn. Đầu ra PNG không mất dữ liệu, còn JPG được mã hóa lại ở chất lượng cao nên dung lượng có thể nhích lên hay xuống chút ít.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bo góc thật sự hoạt động thế nào",
+        paragraphs: [
+          "Ảnh vốn dĩ là hình chữ nhật, nên bo góc không phải thứ mà ảnh “có” — đó là độ trong suốt được khắc ra khỏi bốn góc. Việc bo dùng kênh alpha: điểm ảnh bên trong phần tư hình tròn giữ đặc, điểm ảnh bên ngoài thành trong suốt hoàn toàn, và vài điểm ảnh trên cung được trong suốt một phần để làm mượt đường cong.",
+          "Đó là lý do đầu ra phải là PNG (hay WebP có alpha): JPG không thể lưu trong suốt, nên nó sẽ tô các góc đã khắc bằng một màu đặc và việc bo thành giả — một viền vuông trắng hay đen lộ rõ trên bất kỳ nền không khớp nào.",
+          "Bán kính quyết định tính cách: bán kính nhỏ đọc như một nét hiện đại tinh tế, bán kính bằng nửa cạnh ngắn biến cả ảnh thành viên thuốc hay hình tròn. Khớp bán kính với các giá trị border-radius của hệ thiết kế giúp ảnh chụp màn hình đồng nhất với giao diện xung quanh.",
+        ],
+      },
+      {
+        heading: "Bo góc quan trọng ở đâu trong bố cục thật",
+        paragraphs: [
+          "Các hệ thiết kế bo gần như mọi thứ: thẻ, nút, avatar, ô ảnh. Một ảnh chụp màn hình vuông góc thả vào một thẻ bo tròn trông như hiện vật từ thời khác; bo ảnh chụp theo cùng bán kính khiến nó cảm giác thuộc về bố cục.",
+          "Bài thuyết trình và tài liệu được lợi tương tự: ảnh chụp bo góc đọc như thiết kế có chủ đích, trong khi ảnh vuông đọc như dán thô. Vài điểm ảnh trong suốt còn cho nền trang hay slide hở qua, gắn ảnh với môi trường xung quanh.",
+          "Trên mạng xã hội và nhắn tin, bo góc mượn độ uy tín từ giao diện ứng dụng — ảnh trông như đến từ một sản phẩm chỉn chu được coi trọng hơn những bản chụp thô mép cứng. Hiệu ứng nhỏ nhưng nhất quán.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ và ghi chú quy trình",
+        paragraphs: [
+          "Việc bo chạy hoàn toàn trong trình duyệt của bạn: ảnh được giải mã, mặt nạ góc được áp, và PNG trong suốt được tạo ra trên thiết bị của bạn. Không gì được tải lên — điều đáng quan tâm khi các ảnh chụp màn hình được bo lộ công cụ nội bộ, dữ liệu khách hàng hay bối cảnh cá nhân.",
+          "Chế độ hàng loạt xử lý trường hợp phổ biến: một bộ tài liệu nơi mọi ảnh chụp màn hình cần cùng bán kính. Áp một bán kính cho cả thư mục rồi tải kết quả về, thay vì gõ lại giá trị cho từng ảnh.",
+          "Hãy giữ bản gốc vuông. Các điểm ảnh góc bị gỡ vĩnh viễn, nên nếu lựa chọn bán kính đổi sau này — một đợt cập nhật hệ thiết kế, một nền tảng khác — con đường duy nhất là bo lại từ nguồn chưa cắt, không phải từ bản đã bo.",
+        ],
+      },
+    ],
   },
   "screenshot-tool": {
     name: "Công cụ chụp màn hình",
@@ -980,6 +1835,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Chạy trên điện thoại hay tablet không?",
         a: "Không. Trình duyệt trên iOS và Android không cho trang web chụp màn hình, nên công cụ sẽ nói rõ là không khả dụng ở đó. Trên máy tính, Chrome, Edge, Firefox và Safari đều hỗ trợ.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Chụp vào bộ nhớ tạm, rồi khoác áo mới",
+        paragraphs: [
+          "Một ảnh chụp màn hình hiếm khi là sản phẩm cuối: nó cần khung, bo góc, chỉnh màu hay kích thước trước khi khớp vào slide, báo cáo lỗi hay bài đăng mạng xã hội. Chụp thẳng vào khung chỉnh sửa gộp hai bước thành một — lấy vùng, chỉnh, tải xuống — thay vì nhảy giữa phím tắt hệ điều hành, trình chỉnh sửa và trình quản lý file.",
+          "Khung viền là lớp hóa trang giá trị nhất cho ảnh chụp màn hình: một đường viền mảnh màu trung tính tách ảnh khỏi nền bất kỳ nơi nó rơi xuống, nhất là trên các trang có nền trắng trùng với nền ảnh chụp. Không viền, một ảnh nền trắng đơn giản là tan vào trang.",
+          "Chú thích phai rất nhanh trong trí nhớ, nên thói quen quy trình có lời là chụp, hóa trang và lưu ngay — những ảnh chụp để nguyên dữ liệu bộ nhớ tạm thường mất bối cảnh, và chụp lại một trạng thái giao diện nhất thời (một dropdown đang mở, một tooltip đang hiện) có thể bất khả thi vài phút sau.",
+        ],
+      },
+      {
+        heading: "Vì sao ảnh chụp màn hình xứng đáng PNG không mất dữ liệu",
+        paragraphs: [
+          "Ảnh chụp màn hình là bức chân dung tiêu biểu cho PNG hơn JPG: chúng chứa màu phẳng, mép cứng và chữ — chính xác loại nội dung mà nén JPEG làm hỏng bằng quầng ringing quanh chữ và băng màu trong dải phẳng. Một JPG ảnh chụp trông bẩn ngấm; một PNG giống hệt từng điểm ảnh những gì trên màn hình.",
+          "Nơi duy nhất JPG thắng là ảnh chụp của ảnh chụp: một bức ảnh hiển thị trên màn hình chứa chi tiết ảnh tự nhiên mà nén tốt. Với mọi thứ còn lại — cửa sổ, terminal, tài liệu, phần tử giao diện — khoản phí dung lượng của PNG mua về sự sạch nhìn thấy được.",
+          "Nếu dung lượng quan trọng (một số biểu mẫu giới hạn ảnh chụp vài trăm KB), đòn bẩy trung thực là vùng chụp: cắt sát trước khi động vào cài chất lượng. Một PNG cắt sát cửa sổ liên quan vừa nhỏ hơn vừa hữu ích hơn một JPG toàn màn hình.",
+        ],
+      },
+      {
+        heading: "Những gì ở lại trên thiết bị của bạn",
+        paragraphs: [
+          "Ảnh chụp màn hình thường xuyên lộ bối cảnh riêng: dashboard nội bộ, tin nhắn cá nhân, tên file, tab trình duyệt, dữ liệu khách hàng. Tải một ảnh chụp lên dịch vụ chụp là gửi toàn bộ bối cảnh ấy đến máy chủ của người lạ — rủi ro được tránh hoàn toàn khi chụp và chỉnh sửa diễn ra cục bộ.",
+          "Công cụ này chụp và xử lý ngay trong trình duyệt của bạn: điểm ảnh đến từ phiên màn hình của bạn, các bước hóa trang chạy trên thiết bị, và file được ghi thẳng vào đĩa. Không gì được truyền đi ở bất kỳ thời điểm nào.",
+          "Một thói quen riêng tư đáng áp dụng: trước khi lưu bất kỳ ảnh chụp nào để chia sẻ, quét mép vùng chụp tìm bối cảnh vô tình — một màn hình thứ hai, một thông báo, một thanh địa chỉ. Chụp lại một khung sạch dễ hơn thu hồi một cú rò rỉ.",
+        ],
       },
     ],
   },
@@ -1010,6 +1891,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có. Kết quả là PNG có đầy đủ kênh alpha nên icon giữ nguyên độ trong suốt như trong SVG. Chỉ font và ảnh ngoài được SVG tham chiếu có thể cần nhúng vào file để hiển thị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao SVG phóng vô hạn còn định dạng raster thì không",
+        paragraphs: [
+          "Ảnh raster (JPG, PNG, WebP) là một lưới điểm ảnh cố định: phóng to thì lưới kéo giãn, nên mép nhòe và khối xuất hiện. SVG hoàn toàn không phải lưới — nó là một danh sách lệnh vẽ (đường thẳng, đường cong, hình, màu tô) mà bộ dựng tính lại ở bất kỳ kích thước nào được yêu cầu. Thu phóng 5000% và mọi mép vẫn sắc như dao vì các mép được vẽ lại, không phải được phóng.",
+          "Đó là lý do logo, icon và biểu đồ là chất liệu SVG lý tưởng: hình khối hình học với màu phẳng sống sót hoàn hảo qua mô tả vector. Ảnh chụp là trường hợp ngược lại — một bức ảnh mô tả bằng vector hoặc là khổng lồ hoặc là bản xấp xỉ xấu, vì vậy các bộ chuyển ảnh-sang-SVG vẽ nét ảnh thành các hình cách điệu chứ không phải bản thể hiện đúng thật.",
+          "SVG còn là văn bản: một file XML bạn có thể mở trong trình soạn thảo, quản lý phiên bản như code, và sửa màu hay đường dẫn bằng tay. Khả năng soi được ấy là một siêu năng lực thầm lặng — màu của một icon có thể đổi bằng một thuộc tính thay vì một lần xuất lại.",
+        ],
+      },
+      {
+        heading: "Raster sang SVG so với SVG sang raster: hai công việc khác hẳn nhau",
+        paragraphs: [
+          "Chuyển SVG sang raster là chụp đúng thật: bộ dựng vẽ các hình vector ở kích thước bạn chọn và điểm hóa kết quả. Hãy chọn đúng kích thước — PNG/JPG được vẽ ra bị đóng băng ở độ phân giải ấy và từ đó ứng xử như mọi ảnh raster khác.",
+          "Chuyển raster sang SVG là diễn giải, không phải dịch thuật. Thuật toán vẽ nét xấp xỉ các vùng điểm ảnh bằng đường cong và vùng màu, nên đầu ra là một bản dựng cách điệu: tuyệt vời cho logo và đồ họa đơn giản cần khả năng co giãn, sai lầm cho bất cứ thứ gì phải nhìn giống từng điểm ảnh bức ảnh gốc.",
+          "Chọn hướng theo nhu cầu: nếu nguồn vốn là vector và nền tảng đích chỉ nhận raster, hãy chuyển xuống và chọn kích thước rộng rãi cho màn hình retina. Nếu nguồn là một đồ họa đơn giản mắc kẹt trong PNG và bạn cần co giãn vô hạn hay file cực nhỏ, vẽ nét sang SVG là bước nâng cấp.",
+        ],
+      },
+      {
+        heading: "Ghi chú thực dụng và xử lý cục bộ",
+        paragraphs: [
+          "File SVG thường rất nhỏ — một icon mô tả bằng vài đường path có thể nặng một phần kilobyte so với hàng chục kilobyte của bản PNG tương đương. Với giao diện ngập icon, chênh lệch ấy nhân lên qua từng tài nguyên và từng lần tải trang.",
+          "Một lưu ý tương thích: một số bề mặt hạn chế SVG vì nó có thể chứa script. Nếu một nền tảng chặn tải lên SVG, xuất một phiên bản PNG lớn là cách xử lý chuẩn — hãy tạo ở hai đến ba lần kích thước hiển thị để nó vẫn sắc trên màn hình mật độ cao.",
+          "Chuyển đổi ở đây chạy hoàn toàn trong trình duyệt của bạn: dựng hình và vẽ nét diễn ra trên thiết bị, không có bước tải lên. Chuyển logo khách hàng, tài sản thương hiệu hay biểu đồ nội bộ chưa từng gửi chúng đến bất kỳ máy chủ nào.",
+        ],
+      },
+    ],
   },
   "convert-image": {
     name: "Chuyển đổi ảnh",
@@ -1038,6 +1945,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Chrome, Edge, Firefox và Safari 17+ lưu được WebP. Nếu trình duyệt không mã hóa được WebP, công cụ sẽ báo và chuyển sang JPG để bạn luôn nhận được file dùng được.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Chọn định dạng đích bằng điều gì phải sống sót",
+        paragraphs: [
+          "Chuyển đổi định dạng thực chất là câu hỏi về những thuộc tính nào quan trọng với đích đến. Hãy hỏi ba câu: nó có cần trong suốt không (PNG hay WebP là có, JPG là không), nội dung là ảnh chụp hay đồ họa (JPG/WebP cho ảnh, PNG cho chữ và mép cứng), và người nhận có chấp nhận định dạng đó không (một số nền tảng, CMS và phần mềm cũ chỉ nhận JPG và PNG).",
+          "Hai ràng buộc thu hẹp lựa chọn rất nhanh. Nếu trong suốt phải sống sót, JPG bị loại ngay lập tức. Nếu file phải mở trong phần mềm xa lạ — một biểu mẫu, một máy in, Windows cổ của khách — JPG và PNG là hai canh bạc an toàn nhất, vì mọi hệ thống ảnh của những thập kỷ qua đều đọc được chúng.",
+          "WebP chiếm vùng giữa hiệu quả: nhỏ hơn JPG ở cùng chất lượng, hỗ trợ trong suốt, nhưng có đuôi tương thích dài nhất. Mẫu thực dụng là chuyển sang WebP cho trang của chính bạn và sang JPG/PNG cho mọi nơi bạn không kiểm soát.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi thật sự tốn gì",
+        paragraphs: [
+          "Chuyển giữa các định dạng mất dữ liệu là mã hóa lại: một JPG lưu lại thành WebP mất dữ liệu là vứt dữ liệu lần hai. Ở chất lượng cao tổn thất vô hình, nhưng xích các chuyển đổi mất dữ liệu — JPG sang WebP rồi về JPG — cộng dồn lỗi như mọi lần nén lặp lại. Hãy chuyển một lần, hướng thẳng vào định dạng cuối.",
+          "Chuyển sang định dạng không mất dữ liệu luôn giữ thông tin so với nguồn: JPG sang PNG giữ mọi thứ JPG chứa, kể cả lỗi của nó, nhưng không mất thêm gì. File phình to vì không mất dữ liệu buộc phải ghi trung thực từng điểm ảnh.",
+          "Chú ý trong suốt dọc đường ống: chuyển một ảnh có kênh alpha sang JPG lặng lẽ tô các vùng trong suốt bằng màu nền. Nếu kết quả hiện một hộp trắng hay đen không mong đợi, đó là kênh alpha bị dẹt hóa, không phải hỏng dữ liệu.",
+        ],
+      },
+      {
+        heading: "Chuyển hàng loạt và xử lý cục bộ",
+        paragraphs: [
+          "Kịch bản thực tế của một bộ chuyển đa dụng là một thư mục file lệch chuẩn: ảnh chụp màn hình PNG mà biểu mẫu muốn thành JPG, WebP tải về mà một trình chỉnh cũ không mở được, các lô hỗn hợp hướng đến một trình tải lên duy nhất. Chế độ hàng loạt áp một định dạng đích và một cài chất lượng cho cả thư mục.",
+          "Sắp lô trước khi chuyển tiết kiệm công làm lại: các mục ảnh chụp có thể đi sang JPG, các mục đồ họa sang PNG, trong hai lượt thay vì một cài đặt thỏa hiệp duy nhất. Một lựa chọn phổ quát thường phục vụ nền tảng, không phải những bức ảnh.",
+          "Mọi thứ chạy trong trình duyệt của bạn: giải mã, chuyển đổi và tải xuống diễn ra trên thiết bị, không tải lên. Chuyển tài sản khách hàng, thiết kế chưa phát hành hay kho lưu trữ cá nhân nghĩa là những file ấy chưa từng rời khỏi máy của bạn.",
+        ],
+      },
+    ],
   },
   "watermark-image": {
     name: "Watermark ảnh",
@@ -1060,6 +1993,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Chạy với PNG trong suốt được không?",
         a: "Đầu ra là JPG nên độ trong suốt bị phủ trắng. Hãy watermark bản PNG gốc kèm màu nền tùy chọn nếu cần giữ kênh alpha.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Hình mờ có thể và không thể bảo vệ gì",
+        paragraphs: [
+          "Hình mờ là một răn đe và một ghi nguồn, không phải ổ khóa. Dấu nhìn thấy khiến trộm qua loa bớt hấp dẫn — ảnh bị cào có logo là vô dụng với ai muốn nhận công việc của người khác làm của mình — nhưng nó không chặn được cắt, phủ hay gỡ có chủ đích, và tự nó không chứng minh điều gì về tác quyền.",
+          "Vị trí là cả trò chơi cho khả năng nhìn thấy: dấu ở góc bị cắt đi dễ dàng, trong khi dấu lặp lại hay căn giữa sống sót qua cắt nhưng thay đổi ảnh nhiều hơn. Dùng biên tập và xem trước nghiêng về dấu góc với giả định trung thực rằng người mua nhận bản sạch; bảo vệ ảnh chỉ chia sẻ nghiêng về vị trí xâm nhập hơn.",
+          "Độ đậm là núm còn lại: quá tinh tế thì dấu biến mất trên nền rối, quá mạnh thì nó làm mất giá chính bản xem trước mà nó định quảng bá. Khoảng 40–60% độ đậm với màu tương phản với phần lớn ảnh là vùng làm việc thường dùng.",
+        ],
+      },
+      {
+        heading: "Dấu chữ so với logo ảnh",
+        paragraphs: [
+          "Hình mờ chữ nhanh và linh hoạt — gõ một tên, một handle hay một dòng bản quyền rồi chỉnh cỡ và vị trí. Điểm yếu là thiếu cá tính: dấu chữ trơn dễ bắt chước, nên hình mờ chữ ghi nguồn nhưng gần như không xây thương hiệu.",
+          "Hình mờ bằng ảnh (một logo PNG có trong suốt) mang bản sắc thương hiệu và sống sót qua đổi định dạng — ai sao chép ảnh đã đóng mờ là sao chép luôn logo của bạn. Nó đòi một tài sản chuẩn bị sẵn, nhưng tài sản ấy khi đó đóng mờ cả một lô trong một lượt.",
+          "Với công việc hàng loạt, sự nhất quán quan trọng hơn sự kết hợp: cùng vị trí, cùng độ đậm, cùng kích thước trên mọi ảnh. Một portfolio đóng mờ trông chuyên nghiệp khi dấu dự đoán được, và nghiệp dư khi nó nhảy loạn qua từng khung.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ bảo vệ các bản gốc sạch",
+        paragraphs: [
+          "Đóng mờ nghĩa là đưa cho công cụ những ảnh đẹp nhất, chưa đóng mờ của bạn — chính những tài sản bạn nhất quyết muốn tránh xa máy chủ của người khác. Một dịch vụ đóng mờ dựa trên tải lên nhận bản gốc sạch của bạn ở đầy đủ độ phân giải, đảo ngược toàn bộ ý nghĩa của việc làm này.",
+          "Công cụ này xử lý hoàn toàn trong trình duyệt của bạn: ảnh gốc và tài sản hình mờ được hợp thành cục bộ, và đầu ra được ghi vào đĩa của bạn. Bản sạch chưa từng rời khỏi thiết bị, nên chỉ bản đã đánh dấu mới tồn tại bên ngoài nó.",
+          "Giữ các bản gốc chưa đóng mờ một cách riêng biệt và cẩn thận: nếu bao giờ cần đóng mờ lại ở kích thước hay vị trí mới, bản gốc sạch là nguồn duy nhất. Và đừng bao giờ vô tình công bố bản sạch — phần lớn rò rỉ của ảnh được bảo vệ đến từ bản chưa bảo vệ, không phải từ ai đó tẩy dấu.",
+        ],
       },
     ],
   },
@@ -1088,6 +2047,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Chuyển sang WebP có không mất dữ liệu?",
         a: "Bạn chọn: WebP hỗ trợ cả hai kiểu. Ở chất lượng mặc định 90, kết quả nhìn không phân biệt được nhưng nhẹ hơn nhiều; kéo thanh trượt xuống để tiết kiệm tối đa, hoặc chọn đầu ra PNG để không mất dữ liệu tuyệt đối.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao WebP tồn tại và nó thắng ở gì",
+        paragraphs: [
+          "WebP được Google tạo ra để giải một vấn đề cụ thể: JPEG đã ba thập kỷ tuổi và các file không mất dữ liệu của PNG thì lớn. WebP nén tốt hơn ở cả hai mặt — chế độ mất dữ liệu dùng các kỹ thuật mã hóa video VP8, còn chế độ không mất dữ liệu thường thắng PNG — đồng thời hỗ trợ trong suốt và hoạt ảnh, điều JPEG không làm được.",
+          "Khoản thắng thực dụng là trọng lượng trang. Ảnh mã hóa WebP ở chất lượng tương đương về thị giác thường nhỏ hơn JPEG hàng chục phần trăm. Trên một trang nhiều ảnh, điều đó dịch thẳng thành tải nhanh hơn, băng thông ít hơn và điểm Core Web Vitals tốt hơn — lý do đa số trang lớn giờ phục vụ WebP cho các trình duyệt đủ sức.",
+          "Điểm hề luôn là hỗ trợ. WebP chạy trên mọi trình duyệt hiện đại, nhưng một số ứng dụng gốc, hệ điều hành cũ, một số trình chỉnh ảnh và nhiều cài đặt CMS vẫn từ chối nó — chính vì vậy chuyển WebP thành JPG hay PNG vẫn là nhu cầu phổ biến và thực tế.",
+        ],
+      },
+      {
+        heading: "Chuyển ra khỏi WebP: kỳ vọng gì",
+        paragraphs: [
+          "Nếu WebP của bạn được lưu ở chế độ mất dữ liệu, chuyển sang JPG là mã hóa lại dữ liệu đã nén: mất chất thường nhỏ ở cài cao, nhưng đi qua nhiều định dạng mất dữ liệu thì cộng dồn lỗi, nên hãy chuyển một lần và giữ kết quả.",
+          "Chuyển sang PNG cho ra file không mất dữ liệu sẽ lớn hơn WebP đáng kể — thường gấp nhiều lần với ảnh chụp. Đó không phải lỗi: PNG trả tiền cho độ chính xác từng điểm ảnh, và là lựa chọn đúng khi bạn cần trong suốt hay định chỉnh ảnh tiếp.",
+          "Nguyên tắc cầm tay: JPG cho nội dung ảnh chụp đi đến việc chia sẻ hay biểu mẫu không nhận WebP; PNG cho đồ họa, ảnh chụp màn hình, ảnh trong suốt và bất cứ thứ gì sẽ được chỉnh tiếp. Chú ý dung lượng đầu ra sau chuyển đổi — nếu PNG phình to, nguồn là ảnh chụp và JPG có lẽ là đích tốt hơn.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi cục bộ và ghi chú quy trình",
+        paragraphs: [
+          "Bộ chuyển này giải mã WebP và mã hóa lại thành định dạng bạn chọn hoàn toàn trong trình duyệt — không tải lên, không hàng đợi, không chờ một chuyến đi máy chủ. File chưa từng rời khỏi thiết bị của bạn, điều quan trọng với thiết kế chưa phát hành, tài sản khách hàng hay ảnh cá nhân.",
+          "Chế độ hàng loạt khớp kịch bản phổ biến: bạn tải một bộ WebP từ một trang hay bản bàn giao thiết kế, và một công cụ phía sau — một CMS, một chợ trực tuyến, một dịch vụ in — chỉ nhận JPG hay PNG. Chuyển cả thư mục một lần thay vì vật lộn với từng file.",
+          "Giữ bản WebP gốc khi còn nghi ngờ. Nếu nguồn là WebP mất dữ liệu, nó vốn đã là phiên bản chất lượng tốt nhất bạn có; mọi chuyển đổi chỉ có thể đi xuống từ đó, nên bản gốc là lưới an toàn mã hóa lại của bạn.",
+        ],
       },
     ],
   },
@@ -1121,6 +2106,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc chuyển đổi diễn ra cục bộ trong trình duyệt bằng JavaScript — không gửi gì đến máy chủ nào.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ánh xạ hoa-thường không đơn giản như vẻ ngoài",
+        paragraphs: [
+          "Chữ hoa và chữ thường là các thuộc tính Unicode, và vài ngôn ngữ phá vỡ giả định một-một ngây thơ. Ví dụ nổi tiếng nhất là tiếng Thổ Nhĩ Kỳ: chữ i không dấu (ı) hóa hoa thành I, và I hóa thường thành ı, không phải i — vì vậy phần mềm từng phát hành một lỗi được đặt biệt danh “vấn đề Turkish I”. Chữ ß tiếng Đức không có dạng hoa truyền thống; đa số phần mềm ánh xạ nó thành hai chữ SS, và dù Unicode đã thêm ẞ hoa vào năm 2008, từ điển và văn bản vẫn chuộng SS.",
+          "Các chữ có dấu như é, ñ, ü chuyển sạch sẽ vì chúng là một điểm mã duy nhất, nhưng một chữ viết dạng e kèm dấu ghép thì chuyển thành hai ký tự, và dấu không đổi hoa-thường. Chữ sigma cuối của tiếng Hy Lạp là trường hợp đặc biệt khác: Σ cuối từ ánh xạ thành ς chứ không phải σ trong xử lý văn bản đúng chuẩn.",
+          "Công cụ này chuyển từng chữ theo quy tắc Unicode chuẩn và giữ dấu nguyên vẹn, nên văn bản châu Âu sống sót qua các vòng hoa-thường hai chiều. Nó không triển khai riêng quy tắc bản địa Thổ Nhĩ Kỳ — một bộ bản địa hóa hiểu ngôn ngữ mới làm — nhưng nó không bao giờ âm thầm làm rơi hay làm hỏng một ký tự kiểu như các script chỉ biết ASCII.",
+        ],
+      },
+      {
+        heading: "Title Case và quy tắc chữ nhỏ",
+        paragraphs: [
+          "Kiểu tít báo tiếng Anh viết thường các từ chức năng ngắn — mạo từ như a và the, giới từ ngắn như of, in và to, liên từ kết hợp như and và but — trừ khi chúng là từ đầu hay từ cuối của tiêu đề. Danh sách từ chính xác khác nhau giữa các cẩm nang phong cách: giới hạn của AP ngắn hơn, Chicago viết thường nhiều giới từ bất kể độ dài. Đa số công cụ web nhúng cứng một danh sách; công cụ này theo quy ước biên tập phổ biến là giữ mạo từ và giới từ ngắn ở dạng thường giữa tiêu đề.",
+          "Quy tắc này thực sự xoay quanh tiếng Anh. Trong tiếng Tây Ban Nha và Pháp, tiêu đề thường giữ viết hoa kiểu câu bình thường, nên áp Title Case tiếng Anh cho một cụm tiếng Pháp cho ra thứ bản địa đọc là sai. Tiếng Đức viết hoa danh từ thay vào đó. Sentence case là mặc định an toàn cho văn bản đa ngôn ngữ — vì vậy công cụ này cũng viết hoa lại sau các dấu câu dạng đầy đủ, nên một câu tiếng Trung kèm câu tiếng Anh được xử lý đúng.",
+          "Khi phân vân về phong cách tòa soạn, hãy đọc cẩm nang bạn đang viết theo và coi đầu ra công cụ là điểm khởi đầu. Một tiêu đề một từ như “The Shining” minh họa quy tắc biên: the đứng đầu nên giữ hoa dù giữa tiêu đề nó sẽ ở dạng thường.",
+        ],
+      },
+      {
+        heading: "Các kiểu lập trình viên và những gì giữ cục bộ",
+        paragraphs: [
+          "camelCase, PascalCase, snake_case, kebab-case và CONSTANT_CASE tồn tại vì mỗi ngôn ngữ có quy ước định danh khác nhau: JavaScript và Java nghiêng về camelCase, Python chuộng snake_case, tên thuộc tính CSS và HTML dùng kebab-case. Chuyển giữa chúng không chỉ là bỏ khoảng trắng — công cụ tách các biên camelCase như parseHTMLValue thành từ riêng trước, nên đầu ra không dính một từ viết tắt vào từ kế tiếp.",
+          "Dấu câu, chữ số và ký tự CJK đi qua các kiểu code nguyên vẹn: ký tự tiếng Trung không có dạng hoa, và hoa-luân phiên chỉ lật chữ Latin, giữ nguyên bố cục ký hiệu. Nhờ đó đầu ra dự đoán được khi bạn dán nội dung trộn như “item-2: done”.",
+          "Mọi thứ chạy trong trình duyệt của bạn bằng JavaScript thuần. Văn bản của bạn chưa từng rời khỏi trang — không gọi máy chủ, không mẹo clipboard, không gì để rò rỉ. Chuyển bản nháp độc quyền, định danh nội bộ hay tên khách hàng an toàn như dán vào trình soạn thảo của chính bạn.",
+        ],
+      },
+    ],
   },
   "character-counter": {
     name: "Đếm ký tự",
@@ -1147,6 +2158,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Nền tảng nào giới hạn theo ký tự?",
         a: "Bài đăng X/Twitter, thẻ tiêu đề meta (khoảng 60) và mô tả (khoảng 160), mỗi phân đoạn SMS (160) và đa số nền tảng quảng cáo — luôn kiểm tra ô nhập cụ thể bạn đang viết.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ký tự so với cụm grapheme",
+        paragraphs: [
+          "Từ “ký tự” giấu một cái bẫy: thứ người dùng cảm nhận là một ký tự không phải lúc nào cũng là một đơn vị mã. Emoji có tông da, cờ và tổ hợp gia đình, chữ có dấu viết dạng gốc kèm dấu ghép, và các chữ ghép Devanagari — tất cả là một ký tự trong mắt nhưng nhiều điểm mã trong chuỗi.",
+          "Vì vậy các bộ đếm nghiêm túc báo hai con số: đơn vị mã (cái mà thuộc tính length của JavaScript đếm, và cái đa số giới hạn nền tảng từng đo) và cụm grapheme (cái con người thấy). Khoảng cách là thật — một emoji cờ là 1 cụm nhưng 4 đơn vị mã UTF-16.",
+          "Với mục đích thực dụng: các nền tảng mạng xã hội giờ thường đếm gần với cụm grapheme hơn, trong khi các biểu mẫu cũ và cơ sở dữ liệu đếm đơn vị mã. Khi giới hạn nằm ở biên, chiến lược an toàn là để dư bằng số emoji trong văn bản của bạn.",
+        ],
+      },
+      {
+        heading: "Đọc đúng các giới hạn cứng",
+        paragraphs: [
+          "Giới hạn ký tự hiếm khi thương lượng được, nhưng đo được: đoạn SMS 160 ký tự (70 khi bất kỳ ký tự ngoài GSM xuất hiện, khiến giá mỗi đoạn tăng gấp đôi), bio nền tảng, mục tiêu mô tả meta khoảng 150–160 ký tự, tiêu đề meta khoảng 50–60. Biết chế độ nào áp dụng cho văn bản của bạn hơn là đoán mò.",
+          "Trường hợp SMS xứng đáng được chú ý vì nó trừng phạt nặng nhất: một chữ có dấu hay một emoji lật toàn bộ tin nhắn sang một bảng mã khác và gần như giảm một nửa số ký tự mỗi đoạn. Một tin nhắn vừa một đoạn khi là tiếng Anh gõ thường có thể thành ba đoạn chỉ với một emoji trái tim.",
+          "Bộ đếm còn giúp chiều ngược lại: khi viết cho một mức tối thiểu — câu trả lời luận 300 ký tự, mức sàn mô tả sản phẩm — theo dõi số đếm trực tiếp xóa bỏ sự nhàm chán của việc đếm tay và rủi ro nộp dưới giới hạn.",
+        ],
+      },
+      {
+        heading: "Đếm cục bộ cho bản nháp riêng tư",
+        paragraphs: [
+          "Việc đếm diễn ra hoàn toàn trong trình duyệt của bạn: văn bản được phân tích bằng JavaScript cục bộ và không bao giờ được truyền đi. Nhờ đó phù hợp với bản thảo chưa xuất bản, email mật, thư ứng tuyển và bất cứ thứ gì bạn không muốn dán vào một dịch vụ web xa lạ.",
+          "Bộ đếm cập nhật theo từng phím bấm thay vì theo lần nộp, nên quy trình là liên tục: gõ, liếc con số, chỉnh. Không có nút để bấm và không có vòng đi máy chủ để chờ.",
+          "Một thói quen đáng áp dụng: đếm phiên bản cuối, không chỉ các bản nháp. Chỉnh sửa, nhất là dán từ nguồn khác, thay đổi độ dài âm thầm, và phiên bản bạn thực nộp mới là phiên bản có số đếm quan trọng.",
+        ],
       },
     ],
   },
@@ -1177,6 +2214,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Mỗi emoji bạn sao chép được ghi nhớ trong localStorage của trình duyệt (tối đa 16). Xóa dữ liệu trình duyệt sẽ đặt lại danh sách.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Emoji thực sự hoạt động thế nào dưới mui xe",
+        paragraphs: [
+          "Emoji không phải ảnh — chúng là các điểm mã Unicode được vẽ bởi font mà nền tảng cung cấp. Cùng điểm mã U+1F600 vẽ thành một khuôn mặt cười hơi khác trên iOS, Android và Windows, vì vậy một emoji trông hoàn hảo trên điện thoại của bạn có thể trông lạ trong ảnh chụp của đồng nghiệp.",
+          "Các bộ điều chỉnh mở rộng tập hợp: bộ điều chỉnh tông da là các điểm mã ghép thay đổi ký tự gốc đứng trước, chuỗi ZWJ (ký tự nối độ rộng không) dán nhiều emoji thành một — các tổ hợp gia đình và nghề nghiệp — còn bộ chọn biến thể quyết định giữa hiển thị kiểu chữ và kiểu màu. Một emoji nhìn qua tưởng đơn giản có thể là chuỗi năm điểm mã.",
+          "Vì vậy tìm kiếm và sao chép an toàn hơn tự ghép tay: bảng chọn cung cấp chuỗi đầy đủ và đúng, trong khi chuỗi ghép tay là nguồn phổ biến của emoji hỏng hiển thị thành hai khuôn mặt riêng hay một hộp trống.",
+        ],
+      },
+      {
+        heading: "Chọn và dùng emoji có chủ đích",
+        paragraphs: [
+          "Emoji hoạt động tốt nhất như dấu câu cho sắc thái, không phải thay thế từ: một biểu tượng giơ ngón cái đúng chỗ khép lại tin nhắn một cách ấm áp, trong khi một đoạn ngập biểu tượng đọc như nhiễu. Bối cảnh chuyên nghiệp thưởng cho sự tiết chế — một hoặc hai cái mỗi tin nhắn giữ được tín hiệu.",
+          "Chú ý sự trôi nghĩa giữa các nền tảng: một số emoji mang nghĩa phụ thay đổi theo cộng đồng và vùng miền, và một ít cái được đọc phổ biến là điều khác giá trị bề mặt. Khi phân vân trong bối cảnh trang trọng hay quốc tế, hãy chọn phương án nghĩa đen không mơ hồ.",
+          "Sao chép-dán là tương tác lõi vì các chuỗi emoji dễ vỡ khi sửa: xóa một điểm mã giữa chuỗi ZWJ làm vỡ cả glyph. Sửa quanh emoji dễ nhất là gõ lại văn bản xung quanh rồi dán emoji mới tinh.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ và độ phủ Unicode",
+        paragraphs: [
+          "Bảng chọn chạy hoàn toàn trong trình duyệt của bạn: tìm kiếm, phân loại và sao chép diễn ra cục bộ dựa trên dữ liệu tên Unicode được nhúng sẵn. Không gì bạn tìm hay sao chép được truyền đi, điều quan trọng khi soạn tin nhắn riêng hay tài liệu công việc nhạy cảm.",
+          "Tìm kiếm hoạt động trên tên và từ khóa, nên kết quả tốt đúng bằng chất lượng đặt tên: “cười”, “lửa”, “ngôi sao” ra đúng kết quả hiển nhiên, còn emoji ít được đặt tên cần duyệt theo danh mục. Các nhóm duyệt — mặt cười, động vật, đồ ăn, vật thể, biểu tượng — phản chiếu cách chuẩn Unicode tổ chức tập hợp.",
+          "Vì emoji là văn bản, mọi thứ bạn sao chép được dán như văn bản: hoạt động trong bất kỳ ô nào nhận Unicode, từ email đến chú thích code. Nếu một đích đến hiện hộp rỗng, thiết bị hay font đó chỉ đơn giản là thiếu emoji mới hơn — điểm mã đúng ngay cả khi hiển thị sai.",
+        ],
+      },
+    ],
   },
   "fancy-text-generator": {
     name: "Trình tạo chữ nghệ thuật",
@@ -1203,6 +2266,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Ký tự như emoji hay chữ Trung thì sao?",
         a: "Chúng được giữ nguyên như đã gõ. Bộ tạo chỉ ánh xạ chữ cái và chữ số Latinh nên emoji, chữ CJK và ký tự có dấu đi qua không đổi thay vì biến thành ô trống.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Đây không phải font — chúng là các ký tự đồng dạng",
+        paragraphs: [
+          "Các kiểu đậm, nghiêng và thư pháp mà công cụ này tạo ra không phải thay đổi font. Chúng ánh xạ chữ của bạn sang các điểm mã Unicode chuyên dụng trong khối Ký hiệu Chữ-số Toán học (khoảng U+1D400–U+1D7FF), được thêm cho ký hiệu toán để một chữ A đậm trong công thức có thể phân biệt với chữ A thường. Văn bản của bạn giữ nguyên kích thước và font không bao giờ đổi — bạn đang chuyển sang các ký tự khác vốn chỉ trông giống chữ được tạo kiểu.",
+          "Phép ánh xạ ấy giải thích cả phép màu lẫn giới hạn. Nó hoạt động trong bất kỳ ô văn bản nào — bio Instagram, biệt danh chat, tiêu đề YouTube — vì không cần cài font. Nhưng bảng chữ cái ấy không đầy đủ: không có chữ số đậm ghép cho mọi kiểu, không có ı không dấu trong bộ nghiêng (nó ánh xạ thành i có dấu — kẻ thù của tiếng Thổ), và các glyph thiếu rơi về chữ thường, tạo ra những chuỗi nửa-lạ-vặt mà mọi người than phiền.",
+          "Các nhà toán học dùng những điểm mã này cho ngữ nghĩa thật — 𝔸 có thể nghĩa là “tập hợp A” trong một bài báo. Dùng chúng để trang trí chiếm đoạt ký hiệu mà trình đọc màn hình và công cụ tìm kiếm đọc theo nghĩa đen, và điều đó dẫn đến điểm tiếp theo.",
+        ],
+      },
+      {
+        heading: "Chỗ văn bản kỳ ảo gãy đổ",
+        paragraphs: [
+          "Unicode trang trí hỏng ở những chỗ dự đoán được. Trình đọc màn hình đọc 𝕭𝖔𝖑𝖉 thành một loạt ký tự đậm toán học, nghe như vô nghĩa thay vì “đậm” — một vấn đề khả năng tiếp cận cho mọi người theo dõi dựa vào công cụ hỗ trợ. Máy tìm kiếm khớp với chữ thường, nên một hồ sơ hay tiêu đề viết bằng ký tự kỳ ảo có thể trở thành không tìm được theo chính tên của nó.",
+          "Dán vào các hệ thống lọc đầu vào có thể lặng lẽ gỡ các ký tự về chữ thường hoặc từ chối chúng. Cơ sở dữ liệu với bảng mã cũ, SMS (không có chữ GSM cho những điểm mã này), và các terminal cũ đều làm hỏng chúng. Và vì mỗi glyph đến từ font toán, chất lượng hiển thị chênh lệch: trên một số thiết bị chữ ổn, trên một số khác độ đậm nét xung đột với văn bản xung quanh.",
+          "Hãy dùng văn bản kỳ ảo nơi người đọc nhìn thấy nó và không ai cần tìm kiếm, đọc to hay xử lý nó: tên hiển thị, chú thích thẩm mỹ, poster sự kiện. Giữ tên người dùng mà người ta sẽ tìm kiếm, và toàn bộ nội dung quan trọng, bằng chữ thường ngày.",
+        ],
+      },
+      {
+        heading: "Tức thì, offline, và đảo ngược được",
+        paragraphs: [
+          "Chuyển đổi là một tra cứu bảng theo từng ký tự chạy trong trình duyệt của bạn — không máy chủ, không gọi mạng, và hoạt động cả khi không có kết nối. Gõ, so sánh các kiểu cạnh nhau, sao chép kiểu bạn muốn.",
+          "Vì đầu ra là văn bản Unicode thường, nó sống sót qua mọi trình soạn thảo, và có thể đảo ngược: dán chuỗi kỳ ảo trở lại và đầu ra thuần của công cụ (hay bất kỳ bộ chuẩn hóa nào) khôi phục các chữ gốc. Không gì được lưu ở đâu trong lúc đó.",
+          "So với các ứng dụng “font generator” đòi cài hồ sơ hay tải font về, cách tiếp cận này không có gì để cài và không có gì phải tin — bạn thấy gì trong bản xem trước thì chính xác cái đó rơi sang bên kia clipboard.",
+        ],
       },
     ],
   },
@@ -1233,6 +2322,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Ở chế độ thường thì không — “$100” vẫn là “$100”. Ở chế độ regex, $ là ký tự đặc biệt ($1 nghĩa là nhóm 1); cần ký tự $ thật thì viết \\$.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Khớp literal so với biểu thức chính quy",
+        paragraphs: [
+          "Có hai chế độ khớp khác nhau căn bản. Chế độ literal coi chuỗi tìm kiếm là văn bản thuần: tìm “3.5” tìm đúng “3.5” và không bao giờ ra “335” hay “365”. Chế độ biểu thức chính quy coi mẫu là ngữ pháp: dấu chấm nghĩa là “ký tự bất kỳ”, nên cùng mẫu đó khớp 3.5, 3x5 và 395. Chọn sai chế độ là nguyên nhân phổ biến nhất của kiểu “thay thế làm gì đó kỳ lạ”.",
+          "Biểu thức chính quy đáng cái sự phức tạp khi bạn cần cấu trúc chứ không phải chuỗi: khớp bất kỳ năm bốn chữ số bằng \\d{4}, bắt một cái tên và tái sử dụng trong phần thay thế bằng ngoặc và tham chiếu ngược, hay nhắm một giá trị chỉ khi nó đi sau một nhãn cụ thể bằng lookaround. Nếu bạn chỉ cần đổi một chuỗi cố định, chế độ literal dễ suy luận hơn và không thể khớp thừa.",
+          "Quy trình an toàn cho mọi phép thay thế không tầm thường: chạy tìm kiếm trước với việc thay bị tắt và đọc từng kết quả, rồi mới bật thay thế. Nếu số khớp khiến bạn bất ngờ, mẫu rộng hơn bạn nghĩ — siết nó trước khi thay, không phải sau.",
+        ],
+      },
+      {
+        heading: "Những cái bẫy kinh điển của thay thế",
+        paragraphs: [
+          "Độ nhạy hoa-thường lặng lẽ nhân đôi hay chia đôi số khớp của bạn: “Apple” và “apple” là hai chuỗi khác nhau ở chế độ nhạy hoa-thường, thường là điều bạn muốn với code và không phải điều bạn muốn với văn xuôi. Khớp nguyên từ tồn tại để “con mèo” không khớp bên trong “mèo con” — không có nó, một phép thay ngây thơ có thể tạo ra “phần mềđoàn”.",
+          "Chuỗi thay thế có những cái bẫy riêng: ở chế độ regex, một $ hay dấu gạch chéo trong văn bản thay thế có thể bị diễn giải là tham chiếu nhóm hay ký tự thoát. Viết một số tiền đô la thật vào phần thay regex cần thoát dấu đô la, nếu không nó có thể kéo vào một nhóm bắt bạn không định.",
+          "Văn bản nhiều dòng thêm câu hỏi xuống dòng: các mẫu nhìn ổn trên một dòng có thể khớp tràn qua nhiều dòng vì dấu chấm có thể nuốt cả xuống dòng tùy cờ. Neo mẫu vào biên từ hay cấu trúc dòng tường minh là cách trị đáng tin.",
+        ],
+      },
+      {
+        heading: "Mọi thứ diễn ra trên trang",
+        paragraphs: [
+          "Khớp và thay chạy hoàn toàn bằng JavaScript trong trình duyệt trên văn bản đang nằm trong ô. Không tải lên, không dịch vụ xem trước, không chỉ mục phía máy chủ cho nội dung của bạn — một bản nháp hợp đồng, file log hay ghi chú cá nhân được xử lý bởi chính máy hiển thị nó.",
+          "Điều đó khiến công cụ là lựa chọn hợp lý cho văn bản bạn không muốn dán vào một ứng dụng web xa lạ: tài liệu nội bộ, dữ liệu khách hàng cần lau nhanh, mã nguồn sắp commit. Đóng tab là không còn gì.",
+          "Với file rất lớn, công cụ trình duyệt cuối cùng chạm giới hạn bộ nhớ — log nửa megabyte dễ chịu, dump một gigabyte thì không. Ở thang đó, sed dòng lệnh vẫn là công cụ đúng; với mọi thứ dưới vài megabyte, trang này mở nhanh hơn cả một terminal.",
+        ],
+      },
+    ],
   },
   "lorem-ipsum-generator": {
     name: "Trình tạo Lorem Ipsum",
@@ -1261,6 +2376,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Mỗi lô giới hạn 50 đoạn để trang luôn nhanh; cứ bấm nút lần nữa khi cần thêm lô mới.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Hai nghìn năm Cicero bị xáo trộn",
+        paragraphs: [
+          "Văn bản đổ chỗ không phải tiếng Latinh bịa ra — nó là tiếng Latinh bị làm hỏng. Các từ đến từ “De finibus bonorum et malorum” (Về cực hạn của Thiện và Ác), một luận thuyết triết học Cicero viết năm 45 TCN, các đoạn 1.10.32–33. Đoạn văn bàn về nỗi đau và khoái cảm; ở đâu đó trong thời kỳ dàn trang, ai đó đã xáo trộn và cắt cụt nó thành “Lorem ipsum dolor sit amet, consectetur adipiscing elit…” — những từ không còn tạo thành câu Latinh mạch lạc nào.",
+          "Lịch sử phổ biến ghi công các tấm decal khô Letraset thập niên 1960 — nơi nhà thiết kế chà văn bản tít in sẵn lên bản vẽ — với việc lan tỏa đoạn văn này; phần mềm dàn trang Aldus mang nó vào xuất bản kỹ thuật số thập niên 1980. Nó sống sót vì nó đã có mặt khắp nơi — tương đương placeholder của một chuẩn ren ốc vít.",
+          "Một chi tiết đa số người bỏ sót: độ dài từ và phân bố chữ của văn bản gần như tự nhiên-Latinh, chính là điều bạn muốn ở văn đổ chỗ — một bố cục trụ được với văn giả thường trụ được với bản chép thật cùng độ dài. “Ở đây chèn vài chữ” không có tính chất ấy.",
+        ],
+      },
+      {
+        heading: "Vì sao văn đổ chỗ thắng văn bản trông thật",
+        paragraphs: [
+          "Văn bản thật — một đoạn trích báo, một đoạn văn của bạn bè — mời người duyệt đọc, và đọc mời phê bình nội dung: “tôi sẽ không diễn đạt thế này”. Tiếng Latinh vô nghĩa có đúng thuộc tính ngược lại: nó nhìn như ngôn ngữ, chiếm chỗ như ngôn ngữ, nhưng không mang nghĩa nào để cãi. Người duyệt đánh giá bố cục, typography và nhịp điệu thay vì nội dung.",
+          "Kiểm soát độ dài quan trọng hơn đa số người tưởng. Một trang được duyệt với 200 từ đổ chỗ sẽ tràn ngay khi bản chép thật chạy tới 300; tạo các khối đúng kích thước bạn thực sự mong đợi — một teaser thẻ hai dòng, một đoạn năm câu — thử bố cục trước biến động thật, không phải một khối may mắn.",
+          "Quy ước còn có chức năng giao tiếp: mọi người trong thiết kế và xuất bản nhận ra lorem ipsum ngay lập tức, nên một bản mock ngập nó đọc như “bố cục đang chờ” mà không cần một ghi chú nào.",
+        ],
+      },
+      {
+        heading: "Tạo ngay tại chỗ, không gửi đi đâu",
+        paragraphs: [
+          "Bộ tạo dựng các đoạn văn từ một danh sách từ lorem-ipsum đóng gói sẵn, xáo trộn mới mỗi lần bạn bấm — các từ truy nguồn về Cicero, nhưng trình tự được tạo cục bộ, không phải lấy từ một API lorem-ipsum. Không gì rời khỏi trình duyệt, và công cụ chạy offline.",
+          "Sự biến thiên là có chủ đích: bấm lặp lại cho ra văn bản khác nhau, nên hai bản mock cạnh nhau không mang cùng văn đổ chỗ — một lợi thế thực tế nhỏ khi so sánh bố cục. Phiên bản bắt đầu bằng “Lorem ipsum” có sẵn khi bạn muốn câu mở đầu kinh điển.",
+          "Mẹo thực dụng khi bàn giao: khi giao thiết kế, hãy nói bằng văn bản với khách hàng rằng văn bản là placeholder. Tai nạn lorem-ipsum tái diễn nhất là văn đổ chỗ vô tình lên production — một công ty dịch thuật từng nổi tiếng in nó vào cuốn brochure của khách.",
+        ],
+      },
+    ],
   },
   "remove-duplicate-lines": {
     name: "Xóa dòng trùng lặp",
@@ -1282,6 +2423,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có coi “Apple” và “apple” là trùng nhau?",
         a: "Bật “Bỏ qua chữ hoa thường” và chúng được coi là cùng một dòng; biến thể xuất hiện trước được giữ.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Cái gì tính là trùng phụ thuộc quy tắc so sánh",
+        paragraphs: [
+          "Phát hiện trùng lặp là một quyết định so sánh, và ba quyết định thay đổi kết quả. Khớp chính xác: “data” và “data” là trùng, nhưng “data ” (có khoảng trắng cuối) và “Data” (viết hoa) thì không. Khớp bỏ-trim-và-không-phân-hoa-thường coi “Data ” và “data” là cùng một dòng — thường là điều bạn muốn khi đầu vào đến từ copy-paste hay xuất biểu mẫu, nơi khoảng trắng vô hình len lỏi liên tục.",
+          "Còn một quyết định ngữ nghĩa: giữ lần xuất hiện đầu hay cuối? Với log và ID, giữ-lần-đầu bảo toàn thứ tự đến ban đầu. Với bảng giá nơi hàng sau cập nhật hàng trước, giữ-lần-cuối là lựa chọn đúng. Công cụ này giữ lần xuất hiện đầu và bảo toàn thứ tự dòng, khớp kỳ vọng khử trùng lặp của đa số.",
+          "Một bẫy liên quan là ký tự vô hình: tab, khoảng trắng không ngắt và ký tự độ rộng không khiến hai dòng nhìn giống hệt lại khác nhau. Nếu khử trùng chạy sạch mà bạn vẫn thấy trùng, hãy chạy dọn khoảng trắng trước — công cụ remove-extra-spaces trên trang này tồn tại chính xác cho bước đó.",
+        ],
+      },
+      {
+        heading: "Vì sao khử trùng lặp trước khi sắp và đếm",
+        paragraphs: [
+          "Khử trùng lặp thường là bước tiền xử lý, không phải đích đến. Trước khi đếm giá trị duy nhất, hãy khử trùng — nếu không bộ đếm đếm lần lặp hai lần. Trước khi sắp, hãy khử trùng — sắp một danh sách với hàng nghìn dòng giống hệt nhau lãng phí sự chú ý của người đọc và mọi tham chiếu số dòng phía sau. Trước khi tạo import CSV hay danh sách IN của SQL, hãy khử trùng — khóa trùng ở đó gây lỗi hoặc xử lý đôi trong im lặng.",
+          "Trình tự dọn dữ liệu kinh điển là: chuẩn hóa khoảng trắng, rồi khử trùng, rồi sắp, rồi biến đổi. Làm ngược lại (sắp trước, khử trùng sau) vẫn chạy nhưng làm diff so với phiên bản trước ồn ào: mọi bản trùng bị gỡ hiện như những phép xóa rải rác thay vì một khối gọn gàng.",
+          "Với các kho văn bản — danh sách từ khóa, người nhận email, kho tag — khử trùng lặp còn là công cụ đúng đắn: một người nhận trùng bị mail hai lần, một tag trùng làm lệch phân tích tần suất. Một cú bấm ở đây thắng cả chuỗi công thức bảng tính.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ, thứ tự được giữ",
+        paragraphs: [
+          "Toàn bộ danh sách được xử lý bằng JavaScript trong trình duyệt: tách theo xuống dòng, so sánh, phát các dòng duy nhất theo thứ tự xuất hiện đầu. Không tải lên, không vòng máy chủ, và công cụ chạy offline sau khi trang tải xong.",
+          "Đầu vào lớn là chuyện nhỏ — hàng trăm nghìn dòng xử lý trong chưa đầy một giây trên máy thường, vì so sánh là tra cứu hash-set theo từng dòng, không phải quét từng cặp. So sánh từng cặp mới là thứ khiến khử trùng ngây thơ chậm ở quy mô lớn; công cụ này không làm vậy.",
+          "Không gì được lưu: refresh trang là đầu vào biến mất. Với danh sách khách hàng, kho ID nội bộ hay bất kỳ tập dữ liệu có dữ liệu cá nhân, đó là hình dạng công cụ an toàn cần có — dữ liệu chưa từng thành mục nhật ký của người khác.",
+        ],
       },
     ],
   },
@@ -1312,6 +2479,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có. Công cụ chỉ đụng tới khoảng trắng ngang và dòng trống; cấu trúc dòng của văn bản giữ nguyên vẹn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao khoảng trắng vô hình là lỗi văn bản phổ biến nhất",
+        paragraphs: [
+          "Khoảng trắng thừa hiếm khi tự tuyên bố. Một khoảng đôi sau dấu chấm, một khoảng trắng cuối dòng, một tab ngụy trang thành thụt lề — tất cả vô hình trong trình soạn thảo, tất cả thật trong dữ liệu. Chúng làm gãy so sánh theo dòng (hai dòng “giống hệt” chênh nhau một khoảng cuối), làm gãy số đếm token (một khoảng đôi có thể thêm một từ ma), và tạo ra cú khớp chuỗi thất bại kinh điển nơi hai giá trị nhìn như nhau mà so ra khác.",
+          "Nguồn chính là cơ học: copy-paste từ PDF (mà nó chèn xuống dòng và khoảng đệm), đầu ra OCR, ô biểu mẫu với xác thực lỏng lẻo, và các trình soạn thảo tự thụt lề bằng tab và khoảng trắng lẫn lộn. Không nguồn nào hiện lên trong rà soát bằng mắt, vì vậy dọn dẹp là việc của công cụ, không phải việc soát lỗi.",
+          "Khoảng trắng không ngắt xứng đáng được nhắc riêng: trình soạn HTML và bộ xử lý văn bản thích chèn U+00A0 thay vì khoảng trắng thường, và nó sống sót qua các phép trim một cách vô hình. Văn bản dọn cho import CSV hay tra cứu cơ sở dữ liệu cần chuẩn hóa cả những ký tự này, nếu không tra cứ bí ẩn trượt mãi.",
+        ],
+      },
+      {
+        heading: "Từng quy tắc dọn dẹp làm gì",
+        paragraphs: [
+          "Gộp nhiều khoảng trắng biến mọi chuỗi từ hai khoảng trở lên thành một — an toàn cho văn xuôi và danh sách, và là dọn dẹp được yêu cầu nhiều nhất sau khi dán từ PDF. Cắt mép dòng gỡ khoảng trắng đầu và cuối từng dòng, chính là điều khiến diff và phát hiện trùng lặp ứng xử dự đoán được sau đó.",
+          "Gỡ dòng rỗng xử lý các mẫu khoảng hở: một dòng trống giữa các đoạn đọc ổn, nhưng năm dòng trống từ một chuỗi email dán vào đọc như bị gãy. Gỡ toàn bộ xuống dòng nối văn bản thành một đoạn — hữu ích cho mô tả meta và ô biểu mẫu một dòng, tàn phá với bất cứ thứ gì có cấu trúc dòng.",
+          "Chuyển tab thành khoảng trắng quan trọng với code và file cấu hình: trộn tab và khoảng trắng tạo ra các file mà căn lề khác nhau theo từng trình soạn thảo. Hãy chọn các quy tắc khớp đích đến của bạn — công cụ áp chúng cùng nhau, nên một bản dán từ PDF thường muốn gộp + cắt mép + gỡ dòng rỗng trong một lượt.",
+        ],
+      },
+      {
+        heading: "Tức thì, cục bộ, chính xác từng byte",
+        paragraphs: [
+          "Việc dọn chạy từng ký tự trong trình duyệt của bạn. Không gì được tải lên — với nội dung nằm trong cam kết bảo mật, bản nháp chưa công bố hay mẫu dữ liệu người dùng, đó chính là toàn bộ điểm của công cụ phía máy khách.",
+          "Biến đổi là tất định và trên thực tế đảo ngược được: giữ bản gốc trong một tab, dọn trong tab kia, rồi so. Vì mọi quy tắc đều cơ học, cùng đầu vào luôn cho cùng đầu ra — không mô hình, không ngẫu nhiên, không bất ngờ.",
+          "Một cặp thực dụng với các công cụ anh em: dọn khoảng trắng trước, rồi chạy remove-duplicate-lines, rồi text-diff so với bản gốc để thấy chính xác cái gì đổi. Ba bước ấy biến nội dung dán lộn xộn thành văn bản có thể duyệt, có thể diff trong vài giây.",
+        ],
+      },
+    ],
   },
   "reverse-text": {
     name: "Đảo ngược văn bản",
@@ -1338,6 +2531,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Dùng để kiểm tra palindrome được không?",
         a: "Gián tiếp — dán văn bản, đảo lại và so bằng mắt, hoặc ghép với công cụ so sánh văn bản (text diff).",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Đảo ký tự không phải là đảo văn bản",
+        paragraphs: [
+          "Có hai loại đảo, và trộn lẫn chúng tạo ra những lỗi nổi tiếng. Đảo ký tự lật chuỗi theo từng ký tự: “abc” thành “cba”. Đảo từ giữ mỗi từ nguyên vẹn và lật thứ tự: “hello world” thành “world hello”. Muốn một kiểu mà nhận kiểu kia là lời than phổ biến nhất về các công cụ đảo, nên công cụ này giữ chúng tách biệt.",
+          "Đảo ký tự có một cái bẫy Unicode: văn bản lưu trong UTF-16 — thứ JavaScript dùng — biểu diễn emoji và một số chữ viết hiếm thành các cặp surrogate, hai đơn vị mã phải ở cùng nhau. Đảo ngây thơ tách cặp và tạo rác: emoji gia đình 👨‍👩‍👧 đảo thành các hộp vỡ hay glyph vô nghĩa. Đảo đúng phải đi qua các cụm grapheme, không phải đơn vị mã.",
+          "Các chuỗi ghép cũng quan trọng: “e” cộng một dấu ghép khi đảo thành dấu-đứng-trước, hiển thị sai trong đa số font. Đảo nhận thức grapheme giữ dấu bám vào chữ của nó.",
+        ],
+      },
+      {
+        heading: "Nơi văn bản đảo thực sự hữu ích",
+        paragraphs: [
+          "Palindrome là cách dùng kinh điển: kiểm tra một từ đọc xuôi ngược như nhau — “racecar”, “level” — theo đúng nghĩa đen là đảo-rồi-so. Đảo thứ tự từ có công dụng biên tập thực tế: lật danh sách “họ-tên” thành “tên-họ”, đảo danh sách gạch đầu dòng, hủy một cột bị dán ngược từ dưới lên từ bảng tính.",
+          "Đảo mức ký tự xuất hiện trong thiết kế câu đố và trò chơi (chữ soi gương, thông điệp ẩn đọc đúng trong gương), trong kiểm thử (đưa chuỗi đảo cho validator xem nó có từ chối không), và trong vượt qua các bộ lọc khớp chuỗi ngây thơ — cũng chính là lý do reverse-text là một mẹo pen-test kinh điển đáng biết.",
+          "Đảo dòng — lật thứ tự cả các dòng — là con ngựa thồ thầm lặng cho file log: mới-nhất-đầu và cũ-nhất-đầu chỉ cách nhau một phép đảo, và các bản xuất bảng tính ra ngược từ dưới lên được sửa trong một cú bấm.",
+        ],
+      },
+      {
+        heading: "Chạy hoàn toàn trên trang",
+        paragraphs: [
+          "Phép đảo là một thao tác chuỗi thuần được thực hiện bằng JavaScript trong trình duyệt ngay khi bạn gõ — không máy chủ, không lưu trữ, chạy offline. Với văn bản dài, thao tác vẫn tức thì, vì đảo là tuyến tính theo độ dài.",
+          "Công cụ xử lý đúng các trường hợp biên Unicode nêu trên: cụm grapheme giữ nguyên, emoji sống sót, dấu ghép bám chữ gốc. Cái bạn dán trở lại là văn bản hợp lệ, không phải một chuỗi ký tự thay thế.",
+          "Không gì được ghi nhớ giữa các phiên: refresh và ô trống rỗng. Nếu bạn đang đảo thứ gì nhạy cảm — một chuỗi giống mật khẩu, một định danh nội bộ — đó chính là hành vi bạn muốn.",
+        ],
       },
     ],
   },
@@ -1368,6 +2587,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Các cẩm nang văn phong thường khuyên 2–5. Không có quy tắc sắt đá: dùng con số này để phát hiện “bức tường chữ” trước khi người đọc của bạn kịp mệt.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Một câu được phát hiện thế nào",
+        paragraphs: [
+          "Câu là một khái niệm mờ, và các bộ đếm bất đồng về nơi nó kết thúc. Quy tắc ngây thơ — tách tại mỗi dấu chấm, chấm than và dấu hỏi — thất bại với “TS. Nguyễn đến lúc 3.5 giờ chiều”: ba dấu chấm, không câu nào kết thúc. Một bộ phát hiện thật cần nhận biết viết tắt (TS., BS., v.d.), xử lý số thập phân, và logic cho dấu ba chấm và dấu câu kép như “Thật chứ?!”.",
+          "Công cụ này dùng tầng heuristics: dấu câu kết câu theo sau bởi khoảng trắng và một chữ cái hoa được tính là biên; các viết tắt từ danh sách nhúng được bỏ qua; các dấu dạng đầy đủ (。！？) được coi là biên cứng — điều văn bản CJK cần vì nó không có khoảng trắng. Văn bản trộn Trung-Anh vì thế được đếm đúng ở cả hai chữ viết.",
+          "Đếm vốn dĩ xấp xỉ với các trường hợp biên — hội thoại trong ngoặc kép, mảnh gạch đầu dòng không có dấu kết. Hãy coi con số là một ước lượng mạnh, không phải tiên đề; nếu một câu cụ thể quan trọng (về pháp lý hay hợp đồng), hãy tự đếm câu đó.",
+        ],
+      },
+      {
+        heading: "Đọc độ dài từ số câu",
+        paragraphs: [
+          "Độ dài câu trung bình là con số hữu ích nhất mà bộ đếm tạo ra. Dưới 15 từ mỗi câu đọc gọn và dễ; trên 25 thường báo hiệu vấn đề hiểu, và các biên tập viên nhắm khoảng 15–20 cho độc giả đại chúng. Số đếm mỗi câu còn phơi bày câu chạy dài: một câu 60 từ gần như luôn là vấn đề dấu câu, không phải lựa chọn phong cách.",
+          "Số câu chuyển thành thời gian đọc với quy tắc thô: khoảng 200–250 từ mỗi phút cho người lớn đọc văn xuôi, nên số từ chia 225 cho ra số phút. Kết hợp với trung bình câu, bạn biết được văn bản dài mà dễ đọc hay ngắn mà dày đặc.",
+          "Với dịch giả và nhóm bản địa hóa, số câu quan trọng vì đa số định giá dịch thuật và công cụ bộ nhớ dịch làm việc ở cấp câu — biết số đếm trước ước lượng khối lượng phân đoạn.",
+        ],
+      },
+      {
+        heading: "Cục bộ, không giới hạn",
+        paragraphs: [
+          "Phân tích chạy bằng JavaScript trong trình duyệt ngay khi bạn gõ. Không tài khoản, không tải lên, không giới hạn kích thước tài liệu — dán cả một chương và số đếm cập nhật trực tiếp.",
+          "Không gì được giữ lại: refresh và mọi thứ đặt lại. Với bản thảo chưa công bố, bản nháp khách hàng hay đề thi, mô hình phía máy khách ấy là hình dạng an toàn về riêng tư.",
+          "Hãy ghép nó với word counter cho tỉ lệ từ-mỗi-câu, và với case converter khi chuẩn bị tiêu đề. Ba cái cùng nhau phủ phần lớn kiểm tra tiền-biên-tập mà không cần dịch vụ ngoài nào.",
+        ],
+      },
+    ],
   },
   "slug-generator": {
     name: "Trình tạo Slug",
@@ -1396,6 +2641,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Nhiều hướng dẫn SEO khuyên bỏ chúng để slug gọn — chỉnh slug tự do trước khi sao chép; công cụ cho bạn bản gốc đầy đủ với gạch ngang.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Slug để làm gì",
+        paragraphs: [
+          "Slug là phiên bản an toàn-URL của một tiêu đề: “10 Mẹo pha Cà phê Ngon” thành 10-meo-pha-ca-phe-ngon. Slug quan trọng vì ba lý do: chúng khiến URL đọc được với con người trước khi bấm, chúng mang từ khóa mà máy tìm kiếm dùng làm tín hiệu xếp hạng, và chúng giữ URL ổn định và chia sẻ được — không khoảng trắng, không rác mã hóa kiểu %20 khắp nơi.",
+          "Cơ chế: viết thường mọi thứ, thay khoảng trắng bằng dấu phân cách (gạch ngang là quy ước web), gỡ các ký tự bất hợp pháp hay mơ hồ trong URL, và gộp các lần lặp. Một bộ tạo tốt làm tất cả cùng lúc thay vì để bạn tự sửa tay các chuỗi “%C3%A9” trong link chia sẻ.",
+          "Slug còn phục vụ các việc ngoài URL: tên file cho tài sản xuất ra, tên nhánh git, ID thành phần. Cùng quy tắc áp dụng khắp nơi — bộ ký tự sống sót qua sao chép, mã hóa và terminal mà không thành ký tự thoát.",
+        ],
+      },
+      {
+        heading: "Dấu, phiên âm và vấn đề CJK",
+        paragraphs: [
+          "Tiếng Latinh có dấu là điểm quyết định đầu tiên. Có hai trường phái: phiên âm (café → cafe) hay gỡ dấu (café → caf). Phiên âm giữ khả năng đọc và là điều công cụ này làm cho các dấu phụ Latinh phổ biến — á thành a, ü thành u — bằng quy tắc gấp Unicode chuẩn.",
+          "Văn bản CJK buộc một lựa chọn khó hơn: không có chữ Latinh nào để gấp 一杯好咖啡 thành. Các lựa chọn là pinyin cho tiếng Trung, romanization cho tiếng Nhật, hay giữ nguyên ký tự. Trình duyệt hiện đại xử lý URL UTF-8 tốt, nên giữ ký tự CJK trong slug là hợp lệ về kỹ thuật và phổ biến trên các nền tảng Trung Quốc; tuy nhiên chia sẻ quốc tế chuộng pinyin hay romanization vì nó sống sót qua SMS, terminal và hệ thống cũ mà không có nhiễu mã hóa.",
+          "Số và stop-word là quyết định khẩu vị: giữ “the” và “of” cho slug dài hơn, dễ đọc hơn; cắt chúng cho slug ngắn hơn. Lời khuyên SEO đã lật qua lật lại nhiều năm; đồng thuận ổn định là slug khớp tiêu đề quan trọng hơn slug ngắn.",
+        ],
+      },
+      {
+        heading: "Tạo trực tiếp, giữ cục bộ",
+        paragraphs: [
+          "Chuyển đổi chạy theo từng phím bấm trong trình duyệt của bạn. Không gọi API, không giới hạn tần suất, chạy offline — khác với các dịch vụ slug cần một chuyến máy chủ cho mỗi tiêu đề.",
+          "Đầu ra tất định quan trọng với hệ thống nội dung: cùng tiêu đề luôn cho cùng slug, nên link xây hôm nay không gãy khi bài viết được tạo lại. Không có hậu tố ngẫu nhiên trừ khi bạn tự thêm (một đuôi ngẫu nhiên ngắn là cách chuẩn đảm bảo tính duy nhất qua hàng nghìn bài).",
+          "Kiểm tra tính duy nhất được cố ý không làm ở đây — nó đòi biết toàn bộ kho URL của bạn, thứ nằm trong CMS của bạn. Công cụ đảm bảo định dạng đúng; tránh va chạm thuộc về tầng định tuyến của bạn, đúng chỗ của nó.",
+        ],
+      },
+    ],
   },
   "text-cleaner": {
     name: "Trình làm sạch văn bản",
@@ -1422,6 +2693,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Việc dọn dẹp có bảo toàn dữ liệu?",
         a: "Không công cụ nào hiểu chắc ý bạn. Ô kết quả luôn hiển thị trước, nên hãy xem lại trước khi thay bản gốc.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Một lượt cho cả đường ống dọn dẹp",
+        paragraphs: [
+          "Phần lớn sự lộn xộn văn bản đến theo bó: nội dung dán từ PDF mang khoảng đôi, xuống dòng lạc loài và từ bị gạch nối tách qua dòng; văn bản web sao chép kéo theo khoảng trắng không ngắt vô hình và ký tự độ rộng không; bảng tính xuất kèm tab cuối dòng. Dọn từng quy tắc một nghĩa là năm lượt và các bước bị quên — một bộ dọn kết hợp áp cả đường ống cùng lúc.",
+          "Trình tự chuẩn quan trọng: chuẩn hóa Unicode trước (gấp khoảng trắng không ngắt về loại thường, gỡ ký tự độ rộng không và ký tự điều khiển), vì các quy tắc sau so sánh ký tự; rồi gộp khoảng trắng, rồi cắt mép dòng, rồi sửa xuống dòng. Chạy khử trùng hay so sánh trước khi chuẩn hóa cho kết quả sai — hai dòng nhìn giống hệt vẫn “khác nhau” vì một ký tự vô hình còn sống.",
+          "Đầu ra nên nhàm chán: không có thay đổi nào bạn không giải thích được. Mỗi quy tắc trong bộ dọn đều cơ học và xem trước được, chính là điều phân biệt bộ dọn với một “trình viết lại” AI — cùng đầu vào luôn cho cùng đầu ra, và bạn có thể xác minh từng phép biến đổi.",
+        ],
+      },
+      {
+        heading: "Cái gì bị gỡ và tại sao",
+        paragraphs: [
+          "Unicode vô hình là nhóm hàng đầu: khoảng trắng độ rộng không (U+200B) và ký tự nối, dấu hướng, ký tự điều khiển. Chúng vô hình trong mọi trình soạn thảo nhưng làm gãy so sánh chuỗi, làm phình văn bản SEO với byte vô nghĩa, và thậm chí có thể được dùng để giấu watermark hay payload độc hại trong nội dung dán. Gỡ chúng an toàn cho gần như mọi văn xuôi.",
+          "Chuẩn hóa khoảng trắng phủ khoảng đôi, tab ngụy trang thành khoảng trắng, khoảng cuối dòng và dòng trống mồ côi. Đây là cách trị cho văn bản “nhìn ổn mà diff hiện trăm thay đổi” — phần lớn diff ấy thuần khoảng trắng.",
+          "Sửa xuống dòng xử lý hiện vật dán PDF: ngắt cứng mỗi 40 ký tự khiến văn bản không tìm được và không chảy lại được. Nối các dòng bị gãy (cẩn thận — ngắt đoạn phải sống sót) biến văn bản trích từ PDF trở lại thành văn xuôi mạch lạc.",
+        ],
+      },
+      {
+        heading: "Tất định, cục bộ, kiểm chứng được",
+        paragraphs: [
+          "Mọi quy tắc chạy bằng JavaScript trong trình duyệt trên văn bản trong ô — không tải lên, chạy offline, không gì được lưu. Với bản nháp hợp đồng, bản chép khách hàng hay nội dung chưa công bố, bộ dọn phía máy khách là lựa chọn đúng về riêng tư.",
+          "Tất định là cam kết thiết kế: cùng đầu vào, cùng đầu ra, mọi lần. Nhờ đó công cụ an toàn bên trong một quy trình lặp được — dọn, khử trùng, diff — nơi một trình viết lại tạo sinh sẽ tiêm các thay đổi không kiểm được.",
+          "Chuỗi đồng hành tự nhiên trên trang này: text-cleaner trước, remove-duplicate-lines sau, text-diff so với bản gốc để xác nhận không gì có nghĩa bị đổi. Ba bước, tất cả cục bộ, tất cả tức thì.",
+        ],
       },
     ],
   },
@@ -1539,6 +2836,30 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Mọi thứ chạy trong trình duyệt của bạn; chuỗi không bao giờ rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Base64 là mã hóa, không phải mã hóa bí mật",
+        paragraphs: [
+          "Lầm tưởng phổ biến nhất về Base64 là nó che giấu điều gì. Nó không. Base64 là một mã hóa đảo ngược được định nghĩa bởi RFC 4648: nhận các byte tùy ý và diễn đạt lại bằng 64 ký tự an toàn (A-Z, a-z, 0-9, + và /) để dữ liệu nhị phân sống sót qua các kênh chỉ xử lý văn bản, như đính kèm email hay trường JSON. Bất kỳ ai có chuỗi đều giải mã trong một bước — công cụ này làm tức thì, và mọi bộ giải mã khác cũng vậy. Nếu bạn cần bí mật, bạn cần mã hóa thật (AES, RSA) với khóa; Base64 không cung cấp gì.",
+          "Vì sao là 64 ký tự? Sáu bit chỉ đúng 64 giá trị, nên Base64 đóng gói mỗi 3 byte (24 bit) thành 4 ký tự (4 × 6 bit). Dữ liệu có độ dài không phải bội của 3 để lại phần dư, và đó là nơi phần đệm = xuất hiện: một = nghĩa là nhóm cuối chứa 2 byte, hai = nghĩa là 1 byte. Phần đệm về mặt kỹ thuật là thông tin tùy chọn — bộ giải mã có thể suy ra — vì vậy bạn sẽ gặp các chuỗi Base64 bị cắt mất = cuối, và vì vậy bộ giải mã nên nhận cả hai.",
+          "Một biến thể liên quan quan trọng trong thực tế: Base64 an toàn-URL thay + và / bằng - và _, vì + và / gây rắc rối trong URL và tên file. JWT dùng bảng chữ cái này, nên header hay payload của một JWT giải mã sạch sẽ ở đây dù một bộ giải mã RFC 4648 nghiêm ngặt có thể từ chối các ký tự -.",
+        ],
+      },
+      {
+        heading: "Bạn nhận lại gì, và đầu ra rác nghĩa là gì",
+        paragraphs: [
+          "Giải mã luôn tạo ra byte; câu hỏi là những byte đó được diễn giải thế nào. Công cụ này chạy chúng qua một TextDecoder UTF-8, nên văn bản từng được mã hóa UTF-8 quay về đúng như ban đầu — chữ có dấu, emoji, ký tự CJK đều đi vòng trọn vì Base64 mang byte, không phải ký tự. Nếu đầu ra hiện ký tự thay thế (�), đầu vào có lẽ chưa từng là văn bản UTF-8: có thể là ảnh, PDF hay file mã hóa theo bảng mã khác. Giải mã vẫn thành công; chỉ là không có văn bản để hiển thị.",
+          "Base64 ngoài đời lộn xộn, nên công cụ dọn trước khi giải mã: khoảng trắng và xuống dòng bị gỡ (email và đầu ra PEM ngắt Base64 ở 76 ký tự, thứ làm gãy các bộ giải mã nghiêm ngặt), và tiền tố data URI như data:image/png;base64, bị gỡ để bạn dán cả cụm. Độ dài là nguyên nhân hỏng phổ biến khác: độ dài Base64 phải là bội của 4, nên một chuỗi bị cắt giữa chừng bởi copy-paste hay một dòng log làm gãy giải mã — hãy kiểm tra hai đầu trước.",
+        ],
+      },
+      {
+        heading: "Cục bộ theo thiết kế, và so với CLI",
+        paragraphs: [
+          "Chuỗi mã hóa hiện diện khắp các bối cảnh nhạy cảm: header Authorization, khóa API trong khối cấu hình, JWT chứa định danh tài khoản, payload nhúng bạn tìm thấy trong traffic. Dán bất kỳ thứ nào trong số đó vào một trang web xa lạ gửi đầu vào lên máy chủ nghĩa là giao chính dữ liệu bạn đang soi cho bên thứ ba. Bộ giải mã này chạy hoàn toàn trong trình duyệt của bạn bằng JavaScript — không gì được tải lên, không gì được ghi log, và chạy offline sau khi trang tải xong.",
+          "Công cụ dòng lệnh (openssl base64 -d, certutil, python base64) mạnh nhưng khó tính với đầu vào bị ngắt dòng, thiếu phần đệm và xử lý file, và khác nhau giữa các nền tảng. Cho một khoảnh khắc “chuỗi này là gì?” một lần, công cụ trình duyệt chịu tiền tố và khoảng trắng, giải mã bảng chữ URL-safe kiểu JWT, và hiển thị văn bản đa byte đúng thường nhanh hơn — với cùng cam kết riêng tư và lịch sử shell không lưu bí mật đã mã hóa của bạn.",
+        ],
+      },
+    ],
   },
   "base64-encoder": {
     name: "Base64 Encoder",
@@ -1565,6 +2886,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Hỗ trợ Unicode và emoji?",
         a: "Có. Đầu vào được chuyển thành byte UTF-8 trước khi mã hóa, trùng khớp với kết quả của btoa-kèm-TextEncoder, Python, Java và Node cho cùng chuỗi.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Toán học đằng sau bảng chữ cái",
+        paragraphs: [
+          "Base64 do RFC 4648 định nghĩa hoạt động theo nhóm 6 bit: 64 ký tự cần đúng 6 bit, nên mỗi 3 byte (24 bit) đóng gói thành 4 ký tự (4 × 6 bit). Đầu vào có độ dài không phải bội của 3 để lại 1 hay 2 byte, và phần đệm = đánh dấu nhóm cuối thiếu bao nhiêu — một = cho 2 byte, hai = cho 1. Vì vậy Base64 hợp lệ luôn có độ dài chia hết cho 4, và đầu ra lớn hơn đầu vào khoảng 33%. Sự phình ấy là cái giá của an toàn nhị phân, và có ý nghĩa khi bạn nhúng ảnh vào data URI hay nhồi payload vào cookie có giới hạn kích thước.",
+          "Trước khi mã hóa, văn bản phải thành byte, và lựa chọn bảng mã đổi thay mọi thứ. Công cụ này luôn dùng UTF-8 qua TextEncoder chuẩn, là đồng thuận hiện đại: base64.b64encode(s.encode()) của Python, Buffer.from(s).toString('base64') của Node và Base64.getEncoder() của Java đều giả định UTF-8 cho cùng một chuỗi. Hàm btoa() legacy của trình duyệt thì ném lỗi với ký tự ngoài Latin-1 — nguồn kinh điển của emoji hỏng — chính là sai lầm mà mã hóa UTF-8-trước tránh được.",
+          "Hai biến thể bảng chữ cùng tồn tại. Biến thể chuẩn dùng + và / và là điều HTTP Basic Auth và data: URI yêu cầu. Biến thể an toàn-URL định nghĩa trong cùng RFC đổi chúng thành - và _ để chuỗi đi được trong tham số truy vấn và tên file không cần mã hóa phần trăm; JWT dùng nó. Tạo sai biến thể là lỗi phổ biến — dữ liệu giải mã được cả hai cách, nhưng bộ tiêu thụ nghiêm ngặt từ chối ký tự lệch chuẩn.",
+        ],
+      },
+      {
+        heading: "Mã hóa không phải mã hóa bí mật — và Base64 thuộc về đâu",
+        paragraphs: [
+          "Dù đầu ra trông khó đọc đến đâu, Base64 không mang lại một chút bí mật nào. Không có khóa, không có vòng biến đổi — chỉ có một bảng ánh xạ cố định mà ai cũng đảo ngược bằng một lời gọi hàm, gồm cả bộ giải mã của công cụ này. Lưu mật khẩu, token hay khóa bản quyền “được mã hóa” bằng Base64 là một mẫu lỗ hổng thật thấy ở các hệ thống cấu hình sai. Nếu mục tiêu là bảo mật, hãy dùng mật mã thật (AES-GCM cho dữ liệu, bcrypt/argon2 cho mật khẩu); chỉ dùng Base64 khi một kênh thuần văn bản phải mang byte.",
+          "Nơi nó thuộc về: HTTP Basic Auth (username:password mã hóa một lần mỗi request), ảnh nhúng trong CSS hay HTML qua data: URI, khối nhị phân nhỏ trong JSON, đính kèm email dưới MIME, và các đoạn JWT. Trong tất cả những trường hợp này, mục tiêu là vận chuyển, không phải bảo vệ — bên nhận giải mã tất định, từng byte một.",
+          "Một phép thử vòng tròn là kiểm tra hợp lý rẻ nhất: mã hóa ở đây, rồi dán đầu ra vào bộ giải mã được liên kết và xác nhận nhận lại bản gốc — gồm cả khoảng trắng cuối, emoji và văn bản trộn chữ viết. Nếu một bộ tiêu thụ Base64 của bạn ứng xử sai, khác biệt gần như luôn là phần đệm bị gỡ, ngắt dòng, hay bảng chữ an toàn-URL, không phải các byte.",
+        ],
+      },
+      {
+        heading: "Mã hóa cục bộ, không cái bẫy terminal",
+        paragraphs: [
+          "Mọi thứ chạy trong trình duyệt của bạn bằng JavaScript — văn bản bạn dán chưa từng rời khỏi thiết bị, không gì được tải lên hay ghi log, và trang chạy offline sau khi tải. Điều đó quan trọng hơn vẻ ngoài với việc mã hóa: thông tin Basic Auth, token API nội bộ và dữ liệu khách hàng thường xuyên đi qua một bước Base64, và gửi chúng đến một trang bên thứ ba để mã hóa là phản lại toàn bộ mục đích.",
+          "So với dòng lệnh echo -n 'text' | base64, công cụ này tránh các cái bẫy kinh điển: quên -n nên xuống dòng bị mã hóa vào đầu ra, lỗi trích dẫn làm hỏng khoảng trắng, và khác biệt nền tảng (base64 của macOS ngắt dòng ở 76 ký tự, một số công cụ Windows cần cờ để bỏ xuống dòng). Đầu ra ở đây là một dòng sạch dán thẳng vào header hay cấu hình — với cùng cam kết riêng tư và không gì được lưu vào lịch sử shell.",
+        ],
       },
     ],
   },
@@ -1595,6 +2941,31 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không đi đâu cả. Việc nén chạy cục bộ trong trình duyệt; không có gì được tải lên hay lưu lại.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bộ minifier an toàn gỡ gì — và không được gỡ gì",
+        paragraphs: [
+          "Một bộ minifier stylesheet đi trên sợi dây mảnh. Phần có thể gỡ an toàn: chú thích, khoảng trắng giữa các khai báo, dấu chấm phẩy cuối trước ngoặc đóng, và khoảng trắng quanh các dấu phân cách như : và ,. Phần trông gỡ được mà không được: bất kỳ khoảng trắng nào trong chuỗi (content: “a b” nghĩa khác với “ab”), mọi thứ trong url(), và — tinh tế nhất — khoảng trắng trong selector. .a .b (kết hợp hậu duệ) và .a.b (cùng phần tử với hai class) chênh nhau đúng một khoảng trắng, nên gỡ nhầm khoảng trắng đổi chỗ các phần tử được tạo kiểu.",
+          "Vì vậy một bộ minifier bảo thủ chủ yếu là một cỗ máy khoảng trắng, không phải trình viết lại. Các bộ hậu xử lý hăng hái có thể đi xa hơn — gộp quy tắc trùng, đổi #ffffff thành #fff, bỏ khai báo bị đè — nhưng mỗi bước ấy có thể đổi hành vi trong trường hợp biên (thứ tự cascade, tương tác specificity, hỗ trợ sau của trình duyệt cho cú pháp màu). Một công cụ cam kết không đổi ngữ nghĩa đổi vài byte lấy sự chắc chắn rằng file đã min hiển thị giống hệt; với stylesheet production, sự đánh đổi ấy thường là đúng.",
+          "Chú thích xứng đáng một lưu ý riêng: thông báo pháp lý, header bản quyền và ghi chú hack-trình-duyệt đôi khi sống trong chú thích. Nếu một stylesheet mang header bản quyền phải sống sót qua việc phân phối, hãy thêm lại sau khi min — hoặc giữ nguồn chưa min làm bản chính tắc, vốn là thực hành tốt bất kể.",
+        ],
+      },
+      {
+        heading: "Minification so với gzip: chúng nhân nhau, không cạnh nhau",
+        paragraphs: [
+          "Lầm tưởng phổ biến là bật nén máy chủ khiến minification trở nên vô nghĩa. Hai cái tấn công hai loại dư thừa khác nhau. Minification gỡ các token ngôn ngữ không cần; gzip rồi nén các byte sống sót bằng từ điển. Vì khoảng trắng và tên thuộc tính dài lặp lại đúng là loại nội dung dự đoán được mà gzip ăn ngon, min+gzip luôn nhỏ hơn không-min+gzip — khoản tiết kiệm cộng dồn chứ không chồng lấn.",
+          "Con số dung lượng ở đây báo chênh lệch byte thô, là trần trung thực của khoản lời. Dung lượng truyền thật còn phụ thuộc mức nén của máy chủ và stylesheet có được cache không. CSS viết tay điển hình mất 15–30% chỉ từ việc gỡ khoảng trắng và chú thích; CSS sinh tự động hay định dạng dày có thể mất nhiều hơn, file phình vendor đôi khi ít hơn.",
+          "Một điều minifier không trị được: render-blocking. StyleSheet nhỏ hơn tải nhanh hơn nhưng vẫn chặn lần vẽ đầu khi được phân tích. Nếu mục tiêu là lần vẽ đầu nhanh hơn, minification là bước một; các đòn bẩy lớn hơn là tách CSS tới hạn, trì hoãn kiểu không tới hạn và gỡ hẳn quy tắc chết — chẳng điều nào bộ minifier an toàn làm giúp bạn.",
+        ],
+      },
+      {
+        heading: "Làm việc cục bộ là tính năng, không phải phương án dự phòng",
+        paragraphs: [
+          "StyleSheet ít rõ ràng nhạy cảm hơn một dump cơ sở dữ liệu, nhưng rò rỉ nhiều hơn người ta tưởng: tên class và feature flag chưa phát hành, giá trị design token nội bộ, thử nghiệm bị chú thích có tên sản phẩm, URL tuyệt đối từ môi trường staging. Dán một theme chưa lên sóng vào dịch vụ web lưu đầu vào nghĩa là tài liệu ấy hạ cánh xuống hạ tầng của người khác trước khi code còn có chỗ trong git.",
+          "Bộ minifier này chạy hoàn toàn trong trình duyệt của bạn bằng JavaScript — đầu vào chưa từng rời khỏi trang, không gì được lưu hay ghi log, và công cụ tiếp tục chạy offline sau khi tải. Còn một khía cạnh thực dụng: không trần dung lượng nào từ giới hạn tải lên, và không chờ vòng đi mạng. Đầu ra cập nhật nhanh đúng bằng tốc độ bạn dán, khiến con số dung lượng thành vòng phản hồi dùng được khi bạn quyết định mức dọn dẹp đáng bao nhiêu.",
+        ],
+      },
+    ],
   },
   "csv-to-json": {
     name: "CSV sang JSON",
@@ -1623,6 +2994,31 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc chuyển đổi chạy cục bộ trong trình duyệt — dữ liệu không bao giờ rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Suy đoán kiểu: các quy tắc bảo thủ giữ dữ liệu trung thực",
+        paragraphs: [
+          "Ô CSV là văn bản; JSON có kiểu. Nối hai bên nghĩa là bộ chuyển phải đoán, và chất lượng của bộ chuyển sống ở cách nó đoán. Các quy tắc ở đây cố ý bảo thủ: một ô trở thành số chỉ khi là literal số sạch — không số 0 đầu, không khoảng trắng quanh. true và false thành boolean, literal null đúng nghĩa thành null, còn mọi thứ khác ở lại là chuỗi. Nghĩa là 007 giữ nguyên “007”, không phải 7; mã bưu chính, mã sản phẩm và số điện thoại giữ số 0 của mình; và ngày kiểu 2024-03-04 không âm thầm thành gì khác.",
+          "Mặc định bảo thủ tồn tại vì một kiểu sai là một lỗi im lặng. Một bộ tiêu thụ JSON nhận 7 thay vì “007” không thể khôi phục bản gốc; một bộ nhận chuỗi khi nó muốn số ít nhất hỏng to hay dễ chuyển đổi. Khi bạn biết một cột thực sự là số, hãy ép kiểu ở hạ nguồn nơi giả định là tường minh — bộ chuyển không phải chỗ đánh cược với định danh của bạn.",
+          "Xử lý header phủ hai bệnh kinh điển của CSV: tên cột rỗng và trùng. Header rỗng nhận tên sinh ra (column1, column2, …) để mỗi dòng giữ đủ trường; các bản trùng gộp về lần xuất hiện cuối, vì đối tượng JSON không thể mang khóa lặp. Nếu trùng lặp quan trọng với schema của bạn, hãy sửa header trước khi chuyển — không bộ chuyển nào bịa được thông tin nguồn chưa từng có.",
+        ],
+      },
+      {
+        heading: "Phân tích CSV đúng: dấu ngoặc kép, xuống dòng và dấu phân cách",
+        paragraphs: [
+          "Tách CSV theo dấu phẩy sai ngay khi một tập dữ liệu thật đến. RFC 4180, tiêu chuẩn mà định dạng này thực tế theo, định nghĩa trường có ngoặc kép: một trường chứa dấu phẩy, dấu ngoặc hay xuống dòng phải được bọc trong ngoặc kép, và một dấu ngoặc trong trường ấy được thoát bằng cách nhân đôi. Một trường tên đọc “Ada, Bá tước” là một ô; tách ngây thơ biến nó thành hai và dịch mọi cột phía sau.",
+          "Kết thúc dòng là bẫy thứ hai. File CSV trộn CRLF (Windows, bản xuất Excel) và LF (công cụ Unix), và một xuống dòng trong trường có ngoặc là dữ liệu, không phải dấu phân cách bản ghi — một địa chỉ nhiều dòng hay một bình luận dán vào phải sống sót như một ô. Phân tích đúng là một máy trạng thái nhỏ, không phải một lời gọi split(); đó là thứ chạy ở đây.",
+          "Dấu phân cách thay đổi theo bản địa: Excel ở phần lớn châu Âu và Mỹ Latinh ghi file phân cách bằng chấm phẩy vì dấu phẩy là dấu thập phân ở những bản địa ấy. Công cụ cho bạn chọn phẩy hay chấm phẩy tường minh thay vì đoán, nên một file mà mọi trường tình cờ chứa chấm phẩy không bị phát hiện nhầm. Nếu nguồn dùng tab, công cụ anh em JSON-to-CSV xử lý vòng ngược lại.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi cục bộ cho dữ liệu gọi tên người thật",
+        paragraphs: [
+          "CSV hướng tới JSON thường hướng tới một API hay cơ sở dữ liệu — và nội dung của chúng thường là đời thật: người dùng, đơn hàng, liên hệ, phản hồi. Chuyển file như vậy qua một trang web xử lý tải lên nghĩa là các hàng đi qua biên mạng và thường hạ cánh vào nhật ký hay kho của ai đó. Với dữ liệu về người nhận diện được, bước ấy chính xác là điều chính sách riêng tư và lẽ thường cùng nói đừng làm.",
+          "Bộ chuyển này phân tích và tuần tự hóa hoàn toàn trong trình duyệt của bạn bằng JavaScript — việc dán, phân tích, suy đoán kiểu và đầu ra đều diễn ra trên máy của bạn, không có bước tải lên nào trong đường dẫn code. Nó chạy offline sau khi tải, không áp hạn ngạch hàng hay dung lượng nào ngoài bộ nhớ trình duyệt, và không gì bạn chuyển được ghi vào đâu cả. Với một file seed dùng một lần có người dùng thử hay một bản xuất khách hàng không được di chuyển, đó là kiến trúc duy nhất giữ trọn lời hứa của dữ liệu.",
+        ],
+      },
+    ],
   },
   "hash-generator": {
     name: "Trình tạo Hash",
@@ -1649,6 +3045,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Văn bản và file của tôi có bị tải lên?",
         a: "Không bao giờ. Việc hash chạy cục bộ trong trình duyệt — kể cả file nhiều GB cũng chỉ được đọc bởi chính thiết bị của bạn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Một thuật toán cho mỗi việc: họ SHA-2 so với các thuật toán đã gãy",
+        paragraphs: [
+          "Công cụ này cố ý cung cấp năm thuật toán vì các công việc khác nhau cần thuật toán khác nhau. SHA-256 và SHA-512 là chuẩn hiện hành — chúng chống lưng chứng chỉ TLS, ký code và Bitcoin. SHA-384 là cùng cấu trúc với SHA-512 nhưng đầu ra bị cắt ngắn, phổ biến nơi một chuẩn đòi bản tóm tắt ngắn hơn. SHA-1 và MD5 xuất hiện ở đây không phải để khuyên dùng mà vì thế giới thực vẫn dùng: checksum lưu trữ legacy, nhà cung cấp cũ và bộ xác minh cũ cứ đòi chúng.",
+          "Lịch sử gãy đổ đáng biết chính xác. Khả năng chống va chạm của MD5 sụp giữa thập niên 2000, với phần mềm độc hại Flame năm 2012 giả mạo chứng chỉ Microsoft làm màn trình diễn tiêu biểu. SHA-1 trụ lâu hơn: Google và CWI Amsterdam chứng minh va chạm SHA-1 thực dụng đầu tiên (tấn công SHAttered) năm 2017. Cả hai vẫn chấp nhận được cho tính toàn vẹn không đối kháng — xác nhận một file sống sót qua truyền — nhưng cả hai phải bị từ chối ở bất cứ nơi nào kẻ tấn công có thể chọn một phần đầu vào.",
+          "Một nguyên tắc cầm tay thực dụng: với bất cứ thứ gì bạn phát hành hôm nay, hãy tạo SHA-256 (hay SHA-512 cho file lớn, nơi nội thất 64-bit của nó nhanh hơn trên CPU hiện đại). Khi bạn phải xác minh một tổng MD5 hay SHA-1 cũ, hãy làm ở đây một lần và đồng thời tạo SHA-256 bên cạnh, để hồ sơ mang cả phép kiểm legacy lẫn phép kiểm chống tương lai.",
+        ],
+      },
+      {
+        heading: "Độ dài bản tóm tắt và hình dạng của đầu ra đúng",
+        paragraphs: [
+          "Đầu ra của mỗi thuật toán có kích thước cố định, khiến đầu ra sai nhận ra ngay: MD5 là 32 ký tự hex, SHA-1 là 40, SHA-256 là 64, SHA-384 là 96 và SHA-512 là 128. Nếu một SHA-256 được tuyên bố có 63 hay 65 ký tự, có gì đó phía trước hỏng — một phép cắt, một cú dán nhầm, hay một thuật toán khác đội nhãn sai. Kiểm tra độ dài trước khi so sánh tiết kiệm sự bối rối săn một sự lệch mà thực ra là lỗi định dạng.",
+          "Chữ hoa-thường của hex là cái bẫy so sánh khác: một số công cụ in bản tóm tắt hoa, một số in thường. Giá trị giống hệt nhau — thập lục phân chỉ là ký hiệu — nên so không phân hoa-thường hay chuẩn hóa cả hai bên trước. Và cẩn thận khoảng trắng cuối: băm một văn bản có ký tự xuống dòng cuối cho ra bản tóm tắt khác với không có, đó là lý do chế độ văn bản ở đây băm chính xác các ký tự bạn cung cấp và chế độ file băm byte thô của file.",
+          "Thuộc tính một chiều là thứ khiến tất cả điều này hoạt động: một bản tóm tắt độ dài cố định vứt thông tin theo thiết kế, và byte giống nhau luôn cho bản tóm tắt giống nhau. Tính tất định ấy là điều khiến một checksum do một dự án ở quốc gia này công bố khớp với cái bạn tính trong trình duyệt ở quốc gia khác — cùng byte, cùng bản tóm tắt, bất kể ai tính hay tính ở đâu.",
+        ],
+      },
+      {
+        heading: "Băm ngay nơi file đang sống",
+        paragraphs: [
+          "Hash thường được tính chính vì niềm tin đang bị nghi vấn — nên môi trường băm quan trọng ngang thuật toán. Gửi một file đến máy chủ xa lạ để băm là tự phản bội mục đích: bạn truyền đi chính những byte mà tính toàn vẹn bạn đang định xác minh. Mọi thứ ở đây chạy trong trình duyệt của bạn; văn bản băm ngay khi bạn gõ và file được đọc cục bộ bằng file API của trình duyệt, không bao giờ được tải lên.",
+          "Thực thi cục bộ còn gỡ các trần thực dụng: không băng thông tải lên, không giới hạn kích thước ngoài bộ nhớ của bạn, không hàng đợi — vân tay một ISO hàng gigabyte chỉ tốn đúng bằng thời gian đọc nó từ đĩa, và sau khi trang tải xong quy trình chạy offline.",
+          "Với công việc một thuật toán tập trung, các trang SHA-256 generator và MD5 generator cho mỗi thuật toán một khung riêng; trang này là công cụ song song — một đầu vào, năm bản tóm tắt, và sự tự do xác minh tổng cũ và phát hành tổng mới ở cùng một chỗ.",
+        ],
       },
     ],
   },
@@ -1680,6 +3102,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Khoảng 70 thực thể phổ biến — markup (&amp;, &lt;, &gt;, &quot;, &apos;), dấu câu (&mdash;, &hellip;, &ldquo;), dấu Latinh và ký hiệu (&copy;, &euro;) — cùng mọi tham chiếu số thập phân và thập lục phân.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Năm ký tự và quy tắc dấu và-đi-trước",
+        paragraphs: [
+          "Làm văn bản an toàn cho HTML cần thoát đúng năm ký tự: &amp;, &lt;, &gt;, &quot; và &#39;. Dấu và đi trước vì mọi thực thể đều bắt đầu bằng nó — một & chưa thoát đi theo chữ cái là tín hiệu trình duyệt dùng để bắt đầu phân tích một tham chiếu. Đó cũng là lý do thứ tự quan trọng khi thoát: & phải thành &amp; trước mọi thứ khác, nếu không các thực thể bạn vừa tạo bị thoát lần nữa thành &amp;lt;.",
+          "Chiều ngược lật thứ tự: khi bỏ thoát, &amp; được xử lý cuối cùng, không phải đầu tiên. Xử lý nó đầu tiên và &amp;lt; thành &lt;, rồi thành một thẻ < thật — một thẻ sống nơi tác giả muốn văn bản nhìn thấy được. Sai sót thứ tự duy nhất ấy là toàn bộ cơ chế đằng sau các lỗi bỏ-thoát-hai-lần, và là sai lầm đa số các dòng regex một-lần-thoát mắc phải.",
+          "Có cần thoát dấu ngoặc kép là câu hỏi bối cảnh. Trong node văn bản chúng vô hại — <p>Anh ấy nói “xin chào”</p> là hợp lệ. Trong giá trị thuộc tính, dấu ngoặc delimit thuộc tính phải được thoát, và dấu ngoặc chưa thoát trong thuộc tính là vector chèn kinh điển: một giá trị kết thúc bằng “ có thể đóng thuộc tính và mở một thuộc tính mới. Hãy thoát dấu ngoặc cho bối cảnh thuộc tính; để yên trong văn bản thuần nếu bạn muốn đầu ra dễ đọc.",
+        ],
+      },
+      {
+        heading: "Thực thể, XSS và ranh giới nói thật lòng",
+        paragraphs: [
+          "Thoát là tuyến phòng thủ đầu tiên của XSS: một <script> do người dùng gửi thành &lt;script&gt;, hiển thị như văn bản nhìn thấy thay vì thực thi. Các template engine tử tế làm tự động cho nội suy văn bản — nhưng nối chuỗi thủ công, dựng HTML trong JavaScript bằng +, hay render nội dung người dùng vào thuộc tính vẫn đòi kỷ luật bằng tay.",
+          "Ranh giới xứng đáng được nói thẳng: thoát làm nội dung trơ như markup, không làm nội dung đáng tin. Một tài liệu đã thoát vẫn hiển thị mọi thứ tác giả viết — văn bản lừa đảo, hướng dẫn gây hiểu lầm. Thoát giải quyết tính đúng đắn và an toàn chèn, không phải rà soát nội dung.",
+          "Các thực thể số như &#233; và &#x2019; tồn tại cho khả năng tương thích, không phải an ninh. Trong thế giới UTF-8 chúng phần lớn không cần, nhưng các đường ống email legacy, các đường code cũ với bảng mã không phải UTF-8, và các hệ thống gỡ byte cao vẫn được lợi. Các tham chiếu theo tên mà chiều bỏ thoát nhận ra phủ tập hợp thường ngày — markup, dấu câu, dấu phụ Latinh và ký hiệu tiền tệ — cộng mọi dạng số.",
+        ],
+      },
+      {
+        heading: "Thoát nội dung người dùng ngay tại máy",
+        paragraphs: [
+          "Văn bản cần thoát thường là lời của người khác: tin nhắn hỗ trợ khách hàng, chuỗi bình luận được cào để phân tích, bio người dùng sắp vào một template email. Đó chính xác là nội dung bạn không muốn định tuyến qua một dịch vụ web — và một số phiên bản trực tuyến của công cụ này thật sự POST văn bản lên backend của họ.",
+          "Mọi thứ ở đây chạy bằng JavaScript trong trình duyệt của bạn: phép biến đổi là thao tác ký tự thuần với không dính mạng nào ở bất kỳ bước nào. Dán cả tin nhắn của khách, toàn bộ dump bình luận, một template với các trường cá nhân hóa; không gì rời khỏi thiết bị, không gì được ghi log, và chỉ số đếm ký tự giữ bạn trung thực về mức thoát làm phình văn bản bao nhiêu.",
+          "Ghép nó với mã hóa URL khi đi qua các bối cảnh: thực thể HTML bảo vệ bối cảnh markup, mã hóa phần trăm bảo vệ bối cảnh URL, và cái này không thay thế cái kia — một & đã thoát HTML bên trong chuỗi truy vấn là một thứ khác với một & được mã hóa phần trăm. Làm cả hai chuyển đổi cục bộ, cạnh nhau, là cách các bối cảnh không bị nhầm.",
+        ],
+      },
+    ],
   },
   "html-formatter": {
     name: "HTML Formatter",
@@ -1706,6 +3154,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "HTML có được gửi lên máy chủ?",
         a: "Không bao giờ. Formatter là một bộ token hóa JavaScript cục bộ — markup của bạn ở lại trong trình duyệt.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Nơi khoảng trắng quan trọng: ngoại lệ pre/textarea",
+        paragraphs: [
+          "Quy tắc chi phối mọi bộ định dạng HTML là khoảng trắng không phải lúc nào cũng miễn phí. Giữa các phần tử khối, một xuống dòng bị gộp thành một khoảng trắng và trình duyệt gần như bỏ qua ở mọi nơi — nhưng không phải mọi nơi. Trong pre và textarea, khoảng trắng chính là nội dung. Trong script và style, một xuống dòng lạc có thể đổi ý nghĩa (một template literal trong script, hay một attribute selector trong CSS, có thể nhạy cảm với định dạng). Một beautifier mù quáng thụt lề các khối ấy không chỉ làm code trông kỳ — nó có thể làm gãy code.",
+          "Có một trường hợp thứ hai tinh tế hơn: phần tử inline. Khoảng trắng giữa các thẻ <a>, <b> hay <img> trong một đoạn hiển thị thành một khoảng trắng nhìn thấy. Thêm xuống dòng ở đó đổi kết quả hiển thị theo cách về kỹ thuật là thẩm mỹ nhưng khác biệt rõ ràng. Vì vậy một bộ định dạng cẩn thận giữ nội dung inline trên một dòng thay vì đẩy mọi con xuống dòng riêng — khác biệt giữa các trình duyệt ở đây nhỏ nhưng thật.",
+          "Bộ định dạng làm các quyết định ấy trở nên tường minh: nội dung của pre, textarea, script và style đi qua nguyên vẹn, và các thẻ được phân loại là block, inline hay void (img, br, hr, input và các bạn, không có thẻ đóng và không được mở một tầng thụt lề). Phân loại này chính là cái trong đặc tả HTML, và phân loại sai là điều phân biệt một bộ định dạng với một kẻ làm hỏng markup.",
+        ],
+      },
+      {
+        heading: "Tự đóng thẻ: HTML dị dạng được thụt lề ra sao cho hợp lý",
+        paragraphs: [
+          "HTML ngoài đời — template email, trang lưu từ trình duyệt, đầu ra CMS legacy — hiếm khi đóng đủ thẻ. Chuẩn HTML định nghĩa một tập phần tử có thẻ kết thúc tùy chọn: một li mới tự động đóng li trước, một p bị đóng bởi đa số phần tử cấp khối đi sau, và một thẻ đóng cho tổ tiên tự động đóng mọi con cháu đang mở. Một bộ định dạng bỏ qua các quy tắc này lồng mọi thứ vào thẻ chưa đóng đầu tiên, và thụt lề thành một lời nói dối.",
+          "Cách tiếp cận thực dụng ở đây phản chiếu một parser trình duyệt: giữ một ngăn xếp phần tử đang mở, đóng chúng theo quy tắc kết-thúc-tự-động của chuẩn, và để một thẻ đóng tổ tiên pop mọi phần tử mở sau nó. Đầu vào dị dạng suy giảm một cách nhẹ nhàng — thẻ chưa đóng vẫn thụt lề, thẻ đóng lệch không làm gãy lượt chạy — nhưng công cụ không bịa cấu trúc nó không thấy được, đó là lý do nó cố ý không sắp lại hay “sửa” markup của bạn ngoài khoảng trắng.",
+          "Sự tiết chế ấy là một lập trường thiết kế. Tồn tại các beautifier sắp lại thuộc tính, đổi cú pháp tự-đóng, hay chuẩn hóa dấu ngoặc; hữu ích cho cẩm nang phong cách, nguy hiểm khi bạn cần đầu ra khớp một diff hay một template nghiêm ngặt. Khi mục tiêu là đọc một template email đã min hay một trang đã lưu, biến đổi thuần khoảng trắng là hướng trung thực: bạn thấy gì chính là cấu trúc của bạn, chỉ được dàn ra để nhìn thấy.",
+        ],
+      },
+      {
+        heading: "Vì sao định dạng chạy ngay trong trình duyệt của bạn",
+        paragraphs: [
+          "Loại HTML người ta dán vào bộ định dạng thường là bảo mật: template email giao dịch có token khách hàng, trang admin nội bộ có URL API, trang của đối thủ lưu về để nghiên cứu. Gửi bất kỳ thứ nào trong số này lên một dịch vụ định dạng là đặt markup của bạn lên máy chủ bên thứ ba nơi nó có thể bị ghi log hay lưu giữ. Công cụ này tokenize và thụt lề cục bộ bằng JavaScript — không gì đi qua mạng, không có bước tải lên, và trang chạy cả khi offline.",
+          "Còn một lợi thế độ tin cậy. Định dạng phía máy khách nghĩa là không độ trễ vòng đi khi gõ, không giới hạn tần suất, không trần dung lượng do gói dịch vụ đặt. Một trang đã lưu lớn với hàng nghìn node được định dạng trong cùng phiên mà không chạm hạn ngạch.",
+          "Nếu bạn cần tính năng định dạng ngoài khoảng trắng — ngắt dòng kiểu Prettier, sắp thuộc tính, đơn vị thụt lề cấu hình được — con đường trung thực là chạy một bộ định dạng đàng hoàng trong toolchain dự án của bạn. Với quy trình dán-để-đọc, phạm vi hẹp của công cụ này chính là điểm: một công việc, làm dự đoán được, với markup của bạn chưa từng rời khỏi máy.",
+        ],
       },
     ],
   },
@@ -1736,6 +3210,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Mọi thứ chạy cục bộ trong trình duyệt; trang và markup không bao giờ rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao khoảng trắng trong HTML rắc rối hơn vẻ ngoài",
+        paragraphs: [
+          "Gộp khoảng trắng nghe có vẻ tầm thường, nhưng quy tắc hiển thị của HTML làm nó tinh tế. Trong luồng thường, mọi chuỗi khoảng trắng, tab và xuống dòng hiển thị thành một khoảng trắng — vì vậy một xuống dòng giữa hai phần tử inline như <a> hay <em> tạo ra một khe hở nhìn thấy, trong khi một xuống dòng giữa hai <div> không tạo gì cả. Một bộ minifier phải tôn trọng sự bất đối xứng này: gộp khe inline thành một khoảng trắng, xóa hẳn khe cấp khối.",
+          "Một số phần tử không bao giờ tha thứ cho thay đổi khoảng trắng. Trong <pre>, <textarea>, <script> và <style>, khoảng trắng là nội dung literal — gộp nó và mẫu code của bạn mất định dạng, textarea của bạn đến với mặc định méo mó, script hay stylesheet của bạn thậm chí có thể gãy cú pháp. Công cụ này để những vùng ấy nguyên từng byte.",
+          "Đó là lý do phần trăm tiết kiệm có thể thấp hơn các bộ minifier hăng hái báo: mọi lựa chọn ở đây nghiêng về giữ hiển thị giống hệt thay vì bóp byte cuối cùng. Cái nó gỡ — chú thích tác giả, thụt lề, không gian chết giữa các khối — vốn vô hình trong trình duyệt, nên không gì bạn thấy có thể đổi.",
+        ],
+      },
+      {
+        heading: "Bộ minifier bảo thủ từ chối làm gì",
+        paragraphs: [
+          "Các bộ minifier hăng hái còn có thể gỡ dấu ngoặc thuộc tính, sắp lại thuộc tính, viết lại thuộc tính boolean và gộp các node văn bản kề nhau. Mỗi thứ tiết kiệm thêm vài byte nhưng nâng rủi ro: gỡ dấu ngoặc có thể va chạm với giá trị thuộc tính chứa khoảng trắng, gộp hăng có thể đổi các biên text node mà CSS hay script dựa vào. Công cụ này cố ý không làm điều nào.",
+          "Sự bảo thủ ấy có lời ở các miền mà minify HTML được làm bằng tay nhiều nhất: template email và nội dung CMS legacy. Các trình duyệt email nổi tiếng bất nhất trong HTML chấp nhận, và template cũ thường dựa vào những quirk markup mà một bộ minifier tái cấu trúc sẽ âm thầm làm gãy. Một bộ minifier chỉ gỡ byte chứng minh được là vô hình thì an toàn để chạy trên markup bạn không thể thử nghiệm đầy đủ.",
+          "Chú thích xứng đáng một lưu ý riêng. Chú thích tác giả an toàn để xóa, nhưng một số chú thích là code sống: conditional comment của IE, marker template phía máy chủ, thông báo bản quyền. Xóa tất cả đổi hành vi. Công cụ này gỡ chú thích thường nhưng giữ conditional comment, chính là cách phổ biến nhất khiến các bộ minifier ngây thơ làm gãy trang thật.",
+        ],
+      },
+      {
+        heading: "Min ngay trên thiết bị, nhất là với markup riêng tư",
+        paragraphs: [
+          "HTML bạn min thường không phải công khai: landing page chưa phát hành, dashboard nội bộ, template email có trường trộn dữ liệu khách hàng, markup staging với chú thích về giá chưa lên sóng. Tải tất cả lên dịch vụ web chỉ để gỡ khoảng trắng là rủi ro tránh được — nhiều bộ minifier trực tuyến thật sự POST tài liệu lên máy chủ của họ.",
+          "Ở đây toàn bộ đường ống chạy trong trình duyệt của bạn: phân tích, biến đổi và con số dung lượng đều diễn ra bằng JavaScript cục bộ, không mạng nào tham gia. Template độc quyền và trang nội bộ được min mà không rời khỏi máy, và công cụ chạy offline — hữu ích khi bạn đang đánh bóng một trang trước khi nó có nơi để ở.",
+          "Với triển khai thật, ghép nó với các bộ minifier CSS và JavaScript cho khoản lời lớn nhất, rồi dựa vào nén truyền (gzip hay brotli ở máy chủ) thứ áp đảo mọi thứ bộ minifier tiết kiệm. Công việc của bộ minifier là gỡ các byte mà định dạng truyền không gỡ được; nén của máy chủ xử lý phần còn lại.",
+        ],
+      },
+    ],
   },
   "http-status-codes": {
     name: "Mã trạng thái HTTP",
@@ -1762,6 +3262,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao 401 và 403 đều nói không được vào?",
         a: "401 nghĩa là “bạn là ai?” — thiếu hoặc sai thông tin xác thực. 403 nghĩa là “tôi biết bạn là ai mà vẫn không được” — xác thực thành công nhưng tài nguyên bị cấm.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Năm nhóm và cách đọc chúng",
+        paragraphs: [
+          "Chữ số đầu của một mã trạng thái cho biết họ nào đang nói. 1xx là thông tin — tiếng l CRUD tạm thời như 100 Continue trong các lần tải lớn, không bao giờ là câu trả lời cuối. 2xx nghĩa là thành công dưới một hình thức nào: 200 là OK trơn, 201 báo một tài nguyên đã được tạo, 204 báo thành công mà không có gì gửi trả. 3xx là chuyển hướng — tài nguyên sống ở nơi khác. 4xx là lỗi của máy khách, 5xx là của máy chủ.",
+          "Việc chia nhóm quan trọng khi gỡ lỗi vì nó giao trách nhiệm ngay lập tức. Một 4xx trong log của bạn thường nghĩa là máy khách gửi sai — thông tin xác thực sai (401), thiếu quyền (403), thân yêu cầu sai (400), hay hỏi một thứ không tồn tại (404). Một 5xx nghĩa là máy chủ gặp vấn đề nội bộ — ngoại lệ chưa xử lý (500), lỗi thượng nguồn (502 Bad Gateway), quá tải (503). Đọc nhóm trước biến một lỗi từ bí ẩn thành một hướng đi.",
+          "Hai điều tinh tế đáng biết: 202 Accepted nghĩa là yêu cầu đã nhận nhưng chưa được xử lý — phổ biến với hàng đợi công việc async — và một 3xx không phải lúc nào cũng là chuyển hướng trình duyệt sẽ theo, vì 304 Not Modified là câu trả lời đàm phán cache mà không có thân nào cả.",
+        ],
+      },
+      {
+        heading: "Chuyển hướng, caching và các mã mọi người hay sai",
+        paragraphs: [
+          "Họ 3xx là nơi sai sót ngoài đời tập trung. 301 là vĩnh viễn: máy tìm kiếm chuyển điểm xếp hạng, và trình duyệt có thể cache chuyển hướng một cách hăng hái. 302 là tạm thời nhưng mơ hồ về phương thức — các máy khách lịch sử đổi POST thành GET sau một 302, chính là điều 307 cấm. Khi một POST phải sống sót qua chuyển hướng nguyên vẹn, 307 (tạm thời) hay 308 (vĩnh viễn) là câu trả lời đúng; 303 See Other là chỉ thị có chủ đích “đổi cái này thành GET”, kinh điển sau một form POST.",
+          "Hành vi caching là nửa còn lại mà nhóm không nói cho bạn. Một 200 có thể cache được hay không tùy header; 304 tường minh là cái bắt tay cache; 410 Gone bảo máy khách ngừng hỏi, và máy tìm kiếm gỡ chỉ mục nó nhanh hơn 404. Mã trạng thái đặt khung, nhưng header quyết định chi tiết — vì vậy một API “trả 200 với đối tượng lỗi trong thân” làm gãy cache và retry ở khắp nơi: mã nói thành công, ngữ nghĩa nói thất bại.",
+          "401 so với 403 xứng đáng có dòng riêng: 401 là về bản sắc (bạn chưa xác thực, thử lại với thông tin xác thực, thường kèm header WWW-Authenticate), trong khi 403 là về ủy quyền (bản sắc đã xác lập, truy cập bị từ chối). Trả 403 cho việc thiếu đăng nhập thay vì 401 là một trong những lỗi thiết kế API phổ biến nhất — máy khách không thể biết việc xác thực lại có giúp gì không.",
+        ],
+      },
+      {
+        heading: "Một cẩm nang ở lại trên máy của bạn",
+        paragraphs: [
+          "Trang này là một tham chiếu tĩnh render cục bộ trong trình duyệt của bạn: không yêu cầu tra cứu nào được thực hiện khi bạn tìm hay bấm, và sau khi trang tải xong nó chạy offline. Thiết kế ấy phù hợp với cách nó được dùng — giữa chừng một sự cố, trong một cuộc gọi, với log production mở và mạng gãy nửa chừng. Tính năng bấm-để-sao-chép tồn tại vì mã trạng thái thường kết thúc trong báo cáo lỗi, runbook và code review, từng phím bấm một.",
+          "Mã trạng thái đến từ các chuẩn HTTP (các nhóm lõi trong RFC 9110 và các bạn, các mã mở rộng HTTP/2 như 425, và mã 418 ngày Cá tháng Tư cuối cùng được chính thức đặt chỗ), và tập hợp hiếm khi mở rộng — các bổ sung được áp dụng rộng rãi cuối cùng là các chẩn đoán cụ thể hơn của dải 4xx. Cẩm nang này phủ tập hợp thực dụng và giải thích từng cái bằng ngôn ngữ đời thường thay vì văn bản đặc tả.",
+          "Ghép nó với trình phân tích URL khi gỡ lỗi: một 301 hay 302 vô nghĩa cho đến khi bạn thấy header Location trỏ đi đâu, và parser hiển thị cấu trúc URL đích trực tiếp.",
+        ],
       },
     ],
   },
@@ -1792,6 +3318,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Mọi thứ chạy cục bộ trong trình duyệt — mã nguồn không bao giờ rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Min, gzip và cái gì thật sự tiết kiệm byte",
+        paragraphs: [
+          "Minification và nén là hai tầng khác nhau, và biết tầng nào làm việc quan trọng đấy. Minification là viết lại văn bản có mất dữ liệu: chú thích và khoảng trắng bị gỡ, tên bị rút ngắn, câu lệnh được gộp. Gzip hay Brotli là nén truyền không mất dữ liệu áp dụng sau đó. Khoảng trắng nén cực kỳ tốt — riêng gzip có thể co một script dài dòng 70–80% — nên khoản tiết kiệm cận biên của bộ minifier nhỏ hơn nhiều so với phần trăm thô của nó.",
+          "Lý do thật để min không phải dư thừa gzip mà là chi phí phân tích và thực thi: mỗi chú thích và ký tự định dạng mà trình duyệt phải phân tích là thời gian CPU trên thiết bị của khách truy cập, điều có ý nghĩa trên điện thoại cấu hình thấp. Cũng nhớ rằng gỡ chú thích có chi phí ẩn nếu bạn dựa vào chú thích nội dòng — một số công cụ (nguồn-đồ dù đứng ngoài, một số bundler và framework đọc các chỉ thị như /*#__PURE__*/ từ chú thích) cần những marker ấy sống sót.",
+          "Công cụ này cố ý đi làn bảo thủ: nó gỡ chú thích và gộp dòng trống nhưng giữ xuống dòng giữa các câu lệnh. Nếu bạn phục vụ đầu ra với gzip hay Brotli bật, bạn thu được phần lớn khoản tiết kiệm sẵn có mà không cần bước build — và không có rủi ro nào từ các phép viết lại gây mangled, inline hay đổi tên làm code ứng xử khác dự kiến.",
+        ],
+      },
+      {
+        heading: "Tự động chèn dấu chấm phẩy — lý do xuống dòng được giữ",
+        paragraphs: [
+          "JavaScript là ngôn ngữ chính thống duy nhất mà xóa một xuống dòng có thể đổi hành vi chương trình. Tự động chèn dấu chấm phẩy (ASI) chèn dấu chấm phẩy dựa trên biên dòng và các quy tắc cụ thể: một return theo sau bởi xuống dòng trả về undefined, không phải biểu thức ở dòng dưới; a++ đứng một mình trên một dòng, phép gán tiếp tục qua nhiều dòng — tất cả phụ thuộc vào chỗ ngắt. Ghép tất cả vào một dòng một cách ngây thơ là gộp các biên ấy và âm thầm viết lại ngữ nghĩa.",
+          "Vì vậy các bộ minifier đầy đủ phải phân tích file thành AST trước khi đụng vào — chúng phát lại code nơi các rủi ro ASI được giải tường minh. Bất kỳ công cụ nào chỉ xóa khoảng trắng mà không phân tích (như các bộ minifier regex nhanh) có thể cho ra code chạy khác nguồn. Công cụ này né hoàn toàn lớp lỗi ấy bằng cách giữ các xuống dòng tại biên câu lệnh nguyên vẹn.",
+          "Sự đánh đổi là trung thực: bạn nhận một file lớn hơn một chút so với đầu ra của Terser, đổi lấy cam kết hành vi tương đương về cấu trúc từng byte. Với script nhúng trong trang, extension, user style hay môi trường không có đường ống build, cam kết ấy thường đáng giá vài byte.",
+        ],
+      },
+      {
+        heading: "Mã nguồn của bạn ở lại trên thiết bị",
+        paragraphs: [
+          "Dán mã nguồn chưa phát hành vào một công cụ web là một quyết định niềm tin, và đa số lập trình viên đưa ra quá dễ dàng. Code bạn sắp lên sóng có thể chứa tên nội bộ, endpoint API, thông tin xác thực bị chú thích hay logic độc quyền. Tải nó lên một bộ minifier bên thứ ba nghĩa là máy chủ của người lạ lưu một bản sao công việc pre-release của bạn — không hợp đồng, không kiểm toán, không cam kết xóa.",
+          "Công cụ này xử lý mọi thứ trong trình duyệt của bạn: bộ minifier là JavaScript chạy cục bộ trên đầu vào của bạn, không có yêu cầu mạng nào mang code của bạn đi đâu. Con số tiết kiệm byte được tính tại chỗ. Sau khi trang tải xong, bạn có thể ngắt mạng và tiếp tục min.",
+          "Với các nhóm có đường ống thật, hãy tiếp tục dùng Terser/esbuild trong CI nơi source map và bundle được quản lý đàng hoàng. Với một file đơn lẻ, một lần kiểm nhanh những gì production sẽ phục vụ, hay một codebase không có hệ thống build, đây là con đường không-cài-đặt, không-rủi-ro.",
+        ],
+      },
+    ],
   },
   "json-formatter": {
     name: "JSON Formatter",
@@ -1820,6 +3372,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Mọi thứ chạy cục bộ trong trình duyệt bằng JavaScript — dữ liệu không bao giờ rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Định dạng đổi khoảng trắng, không bao giờ đổi ý nghĩa",
+        paragraphs: [
+          "Beautification thuần túy là một thao tác khoảng trắng: đầu vào được phân tích thành một cấu trúc dữ liệu, rồi tuần tự hóa lại với thụt lề bạn chọn. Khóa, giá trị, độ sâu lồng và thứ tự khóa ra đúng như lúc vào — hai tài liệu JSON chỉ khác khoảng trắng phân tích thành cùng một giá trị và thay thế được cho nhau với bất kỳ chương trình nào tiêu thụ chúng.",
+          "Một điểm tinh tế đáng biết: định dạng số có thể dịch chuyển trong hiển thị. Số JSON được phân tích thành số thực IEEE-754, nên các số nguyên rất lớn — bất kỳ cái nào trên 2^53, như ID snowflake — có thể in với các chữ số bị làm tròn. Giá trị vốn đã mất chính xác từ lúc phân tích trong mọi JavaScript engine; bộ định dạng không bịa ra phép làm tròn. Khi các chữ số chính xác quan trọng, ID nên đi trong JSON của bạn dưới dạng chuỗi.",
+          "Điều định dạng không thể làm là sắp lại hay đổi tên bất cứ gì. Một số công cụ cung cấp sắp khóa như tùy chọn thêm, tiện cho việc diff file cấu hình, nhưng hãy coi nó là một bước riêng có chủ đích — một bộ định dạng âm thầm sắp lại khóa khiến so sánh từng byte với bản gốc trở nên bất khả thi.",
+        ],
+      },
+      {
+        heading: "Chọn độ rộng thụt lề",
+        paragraphs: [
+          "Hai khoảng trắng là chuẩn trên thực tế trong hệ sinh thái JavaScript — các package npm, đa số cẩm nang phong cách và phần lớn codebase frontend dùng nó, nên là mặc định an toàn nhất khi dán vào codebase của nhóm. Bốn khoảng trắng vẫn phổ biến trong code doanh nghiệp cũ và vùng gần Java. Tab thắng về khả năng tiếp cận: mỗi người đọc đặt riêng độ rộng hiển thị, với cái giá là các file trộn tab/khoảng trắng hiển thị không nhất quán.",
+          "Độ rộng quan trọng hơn vẻ ngoài vì diff nhạy với khoảng trắng. Nếu linter của nhóm ép hai khoảng trắng mà bạn định dạng bằng bốn, mọi dòng hiện là đã đổi trong review dù không gì ngữ nghĩa di chuyển. Hãy khớp quy ước của đích đến của file trước khi dán đầu ra.",
+          "Cho việc soi nhanh một lần — đọc phản hồi API, kiểm tra một dòng log — lựa chọn thụt lề thuần túy là khẩu vị. Chọn cái nào khiến độ sâu lồng dễ theo nhất với mắt bạn; công cụ cập nhật trực tiếp, nên đổi không tốn gì.",
+        ],
+      },
+      {
+        heading: "Làm đẹp để đọc, min để giao, tất cả trên thiết bị",
+        paragraphs: [
+          "Định dạng và min là hai đầu của một quy trình. Pretty-print cho con người: code review, gỡ lỗi, so sánh payload. Minify cho máy: truyền, lưu trữ và cache, nơi từng byte thụt lề là sức chết. Công cụ này ghép cặp với bộ minifier JSON — làm đẹp để soi một payload đến, min trước khi gửi đi.",
+          "Khác với các bộ định dạng trình soạn thảo, không cần cài hay cấu hình gì: không dự án, không plugin, không phải lưu file ra đĩa chỉ để định dạng lại. Dán, đọc, sao chép. Điều đó khiến nó là vòng lặp nhanh nhất cho trường hợp phổ biến nhất — một payload từ một tab trình duyệt bạn sẽ đóng trong một phút.",
+          "JSON của bạn được phân tích hoàn toàn trong tab trình duyệt này. Phản hồi từ API staging, dòng log có dữ liệu người dùng và file cấu hình chứa bí mật chưa từng chạm vào máy chủ — công cụ còn chạy offline, nên một cú giật VPN hay một chuyến bay không cắt ngang buổi gỡ lỗi.",
+        ],
+      },
+    ],
   },
   "json-minifier": {
     name: "JSON Minifier",
@@ -1846,6 +3424,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Dữ liệu có được gửi đi đâu không?",
         a: "Không. Việc nén chạy hoàn toàn trong trình duyệt — không có gì được tải lên, ghi log hay lưu lại.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Khoảng trắng miễn phí trong JSON — trừ khi ở trong chuỗi",
+        paragraphs: [
+          "Ngữ pháp JSON định nghĩa khoảng trắng (khoảng trắng, tab, xuống dòng) là bỏ qua được giữa các token: giữa khóa và giá trị của một đối tượng, giữa các phần tử mảng, quanh các ngoặc. Gỡ nó cho ra một tài liệu phân tích thành đúng cùng một giá trị — vì vậy minification ở đây là một biến đổi không mất dữ liệu, khác với nén ảnh hay âm thanh.",
+          "Nơi duy nhất khoảng trắng thiêng liêng là trong giá trị chuỗi. “hello world” với khoảng trắng bị gộp là một giá trị khác. Một bộ minifier đúng đi qua ngữ pháp chứ không áp thay thế văn bản mù quáng — vì vậy đầu vào phải là JSON hợp lệ trước, và một tài liệu không hợp lệ nhận lỗi dòng-và-cột thay vì một dòng một mảnh.",
+          "Một điểm tinh tế mà con số dung lượng làm lộ: số và tên khóa không bị đụng. Một bộ minifier không làm tròn 3.14159, không sắp lại khóa hay rút ngắn “someVeryLongKeyName” — tất cả những điều đó sẽ đổi dữ liệu. Mọi thứ tiết kiệm được đến từ định dạng, vì vậy phần trăm chênh nhau nhiều giữa một file thụt lề bốn khoảng và một file thụt lề tab.",
+        ],
+      },
+      {
+        heading: "Minification mua được gì — và nén làm gì thay",
+        paragraphs: [
+          "JSON đã min thường co 30–60% so với đầu vào pretty-printed, tùy độ sâu thụt lề. Với phản hồi API, con số ấy ít quan trọng hơn vẻ ngoài, vì nén truyền ăn phần lớn cùng các byte: gzip và brotli gộp thụt lề lặp lại và tên khóa gần như miễn phí. Bản min vẫn thắng bên trên — tỉ lệ nén cải thiện một khi dư thừa đã mất — nhưng khoản lời cận biên mỗi phản hồi khiêm tốn.",
+          "Nơi minification thật sự có lời: lưu trữ ở quy mô (log, kho sự kiện, fixture nhúng), trao đổi file máy-với-máy nơi từng megabyte truyền hay đĩa đều đắt, và JSON nhúng trong các tài liệu khác — một thẻ script, một data attribute, một chuỗi cấu hình — nơi thụt lề nhân lên qua hàng nghìn lần lặp.",
+          "Hãy giữ phiên bản định dạng làm nguồn sự thật. JSON min là cho máy; gỡ lỗi một bức tường token một dòng bằng mắt là một trò chơi thua. Ghép công cụ này với bộ định dạng: giữ file đẹp trong repo, min tại điểm dùng, và định dạng lại bất cứ khi nào một payload min cần đọc.",
+        ],
+      },
+      {
+        heading: "Co payload mà không gửi chúng đi đâu",
+        paragraphs: [
+          "JSON bạn min trước khi giao thường là nhạy cảm: cấu hình có endpoint và khóa, file bản dịch cho một sản phẩm chưa phát hành, bản ghi khách hàng xuất ra để di trú. Một bộ minifier tải tài liệu lên backend biến một bước tiết kiệm byte thuần cục bộ thành một cú xuất dữ liệu — nên bộ này chạy hoàn toàn bằng JavaScript trong trình duyệt của bạn.",
+          "Thực thi cục bộ còn nghĩa là không trần kích thước và không độ trễ: một bản xuất nhiều megabyte được min dễ dàng như một đoạn ngắn, và toàn bộ luồng chạy offline. Không gì được ghi log, nên các lần lặp trên cùng một file không để lại vết.",
+          "Một quy trình giữ bạn trung thực: min một bản sao, không bao giờ bản gốc. Công cụ cho bạn khoản tiết kiệm byte chính xác để quyết định dạng gọn có đáng duy trì không — với cấu hình do máy tiêu thụ thường là có; với file con người còn chỉnh, nguồn định dạng cộng đầu ra min lúc build thắng file min bằng tay trong mọi trường hợp.",
+        ],
       },
     ],
   },
