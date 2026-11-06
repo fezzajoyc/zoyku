@@ -139,19 +139,29 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             />
           </div>
 
-          {/* 核心指标统计条 (仅保留真实数据: 工具数 与 语言数) */}
-          <div className="mx-auto mt-14 max-w-lg">
-            <dl className="grid grid-cols-2 gap-4 sm:gap-6">
+          {/* 核心指标统计条:工具数 / 语言数 / 0 上传 / 0 账号(全部真实可验证) */}
+          <div className="mx-auto mt-14 max-w-2xl">
+            <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
               {[
                 {
                   value: <CountUp to={total} />,
                   label: t.home.statsLabels.tools,
-                  sub: "100% Free",
+                  sub: t.home.statsUploads.replace(/^0 /, "").length > 0 ? "" : "",
                 },
                 {
                   value: <CountUp to={LOCALES.length} />,
                   label: t.home.statsLabels.languages,
-                  sub: "Global Ready",
+                  sub: "",
+                },
+                {
+                  value: "0",
+                  label: t.home.statsLabels.uploads,
+                  sub: "",
+                },
+                {
+                  value: "0",
+                  label: t.home.statsLabels.accounts,
+                  sub: "",
                 },
               ].map((stat, i) => (
                 <div
@@ -166,9 +176,11 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                     <span className="mt-1.5 block text-[13px] font-semibold text-[var(--color-ink)]">
                       {stat.label}
                     </span>
+                    {stat.sub ? (
                     <span className="mt-0.5 block text-[12px] text-[var(--color-sub)]">
                       {stat.sub}
                     </span>
+                    ) : null}
                   </dd>
                 </div>
               ))}

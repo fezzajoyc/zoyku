@@ -13,11 +13,17 @@ type Item = { slug: string; category: string; icon: string; name: string; taglin
 // 空状态热门推荐(存在才渲染)
 const POPULAR_SLUGS = [
   "merge-pdf",
+  "pdf-to-word",
   "image-compressor",
   "word-counter",
   "json-formatter",
   "qr-generator",
   "password-generator",
+  "remove-extra-spaces",
+  "uuid-generator",
+  "bmi-calculator",
+  "percentage-calculator",
+  "loan-calculator",
 ];
 
 const CAT_ICONS: Record<string, string> = {
