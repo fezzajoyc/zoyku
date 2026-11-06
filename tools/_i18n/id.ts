@@ -36,6 +36,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Penggabungan terjadi secara lokal di browser Anda dengan JavaScript. Tidak ada yang dikirim ke server mana pun, dan PDF gabungan dibuat di perangkat Anda sendiri.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Penggabungan adalah operasi pada pohon halaman, bukan rendering ulang",
+        paragraphs: [
+          "Kekhawatiran umum soal penggabungan PDF adalah bahwa alat “memproses ulang” halaman — mengenkode ulang gambar, merender ulang teks, diam-diam menurunkan kualitas. Pada penggabung yang dibangun dengan benar, tidak satu pun dari itu terjadi. Halaman setiap PDF hidup di dalam pohon referensi internal, dan penggabungan menyambung pohon-pohon itu ke dalam dokumen baru: urutan halaman dirangkai, referensi dinomori ulang agar tidak bertabrakan, tetapi aliran konten halaman, font, dan gambarnya sendiri disalin byte demi byte.",
+          "Itulah sebabnya penggabungan yang baik bersifat lossless secara konstruksi. Teks tetap bisa dipilih, resolusi gambar tetap persis seperti semula, grafik vektor mempertahankan lengkungannya. Halaman hasil secara konten tidak bisa dibedakan dari halaman sumber — satu-satunya yang berubah, jika boleh dibilang, adalah daftar isi kontainer dokumen.",
+          "Dua realitas struktural layak diketahui. Pertama, penomoran halaman dimulai ulang: halaman 1 dokumen B menyusul halaman terakhir dokumen A, apa pun label cetaknya. Kedua, bookmark, tautan, dan named destination bisa bertahan atau tidak tergantung seberapa hati-hati penggabung memetakan ulang referensi internal — alat yang hanya menyambung pohon halaman bisa membiarkan tautan internal menggantung.",
+        ],
+      },
+      {
+        heading: "Urutan, duplikat, dan daftar periksa pra-gabung",
+        paragraphs: [
+          "Urutan penggabungan adalah urutan Anda menambahkan file, dan itu adalah kesalahan paling umum: halaman sampul terlanjur ditambahkan setelah lampiran. Kebiasaan yang andal adalah menamai file sumber dengan awalan angka (01-kontrak.pdf, 02-lampiran.pdf) sehingga urutan yang dimaksud terlihat sekilas dan bertahan dari pengurutan apa pun oleh pemilih file. Verifikasi urutannya pada hasil gabungan sebelum disebarkan — membuka dua detik menangkap apa yang tidak ditangkap sejam penyesalan.",
+          "Ukuran halaman campuran sah dalam PDF dan tergabung dengan bersih, tetapi pikirkan penerimanya: dokumen yang halaman A4-nya berselang-seling dengan halaman US-Letter dicetak buruk di mana-mana. Kalau sumbernya berbeda, putuskan sebelum menggabungkan apakah ukuran halaman akan dinormalisasi setelahnya atau campuran itu diterima.",
+          "Satu item daftar periksa lagi: formulir. Menggabungkan dua PDF yang masing-masing berisi kolom formulir bisa membuat nama kolom bertabrakan — dua kolom yang sama-sama bernama “signature” bisa berakhir berbagi satu nilai, sehingga mengisi satu mengisi keduanya. Meratakan (flatten) input sebelum menggabungkan adalah obat standarnya, karena halaman hasil flatten tidak membawa mesin kolom sama sekali.",
+        ],
+      },
+      {
+        heading: "Menggabungkan dokumen tanpa mengunggah salah satunya",
+        paragraphs: [
+          "Penggabungan paling sering dilakukan justru pada file yang seharusnya tidak pernah diunggah: kontrak beserta lampirannya, lamaran beserta hasil pindai KTP, laporan medis beserta rangkuman pencitraannya. Mengirim kedua bagian ke layanan penggabung daring menciptakan satu dokumen gabungan di server orang lain — versi dokumen Anda yang paling lengkap dan paling sensitif, dalam satu file yang praktis, di log mereka.",
+          "Alat ini melakukan penyambungan sepenuhnya di browser Anda. Kedua PDF sumber diparse dalam JavaScript di perangkat Anda, pohon halamannya dirangkai di memori, dan file gabungan langsung ditulis ke unduhan Anda. Tidak ada bagian dari kedua dokumen yang dikirim, diantrikan, atau disimpan di mana pun, dan penggabungan bekerja sama persis meski kabel jaringan dilepas.",
+          "Ada manfaat throughput-nya juga: tanpa bolak-balik unggah dan unduh, penggabungan file besar sekalipun — arsip hasil pindai 100 MB ditambah lampiran 50 MB — selesai dalam hitungan detik, hanya dibatasi memori lokal. Itu membuatnya praktis untuk menggabungkan di akhir setiap sesi kerja, menjaga satu file induk yang rapi per proyek alih-alih menebar pecahan di berbagai inbox.",
+        ],
+      },
+    ],
   },
   "split-pdf": {
     name: "Pisahkan PDF",
@@ -62,6 +88,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah pemisahan mengubah kualitas halaman saya?",
         a: "Tidak. Halaman disalin byte demi byte ke dokumen baru, jadi teks tetap bisa dipilih dan gambar mempertahankan kualitas aslinya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Memecah adalah cermin dari menggabungkan — sama lossless-nya",
+        paragraphs: [
+          "Memecah PDF menghasilkan dokumen baru yang masing-masing memuat sebagian halaman dokumen asli. Sama seperti penggabungan, operasinya bekerja pada pohon halaman: setiap dokumen keluaran menerima daftar referensi yang menunjuk ke objek halaman asli, yang disalin apa adanya. Konten halaman tidak pernah dirender ulang atau dikompres ulang, sehingga setiap keluaran mempertahankan kualitas sumber dengan tepat — teks yang bisa dipilih, font tersemat, resolusi gambar, anotasi.",
+          "Ada dua mode pemecahan umum dengan intuisi berbeda. Pemecahan rentang (“halaman 1-5, 6-12”) menghasilkan potongan bernama untuk distribusi — satu bab per penerima, satu bagian per departemen. Pemecahan setiap-N-halaman (“setiap 10 halaman”) adalah alat batch untuk memecah pindai atau ekspor panjang menjadi unit yang bisa diproses, misalnya untuk memenuhi batas ukuran unggah di tempat lain.",
+          "Apa yang tidak dilakukan pemecahan: mengekstrak konten di dalam satu halaman. Halaman yang memuat separuh rahasia Anda dan separuh hal publik tetap utuh di keluaran mana pun ia mendarat. Konten sensitif yang berbagi halaman dengan konten yang boleh dibagikan butuh penataan ulang tingkat halaman (atau redaksi, yang merupakan operasi lain yang jauh lebih menuntut) sebelum memecah.",
+        ],
+      },
+      {
+        heading: "Merencanakan potongan: rentang, batas, dan penamaan file",
+        paragraphs: [
+          "Kualitas sebuah pemecahan diputuskan sebelum Anda mengeklik: oleh letak Anda menarik batasnya. Potong pada jahitan struktural — awal bab, pemisah bagian, halaman kosong pemisah — bukan pada hitungan halaman sembarangan. Bab yang dimulai di tengah potongan lebih menyebalkan daripada distribusi yang sedikit tidak rata. Menyapu daftar isi atau daftar bookmark dokumen lebih dulu adalah cara tercepat menemukan titik potong alami.",
+          "Penamaan lebih penting daripada yang diperkirakan. Keluaran pemecahan cenderung berkembang biak — dan enam file bernama “output_1.pdf” sampai “output_6.pdf” menjamin kebingungan seminggu kemudian. Namai potongan berdasarkan isinya (“kontrak-tanda-tangan.pdf”, “lampiran-A.pdf”) saat Anda membuanya; pemecahan adalah momen yang tepat, karena itulah saat Anda tahu persis apa isi tiap potongan.",
+          "Satu kebiasaan untuk pemecahan berulang: jika Anda memecah dokumen panjang yang sama dengan cara yang sama berulang kali (laporan bulanan dipecah per klien, manual dipercah per bab), simpan daftar rentangnya di catatan dan pakai ulang. Rentang stabil selama jumlah halaman sumber tidak berubah — dan catatan itu sekaligus jadi dokumentasi bagaimana koleksi itu ditata.",
+        ],
+      },
+      {
+        heading: "Mendistribusikan dokumen tanpa salinan perantara",
+        paragraphs: [
+          "Pemecahan biasanya mendahului distribusi: kirim bab satu ke pemeriksa, halaman faktur ke akuntansi, rangkuman publik ke klien. Dokumen yang dipecah biasanya adalah induk yang lengkap dan sensitif — yang membuat mengunggahnya ke layanan pemecah sangatlah keliru: Anda menyerahkan seluruh dokumen untuk menghasilkan potongan yang memang hendak Anda bagikan secara selektif.",
+          "Alat ini memecah sepenuhnya di browser Anda: PDF sumber diparse lokal, dokumen keluaran dirakit di memori dari referensi halaman yang Anda pilih, dan setiap file disimpan langsung oleh perangkat Anda. Induk tidak pernah meninggalkan mesin Anda, sehingga bagian yang Anda simpan rahasia dan bagian yang Anda distribusikan dibuat di bawah kondisi privasi yang persis sama.",
+          "Akibat yang berguna: karena keluaran adalah salinan byte-setia dari halaman asli, Anda bisa memverifikasi sebuah pemecahan dengan membuka keluaran mana pun dan memastikan halamannya identik piksel dengan halaman sumber yang bersesuaian. Tidak perlu audit kualitas — pemecahannya struktural, bukan generatif, jadi tidak ada yang bisa rusak sejak awal.",
+        ],
       },
     ],
   },
@@ -92,6 +144,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Hanya penanda rotasi yang berubah; isi halaman tidak disentuh, jadi kualitasnya identik dan teks tetap bisa dipilih.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Rotasi adalah metadata, bukan piksel",
+        paragraphs: [
+          "Setiap halaman PDF membawa flag rotasi — sebuah nilai sederhana (dalam kelipatan 90 derajat) yang memerintahkan penampil menampilkan halaman dalam keadaan diputar. Memutar halaman dengan alat ini mengubah flag itu, bukan konten halamannya: teks, gambar, dan vektor tetap persis di tempatnya di dalam file. Itulah sebabnya rotasi berlangsung seketika dan lossless sempurna, bahkan untuk file ratusan megabita.",
+          "Mekanisme flag menjelaskan keanehan yang akrab: sebuah halaman bisa memuat konten tegak tetapi tampil menyamping (atau sebaliknya) tergantung flag rotasinya. Beberapa pemindai dan beberapa pembuat PDF mengeset flag alih-alih benar-benar memutar kontennya. Memutar halaman semacam itu membalikkan flag; konten dasarnya tak tersentuh baik itu maupun baliknya.",
+          "Satu akibat layak diketahui: karena rotasi hidup di sebuah flag, alat yang mengabaikannya — beberapa parser sederhana, beberapa pembuat thumbnail — bisa menampilkan orientasi “mentah”. Dan jika kelak Anda meraster halaman itu (misalnya mengompresnya), rendering terjadi pada orientasi yang diputar dan pekerjaan flag menjadi permanen. Memutar sebelum meraster karena itu adalah urutan yang benar.",
+        ],
+      },
+      {
+        heading: "Hasil pindai, orientasi campuran, dan perbaikan praktis",
+        paragraphs: [
+          "Pekerjaan rotasi paling umum adalah memperbaiki hasil pindai: pemindai bolak-balik membalik sisi belakang, kamera ponsel menghasilkan struk menyamping, satu batch keluar dengan orientasi berselang-seling. Memperbaikinya per halaman adalah tepat fungsi alat ini — pilih yang janggal dan putar. Rotate-all adalah langkah yang keliru di situ; ia “memperbaiki” yang benar dengan merusaknya.",
+          "Untuk dokumen yang akan dicetak atau dijilid, pikirkan sisi mana yang menjadi tepi jilid setelah rotasi. Halaman yang diputar 90 derajat terbaca alami di layar tetapi mungkin tercetak dengan “atasnya” di sepanjang tepi pendek lembar, yang mengubah cara margin jatuh. Memeriksa satu halaman cetak sebelum menjalankan seluruh batch menghemat kertas dan frustrasi.",
+          "Catatan tentang mengapa beberapa halaman tampak “berbalik”: jika sebuah penampil mengingat flag dan alat lain menyimpan ulang file tanpa membawa flag itu, orientasi tereset. Menjaga rantai penyuntingan di dalam alat yang menjaga flag (seperti alat ini) menghindarkan reset; jika sebuah halaman terus kembali menyamping setelah setiap perbaikan, ada satu langkah di pipeline Anda yang menjatuhkan flag.",
+        ],
+      },
+      {
+        heading: "Memutar halaman secara lokal, tanpa biaya apa pun",
+        paragraphs: [
+          "Memutar biasanya adalah perbaikan pada dokumen yang sudah Anda miliki dan percayai: hasil pindai Anda sendiri, file yang dikirim kolega. Alasan untuk tetap bersikeras pemrosesan lokal adalah konsistensi prinsip — dokumen yang tidak pernah pergi ke pihak ketiga untuk operasi apa pun adalah dokumen yang permukaan paparnya sepenuhnya Anda kendalikan. Tidak ada operasi yang begitu sepele sehingga membenarkan membangun kebiasaan unggah dengan file rahasia.",
+          "Alat ini memutar di browser Anda: PDF dibaca lokal, flag halaman diperbarui di memori, dan keluaran disimpan oleh perangkat Anda. Tidak ada unggahan, dan karena hanya flag yang berubah, operasinya efektif seketika bahkan untuk file sangat besar — tidak ada waktu tunggu pengodean ulang dalam bentuk apa pun.",
+          "Sifat flag-level juga berarti rotasi di sini dapat dibalik dengan aman: memutar 90 derajat empat kali mengembalikan Anda ke persis kondisi asli, bit demi bit. Anda bebas bereksperimen — balikkan halaman, lihat, balikkan kembali — tanpa risiko apa pun pada file, persis jenis operasi taruhan rendah tempat alat lokal bersinar.",
+        ],
+      },
+    ],
   },
   "delete-pdf-pages": {
     name: "Hapus Halaman PDF",
@@ -118,6 +196,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apa yang terjadi pada penomoran halaman?",
         a: "Halaman menutup secara otomatis: setelah menghapus halaman 2-4, halaman 5 yang lama menjadi halaman 2. Tautan internal yang menunjuk ke halaman terhapus bisa berhenti berfungsi.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Menghapus halaman menyentuh pohon halaman, bukan kontennya",
+        paragraphs: [
+          "Di dalam PDF ada pohon halaman: daftar referensi berurutan, masing-masing menunjuk ke satu objek halaman yang pada gilirannya menunjuk ke aliran konten, font, dan gambarnya. Menghapus halaman adalah operasi pada pohon ini — referensinya dilepas dari daftar — sementara aliran konten, font, dan gambar halaman itu menjadi tak terreferensi dan dibuang. Tidak ada halaman yang bertahan yang digambar ulang, dienkode ulang, atau diubah dengan cara apa pun.",
+          "Ini punya akibat praktis yang layak diketahui: menghapus halaman adalah operasi yang sepenuhnya lossless untuk halaman yang Anda pertahankan. Font tetap tersemat persis seperti semula, resolusi gambar tak tersentuh, teks tetap bisa dipilih, bahkan nomor objek internal halaman yang bertahan biasanya tetap sama. Berbeda dengan kompresi, tidak ada tombol kualitas karena tidak ada yang diproses ulang.",
+          "Sebaliknya juga berlaku: apa pun yang hidup di halaman yang dihapus menghilang sepenuhnya. Jika sebuah halaman memuat anotasi atau lapisan tersembunyi yang Anda inginkan, pastikan itu ada di halaman yang Anda simpan — alat ini bekerja pada granularitas halaman dan tidak bisa mengangkat konten dari satu halaman ke halaman lain. Untuk itu, gunakan alur kerja ekstraksi atau penggabungan.",
+        ],
+      },
+      {
+        heading: "Jebakan umum saat menghapus halaman",
+        paragraphs: [
+          "Kesalahan paling umum adalah salah hitung karena ketidakcocokan antara yang ditampilkan penampil dan urutan halaman internal. Label halaman — “1, 2, iii, A-4” yang tercetak di sudut PDF — adalah lapisan tampilan di atas urutan sebenarnya; dokumen yang labelnya dimulai ulang tiap bab tetap punya satu urutan halaman linear di bawahnya. Alat ini selalu bekerja pada urutan sebenarnya, ditampilkan sebagai 1..N, jadi verifikasi posisi berdasarkan konten, bukan label cetak.",
+          "Jebakan kedua adalah menghapus halaman yang jadi tumpuan halaman lain. Daftar isi atau indeks yang menulis “lihat halaman 12” memuat referensi teks biasa (atau pada dokumen yang lebih baik, anotasi tautan yang menunjuk ke objek halaman). Jika Anda menghapus halaman 12, referensi teks biasa diam-diam membusuk dan tautannya bisa putus atau melompat ke tempat yang salah. Alat ini tidak akan memperingatkan — tidak ada alat yang bisa secara andal — jadi sapukan dokumen Anda mencari rujukan silang sebelum penghapusan besar.",
+          "Ketiga, ingat bahwa beberapa penampil meng-cache file lama. Jika versi terhapus tampak tidak berubah, tutup dan buka ulang PDF, atau periksa ukuran file — file baru seharusnya lebih kecil. Dan jika dokumennya adalah formulir yang halaman-halaman belakangnya memuat definisi kolom yang dirujuk lebih awal, uji formulirnya setelah menyunting.",
+        ],
+      },
+      {
+        heading: "Mengapa file tak pernah meninggalkan perangkat Anda",
+        paragraphs: [
+          "Menghapus halaman sering dilakukan justru karena alasan privasi: membuang halaman berisi data pribadi, lampiran gaji, atau draf yang tak seharusnya beredar. Mengirim file yang sama ke layanan web untuk melakukan penghapusan mengalahkan tujuannya — halaman yang ingin Anda hilangkan kini duduk di antrean pemrosesan dan log orang lain. Alat ini melakukan penyuntingan secara lokal, di browser Anda, sehingga file tak pernah melintasi jaringan di titik mana pun.",
+          "Mekanismenya sepenuhnya di sisi klien: PDF diparse dalam JavaScript, referensi halaman yang Anda pilih dilepas dari pohon, dan file baru ditulis ke unduhan Anda. Tanpa akun, tanpa bilah kemajuan unggah, tanpa kebijakan retensi yang harus Anda terima bulat-bulat. Jika Anda sedang offline, semuanya bekerja persis sama.",
+          "Kebiasaan berguna setelah menghapus: jalankan hasilnya melalui pencarian teks untuk istilah-istilah yang ada di halaman yang dibuang. Itu pemeriksaan sepuluh detik bahwa konten sensitif benar-benar hilang dari file keluaran — sekaligus pengingat bahwa penghapusan di sini membuang halaman utuh, bukan kata-kata terpilih di dalam satu halaman.",
+        ],
       },
     ],
   },
@@ -148,6 +252,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Sama sekali tidak. Halaman disalin tanpa perubahan ke dokumen baru — hanya urutannya yang berbeda.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Penataan ulang adalah manipulasi pohon halaman murni",
+        paragraphs: [
+          "Menata ulang halaman PDF mengubah tepat satu hal: urutan entri di pohon halaman dokumen. Aliran konten halaman, font, gambar, anotasi — semuanya tetap identik byte. Tidak ada yang dirender ulang, tidak ada yang dikompres ulang, dan operasinya lossless dalam pengertian paling ketat: menata ulang halaman lalu menata ulangnya kembali menghasilkan dokumen yang setara dengan aslinya.",
+          "Ini membuat penataan ulang berlangsung seketika bahkan untuk file raksasa, karena tidak ada data halaman yang disentuh sama sekali — hanya indeks kecil yang mengatakan “pertama halaman ini, lalu halaman itu”. Ukuran file nyaris tak berubah, dan kualitasnya identik menurut definisi.",
+          "Apa yang tidak disentuh penataan ulang: tautan internal dan bookmark bisa menunjuk ke objek halaman alih-alih posisi, sehingga biasanya mereka mengikuti halaman sasarnya — tautan ke “halaman yang memuat bab 3” tetap benar setelah penataan ulang. Tetapi apa pun yang merujuk pada posisi (“lihat halaman 12” versi cetak) tidak memperbarui dirinya sendiri. Daftar periksa rujukan silang berlaku di sini sama seperti pada penghapusan.",
+        ],
+      },
+      {
+        heading: "Alur kerja thumbnail-dulu dan kesalahan yang layak dihindari",
+        paragraphs: [
+          "Bekerja dari thumbnail alih-alih nomor halaman adalah satu peningkatan kegunaan terbesar dalam penataan ulang. Label halaman di penampil sering tak cocok dengan urutan sebenarnya (dokumen dengan halaman awal bernomor romawi, penomoran yang diulang tiap bab), tetapi thumbnail menampilkan konten langsung. Geser halaman yang Anda lihat, bukan nomor yang Anda hitung.",
+          "Kesalahan klasik: meninggalkan sepasang halaman duplikat setelah menggeser (lampiran tersisip dua kali), dan lupa bahwa halaman kosong pemisah mungkin memang disengaja. Membuka cepat urutan akhir menangkap keduanya dalam hitungan detik. Untuk dokumen yang dirakit dari beberapa sumber, verifikasi juga konsistensi ukuran halaman sembari di sana — penataan ulang adalah momen alami untuk menyadari satu halaman letter-size liar di antara A4.",
+          "Satu tips alur kerja: saat memperbaiki hasil pindai yang salah urutan (halaman masuk ke pemakan lembar dalam urutan kacau), koreksinya biasanya beberapa penukaran bersebelahan, bukan pengocokan penuh. Memperbaiki pasangan bersebelahan cepat dan berisiko rendah; penataan ulang menyeluruh atas satu hasil pindai seharusnya memicu pertanyaan apakah setelan pemakan lembar pemindai layak diperbaiki untuk berikutnya.",
+        ],
+      },
+      {
+        heading: "Memperbaiki urutan tanpa mengirim file ke mana pun",
+        paragraphs: [
+          "Dokumen yang halamannya perlu ditata ulang biasanya utuh dan sensitif: kontrak lengkap, paket lamaran penuh, tumpukan bukti yang dirakit. Ini persis file yang seharusnya tidak Anda unggah untuk perbaikan kosmetik — mengirim kontrak lengkap ke situs penata-ulang memberi situs itu seluruh dokumen, setiap halaman, untuk memperbaiki sesuatu yang hanya butuh satu geseran dan satu klik.",
+          "Alat ini menata ulang sepenuhnya di browser Anda: PDF diparse lokal, indeks pohon halaman ditulis ulang di memori, dan file yang tertata disimpan oleh perangkat Anda. Tidak satu byte pun konten halaman yang dikirim, dan operasinya selesai seketika tanpa peduli keadaan jaringan — Anda bisa melakukannya dalam mode pesawat.",
+          "Karena tidak ada yang dienkode ulang, keluaran mempertahankan setiap properti sumber: teks yang bisa dicari, font tersemat, anotasi, kolom formulir, metadata. Penataan ulang di sini murni struktural, yang juga berarti Anda bisa menata ulang sebanyak yang diperlukan tanpa kekhawatiran kualitas — penataan ulang kesepuluh sama lossless-nya dengan yang pertama.",
+        ],
+      },
+    ],
   },
   "watermark-pdf": {
     name: "Watermark PDF",
@@ -174,6 +304,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Karakter apa saja yang bisa dipakai watermark?",
         a: "Font standar PDF mencakup teks Latin, tanda baca, dan simbol umum seperti ©. Aksara lain (Cina, Jepang, Arab…) diganti dengan ? — gunakan huruf Latin untuk watermark.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Cara watermark ditambahkan — dan apa yang tidak bisa ia lakukan",
+        paragraphs: [
+          "Watermark adalah lapisan tindih: alat menggambar teks atau gambar Anda di atas (atau di bawah) konten setiap halaman, pada posisi, ukuran, dan transparansi pilihan Anda. Konten halaman asli tak tersentuh — mekanisme yang sama dengan nomor halaman, hanya lebih besar. Itulah sebabnya pemberian watermark berlangsung seketika dan lossless untuk dokumen sumber, dan file asli di disk Anda tetap tak tersentuh.",
+          "Pilihan klasiknya adalah teks semi-transparan diagonal melintang di halaman — “DRAFT”, “RAHASIA”, nama perusahaan. Penempatan diagonal tahan terhadap pemotongan seadanya, dan transparansi menjaga teks isi tetap terbaca di bawahnya. Watermark di-bawah-konten (digambar di belakang lapisan teks) tampak lebih bersih tetapi bisa tersembunyi oleh halaman yang menempelkan gambar latar selebar halaman di atasnya.",
+          "Pahami dengan jelas apa itu watermark: pencegah dan penanda, bukan gembok. Siapa pun dengan alat dasar bisa menutupi watermark atau mengekstrak konten tanpa watermark jika lapisan teksnya utuh. Watermark menandakan kepemilikan dan status (“ini draf, bukan final”) kepada pembaca yang jujur dan mempersulit penyalahgunaan sembrono — ia tidak menghentikan yang bertekad.",
+        ],
+      },
+      {
+        heading: "Keputusan desain: opasitas, posisi, dan perilaku per halaman",
+        paragraphs: [
+          "Opasitas adalah tombol yang menentukan nasib sebuah watermark. Sekitar 10–20% transparansi, teks tetap sepenuhnya terbaca dan tanda hadir tanpa berteriak; di atas ±30% ia mulai bertarung dengan konten, dan pembaca menyipitkan mata. Ujilah pada halaman dengan teks terpadat — watermark yang berfungsi pada sampul yang jarang bisa menginjak halaman tabel yang padat.",
+          "Posisi seharusnya cocok dengan niat. Tanda diagonal di tengah berkata “label status” (draf, rahasia). Tanda di sudut atau footer terbaca seperti cap dan cocok untuk atribusi — nama perusahaan, asal dokumen. Untuk dokumen yang akan dipotong atau yang marginnya mungkin dipangkas, penempatan di tengah yang bertahan; tanda sudut di dekat tepi bisa terpotong saat dicetak.",
+          "Satu subtlety yang layak diperiksa: watermark secara bawaan berlaku untuk setiap halaman, termasuk sampul dan pemisah kosong, yang kadang tampak janggal. Jika sampul hasil tampak terlalu banyak dicap, itu lapisan tindih seragam yang bekerja dengan seragam — sebagian alur kerja malah memberi watermark setelah perakitan dan membuang watermark sampul dengan menempel ulang halaman sampul bersih di atasnya.",
+        ],
+      },
+      {
+        heading: "Menandai draf secara lokal, sebelum mereka beredar",
+        paragraphs: [
+          "Watermark paling sering diterapkan justru pada dokumen yang sedang bergerak: draf yang keluar untuk ditinjau, kutipan rahasia yang dibagikan untuk komentar, faktur dan pernyataan yang membawa nama penerbitnya. Ini dokumen kerja yang audiensnya by definition setengah dipercaya — dan mengunggahnya ke layanan watermark menyerahkan asli tanpa-watermark ke pihak ketiga tepat pada momen ia hendak beredar.",
+          "Alat ini memberi watermark di browser Anda: halaman diproses lokal, tanda digambar ke konten halaman di memori, dan keluaran disimpan oleh perangkat Anda. Asli tanpa-watermark tak pernah meninggalkan mesin Anda; yang beredar hanya salinan bertanda yang Anda pilih untuk dibuat.",
+          "Ada dividen alur kerjanya: karena pemberian watermark seketika dan lokal, menghasilkan varian bertanda per audiens itu murah — “DRAFT — untuk tinjauan internal” untuk satu kelompok, salinan dengan nama penerima untuk kelompok lain. Penandaan per-penerima adalah praktik penelusuran kebocoran klasik, dan ia hanya menjadi praktis ketika menghasilkan tiap varian hanya butuh detik dan nol unggahan.",
+        ],
       },
     ],
   },
@@ -204,6 +360,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Bisa. Isi kolom halaman dengan daftar seperti “1-5” atau biarkan satu halaman saja; tanda tangan distempel di posisi yang sama pada setiap halaman yang dipilih.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa sebenarnya tanda tangan ini — dan apa bukan",
+        paragraphs: [
+          "Alat ini menambahkan gambar tanda tangan hasil gambar atau ketikan ke sebuah halaman — cara Anda menandatangani cetakan dengan tangan. Ini tanda tangan elektronik dalam arti sehari-hari yang luas: tinta yang terlihat pada dokumen, ditempatkan oleh Anda, dari perangkat Anda sendiri. Ini bukan tanda tangan sertifikat digital: tidak ada pasangan kunci kriptografis, tidak ada otoritas sertifikat, dan tidak ada deteksi perusakan yang bisa diverifikasi penampil.",
+          "Pembeda ini penting untuk urusan hukum. Banyak yurisdiksi menerima tanda tangan elektronik sederhana untuk mayoritas perjanjian sehari-hari (dokumen kepegawaian, formulir pemasok, persetujuan internal), sementara kelas dokumen tertentu mungkin mensyaratkan tanda tangan digital terkualifikasi dengan sertifikat. Jika pihak lawan atau undang-undang mensyaratkan tanda tangan berbasis sertifikat, alat ini bukan itu — gunakan layanan penandatanganan terkualifikasi.",
+          "Apa yang ia berikan: cara cepat tanpa biaya untuk menandatangani dokumen tanpa mencetak, memindai, dan mengirim kertas, sambil menjaga dokumen sepenuhnya di mesin Anda. Untuk volume besar persetujuan sehari-hari yang cukup dengan tanda tangan yang terlihat, itu menutup kebutuhan yang nyata.",
+        ],
+      },
+      {
+        heading: "Mendapatkan tanda tangan yang menyerupai Anda",
+        paragraphs: [
+          "Tanda tangan yang digambar dengan mouse biasanya tampak lebih buruk daripada tanda tangan tangan asli Anda. Jika hasilnya penting secara visual, dua opsi praktis: gambar di layar sentuh jika Anda punya, atau tanda tangani selembar kertas putih, foto, pangkas rapat, dan gunakan gambarnya. Tanda tangan hasil foto di kertas putih polos mengimpor dengan bersih dan tampak persis seperti tangan Anda.",
+          "Penempatan adalah separuh kerajinannya: tanda tangan harus duduk di tempat tanda tangan seharusnya — di atas atau di samping garis tanda tangan, bukan mengapung di ruang kosong. Perbesar area tanda tangan, tempatkan dengan presisi, dan atur ukurannya agar skalanya cocok dengan teks dokumen; tanda tangan sebesar satu paragraf tampak ditempel. Periksa halaman berikutnya juga jika kolomnya berlanjut ke sana.",
+          "Pahami apa yang Anda tanda tangani: karena ini lapisan tindih gambar, ia tidak mengunci dokumen. Siapa pun yang memegang file bisa menghapus gambar itu atau menyunting teks di sekitarnya. Tandatangani versi final — flatten dan finalkan dulu — dan kirimkan dalam bentuk yang Anda kendalikan (PDF, bukan draf yang bisa disunting), sehingga yang ditandatangani adalah yang beredar.",
+        ],
+      },
+      {
+        heading: "Menandatangani adalah tindakan paling pribadi; jaga tetap lokal",
+        paragraphs: [
+          "Tanda tangan adalah tindakan paling sarat identitas yang dilakukan pada sebuah dokumen — lebih pribadi daripada kontennya sendiri. Menyerahkan gambar tanda tangan Anda ke situs penandatangan berarti salinan tanda tangan tulisan tangan Anda duduk di server orang lain: artefak identitas yang bisa dipakai ulang, yang bisa dicuri dan ditempel ke dokumen lain. Sangat sedikit orang yang akan menyerahkan selembar tanda tangan mereka kepada orang asing; mengunggahnya adalah tindakan yang sama dengan etalase yang lebih baik.",
+          "Alat ini menandatangani sepenuhnya di browser Anda: dokumen diproses di perangkat Anda, tanda tangan digambar ke halaman secara lokal, dan file bertanda disimpan oleh mesin Anda. Gambar tanda tangan dipakai di memori dan tak pernah dikirim, dan seluruh operasi bekerja offline.",
+          "Satu kebiasaan yang layak diadopsi saat menandatangani secara lokal: simpan sumber tanda tangan Anda (foto atau gambar) di folder privat alih-alih unduhan umum, dan hasilkan PDF bertanda per dokumen. Dengan begitu artefak tanda tangan yang bisa dipakai ulang itu ada di tepat satu tempat yang Anda kendalikan, dan tiap dokumen bertanda adalah file final tersendiri — tanpa perantara bersama yang melayang-layang.",
+        ],
+      },
+    ],
   },
   "compress-pdf": {
     name: "Kompres PDF",
@@ -230,6 +412,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bagaimana kalau file hampir tidak mengecil?",
         a: "PDF yang sangat murni teks memang sudah efisien dan mungkin tidak bisa dikompres — tabelnya akan memberi tahu Anda dengan jujur. Turunkan DPI atau kualitas lalu coba lagi, atau terima bahwa aslinya memang sudah ramping.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lossy vs lossless: apa yang kompresi benar-benar lakukan pada PDF",
+        paragraphs: [
+          "PDF bukanlah gambar halaman-halamannya — ia adalah program yang mendeskripsikannya. Teks disimpan sebagai glif dan koordinat, grafik vektor sebagai perintah menggambar, dan gambar sebagai bitmap terkompresi tersemat. Struktur itulah yang membuat PDF satu halaman berteks hanya beratnya beberapa kilobita, dan mengapa halaman yang sama diraster pada 150 DPI bisa beratnya seratus kali lebih. Ketika PDF terasa berat, bobotnya hampir selalu ada di gambar tersemat: foto, logo, dan terutama hasil pindai, tempat setiap halaman adalah satu bitmap raksasa.",
+          "Alat ini mengambil kompromi yang disengaja berupa meraster: setiap halaman dirender ulang pada DPI yang Anda pilih dan dienkode ulang sebagai JPEG. Itu kompresi lossy — teks asli yang bisa dipilih menjadi piksel — dan itu harus dikatakan terang-terangan, karena banyak alat menyembunyikannya. Yang Anda dapat sebagai gantinya adalah prediktabilitas: hasil pindai yang tadinya 40 MB sebagai bitmap terkompresi buruk menjadi beberapa ratus kilobita JPEG yang tertata, dan pada 150 DPI hasil cetaknya masih tak bisa dibedakan secara visual untuk kebanyakan dokumen.",
+          "Tidak ada jalan pintas lossless sejati untuk PDF kaya pindai, karena data sumbernya sudah piksel. Untuk PDF berbasis teks dan vektor, trik lossless (membuang objek duplikat, mengompres ulang aliran) memang ada tetapi biasanya hanya menghemat beberapa persen, itulah sebabnya alat ini melapor dengan jujur ketika sebuah file nyaris tidak menyusut: jika halamannya sudah ramping, tidak ada yang bisa diperas tanpa menjadi lossy.",
+        ],
+      },
+      {
+        heading: "Memilih DPI dan kualitas: tabel keputusan",
+        paragraphs: [
+          "DPI (titik per inci) menentukan berapa banyak piksel yang dirender untuk tiap halaman; kualitas JPEG menentukan seberapa agresif piksel itu dikompres. Keduanya dikalikan: halaman US-letter pada 72 DPI kira-kira 612×792 piksel, pada 150 DPI kira-kira 1275×1650 — sekitar empat kali jumlah pikselnya. Untuk membaca di layar, 72–96 DPI sudah berlimpah, karena laptop tipikal memang menampilkan halaman PDF pada resolusi efektif sekitar itu. Untuk pencetakan, 150 DPI adalah lantai praktis agar teks isi terbaca; 300 DPI hanya berarti untuk foto atau cetak halus yang hendak Anda perbesar.",
+          "Kualitas JPEG ternyata kurang penting dari yang diasumsikan orang antara 60 dan 80 — rentang itu biasanya sweet spot tempat artefak tak terlihat pada dokumen. Di bawah ±50, artefak blok JPEG mulai mengaburkan tepi huruf, dan halo keabu-abuan muncul di sekitar huruf. Grayscale adalah tuas ketiga yang senyap: hasil pindai hitam-putih yang disimpan berwarna menyia-nyiakan dua pertiga bitnya, jadi beralih ke abu-abu saja sering memangkas ukuran sepertiga atau lebih tanpa perbedaan yang terlihat.",
+          "Alur kerja yang berhasil: kompres dulu satu file representatif, buka hasilnya pada zum 100%, dan periksa teks terkecil yang Anda pedulikan. Jika terbaca bersih, terapkan setelan itu ke seluruh batch. Tabel sebelum/sesudah menunjukkan penghematan per file, sehingga pencilan (file yang nyaris tak menyusut) terlihat sekilas alih-alih tersembunyi dalam rata-rata.",
+        ],
+      },
+      {
+        heading: "Mengapa pemrosesan lokal penting untuk dokumen",
+        paragraphs: [
+          "PDF adalah kontainer, dan berbeda dari gambar ia rutin membawa lebih dari konten yang terlihat: nilai kolom formulir, anotasi, font tersemat, kadang lampiran dan metadata yang menyebut penulis, versi perangkat lunak, dan riwayat revisi. Mengunggah file semacam itu ke layanan kompresi berarti menyerahkan seluruhnya — kebanyakan orang tak pernah mengaudit apa lagi yang ada di dalam sebelum mengeklik unggah. Kontrak, catatan medis, dokumen penggajian, dan KTP hasil pindai adalah persis file yang paling sering dikompres, dan persis file yang paling tak layak diunggah.",
+          "Alat ini berjalan sepenuhnya di browser Anda: file dibaca ke memori di perangkat Anda, dirender ulang oleh canvas dan dienkode ulang oleh JavaScript, dan tak pernah dikirim ke mana pun. Tidak ada antrean sisi server, tidak ada jendela retensi untuk dipercaya, tidak ada kebijakan penghapusan untuk diverifikasi. Anda bisa memutus jaringan di tengah kompresi dan ia tetap menyelesaikannya.",
+          "Secara praktis, ini juga mengubah alur kerja. Karena tidak ada yang diunggah, tidak ada waktu tunggu unggah dan tidak ada batas ukuran yang dipaksakan kuota transfer — batch hasil pindai 200 MB terkompres sama mulusnya dengan yang 2 MB, hanya dibatasi memori mesin Anda. File terkompresi ditulis oleh mekanisme unduh browser Anda sendiri, jadi ia mendarat di folder Unduhan seperti file lain yang Anda simpan sendiri.",
+        ],
       },
     ],
   },
@@ -260,6 +468,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Bisa — pakai alat umum Gambar ke PDF untuk batch campuran; format lain dikonversi otomatis sebelum disematkan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dari galeri kamera ke dokumen: mengapa konversi ini ada",
+        paragraphs: [
+          "Institusi tidak menerima dua puluh lampiran JPEG terpisah. Permohonan sewa, klaim asuransi, laporan biaya — mereka menginginkan satu PDF, halaman berurutan, yang bisa dicetak, dicap, dan diarsipkan seperti dokumen kertas. Itulah seluruh alasan JPG-ke-PDF ada: ia mengubah tumpukan foto menjadi dokumen satu file yang berhalaman, berurutan, dan sanggup ditangani sistem birokrasi.",
+          "Konversinya sendiri secara struktural sederhana: setiap JPEG menjadi satu halaman PDF, dan data terkompresi JPEG bahkan bisa disematkan apa adanya, karena PDF mendukung JPEG (DCTDecode) sebagai filter gambar bawaan. Konverter yang dibangun dengan baik tidak mendekompres dan mengompres ulang foto Anda — ia membungkus byte yang sudah ada dalam wadah halaman, yang berarti tidak ada kehilangan kualitas dan hampir tidak ada pertumbuhan ukuran.",
+          "Yang Anda pilih justru lebih penting daripada apa yang dilakukan alat: urutan gambar menjadi urutan halaman, dan resolusi tiap gambar menentukan bagaimana halaman berperilaku saat di-zoom atau dicetak. Tugas alat adalah tidak menghalangi — tanpa kompresi ulang yang dipaksakan, tanpa pengubahan ukuran yang mengejutkan, hanya pengemasan yang setia.",
+        ],
+      },
+      {
+        heading: "Kebiasaan penyusunan praktis yang menghemat pekerjaan ulang",
+        paragraphs: [
+          "Beri nama file Anda dengan angka pendahulu sebelum mulai: 01-depan.jpg, 02-isi.jpg, 03-tanda-tangan.jpg. Urutan nama file adalah satu-satunya pengurutan yang disetujui semua orang, dan ia bertahan di semua metode transfer — aplikasi pesan, folder cloud, surel. Foto langsung dari kamera terurut menurut cap waktu, yang baik untuk set kronologis tetapi tak berguna untuk “urutan dokumen” yang mengikuti struktur sebuah formulir.",
+          "Periksa orientasi sebelum mengonversi. Foto yang diambil dengan kamera diputar bergantung pada flag orientasi EXIF, dan sebagian penampil PDF menghormatinya sementara sebagian tidak, menghasilkan halaman menyamping bagi penerima. Jika sebuah foto tampak tegak di pengelola file Anda tetapi menyamping di PDF jadi, flag itulah pelakunya — memutar piksel sebenarnya memperbaikinya secara permanen.",
+          "Untuk dokumen yang dimaksudkan untuk dicetak, pertimbangkan apakah keseragaman ukuran halaman penting. Membungkus tiap gambar pada ukurannya sendiri baik untuk menonton dan mengarsip; untuk cetak, dimensi halaman campuran bisa menimbulkan kejutan penskalaan di percetakan. Mengonversi dulu, lalu menormalisasi ukuran halaman pada langkah kedua, menjaga tiap langkah tetap sederhana dan dapat dibalik.",
+        ],
+      },
+      {
+        heading: "Foto, kartu identitas, dan pertanyaan pemrosesan lokal",
+        paragraphs: [
+          "Hal-hal yang paling sering dikonversi orang dengan alat ini justru yang paling sensitif: hasil pindai paspor untuk permohonan visa, foto identitas untuk verifikasi akun, struk dengan nomor kartu yang terlihat. Mengunggahnya ke situs konverter berarti salinan dokumen identitas Anda berdiam di server yang tak dikenal, di bawah kebijakan retensi yang tak dikenal, sebelum Anda bahkan memeriksa hasilnya.",
+          "Alat ini melakukan pengemasan di browser Anda: JPEG dibaca lokal, disematkan ke struktur PDF oleh JavaScript, dan hasilnya disimpan oleh perangkat Anda sendiri. File tak pernah melintasi jaringan ke arah mana pun, jadi tidak ada log server, tidak ada salinan pihak ketiga, dan tidak ada cerita penghapusan yang harus Anda percayai.",
+          "Ada juga dividen praktisnya: tanpa waktu unggah dan tanpa batas ukuran, Anda bisa mengonversi satu folder penuh — lima puluh foto inspeksi properti, satu kotak struk utuh — dalam satu kali jalan. Konverter yang terikat jaringan memaksa Anda memecah batch dan menunggu; secara lokal, satu-satunya batas adalah memori perangkat, dan seluruh pekerjaan biasanya selesai dalam hitungan detik.",
+        ],
+      },
+    ],
   },
   "png-to-pdf": {
     name: "PNG ke PDF",
@@ -286,6 +520,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa PDF berbasis PNG saya masih besar?",
         a: "Data PNG lossless memang besar secara alami. Kalau butuh file lebih kecil, lewati hasilnya ke Kompres PDF yang menukar sedikit ketepatan dengan ukuran.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa masukan PNG layak diperlakukan berbeda dari JPEG",
+        paragraphs: [
+          "PNG dan JPEG tampak serupa bagi mata kasual tetapi mengenkode piksel dengan kompromi yang berlawanan. PNG bersifat lossless: setiap piksel dipertahankan persis, yang menjadikannya format tangkapan layar, diagram, teks hasil pindai, dan apa pun dengan tepi tajam. JPEG bersifat lossy dan ditala untuk fotografi. Membungkus PNG ke dalam PDF karena itu biasanya berarti menangani konten yang diuntungkan oleh tetap lossless — dan konverter yang diam-diam mengenkode ulang PNG ke JPEG membuang persis properti yang membuat Anda memilih PNG.",
+          "Alat ini menyematkan data gambar tanpa kompresi ulang yang merusak, sehingga tangkapan layar tetap tajam piksel di dalam PDF: teks di dalam tangkapan layar tetap terbaca pada zum berapa pun, dan garis diagram tetap bersih. PDF adalah kontainernya; piksel lossless PNG mengendarainya tak tersentuh.",
+          "Satu detail halus yang layak diketahui: PNG mendukung transparansi, halaman PDF tidak. PNG transparan yang ditempatkan di halaman PDF dikompositkan ke latar — putih menurut konvensi. Jika tangkapan layar Anda punya transparansi yang penting (logo, lapisan tindih), periksa halaman pertama keluaran alih-alih berasumsi.",
+        ],
+      },
+      {
+        heading: "Tangkapan layar, hasil pindai, dan menyusunnya berurutan",
+        paragraphs: [
+          "Pekerjaan PNG-ke-PDF paling umum berbentuk dokumentasi: rangkaian tangkapan layar yang membentuk tutorial, laporan bug dengan gambar bukti, sertifikat atau formulir hasil pindai yang disimpan sebagai PNG. Untuk semua itu, urutan halaman adalah seluruh permainannya — tutorial yang tangkapan layarnya datang tak berurutan tidak berguna. Menamai file 01-..., 02-... sebelum menambahkannya membuat urutan yang dimaksud eksplisit dan bertahan dari pengurutan pemilih file apa pun.",
+          "Tangkapan layar punya dimensi tepat-piksel yang jarang cocok dengan ukuran kertas, jadi halaman keluaran biasanya berukuran menurut tiap gambar. Itu ideal untuk membaca di layar dan mengarsip. Jika tujuannya cetak, ketidakcocokan itu lebih berarti: pertimbangkan apakah teks tangkapan layar cukup besar pada ukuran cetaknya, karena mengecilkan tangkapan layar 1080p ke A4 membuat teks UI kecil sulit dibaca.",
+          "Untuk dokumen multi-gambar, konsistensi mengalahkan variasi: tangkapan layar dari sesi aplikasi yang sama berbagi dimensi dan gaya, dan PDF hasilnya terbaca sebagai satu dokumen yang koheren. Sumber campuran — tangkapan layar ditambah foto ditambah hasil pindai — menghasilkan halaman dengan skala yang sangat berbeda; menormalisasi (mengubah ukuran atau memotong sumber dulu) menghasilkan hasil yang jauh lebih profesional.",
+        ],
+      },
+      {
+        heading: "Mengemas bukti secara lokal, tanpa perantara",
+        paragraphs: [
+          "Konten yang dikemas orang dari PNG ke PDF sering bersifat pembuktian atau pribadi: tangkapan layar transaksi penipuan, log obrolan untuk sengketa, hasil pindai identitas untuk verifikasi, hasil pemeriksaan medis. Masing-masing adalah hal yang tak akan pernah Anda serahkan kepada orang asing — namun mengunggahnya ke konverter justru melakukan itu, sebelum PDF-nya pun ada.",
+          "Alat ini melakukan pengemasan sepenuhnya di browser Anda: PNG dibaca lokal, disematkan secara lossless ke objek halaman PDF, dan dokumen jadinya disimpan oleh perangkat Anda. Tidak ada yang diunggah di titik mana pun, sehingga tangkapan layar aplikasi perbankan Anda tak pernah ada di server mana pun, dan operasinya berjalan sama tanpa koneksi internet.",
+          "Ada juga dividen kualitasnya: karena data PNG disematkan apa adanya, PDF mempertahankan piksel persis yang Anda tangkap — penting ketika kontennya adalah bukti, tempat artefak kompresi pada cap waktu atau nomor rekening bisa memunculkan keraguan tentang keaslian. Apa yang Anda tangkap layarnya adalah persis yang akan dilihat pembaca.",
+        ],
       },
     ],
   },
@@ -316,6 +576,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — halaman PDF itu statis, jadi Anda mendapatkan frame pertamanya. Konversikan animasi menjadi video atau bagikan file GIF-nya langsung.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa gambar dan PDF adalah makhluk yang berbeda",
+        paragraphs: [
+          "File JPEG atau PNG adalah kisi piksel datar tanpa konsep halaman, ukuran, atau tata letak — ia hanyalah sebuah gambar. Sebaliknya, PDF adalah format deskripsi halaman: ia mendefinisikan halaman dengan dimensi fisik (dalam poin, di mana 72 poin setara satu inci) dan menempatkan konten ke halaman-halaman itu. Mengubah gambar menjadi PDF karena itu berarti mengambil keputusan tata letak yang sesungguhnya, bukan sekadar mengganti ekstensi file.",
+          "Alat ini membungkus tiap gambar dalam halaman PDF berukuran menurut gambar, mempertahankan data piksel gambar itu sendiri alih-alih mengompresnya ulang. Itulah sebabnya konversi gambar-ke-PDF dengan cara ini bersifat lossless secara visual: piksel yang Anda lihat di keluaran adalah piksel yang Anda masukkan. Ukuran file juga tetap mendekati jumlah gambarnya, karena PDF hanyalah kontainernya.",
+          "Layak memahami alternatifnya: sebagian konverter mengenkode ulang semuanya ke satu setelan kualitas JPEG, yang bisa diam-diam menurunkan PNG berteks tajam atau seni garis. Menjaga data gambar asli di dalam kontainer PDF menghindarkan mode kegagalan itu sepenuhnya — tangkapan layar Anda tetap setajam di dalam PDF seperti di luarnya.",
+        ],
+      },
+      {
+        heading: "Urutan, orientasi, dan perakitan multi-halaman",
+        paragraphs: [
+          "Karena PDF adalah rangkaian halaman berurutan, urutan Anda menambahkan gambar menjadi urutan halaman dokumen. Untuk kontrak hasil pindai, buku struk, atau set foto, mengurutkan gambar menurut nama file sebelum menambahkan adalah kebiasaan yang andal — nama file terurut secara deterministik, sementara ingatan “kayaknya saya unggah berurutan” tidak. Menata ulang setelahnya dimungkinkan dengan alat susun-ulang halaman, tetapi benar sejak saat penyisipan lebih murah.",
+          "Ukuran campuran adalah hal normal dan ditangani per halaman: batch foto yang sebagian lanskap sebagian potret menghasilkan halaman yang mengikuti rasio tiap gambar. Jika Anda butuh ukuran kertas seragam (halaman A4 untuk dicetak, misalnya), jalankan keluaran melalui langkah potong atau ubah ukuran setelahnya — membungkus gambar pada ukuran aslinya dulu, lalu menormalisasi, mengalahkan memaksakan semuanya ke satu ukuran halaman saat pembuatan.",
+          "Catatan tentang resolusi: halaman PDF mengadopsi dimensi piksel gambar yang dipetakan pada 72 piksel per inci, jadi foto selebar 3000 piksel mendarat sebagai halaman yang sangat besar. Itu benar untuk pengarsipan dan zum; untuk keluaran berukuran cetak, yang penting adalah gambar sumber punya cukup piksel untuk ukuran cetak sasarnya, dan pembungkusan tidak mengubah itu dengan cara apa pun.",
+        ],
+      },
+      {
+        heading: "Gambar Anda tetap di perangkat Anda",
+        paragraphs: [
+          "Foto dan hasil pindai termasuk file paling pribadi yang dimiliki orang — foto keluarga, pindai identitas, struk, citra medis. Mengirimnya ke konverter daring berarti salinan ada di penyimpanan orang lain sebelum Anda bahkan melihat hasilnya. Alat ini melakukan pembungkusan sepenuhnya di browser Anda: gambar dibaca dari disk ke memori, disematkan ke objek halaman PDF oleh JavaScript, dan file jadi ditulis secara lokal. Tanpa unggah, tanpa salinan server, tanpa retensi.",
+          "Karena tidak ada transfer, batas atas ukuran ikut lenyap. Konverter daring biasanya membatasi unggahan pada 10–20 MB atau membatasi laju pengguna gratis; di sini, satu folder berisi 50 foto besar terkonversi semulus tiga, hanya dibatasi memori perangkat. Konversi batch juga lebih cepat tanpa bolak-balik jaringan — langkah terlambat menjadi disk Anda, bukan bandwidth orang lain.",
+          "Satu kebiasaan privasi yang layak diadopsi: foto dari ponsel membawa metadata EXIF termasuk koordinat GPS. Menyematkannya ke PDF mempertahankan data itu seperti yang ada pada gambar aslinya. Jika Anda membagikan PDF hasil konversi secara luas, pertimbangkan mencabut data lokasi di sumbernya — membungkus gambar ke PDF tidak menambah maupun menghapus metadata, ia mempertahankan yang sudah ada.",
+        ],
+      },
+    ],
   },
   "pdf-to-jpg": {
     name: "PDF ke JPG",
@@ -342,6 +628,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bisakah saya mengonversi hanya sebagian halaman?",
         a: "Alat ini mengonversi seluruh dokumen dan menamai file berdasarkan nomor halaman, jadi Anda bisa menyimpan hanya yang diperlukan. Pakai Pisahkan PDF lebih dulu kalau ingin rentang tertentu sejak awal.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rasterisasi: apa artinya mengubah halaman menjadi JPG",
+        paragraphs: [
+          "Halaman PDF adalah sebuah deskripsi — glif teks, bentuk vektor, gambar tersemat yang dirangkai oleh renderer. JPG adalah kisi piksel datar. Mengonversi halaman-ke-gambar berarti menjalankan deskripsi itu melalui renderer pada resolusi terpilih dan menyimpan hasilnya sebagai piksel. Semua yang membuat PDF istimewa tertinggal: teks berhenti bisa dipilih, garis vektor berhenti setajam tanpa batas, dan halaman menjadi setajam yang diizinkan kepadatan pikselnya.",
+          "Kompromi itu biasanya tepat untuk pekerjaan yang dimaksudkan: menjatuhkan gambar halaman ke presentasi, menempel tangkapan layar dokumen di obrolan, melampirkan pratinjau visual ke surel tempat penerima tak seharusnya menyunting apa pun. Halaman teraster juga format “hanya-baca” yang alami — yang Anda kirim adalah yang mereka lihat, tanpa font yang perlu diganti dan tanpa tata letak yang akan menyesuaikan diri.",
+          "Resolusi adalah satu tombol yang berarti. Pada 150 DPI, halaman berukuran letter kira-kira 1275×1650 piksel — tajam di layar dan cukup untuk pencetakan sehari-hari. Pada 72 DPI ia ringan dan cocok untuk thumbnail; pada 300 DPI ia setingkat cetak tetapi berat. Memilih berdasarkan tujuan (layar vs cetak) mengalahkan menduga-duga.",
+        ],
+      },
+      {
+        heading: "Satu halaman atau banyak: struktur keluaran dan kualitas",
+        paragraphs: [
+          "PDF multi-halaman tak mungkin menjadi satu JPG, jadi konverter menghasilkan rangkaian bernomor (page-1.jpg, page-2.jpg, ...) atau arsip ZIP. Rangkaian bernomor lebih ramah untuk memetik halaman tunggal ke alat lain; arsip lebih ramah untuk mengunduh lusinan sekaligus. Bagaimanapun, penomorannya mengikuti urutan halaman internal PDF — yang, seperti semua alat halaman, mungkin tak cocok dengan label halaman cetak mana pun jika dokumen itu punya penomoran aneh.",
+          "Kompresi JPEG cocok untuk halaman berisi foto dan gradien warna, tempat artefaknya tak terlihat. Untuk halaman yang sebagian besar teks tajam atau seni garis, artefak blok JPEG bisa membuat “dengung nyamuk” samar di sekitar huruf pada setelan kualitas rendah; jika keluaran Anda tampak sedikit kabur di sekitar teks, naikkan kualitas atau DPI alih-alih menerimanya.",
+          "Latar putih lebih berarti daripada yang dikira orang: JPEG tak punya transparansi, jadi halaman dengan area transparan dirender ke putih secara bawaan. Itu biasanya diinginkan untuk dokumen, tetapi jika sumbernya gelap atau berlatar warna, periksa gambar keluaran pertama sebelum menjalankan seluruh batch.",
+        ],
+      },
+      {
+        heading: "Merender dokumen Anda di perangkat Anda sendiri",
+        paragraphs: [
+          "PDF sering menghimpun jejak kertas seseorang: pernyataan rekening, surat, laporan medis, perjanjian. Merender halaman ke gambar dan mengunggahnya ke konverter berarti catatan visual lengkap meninggalkan perangkat Anda sebelum Anda memilih halaman tunggal mana yang sebenarnya Anda butuhkan. Layak dicatat juga bahwa gambar yang diekstrak itu mudah disebarkan — file gambar menempuh perjalanan lebih jauh daripada PDF dengan metadata utuhnya.",
+          "Alat ini merender setiap halaman secara lokal di browser Anda: PDF diparse dan digambar ke canvas perangkat Anda pada DPI terpilih, dienkode ke JPEG di memori, dan disimpan oleh browser Anda langsung. Tidak ada gambar halaman yang diunggah, tidak ada server yang merender dokumen Anda, dan seluruh konversi berjalan dengan jaringan terputus.",
+          "Rendering lokal juga berarti Anda bisa selektif tanpa biaya tambahan: render semua halaman, lalu simpan hanya dua yang Anda butuhkan, hapus sisanya sebelum mereka pernah ada di luar mesin Anda. Untuk satu gambar satu-halaman di dalam laporan 100 halaman, selektivitas itulah seluruh poinnya — Anda mendapat gambar yang Anda inginkan dan tidak lebih.",
+        ],
       },
     ],
   },
@@ -372,6 +684,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Halaman dirender di atas latar putih, jadi hasilnya PNG opak. Itu sesuai dengan cara PDF dicetak dan menghindari kejutan latar hitam di penampil.",
       },
     ],
+    deepDive: [
+      {
+        heading: "PNG vs JPG untuk tangkapan halaman: kapan masing-masing menang",
+        paragraphs: [
+          "PNG dan JPG sama-sama mengubah halaman PDF menjadi piksel, tetapi mereka mengenkodenya dengan filosofi berlawanan. JPG memakai kompresi lossy yang ditala untuk fotografi: file mungil, artefak tak terlihat pada gradien, kabur samar pada tepi tajam. PNG memakai kompresi lossless yang ditala untuk seni datar: teks, diagram, tangkapan layar, dan apa pun dengan tepi tajam atau area warna solid tetap sempurna-piksel, dengan biaya file lebih besar untuk konten fotografi.",
+          "Jadi aturan praktisnya: halaman teks, tabel, grafik, dan gambar garis milik PNG — hurufnya tetap tajam pada zum berapa pun dan kompresi tak pernah mengaburkan garis diagram. Halaman foto hasil pindai, atau halaman mana pun yang didominasi citra nada-berkelanjutan, milik JPG — PNG akan menggelembungkan ukuran tanpa keuntungan yang terlihat.",
+          "PNG juga menjaga warna persis tempat kompresi kroma JPG bisa menggeser warna merek penuh warna secara halus, dan file PNG disimpan ulang tanpa kehilangan generasi: menyunting dan menyimpan ulang PNG tak pernah menurunkannya, sementara pengodean ulang JPG berulang menumpuk artefak. Untuk halaman yang ditakdirkan untuk disunting lagi, PNG adalah pilihan arsipnya.",
+        ],
+      },
+      {
+        heading: "Catatan ketajaman, skala, dan transparansi",
+        paragraphs: [
+          "Karena PNG bersifat lossless, satu-satunya tombol kualitas adalah resolusi — render pada 150 DPI untuk pekerjaan layar, 300 DPI untuk tangkapan setingkat cetak. Tidak ada slider kompresi untuk disalahkan, yang menghapus satu kelas kesalahan utuh: sebuah PNG dirender dengan piksel yang cukup atau tidak, dan merender ulang pada DPI lebih tinggi adalah perbaikan lengkap untuk kelembutan.",
+          "Satu keunggulan nyata atas JPG: PNG mendukung transparansi. Halaman yang dirender ke PNG dengan latarnya dipertahankan bisa dikompositkan ke latar mana pun; JPG selalu diratakan ke warna solid, biasanya putih. Untuk halaman diagram yang ditakdirkan ke slide atau file desain, ini bisa menghemat satu langkah penghapusan latar manual.",
+          "Perhatikan ukuran file pada halaman padat: PNG 300 DPI dari halaman kaya foto bisa beratnya puluhan megabita. Jika tujuannya halaman web atau pesan obrolan, ukuran itu menyakiti lebih dari yang ketelitiannya menolong — turunkan DPI atau pindah ke JPG tepat untuk halaman-halaman itu.",
+        ],
+      },
+      {
+        heading: "Menangkap halaman tanpa mengirimnya ke mana pun",
+        paragraphs: [
+          "Orang paling sering menangkap halaman PDF sebagai gambar untuk menggunakannya kembali: grafik untuk laporan, halaman tanda tangan sebagai bukti, diagram untuk materi pelatihan. Setiap gambar yang tertangkap adalah salinan mandiri yang bisa melampaui dokumen aslinya jauh — persis alasan mengapa penting siapa yang menangani konversinya. Mengunggah halaman rahasia ke konverter menempatkan salinan sempurna-piksel itu di infrastruktur orang lain sebelum Anda melakukan apa pun dengannya.",
+          "Alat ini merender dan mengenkode sepenuhnya di browser Anda: PDF digambar ke canvas perangkat Anda pada DPI terpilih, dienkode ke PNG secara lossless di memori, dan disimpan oleh browser Anda. Tidak ada halaman yang diunggah, tidak ada salinan di luar perangkat Anda di titik mana pun, dan konversi selesai dengan jaringan dicabut.",
+          "Manfaat praktisnya mengganda pada pekerjaan batch: mengonversi manual 200 halaman ke PNG menghasilkan ratusan file, dan melakukannya secara lokal berarti tanpa waktu tunggu unggah, tanpa batas ukuran per file, dan tanpa antrean batch — hanya kecepatan rendering perangkat Anda, yang untuk mesin modern biasanya lebih cepat daripada mengunggah konten yang sama.",
+        ],
+      },
+    ],
   },
   "pdf-to-word": {
     name: "PDF ke Word",
@@ -398,6 +736,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah tabel dan gambar ikut terbawa?",
         a: "Gambar tidak dibawa ke .docx. Tabel muncul sebagai baris teks biasa — masih terpakai, tetapi Anda akan ingin membangun ulang tabel yang sebenarnya di Word untuk kasus yang kompleks.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Batas kesetiaan: apa yang selamat dari perjalanan ke Word",
+        paragraphs: [
+          "PDF mendeskripsikan tampilan akhir; dokumen Word mendeskripsikan struktur — paragraf, gaya, daftar, judul. Mengonversi di antara keduanya adalah penerjemahan, bukan dekripsi, dan setiap konversi harus memutuskan seberapa banyak struktur yang dibangun ulang dari tampilan saja. Konverter yang dibangun dengan baik merekonstruksi batas paragraf, tingkat judul dari ukuran font, dan tabel dari teks yang sejajar; yang sederhana menumpahkan baris-baris teks ke satu aliran.",
+          "Apa yang selamat dengan baik dalam konversi yang baik: teks isi dengan pemenggalan paragraf, tabel sederhana, penekanan tebal/miring dasar, dan urutan baca pada dokumen tipikal. Yang jarang selamat sempurna: font persis (Word mengganti yang terdekat yang tersedia), tata letak multi-kolom (biasanya diratakan ke satu kolom), header dan footer (bisa tergabung ke teks isi atau dibuang), dan apa pun yang interaktif seperti kolom formulir atau anotasi.",
+          "Kerangka paling jujur: PDF-ke-Word sangat baik untuk memulihkan prosa yang bisa disunting, cukup baik untuk dokumen bisnis tipikal, dan secara struktural salah untuk halaman yang dirancang berat — poster, tata letak majalah yang rumit, formulir. Untuk kategori terakhir, mengonversi memberi Anda kekacauan yang bisa disunting; membuat ulang tata letaknya secara alami di Word sering lebih cepat daripada memperbaiki hasil konversi.",
+        ],
+      },
+      {
+        heading: "Hasil pindai, OCR, dan alur kerja sekitar konversi",
+        paragraphs: [
+          "Cabang terbesar dalam kualitas PDF-ke-Word adalah apakah sumbernya digital atau hasil pindai. PDF digital membawa teksnya dan terkonversi langsung. PDF hasil pindai hanya membawa piksel, sehingga rantai konversinya lebih panjang: OCR untuk membuat lapisan teks, lalu rekonstruksi ke paragraf Word — dan batas akurasi OCR kini berlaku di atas batas konversi sendiri. Tulisan tangan, cap, dan catatan pinggir menurunkan hasil lebih jauh lagi.",
+          "Ekspektasi praktis menurut sumber: kontrak lahir-digital terkonversi menjadi sesuatu yang bisa Anda sunting dan finalkan dengan pembersihan sedang. Pindai rapi 300-DPI hasil ketikan terkonversi menjadi sesuatu yang bisa Anda sunting tetapi harus dibuktikan baris demi baris — kesalahan OCR pada kontrak dan nama adalah persis kesalahan yang tak boleh Anda tanggung. Foto halaman dalam cahaya buruk terkonversi buruk apa pun alatnya; pindai ulang dengan benar sebagai gantinya.",
+          "Setelah mengonversi dokumen penting apa pun, lakukan pembacaan struktural di Word, bukan hanya visual: periksa pemenggalan paragraf, penomoran daftar, dan sel tabel, karena di situlah konversi salah secara diam-diam sementara halamannya masih tampak benar.",
+        ],
+      },
+      {
+        heading: "Kontrak dan laporan seharusnya dikonversi secara lokal",
+        paragraphs: [
+          "Dokumen yang paling ingin diubah orang ke bentuk Word yang bisa disunting adalah yang paling mengikat: kontrak untuk direnegosiasi, kebijakan untuk diperbarui, laporan untuk digunakan ulang, transkrip untuk diberi anotasi. Mengunggah PDF kontrak ke konverter berarti teks legal Anda melintasi server pihak ketiga — dan salinan Word hasil ekstraksi, yang bahkan lebih mudah disunting dan disebarkan daripada aslinya, adalah persis artefak yang paling tak Anda inginkan duduk di penyimpanan orang lain.",
+          "Alat ini melakukan seluruh konversi di browser Anda: PDF diparse lokal, struktur teks direkonstruksi di perangkat Anda, dan file Word dibuat serta disimpan secara lokal. Tidak ada yang dikirim ke arah mana pun, dan konversi bekerja sepenuhnya offline — kontrak di bawah NDA bisa dikonversi dengan keyakinan yang sama seperti sebuah menu.",
+          "Konversi lokal juga menjaga lingkar tinjauan tetap ketat: konversi, buka di Word, catat perbaikan yang dibutuhkan, sesuaikan dan konversi lagi jika perlu — semuanya dalam hitungan detik per siklus dan tanpa pernah mengunggah ulang. Lingkar ketat itulah yang membuat pembuktian hati-hati layak dilakukan, dan pembuktian hati-hati, bukan konversinya sendiri, yang benar-benar melindungi integritas dokumen.",
+        ],
       },
     ],
   },
@@ -428,6 +792,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Nilai masuk sebagai teks persis seperti tercetak, mempertahankan nol di depan dan koma desimal regional — Excel menganggapnya string sampai Anda mengonversi kolomnya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa PDF-ke-Excel adalah konversi tersulit, dijelaskan dengan jujur",
+        paragraphs: [
+          "Dokumen Word punya paragraf; spreadsheet punya kisi; PDF tidak punya keduanya — ia punya glif yang ditempatkan pada koordinat. Ketika sebuah PDF tampak seperti tabel, tampakannya adalah ilusi yang dirangkai dari karakter-karakter individual yang diposisikan agar berbaris. Mengonversi ke Excel berarti merekayasa balik kisi itu: karakter mana yang membentuk satu sel, di mana kolom dimulai dan berakhir, dan baris mana yang bersama-sama. Tidak ada metadata dalam PDF yang menjawab pertanyaan-pertanyaan itu secara andal.",
+          "Itulah mengapa alat PDF-ke-Excel sangat beragam kualitasnya, dan mengapa setiap yang jujur memperingatkan soal itu. PDF yang bersih dan dibuat secara digital dengan tabel teratur terekstrak dengan baik; tabel hasil pindai, sel gabungan, header bersarang, dan tabel multi-halaman dengan header berulang adalah tempat hasilnya mengembara. Angka bisa mendarat di kolom yang salah, dan satu baris bergeser pada tabel keuangan lebih buruk daripada konversi yang gagal karena gagalnya diam-diam.",
+          "Ekspektasi praktis: perlakukan keluaran sebagai rekonstruksi draf-awal, bukan ekspor tersertifikasi. Uji acak total dan beberapa baris sampel terhadap sumbernya. Jika PDF semula dibuat dari Excel (tanpa bekas pindai, teks tajam), ekstraksi baliknya biasanya mendekati. Jika itu hasil pindai, jalankan OCR dulu dan harapkan koreksi manual.",
+        ],
+      },
+      {
+        heading: "Membaca keluaran: apa yang diperiksa sebelum Anda mempercayainya",
+        paragraphs: [
+          "Tiga pemeriksaan menangkap sebagian besar kesalahan ekstraksi. Pertama, hitungan baris dan kolom: lembar kerja seharusnya memiliki jumlah baris isi dan kolom yang sama dengan tabel sumbernya — kesalahan off-by-one biasanya berarti sebuah header tertelan atau satu sel berlapis menjadi dua baris. Kedua, integritas angka: pastikan angka seperti 1,234.56 mempertahankan pemisah desimalnya dan tidak menjadi teks (angka rata kiri di Excel biasanya string).",
+          "Ketiga, keselarasan total: jika tabel sumber menjumlahkan satu kolom, verifikasi kolom hasil ekstraksi masih berjumlah sama. Satu sel salah tempat memutus jejak audit dengan cara yang mudah terlewat secara visual tetapi fatal saat dipakai. Untuk tabel multi-halaman, periksa apakah header yang berulang tiap halaman menjadi baris duplikat di lembar kerja — kebanyakan alat mengekspornya apa adanya.",
+          "Sel gabungan adalah perusak abadi: gabungan vertikal (satu label melintang beberapa baris) biasanya menjadi nilai di baris pertama dan kosong di bawahnya. Jika formula di hilir butuh label yang berulang, fill-down di Excel butuh satu detik dan menghemat satu jam kebingungan.",
+        ],
+      },
+      {
+        heading: "Tabel keuangan layak diproses secara lokal",
+        paragraphs: [
+          "Tabel yang dikonversi orang ke Excel secara tidak proporsional adalah keuangan: rekening koran, faktur, penggajian, lembar kerja pajak. Itu persis data yang tak seharusnya Anda unggah — rekening koran hasil ekstraksi adalah riwayat transaksi lengkap dalam bentuk yang bisa dibaca mesin, dan mengunggahnya ke konverter memberi riwayat itu kepada pihak ketiga tak dikenal dengan salinan di log mereka.",
+          "Alat ini memparse dan merekonstruksi tabel sepenuhnya di browser Anda: PDF dibaca lokal, batas sel disimpulkan di perangkat Anda, dan workbook dibuat serta disimpan secara lokal. Tidak ada halaman pernyataan Anda yang dikirim ke mana pun, dan tidak ada angka hasil ekstraksi yang meninggalkan mesin Anda — konversinya bekerja identik secara offline.",
+          "Dengan langkah tinjauan manual yang direkomendasikan di atas, pemrosesan lokal juga membuat iterasi gratis: konversi, inspeksi, sesuaikan, dan konversi ulang sesering yang diperlukan tanpa mengunggah ulang apa pun. Alur kerja yang menghasilkan spreadsheet terpercaya — konversi, verifikasi, koreksi — hanya menyenangkan ketika tiap siklus hanya butuh detik alih-alih bolak-balik unggahan.",
+        ],
+      },
+    ],
   },
   "pdf-to-ppt": {
     name: "PDF ke PowerPoint",
@@ -454,6 +844,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Seberapa besar file .pptx-nya?",
         a: "Kira-kira seukuran gabungan semua gambar halaman — PDF 20 halaman pada resolusi tinggi bisa mencapai puluhan megabita. Kompres PDF sumbernya lebih dulu jika butuh deck yang lebih ringan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dijanjikan PDF-ke-PPT dengan jujur",
+        paragraphs: [
+          "Dek slide yang diekspor ke PDF sudah diratakan: kotak teks yang bisa disunting, bentuk, dan placeholder dari presentasi asli menjadi glif dan persegi yang ditempatkan di PDF. Mengonversi kembali berarti rekonstruksi — konverter harus menduga glif mana yang membentuk satu kotak teks, apa yang bentuk dan apa yang gambar, dan di mana semuanya duduk di kanvas slide. Tidak ada jejak metadata yang kembali ke struktur aslinya.",
+          "Jadi ekspektasi jujurnya: Anda mendapat slide yang tampak seperti aslinya, dengan teks yang bisa dipilih dan disunting, pada posisi kira-kira tepat. Anda tidak mendapatkan kembali penyarangan persis aslinya, animasi (yang tak pernah ada di PDF sejak awal), struktur master-slide, atau token tema yang presisi. Font bisa diganti jika aslinya tak tersemat.",
+          "Di mana konversi ini bersinar: memulihkan dek yang bisa disunting ketika .pptx-nya hilang dan hanya PDF yang tersisa; memetik dua slide dari dek kolega untuk dipakai ulang di milik Anda; membuat penyesuaian konten pada dek yang diterima tanpa meminta sumbernya. Di mana ia mengecewakan: dek desain sempurna-piksel yang dibangun di atas elemen yang tumpang tindih, yang direkonstruksi sebagai lapisan bertumpuk yang tampak benar tetapi berperilaku rewel saat disunting.",
+        ],
+      },
+      {
+        heading: "Ekspektasi penyuntingan dan cara bekerja dengan hasilnya",
+        paragraphs: [
+          "Rencanakan untuk menyesuaikan, bukan mengharapkan kembaran identik. Pembersihan pasca-konversi paling umum: kotak teks yang batasnya sedikit lebih besar daripada teks terlihatnya (sehingga mengeklik memilih lebih dari yang diharapkan), gambar pada posisi hampir-tetapi-tidak-persis, dan ukuran font yang dibulatkan ke ukuran tersedia terdekat. Tidak ada yang memengaruhi tampak slide dalam mode presentasi; semuanya memengaruhi seberapa rapi file itu disunting.",
+          "Alur kerja praktis: konversi PDF ke PPT, lalu langsung periksa slide yang paling penting bagi Anda — biasanya slide judul dan satu slide isi. Perbaiki font dan satu tata letak, dan jika struktnya bertahan, koreksi sisanya secara batch lewat slide master. Jika struktnya tak bertahan — kotak-kotak tumpang tindih liar — desain dek sumbernya terlalu berlapis untuk dibalikkan dengan bersih, dan membuat ulang slide-slide itu secara manual akan lebih cepat daripada melawan hasil konversi.",
+          "Grafik pantas disebut khusus: grafik yang berupa gambar tersemat di PDF tetap gambar di PPT (bukan data grafik yang bisa disunting); grafik yang digambar sebagai bentuk vektor direkonstruksi sebagai bentuk bergrup, yang bisa Anda warnai ulang tetapi tidak bisa digambarkan ulang dengan angka baru. Bagaimanapun, data di balik sebuah grafik tak bisa dipulihkan dari PDF — ia memang tak pernah ada di sana.",
+        ],
+      },
+      {
+        heading: "Dek berkelana; jaga tetap di rumah sampai terkonversi",
+        paragraphs: [
+          "Presentasi rahasia-bisnis secara bawaan: dek strategi, tinjauan keuangan, materi merger dan akuisisi, rencana produk yang belum dirilis. PDF dari dek semacam itu memuat semuanya kecuali catatan pembicara — dan mengunggahnya ke layanan konversi berarti seluruh konten visual presentasi internal itu terbaca di server orang lain, sering dalam beberapa menit sejak rapat tempat ia ditampilkan.",
+          "Alat ini merekonstruksi slide sepenuhnya di browser Anda: PDF diparse dan dirender di perangkat Anda, elemen slide dibangun ulang secara lokal, dan file PPT disimpan langsung oleh browser Anda. Tidak ada yang diunggah, tidak ada antrean pemrosesan, dan konversi berjalan identik secara offline — dek itu tak pernah ada di luar mesin Anda dalam bentuk apa pun.",
+          "Mengingat dek hasil konversi memang dimaksudkan untuk disunting, pemrosesan lokal juga cocok dengan alur kerjanya: konversi, buka di perangkat lunak presentasi Anda, dan iterasi sebanyak yang diperlukan tanpa mengunggah ulang di antara percobaan. Tiap percobaan konversi hanya butuh detik dan tidak lebih — jadi Anda bisa mencoba, menginspeksi, dan menyesuaikan dengan bebas sampai dek berperilaku sebagaimana Anda perlukan.",
+        ],
       },
     ],
   },
@@ -484,6 +900,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Hanya .docx yang didukung. Teks memakai font standar PDF, jadi bahasa berbasis Latin tampil benar sementara aksara lain (Cina, Arab…) untuk saat ini diganti dengan ?.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa Word-ke-PDF biasanya arah yang andal",
+        paragraphs: [
+          "Konversi antara Word dan PDF bersifat asimetris, dan Word-ke-PDF adalah arah yang mudah. Dokumen Word punya seluruh struktur yang dibutuhkan renderer — teks, gaya, tabel, gambar, tata letak halaman — dan menghasilkan PDF hanyalah merender struktur itu ke format deskripsi halaman. Tidak ada duga-dugaan yang terlibat: yang Anda lihat di Word adalah yang akan digambar.",
+          "Itulah sebabnya keluaran konversi Word-ke-PDF yang baik bersifat setia secara konstruksi: font, spasi, tabel, dan pemenggalan halaman mendarat seperti yang dimaksudkan, dan PDF membekukannya sehingga penampil mana pun di perangkat mana pun menampilkan hal yang sama. Pembekuan itu adalah seluruh poin formatnya — kontrak yang tampak identik di laptop Anda, ponsel penerima, dan RIP percetakan.",
+          "Asimetri keandalan ini penting untuk merencanakan kerja: konversikan Word-ke-PDF pada momen terakhir, ketika dokumen sudah final, dan jangan pernah berencana mengonversi kembali ke Word untuk disunting lagi. PDF-ke-Word adalah rekonstruksi (dan lossy terhadap struktur); file .docx itu sendirilah salinan induk yang harus disimpan.",
+        ],
+      },
+      {
+        heading: "Font, kolom, dan daftar periksa pra-konversi",
+        paragraphs: [
+          "Font adalah jebakan klasik Word-ke-PDF. Jika dokumen memakai font yang tak terpasang di mesin pengonversi, renderer menggantinya dengan yang serupa dan spasi bergeser secara halus — garis tanda tangan bisa melayang, tabel bisa melipat dengan berbeda. Konversi yang baik menyematkan font yang direndernya, sehingga keluaran mandiri; tetapi font yang tepat harus hadir pada saat konversi. Mengonversi di mesin tempat dokumen itu ditulis adalah bawaan yang aman.",
+          "Periksa bagian yang hidup sebelum mengonversi: kolom daftar isi, rujukan nomor halaman, dan rujukan silang seharusnya diperbarui (Ctrl+A lalu F9 di Word) agar PDF membawa angka final, bukan yang basi. Periksa juga apakah dokumen memuat komentar atau perubahan terlacak — apakah itu muncul di PDF bergantung pada renderer, dan mengirim PDF dengan markup yang terlihat kepada pihak lawan adalah kecelakaan pengungkapan klasik.",
+          "Satu kebiasaan lagi: setelah mengonversi, bandingkan jumlah halaman dan sekilas lihat halaman pertama dan terakhir. Jika PDF punya satu halaman lebih banyak atau sedikit daripada yang ditunjukkan Word, ada yang menyesuaikan diri — biasanya penggantian font — dan itu layak ditemukan sebelum mengirim, bukan sesudahnya.",
+        ],
+      },
+      {
+        heading: "Dokumen final seharusnya difinalkan secara lokal",
+        paragraphs: [
+          "Word-ke-PDF adalah langkah yang menghasilkan bentuk resmi sebuah dokumen: CV untuk dikirim, faktur untuk dikirimkan, tesis untuk disimpan, kontrak untuk ditandatangani. Artefak final inilah yang paling layak dilindungi, dan juga yang paling sering diunggah ke situs konversi — artinya versi nyaris-final CV atau kontrak Anda duduk di server orang asing sebelum Anda bahkan mengirimkannya kepada penerima aslinya.",
+          "Alat ini merender konversi sepenuhnya di browser Anda: struktur dokumen diproses di perangkat Anda, PDF dibuat di memori, dan keluaran disimpan secara lokal. Tidak ada yang diunggah di tahap mana pun — versi final dokumen Anda ada di tepat dua tempat: .docx asli Anda dan PDF yang Anda hasilkan, keduanya di mesin Anda.",
+          "Konversi lokal juga membuat disiplin versi menjadi praktis: karena tiap konversi hanya butuh detik, Anda bisa membuat ulang PDF setelah setiap suntingan alih-alih memelihara yang basi — PDF selalu cocok dengan .docx terbaru. Kebiasaan itu menghapus masalah klasik “versi mana yang saya kirim?” sepenuhnya, dan itu hanya bekerja ketika mengonversi bebas dari gesekan unggahan.",
+        ],
+      },
+    ],
   },
   "pdf-to-text": {
     name: "PDF ke Teks",
@@ -510,6 +952,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ada batas halaman atau ukuran?",
         a: "Tidak ada batas buatan. Ratusan halaman berjalan baik; batas praktisnya adalah memori browser, biasanya jauh di atas dokumen 100 MB.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lapisan teks: apa yang sebenarnya disimpan PDF tentang kata-katanya",
+        paragraphs: [
+          "PDF yang dibuat secara digital menyimpan teksnya sebagai rangkaian operasi menggambar: tampilkan glif ini, pada posisi ini, dalam font ini. Kata-katanya benar-benar ada di sana — itulah sebabnya Ctrl+F bekerja pada dokumen semacam itu. Mengekstrak teks karena itu bukan pengenalan melainkan dekode: membaca lapisan teks itu kembali dalam urutan baca. Tidak ada pemrosesan gambar yang terlibat, dan kesetiannya hanya dibatasi oleh bagaimana dokumen itu dibangun.",
+          "Komplikasi klasiknya adalah urutan dan pembatasan kata (hyphenation). PDF mendeskripsikan glif menurut posisi, bukan aliran logis, sehingga tata letak multi-kolom, bilah samping, dan tabel bisa terekstrak dalam urutan visual alih-alih urutan baca — kolom-kolom berselang-seling baris demi baris. Ekstraktor yang layak memakai heuristik tata letak untuk mendeteksi kolom dan merekonstruksi aliran, tetapi dokumen yang dirancang berat tetap bisa keluar dalam keadaan kacau.",
+          "Kesenjangan lainnya adalah hasil pindai: halaman hasil pindai sama sekali tak punya lapisan teks, hanya piksel, jadi ekstraksi polos mengembalikan kosong. Hasil pindai butuh OCR dulu (itu alat terpisah), dan file yang di-OCR memang mendapat lapisan teks yang kemudian bisa dibaca ekstraksi.",
+        ],
+      },
+      {
+        heading: "Urutan baca, kasus tepi pengodean, dan pemeriksaan praktis",
+        paragraphs: [
+          "Ketika ekstraksi tampak kacau, hampir selalu tata letaknya: makalah akademik dua-kolom terekstrak sebagai fragmen berselang-seling, atau catatan kaki mendarat di tengah kalimat. Perbaikan cepat: coba dokumen yang sama dengan alat ekstraksi berbeda untuk membandingkan pengurutan, atau terima bahwa untuk tata letak terdesain Anda mungkin menginginkan ekstraksi per halaman dan perakitan manual. Pemenggalan baris di dalam teks hasil ekstraksi mencerminkan struktur baris PDF, jadi menyatukan ulang paragraf sering menjadi langkah pembersihan di editor Anda.",
+          "Kasus tepi pengodean muncul sebagai karakter misterius: liga (fi, fl) yang datang sebagai glif tunggal, aksen yang tercemar jika PDF memakai pengodean font non-standar, dan simbol matematika yang dipetakan buruk ke teks polos. Keluaran teks-polos tak punya tebal, miring, tabel, atau gambar — semuanya menjadi karakter, jadi struktur yang layak disimpan harus dicatat secara manual.",
+          "Pemeriksaan kewarasan sebelum mengandalkan teks hasil ekstraksi: cari di keluaran sebuah frasa yang bisa Anda lihat di halaman pertama, dan bandingkan jumlah karakternya dengan ekspektasi. Jika laporan 10 halaman terekstrak menjadi 300 karakter, lapisan teksnya rusak atau hanya-gambar — hasil kosong yang jujur dari alat ini pada satu hasil pindai lebih baik daripada diam-diam membuang konten.",
+        ],
+      },
+      {
+        heading: "Mengekstrak dokumen secara lokal, terutama yang sensitif",
+        paragraphs: [
+          "Ekstraksi teks sering menjadi langkah pertama memproses dokumen yang bukan buatan Anda: perjanjian legal, laporan keuangan, makalah riset, memo internal. Mengunggahnya ke situs ekstraksi-teks berarti seluruh konten yang bisa dibaca — bentuk paling portabel dan paling bisa disalin dari dokumen Anda — melintasi server orang lain. Teks hasil ekstraksi bahkan lebih mudah disebarkan lagi daripada file aslinya: ia tak membawa jejak metadata sama sekali.",
+          "Alat ini mendekode lapisan teks sepenuhnya di browser Anda: PDF diparse lokal, glif dipetakan kembali ke karakter di perangkat Anda, dan file teks-polos disimpan oleh browser Anda. Tidak ada yang diunggah, dan tidak ada yang tercatat di mana pun — dengan jaringan terputus, ekstraksi bekerja persis sama.",
+          "Karena ekstraksi cepat dan bebas bolak-balik jaringan, ia cocok dengan alur kerja “ekstrak banyak, lalu cari”: tarik teks dari satu folder penuh PDF, tempel semuanya ke dokumen yang bisa dicari atau pakai sebagai korpus, dan tak satu pun sumber itu meninggalkan mesin Anda. Untuk tinjauan pustaka dan perbandingan kontrak, kombinasi privasi plus kecepatan itulah yang membuat ekstraksi massal menjadi praktis.",
+        ],
       },
     ],
   },
@@ -540,6 +1008,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak andal. Tesseract dilatih pada teks cetak — tipografi yang rapi berjalan baik, tulisan tangan miring biasanya menghasilkan kekacauan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa dipulihkan OCR dari satu halaman pindai",
+        paragraphs: [
+          "Hasil pindai hanyalah foto kertas — komputer melihat piksel abu-abu, bukan huruf. OCR (pengenalan karakter optik) adalah proses mengenali bentuk huruf di piksel-piksel itu dan menempelkan teks yang dikenali ke halaman sebagai lapisan yang tak terlihat namun bisa dicari, di bawah gambar aslinya. Setelah OCR, Anda bisa memilih teks, mencari frasa, dan menyalin paragraf, meskipun halaman yang terlihat tetap foto hasil pindainya.",
+          "Batas yang jujur penting di sini. Akurasi OCR bergantung pada kualitas pindai di atas segalanya: pindai 300 DPI dari teks ketikan yang bersih biasanya dikenali sangat baik, sementara foto resolusi rendah, halaman miring, fotokopi pudar, dan tulisan tangan menurun dengan cepat. Teks yang dikenali tak pernah dijamin sempurna — goresan liar bisa menjadi karakter yang salah, dan detail penting seperti jumlah atau nama layak dibuktikan manusia sebelum Anda mengandalkan teks hasil ekstraksi.",
+          "Apa yang sungguh tak bisa dilakukan OCR: memulihkan teks yang tidak terbaca dalam gambar, menerjemahkan, atau memperbaiki hasil pindai yang buruk secara fundamental. Jika mata manusia kesulitan dengan sebuah halaman, pengenalan akan lebih sulit lagi. Memindai ulang pada resolusi lebih tinggi sering menjadi investasi yang lebih baik daripada pemrosesan apa pun setelahnya.",
+        ],
+      },
+      {
+        heading: "Setelan bahasa dan kemudahan pencarian: mendapatkan keluaran yang berguna",
+        paragraphs: [
+          "OCR sadar-bahasa, dan memilih bahasa yang salah adalah pembunuh kualitas paling umum. Mesin pengenalan menilai rangkaian huruf terhadap statistik bahasa yang dipilih — menjalankan teks Spanyol melalui model hanya-Inggris membuat setiap karakter beraksen jadi tersangka, dan ñ, á, ü larut menjadi derau. Dokumen multi-bahasa butuh bahasa-bahasa terkait diaktifkan, atau bagian bahasa minoritas keluar sebagai ocehan tak masuk akal.",
+          "Kemudahan pencarian punya satu lapisan lagi: lapisan teks yang dikenali itu duduk di belakang gambar, sehingga mencari di penampil menemukan frasa dan melompat ke halaman yang tepat, tetapi piksel dasarnya tak tersentuh. Itu struktur “sandwich” standar yang dihasilkan setiap produk OCR serius, dan artinya arsip Anda mempertahankan tampilan aslinya sambil mendapat pencarian teks-penuh — yang terbaik dari keduanya untuk retensi catatan.",
+          "Alur kerja praktis untuk arsip: OCR seluruh batch sekali dengan bahasa yang benar, lalu uji acak dengan mencari beberapa frasa yang diketahui (nama, tanggal, nomor faktur). Jika pencarian kena, lapisan teksnya bekerja; jika meleset, bahasanya salah atau kualitas pindainya di bawah ambang pengenalan — hasil pencarian memberi tahu Anda halaman mana yang perlu dipindai ulang.",
+        ],
+      },
+      {
+        heading: "Pengenalan di perangkat Anda, bukan di arsip orang lain",
+        paragraphs: [
+          "Dokumen yang butuh OCR secara tidak proporsional adalah yang sensitif: catatan pajak lama, riwayat medis, berkas kepegawaian, akta tanah, transkrip akademik. Menjalankannya melalui layanan OCR web berarti seluruh teks catatan Anda yang bisa dibaca — terekstrak, terindeks, dan bisa dicari mesin — duduk di infrastruktur yang tak Anda ketahui apa-apa. Teks bahkan lebih portabel daripada gambar hasil pindainya sendiri: sekali terekstrak, ia bisa disalin, diindeks, atau ditambang tanpa sepengetahuan Anda.",
+          "Alat ini mengenali teks sepenuhnya di browser Anda: halaman hasil pindai diproses di perangkat Anda, lapisan teks ditempelkan secara lokal, dan PDF yang bisa dicari ditulis langsung ke disk. Tidak ada halaman arsip Anda yang diunggah, dan tidak ada teks hasil ekstraksi yang meninggalkan mesin Anda. Operasi offline bekerja sama, yang cocok untuk arsip yang dengan alasan yang baik hidup di mesin tanpa jaringan.",
+          "Harapkan kompromi yang sebaiknya Anda ketahui sejak awal: pengenalan berbasis browser atas batch besar butuh waktu dan memori, karena perhitungan terjadi di perangkat keras Anda alih-alih pusat data. Untuk pindai 20 halaman itu hitungan detik; untuk arsip 500 halaman itu satu jeda kopi. Balasannya adalah bahwa langkah paling pribadi dari mendigitalkan catatan Anda terjadi sepenuhnya di bawah kendali Anda.",
+        ],
+      },
+    ],
   },
   "page-numbers-pdf": {
     name: "Tambah Nomor Halaman PDF",
@@ -562,6 +1056,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah nomornya tampak konsisten di berbagai ukuran halaman?",
         a: "Setiap halaman distempel relatif terhadap lebar dan tingginya sendiri, jadi orientasi dan ukuran halaman yang campur semuanya mendapat nomor di sudut visual yang sama.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana lapisan tindih penomoran halaman bekerja dalam PDF",
+        paragraphs: [
+          "Menambahkan nomor halaman ke PDF yang sudah ada tidak memproses ulang halaman-halamannya. Konten asli — teks, gambar, semuanya — tak tersentuh; alat menambahkan satu instruksi menggambar kecil ke aliran konten tiap halaman yang mengecat nomor pada posisi pilihan Anda. Secara teknis ini adalah lapisan tindih: tinta baru yang digambar di atas halaman yang sudah ada, seperti cap yang ditambahkan setelah kejadian.",
+          "Itulah sebabnya penomoran aman dan dapat dibalik-menurut-sumber: file asli tetap di disk Anda tanpa dimodifikasi, dan keluaran bernomor berbeda darinya hanya oleh beberapa perintah menggambar tambahan itu. Font yang dipakai untuk nomor ditambahkan ke dokumen atau digambar dengan font standar, dan pada ukuran tipikal (9–12 pt) nomor-nomor itu menempati sebagian kecil tiap halaman.",
+          "Opsi formatnya mencerminkan yang dipakai dokumen nyata: angka polos (1, 2, 3) untuk kebanyakan kasus, atau pola seperti “Halaman 3 dari 12” untuk kontrak dan laporan tempat jumlah totalnya berarti. Totalnya dihitung dari jumlah halaman sebenarnya pada saat penomoran, jadi ia selalu konsisten dengan dokumen yang Anda hasilkan.",
+        ],
+      },
+      {
+        heading: "Keputusan penempatan: margin, halaman awal, dan tumbukan",
+        paragraphs: [
+          "Penempatan klasiknya adalah bawah-tengah atau bawah-kanan, di dalam margin bawah — tempat pembaca mengharapkannya dan pencetak tak akan memotongnya. Pencetak sering tak bisa mencetak hingga tepi paling ujung kertas, jadi nomor yang ditempatkan terlalu dekat tepi fisik bisa terpotong di beberapa mesin meski tampak baik di layar. Menjaga nomor kira-kira setengah inci (sekitar 36 pt) dari tepi halaman adalah zona aman.",
+          "Halaman sampul dan halaman judul biasanya tak seharusnya membawa nomor — “1” yang dicap di sampul tampak seperti kecelakaan. Alat penomoran biasanya menyediakan offset awal untuk tepat itu: mulai menomori di halaman 2 (atau setelah daftar isi), sehingga nomor yang terlihat cocok dengan isi sementara sampulnya tetap bersih. Perhatikan bahwa offset memengaruhi dari halaman mana penghitungan dimulai, jadi “Halaman 1” mendarat di mana pun Anda tunjukkan.",
+          "Tumbukan adalah jebakan lainnya: jika halaman sumber sudah punya nomor tercetak (misalnya, Anda menggabungkan bab-bab yang diberi nomor terpisah), menindih nomor baru menghasilkan dua nomor yang bersaing per halaman. Penomoran lapisan-tindih tak bisa menghapus tinta lama — itu butuh rasterisasi atau bedah konten. Dalam kasus itu, gabungkan sumber yang belum bernomor, atau terima penomoran satu dokumen dan lewati penindihannya.",
+        ],
+      },
+      {
+        heading: "Suntingan lokal untuk dokumen yang beredar",
+        paragraphs: [
+          "Penomoran biasanya adalah sentuhan terakhir sebelum dokumen keluar: kontrak yang akan dibubuhi tanda tangan balasan, laporan untuk dewan, manuskrip untuk diajukan. Ini persis file tempat “tinggal unggah ke situs penomoran” adalah tawaran yang salah — kontrak bernomor yang diunggah ke server pihak ketiga adalah dokumen legal nyaris-final Anda yang duduk di log seseorang demi menambahkan dua angka per halaman.",
+          "Alat ini melakukan lapisan tindih sepenuhnya di browser Anda: halaman diproses lokal, nomor digambar ke konten halaman di memori, dan keluaran ditulis oleh perangkat Anda. Dokumen tak pernah meninggalkan mesin Anda dalam bentuk apa pun, dan operasinya seketika — tidak ada fase unggah untuk ditunggu sama sekali.",
+          "Satu kebiasaan kualitas kecil: setelah menomori, buka keluarannya dan buka-buka beberapa halaman memastikan nomor tak tumpang tindih dengan catatan kaki, keterangan gambar, atau konten di margin bawah — tata letak akademik yang padat kadang menjalankan konten tepat di tempat yang Anda duga margin. Jika muncul tumbukan, menggeser posisinya ke atas atau ke sisi lain menyelesaikannya tanpa menyentuh apa pun yang lain.",
+        ],
       },
     ],
   },
@@ -595,6 +1115,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Kompresi dilakukan oleh encoder canvas bawaan browser Anda. File tidak pernah meninggalkan perangkat — Anda bahkan bisa memutus internet dan alat ini tetap bekerja.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang sebenarnya dibuang kompresi lossy",
+        paragraphs: [
+          "Kompresi bergaya JPEG bekerja dalam tiga langkah: mengubah gambar menjadi data frekuensi, membuang komponen frekuensi tinggi yang paling kurang sensitif dirasakan mata Anda, dan mengemas sisanya secara efisien. Itulah sebabnya kompresi hampir tak terlihat pada fotografi — kulit dan langit yang mulus kehilangan sedikit — sementara teks bertepi tajam dan detail garis halus menderita lebih dulu, menampilkan halo gemeretak di sekitar huruf.",
+          "Slider kualitas dipetakan ke seberapa banyak informasi frekuensi yang selamat. Pada setelan tinggi data yang dibuang sungguh tak bisa dirasakan; saat Anda turun, kebLOKan muncul di gradien dan derau menguat di sekitar tepi. Tidak ada angka “terbaik” universal: foto yang ramai bisa tampak baik di 60 sementara tangkapan layar butuh 85 agar tetap bersih.",
+          "Kompresi itu satu arah. Setiap penyimpanan membuang informasi lagi, jadi menyunting dan menyimpan JPEG berulang kali pada kualitas sedang menumpuk artefak generasi demi generasi — fenomena yang disebut kehilangan generasi. Selalu simpan aslinya, dan kompres sekali, di akhir alur kerja.",
+        ],
+      },
+      {
+        heading: "Memilih kualitas, dan kapan dimensi mengalahkan slider",
+        paragraphs: [
+          "Tangga awal yang praktis: 80–90 untuk gambar utama dan apa pun berteks; 60–80 untuk foto biasa di web; di bawah 50 hanya ketika batas ukuran keras yang memaksa. Lalu menilailah dengan mata Anda pada ukuran yang benar-benar akan ditampilkan gambarnya — artefak yang terlihat pada zum 100% bisa lenyap sepenuhnya pada lebar halaman.",
+          "Ketika bahkan kualitas rendah tak sanggup mencapai ukuran sasaran Anda, jumlah piksel itulah masalah sebenarnya. Membagi dua kedua dimensi membuang sekitar tiga perempat piksel, besaran yang tak mungkin dicocokkan slider kualitas. Ubah ukuran dulu, kompres belakangan — kedua tuas itu bekerja pada skala yang berbeda.",
+          "Pantaulah angka byte sebelum/sesudah alih-alih berasumsi: sebagian file yang sudah terkompresi nyaris tak menyusut lagi, dan mengompresnya ulang hanya memakan kualitas. Jika sebuah file sudah terkompresi dengan baik, optimasi terbaik adalah membiarkannya atau mengubah ukurannya.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal dan kecocokan alur kerja",
+        paragraphs: [
+          "Kompresi berjalan sepenuhnya di browser Anda: gambar didekode, dienkode ulang, dan diukur secara lokal, tanpa langkah unggah. Itu membuatnya bisa dipakai untuk pekerjaan klien, foto produk yang belum dirilis, atau dokumen pribadi yang Anda tak ingin serahkan ke layanan web sembarangan.",
+          "Karena pemrosesannya seketika, alur kerja alaminya iteratif: coba satu nilai kualitas, lihat pratinjau dan ukurannya, sesuaikan, ulangi. Persis itu yang dibuat menyakitkan oleh kompresor berbasis unggahan, karena tiap percobaan menelan satu bolak-balik.",
+          "Tempatkan alat ini pada proporsinya: ia adalah langkah terakhir sebelum publikasi. Lakukan penyuntingan dan retouching dulu pada aslinya, ekspor sekali, lalu kompres ekspor itu. Mengompres lebih awal berarti setiap suntingan berikutnya mengompres ulang file yang sudah rusak.",
+        ],
+      },
+    ],
   },
   "image-resizer": {
     name: "Pengubah Ukuran Gambar",
@@ -621,6 +1167,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah PNG yang diubah ukurannya tetap punya transparansi?",
         a: "Ya. Pengubahan ukuran mempertahankan format asli, jadi transparansi PNG dan alpha WebP selamat tanpa disentuh. Hanya konversi ke JPG yang akan meratakan transparansi ke latar putih.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengubah ukuran dengan baik: arah mana, preset mana",
+        paragraphs: [
+          "Pengubahan ukuran datang dalam dua arah dengan fisika berbeda. Mengecilkan membuang piksel, dan ketika dilakukan dengan baik hampir tak kehilangan apa pun yang terlihat — foto yang diubah ke setengah lebar dan dilihat pada ukuran halaman tak bisa dibedakan dari aslinya. Memperbesar mengarang piksel yang tak pernah tertangkap, itulah sebabnya ia hanya bisa menghaluskan atau mengaburkan.",
+          "Kunci rasio aspek kecuali tujuannya sungguh menuntut distorsi: suntingan lebar-dan-tinggi bebas meregangkan lingkaran menjadi oval dan wajah menjadi versi rumah hantu. Platform biasanya memotong atau memberi pita hitam sendiri untuk menegakkan rasio mereka, jadi mendistorsi secara manual jarang jadi keinginan siapa pun.",
+          "Preset umum dipetakan ke kendala nyata: 1920 px lebar cocok untuk layar full-HD dan kolom konten blog kebanyakan, 1080 px cocok untuk pos sosial, 512 px dan ke bawah melayani avatar dan ikon. Mengubah ukuran ke ukuran tampilan alih-alih mengirim asli kamera 6000 px adalah satu kemenangan kecepatan halaman terbesar yang tersedia.",
+        ],
+      },
+      {
+        heading: "Urutan operasi: ubah ukuran sebelum kompresi",
+        paragraphs: [
+          "Jika sebuah gambar butuh pengubahan ukuran dan kompresi sekaligus, ubah ukuran dulu. Setiap piksel yang dibuang adalah data yang tak pernah harus dienkode kompresor, dan pengurangannya skala dengan area — membagi dua lebar dan tinggi menyisakan seperempat piksel. Tidak ada setelan kualitas yang bisa menandingi besaran itu.",
+          "Pengubahan ukuran juga berinteraksi dengan format: mengubah ukuran tangkapan layar PNG tetap lossless, sementara mengubah ukuran JPG mengompresnya ulang dan menambah satu putaran artefak. Bila memungkinkan, ubah ukuran dari sumber yang paling sedikit terkompresi yang Anda punya dan biarkan format akhir diputuskan belakangan.",
+          "Satu detail yang sering terlewat: setelah mengecil, penajaman ringan bisa memulihkan ketajaman yang dirasakan yang dicuci oleh interpolasi — tetapi menajamkan berlebihan gambar hasil ubah-ukuran menciptakan halo yang lebih buruk daripada kelembutan. Penahanan diri berlaku pada penajaman lebih dari setelan apa pun di sini.",
+        ],
+      },
+      {
+        heading: "Pengubahan ukuran lokal dan privasi",
+        paragraphs: [
+          "Pekerjaan ubah ukuran sering melibatkan kategori gambar paling pribadi: dokumen identitas yang diukur untuk sebuah formulir, foto keluarga yang dikecilkan untuk dibagikan, foto produk yang belum dirilis yang disiapkan untuk daftar. Mengirimnya ke pengubah-ukuran berbasis unggahan menyerahkan asli resolusi-penuh ke penyimpanan orang asing.",
+          "Alat ini mengubah ukuran sepenuhnya di browser Anda: dekode, penskalaan, dan pengodean ulang terjadi di perangkat Anda, dan keluarannya langsung terunduh. Tidak ada yang dikirim, jadi tidak ada salinan asli Anda yang hidup di mana pun kecuali mesin Anda.",
+          "Mode batch cocok untuk kasus berulang — set foto yang semuanya butuh lebar web yang sama. Terapkan satu ukuran ke folder, unduh hasilnya sebagai ZIP, dan simpan aslinya tak tersentuh sebagai sumber kebenaran untuk setiap pengubahan ukuran di masa depan.",
+        ],
       },
     ],
   },
@@ -651,6 +1223,32 @@ export const id: Record<string, ToolCopy> = {
         a: "1:1 (persegi). Kebanyakan platform sosial memotong avatar menjadi lingkaran di dalam persegi, jadi menempatkan objek di tengah seleksi 1:1 adalah pilihan teraman.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Memotong membuang piksel — rencanakan sebelum memotong",
+        paragraphs: [
+          "Memotong bersifat merusak dengan cara yang tidak dimiliki pengubahan ukuran: mengubah ukuran menyimpan semua konten pada detail lebih rendah, memotong menghapus konten secara permanen. Begitu Anda menyimpan potongannya, piksel di luar seleksi lenyap dari file itu. Itulah sebabnya aturan emasnya adalah menyimpan aslinya dan memperlakukan setiap versi terpotong sebagai file turunan yang bisa Anda regenerasi.",
+          "Bekerjalah dari sumber terbesar yang Anda punya. Memotong gambar kecil lalu memperbesarnya menumpuk kelembutan; memotong asli resolusi-penuh lalu mengecilkan hasilnya menjaga tepi tetap tajam. Jika Anda butuh banner lebar sekaligus avatar persegi, buat dua potongan dari asli yang sama alih-alih memotong hasil potongan.",
+          "Potong juga dengan niat soal rasio aspek: putuskan tujuannya dulu (header blog, pos platform, bingkai cetak) dan atur potongan ke rasio itu, alih-alih memotong bebas lalu menemukan hasilnya tak cocok ke mana pun tanpa bantalan tambahan.",
+        ],
+      },
+      {
+        heading: "Dasar komposisi yang membuat potongan lebih baik",
+        paragraphs: [
+          "Dua konvensi pembingkaian membawa sebagian besar nilainya. Aturan sepertiga menempatkan subjek dekat perpotongan garis yang membagi bingkai menjadi tiga-kali-tiga — menempatkan horizon pada garis sepertiga atas atau bawah alih-alih tepat di tengah biasanya terbaca lebih disengaja. Pembingkaian terpusat, sebaliknya, tepat untuk subjek simetris, wajah, dan foto produk.",
+          "Beri subjek yang bergerak ruang ke arah yang ia hadapi atau tempuh: pelari dengan ruang kosong di depannya tampak dinamis, pelari yang sama dipotong rapat di belakangnya tampak hendak menabrak tembok. Hal yang sama berlaku pada tatapan — potret biasanya diuntungkan oleh sedikit ruang di sisi yang dituju orangnya.",
+          "Periksa tepinya terakhir: anggota tubuh liar, benda setengah, dan kilau yang mengganggu di batas bingkai menarik perhatian menjauh. Zoom keluar setelah mengatur potongan dan pandangi seluruh persegi sekali sebelum menyetujuinya.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal menjaga potongan sensitif tetap privat",
+        paragraphs: [
+          "Potongan sering diambil justru karena sebuah foto memuat sesuatu yang tak boleh ditampilkan — tepi dokumen, orang yang lewat, label alamat. Mengirim gambar itu ke pemotong berbasis unggahan untuk menyembunyikan satu detail adalah melawan tujuan sendiri: foto utuh tanpa-potongan kemudian hidup di server orang lain.",
+          "Alat ini memproses sepenuhnya di browser Anda: dekode, seleksi, dan pengodean ulang terjadi di perangkat Anda, dan tidak ada yang dikirim atau disimpan. Versi yang Anda potong adalah versi yang Anda publikasikan; asli utuhnya tetap bersama Anda.",
+          "Satu catatan alur kerja: memotong bukanlah redaksi. Membuang satu wilayah dari area yang terlihat membuangnya dari file, dan itu penghapusan yang sesungguhnya — berbeda dari pengaburan atau persegi hitam yang digambar di atas konten, yang kadang bisa dibalik jika diterapkan sembarangan di atas data terkompresi. Untuk menyembunyikan wilayah sensitif, memotong atau menutup sebelum ekspor adalah langkah yang lebih aman.",
+        ],
+      },
+    ],
   },
   "rotate-image": {
     name: "Putar Gambar",
@@ -677,6 +1275,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bisakah saya membalik foto secara horizontal seperti cermin?",
         a: "Bisa — pakai tombol “Balik horizontal” untuk mencerminkan kiri–kanan, atau “Balik vertikal” untuk atas–bawah. Keduanya bisa digabung dengan rotasi apa pun.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rotasi menata ulang piksel — tak pernah menyesampelnya",
+        paragraphs: [
+          "Rotasi 90 derajat adalah kasus yang bersih: setiap piksel berpindah ke koordinat baru dan tak perlu interpolasi, sehingga konten gambar identik piksel-demi-piksel setelahnya. Dimensi hanya bertukar — foto 4000×3000 menjadi 3000×4000.",
+          "Sudut bebas berbeda: tidak ada persegi yang diputar yang kembali cocok ke kisi piksel asli, sehingga sudut-sudutnya harus diisi warna latar dan kontennya harus diinterpolasi untuk mendarat di titik-titik kisi. Itulah sebabnya kemiringan 10 derajat menampilkan segitiga sudut dan mengapa rotasi berat pada gambar kecil menghaluskan tepi.",
+          "Akibat praktisnya adalah memilih perputaran seperempat bila memungkinkan dan melakukan rotasi sudut-bebas dari sumber resolusi tertinggi yang tersedia. Jika Anda butuh koreksi 5 derajat, lakukan pada aslinya, bukan pada salinan yang sudah diubah ukurannya.",
+        ],
+      },
+      {
+        heading: "Mengapa foto keluar menyamping: orientasi EXIF",
+        paragraphs: [
+          "Masalah klasik foto-ponsel-menamping bukanlah bug rotasi — itu metadata. Kamera mencatat bagaimana sensor dipegang dalam flag orientasi EXIF dan menyimpan piksel dalam satu orientasi tetap; penampil yang membaca flag menampilkan foto tegak, dan perangkat lunak yang mengabaikannya menampilkannya menyamping.",
+          "Itulah sebabnya satu gambar tampak benar di ponsel Anda dan menyamping di alat web lama atau editor foto: keduanya tak sepakat apakah harus memercayai flag. Browser kini kebanyakan menghormatinya, yang bisa membingungkan ketika file yang sama tiba-tiba terputar setelah diunduh dan dibuka ulang di tempat lain.",
+          "Alat rotasi seperti ini bekerja pada piksel sebenarnya dan menghasilkan file yang terorientasi dengan benar, sehingga hasilnya benar di mana pun terlepas dari bagaimana perangkat lunak berikutnya memperlakukan metadata. Setelah rotasi yang disengaja, file tak lagi bergantung pada flag sama sekali.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal dan kebiasaan rotasi yang aman",
+        paragraphs: [
+          "Rotasi berjalan sepenuhnya di browser Anda: gambar didekode, ditransformasi, dan dienkode ulang di perangkat Anda tanpa unggah. Dokumen, foto keluarga, atau foto yang belum dirilis diputar tanpa satu pun dari mereka yang bepergian ke server.",
+          "Putarlah dari aslinya, simpan hasilnya sebagai file baru, dan simpan keduanya. Rotasi dengan sudut bebas mengenkode ulang gambar, dan menumpuk operasi semacam itu — putar, potong, ubah ukuran, putar lagi — menumpuk kehilangan generasi persis seperti penyimpanan JPEG berulang.",
+          "Satu kebiasaan lagi: membalik dan mencerminkan bukanlah rotasi. Gambar yang dicerminkan membalik kiri dan kanan, yang berarti untuk teks, logo, dan adegan asimetris yang dikenali. Jika sebuah foto butuh pencerminan, gunakan alat yang mengatakannya — keluarannya adalah gambar yang benar-benar berbeda, bukan sekadar yang diputar.",
+        ],
       },
     ],
   },
@@ -707,6 +1331,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Chrome, Edge, Firefox, dan Safari 17+ bisa menyimpan WebP. Jika browser Anda tidak bisa mengodekan WebP, alat ini memberi tahu dan beralih ke JPG sehingga Anda selalu mendapat file yang bisa dipakai.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Memilih format sasaran berdasarkan apa yang harus selamat",
+        paragraphs: [
+          "Konversi format pada dasarnya adalah pertanyaan tentang properti mana yang berarti bagi tujuannya. Ajukan tiga pertanyaan: apakah ia butuh transparansi (PNG atau WebP ya, JPG tidak), apakah kontennya fotografi atau grafis (JPG/WebP untuk foto, PNG untuk teks dan tepi tajam), dan apakah penerimanya menerima format itu sama sekali (sebagian platform, CMS, dan perangkat lunak lama hanya menerima JPG dan PNG).",
+          "Dua kendala mempersempit pilihan dengan cepat. Jika transparansi harus selamat, JPG langsung tersingkir. Jika file harus terbuka di perangkat lunak tak dikenal — formulir, pencetak, Windows jadul milik klien — JPG dan PNG adalah taruhan teraman karena setiap sistem gambar dekade terakhir membaca keduanya.",
+          "WebP menempati tengah yang efisien: lebih kecil dari JPG pada kualitas setara, sanggup transparan, tetapi dengan ekor kompatibilitas paling panjang. Pola pragmatisnya adalah mengonversi ke WebP untuk situs Anda sendiri dan ke JPG/PNG untuk semua tempat yang tak bisa Anda kendalikan.",
+        ],
+      },
+      {
+        heading: "Apa yang benar-benar dibayar konversi",
+        paragraphs: [
+          "Konversi antara format lossy adalah pengodean ulang: JPG yang disimpan ulang sebagai WebP lossy membuang data untuk kedua kalinya. Pada kualitas tinggi kehilangannya tak terlihat, tetapi konversi lossy yang dirantai — JPG ke WebP ke JPG — menumpuk artefak seperti kompresi berulang apa pun. Konversikan sekali, ke arah format akhirnya.",
+          "Pergi ke format lossless selalu mempertahankan informasi relatif terhadap sumbernya: JPG ke PNG menyimpan semua yang JPG mengandung, termasuk artefaknya, tetapi tidak kehilangan apa pun lagi. File membesar karena losslessness harus merekam setiap piksel dengan setia.",
+          "Awasi transparansi di sepanjang pipanya: mengonversi gambar ber-kanal alpha ke JPG diam-diam mengisi area transparan dengan warna latar. Jika hasilnya menampilkan kotak putih atau hitam yang tak diharapkan, itu kanal alpha yang diratakan, bukan kerusakan.",
+        ],
+      },
+      {
+        heading: "Konversi batch dan pemrosesan lokal",
+        paragraphs: [
+          "Skenario realistis untuk konverter umum adalah satu folder file tak seragam: tangkapan layar PNG yang dikehendaki sebuah formulir sebagai JPG, WebP hasil unduhan yang tak bisa dibuka editor lama, batch campuran yang menuju pengunggah satu platform. Mode batch menerapkan satu format sasaran dan satu setelan kualitas ke seluruh folder.",
+          "Mengurutkan batch sebelum mengonversi menghemat pekerjaan ulang: item fotografi bisa menuju JPG, item grafis menuju PNG, dalam dua putaran alih-alih satu setelan kompromi. Satu pilihan universal biasanya melayani platform, bukan gambar-gambarnya.",
+          "Semuanya berjalan di browser Anda: dekode, konversi, dan unduh terjadi di perangkat Anda tanpa unggah. Mengonversi aset klien, desain yang belum dirilis, atau arsip pribadi berarti file-file itu tak pernah meninggalkan mesin Anda di titik mana pun.",
+        ],
+      },
+    ],
   },
   "jpg-to-png": {
     name: "JPG ke PNG",
@@ -733,6 +1383,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah konversi JPG ke PNG menambahkan transparansi?",
         a: "Tidak. JPEG tidak pernah menyimpan transparansi, jadi tidak ada yang bisa dipulihkan — PNG hasil konversi Anda sepenuhnya opak. Untuk memotong latar, Anda butuh alat penghapus latar khusus.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa dipulihkan JPG ke PNG",
+        paragraphs: [
+          "Fakta pertama yang harus diterima: mengonversi JPG ke PNG tidak memperbaiki gambar. PNG bersifat lossless, tetapi ia hanya bisa mempertahankan yang ada — dan yang ada di sebuah JPG sudahlah hasil kompresi lossy. Artefak yang terpanggang ke dalam file berpindah ke PNG tak tersentuh.",
+          "Yang disediakan konversi ini adalah masa depan yang aman. PNG menyimpan setiap piksel persis, jadi sejak momen konversi dan seterusnya, menyunting, memotong, dan menyimpan ulang tak memakan kualitas apa pun. Memegang JPG sebagai induk kerja Anda berarti setiap penyimpanan mengompres ulang dan menumpuk kerusakan.",
+          "Jadi model mental yang tepat adalah “menstabilkan”: konversi ini layak ketika JPG adalah salinan terbaik Anda dan Anda berencana terus menyunting, mengarsip, atau mengekspor ulangnya. Ia tak berguna sebagai klaim kosmetik — tak seorang pun bisa melihat PNG itu dan menyaksikan perbaikan.",
+        ],
+      },
+      {
+        heading: "Ekspektasi ukuran dan perilaku format",
+        paragraphs: [
+          "Harapkan file membesar. Kompresi cerdas JPEG membuang data yang harus disimpan PNG dengan setia, jadi gambar yang sama sebagai PNG biasanya beberapa kali lebih besar daripada JPG-nya — PNG membayar kepastian itu, termasuk merekam setiap artefak yang ditinggalkan JPG.",
+          "Untuk konten fotografi ukuran ini biasanya tidak layak dibayar kecuali Anda memang membutuhkannya: simpan foto sebagai JPG untuk dibagikan, dan konversikan ke PNG ketika gambar itu masuk ke alur kerja penyuntingan tempat penyimpanan berulang justru akan menurunkannya.",
+          "Di mana konversi ini sungguh bersinar adalah kasus campuran: gambar berteks atau grafik datar yang keliru disimpan sebagai JPG. Mereka sudah rusak, tetapi membekukannya di PNG menghentikan kerusakan dari terus tumbuh dengan tiap suntingan atau penyimpanan tambahan.",
+        ],
+      },
+      {
+        heading: "Alur kerja penyuntingan dan pemrosesan lokal",
+        paragraphs: [
+          "Aturan praktis untuk pipa penyuntingan: konversikan ke PNG di awal, lakukan semua penyuntingan di wilayah lossless, dan ekspor ke JPG hanya sebagai langkah penyerahan akhir. Dengan begitu langkah lossy terjadi tepat sekali, di akhir, alih-alih sekali per suntingan.",
+          "Arsip dan induk diuntungkan untuk alasan yang berbeda: format bergeser dan perangkat lunak menua, tetapi data piksel lossless PNG adalah representasi paling tahan lama dari apa yang sebenarnya dikandung file. Mengonversi salinan terbaik Anda ke PNG adalah polis asuransi kecil terhadap kesalahan kompresi ulang di masa depan.",
+          "Seperti di mana pun di situs ini, konversi berjalan secara lokal di browser Anda — dekode, enkode, dan unduh terjadi di perangkat Anda tanpa unggah. Mengonversi foto pribadi atau induk klien karena itu tak pernah mengekspos mereka ke server pihak ketiga.",
+        ],
       },
     ],
   },
@@ -763,6 +1439,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Konversi hanya mengubah pengodeannya; ia tidak bisa menambah detail. Jika PNG-nya sendiri sudah terlihat lembut, JPG-nya akan sama lembutnya (mungkin dengan derau kompresi tipis pada pengaturan kualitas sangat rendah).",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang terjadi ketika lossless bertemu lossy",
+        paragraphs: [
+          "PNG menyimpan setiap piksel persis: kompresinya lossless, sehingga dekode mengembalikan gambar identik. JPEG membuang data yang paling kecil kemungkinannya diperhatikan mata, menukar kesetiaan persis dengan file yang jauh lebih kecil. Mengonversi PNG ke JPG karena itu berarti memilih kehilangan informasi sebagai ganti ukuran.",
+          "Untuk fotografi, kompromi itu hampir tak terlihat: foto yang disimpan dari PNG ke JPG pada kualitas tinggi tampak sama dan biasanya menyusut beberapa kali lipat. Kerugiannya terkonsentrasi di tempat PNG melindungi presisi — tepi tajam, teks, grafik warna-datar, dan gradien seragam — tempat JPEG menghasilkan halo gemeretak dan pita warna.",
+          "Satu kehilangan struktural bersifat total: transparansi. Kanal alpha PNG tak bisa bertahan di JPG, sehingga area transparan harus diisi warna latar, biasanya putih. Jika PNG Anda punya wilayah tembus pandang dan latar tujuannya bukan putih, harapkan kotak yang terlihat kecuali Anda mengisinya dengan warna yang tepat terlebih dulu.",
+        ],
+      },
+      {
+        heading: "Kapan konversi ini layak — dan kapan tidak",
+        paragraphs: [
+          "Konversikan ketika ukuran atau kompatibilitas menuntutnya: platform yang menolak unggahan PNG, formulir dengan batas ukuran file, galeri foto dengan ratusan gambar. PNG fotografi hampir selalu pemborosan byte — kamera tak pernah menghasilkan PNG, jadi PNG fotografi biasanya berasal dari pipa tangkapan layar atau kesalahan ekspor, dan JPG membagi duanya tanpa perubahan yang terlihat.",
+          "Jangan konversikan ketika presisi adalah poinnya: logo, tangkapan layar UI, diagram, seni piksel, dan apa pun berteks seharusnya tetap PNG. Mengonversi itu ke JPG membeli sedikit ukuran dan membayar tepi tajam yang tak bisa dipulihkan.",
+          "Pertanyaan warna isi pantas diputuskan, bukan dibiarkan bawaan: putih cocok untuk kebanyakan konteks cetak dan dokumen; warna yang cocok dengan halaman tujuan cocok untuk grafik web. Memilih warna isi secara disengaja adalah perbedaan antara konversi yang bersih dan konversi yang mencolok.",
+        ],
+      },
+      {
+        heading: "Konversi lokal menjaga file tetap privat",
+        paragraphs: [
+          "Konversi berjalan sepenuhnya di browser Anda: PNG didekode, dikompositkan ke latar terpilih, dienkode ulang sebagai JPG dan dikembalikan — semuanya di perangkat Anda. Tanpa langkah unggah berarti tangkapan layar alat internal, materi klien, atau dokumen pribadi tak pernah menyentuh server.",
+          "Pemrosesannya seketika, jadi alur kerja praktis untuk batch campuran adalah memeriksa isi tiap gambar lebih dulu: yang fotografi melewati konversi, yang grafis tetap PNG. Tidak ada satu setelan pun yang membuat keputusan itu untuk Anda — jawaban yang benar bergantung pada apa yang ada di tiap file.",
+          "Simpan asli PNG-nya setelah mengonversi. JPG tak bisa kembali: begitu detail frekuensi-tinggi dan kanal alpha lenyap, tak ada alat yang bisa memulihkannya, dan aslinya adalah satu-satunya jalan Anda menuju warna latar yang berbeda atau ekspor lossless nanti.",
+        ],
+      },
+    ],
   },
   "webp-converter": {
     name: "Konverter WebP",
@@ -789,6 +1491,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah konversi ke WebP itu lossless?",
         a: "Anda yang memilih: WebP mendukung pengodean lossless maupun lossy. Pada kualitas bawaan 90 hasilnya tak terbedakan secara visual tetapi jauh lebih kecil; turunkan slider untuk penghematan maksimal, atau pilih keluaran PNG untuk lossless murni.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa WebP ada dan apa yang ia menangkan",
+        paragraphs: [
+          "WebP diciptakan Google untuk memecahkan masalah tertentu: JPEG sudah berusia tiga dekade dan file lossless PNG besar. WebP mengompres lebih baik di kedua front — mode lossy-nya memakai teknik pengodean video VP8, dan mode lossless-nya biasanya mengalahkan PNG — sambil juga mendukung transparansi dan animasi, yang tak bisa dilakukan JPEG.",
+          "Kemenangan praktisnya adalah bobot halaman. Foto yang dienkode sebagai WebP pada kualitas visual yang setara biasanya keluar puluhan persen lebih kecil daripada JPEG. Pada halaman kaya gambar itu langsung diterjemahkan menjadi muat lebih cepat, bandwidth lebih sedikit, dan skor Core Web Vitals lebih baik, itulah sebabnya kebanyakan situs besar kini menyajikan WebP kepada browser yang sanggup.",
+          "Tangkapannya selalu adalah dukungan. WebP bekerja di semua browser modern, tetapi sebagian aplikasi natif, sistem operasi lama, editor gambar tertentu, dan banyak instalasi CMS masih menolaknya — persis alasan mengapa mengonversi WebP menjadi JPG atau PNG tetap kebutuhan yang umum dan praktis.",
+        ],
+      },
+      {
+        heading: "Mengonversi keluar dari WebP: apa yang diharapkan",
+        paragraphs: [
+          "Jika WebP Anda disimpan dalam mode lossy, mengonversinya ke JPG adalah pengodean ulang data yang sudah terkompresi: kehilangan kualitas biasanya kecil pada setelan tinggi, tetapi melintasi banyak format lossy menumpuk artefak, jadi konversikan sekali dan simpan hasilnya.",
+          "Mengonversi ke PNG menghasilkan file lossless yang akan terasa jauh lebih besar daripada WebP-nya — sering beberapa kali lipat untuk foto. Itu bukan bug: PNG membayar kesetiaan piksel yang persis, dan itu pilihan yang tepat ketika Anda butuh transparansi atau berencana menyunting ulang gambar itu.",
+          "Aturan praktis: JPG untuk konten fotografi yang ditakdirkan untuk dibagikan atau formulir unggah yang tak menerima WebP; PNG untuk grafis, tangkapan layar, gambar transparan, dan apa pun yang akan disunting lagi. Pantau ukuran keluaran setelah konversi — jika PNG-nya menggelembung, sumbernya fotografis dan JPG mungkin sasaran yang lebih tepat.",
+        ],
+      },
+      {
+        heading: "Konversi lokal dan catatan alur kerja",
+        paragraphs: [
+          "Konverter ini mendekode WebP dan mengenkode ulangnya ke format pilihan Anda sepenuhnya di browser Anda — tanpa unggah, tanpa antrean, tanpa menunggu bolak-balik server. File tak pernah meninggalkan perangkat Anda, yang berarti untuk desain yang belum dirilis, aset klien, atau foto pribadi.",
+          "Mode batch cocok untuk skenario umum: Anda mengunduh satu set gambar WebP dari sebuah situs atau serah-terima desain dan alat di hilir — CMS, marketplace, layanan cetak — hanya menerima JPG atau PNG. Konversikan seluruh folder sekali alih-alih bergulat dengan tiap file.",
+          "Simpan asli WebP-nya bila ragu. Jika sumbernya WebP lossy, ia sudah versi kualitas terbaik yang Anda miliki; konversi apa pun hanya bisa turun dalam ketelitian dari sana, jadi aslinya adalah jaring pengaman pengodean-ulang Anda.",
+        ],
       },
     ],
   },
@@ -819,6 +1547,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Konversi terjadi di browser Anda memakai dekoder HEIC lokal. Foto Anda tetap di perangkat sepanjang waktu — alat ini bahkan bekerja offline setelah halamannya termuat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa sebenarnya HEIC — dan mengapa ia ada",
+        paragraphs: [
+          "HEIC adalah format kontainer di belakang format High Efficiency Image milik Apple, diadopsi sebagai bawaan foto kamera iPhone sejak iOS 11. Ia berbasis keluarga kompresi video HEVC yang sama dan menyimpan gambar pada kira-kira separuh ukuran JPEG yang setara, itulah sebabnya sebuah ponsel bisa terus memotret resolusi tinggi tanpa penyimpanannya penuh.",
+          "Komprominya adalah kompatibilitas. HEIC didukung baik di dalam ekosistem Apple dan di beberapa versi Windows dan Android terbaru, tetapi banyak situs web, portal pemerintah, percetakan, perangkat lunak lama, dan perangkat non-Apple masih mengharapkan JPG. Foto yang terbuka baik di ponsel Anda bisa ditolak begitu Anda mengunggahnya ke suatu tempat.",
+          "Mengonversi ke JPG menukar ukuran file dengan keuniversalan: file hasilnya lebih besar tetapi terbuka di mana pun, dari browser berusia satu dekade hingga percetakan. Itu kompromi yang tepat kapan pun tujuannya di luar kendali Anda.",
+        ],
+      },
+      {
+        heading: "Detail konversi yang layak diketahui",
+        paragraphs: [
+          "JPEG adalah format lossy, jadi mengonversi HEIC ke JPG adalah pengodean ulang, bukan pengemasan ulang. Dengan setelan kualitas tinggi perbedaannya tak bisa dirasakan untuk foto tipikal; dengan setelan rendah Anda mewarisi artefak di atas kompresi aslinya. Gunakan kualitas tertinggi yang tersedia kecuali ukuran file lebih berarti daripada ketelitian.",
+          "Metadata bisa tak selamat dari konversi: HEIC mendukung fitur yang tak dimiliki JPEG, seperti peta kedalaman yang dipakai mode Portrait. JPEG polos membawa gambar yang terlihat, dimensi, dan data EXIF standar, tetapi tidak ekstensi khusus Apple. Jika Anda mengandalkan menyunting kedalaman foto kelak, simpan asli HEIC-nya.",
+          "Konversi batch adalah alur kerja realistisnya: pustaka iPhone berisi ratusan hingga ribuan file HEIC, dan mereka biasanya perlu dikonversi tepat ketika harus menuju PC, formulir web, atau drive bersama. Konversikan hanya yang dibutuhkan tujuannya, dan simpan induk HEIC sebagai sumber kebenaran.",
+        ],
+      },
+      {
+        heading: "Privasi paling berarti untuk foto pribadi",
+        paragraphs: [
+          "Foto kamera termasuk file paling sensitif yang dimiliki orang: momen keluarga, interior rumah, pola perjalanan. Situs konversi foto yang mensyaratkan unggahan melihat semuanya — dan tag lokasi EXIF bahkan bisa merekam di mana tiap gambar diambil.",
+          "Konverter ini berjalan sepenuhnya di browser Anda: HEIC didekode dan dienkode ulang ke JPG di perangkat Anda, dan tidak ada yang dikirim. Itu pilihan yang masuk akal untuk pustaka pribadi persis karena tak ada server yang pernah melihat gambar-gambarnya.",
+          "Tips terkait: jika Anda berencana membagikan JPG-nya secara publik alih-alih sekadar membukanya di suatu tempat, pertimbangkan mencabut EXIF lokasi juga — mengonversi format tidak dengan sendirinya menghapus metadata lokasi kecuali alatnya menjatuhkannya saat pengodean ulang.",
+        ],
+      },
+    ],
   },
   "svg-converter": {
     name: "Konverter SVG ke PNG",
@@ -845,6 +1599,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah latar transparan bertahan setelah konversi?",
         a: "Ya. Keluarannya PNG dengan alpha penuh, jadi ikon Anda mempertahankan transparansinya persis seperti di SVG. Hanya font dan gambar eksternal yang dirujuk SVG yang mungkin perlu disematkan di dalam filenya sendiri agar bisa dirender.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa SVG bisa diskalakan selamanya dan format raster tidak",
+        paragraphs: [
+          "Gambar raster (JPG, PNG, WebP) adalah kisi piksel tetap: perbesarkan dan kisi itu meregang, sehingga tepi mengabur dan blok-blok muncul. SVG sama sekali bukan kisi — ia adalah daftar instruksi menggambar (garis, kurva, bentuk, isian) yang dihitung ulang oleh renderer pada ukuran apa pun yang diminta. Zoom ke 5000% dan setiap tepi tetap setajam pisau karena tepi-tepi itu digambar ulang, bukan diperbesar.",
+          "Itulah sebabnya logo, ikon, dan diagram adalah bahan SVG ideal: bentuk geometris dengan warna datar selamat sempurna dari deskripsi vektornya. Fotografi adalah kasus sebaliknya — foto yang dideskripsikan sebagai vektor menjadi luar biasa besar atau aproksimasi jelek, itulah sebabnya konverter foto-ke-SVG menelusuri gambar menjadi bentuk bergaya alih-alih representasi sejati.",
+          "SVG juga teks: file XML yang bisa Anda buka di editor, versikan seperti kode, dan ubah warna atau jalurnya dengan tangan. Keinspeksian itu adalah kekuatan super yang senyap — warna sebuah ikon bisa digayakan ulang dengan satu perubahan atribut alih-alih ekspor ulang.",
+        ],
+      },
+      {
+        heading: "Raster ke SVG versus SVG ke raster: dua pekerjaan yang sangat berbeda",
+        paragraphs: [
+          "Mengonversi SVG ke raster adalah pemotretan yang setia: renderer menggambar bentuk vektor pada ukuran pilihan Anda dan mempikselkan hasilnya. Pilih ukuran yang tepat — PNG/JPG hasil render terkunci pada resolusi itu dan akan berperilaku seperti gambar raster lain dari sana.",
+          "Mengonversi raster ke SVG adalah interpretasi, bukan penerjemahan. Algoritma tracing mendekati wilayah piksel dengan kurva dan area warna, sehingga keluarannya adalah rekonstruksi bergaya: istimewa untuk logo dan grafik sederhana yang butuh skalabilitas, keliru untuk apa pun yang harus tampak identik-piksel dengan foto aslinya.",
+          "Pilih arahnya berdasarkan kebutuhan: jika sumber Anda sudah vektor dan platform tujuan hanya menerima raster, konversikan ke bawah dan beri ukuran yang besar untuk layar retina. Jika sumber Anda grafik sederhana yang terjebak di PNG dan Anda butuh penskalaan tanpa batas atau file mungil, tracing ke SVG adalah peningkatannya.",
+        ],
+      },
+      {
+        heading: "Catatan praktis dan pemrosesan lokal",
+        paragraphs: [
+          "File SVG biasanya mungil — ikon yang dideskripsikan sebagai beberapa path bisa beratnya sepersekian kilobita dibanding puluhan kilobita untuk PNG setaranya. Untuk antarmuka kaya-ikon, perbedaan itu dikalikan di setiap aset dan setiap muatan halaman.",
+          "Satu catatan kompatibilitas: sebagian permukaan membatasi SVG karena ia bisa mengandung skrip. Jika sebuah platform memblokir unggahan SVG, mengekspor versi PNG besar adalah jalan keluar standarnya — hasilkan pada dua sampai tiga kali ukuran tampilan agar tetap tajam di layar berkepadatan tinggi.",
+          "Konversi di sini berjalan sepenuhnya di browser Anda: rendering dan tracing terjadi di perangkat Anda, tanpa langkah unggah. Mengonversi logo klien, aset merek, atau diagram internal tak pernah mengirim mereka ke server.",
+        ],
       },
     ],
   },
@@ -875,6 +1655,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Browser di iOS dan Android tidak menawarkan tangkapan layar ke halaman web, jadi alat ini menjelaskan bahwa fitur itu tak tersedia di sana. Di desktop, Chrome, Edge, Firefox, dan Safari semuanya mendukung.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tangkap ke clipboard, lalu berdandan",
+        paragraphs: [
+          "Tangkapan layar jarang menjadi aset finalnya: ia butuh bingkai, sudut membulat, penyesuaian warna atau ukuran sebelum pas ke slide, laporan bug, atau pos sosial. Menangkap langsung ke tampilan penyuntingan melipat dua langkah menjadi satu — ambil wilayahnya, sesuaikan, unduh — alih-alih melompat antara pintasan OS, editor, dan pengelola file.",
+          "Bingkai adalah baju paling berharga untuk tangkapan layar: tepi tipis berwarna netral memisahkan gambar dari latar apa pun tempatnya mendarat, terutama di halaman yang berlatar putih sama dengan tangkapan layarnya sendiri. Tanpa tepi, tangkapan layar berlatar-putih begitu saja larut ke dalam halaman.",
+          "Anotasi cepat pudar dari ingatan, jadi kebiasaan alur kerja yang membayar adalah menangkap, berdandan, dan menyimpan seketika — tangkapan layar yang dibiarkan sebagai data clipboard mentah cenderung kehilangan konteks, dan menangkap ulang keadaan UI sementara (dropdown terbuka, tooltip terlihat) bisa jadi tak mungkin beberapa menit kemudian.",
+        ],
+      },
+      {
+        heading: "Mengapa tangkapan layar layak PNG lossless",
+        paragraphs: [
+          "Tangkapan layar adalah bintang iklan PNG atas JPG: mereka memuat isian datar, tepi tajam, dan teks — persis konten yang dirusak kompresi JPEG dengan halo gemeretak di sekitar huruf dan pita warna pada gradien datar. Tangkapan layar JPG tampak diam-diam kotor; yang PNG identik-piksel dengan yang ada di layar.",
+          "Satu tempat JPG menang adalah tangkapan layar fotografi: foto yang ditampilkan di layar memuat detail gambar alami yang terkompresi dengan baik. Untuk sisanya — jendela, terminal, dokumen, elemen UI — premi ukuran PNG membeli kebersihan yang terlihat.",
+          "Jika ukuran file berarti (sebagian formulir membatasi tangkapan layar pada beberapa ratus KB), tuas yang jujur adalah wilayah tangkapannya: potong rapat sebelum meraih setelan kualitas. PNG tangkapan rapat dari jendela yang relevan sekaligus lebih kecil dan lebih berguna daripada JPG layar-penuh.",
+        ],
+      },
+      {
+        heading: "Apa yang tetap di perangkat Anda",
+        paragraphs: [
+          "Tangkapan layar sering menampilkan konteks privat: dasbor internal, pesan pribadi, nama file, tab browser, data klien. Mengunggah tangkapan layar ke layanan tangkap mengirim seluruh konteks itu ke server orang asing — risiko yang sepenuhnya terhindar ketika penangkapan dan penyuntingan terjadi secara lokal.",
+          "Alat ini menangkap dan memproses di dalam browser Anda: pikselnya datang dari sesi layar Anda, langkah-langkah berdandan berjalan di perangkat Anda, dan file ditulis langsung ke disk Anda. Tidak ada yang dikirim di titik mana pun.",
+          "Satu kebiasaan privasi yang layak diadopsi: sebelum menyimpan tangkapan layar apa pun untuk dibagikan, sapukan tepi-tepi tangkapannya mencari konteks yang tak disengaja — monitor kedua, notifikasi, bilah alamat. Lebih mudah menangkap ulang satu bingkai bersih daripada membatalkan satu kebocoran.",
+        ],
+      },
+    ],
   },
   "image-metadata-viewer": {
     name: "Penampil Metadata Gambar",
@@ -901,6 +1707,29 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah melihat metadata mengubah gambar saya?",
         a: "Tidak. File dibuka hanya-baca; alat ini mendekode salinan di memori dan tidak pernah menulis kembali ke aslinya. Gambar Anda ditampilkan dan dianalisis sepenuhnya di perangkat Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lapisan-lapisan metadata di dalam file gambar",
+        paragraphs: [
+          "Metadata di file gambar duduk berlapis-lapis. Lapisan kontainer selalu ada: format file, dimensi piksel, ukuran file, dan kedalaman warna. Di atasnya duduk EXIF — merek dan model kamera, lensa, bukaan, kecepatan rana, ISO, panjang fokus, keadaan kilat, cap waktu tangkapan. Lebih dalam lagi adalah blok khusus-format: chunk PNG tEXt/iTXt, penanda komentar JPEG, kadang profil warna tersemat (ICC) bahkan thumbnail, yang sendirinya adalah gambar kecil.",
+          "Penampil membaca lapisan-lapisan itu tanpa menyentuh pikselnya, dan itulah cara paling aman menginspeksi sebuah file: tidak ada yang didekode menjadi file baru, tidak ada yang ditulis ulang, dan tidak ada yang bisa rusak dalam prosesnya. Yang Anda lihat adalah yang benar-benar dibawa file itu — termasuk bagian yang mungkin tak disadari penulis aslinya ada di sana.",
+        ],
+      },
+      {
+        heading: "Data GPS EXIF: tajuk utama privasi",
+        paragraphs: [
+          "Kebanyakan kamera ponsel menyematkan koordinat GPS di setiap foto secara bawaan. Koordinatnya cukup presisi untuk menempatkan foto dalam beberapa meter — yang berarti sekadar potret seadanya bisa diam-diam membocorkan rumah Anda, sekolah anak Anda, atau kamar hotel Anda. Sebelum membagikan foto secara publik, memeriksa tag GPS adalah kebiasaan metadata bernilai tertinggi tunggal.",
+          "Jika data GPS ada dan Anda berencana mempublikasi gambarnya, jalankan lewat penghapus EXIF setelahnya. Penampil metadata dan pengupas metadata adalah dua separuh dari satu alur kerja: lihat dulu untuk tahu apa yang akan bocor, cabut belakangan untuk memastikan itu tidak. Perhatikan bahwa berbagi-ulang lewat aplikasi pesan sering mencabut metadata secara otomatis, tetapi berbagi file langsung — surel, tautan cloud, unggahan — tidak.",
+        ],
+      },
+      {
+        heading: "Inspeksi tanpa unggah",
+        paragraphs: [
+          "File diparse secara lokal di browser Anda: byte mentah dibaca dari disk ke memori dan tabel-tabel metadata didekode di sana. Tidak ada yang dikirim, jadi aman untuk menginspeksi foto yang sensitif — bukti untuk sengketa, foto kerja bertag-lokasi, gambar di bawah NDA — dengan risiko paparan nol.",
+          "Karena tak ada unggahan yang terlibat, tidak ada batas atas ukuran: asli kamera 50 megapiksel diinspeksi persis secepat thumbnail. Padukan penampilnya dengan penghapus EXIF untuk satu lingkar periksa-lalu-bersihkan yang lengkap, keduanya berjalan di perangkat Anda.",
+        ],
       },
     ],
   },
@@ -931,6 +1760,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak dengan cara berbasis browser yang tetap aman. Pelepasan metadata lossless menuntut penulisan ulang kontainer file — PNG bisa dibersihkan lossless dengan alat khusus, tetapi untuk JPEG pendekatan andal dan sederhana memang pengodean ulang ini. Masukan PNG di sini tetap sempurna bit demi bit pada pikselnya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang disembunyikan EXIF di dalam foto Anda",
+        paragraphs: [
+          "Setiap foto dari kamera atau ponsel modern membawa lebih dari piksel. Blok EXIF menyimpan model kamera, lensa, setelan paparan, cap waktu — dan, paling berkonsekuensi, koordinat GPS dalam banyak kasus. Potret seadanya yang ditempel daring bisa membocorkan ruangan atau sudut jalan persis tempat ia diambil.",
+          "Blok itu sering juga memuat thumbnail pratinjau tersemat kecil dan, di sebagian perangkat, riwayat perangkat lunak dan penyuntingan. Tangkapan layar dan gambar yang Anda unduh dari tempat lain biasanya nyaris tanpa EXIF, itulah sebabnya penampil metadata kadang menampilkan “tak ditemukan” — ketiadaannya normal, bukan bug.",
+          "Mencabut EXIF bukan tentang menyembunyikan kesalahan; itu kebersihan rutin sebelum publikasi. Jurnalis, aktivis, tenaga medis, dan pengguna biasa semuanya punya alasan yang baik untuk memisahkan konten sebuah gambar dari metadata perekamannya.",
+        ],
+      },
+      {
+        heading: "Apa yang berubah karena penghapusan — dan apa yang tidak",
+        paragraphs: [
+          "Mencabut EXIF meninggalkan gambar yang terlihat tak tersentuh: dimensi, warna, dan kualitas tetap persis sama. Yang lenyap adalah blok metadata, sehingga file menjadi anonim — tanpa kamera, tanpa lokasi, tanpa cap waktu yang menempel.",
+          "Penghapusan tidak mengubah konten piksel, yang berarti informasi yang terlihat tetap terlihat. Jika foto itu menampilkan rambu jalan, tanda nama, atau layar berteks, mencabut EXIF tak akan menolong; Anda perlu memotong atau menutup wilayah-wilayah itu secara terpisah.",
+          "Geotagging adalah alasan kebanyakan orang peduli, tetapi cap waktu juga berarti: dikombinasikan dengan pos publik lainnya, tanggal pembuatan bisa membantu membangun pola pergerakan atau kebiasaan seseorang. Penghapusan metadata penuh menutup kedua kanal itu sekaligus.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal adalah seluruh poinnya",
+        paragraphs: [
+          "Ada ironi dalam mengunggah foto ke alat “privasi”: file yang sensitif-privasi itu kemudian melintasi server orang lain, yang melihat persis metadata yang coba Anda cabut — termasuk tag GPS-nya. Penghapus berbasis unggahan mengalahkan sebagian besar tujuannya sendiri.",
+          "Alat ini membaca dan menulis ulang file sepenuhnya di browser Anda. Gambar didekode secara lokal, metadata dicabut, dan file bersih dihasilkan di perangkat Anda; tidak ada yang dikirim ke mana pun, jadi data yang ingin Anda hilangkan itu tak pernah keluar dari tangan Anda.",
+          "Satu kebiasaan praktis: cabut metadata pada langkah terakhir sebelum berbagi, dari file hasil ekspor yang benar-benar hendak Anda publikasikan. Simpan aslinya beserta EXIF-nya sebagai induk Anda — ia mempertahankan informasi berguna seperti setelan paparan untuk penyuntingan di masa depan.",
+        ],
+      },
+    ],
   },
   "watermark-image": {
     name: "Watermark Gambar",
@@ -953,6 +1808,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah bekerja dengan PNG transparan?",
         a: "Keluarannya JPG, jadi transparansi diratakan ke putih. Beri watermark pada PNG asli dengan warna latar pilihan Anda jika butuh alpha.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa dilindungi sebuah watermark",
+        paragraphs: [
+          "Watermark adalah pencegah dan atribusi, bukan gembok. Tanda yang terlihat membuat pencurian sembrono kurang menggoda — gambar hasil gowes yang berlogo tak bernilai bagi orang yang mengaku-negak pekerjaan orang sebagai miliknya — tetapi ia tak mencegah pemotongan, inpainting, atau penghapusan yang bertekad, dan ia tak membuktikan apa pun tentang kepengarangan dengan sendirinya.",
+          "Penempatan adalah seluruh permainannya untuk visibilitas: tanda di sudut mudah sekali dipotong, sementara tanda yang berulang atau di tengah selamat dari pemotongan tetapi lebih banyak mengubah gambarnya. Penggunaan editorial dan pratinjau menyukai tanda sudut dengan asumsi jujur bahwa pembeli mendapat versi bersihnya; perlindungan gambar yang hanya-dibagikan menyukai penempatan yang lebih mengganggu.",
+          "Opasitas adalah tombol lainnya: terlalu halus dan tandanya lenyap di latar yang ramai, terlalu kuat dan ia menurunkan nilai pratinjau yang hendak ia iklankan. Sekitar 40–60% opasitas dengan warna yang kontras terhadap sebagian besar gambar adalah rentang kerja yang biasa.",
+        ],
+      },
+      {
+        heading: "Tanda teks versus logo gambar",
+        paragraphs: [
+          "Watermark teks cepat dan fleksibel — ketik nama, handle, atau baris hak cipta dan atur ukuran serta posisinya. Kelemahannya adalah ketidakpribadian: tanda teks polos mudah ditiru, jadi watermark teks memberi atribusi tetapi nyaris tidak memberi merek.",
+          "Watermark berbasis gambar (logo PNG dengan transparansi) membawa identitas merek dan selamat dari pergantian format — siapa pun yang menyalin foto bertanda ikut menyalin logo Anda. Ia menuntut aset yang disiapkan, tetapi satu aset itu kemudian memberi watermark pada seluruh batch dalam satu kali jalan.",
+          "Untuk pekerjaan batch, kombinasi kurang berarti daripada konsistensi: posisi sama, opasitas sama, ukuran sama di setiap gambar. Portofolio bertanda tampak profesional ketika tandanya bisa diprediksi, dan amatir ketika ia melompat-lompat antar bingkai.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal melindungi asli yang bersih",
+        paragraphs: [
+          "Memberi watermark berarti memberi makan alat dengan gambar-gambar terbaik Anda yang belum bertanda — persis aset yang paling ingin Anda jauhkan dari server orang lain. Layanan watermark berbasis unggahan menerima asli bersih Anda pada resolusi penuh, yang membalikkan poin latihannya.",
+          "Alat ini memproses sepenuhnya di browser Anda: gambar asli dan aset watermark dikompositkan secara lokal, dan keluaran ditulis ke disk Anda. Versi bersih tak pernah meninggalkan perangkat Anda, sehingga hanya versi bertanda yang pernah ada di luarnya.",
+          "Simpan induk tanpa-watermark secara terpisah dan hati-hati: jika kelak Anda perlu memberi watermark lagi pada ukuran atau posisi baru, asli yang bersih adalah satu-satunya sumbernya. Dan jangan pernah secara tak sengaja mempublikasi file bersihnya — kebanyakan kebocoran gambar yang terlindungi datang dari salinan tak-terlindunginya, bukan dari seseorang yang menghapus tandanya.",
+        ],
       },
     ],
   },
@@ -979,6 +1860,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya — gambar ditempatkan sesuai urutan daftar, kiri ke kanan, atas ke bawah. Hapus dan tambahkan ulang untuk mengubahnya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Memilih tata letak: bersebelahan, bertumpuk, atau kisi",
+        paragraphs: [
+          "Penggabungan adalah keputusan tata letak sebelum menjadi keputusan teknis. Penggabungan horizontal cocok untuk rangkaian yang dibaca kiri ke kanan — perbandingan sebelum/sesudah, langkah satu di samping langkah dua. Penumpukan vertikal cocok untuk daftar dan konten bergaya-obrolan, tempat tiap gambar meneruskan ke bawah. Tata letak kisi cocok untuk kolase dan perbandingan multi-panel tempat tidak ada urutan baca yang mendominasi.",
+          "Variabel tersembunyinya adalah ukuran masukan yang berbeda. Ketika gambar yang digabung tak berbagi satu dimensi, alat harus memutuskan: meregangkan agar cocok (mendistorsi), memberi bantalan agar cocok (memberi pita hitam dengan warna latar), atau menyelaraskan ke satu tepi dan menerima asimetri. Mengetahui perilaku mana yang Anda dapat mencegah sebagian besar kejutan.",
+          "Spasi dan warna latar adalah lapisan polesnya: beberapa piksel celah dengan latar netral mengubah dua gambar yang ditempel paksa menjadi komposit yang disengaja. Pada latar transparan celahnya tetap tembus pandang dalam keluaran PNG, yang berarti untuk lapisan tindih.",
+        ],
+      },
+      {
+        heading: "Perilaku format saat menggabungkan",
+        paragraphs: [
+          "Penggabungan biasanya lossless secara struktural — itu komposisi, bukan kompresi — tetapi format keluaran memutuskan apa yang terjadi berikutnya. Keluaran PNG mempertahankan setiap piksel masukan persis dan menyimpan transparansi; itu bawaan yang aman untuk tangkapan layar, grafis, dan apa pun berteks.",
+          "Keluaran JPG membakar hasil gabungan menjadi persegi datar: celah transparan menjadi isian solid, dan seluruh komposit menelan satu putaran kompresi lossy. Itu baik untuk komposit fotografi dan terpaksa dari sisi ukuran ketika banyak foto besar bergabung menjadi satu file.",
+          "Awasi dimensi total: menggabungkan vertikal menumpuk tinggi dan mempertahankan lebar terlebar, jadi satu folder tangkapan layar tinggi bisa menghasilkan hasil yang lebih tinggi daripada yang nyaman ditampilkan banyak penampil. Memecah atau menskala masukan sebelum menggabungkan kadang mengalahkan satu keluaran raksasa.",
+        ],
+      },
+      {
+        heading: "Penggabungan lokal menjaga komposit tetap privat",
+        paragraphs: [
+          "Gambar yang digabung sering mengombinasikan konten sensitif: perbandingan dua dasbor internal, tangkapan layar dokumentasi yang menampilkan jalur file dan nama pengguna, foto sebelum/sesudah pribadi. Penggabung berbasis unggahan melihat setiap masukan utuh — kompositnya dan semua bagiannya.",
+          "Alat ini mengompositkan sepenuhnya di browser Anda: tiap gambar didekode dan digambar ke satu canvas bersama secara lokal, dan file gabungan ditulis ke disk Anda. Tak ada masukan yang pernah meninggalkan perangkat Anda, sehingga bagiannya tetap seprivat hasil akhirnya.",
+          "Urutan berarti bagi reproduktibilitas: catat atau simpan urutan gambar ditambahkan, karena penggabungan yang terbalik atau terkocok menghasilkan file yang mirip secara visual tetapi berbeda secara semantik — mematikan untuk perbandingan sebelum/sesudah tempat arah adalah seluruh pesannya.",
+        ],
+      },
+    ],
   },
   "grayscale-image": {
     name: "Gambar Grayscale",
@@ -1001,6 +1908,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa PNG saya jadi lebih besar setelah konversi?",
         a: "Grayscale tidak mengubah kompresi: foto yang berderau bisa terkompresi sedikit berbeda. Pilih JPG untuk foto dan PNG hanya untuk grafik rata.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa grayscale lebih dari sekadar “buang warnanya”",
+        paragraphs: [
+          "Cara naif membuat gambar abu-abu adalah merata-rata kanal merah, hijau, dan biru secara setara. Itu melewatkan cara kerja penglihatan manusia: kita jauh lebih sensitif terhadap cahaya hijau daripada merah, dan nyaris tak terhadap biru. Perata-rataan setara membuat rumput hijau dan batu bata merah — yang tampak sama terangnya di mata — keluar dengan kecerahan relatif yang salah.",
+          "Konversi yang benar memakai bobot luminansi yang diturunkan dari cara mata mempersepsi tiap warna primer, kira-kira 0.299 merah + 0.587 hijau + 0.114 biru (koefisien ITU-R BT.601 yang distandarkan standar televisi puluhan tahun lalu). Alat ini mengonversi dengan pembobotan persepsi semacam itu, sehingga hasil abu-abunya cocok dengan yang sebenarnya dilihat mata Anda pada asli berwarnanya.",
+          "Hasilnya juga primitif penyuntingan yang berguna: banyak fotografer mengonversi ke grayscale dulu untuk menilai struktur tonal sebuah gambar — apakah ia punya hitam sungguhan, putih sungguhan, dan midtone yang mulus — sebelum sama sekali memusingkan warna.",
+        ],
+      },
+      {
+        heading: "Pilihan format dan apa yang tetap utuh",
+        paragraphs: [
+          "Konversi grayscale hanya mengubah data warna — geometri piksel tak tersentuh, sehingga dimensi, ketajaman, dan komposisi selamat persis. Itu membuatnya aman diterapkan di tahap mana pun dari sebuah alur kerja tanpa efek samping berantai sebagaimana resampling akan lakukan.",
+          "Pilihan format tetap berarti: simpan sebagai PNG ketika gambar memuat teks, grafik datar, atau Anda menginginkan ketelitian maksimal dan tanpa kehilangan lebih; simpan sebagai JPG untuk konten fotografi tempat ukuran file berarti. JPEG grayscale biasanya lebih kecil daripada versi berwarnanya karena kanal warna membawa banyak dari yang dikompres jauh itu.",
+          "Satu perbedaan halus yang perlu diketahui: gambar grayscale sejati dan gambar berwarna yang ketiga kanalnya kebetulan sama bisa keduanya “tampak abu-abu”, tetapi keduanya disimpan secara berbeda. Alat dan pencetak bisa memperlakukannya berbeda; jika perilaku persis berarti bagi satu pipa cetak, simpan PNG.",
+        ],
+      },
+      {
+        heading: "Di mana grayscale membuktikan nilainya — dan privasi",
+        paragraphs: [
+          "Penggunaan klasiknya melampaui estetika: hasil pindai dokumen terbaca lebih bersih tanpa warna palsu dari lampu pemindai; pemeriksaan aksesibilitas memakai grayscale untuk memverifikasi bahwa sebuah desain tetap bekerja tanpa mengandalkan warna; dan cetakan yang ditakdirkan untuk reproduksi hitam-putih seharusnya selalu dipratinjau dalam abu-abu dulu.",
+          "Ia juga alat debugging untuk foto: jika sebuah potret punya warna palsu yang aneh atau warna kulit tak merata, mengonversi ke grayscale memisahkan masalah tonal dari masalah warna, memberi tahu Anda apakah yang harus diperbaiki paparan atau keseimbangan putih.",
+          "Seperti setiap alat di sini, konversi berjalan sepenuhnya di browser Anda — gambar tak pernah meninggalkan perangkat Anda. Jadikan abu-abu satu batch hasil pindai pribadi, draf klien, atau dokumen privat tanpa satu pun dari mereka yang menyentuh server.",
+        ],
       },
     ],
   },
@@ -1032,6 +1965,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Browser modern dengan senang hati memakai favicon PNG lewat tag <link>, dan potongan yang alat ini hasilkan adalah semua yang mereka butuhkan. .ico warisan hanya penting untuk browser yang sangat tua, yang cukup langka untuk diabaikan di kebanyakan situs.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa favicon butuh banyak ukuran",
+        paragraphs: [
+          "Favicon bukan satu file: tanda yang sama ditampilkan pada 16 px di tab browser, 32 px di beberapa tab retina dan bilah tugas, sekitar 180 px sebagai ikon Apple touch di layar beranda iOS, dan 512 px untuk layar instalasi Android dan PWA. Menyajikan satu file 16 px untuk semua konteks itu membuat ikon layar beranda tampak seperti lelehan piksel.",
+          "Browser memilih ikon terbesar yang dideklarasikan yang cocok dengan konteksnya dan menskala turun dengan anggun, tetapi mereka tak bisa menskala naik — sumber 16 px yang diregangkan ke 512 px blur yang tak bisa dipulihkan. Itulah sebabnya generator memulai dari gambar sumber resolusi tinggi dan menghasilkan seluruh tangga ukuran sekaligus.",
+          "Set praktis untuk dideklarasikan menutupi lahan umum: 16 dan 32 px untuk tab, 180 px untuk iOS, 192 dan 512 px untuk manifest Android/PWA. Mendeklarasikan semuanya di HTML Anda dengan tag link yang benar membiarkan tiap platform memilih yang paling cocok.",
+        ],
+      },
+      {
+        heading: "Merancang tanda yang selamat di 16 piksel",
+        paragraphs: [
+          "Kebanyakan logo mati di 16 px: garis halus melebur menjadi derau, bentuk huruf menjadi gumpalan, detail dua warna lenyap. Pendekatan aman-favicon adalah menyederhanakan tanda ke elemen paling dikenali tunggalnya — satu huruf, satu simbol, satu bentuk — alih-alih mengecilkan kumpulan logo penuhnya.",
+          "Ujilah pada ukuran sasarannya, bukan pada resolusi penuh: yang terbaca jelas di 512 px bisa tak terbaca di 16 px. Kontras tinggi, goresan tebal, dan siluet sederhana selamat dari pengecilan; gradien dan garis tepi tipis tidak.",
+          "Pertimbangkan juga sisi gelapnya: tab dan OS merender ikon di latar terang maupun gelap. Tanda yang hitam murni di atas transparansi lenyap di mode gelap, dan putih murni lenyap di mode terang. Menambahkan garis tepi kontras yang halus atau bentuk latar berisi membuat ikon itu bekerja di keduanya.",
+        ],
+      },
+      {
+        heading: "Pembuatan lokal dan privasi merek",
+        paragraphs: [
+          "Favicon adalah bijak identitas visual sebuah merek, dan logo yang masih dalam proses sering rahasia — tanda produk yang belum dirilis, kandidat desain ulang. Menghasilkan set favicon secara lokal di browser berarti desain yang tak pernah ditampilkan publik tak pernah menyentuh antrean unggahan.",
+          "Alat ini merender gambar sumber Anda turun ke tiap ukuran sasaran di browser perangkat Anda, menghasilkan pengecilan bersih dari asli resolusi-penuh. Tak ada server yang melihat karya itu, dan file yang dihasilkan langsung terunduh ke disk Anda.",
+          "Tips alur kerja: regenerasi set itu kapan pun tanda sumbernya berubah, dan jaga pembuatannya tetap dapat direproduksi — gambar sumber yang sama seharusnya selalu menghasilkan set favicon yang sama, sehingga ukuran yang hilang bisa dibuat ulang kapan saja.",
+        ],
+      },
+    ],
   },
   "ocr-image": {
     name: "Gambar ke Teks (OCR)",
@@ -1061,6 +2020,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Akurasi OCR sangat bergantung pada sumbernya: foto buram, halaman melengkung, font kecil, dan latar ramai menyebabkan salah baca. Pakai gambar paling tajam yang Anda punya, potong ke area teks saja, dan bersiap mengoreksi — terutama angka dan karakter yang tampak mirip.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana OCR mengubah piksel menjadi teks",
+        paragraphs: [
+          "Pengenalan karakter optik adalah pipa, bukan satu langkah: pertama gambar diproses awal (penyesuaian kontras, pengurangan derau, pelurusan kemiringan), lalu tata letaknya dianalisis untuk menemukan wilayah yang tampak seperti blok teks, lalu model pengenalan memetakan tiap bentuk karakter ke sebuah huruf, dan akhirnya potongan-potongan itu dirakit kembali menjadi baris dan paragraf.",
+          "Akurasi sangat bergantung pada kualitas sumbernya. Pindai bersih resolusi tinggi dari teks ketikan berkontras baik bisa mendekati pengenalan sempurna; foto resolusi rendah, halaman miring, font berornamen, dan tulisan tangan semuanya menjatuhkan akurasi dengan tajam. Aturan praktisnya: semakin dekat gambar itu tampak seperti dokuman hasil fotokopi, semakin baik hasilnya.",
+          "Setelan bahasa sama pentingnya dengan kualitas gambar: pengenal perlu tahu alfabet dan bentuk kata mana yang diharapkan. OCR struk Jepang dengan model Inggris menghasilkan ocehan yang percaya diri — selalu cocokkan modelnya dengan bahasa teksnya.",
+        ],
+      },
+      {
+        heading: "Mendapatkan hasil lebih baik dari sumber yang tak sempurna",
+        paragraphs: [
+          "Beberapa kebiasaan menaikkan akurasi secara nyata. Potong sekeliling yang tak relevan sebelum menjalankan pengenalan, luruskan atau potret ulang halaman yang miring, dan naikkan kontras jika teksnya samar — tangkapan layar teks biasanya mengalahkan foto layar karena tak ada perspektif dan silau.",
+          "Waspadai kebingungan karakter yang salah dipahami model pada kualitas rendah: 0 dan O, 1 dengan l dan I, rn dan m. Angka di tabel, kode, dan jumlah pantas satu putaran manual — satu digit yang salah di nomor rekening atau harga adalah kegagalan OCR klasik.",
+          "Perlakukan keluarannya sebagai draf, bukan transkrip: buktikan apa pun yang akan Anda tempel ke dokumen, dan simpan gambar aslinya. Kombinasi pengenalan mesin yang cepat ditambah pemeriksaan manusia singkat jauh lebih andal daripada salah satunya sendiri.",
+        ],
+      },
+      {
+        heading: "Privasi adalah alasan OCR lokal berarti",
+        paragraphs: [
+          "Dokumen yang di-OCR orang persis yang sensitif: kontrak, pindai identitas, slip gaji, struk dengan nomor kartu, catatan tulisan tangan. Layanan OCR berbasis unggahan menerima seluruh gambar — karenanya teks dan data pribadi apa pun di dalamnya — di infrastruktur orang lain.",
+          "Alat ini melakukan pengenalan sepenuhnya di browser Anda: gambar diproses di perangkat Anda dan teks hasil ekstraksi tetap di layar Anda. Tidak ada yang dikirim, jadi OCR pada dokumen rahasia tak membawa risiko unggahan sama sekali.",
+          "Akibat praktisnya: Anda bisa meng-OCR dokumen di bawah NDA, dokumen medis, atau catatan internal tanpa memeriksa kebijakan privasi siapa pun dulu, karena tak ada pihak eksternal yang terlibat dalam pemrosesan sama sekali.",
+        ],
+      },
+    ],
   },
   "round-corners-image": {
     name: "Membulatkan Sudut Gambar",
@@ -1088,6 +2073,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah pembulatan mengurangi kualitas gambar?",
         a: "Hanya sudutnya yang disentuh — piksel di dalamnya tetap utuh. Keluaran PNG lossless, sementara JPG dikodekan ulang pada kualitas tinggi, yang bisa sedikit menggeser ukuran file ke arah mana pun.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana sudut membulat sebenarnya bekerja",
+        paragraphs: [
+          "Gambar berbentuk persegi secara kodrat, jadi sudut membulat bukan sesuatu yang “dimiliki” gambar — ia adalah transparansi yang dipahat dari empat sudutnya. Pembulatannya dilakukan dengan kanal alpha: piksel di dalam seperempat-lingkaran tetap opak, piksel di luarnya menjadi sepenuhnya transparan, dan beberapa piksel di lengkung itu sendiri mendapat transparansi parsial untuk menghaluskan lengkungannya.",
+          "Itulah sebabnya keluarannya harus PNG (atau WebP dengan alpha): JPG tak bisa menyimpan transparansi, sehingga ia akan mengisi sudut yang dipahat itu dengan warna solid dan pembulatannya jadi palsu — tepi persegi putih atau hitam yang terlihat di latar mana pun yang tak cocok.",
+          "Radius menentukan karakternya: radius kecil terbaca sebagai sentuhan modern yang halus, radius setengah sisi terpendek mengubah seluruh gambar menjadi pil atau lingkaran. Menyamakan radius dengan nilai border-radius sistem desain menjaga tangkapan layar konsisten dengan UI di sekitarnya.",
+        ],
+      },
+      {
+        heading: "Di mana sudut membulat berarti dalam tata letak nyata",
+        paragraphs: [
+          "Sistem desain membulatkan hampir segalanya: kartu, tombol, avatar, ubin gambar. Tangkapan layar bersudut-tajam yang dijatuhkan ke kartu membulat tampak seperti artefak dari era lain; membulatkan tangkapan layar ke radius yang sama membuatnya terasa alami bagi tata letaknya.",
+          "Presentasi dan dokumentasi diuntungkan dengan cara serupa: tangkapan layar membulat terbaca sebagai desain yang disengaja, sementara yang persegi terbaca sebagai tempelan mentah. Beberapa piksel transparansi juga membiarkan latar halaman atau slide menembus, mengikat gambar itu ke sekitarnya.",
+          "Untuk media sosial dan pesan, sudut membulat meminjam kredibilitas dari UI aplikasi — gambar yang tampak berasal dari produk yang rapi dianggap lebih serius daripada tangkapan mentah bertepi tajam. Efeknya kecil tetapi konsisten.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal dan catatan alur kerja",
+        paragraphs: [
+          "Pembulatan berjalan sepenuhnya di browser Anda: gambar didekode, masker sudut diterapkan, dan PNG transparan dihasilkan di perangkat Anda. Tidak ada yang diunggah — relevan ketika tangkapan layar yang dibulatkan menampilkan alat internal, data klien, atau konteks pribadi.",
+          "Mode batch menangani kasus umumnya: satu set dokumentasi tempat setiap tangkapan layar butuh radius yang sama. Terapkan satu radius ke seluruh folder dan unduh hasilnya, alih-alih mengetik ulang nilainya per gambar.",
+          "Simpan asli persegi-nya. Piksel sudut dibuang secara permanen, jadi jika pilihan radius berubah kelak — pembaruan sistem desain, platform berbeda — satu-satunya jalan adalah membulatkan ulang dari sumber yang belum dipotong, bukan dari keluaran yang sudah dibulatkan.",
+        ],
       },
     ],
   },
@@ -1121,6 +2132,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Konversi terjadi secara lokal di browser Anda dengan JavaScript — tidak ada yang dikirim ke server mana pun.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Pemetaan kapitalisasi tidak sesederhana tampaknya",
+        paragraphs: [
+          "Huruf besar dan kecil adalah properti Unicode, dan beberapa bahasa memecahkan asumsi satu-ke-satu yang naif. Contoh paling terkenal adalah Turki: i tanpa-titik (ı) dikapitalkan menjadi I, dan I dikecilkan menjadi ı, bukan i — itulah sebabnya perangkat lunak pernah merilis bug yang dijuluki “masalah I Turki”. ß Jerman tak punya bentuk kapital tradisional; kebanyakan perangkat lunak memetakannya ke dua huruf SS, dan meskipun Unicode menambahkan kapital ẞ pada 2008, kamus dan teks isi masih menyukai SS.",
+          "Huruf beraksen seperti é, ñ, ü terkonversi dengan bersih karena mereka satu kode-poin, tetapi huruf yang ditulis sebagai e diikuti aksen penggabung terkonversi sebagai dua karakter, dan kapitalisasi aksennya tak berubah. Sigma akhir Yunani adalah kasus khusus lain: Σ di akhir kata dipetakan ke ς alih-alih σ dalam penanganan teks yang benar.",
+          "Alat ini mengonversi huruf demi huruf memakai aturan Unicode standar dan menjaga aksen tetap utuh, sehingga teks Eropa selamat dari bolak-balik kapital-besar dan kecil. Ia tidak mengimplementasikan aturan lokal Turki secara terpisah — pelokalisir sadar-bahasa yang akan melakukannya — tetapi ia tak akan pernah diam-diam menjatuhkan atau merusak karakter sebagaimana skrip naif hanya-ASCII melakukannya.",
+        ],
+      },
+      {
+        heading: "Title Case dan aturan kata-kecil",
+        paragraphs: [
+          "Gaya judul bahasa Inggris mengecilkan kata-fungsi pendek — artikel seperti a dan the, preposisi pendek seperti of, in dan to, dan konjungsi koordinatif seperti and dan but — kecuali mereka kata pertama atau terakhir judul. Daftar kata persisnya berbeda antar panduan gaya: batas AP lebih pendek, Chicago mengecilkan lebih banyak preposisi tanpa peduli panjang. Kebanyakan alat web menghardcode satu daftar; yang ini mengikuti konvensi editorial umum menjaga artikel dan preposisi pendek tetap kecil di tengah judul.",
+          "Aturannya memang terpusat pada Inggris. Dalam Spanyol dan Prancis, judul biasanya mempertahankan kapitalisasi kalimat normal, jadi menerapkan Title Case Inggris pada frasa Prancis menghasilkan sesuatu yang tampak salah di mata pembaca asli. Jerman mengkapitalkan kata benda sebagai gantinya. Sentence case adalah bawaan yang lebih aman untuk teks multibahasa, itulah sebabnya alat ini juga mengkapitalkan ulang setelah tanda baca lebar-penuh — sehingga kalimat Mandarin yang diikuti kalimat Inggris ditangani dengan benar.",
+          "Saat ragu soal gaya rumah, periksa panduan gaya yang Anda tuliskan dan perlakukan keluaran alat ini sebagai titik awal. Judul satu kata seperti “The Shining” menunjukkan aturan tepinya: the berada di awal, jadi ia tetap kapital meskipun akan kecil di tengah judul.",
+        ],
+      },
+      {
+        heading: "Gaya pemrogram dan apa yang tetap lokal",
+        paragraphs: [
+          "camelCase, PascalCase, snake_case, kebab-case, dan CONSTANT_CASE ada karena bahasa yang berbeda punya konvensi pengenal berbeda: JavaScript dan Java bertumpu pada camelCase, Python menyukai snake_case, nama atribut CSS dan HTML memakai kebab-case. Mengonversi di antara mereka bukan sekadar menghapus spasi — alat ini memecah batas camelCase seperti parseHTMLValue menjadi kata-kata terpisah lebih dulu, sehingga keluarannya tak menyatukan akronim ke kata berikutnya.",
+          "Tanda baca, angka, dan karakter CJK lolos melewati gaya kode tanpa diubah: tak ada versi kapital dari karakter Mandarin, dan kapitalisasi berselang hanya membalik huruf Latin, meninggalkan pola simbol di tempatnya. Itu membuat keluarannya dapat diprediksi ketika Anda menempel konten campuran seperti “item-2: done”.",
+          "Semuanya berjalan di browser Anda sebagai JavaScript polos. Teks Anda tak pernah meninggalkan halaman — tanpa panggilan server, tanpa trik clipboard, tanpa apa pun untuk bocor. Mengonversi draf milik sendiri, pengenal internal, atau nama klien sama amannya dengan menempel ke editor Anda sendiri.",
+        ],
+      },
+    ],
   },
   "word-counter": {
     name: "Penghitung Kata",
@@ -1149,6 +2186,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak ada batas keras — penghitung hanya dibatasi memori browser Anda, yang dengan nyaman menangani teks sepanjang buku.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana penghitungan kata sebenarnya bekerja",
+        paragraphs: [
+          "Setiap penghitung di web memecah teks Anda menjadi token dan menghitungnya, tetapi aturan tokenisasinya berbeda lebih dari yang Anda kira. Alat ini menghitung satu kata sebagai rangkaian karakter apa pun yang dipisahkan spasi atau pemenggalan baris — konvensi yang sama yang dipakai Microsoft Word, sehingga batas kata sekolah dan kantor cocok dengan yang Anda lihat di sini. Kata majemuk berhipfen seperti “state-of-the-art” dihitung satu kata; angka mandiri masing-masing dihitung satu kata bila dipisahkan spasi.",
+          "Karakter dihitung dua cara karena dua batas berbeda ada di dunia nyata: dengan spasi (kebanyakan platform sosial menghitung setiap ketukan tombol, termasuk spasi) dan tanpa spasi (formulir esai dan batas karakter CMS tertentu mengecualikan spasi). Kedua angka diperbarui langsung saat Anda mengetik, sehingga Anda bisa memantau batas mana pun yang sedang Anda kejar.",
+          "Teks CJK — Mandarin, Jepang, Korea — adalah tempat penghitung naif runtuh. Menghitung token terpisah-spasi pada paragraf Mandarin mengembalikan hampir nol, karena Mandarin tidak memakai spasi antar kata. Alat ini memisahkan karakter CJK dari putaran kata, menghitung tiap karakter CJK satu per satu (konvensi “jumlah karakter ≈ jumlah kata” yang standar untuk CJK), dan menjumlahkan keduanya, sehingga satu paragraf Mandarin 500 karakter dilaporkan ≈500 kata alih-alih 1.",
+        ],
+      },
+      {
+        heading: "Waktu baca, waktu bicara, dan tingkat pendidikan",
+        paragraphs: [
+          "Waktu baca memakai 220 kata per menit untuk teks aksara Latin dan 300 karakter per menit untuk CJK — dua kecepatan itu cukup berbeda sehingga dokumen campuran butuh keduanya. Waktu bicara berjalan lebih lambat (130 wpm Latin, 180 cpm CJK) karena pendengar tak bisa membaca ulang; pakailah sebelum merekam suara atau berlatih presentasi.",
+          "Tingkat pendidikan Flesch-Kincaid memperkirakan kelas sekolah AS yang dibutuhkan untuk membaca teks Anda, dari panjang kalimat dan jumlah suku kata per kata. Ia heuristik: jargon teknis dengan kata pendek bisa bernilai rendah yang menipu, dan kalimat Korea 300 karakter adalah satu “kata” bagi rumusnya. Perlakukan sebagai arah (lebih sederhana vs lebih sulit), bukan vonis.",
+          "Aliran kalimat memecah teks Anda menjadi empat rentang — 1–6 kata (tajam), 7–14 (standar), 15–24 (panjang), 25+ (sangat panjang) — dan menyoroti tiap kalimat menurut rentangnya. Panjang kalimat yang bervariasi lebih enak dibaca daripada seragam; jika tiap kalimat mendarat di rentang yang sama, coba pecah yang terpanjang atau gabung dua yang pendek.",
+        ],
+      },
+      {
+        heading: "Bagaimana ini dibandingkan penghitung lain",
+        paragraphs: [
+          "Pengolah kata (Word, Google Docs) adalah rujukan batas dokumen tetapi butuh aplikasi; penghitung browser lebih cepat untuk alur tempel-dan-periksa. Penghitung platform sosial (X, Instagram) membakar aturan khusus platformnya di dalam — alat ini justru menyimpan panel batas-platform khusus, sehingga satu masukan melayani semua platform.",
+          "Perbedaan strukturalnya adalah privasi: banyak penghitung daring mengirim teks Anda ke server untuk diproses. Semuanya di sini berjalan di JavaScript browser Anda — teks tak pernah meninggalkan perangkat Anda, yang berarti untuk draf yang belum terbit, salinan klien, atau apa pun di bawah NDA.",
+        ],
+      },
+    ],
   },
   "remove-duplicate-lines": {
     name: "Hapus Baris Duplikat",
@@ -1170,6 +2232,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bisakah 'Apple' dan 'apple' diperlakukan sebagai duplikat?",
         a: "Aktifkan 'Abaikan case' dan keduanya diperlakukan sebagai baris yang sama; varian pertama yang terlihat yang disimpan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang dihitung duplikat bergantung pada aturan pembandingannya",
+        paragraphs: [
+          "Deteksi duplikat adalah keputusan pembandingan, dan tiga keputusan mengubah hasilnya. Pencocokan persis: “data” dan “data” adalah duplikat, tetapi “data ” (spasi di ekor) dan “Data” (kapital) bukan. Pencocokan trim-dan-tak-peduli-kapital memperlakukan “Data ” dan “data” sebagai baris yang sama — biasanya yang Anda inginkan ketika masukan datang dari salin-tempel atau ekspor formulir, tempat spasi tak terlihat terus-menerus menyelinap.",
+          "Ada juga keputusan semantik: simpan kemunculan pertama atau terakhir? Untuk log dan ID, kemunculan-pertama mempertahankan urutan kedatangan asli. Untuk daftar harga tempat baris belakangan memperbarui barisan awalan, menyimpan yang terakhir adalah pilihan yang benar. Alat ini menyimpan kemunculan pertama dan mempertahankan urutan baris, yang cocok dengan ekspektasi deduplikasi kebanyakan orang.",
+          "Jebakan terkait adalah karakter tak terlihat: tab, spasi tanpa-pemenggalan, dan karakter lebar-nol membuat dua baris yang identik secara visual berbeda. Jika dedup berjalan bersih tetapi Anda masih melihat duplikat, jalankan pembersihan whitespace dulu — alat remove-extra-spaces di situs ini ada persis untuk langkah itu.",
+        ],
+      },
+      {
+        heading: "Mengapa deduplikasi sebelum mengurutkan dan menghitung",
+        paragraphs: [
+          "Deduplikasi biasanya langkah praproses, bukan tujuannya. Sebelum menghitung nilai unik, dedup — kalau tidak, penghitungannya menghitung pengulangan dua kali. Sebelum mengurutkan, dedup — mengurutkan daftar dengan ribuan baris identik memboroskan perhatian pembaca dan rujukan nomor-baris hilir apa pun. Sebelum membangun impor CSV atau daftar SQL IN, dedup — kunci duplikat di sana menimbulkan kesalahan atau pemrosesan-ganda yang diam-diam.",
+          "Urutan pembersihan data klasiknya adalah: normalisasi whitespace, lalu dedup, lalu urutkan, lalu transformasi. Melakukannya terbalik (urutkan dulu, dedup belakangan) tetap bekerja tetapi membuat diff terhadap versi sebelumnya berisik: setiap duplikat yang dibuang tampil sebagai penghapusan tersebar alih-alih satu blok yang rapi.",
+          "Untuk korpus teks — daftar kata kunci, penerima surel, inventaris tag — deduplikasi juga alat kebenaran: penerima yang duplikat dimail dua kali, tag yang duplikat menggeser analisis frekuensi. Satu klik di sini mengalahkan rantai formula spreadsheet.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal, urutan dipertahankan",
+        paragraphs: [
+          "Seluruh daftar diproses dalam JavaScript browser: dipecah pada pemenggalan baris, dibandingkan, dan baris unik dikeluarkan dalam urutan kemunculan-pertama. Tanpa unggah, tanpa bolak-balik, dan alatnya bekerja offline setelah halaman dimuat.",
+          "Masukan besar tak masalah — ratusan ribu baris diproses jauh di bawah satu detik pada mesin biasa, karena pembandingannya adalah pencarian hash-set per baris, bukan pemindaian berpasangan. Pembandingan berpasangan itulah yang membuat dedup naif lambat pada skala besar; alat ini tidak melakukannya.",
+          "Tidak ada yang disimpan: muat ulang halaman dan masukannya lenyap. Untuk daftar pelanggan, inventaris ID internal, atau dataset apa pun berisi data pribadi, itulah bentuk alat yang aman — data tak pernah menjadi entri log orang lain.",
+        ],
       },
     ],
   },
@@ -1200,6 +2288,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Unggahan X/Twitter, meta title (sekitar 60) dan description (sekitar 160), segmen SMS (160), dan kebanyakan platform iklan — selalu periksa kolom spesifik tempat Anda menulis.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Karakter versus gugus grafem",
+        paragraphs: [
+          "Kata “karakter” menyembunyikan jebakan: yang dipersepsi pengguna sebagai satu karakter tidak selalu satu unit kode. Emoji dengan warna kulit, bendera, dan kombinasi keluarga, huruf beraksen yang ditulis sebagai basis ditambah tanda penggabung, dan konjungsi Devanagari semuanya satu karakter di mata tetapi beberapa kode-poin dalam string.",
+          "Itulah sebabnya penghitung serius melaporkan dua angka: unit kode (yang dihitung properti length milik JavaScript, dan yang diukur sebagian besar batas platform secara historis) dan gugus grafem (yang dilihat manusia). Kesenjangannya nyata — emoji bendera adalah 1 gugus tetapi 4 unit kode UTF-16.",
+          "Untuk tujuan praktis: platform sosial kini umumnya menghitung lebih dekat ke gugus grafem, sementara formulir dan database yang lebih tua menghitung unit kode. Ketika sebuah batas duduk di batas itu, strategi amannya adalah menyisakan ruang sebesar jumlah emoji dalam teks Anda.",
+        ],
+      },
+      {
+        heading: "Membaca batas keras dengan benar",
+        paragraphs: [
+          "Batas karakter jarang bisa dinegosiasikan, tetapi ia terukur: segmen SMS pada 160 karakter (70 ketika karakter non-GSM mana pun muncul, yang menggandakan biaya per segmen), bio platform, sasaran deskripsi meta sekitar 150–160 karakter, judul meta sekitar 50–60. Mengetahui rezim mana yang berlaku untuk teks Anda mengalahkan menduga-duga.",
+          "Kasus SMS pantas perhatian khusus karena paling menghukum: satu huruf beraksen atau satu emoji membalikkan seluruh pesan ke pengodean berbeda dan kira-kira membagi dua karakter per segmen. Pesan yang muat satu segmen sebagai Inggris yang diketik bisa menjadi tiga segmen dengan satu emoji hati.",
+          "Penghitung juga membantu arah sebaliknya: ketika menulis untuk minimum — jawaban esai 300 karakter, lantai deskripsi produk — memantau hitungan langsung menghapus lelahnya menghitung dengan tangan dan risiko mengirim di bawah batas.",
+        ],
+      },
+      {
+        heading: "Penghitungan lokal untuk draf pribadi",
+        paragraphs: [
+          "Penghitungan terjadi sepenuhnya di browser Anda: teks dianalisis dalam JavaScript lokal dan tak pernah dikirim. Itu membuatnya cocok untuk manuskrip yang belum terbit, surel rahasia, surat lamaran, dan apa pun lain yang tak akan Anda tempel ke layanan web sembarangan.",
+          "Penghitung diperbarui pada tiap ketukan tombol alih-alih saat mengirim, sehingga alur kerjanya berkelanjutan: ketik, lirik angkanya, sesuaikan. Tidak ada tombol yang ditekan dan tidak ada bolak-balik yang ditunggu.",
+          "Satu kebiasaan yang layak diadopsi: hitung versi finalnya, bukan hanya drafnya. Suntingan, terutama tempelan dari sumber lain, diam-diam mengubah panjang, dan versi yang benar-benar Anda kirim itulah yang hitungannya berarti.",
+        ],
+      },
+    ],
   },
   "sentence-counter": {
     name: "Penghitung Kalimat",
@@ -1226,6 +2340,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Berapa kalimat yang seharusnya dimiliki satu paragraf?",
         a: "Panduan gaya umumnya menyarankan 2–5. Tidak ada aturan yang baku: gunakan hitungannya untuk menemukan dinding teks sebelum pembaca Anda melihatnya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana satu kalimat dideteksi",
+        paragraphs: [
+          "Kalimat adalah konsep kabur, dan penghitung tak sepakat di mana ia berakhir. Aturan naif — pecah pada tiap titik, tanda seru, dan tanda tanya — gagal pada “Dr. Smith tiba pukul 15.30.”: tiga titik, nol akhir kalimat. Detektor sejati butuh kesadaran singkatan (Dr., Mr., mis.), penanganan desimal, dan logika untuk elipsis serta tanda baca berlapis seperti “Sungguh?!”",
+          "Alat ini memakai lapisan heuristiknya: tanda baca pengakhiring-kalimat yang diikuti whitespace dan huruf kapital dihitung sebagai batas; singkatan dari daftar bawaan dilewati; tanda lebar-penuh (。！？) diperlakukan sebagai batas keras, yang dibutuhkan teks CJK karena ia tak punya spasi. Teks campuran Mandarin-Inggris karenanya terhitung benar di kedua aksaranya.",
+          "Penghitungan pada dasarnya mendekati untuk kasus tepi — dialog yang dikutip, fragmen butir tanpa tanda baca penutup. Perlakukan angkanya sebagai estimasi kuat, bukan aksioma; jika satu kalimat tertentu berarti (secara hukum atau kontraktual), hitung sendiri kalimat itu.",
+        ],
+      },
+      {
+        heading: "Membaca panjang dari hitungan kalimat",
+        paragraphs: [
+          "Panjang kalimat rata-rata adalah angka paling berguna yang dihasilkan penghitung ini. Di bawah 15 kata per kalimat terbaca tajam dan mudah; di atas 25 biasanya menandakan masalah pemahaman, dan editor menyasar kira-kira 15–20 untuk audiens umum. Hitungan per kalimat juga membongkar kalimat tak berujung: satu kalimat 60 kata hampir selalu masalah tanda baca, bukan pilihan gaya.",
+          "Hitungan kalimat dikonversi ke waktu baca dengan aturan kasar: sekitar 200–250 kata per menit untuk orang dewasa yang membaca prosa, jadi kata ÷ 225 memberi menit. Dikombinasikan dengan rata-rata kalimat, Anda bisa menilai apakah sebuah teks panjang tetapi terbaca, atau pendek tetapi padat.",
+          "Untuk penerjemah dan tim pelokalan, hitungan kalimat berarti karena kebanyakan harga terjemahan dan alat memori bekerja pada granularitas kalimat — mengetahui hitungannya sejak awal memperkirakan volume segmentasinya.",
+        ],
+      },
+      {
+        heading: "Lokal, tanpa batas",
+        paragraphs: [
+          "Analisis berjalan dalam JavaScript browser saat Anda mengetik. Tanpa akun, tanpa unggah, tanpa batas ukuran dokumen — tempel satu bab utuh dan hitungannya diperbarui langsung.",
+          "Tidak ada yang disimpan: muat ulang dan semuanya tereset. Untuk manuskrip yang belum terbit, draf klien, atau materi ujian, model sisi-klien itulah bentuknya yang aman-privasi.",
+          "Padukan dengan penghitung kata untuk rasio kata-per-kalimat, dan dengan pengubah kapitalisasi saat menyiapkan judul. Keduanya bersama menutupi sebagian besar pemeriksaan prapenerbitan editorial tanpa layanan eksternal apa pun.",
+        ],
       },
     ],
   },
@@ -1256,6 +2396,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya. Alat ini hanya menyentuh whitespace horizontal dan baris kosong; struktur baris teks Anda tetap utuh.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa spasi tak terlihat adalah bug teks paling umum",
+        paragraphs: [
+          "Spasi ekstra jarang mengumumkan dirinya. Spasi ganda setelah titik, spasi di ekor baris, tab yang menyamar sebagai indentasi — semuanya tak terlihat di editor, semuanya nyata dalam data. Mereka memutuskan perbandingan berbasis-baris (dua baris yang “identik” berbeda satu spasi ekor), memutuskan hitungan token (spasi ganda bisa menambah kata hantu), dan menghasilkan kegagalan pencocokan string klasik tempat dua nilai tampak sama dan dibandingkan tak sama.",
+          "Sumber utamanya mekanis: salin-tempel dari PDF (yang menyisipkan pemenggalan baris dan spasi bantalan), keluaran OCR, kolom formulir dengan validasi longgar, dan editor yang mengindentasi otomatis dengan campuran tab dan spasi. Tak satu pun muncul dalam tinjauan visual, itulah sebabnya pembersihan adalah pekerjaan alat, bukan pekerjaan pembuktian.",
+          "Spasi tanpa-pemenggalan pantas disebut khusus: editor HTML dan pengolah kata gemar menyisipkan U+00A0 alih-alih spasi normal, dan ia selamat dari operasi trim secara tak terlihat. Teks yang dibersihkan untuk impor CSV atau pencarian database seharusnya menormalkan ini juga, kalau tidak pencariannya terus-menerus misterius meleset.",
+        ],
+      },
+      {
+        heading: "Apa yang dilakukan tiap aturan pembersihan",
+        paragraphs: [
+          "Melipatkan spasi ganda mengubah rangkaian dua spasi atau lebih menjadi satu — aman untuk prosa dan daftar, dan pembersihan paling sering diminta setelah menempel dari PDF. Memangkas tepi baris membuang whitespace awal dan akir per baris, itulah yang membuat diff dan deteksi duplikat berperilaku terduga setelahnya.",
+          "Membuang baris kosong menangani pola jeda: satu baris kosong antar paragraf terbaca baik, tetapi lima baris kosong dari rantai surel yang ditempel terbaca rusak. Menghapus semua pemenggalan baris sepenuhnya menyatukan teks menjadi satu paragraf — berguna untuk deskripsi meta dan kolom formulir satu-baris, merusak untuk apa pun yang berstruktur baris.",
+          "Konversi tab-ke-spasi berarti untuk kode dan file konfigurasi: campuran tab dan spasi menghasilkan file yang perataannya berbeda per editor. Pilihlah aturan yang cocok dengan sasaran Anda — alat ini menerapkannya bersamaan, sehingga tempelan dari PDF biasanya menginginkan lipat + pangkas + buang baris kosong dalam satu kali jalan.",
+        ],
+      },
+      {
+        heading: "Seketika, lokal, presisi-byte",
+        paragraphs: [
+          "Pembersihan berjalan karakter demi karakter di browser Anda. Tidak ada yang diunggah — untuk konten di bawah NDA, draf yang belum terbit, atau sampel data pengguna, itulah seluruh poin alat sisi-klien.",
+          "Transformasinya deterministik dan efektifnya dapat dibalik: simpan aslinya di satu tab, bersihkan di tab lain, lalu bandingkan. Karena tiap aturan mekanis, masukan yang sama selalu menghasilkan keluaran yang sama — tanpa model, tanpa keacakan, tanpa kejutan.",
+          "Sepasang praktis dengan alat saudaranya: bersihkan spasi dulu, lalu jalankan remove-duplicate-lines, lalu text-diff terhadap aslinya untuk melihat persis apa yang berubah. Putaran tiga-langkah itu mengubah konten tempelan yang kacau menjadi teks yang bisa ditinjau dan di-diff dalam hitungan detik.",
+        ],
+      },
+    ],
   },
   "text-sorter": {
     name: "Pengurut Teks",
@@ -1282,6 +2448,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah daftar aslinya diubah?",
         a: "Tidak — input tetap tak tersentuh dan hasil terurut muncul di kotak output, jadi Anda selalu bisa kembali.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengurutkan teks bukan mengurutkan angka",
+        paragraphs: [
+          "Pengurutan angka dan pengurutan leksikografis tak sepakat dari dasar: secara leksikografis, “10” mendahului “9” karena “1” mendahului “9” karakter demi karakter. Mengurutkan daftar harga, versi, atau nomor bab secara alfabetis menghasilkan urutan klasik 1, 10, 11, 2, 3 yang tak diinginkan siapa pun. Pengurutan sadar-angka memperbaikinya dengan membandingkan nilai utuh, bukan rangkaian karakter.",
+          "Kapitalisasi adalah cabang lainnya: urutan ASCII menempatkan semua kapital di depan semua huruf kecil, sehingga “Zebra” mendahului “apple”. Perbandingan tak-peduli-kapital adalah yang diharapkan kebanyakan orang dari daftar kata. Arah (naik/turun) dan keunikan (simpan duplikat atau lipatkan) melengkapi set opsinya.",
+          "Artikel pendahulu adalah pilihan editorial sungguhan: judul buku yang dimulai dengan “The” biasanya dirapikan di bawah kata keduanya. Alat pengurut yang menawarkan opsi itu mengalahkan yang memaksa Anda menyunting setiap baris dengan tangan lebih dulu.",
+        ],
+      },
+      {
+        heading: "Perbandingan sadar-lokal: mengapa é dan å punya pendapat",
+        paragraphs: [
+          "Pengurutan kode-poin polos memperlakukan huruf beraksen sebagai orang asing: “å” Swedia terurut seolah “a” diikuti sampah, “ä” Jerman mendarat jauh dari “a”, dan Spanyol secara tradisional memperlakukan “ch” dan “ll” sebagai huruf alfabet sendiri. Kolasi sadar-lokal (algoritma kolasi Unicode, yang diimplementasikan di setiap runtime modern) memperbaikinya: dalam Swedia, å terurut setelah z; dalam urutan buku-telepon Jerman, ä duduk di samping a.",
+          "Ini berarti ketika daftarnya nama sungguhan — daftar pelanggan, nama kota, indeks penulis. Mengurutkan direktori Spanyol atau Swedia dengan kode-poin mentah menghasilkan urutan yang langsung dikenali penduduk lokal sebagai salah. Alat ini menerapkan aturan sadar-lokal agar nama terurut seperti yang diharapkan penutur aslinya.",
+          "CJK punya konvensi sendiri: Mandarin terurut menurut pinyin di kebanyakan konteks modern dan menurut jumlah goresan di kamus. Urutan kana Jepang mengikuti rangkaian gojūon. Kolasi sempurna untuk setiap bahasa adalah lubang kelinci, tetapi membuat diakritik Latin benar menutupi kebanyakan daftar sehari-hari.",
+        ],
+      },
+      {
+        heading: "Sisi-klien sejak desainnya",
+        paragraphs: [
+          "Pengurutan terjadi sepenuhnya di browser Anda saat baris-baris dipecah, dibandingkan, dan ditata ulang. Tidak ada unggahan — untuk daftar pelanggan, data HR, atau daftar nama yang belum dipublikasi, halaman pengurut yang tak mengirim apa pun adalah satu-satunya jenis yang dapat diterima.",
+          "Kinerja bukan masalah pada skala realistis: seratus ribu baris terurut dalam sekejap, karena pembandingan dasarnya kode natif yang dioptimalkan. Kestabilan dipertahankan: baris yang terbanding sama mempertahankan urutan aslinya alih-alih terkocok, yang berarti saat file-nya adalah log tempat baris belakangan membawa keadaan lebih baru.",
+          "Tidak ada yang bertahan antara muat ulang. Urutkan, salin hasilnya, lanjutkan — masukannya tak pernah menjadi artefak tersimpan di mana pun.",
+        ],
       },
     ],
   },
@@ -1312,6 +2504,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak ada alat yang bisa tahu maksud Anda dengan pasti. Kotak output selalu menampilkan hasilnya lebih dulu, jadi tinjau sebelum mengganti aslinya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Satu kali jalan untuk seluruh pipa pembersihan",
+        paragraphs: [
+          "Kekacauan teks kebanyakan datang berpaket: konten yang ditempel dari PDF membawa spasi ganda, pemenggalan baris liar, dan kata berhipfen yang terbelah antar baris; teks web yang disalin menyeret spasi tanpa-pemenggalan tak terlihat dan karakter lebar-nol; spreadsheet mengekspor dengan tab di ekor. Membersihkannya satu aturan demi satu aturan berarti lima putaran dan langkah yang terlupakan — pembersih gabungan menerapkan seluruh pipa sekaligus.",
+          "Urutan kanoniknya berarti: normalisasikan Unicode (lipatkan spasi tanpa-pemenggalan menjadi normal, cabut karakter lebar-nol dan kontrol) lebih dulu, karena aturan-aturan belakangan membandingkan karakter; lalu lipatkan whitespace, lalu pangkas tepi baris, lalu perbaiki pemenggalan baris. Menjalankan deduplikasi atau perbandingan sebelum normalisasi menghasilkan hasil yang salah — dua baris yang identik secara visual tetap “berbeda” karena satu karakter tak terlihat selamat.",
+          "Keluarannya seharusnya membosankan: tanpa perubahan yang tak bisa Anda jelaskan. Tiap aturan dalam pembersih mekanis dan bisa dipratinjau, persis yang membedakan pembersih dari “penulis ulang” AI — masukan yang sama selalu menghasilkan keluaran yang sama, dan Anda bisa memverifikasi tiap transformasinya.",
+        ],
+      },
+      {
+        heading: "Apa yang dibuang dan mengapa",
+        paragraphs: [
+          "Unicode tak terlihat adalah kategori teratasnya: spasi lebar-nol (U+200B) dan penggabungnya, penanda arah, karakter kontrol. Semua itu tak terlihat di editor mana pun tetapi memutuskan perbandingan string, membengkakkan teks SEO dengan byte tak berarti, dan bahkan bisa dipakai menyembunyikan watermark atau payload jahat dalam konten yang ditempel. Mencabutnya aman untuk hampir semua prosa.",
+          "Normalisasi whitespace menutupi spasi ganda, tab yang menyamar sebagai spasi, spasi di ekor, dan baris kosong yatim. Ini perbaikan untuk teks yang “tampak baik tetapi diff menampilkan seratus perubahan” — kebanyakan diff itu murni whitespace.",
+          "Perbaikan pemenggalan baris menangani artefak tempelan PDF: pemenggalan keras tiap 40 karakter yang membuat teks tak bisa dicari dan tak bisa mengalir ulang. Menyatukan baris yang terbelah (dengan hati-hati — pemenggalan paragraf harus selamat) mengembalikan teks PDF hasil ekstraksi menjadi prosa yang mengalir.",
+        ],
+      },
+      {
+        heading: "Deterministik, lokal, terverifikasi",
+        paragraphs: [
+          "Semua aturan berjalan dalam JavaScript browser pada teks di kotak — tanpa unggah, bekerja offline, dan tidak ada yang disimpan. Untuk draf kontrak, salinan klien, dan konten yang belum terbit, pembersih sisi-klien adalah pilihan yang benar-privasi.",
+          "Determinisme adalah jaminan desainnya: masukan sama, keluaran sama, setiap saat. Itu membuat alat ini aman di dalam alur kerja yang dapat diulang — bersihkan, dedup, diff — tempat penulis-ulang generatif akan menyuntikkan perubahan yang tak bisa ditinjau.",
+          "Rantai pasangan alaminya di situs ini: text-cleaner dulu, remove-duplicate-lines kedua, text-diff terhadap aslinya untuk memastikan tak ada yang berarti berubah. Tiga langkah, semuanya lokal, semuanya seketika.",
+        ],
+      },
+    ],
   },
   "reverse-text": {
     name: "Balik Teks",
@@ -1338,6 +2556,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bisakah ini dipakai untuk memeriksa palindrom?",
         a: "Secara tidak langsung — tempel teksnya, balik, lalu bandingkan dengan mata, atau pasangkan dengan alat text diff.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Membalik karakter bukan membalik teks",
+        paragraphs: [
+          "Ada dua jenis pembalikan, dan mencampurnya menghasilkan bug yang terkenal. Pembalikan karakter membalik string byte demi karakter: “abc” menjadi “cba”. Pembalikan kata menjaga tiap kata utuh dan membalik urutannya: “hello world” menjadi “world hello”. Meminta yang satu dan mendapat yang lain adalah keluhan paling umum tentang alat pembalik, jadi alat ini menjaga keduanya terpisah.",
+          "Pembalikan karakter punya jebakan Unicode: teks yang disimpan dalam UTF-16 — yang dipakai JavaScript — merepresentasikan emoji dan sebagian aksara langka sebagai pasangan surrogate, dua unit kode yang harus tetap bersama. Pembalikan naif membelah pasangan itu dan menghasilkan sampah: emoji keluarga 👨‍👩‍👧 terbalik menjadi kotak rusak atau glif tanpa makna. Pembalikan yang benar berjalan pada gugus grafem, bukan unit kode.",
+          "Rangkaian penggabung juga berarti: “e” ditambah aksen penggabung yang dibalik menjadi aksen-dulu, yang dirender salah di kebanyakan font. Pembalikan sadar-grafem menjaga aksen tetap menempel pada hurufnya.",
+        ],
+      },
+      {
+        heading: "Di mana teks terbalik benar-benar berguna",
+        paragraphs: [
+          "Palindrom adalah penggunaan klasiknya: memeriksa apakah sebuah kata terbaca sama ke dua arah — “racecar”, “level” — secara harfiah adalah balikkan-lalu-bandingkan. Pembalikan urutan kata punya kegunaan editorial praktis: membalik daftar nama “belakang depan” menjadi “depan belakang”, membalik daftar berbutir, membatalkan kolom yang ditempel terbalik-ke-atas dari spreadsheet.",
+          "Pembalikan tingkat-karakter muncul dalam desain teka-teki dan permainan (tulisan cermin, pesan tersembunyi yang terbaca benar di cermin), dalam pengujian (memberi string terbalik ke validator untuk memeriksa apakah mereka menolaknya), dan dalam menghindari filter pencocokan-string naif — yang juga menjadikan reverse-text trik pen-test klasik yang layak diketahui.",
+          "Pembalikan baris — membalik urutan baris utuh — adalah kuda bekerja yang senyap untuk file log: terbaru-dulu dan terlama-dulu hanya berjarak satu pembalikan, dan ekspor spreadsheet yang keluar terbalik-ke-atas diperbaiki dalam satu klik.",
+        ],
+      },
+      {
+        heading: "Berjalan sepenuhnya di halaman",
+        paragraphs: [
+          "Pembalikan adalah operasi string murni yang dilakukan JavaScript browser saat Anda mengetik — tanpa server, tanpa penyimpanan, bekerja offline. Untuk teks panjang operasinya tetap seketika, karena pembalikan linear terhadap panjang.",
+          "Alat ini menangani kasus tepi Unicode di atas dengan benar: gugus grafem tetap utuh, emoji selamat, tanda penggabung mempertahankan huruf dasarnya. Yang Anda tempel kembali adalah teks yang sah, bukan rangkaian karakter pengganti.",
+          "Tidak ada yang diingat antar sesi: muat ulang dan kotaknya kosong. Jika Anda membalik sesuatu yang sensitif — string menyerupai kata sandi, pengenal internal — itulah perilaku yang Anda inginkan.",
+        ],
       },
     ],
   },
@@ -1368,6 +2612,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Satu batch dibatasi 50 paragraf agar halamannya tetap cepat; tekan tombolnya lagi kapan pun Anda butuh batch baru.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dua ribu tahun Cicero yang diacak",
+        paragraphs: [
+          "Teks pengisinya bukan Latin buatan — itu Latin yang dirusakkan. Kata-katanya berasal dari “De finibus bonorum et malorum” (Tentang Batas Baik dan Buruk), risalah filsafat yang ditulis Cicero pada 45 SM, bagian 1.10.32–33. Bagian itu membahas rasa sakit dan kenikmatan; di suatu tempat pada era tata letak cetak, seseorang mengacak dan memotongnya menjadi “Lorem ipsum dolor sit amet, consectetur adipiscing elit…” — kata-kata yang tak lagi membentuk kalimat Latin yang koheren.",
+          "Sejarah populer mengkreditkan lembar transfer-kering Letraset tahun 1960-an, tempat desainer menggosok teks judul yang sudah diset ke karya seni, dengan menyebarkan bagian itu; perangkat lunak tata letak halaman Aldus membawanya ke penerbitan digital pada 1980-an. Ia selamat karena sudah ada di mana-mana — padanan placeholder dari ulir sekrup standar.",
+          "Satu detail yang paling sering terlewat: panjang kata dan distribusi huruf teks itu kira-kira alami-Latin, yang persis yang Anda inginkan dari pengisi — tata letak yang bertahan dengan teks palsu biasanya bertahan dengan salinan nyata yang sepanjang itu. “Ini teks di sini” tidak punya properti itu.",
+        ],
+      },
+      {
+        heading: "Mengapa pengisi mengalahkan teks yang tampak nyata",
+        paragraphs: [
+          "Teks sungguhan — kutipan berita, paragraf teman — mengundang peninjau untuk membaca, dan membaca mengundang kritik konten: “saya tak akan merumuskannya begitu.” Latin tak-bermakna punya properti yang persis berlawanan: ia tampak seperti bahasa, menempati seperti bahasa, tetapi tak membawa makna untuk diperdebatkan. Peninjau menilai tata letak, tipografi, dan ritme alih-alih salinannya.",
+          "Kendali panjang lebih berarti daripada yang dikira kebanyakan orang. Satu halaman yang disetujui dengan 200 kata pengisi akan meluber begitu salinan nyata mencapai 300; menghasilkan blok pada ukuran yang benar-benar Anda harapkan — teaser kartu dua baris, paragraf lima kalimat — menguji tata letak terhadap variasi yang realistis, bukan satu blok yang kebetulan.",
+          "Konvensi ini juga punya fungsi komunikasi: semua orang di desain dan penerbitan mengenali lorem ipsum sekilas, jadi mock yang penuhnya terbaca sebagai “tata letak menyusul” tanpa satu anotasi pun.",
+        ],
+      },
+      {
+        heading: "Dihasilkan seketika, dikirim ke mana-mana tidak",
+        paragraphs: [
+          "Generator ini membangun paragraf-paragrafnya dari daftar kata lorem-ipsum yang dibundel, dirandomkan segar setiap Anda mengeklik — kata-katanya menelusuri kembali ke Cicero, tetapi rangkaiannya dihasilkan lokal, bukan diambil dari API lorem-ipsum. Tidak ada yang meninggalkan browser, dan alatnya bekerja offline.",
+          "Variasi disengaja: klik berulang menghasilkan teks berbeda, sehingga dua mockup bersebelahan tidak membawa pengisi yang identik — kemenangan realisme kecil saat membandingkan tata letak. Versi dimulai-dengan-“Lorem ipsum” tersedia saat Anda menginginkan pembuka kanoniknya.",
+          "Tips praktis untuk serah-terima: saat Anda menyerahkan desain, beri tahu klien secara tertulis bahwa teksnya placeholder. Satu kecelakaan lorem-ipsum yang berulang adalah pengisi yang tak sengaja terkirim ke produksi — sebuah agensi terjemahan pernah terkenal mencetaknya di brosur klien.",
+        ],
+      },
+    ],
   },
   "text-diff": {
     name: "Text Diff",
@@ -1394,6 +2664,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ada batas ukuran?",
         a: "Hanya memori browser Anda — perbandingan sepanjang buku berjalan baik, meski teks yang sangat besar butuh sesaat untuk dirender.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana diff sebenarnya menemukan perubahan",
+        paragraphs: [
+          "Diff bukan pemindaian karakter-demi-karakter. Di bawah hampir setiap alat diff ada algoritma Longest Common Subsequence (LCS): temukan rangkaian terpanjang baris (atau karakter) yang muncul di kedua teks secara berurutan, dan segala di luar rangkaian itu adalah penyisipan atau penghapusan. Itulah sebabnya diff yang baik menyelaraskan bagian tengah yang tak tersentuh dari dua dokumen dan hanya menandai apa yang berubah di sekitarnya.",
+          "Granularitas adalah pilihan yang terlihat pengguna. Diff tingkat-baris menandai baris utuh sebagai ditambahkan atau dihapus — mode review kode, git, dan coretan legal, karena baris adalah unit yang dibicarakan orang. Diff tingkat-karakter (atau tingkat-kata) menyelaraskan di dalam baris yang berubah dan menunjukkan bahwa hanya tiga kata yang pindah — mode untuk penyuntingan prosa, tempat menulis ulang seluruh paragraf yang aslinya identik sebagai “semua dihapus, semua ditambah” tak terbaca.",
+          "Ketika penyisipan dan penghapusan terjadi di tempat yang sama, alat memasangkannya sebagai modifikasi. Alternatif yang setara ada — memasangkan secara berbeda menghasilkan teks akhir yang sama — dan konvensinya adalah meminimalkan gejolak agar manusia membaca lebih sedikit blok.",
+        ],
+      },
+      {
+        heading: "Membaca diff tanpa tertipu",
+        paragraphs: [
+          "Salah baca yang umum: diff yang besar tidak berarti perubahan yang besar. Satu baris yang disisipkan bisa mendorong penyelarasan LCS dan membuat paragraf-paragraf belakangan tampak dihapus lalu ditambah kembali, padahal tak ada yang berubah di dalamnya. Perbedaan whitespace memperbesar ini — satu spasi ekor mengubah baris menjadi “berubah”. Itulah sebabnya menormalkan whitespace sebelum diff (putaran text-cleaner) menghasilkan hasil yang jauh lebih bersih.",
+          "Mode tingkat-kata adalah penawarnya untuk prosa: alih-alih “sebuah paragraf berubah”, Anda melihat “grew → expanded”. Untuk kontrak dan kode, tetap di tingkat baris — kecocokan sebagian-baris di sana menciptakan keyakinan palsu bahwa satu klausul legal “pada dasarnya sama”.",
+          "Salah baca kedua adalah arah: teks mana yang “sebelum” dan mana yang “sesudah”. Alat melabeli kedua panel, tetapi disiplin berarti dalam alur kerja tinjauan — diff yang dibaca terbalik mengubah penambahan menjadi penghapusan dan mengubah makna persetujuan.",
+        ],
+      },
+      {
+        heading: "Perbandingan murni sisi-klien",
+        paragraphs: [
+          "Perbandingan berjalan sepenuhnya di browser Anda: LCS pada kedua teks, dirender sebagai blok tersorot. Tanpa unggah, tanpa bolak-balik server, bekerja offline — arsitektur yang benar ketika teks-teks itu kontrak, dokumen pribadi, atau kode sumber yang belum terbit.",
+          "LCS adalah O(n × m) dalam kasus terburuk, itulah sebabnya sebagian alat menolak file besar; implementasi dengan pemangkasan awalan-umum dan hashing menangani dokumen ratusan ribu baris dengan nyaman. Untuk perbandingan yang benar-benar raksasa, memecah menjadi bagian-bagian adalah pendekatan praktisnya.",
+          "Tidak ada yang bertahan: muat ulang halaman dan kedua panel kosong. Itu menjadikan ini alat yang aman untuk penggunaan sensitif klasik — membandingkan dua versi draf legal, file konfigurasi, atau daftar kredensial hasil ekspor, tanpa teksnya pernah meninggalkan perangkat.",
+        ],
       },
     ],
   },
@@ -1424,6 +2720,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Banyak panduan SEO menyarankan membuangnya agar slug tetap pendek — sunting slug hasilannya sebebasnya sebelum menyalin; alat ini memberi Anda basis berhyphen penuh.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Untuk apa slug itu",
+        paragraphs: [
+          "Slug adalah versi URL-aman dari sebuah judul: “10 Tips for Great Coffee” menjadi 10-tips-for-great-coffee. Slug berarti karena tiga alasan: mereka membuat URL terbaca manusia sebelum mengeklik, mereka membawa kata kunci yang dipakai mesin pencari sebagai sinyal peringkat, dan mereka menjaga URL tetap stabil dan bisa dibagikan — tanpa spasi, tanpa sampah pengodean-persen seperti %20 di mana-mana.",
+          "Mekanismenya: kecilkan semuanya, ganti spasi dengan pemisah (tanda hubung adalah konvensi web), cabut karakter yang ilegal atau ambigu di URL, dan lipatkan pengulangannya. Generator yang baik melakukan semua itu sekaligus alih-alih membiarkan Anda memperbaiki tangan rangkaian “%C3%A9” dalam satu tautan bagikan.",
+          "Slug juga melayani pekerjaan non-URL: nama file untuk aset hasil ekspor, nama cabang git, ID komponen. Aturan yang sama berlaku di mana-mana — set karakter yang selamat dari penyalinan, pengodean, dan terminal tanpa berubah menjadi escape.",
+        ],
+      },
+      {
+        heading: "Aksen, transliterasi, dan masalah CJK",
+        paragraphs: [
+          "Latin beraksen adalah titik keputusan pertama. Ada dua sekolah: transliterasi (café → cafe) atau cabut aksennya (café → caf). Transliterasi mempertahankan keterbacaan dan itulah yang dilakukan alat ini untuk diakritik Latin umum — á menjadi a, ü menjadi u — memakai aturan pelipatan Unicode standar.",
+          "Teks CJK memaksa pilihan yang lebih sulit: tak ada huruf Latin untuk melipatkan 一杯好咖啡 ke dalamnya. Opsinya adalah pinyin untuk Mandarin, romanisasi untuk Jepang, atau mempertahankan karakternya apa adanya. Browser modern menangani URL UTF-8 dengan baik, jadi menyimpan karakter CJK dalam slug sah secara teknis dan umum di platform Mandarin; berbagi internasional, bagaimanapun, menyukai pinyin atau romanisasi karena itu selamat dari SMS, terminal, dan sistem lama tanpa derau pengodean.",
+          "Angka dan kata henti adalah keputusan selera: menyimpan “the” dan “of” membuat slug lebih panjang dan lebih terbaca; memangkasnya membuat yang lebih pendek. Saran SEO berganti-gagi selama bertahun-tahun; konsensus yang stabil adalah slug yang cocok dengan judulnya lebih penting daripada slug yang pendek.",
+        ],
+      },
+      {
+        heading: "Dihasilkan langsung, tetap lokal",
+        paragraphs: [
+          "Konversi berjalan pada tiap ketukan tombol di browser Anda. Tanpa panggilan API, tanpa batas laju, bekerja offline — berbeda dari layanan slug yang butuh satu bolak-balik per judul.",
+          "Keluaran deterministik berarti bagi sistem konten: judul yang sama selalu menghasilkan slug yang sama, sehingga tautan yang dibangun hari ini tak putus ketika artikelnya diregenerasi. Tidak ada akhiran acak kecuali Anda menambahkannya sendiri (satu ekor acak pendek adalah cara standar menjamin keunikan di antara ribuan artikel).",
+          "Pemeriksaan keunikan sengaja tidak dilakukan di sini — itu membutuhkan mengenal inventaris URL penuh Anda, yang hidup di CMS Anda. Alat ini menjamin kebenaran format; penghindaran tabrakan tetap di lapisan perutean Anda, tempatnya seharusnya.",
+        ],
+      },
+    ],
   },
   "find-and-replace": {
     name: "Cari dan Ganti",
@@ -1450,6 +2772,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah tanda $ di pengganti saya diperlakukan literal?",
         a: "Di mode polos ya — '$100' tetap '$100'. Di mode regex, pola $ itu spesial ($1 berarti grup 1); escape sebagai \\$ jika butuh tanda $ literal.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Pencocokan literal versus ekspresi reguler",
+        paragraphs: [
+          "Ada dua mode pencocokan yang fundamental berbeda. Mode literal memperlakukan string pencarian Anda sebagai teks polos: mencari “3.5” menemukan persis “3.5” dan tak pernah “335” atau “365”. Mode ekspresi-reguler memperlakukan polanya sebagai tata bahasa: titik berarti “karakter apa pun”, jadi pola yang sama mencocokkan 3.5, 3x5, dan 395. Memilih mode yang salah adalah penyebab tunggal paling umum dari “replace-nya melakukan sesuatu yang aneh”.",
+          "Ekspresi reguler memperoleh kompleksitasnya ketika Anda butuh struktur alih-alih string: mencocokkan tahun empat-digit apa pun dengan \\d{4}, menangkap sebuah nama dan memakainya ulang dalam penggantian dengan tanda kurung dan back-reference, atau menyasar satu nilai hanya ketika mengikuti label tertentu memakai lookaround. Jika Anda hanya perlu menukar satu string tetap, mode literal lebih cepat dipikirkan dan tak mungkin overmatch.",
+          "Alur kerja aman untuk penggantian apa pun yang tak sepele: jalankan pencariannya dulu dengan penggantian dimatikan dan baca setiap kena, lalu aktifkan replace. Jika hitungan kecocokannya mengejutkan Anda, polanya lebih luas daripada yang Anda pikir — keraskan sebelum mengganti, bukan sesudahnya.",
+        ],
+      },
+      {
+        heading: "Jebakan penggantian klasik",
+        paragraphs: [
+          "Sensitivitas kapital diam-diam membagi dua atau menggandakan hitungan kecocokan Anda: “Apple” dan “apple” adalah string berbeda dalam mode sensitif-kapital, yang biasanya Anda inginkan untuk kode dan tidak Anda inginkan untuk prosa. Pencocokan seluruh-kata ada untuk menghentikan “cat” mencocokkan di dalam “category” — tanpanya, replace naif bisa menghasilkan “categoryegory”.",
+          "String penggantian punya jebakannya sendiri: dalam mode regex, $ atau backslash dalam teks penggantian Anda bisa ditafsirkan sebagai rujukan grup atau escape. Menulis jumlah dolar literal ke dalam penggantian regex butuh dolar yang di-escape, kalau tidak ia bisa menarik grup tangkapan yang tak Anda maksud.",
+          "Teks multi-baris menambah pertanyaan newline: pola yang tampak baik pada satu baris bisa over-match melintasi baris karena titik bisa mengonsumsi pemenggalan baris tergantung flag-nya. Menganchorkan pola ke batas kata atau struktur baris eksplisit adalah perbaikan yang andal.",
+        ],
+      },
+      {
+        heading: "Semuanya terjadi di halaman",
+        paragraphs: [
+          "Pencocokan dan penggantian berjalan sepenuhnya dalam JavaScript browser atas teks yang sedang ada di kotak. Tidak ada unggah, tidak ada layanan pratinjau, tidak ada indeks sisi-server atas konten Anda — draf kontrak, file log, atau catatan pribadi diproses oleh mesin yang sama yang menampilkannya.",
+          "Itu menjadikan alat ini pilihan yang wajar untuk teks yang tak akan Anda tempel ke aplikasi web sembarangan: dokumentasi internal, data pelanggan untuk pembersihan cepat, kode sumber yang hendak Anda commit. Tutup tabnya dan tak ada yang tersisa.",
+          "Untuk file sangat besar, alat browser akhirnya menabrak batas memori — log setengah megabita nyaman, dump satu gigabita tidak. Pada skala itu sed baris-perintah tetap alat yang tepat; untuk semuanya di bawah beberapa megabita, halaman ini lebih cepat dibuka daripada terminal.",
+        ],
       },
     ],
   },
@@ -1480,6 +2828,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Dibiarkan persis seperti diketik. Generator hanya memetakan huruf dan angka Latin, jadi emoji, CJK, dan huruf beraksen diteruskan tanpa perubahan alih-alih berubah menjadi kotak kosong.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ini bukan font — mereka karakter kembaran",
+        paragraphs: [
+          "Gaya tebal, miring, dan script yang dihasilkan alat ini bukan perubahan font. Ia memetakan huruf-huruf Anda ke kode-poin Unicode khusus di blok Mathematical Alphanumeric Symbols (kira-kira U+1D400–U+1D7FF), ditambahkan untuk notasi matematis agar A tebal dalam satu formula bisa dibedakan dari A polos. Teks Anda tetap sama ukurannya dan font tak pernah berubah — Anda beralih ke karakter berbeda yang sekadar menyerupai huruf bergaya.",
+          "Pemetaan itu menjelaskan sihir dan batasnya sekaligus. Ia bekerja di kolom teks mana pun — bio Instagram, nickname obrolan, judul YouTube — karena tak ada instalasi font yang terlibat. Tetapi alfabetnya tak lengkap: tak ada digit tebal yang berpasangan dengan tiap gaya, tak ada ı tanpa-titik dalam set miring (ia dipetakan ke i bertitik yang memusuhi Turki), dan glif yang hilang jatuh kembali ke huruf polos, menghasilkan string setengah-fancy yang dikeluhkan orang.",
+          "Matematikawan memakai kode-poin ini untuk semantik sungguhan — 𝔸 bisa berarti “himpunan A” dalam satu makalah. Memakainya secara dekoratif membajak notasi yang dibaca literal oleh pembaca layar dan alat pencarian, yang mengarah ke poin berikutnya.",
+        ],
+      },
+      {
+        heading: "Di mana teks fancy rusak",
+        paragraphs: [
+          "Unicode dekoratif gagal di tempat yang dapat diprediksi. Pembaca layar mengumumkan 𝕭𝖔𝖑𝖉 sebagai rangkaian karakter matematis-tebal, yang terdengar seperti ocehan alih-alih “tebal” — masalah aksesibilitas untuk setiap pengikut yang mengandalkan teknologi bantu. Mesin pencari mencocokkan terhadap huruf biasa, sehingga profil atau judul yang ditulis dalam karakter fancy bisa menjadi tak bisa dicari menurut namanya sendiri.",
+          "Salin-tempel ke sistem yang menyanitasi masukan bisa diam-diam mencabut karakter-karakter itu kembali ke huruf polos atau menolaknya. Database dengan pengodean lama, SMS (tak ada huruf GSM untuk kode-poin ini), dan terminal lama semuanya merusaknya. Dan karena tiap glif berasal dari font matematika, kualitas renderingnya bervariasi: di sebagian perangkat hurufnya tampak baik, di lainnya bobot goresannya bertabrakan dengan teks sekitarnya.",
+          "Gunakan teks fancy di tempat pembacanya melihatnya dan tak seorang pun perlu mencari, membacakan, atau memprosesnya: nama tampilan, caption estetik, poster acara. Simpan nama pengguna yang akan dicari orang, dan semua isi penting, dalam huruf biasa.",
+        ],
+      },
+      {
+        heading: "Seketika, offline, dan dapat dibalik",
+        paragraphs: [
+          "Konversinya adalah pencarian tabel per-karakter yang berjalan di browser Anda — tanpa server, tanpa panggilan jaringan, dan bekerja tanpa koneksi sama sekali. Ketik, bandingkan gaya bersebelahan, salin yang Anda mau.",
+          "Karena keluarannya teks Unicode biasa, ia selamat di editor mana pun, dan bisa dibalik: tempel kembali string fancy itu dan keluaran polos alat (atau penormal mana pun) memulihkan huruf dasarnya. Tidak ada yang disimpan di mana pun sementara itu.",
+          "Dibandingkan aplikasi “generator font” yang meminta Anda memasang profil atau mengunduh font, pendekatan ini tak ada yang perlu dipasang dan tak ada yang perlu dipercayai — yang Anda lihat di pratinjau adalah persis yang mendarat di seberang clipboard.",
+        ],
+      },
+    ],
   },
   "emoji-picker": {
     name: "Pemilih Emoji",
@@ -1506,6 +2880,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bagaimana “Baru dipakai” bekerja?",
         a: "Setiap emoji yang Anda salin diingat di localStorage browser Anda (hingga 16). Menghapus data browser akan mengatur ulang daftarnya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana emoji sebenarnya bekerja di balik layar",
+        paragraphs: [
+          "Emoji bukan gambar — mereka kode-poin Unicode yang dirender oleh font apa pun yang disediakan platform. Kode-poin U+1F600 yang sama dirender sebagai smiley yang sedikit berbeda di iOS, Android, dan Windows, itulah sebabnya emoji yang tampak sempurna di ponsel Anda bisa tampak aneh dalam tangkapan layar kolega.",
+          "Pengubah memperluas setnya: pengubah warna-kulit adalah kode-poin penggabung yang mengubah karakter dasar yang mendahuluinya, rangkaian ZWJ (zero-width joiner) merekatkan beberapa emoji menjadi satu — kombinasi keluarga dan profesi — dan pemilih variasi memutuskan antara rendering gaya-teks dan gaya-warna. Emoji yang tampak sederhana bisa berupa rantai lima kode-poin.",
+          "Itulah sebabnya mencari dan menyalin lebih aman daripada merangkai dengan tangan: picker menyediakan rangkaian penuh yang benar, sementara rantai yang dirakit tangan adalah sumber umum emoji rusak yang dirender sebagai dua wajah terpisah atau kotak kosong.",
+        ],
+      },
+      {
+        heading: "Memilih dan memakai emoji secara disengaja",
+        paragraphs: [
+          "Emoji bekerja terbaik sebagai tanda baca untuk nada, bukan sebagai pengganti kata: jempol yang ditempatkan dengan baik menutup pesan dengan hangat, sementara paragraf yang dipenuhi simbol terbaca sebagai derau. Konteks profesional menghargai penahanan — satu atau dua per pesan menjaga sinyalnya.",
+          "Awasi pergeseran makna lintas-platform: sebagian emoji membawa makna sekunder yang berbeda menurut komunitas dan wilayah, dan segelintir dibaca luas sebagai sesuatu selain nilai mukanya. Saat ragu dalam konteks formal atau internasional, pilih opsi literal yang tak ambigu.",
+          "Salin-tempel adalah interaksi intinya karena rangkaian emoji rapuh untuk disunting: menghapus satu kode-poin di tengah rantai ZWJ memutus seluruh glifnya. Menyunting di sekitar emoji paling mudah dengan mengetik ulang teks sekitarnya dan menempel emoji itu segar.",
+        ],
+      },
+      {
+        heading: "Pemrosesan lokal dan cakupan Unicode",
+        paragraphs: [
+          "Picker berjalan sepenuhnya di browser Anda: pencarian, kategorisasi, dan penyalinan terjadi secara lokal terhadap data nama Unicode yang terbawa di dalam. Tidak ada yang Anda cari atau salin yang dikirim, yang berarti saat menyusun pesan privat atau dokumen kerja sensitif.",
+          "Pencarian bekerja pada nama dan kata kunci, jadi hasilnya sebagus penamaannya: “smile”, “fire”, “star” menemukan padanannya yang jelas, sementara emoji yang kurang bernama butuh penjelajahan menurut kategori. Menjelajah grup — smiley, hewan, makanan, objek, simbol — mencerminkan cara standar Unicode mengorganisasi set itu.",
+          "Karena emoji adalah teks, semua yang Anda salin ditempel sebagai teks: ia bekerja di kolom mana pun yang menerima Unicode, dari surel hingga komentar kode. Jika tujuan menampilkan kotak berongga, perangkat atau font itu sekadar tak memiliki emoji yang lebih baru — kode-poinnya benar bahkan ketika tampilannya tidak.",
+        ],
       },
     ],
   },
@@ -1539,6 +2939,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Semuanya berjalan lokal di browser Anda dengan JavaScript — data Anda tidak pernah meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Pemformatan mengubah whitespace, tak pernah makna",
+        paragraphs: [
+          "Beatifikasi murni operasi whitespace: masukan diparse menjadi struktur data, lalu diserialisasi ulang dengan indentasi pilihan Anda. Kunci, nilai, kedalaman penyarangan, dan urutan kunci keluar persis seperti masuknya — dua dokumen JSON yang hanya berbeda whitespace terparse ke nilai yang sama dan dapat dipertukarkan untuk program mana pun yang mengonsumsinya.",
+          "Satu nuansa yang layak diketahui: pemformatan angka bisa bergeser dalam tampilan. Angka JSON diparse sebagai double IEEE-754, jadi bilangan bulat sangat besar — apa pun di atas 2^53, seperti ID snowflake — bisa tercetak dengan digit yang dibulatkan. Nilainya sudah lossy sejak waktu parse di setiap mesin JavaScript; pemformatnya tidak mengarang pembulatannya. Ketika digit persis berarti, ID seharusnya berkeliling sebagai string dalam JSON Anda.",
+          "Apa yang tak bisa dilakukan pemformatan adalah menata ulang atau mengganti nama apa pun. Sebagian alat menawarkan pengurutan kunci sebagai tambahan opsional, yang nyaman untuk melakukan diff file konfigurasi, tetapi perlakukan itu sebagai langkah terpisah yang disengaja — pemformat yang diam-diam menata ulang kunci membuat perbandingan tingkat-byte terhadap aslinya jadi mustahil.",
+        ],
+      },
+      {
+        heading: "Memilih lebar indentasi",
+        paragraphs: [
+          "Dua spasi adalah standar de-facto di ekosistem JavaScript — paket npm, kebanyakan panduan gaya, dan mayoritas kode dasar frontend memakainya, jadi itu bawaan paling aman saat menempel ke kode dasar tim. Empat spasi tetap umum di kode enterprise yang lebih tua dan sekitar Java. Tab menang pada aksesibilitas: tiap pembaca mengeset lebar tampilannya sendiri, dengan biaya file campuran tab/spasi yang dirender tak konsisten.",
+          "Lebar itu lebih berarti daripada yang terlihat karena diff sensitif whitespace. Jika linter tim Anda menegakkan dua spasi dan Anda memformat dengan empat, tiap baris tampil sebagai berubah dalam review meskipun tak ada yang bergerak secara semantik. Cocokkan konvensi tujuan file itu sebelum menempel keluarannya.",
+          "Untuk inspeksi sekali-pakai — membaca respons API, memeriksa satu baris log — pilihan indentasi murni selera. Pilih yang mana pun yang membuat kedalaman penyarangan paling mudah diikuti mata; alatnya memperbarui langsung, jadi berganti tak berbiaya.",
+        ],
+      },
+      {
+        heading: "Beatifikasi untuk membaca, minifikasi untuk mengirim, semuanya di perangkat",
+        paragraphs: [
+          "Pemformatan dan minifikasi adalah dua ujung satu alur kerja. Pretty-print untuk manusia: review kode, debugging, membandingkan payload. Minify untuk mesin: transport, penyimpanan, dan cache, tempat tiap byte indentasi adalah beban mati. Alat ini berpasangan dengan minifier JSON — beatify untuk menginspeksi payload masuk, minify sebelum mengirimnya kembali keluar.",
+          "Berbeda dari pemformat editor, tak ada yang perlu dipasang atau dikonfigurasi: tanpa proyek, tanpa plugin, tanpa menyimpan file ke disk hanya untuk memformat ulang. Tempel, baca, salin. Itu membuatnya lingkar tercepat untuk kasus paling umum — satu payload dari tab browser yang akan Anda tutup sebentar lagi.",
+          "JSON Anda diparse sepenuhnya di tab browser ini. Respons dari API staging, baris log berisi data pengguna, dan file konfigurasi berisi rahasia tak pernah menyentuh server — alatnya juga bekerja offline, sehingga tersendatnya VPN atau penerbangan tak menghentikan sesi debugging.",
+        ],
+      },
+    ],
   },
   "json-minifier": {
     name: "JSON Minifier",
@@ -1565,6 +2991,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah data saya dikirim ke mana pun?",
         a: "Tidak. Minification berjalan sepenuhnya di browser Anda — tidak ada yang diunggah, dicatat, atau disimpan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Whitespace gratis dalam JSON — kecuali di dalam string",
+        paragraphs: [
+          "Tata bahasa JSON mendefinisikan whitespace (spasi, tab, baris baru) sebagai sesuatu yang bisa diabaikan antar token: antara kunci dan nilai sebuah objek, antar elemen array, di sekitar kurung. Menghapusnya menghasilkan dokumen yang terparse ke nilai yang persis sama — itulah sebabnya minifikasi di sini adalah transformasi lossless, berbeda dari kompresi gambar atau audio.",
+          "Satu-satunya tempat whitespace sakral adalah di dalam nilai string. “hello world” dengan spasinya yang dilipat adalah nilai berbeda. Minifier yang benar berjalan pada tata bahasanya alih-alih menerapkan penggantian teks buta — itulah sebabnya masukan harus JSON yang valid lebih dulu, dan dokumen yang tak valid mendapat kesalahan baris-dan-kolom alih-alih satu baris yang rusak.",
+          "Satu subtlety yang dibuat terlihat oleh pelaporan ukuran: angka dan nama kunci tak disentuh. Minifier tidak membulatkan 3.14159, tidak menata ulang kunci, tidak mempersingkat “someVeryLongKeyName” — semuanya akan mengubah data. Semua yang dihemat datang dari pemformatan saja, itulah sebabnya persentasenya begitu bervariasi antara file ber-indentasi-empat-spasi dan yang ber-indentasi-tab.",
+        ],
+      },
+      {
+        heading: "Apa yang dibeli minifikasi — dan apa yang dilakukan kompresi sebagai gantinya",
+        paragraphs: [
+          "JSON ter-minifikasi biasanya menyusut 30–60% dibanding masukan pretty-printed, tergantung kedalaman indentasinya. Untuk respons API, angka itu kurang berarti dari yang terlihat, karena kompresi transport memakan sebagian besar byte yang sama: gzip dan brotli melipat indentasi dan nama kunci yang berulang hampir gratis. Versi ter-minifikasi tetap menang di atasnya — rasio kompresi membaik begitu redundansi hilang — tetapi keuntungan marginal per responsnya sederhana.",
+          "Di mana minifikasi benar-benar membayar: penyimpanan pada skala besar (log, arsip kejadian, fixture tersemat), pertukaran file antar-mesin tempat tiap megabita transfer atau disk berarti, dan JSON yang tersemat di dalam dokumen lain — tag script, atribut data, string konfigurasi — tempat indentasi dikalikan di ribuan pengulangan.",
+          "Simpan versi terformat sebagai sumber kebenaran Anda. JSON ter-minifikasi adalah milik mesin; mendebug satu dinding token satu-baris dengan mata adalah permainan yang kalah. Padukan alat ini dengan formatter: simpan file rapi di repo, minify di titik pakainya, dan format ulang kapan pun payload ter-minifikasi perlu dibaca.",
+        ],
+      },
+      {
+        heading: "Mengecilkan payload tanpa mengirimnya ke mana pun",
+        paragraphs: [
+          "JSON yang Anda minify sebelum dikirim sering sensitif: konfigurasi dengan endpoint dan kunci, file terjemahan untuk produk yang belum dirilis, catatan pelanggan yang diekspor untuk migrasi. Minifier yang mengunggah dokumen ke backend mengubah langkah penghematan byte yang murni lokal menjadi keluarnya data — jadi yang ini berjalan sepenuhnya di JavaScript browser Anda.",
+          "Eksekusi lokal juga berarti tanpa batas atas ukuran dan tanpa latensi: ekspor multi-megabita ter-minifikasi semudah satu cuplikan, dan seluruh alurnya bekerja offline. Tak ada yang dicatat, jadi iterasi berulang pada file yang sama tak meninggalkan jejak.",
+          "Alur kerja yang menjaga Anda tetap jujur: minify salinannya, bukan aslinya. Alat memberi Anda penghematan byte yang persis sehingga Anda bisa memutuskan apakah bentuk kompaknya layak dipelihara — untuk konfigurasi yang dikonsumsi mesin biasanya layak; untuk file yang masih disunting manusia, sumber terformat ditambah keluaran ter-minifikasi saat build mengalahkan file yang di-minify dengan tangan setiap saat.",
+        ],
       },
     ],
   },
@@ -1595,6 +3047,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Validasi terjadi secara lokal di browser Anda; tidak ada yang meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa dikatakan validator sintaks",
+        paragraphs: [
+          "Validator ini menjawab tepat satu pertanyaan: apakah dokumen ini JSON yang valid menurut definisi RFC 8259? Ia memeriksa struktur — kurung kurawal dan siku yang seimbang, koma antar elemen, string dan kunci berkutip-ganda, escape yang sah, tepat satu nilai tingkat-atas. Ia tidak memeriksa apakah datanya masuk akal.",
+          "Pemeriksaan skema adalah pekerjaan lain. Dokumen seperti {\"age\": \"forty\"} sepenuhnya valid sebagai JSON di sini — nilainya string yang sah — meskipun API Anda mengharapkan angka. Menangkap ketidakcocokan itu membutuhkan JSON Schema atau validator yang ditala ke kontrak API Anda, dan mencampur kedua pekerjaan itu menghasilkan kebingungan. Gunakan alat ini lebih dulu untuk memastikan dokumennya terparse sama sekali; baru kemudian pusingkan makna kolom-kolomnya.",
+          "Model mental yang berguna: validasi sintaks adalah pemeriksaan ejaan, validasi skema adalah pemeriksaan tata bahasa. Perbaiki tiap penanda merah di sini sebelum menjalankan payload Anda terhadap skema atau mengirimnya ke endpoint nyata, karena validator skema bahkan tak bisa memulai pada masukan yang tak terparse.",
+        ],
+      },
+      {
+        heading: "Membaca laporan baris dan kolom",
+        paragraphs: [
+          "Posisi yang dilaporkan menunjuk ke karakter pertama yang membuat parse mustahil, bukan ke penyebab akarnya. Koma yang hilang sebelum baris 7 biasanya dilaporkan sebagai kesalahan di baris 7, tempat parser menemukan sesuatu yang tak diharapkannya. Setelah memperbaiki satu kesalahan, jalankan ulang: kesalahan sering berantai, dan satu kurung yang hilang bisa menyembunyikan beberapa lainnya di belakangnya.",
+          "Pelaku paling umum dalam JSON yang disunting tangan adalah koma di ekor setelah elemen terakhir, kutip-tunggal alih-alih kutip-ganda (kebiasaan yang diambil dari JavaScript), dan karakter tak terlihat hasil tempel — spasi tanpa-pemenggalan di awal baris dilaporkan sebagai token tak terduga meski tak bisa Anda lihat. Menghapus dan mengetik ulang baris yang ditandai memperbaiki kasus karakter-tak-terlihat.",
+          "Klasik lainnya: baris baru literal di dalam string. String JSON harus satu baris, dengan \\n ditulis sebagai rangkaian escape dua karakter. Editor yang soft-wrap membuat ini sulit terlihat, itulah sebabnya nomor kolom — bukan hanya barisnya — berarti saat membaca laporannya.",
+        ],
+      },
+      {
+        heading: "Mengapa validasi lokal berarti",
+        paragraphs: [
+          "Payload yang Anda tempel ke validator jarang publik: isi webhook berisi surel pengguna, respons API dari lingkungan staging, file konfigurasi berisi token, dump database dalam perjalanan. Mengirimnya ke server tak dikenal untuk divalidasi adalah risiko kebocoran data yang kecil tetapi nyata, dan banyak validator daring melakukan tepat itu.",
+          "Semuanya di sini berjalan di JavaScript browser Anda. Dokumen diparse di perangkat Anda dan tak pernah dikirim, dicatat, atau disimpan — Anda bisa memvalidasi rahasia, payload API internal, dan data pelanggan tanpa mikir dua kali. Itu juga berarti alatnya bekerja offline: penerbangan, jaringan kantor yang terkunci, atau VPN yang mati tak menghentikan Anda memeriksa satu konfigurasi.",
+          "Tidak ada juga gerbang ukuran — batasnya memori browser Anda, bukan batas unggahan. Log besar yang dikonversi ke JSON, ekspor database penuh, dan dokumen hasil generasi mesin tervalidasi secepat cuplikan dua baris.",
+        ],
+      },
+    ],
   },
   "xml-formatter": {
     name: "XML Formatter",
@@ -1621,6 +3099,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah XML saya diunggah ke server?",
         a: "Tidak. Pemformatan terjadi sepenuhnya di browser Anda; tidak ada yang dikirim ke mana pun.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang benar-benar diubah pemformatan — dan apa yang tak boleh",
+        paragraphs: [
+          "XML punya tepi tajam yang didekati langsung oleh pemformatan: whitespace bersifat signifikan di dalam konten teks. Pemformat harus menormalkan whitespace antar elemen agar pohonnya terbaca, sambil mempertahankan whitespace di dalam elemen — blok <code>, baris puisi, pernyataan SQL di dalam file konfigurasi semuanya kehilangan maknanya jika spasi internalnya disusun ulang. Alat ini menjaga konten teks tetap utuh (dipangkas hanya di tepinya) dan menjaga bagian CDATA byte-demi-byte.",
+          "Segala yang lain dipertahankan, bukan dikarang: komentar tetap di tempatnya, bagian CDATA selamat apa adanya, instruksi pemrosesan dan deklarasi DOCTYPE lolos. Pemformatnya hanya meng-indentasi ulang — penyarangan 2 spasi, teks pendek disatukan satu baris dengan tag-nya — sehingga yang Anda salin kembali terparse ke pohon yang persis sama dengan yang Anda tempel.",
+          "Satu peringatan yang pantas ada di cetak kecil setiap pemformat yang jujur: untuk dokumen langka yang memperlakukan whitespace antar-elemen sebagai data (konten campuran tempat satu spasi liar antar elemen berarti), penindentasi-ulang apa pun mengubah dokumennya. Untuk sitemap, RSS, file konfigurasi, dan SOAP — mayoritas absolut XML nyata — whitespace antar-elemen diabaikan oleh setiap konsumen, dan pemformatan aman.",
+        ],
+      },
+      {
+        heading: "Membaca XML sesuai niat strukturnya",
+        paragraphs: [
+          "Dokumen XML satu-baris benar secara teknis dan tak terbaca secara praktis — keadaan biasa dari sitemap hasil generasi mesin, respons API, dan ekspor konfigurasi ter-minifikasi. Yang dibeli indentasi adalah kemampuan melihat pohonnya: elemen mana yang bersaudara, yang mana bersarang di dalam yang mana, di mana satu struktur berulang itu berulang. Begitu terlihat, pertanyaan debugging menjawab dirinya sendiri — apakah elemen ini di dalam induk yang tepat, apakah <item> feed berulang seperti yang diharapkan, mengapa elemen kosong ini ada di sini.",
+          "Dokumen panjang diuntungkan oleh putaran kedua: setelah memformat, periksa kedalamannya. Struktur yang bersarang lebih dari empat-lima tingkat biasanya menandakan kesalahan pemetaan — dokumen XML sedalam itu sulit dikonsumsi dan sulit divalidasi dengan mata. Sebaiknya sapukan juga daftar atributnya bersamaan; atribut duplikat atau atribut yang seharusnya elemen muncul jelas begitu dokumennya berbentuk.",
+          "Pemformatan juga berfungsi sebagai pemeriksaan integritas murah: jika pemformat menolak masukan Anda, ada yang rusak sebelum Anda menghabiskan waktu mendebug di hilir. Pasangkan dengan validator untuk pesan kesalahan yang presisi, lalu format untuk membaca, lalu serahkan dokumen terformat ke konsumennya — ia terparse identik, dan manusia berikutnya yang membukanya mulai dari garis dasar yang terbaca.",
+        ],
+      },
+      {
+        heading: "Diformat secara lokal, tak ada yang diunggah",
+        paragraphs: [
+          "Pemformatan berjalan sepenuhnya di browser Anda: XML Anda tak pernah meninggalkan perangkat, bekerja offline, dan tak punya batas atas unggahan selain memori. Dokumen yang Anda format sering jenis yang sensitif — konfigurasi layanan internal, respons SOAP berisi data sesi, payload API privat, file di bawah NDA. Mengirim salah satunya ke pemformat daring untuk di-pretty-print adalah pengungkapan kecil yang bisa dihindari; pemformatan lokal menghapus pertanyaannya sama sekali.",
+          "Itu juga membuat alatnya cocok untuk iterasi: tempel, baca, sesuaikan sumbernya, tempel lagi — tiap siklus seketika karena tak ada yang melintasi jaringan. Untuk dokumen besar ini berarti secara praktis: pemformatannya satu putaran cepat tunggal, dan file multi-megabita yang akan menjadi waktu tunggu unggahan pada alat berbasis server ditangani di tempat, hanya dibatasi perangkat Anda.",
+          "Alur kerjanya tuntas dengan alat-alat XML lain di situs ini: validasi dulu untuk kesalahan yang presisi, format untuk membaca, konversikan dengan XML to JSON ketika konsumennya berbahasa JSON. Karena ketiganya berjalan lokal, seluruh lingkar — periksa, baca, transformasi — bisa terjadi di mesin tanpa akses jaringan, yang sering persis tempat dokumen-dokumen ini hidup.",
+        ],
       },
     ],
   },
@@ -1651,6 +3155,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Pemeriksaan berjalan di browser Anda dengan DOMParser bawaan — data Anda tidak pernah meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Well-formedness: aturan yang ditegakkan setiap konsumen",
+        paragraphs: [
+          "Validator di sini menjawab satu pertanyaan — apakah dokumen ini XML yang well-formed? — memakai parser XML bawaan browser, yang menegakkan persis apa yang ditegakkan perangkat XML nyata. Daftar aturannya pendek tetapi absolut: tiap tag yang dibuka harus ditutup, dan berurutan; atribut harus berkutip dan muncul sekali per elemen; rujukan entitas harus terdefinisi; dokumen punya tepat satu elemen akar; karakter ilegal (karakter kontrol, < atau & liar dalam teks) ditolak.",
+          "Itu bukan aturan gaya melainkan dinding penahan beban formatnya. Tag yang tak cocok bukan peringatan — ia membuat dokumen tak bisa diparse oleh setiap konsumen hilir, dari browser hingga pembaca feed hingga tumpukan SOAP. Itulah sebabnya kegagalan validasi menghentikan pipa: tak ada “hampir well-formed” untuk dikerjakan parser. Sisi baliknya, lolos adalah pernyataan yang kuat: pustaka XML mana pun di mana pun akan bisa membuka dokumennya.",
+          "Apa yang tidak berarti oleh lolos: dokumen valid terhadap sebuah skema. Dokumen yang <price>-nya berisi “free” alih-alih angka, atau yang menghilangkan elemen wajib, bisa well-formed sempurna dan tetap salah. Validasi skema (XSD atau DTD) adalah pekerjaan yang terpisah dan lebih ketat yang butuh definisi skema Anda — alat ini mengatakan dokumen terparse; hanya Anda yang bisa mengatakan apakah ia berarti apa-apa.",
+        ],
+      },
+      {
+        heading: "Membaca kesalahannya: tersangka-sangka biasa",
+        paragraphs: [
+          "Kegagalan paling umum adalah yang duniawi. Tag yang tak ditutup — biasanya dari tag penutup yang terhapus atau berganti nama — berantai: parser melaporkannya di tempat struktur akhirnya pecah, yang bisa jauh dari kesalahan aslinya. Atribut tanpa kutip (id=7 alih-alih id=\"7\") ilegal di mana-mana; kebiasaan HTML seperti <br> dan <img ...> tanpa self-closing juga ditolak, karena XML tak punya penutupan opsional.",
+          "Masalah entitas adalah keluarga keduanya. & telanjang dalam teks memulai satu rujukan entitas dan harus ditulis &amp;; < liar juga harus &lt;. Menempel konten dari HTML atau dari pengolah kata adalah sumber biasanya — lingkungan-lingkungan itu menoleransi apa yang tak ditoleransi XML. Entitas tak valid atau tak terdefinisi (&nbsp; dalam dokumen tanpa deklarasi namespace XHTML, misalnya) juga gagal.",
+          "Lingkar debugging praktisnya pendek: perbaiki kesalahan pertama yang dilaporkan, jalankan ulang, ulangi. Kesalahan berantai, jadi yang pertama biasanya akar penyebabnya dan yang belakangan gema-gemanya. Ketika masukan datang dari konversi atau generasi alih-alih penyuntingan tangan, lokasi kesalahan biasanya menunjuk bug kode penghasilnya, bukan datanya.",
+        ],
+      },
+      {
+        heading: "Mengapa memvalidasi di browser Anda",
+        paragraphs: [
+          "Pemeriksaan berjalan pada DOMParser natif browser — XML Anda tak pernah meninggalkan perangkat, dan tak ada unggahan, tak ada batas laju, tak ada jejak. Dokumen yang Anda validasi sering jenis yang rahasia: payload layanan internal, sitemap yang belum terbit, amplop SOAP berisi kredensial, file di bawah penahanan hukum. Validator yang mengunggahnya mengubah tiap pemeriksaan menjadi pengungkapan; validasi lokal menghapus risiko itu sepenuhnya.",
+          "Lokal juga berarti cocok di dalam iterasi: tempel, baca kesalahannya, perbaiki, tempel lagi — tiap siklus hanya beberapa detik, bekerja offline, dan menangani dokumen multi-megabita yang hanya dibatasi memori. Ia berpasangan alami dengan formatter (parse bersih ditambah struktur terbaca) dan dengan XML to JSON (validasi sebelum konversi, agar kesalahan berbentuk-skema tak pernah menyamar sebagai bug konversi).",
+          "Satu batas yang layak dikatakan terus-terangan: parser browser menegakkan well-formedness dengan kesetiaan tinggi, tetapi ia tak memuat DTD eksternal atau melakukan validasi skema. Jika pipa Anda mensyaratkan validasi XSD, alat ini adalah gerbang pertama yang murah — tangkap tiap kesalahan struktural di sini, dan kirim hanya dokumen bersih ke validator skema, tempat kegagalan kemudian benar-benar berarti pelanggaran skema.",
+        ],
+      },
+    ],
   },
   "html-formatter": {
     name: "HTML Formatter",
@@ -1677,6 +3207,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah HTML-nya dikirim ke server?",
         a: "Tidak pernah. Formatter ini tokenizer JavaScript lokal — markup Anda tetap di browser Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Di mana whitespace berarti: pengecualian pre/textarea",
+        paragraphs: [
+          "Aturan yang mengatur setiap formatter HTML adalah bahwa whitespace tidak selalu gratis. Antara elemen blok, satu baris baru dilipat menjadi satu spasi dan browser mengabaikannya di hampir semua tempat — tetapi tidak semua. Di dalam pre dan textarea, whitespace adalah kontennya sendiri. Di dalam script dan style, satu baris baru liar bisa mengubah makna (literal template dalam script, atau pemilih atribut dalam CSS, bisa sensitif terhadap pemformatan). Beautifier yang meng-indentasi blok-blok itu secara buta tak hanya membuat kode tampak aneh — ia bisa memutusnya.",
+          "Ada kasus kedua yang lebih halus: elemen inline. Whitespace antar tag <a>, <b>, atau <img> di dalam paragraf dirender sebagai satu spasi yang terlihat. Menambah baris baru di sana mengubah keluaran yang dirender dengan cara yang secara teknis kosmetik tetapi secara terlihat berbeda. Itulah sebabnya formatter yang hati-hati menjaga konten inline tetap satu baris alih-alih mendorong tiap anak ke barisnya sendiri — perbedaan antar browser di sini kecil tetapi nyata.",
+          "Formatter membuat keputusan-keputusan ini eksplisit: konten pre, textarea, script, dan style lolos tak tersentuh, dan tag diklasifikasikan sebagai blok, inline, atau void (img, br, hr, input, dan teman-temannya, yang sama sekali tak punya tag penutup dan tak boleh membuka tingkat indentasi). Klasifikasi ini adalah yang sama yang dipakai spesifikasi HTML, dan salah mengelolanya adalah pembeda antara formatter dan perusak markup.",
+        ],
+      },
+      {
+        heading: "Tag penutup-otomatis: bagaimana HTML cacat di-indentasi dengan waras",
+        paragraphs: [
+          "HTML dunia nyata — templat surel transaksional, halaman yang disimpan dari browser, keluaran CMS lama — jarang menutup tiap tag. Standar HTML mendefinisikan satu set elemen dengan tag akhir opsional: li baru secara implisit menutup li sebelumnya, p ditutup oleh kebanyakan elemen blok yang menyusulnya, dan tag penutup untuk sebuah leluhur secara implisit menutup tiap keturunan yang terbuka. Formatter yang mengabaikan aturan-aturan ini menyarangkan segalanya ke dalam tag pertama yang tak tertutup, dan indentasinya menjadi kebohongan.",
+          "Pendekatan praktis di sini meniru parser browser: simpan satu tumpukan elemen terbuka, tutup mereka menurut aturan akhir-implisit standar, dan biarkan tag penutup untuk sebuah leluhur mem-pop tiap elemen yang dibuka setelahnya. Masukan cacat menurun dengan anggun — tag yang tak tertutup tetap terindentasi, tag penutup yang tak cocok tak membuat run crash — tetapi alatnya tidak mengarang struktur yang tak bisa ia lihat, itulah sebabnya ia sengaja tak menata ulang atau “memperbaiki” markup Anda melampaui whitespace.",
+          "Penahanan diri itu adalah posisi desain. Ada beautifier yang menata ulang atribut, mengonversi sintaks self-closing, atau menormalkan kutipan; berguna untuk panduan gaya, berbahaya saat Anda butuh keluarannya cocok dengan diff atau templat ketat. Ketika tujuannya membaca templat surel ter-minifikasi atau halaman yang tersimpan, transformasi hanya-whitespace adalah yang jujur: yang Anda lihat adalah persis struktur Anda, hanya saja disajikan agar terlihat.",
+        ],
+      },
+      {
+        heading: "Mengapa pemformatan berjalan di browser Anda",
+        paragraphs: [
+          "Jenis HTML yang orang tempel ke formatter sering rahasia: templat surel transaksional dengan token pelanggan, halaman admin internal dengan URL API, halaman pesaing yang disimpan untuk dipelajari. Mengirim salah satunya ke layanan formatter menempatkan markup Anda di server pihak ketiga tempat ia bisa dicatat atau disimpan. Alat ini menokenisasi dan mengindentasi secara lokal dalam JavaScript — tak ada yang melintasi jaringan, tak ada langkah unggah, dan halamannya bekerja bahkan offline.",
+          "Ada manfaat keandalannya juga. Pemformatan sisi-klien berarti tanpa latensi bolak-balik saat mengetik, tanpa batas laju, tanpa batas atas ukuran file yang diset tingkat layanan. Halaman tersimpan besar dengan ribuan node terformat dalam sesi yang sama tanpa menabrak kuota.",
+          "Jika Anda butuh fitur formatter melampaui whitespace — pelipatan gaya Prettier, pengurutan atribut, unit indentasi yang bisa dikonfigurasi — jalan yang jujur adalah menjalankan formatter yang proper di dalam toolchain proyek Anda sendiri. Untuk alur tempel-dan-baca, lingkup sempit alat ini adalah poinnya: satu pekerjaan, selesai secara terduga, dengan markup Anda tak pernah meninggalkan mesin.",
+        ],
       },
     ],
   },
@@ -1707,6 +3263,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Semuanya berjalan lokal di browser Anda; halaman dan markupnya tidak pernah meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa whitespace dalam HTML lebih rumit dari yang tampak",
+        paragraphs: [
+          "Melipatkan whitespace terdengar sepele, tetapi aturan rendering HTML membuatnya halus. Di dalam aliran normal, rangkaian spasi, tab, dan baris baru apa pun dirender sebagai satu spasi — itulah sebabnya satu baris baru antara dua elemen inline seperti <a> atau <em> menghasilkan celah yang terlihat, sementara satu baris baru antara dua <div> tak menghasilkan apa-apa. Minifier harus menghormati asimetri ini: lipatkan celah inline menjadi satu spasi, hapus celah blok sepenuhnya.",
+          "Sebagian elemen tak pernah memaafkan perubahan whitespace. Di dalam <pre>, <textarea>, <script>, dan <style>, whitespace adalah konten literal — lipatkan dan contoh kode Anda kehilangan formatnya, textarea Anda datang dengan bawaan yang rusak, script atau stylesheet Anda bahkan bisa rusak secara sintaksis. Alat ini meninggalkan zona-zona itu tak tersentuh byte demi byte.",
+          "Itulah sebabnya persentase penghematannya bisa lebih rendah daripada yang dilaporkan minifier agresif: tiap pilihan di sini condong ke menjaga rendering identik alih-alih memeras byte terakhir. Yang memang dihapus — komentar penulis, indentasi, ruang mati antar blok — memang tak terlihat di browser sejak awal, jadi tak ada yang Anda lihat yang bisa berubah.",
+        ],
+      },
+      {
+        heading: "Apa yang ditolak minifier konservatif",
+        paragraphs: [
+          "Minifier agresif juga bisa mencabut kutipan atribut, menata ulang atribut, menulis ulang atribut boolean, dan menggabungkan node teks yang bersebelahan. Tiap-tiapnya menghemat beberapa byte lagi tetapi menaikkan taruhannya: penghapusan kutipan bisa bertabrakan dengan nilai atribut yang berisi spasi, pelipatan agresif bisa mengubah batas node teks yang diandalkan CSS atau skrip. Alat ini sengaja tak melakukan satu pun.",
+          "Konservatisme itu terbayar di domain tempat minifikasi HTML paling sering dipakai dengan tangan: templat surel dan konten CMS lama. Klien surel terkenal tak konsisten dalam HTML apa yang mereka terima, dan templat lama sering bergantung pada keanehan markup yang akan diam-diam dirusak minifier yang menata ulang. Minifier yang hanya menghapus byte yang terbukti tak terlihat aman dijalankan pada markup yang tak bisa Anda uji sepenuhnya.",
+          "Komentar pantas satu catatan khusus. Komentar penulis aman dihapus, tetapi sebagian komentar adalah kode yang hidup: komentar kondisional IE, penanda templating sisi-server, pemberitahuan lisensi. Menghapus semuanya mengubah perilaku. Alat ini menghapus komentar biasa tetapi mempertahankan komentar kondisional, yang merupakan satu cara paling umum minifier naif merusak halaman nyata.",
+        ],
+      },
+      {
+        heading: "Minify di perangkat, terutama untuk markup privat",
+        paragraphs: [
+          "HTML yang Anda minify sering bukan yang publik: landing page yang belum dirilis, dasbor internal, templat surel dengan kolom penggabungan pelanggan, markup staging dengan komentar tentang harga yang belum keluar. Mengunggah semuanya ke layanan web hanya untuk menghapus whitespace adalah risiko yang bisa dihindari — banyak minifier daring memang mengirim dokumen ke server mereka.",
+          "Di sini seluruh pipa berjalan di browser Anda: parsing, transformasi, dan pelaporan ukuran semuanya terjadi di JavaScript lokal, tanpa jaringan yang terlibat. Templat milik sendiri dan halaman internal bisa diter-minifikasi tanpa meninggalkan mesin Anda, dan alatnya bekerja offline — berguna saat Anda menyelesaikan satu halaman sebelum ia punya tempat untuk hidup.",
+          "Untuk penyebaran nyata, pasangkan ini dengan minifier CSS dan JavaScript untuk kemenangan terbesar, lalu andalkan kompresi transfer (gzip atau brotli di server) yang mengalahkan apa pun yang dihemat minifier. Tugas minifier adalah menghapus byte yang tak bisa dihapus format kawatnya; kompresi server menangani sisanya.",
+        ],
+      },
+    ],
   },
   "css-minifier": {
     name: "CSS Minifier",
@@ -1733,6 +3315,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "CSS saya pergi ke mana?",
         a: "Tidak ke mana pun. Minification berjalan lokal di browser Anda; tidak ada yang diunggah atau disimpan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang aman dihapus minifier — dan apa yang tak boleh",
+        paragraphs: [
+          "Minifier stylesheet berjalan di garis yang sempit. Bagian yang bisa dihapus dengan aman: komentar, whitespace antar deklarasi, titik-koma terakhir sebelum kurung penutup, dan spasi di sekitar pemisah seperti : dan ,. Bagian yang tampak bisa dihapus tetapi tidak: spasi apa pun di dalam string (content: “a b” berarti berbeda dari “ab”), apa pun di dalam url(), dan — yang halus — whitespace di dalam pemilih. .a .b (kombinator keturunan) dan .a.b (satu elemen dengan dua kelas) berbeda tepat satu spasi, jadi menghapus spasi yang salah mengubah elemen mana yang mendapat gaya.",
+          "Itulah sebabnya minifier konservatif kebanyakan adalah mesin whitespace, bukan penulis-ulang. Postprosesor agresif bisa lebih jauh — menggabungkan aturan duplikat, mengonversi #ffffff ke #fff, menjatuhkan deklarasi yang tertimpa — tetapi tiap langkah itu bisa mengubah perilaku pada kasus tepi (urutan cascade, interaksi specificity, dukungan browser belakangan untuk sintaks warna). Alat yang menjamin nol perubahan semantik menukar beberapa byte dengan kepastian bahwa file ter-minifikasi dirender identik; untuk stylesheet produksi, tawaran itu biasanya yang benar.",
+          "Komentar pantas satu catatan khusus: pemberitahuan legal, header lisensi, dan anotasi peretasan browser kadang hidup di dalam komentar. Jika sebuah stylesheet membawa header lisensi yang harus selamat dari distribusi, tambahkan kembali setelah minifikasi — atau simpan sumber tak-ter-minifikasi sebagai salinan kanoniknya, yang merupakan praktik baik apa pun hasilnya.",
+        ],
+      },
+      {
+        heading: "Minifikasi vs gzip: mereka mengalikan, bukan bersaing",
+        paragraphs: [
+          "Salah kaprah umum adalah bahwa mengaktifkan kompresi server membuat minifikasi tak berarti. Keduanya menyerang redundansi yang berbeda. Minifikasi menghapus token yang tak dibutuhkan bahasanya; gzip kemudian mengompres byte yang tersisa dengan kamus. Karena whitespace dan nama properti panjang yang berulang persis jenis konten yang mudah dimakan gzip, minified+gzipped secara konsisten lebih kecil daripada unminified+gzipped — penghematannya menumpuk alih-alih tumpang tindih.",
+          "Pelaporan ukuran di sini menunjukkan selisih byte mentahnya, yang merupakan batas atas jujur dari kemenangannya. Ukuran transfer nyata juga bergantung pada tingkat kompresi server Anda dan apakah stylesheet-nya di-cache. CSS tulisan tangan tipikal kehilangan 15–30% hanya dari penghapusan whitespace-dan-komentar; CSS hasil generasi atau yang terformat berat bisa lebih, file yang membengkak oleh vendor kadang kurang.",
+          "Satu peringatan yang tak bisa diperbaiki minifier: render-blocking. Stylesheet yang lebih kecil terunduh lebih cepat tetapi tetap memblokir paint pertama sambil diparse. Jika tujuannya render pertama yang lebih cepat, minifikasi adalah langkah satu; tuas yang lebih besar adalah memecah CSS kritis, menunda gaya yang tak kritis, dan menghapus aturan mati sepenuhnya — tak satu pun yang akan dilakukan minifier yang aman untuk Anda.",
+        ],
+      },
+      {
+        heading: "Bekerja lokal adalah fitur, bukan rencana cadangan",
+        paragraphs: [
+          "Stylesheet kurang jelas sensitifnya dibanding dump database, tetapi ia bocor lebih banyak dari yang dikira orang: nama kelas dan flag fitur pra-rilis, nilai design-token internal, eksperimen yang dikomentari dengan nama produk, URL absolut dari lingkungan staging. Menempel tema yang belum terbit ke layanan web yang menyimpan masukan berarti materi itu mendarat di infrastruktur orang lain sebelum kodenya bahkan punya rumah di git.",
+          "Minifier ini berjalan sepenuhnya di browser Anda dengan JavaScript — masukan tak pernah meninggalkan halaman, tak ada yang disimpan atau dicatat, dan alatnya tetap bekerja offline setelah dimuat. Ada juga sudut praktisnya: tanpa batas atas ukuran file yang dipaksakan batas unggahan, dan tanpa menunggu bolak-balik jaringan. Keluarannya diperbarui secepat Anda menempel, yang membuat pelaporan ukurannya menjadi lingkar umpan-balik yang bisa dipakai sambil Anda memutuskan seberapa banyak pembersihan yang layak dilakukan.",
+        ],
       },
     ],
   },
@@ -1763,6 +3370,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Semuanya berjalan lokal di browser Anda — sumber Anda tidak pernah meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Minify, gzip, dan apa yang benar-benar menghemat byte",
+        paragraphs: [
+          "Minifikasi dan kompresi adalah dua lapisan berbeda, dan mengetahui mana yang melakukan pekerjaannya berarti. Minifikasi adalah penulisan-ulang teks yang lossy: komentar dan whitespace dihapus, nama dipersingkat, pernyataan digabung. Gzip atau Brotli adalah kompresi transport lossless yang diterapkan setelahnya. Whitespace terkompresi sangat baik — gzip sendiri bisa mengecilkan skrip yang bertele-tele 70–80% — jadi penghematan marginal minifier jauh lebih kecil daripada persentase mentahnya.",
+          "Alasan sebenarnya minify bukan redundansi gzip melainkan biaya parsing dan eksekusi: tiap komentar dan karakter pemformatan yang harus diparse browser adalah waktu CPU di perangkat pengunjung, yang berarti di ponsel kelas bawah. Ingat juga bahwa menghapus komentar punya biaya tersembunyi jika Anda mengandalkan anotasi inline — sebagian alat (terlepas dari source map, bundler dan framework tertentu membaca direktif seperti /*#__PURE__*/ dari komentar) butuh penanda itu untuk selamat.",
+          "Alat ini sengaja mengambil jalur konservatif: ia menghapus komentar dan melipatkan baris kosong tetapi mempertahankan pemenggalan baris antar pernyataan. Jika Anda menyajikan keluarannya dengan gzip atau Brotli aktif, Anda menangkap sebagian besar penghematan yang tersedia tanpa langkah build — dan tanpa risiko penulisan-ulang yang mampu, menginline, atau mengganti nama dengan cara yang tak diharapkan kode Anda.",
+        ],
+      },
+      {
+        heading: "Penyisipan titik-koma otomatis — alasan pemenggalan baris dipertahankan",
+        paragraphs: [
+          "JavaScript adalah satu-satunya bahasa utama tempat menghapus satu baris baru bisa mengubah perilaku program. Penyisipan titik-koma otomatis (ASI) menyisipkan titik-koma berdasarkan batas baris dan aturan tertentu: return yang diikuti baris baru mengembalikan undefined, bukan ekspresi di baris berikutnya; a++ di barisnya sendiri, lanjutan penugasan melintasi baris — semuanya bergantung di mana pemenggalannya. Menyatukan semuanya secara naif ke satu baris melebur batas-batas itu dan diam-diam menulis ulang semantik.",
+          "Itulah sebabnya minifier penuh harus memparse file menjadi AST sebelum menyentuhnya — mereka memancarkan kembali kode di mana bahaya ASI diselesaikan secara eksplisit. Alat apa pun yang sekadar menghapus whitespace tanpa memparse (seperti minifier berbasis-regex cepat) bisa menghasilkan kode yang berjalan berbeda dari sumbernya. Alat ini memotong seluruh kelas bug itu dengan menjaga pemenggalan baris di batas pernyataan tetap utuh.",
+          "Komprominya jujur: Anda mendapat file yang agak lebih besar daripada keluaran Terser, sebagai ganti jaminan bahwa perilakunya setara byte-demi-byte secara struktural. Untuk skrip yang tersemat di halaman, ekstensi, user style, atau lingkungan tanpa pipa build, jaminan itu biasanya setara byte-nya.",
+        ],
+      },
+      {
+        heading: "Kode sumber Anda tetap di perangkat Anda",
+        paragraphs: [
+          "Menempel kode sumber yang belum dirilis ke alat web adalah keputusan kepercayaan, dan keputusan yang diambil kebanyakan pengembang terlalu gegabah. Kode yang akan Anda rilis bisa memuat nama internal, endpoint API, kredensial yang dikomentari, atau logika milik sendiri. Mengunggahnya ke minifier pihak ketiga berarti server orang asing menyimpan salinan pekerjaan pra-rilis Anda — tanpa kontrak, tanpa audit, tanpa jaminan penghapusan.",
+          "Alat ini memproses semuanya di browser Anda: minifiernya adalah JavaScript yang berjalan lokal atas masukan Anda, tanpa permintaan jaringan yang membawa kode Anda ke mana pun. Pelaporan penghematan byte dihitung di tempat. Begitu halaman dimuat, Anda bisa memutus koneksi dan terus melakukan minify.",
+          "Untuk tim dengan pipa sungguhan, tetap gunakan Terser/esbuild di CI tempat source map dan bundle dikelola dengan benar. Untuk satu file, pemeriksaan cepat apa yang akan disajikan produksi, atau kode dasar tanpa sistem build, inilah jalurnya: tanpa setup, tanpa risiko.",
+        ],
+      },
+    ],
   },
   "sql-formatter": {
     name: "SQL Formatter",
@@ -1789,6 +3422,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah query saya dikirim ke server?",
         a: "Tidak. Pemformatan berjalan lokal di browser Anda — SQL Anda tidak pernah meninggalkan perangkat.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa konvensi gaya SQL ada sama sekali",
+        paragraphs: [
+          "SQL dieksekusi sebagai satu aliran token terlepas dari tata letaknya, jadi setiap aturan pemformatan di dunia murni untuk manusia. Persis itulah sebabnya konvensi terbayar: query hidup bertahun-tahun, ditempel ke tiket, review, dan dokumentasi, dan JOIN satu-baris 40-baris menghabiskan waktu setiap pembaca masa depan lebih banyak daripada pemformatannya pernah makan. Gaya yang konsisten mengubah query dari artefak yang harus didekode menjadi dokumen yang dibaca.",
+          "Konvensi paling keras suaranya adalah kapitalisasi kata kunci. Mengkapitalkan SELECT, FROM, JOIN, dan WHERE memisahkan kerangka struktural query dari datanya sekilas — mata mendarat di kata kunci dulu, pengenal kemudian. Sebagian tim lebih menyukai kata kunci kecil dengan pengenal berkutip; pilihan spesifiknya kurang berarti daripada menerapkan satu pilihan di mana-mana. Alat ini mengkapitalkan kata kunci, konvensi yang paling luas diadopsi.",
+          "Pemformatan tak mengubah apa pun tentang eksekusi: yang berubah hanya whitespace dan kapitalisasi, literal string dan pengenal berkutip dipertahankan persis, dan query yang Anda salin kembali identik secara semantik dengan yang Anda tempel. Jaminan itulah yang membuat aman memformat query hasil generasi, keluaran ORM, atau dump kolega yang tak terformat sebelum membacanya.",
+        ],
+      },
+      {
+        heading: "Dialek: tempat SQL bukan satu bahasa",
+        paragraphs: [
+          "SQL adalah keluarga dialek yang berbagi inti, dan formatter tak boleh merusak bagian yang berbeda. Pemformatan di sini bekerja pada SQL standar, dan mesin sql-formatter di dasarnya juga memahami sintaks khusus dialek — PostgreSQL, MySQL, T-SQL, PL/SQL, BigQuery, Snowflake, dan lainnya — sehingga struktur-struktur umum terformat dengan benar melintasi mereka.",
+          "Dialek-dialek berbeda dengan cara yang perlu diketahui pembaca, bahkan melampaui pemformatan. Pengutipan string bercabang: SQL standar hanya memakai kutip-tunggal, MySQL secara bawaan juga menerima kutip-ganda untuk string sementara PostgreSQL memperlakukan kutip-ganda sebagai pengenal. Pengutipan pengenal juga berbeda — backtick di MySQL, kutip-ganda di PostgreSQL, tanda kurung siku di T-SQL. Kolom auto-increment, sintaks upsert, dan fungsi tanggal semuanya punya ejaan spesifik-vendor.",
+          "Aturan aman saat memformat SQL yang tak dikenal: jika keluarannya tampak salah secara struktural — kata kunci terbelah aneh atau literal terganggu — periksa dialeknya sebelum berasumsi bug. Pemformatan tak pernah mengubah semantik secara desain, tetapi ia hanya bisa begitu ketika sintaks yang ia lihat dikenali; dan untuk pekerjaan lintas-database, verifikasi query terformatnya di database pengembangan sebelum menyentuh apa pun yang nyata.",
+        ],
+      },
+      {
+        heading: "Memformat query secara lokal",
+        paragraphs: [
+          "Query termasuk teks paling sensitif yang ditangani pengembang: mereka membocorkan nama tabel, tata letak kolom, logika bisnis, kadang kredensial literal yang tersemat di contoh koneksi. Formatter daring yang mengirim query ke server mengubah tiap tempelan menjadi pengungkapan potensial; yang ini memformat sepenuhnya di browser Anda, sehingga query produksi, skema internal, dan SQL klien bisa lewat tanpa meninggalkan perangkat.",
+          "Sifat lokalnya juga menghapus gesekan yang membuat pemformatan tak pernah terjadi. Tak ada waktu tunggu unggah, tak ada gerbang ukuran selain memori browser, dan hasilnya muncul saat Anda mengetik — yang membuat praktis memformat satu query panjang, membacanya, menyesuaikannya, dan menempelkannya kembali, semuanya dalam satu sesi. Ia bekerja offline, jadi bisa dipakai di lingkungan terbatas tempat alat web tak akan bisa.",
+          "Satu alur kerja yang layak dipertahankan: validasi logikanya di database dev, format di sini untuk review dan dokumentasi, dan simpan versi terformatnya sebagai salinan kanonik di repo atau dokumen Anda. Pembaca masa depan — termasuk Anda — mewarisi versi yang terbaca, dan percakapan reviewnya terjadi di atas struktur yang bisa diparse semua orang.",
+        ],
       },
     ],
   },
@@ -1819,6 +3478,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya. Input dikonversi ke byte UTF-8 sebelum dienkode, yang cocok dengan yang dihasilkan btoa-dengan-TextEncoder, Python, Java, dan Node untuk string yang sama.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Matematika di balik alfabetnya",
+        paragraphs: [
+          "Base64 yang didefinisikan RFC 4648 bekerja dalam grup 6-bit: 64 karakter butuh persis 6 bit, jadi tiap 3 byte (24 bit) dikemas ke 4 karakter (4 × 6 bit). Masukan yang panjangnya bukan kelipatan 3 menyisakan 1–2 byte, dan padding = menandai seberapa kurang grup terakhirnya — satu = untuk 2 byte, dua = untuk 1. Itulah sebabnya Base64 yang valid selalu punya panjang yang habis dibagi 4, dan kenapa keluarannya sekitar 33% lebih besar daripada masukannya. Penggelembungan itu adalah harga keselamatan-biner, dan ia berarti saat Anda menyematkan gambar di data URI atau memadatkan payload ke cookie dengan batas ukuran.",
+          "Sebelum dienkode, teks harus menjadi byte, dan pilihan pengodean mengubah segalanya. Alat ini selalu memakai UTF-8 lewat TextEncoder standar, yang merupakan konsensus modern: base64.b64encode(s.encode()) milik Python, Buffer.from(s).toString('base64') milik Node, dan Base64.getEncoder() milik Java semuanya mengasumsikan UTF-8 untuk string yang sama. btoa() legacy milik browser malah melempar pada karakter di luar Latin-1 — sumber klasik emoji yang rusak — persis kesalahan yang dihindari pengodean UTF-8-dulu.",
+          "Dua varian alfabet hidup berdampingan. Yang standar memakai + dan / dan itulah yang diminta HTTP Basic Auth dan URI data:. Varian URL-safe yang didefinisikan RFC yang sama menukarnya dengan - dan _ agar string bisa berkelana di parameter query dan nama file tanpa pengodean-persen; JWT memakainya. Menghasilkan varian yang salah adalah bug yang umum — datanya terdekode di kedua arah, tetapi konsumen yang ketat menolak karakter yang tak cocok.",
+        ],
+      },
+      {
+        heading: "Enkoding bukan enkripsi — dan di mana Base64 berada",
+        paragraphs: [
+          "Betapapun keluarannya tampak tak terbaca, Base64 menawarkan nol kerahasiaan. Tak ada kunci, tak ada putaran transformasi — hanya satu peta karakter tetap yang bisa dibalik siapa pun dengan satu panggilan fungsi, termasuk decoder milik alat ini. Menyimpan kata sandi, token, atau kunci lisensi yang “dienkode” dengan Base64 adalah pola kerentanan nyata yang terlihat pada sistem yang salah konfigurasi. Jika tujuannya kerahasiaan, pakai cipher sungguhan (AES-GCM untuk data, bcrypt/argon2 untuk kata sandi); pakai Base64 hanya ketika satu kanal khusus-teks harus membawa byte.",
+          "Tempatnya memang benar: HTTP Basic Auth (username:password dienkode sekali per permintaan), gambar inline di dalam CSS atau HTML lewat URI data:, blob biner kecil di dalam JSON, lampiran surel di bawah MIME, dan segmen JWT. Di semua itu tujuannya transport, bukan perlindungan — penerima mendekode secara deterministik, byte demi byte.",
+          "Uji bolak-balik adalah pemeriksaan kewarasan termurah: enkode di sini, lalu tempel keluarannya ke decoder yang terhubung dan pastikan aslinya kembali — termasuk spasi di ekor, emoji, dan teks campuran-aksara. Jika konsumen Base64 Anda berperilaku aneh, perbedaannya hampir selalu penghapusan padding, pelipatan baris, atau alfabet URL-safe, bukan byte-nya sendiri.",
+        ],
+      },
+      {
+        heading: "Enkoding lokal, tanpa jebakan terminal",
+        paragraphs: [
+          "Semuanya berjalan di browser Anda dengan JavaScript — teks yang Anda tempel tak pernah meninggalkan perangkat, tak ada yang diunggah atau dicatat, dan halamannya bekerja offline setelah dimuat. Itu lebih berarti dari yang terlihat untuk pengodean: kredensial Basic Auth, token API internal, dan data pelanggan rutin melewati langkah Base64, dan mengirim mereka ke situs pihak ketiga untuk dienkode mengalahkan seluruh maksud latihannya.",
+          "Dibandingkan satu-baris shell echo -n 'text' | base64, alat ini menghindari jebakan klasik: lupa -n sehingga satu baris baru ikut dienkode ke keluaran, kesalahan kutip yang merusak spasi, dan perbedaan platform (base64 macOS melipat pada 76 karakter, sebagian alat Windows butuh flag untuk melewati baris baru). Keluaran di sini adalah satu baris bersih yang bisa langsung Anda tempel ke header atau konfigurasi — dengan jaminan privasi yang sama dan tanpa apa pun yang tersimpan di riwayat shell Anda.",
+        ],
+      },
+    ],
   },
   "base64-decoder": {
     name: "Base64 Decoder",
@@ -1845,6 +3529,30 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah dekode dilakukan di server?",
         a: "Tidak. Semuanya berjalan di browser Anda; stringnya tidak pernah meninggalkan perangkat.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Base64 adalah pengodean, bukan enkripsi",
+        paragraphs: [
+          "Salah kaprah paling umum tentang Base64 adalah bahwa ia menyembunyikan sesuatu. Tidak. Base64 adalah pengodean yang dapat dibalik yang didefinisikan RFC 4648: ia mengambil byte sembarangan dan mengekspresikannya ulang memakai 64 karakter aman (A-Z, a-z, 0-9, +, /) agar data biner selamat dari kanal yang hanya menangani teks, seperti lampiran surel atau kolom JSON. Siapa pun yang memegang stringnya bisa mendekodenya dalam satu langkah — alat ini melakukannya seketika, dan decoder lain juga. Jika Anda butuh kerahasiaan, Anda butuh enkripsi (AES, RSA) dengan kunci; Base64 tak menawarkan apa pun.",
+          "Mengapa 64 karakter? Enam bit bisa mengindeks tepat 64 nilai, jadi Base64 mengemas tiap 3 byte (24 bit) ke 4 karakter (4 × 6 bit). Data yang panjangnya bukan kelipatan 3 menyisakan sisa, dan di situlah padding = muncul: satu = berarti grup terakhir memuat 2 byte, dua = berarti 1 byte. Padding secara teknis adalah informasi opsional — decoder bisa menyimpulkannya — itulah sebabnya Anda akan menemui string Base64 dengan = di ekornya yang dicabut, dan kenapa decoder seharusnya menerima keduanya.",
+          "Satu varian terkait berarti di praktik: Base64 URL-safe mengganti + dan / dengan - dan _, karena + dan / menimbulkan masalah di URL dan nama file. JWT memakai alfabet ini, itulah sebabnya header atau payload JWT terdekode dengan bersih di sini meskipun decoder RFC 4648 yang ketat bisa menolak karakter -.",
+        ],
+      },
+      {
+        heading: "Apa yang Anda terima kembali, dan apa artinya keluaran sampah",
+        paragraphs: [
+          "Dekode selalu menghasilkan byte; pertanyaannya adalah bagaimana byte itu ditafsirkan. Alat ini menjalankannya melalui TextDecoder UTF-8, sehingga teks yang dienkode sebagai UTF-8 kembali persis seperti semula — huruf beraksen, emoji, karakter CJK semuanya bolak-balik karena Base64 membawa byte, bukan karakter. Jika keluarannya menampilkan simbol pengganti (�), masukannya kemungkinan tak pernah teks UTF-8: bisa jadi gambar, PDF, atau file yang dienkode dalam codepage lain. Dekodenya tetap berhasil; memang tak ada teks untuk ditampilkan.",
+          "Base64 dunia nyata kotor, jadi alat ini membersihkan sebelum mendekode: whitespace dan pemenggalan baris dicabut (keluaran surel dan PEM melipat Base64 pada 76 karakter, yang memutus decoder ketat), dan prefiks URI data seperti data:image/png;base64, dihapus sehingga Anda bisa menempel seluruhnya. Panjang adalah kegagalan umum lainnya: panjang Base64 harus kelipatan 4, jadi string yang terpotong di tengah oleh salin-tempel atau satu baris log memutus dekodenya — periksa tepi-tepinya lebih dulu.",
+        ],
+      },
+      {
+        heading: "Lokal sejak desainnya, dan perbandingannya dengan CLI",
+        paragraphs: [
+          "String terenkode ada di mana-mana dalam konteks sensitif: header Authorization, kunci API di dalam blob konfigurasi, JWT yang memuat pengenal akun, payload tersemat yang Anda temukan di lalu lintas. Menempel salah satunya ke situs web acak yang mengirim masukan ke server berarti mengirim persis data yang sedang Anda inspeksi ke pihak ketiga. Decoder ini berjalan sepenuhnya di browser Anda dengan JavaScript — tak ada yang diunggah, tak ada yang dicatat, dan ia bekerja offline begitu halaman dimuat.",
+          "Alat baris-perintah (openssl base64 -d, certutil, python base64) kuat tetapi rewel soal masukan yang terlipat, padding yang hilang, dan penanganan file, dan mereka berbeda antar platform. Untuk momen “string ini apa?” sekali-jalan, alat browser yang menoleransi prefiks dan whitespace, mendekode alfabet URL-safe gaya-JWT, dan menampilkan teks multibyte dengan benar biasanya lebih cepat — dengan jaminan privasi yang sama dan tanpa riwayat shell yang menyimpan rahasia terenkode Anda.",
+        ],
       },
     ],
   },
@@ -1875,6 +3583,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya — karakter di luar ASCII dienkode UTF-8 lebih dulu, lalu percent-encoded, persis seperti yang dilakukan browser.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Karakter cadangan dan dua mode pengodean",
+        paragraphs: [
+          "URL dibangun dari karakter-karakter yang punya tugas: / memisahkan segmen jalur, ? memulai query, & memisahkan parameter, = menyambungkan kunci ke nilainya, : dan // mengangkar skemanya. RFC 3986 menyebut mereka cadangan karena mereka bagian dari tata bahasa URL, dan persis di situ kedua mode itu bercabang. Pengodean komponen memperlakukan seluruh masukan Anda sebagai satu nilai inert — tiap karakter cadangan di-escape, sehingga a=b&c=d menjadi a%3Db%26c%3Dd dan berkelana sebagai satu parameter alih-alih menulis ulang query string.",
+          "Pengodean URI-penuh mengasumsikan Anda punya URL yang lengkap dan sudah berstruktur dan hanya ingin aman-transport: karakter strukturalnya tetap literal, dan apa pun di luar set tak-cadangan (huruf, digit, - . _ ~) di-escape. Mengenkode satu URL utuh dengan mode komponen adalah kesalahan klasiknya — Anda mendapat %3A%2F%2F di mana-mana dan tautannya berhenti menjadi tautan.",
+          "Aturan praktis yang aman: enkode tiap nilai secara terpisah dengan mode komponen, lalu sambungkan mereka ke URL dengan tangan. Jika Anda mendapati diri mengenkode satu URL di dalam URL lain — target redirect, parameter callback — yang di dalam adalah nilai, jadi ia mendapat pengodean komponen meski tampak seperti URL.",
+        ],
+      },
+      {
+        heading: "Ambiguitas plus-spasi dan UTF-8 di balik tiap %XX",
+        paragraphs: [
+          "Spasi punya dua pengodean di alam liar, dan mencampurnya adalah sumber bug abadi. Bentuk berbasis-standar adalah %20: RFC 3986 mengenkode-persen spasi seperti byte lainnya. Bentuk + berasal dari pengiriman formulir HTML di bawah application/x-www-form-urlencoded, konvensi lama yang mendahului kerja spesifikasi yang teliti. Sebagian server dan framework mendekode + kembali menjadi spasi — tetapi hanya di badan dan query string terenkode-formulir di bawah konvensi itu; di satu segmen jalur, + literal biasanya berarti tambah.",
+          "Alat ini selalu memancarkan %20, yang terdekode dengan benar di mana-mana. Konsekuensi praktisnya: jika Anda menempel string terenkode-formulir yang berisi + ke decoder persen polos, Anda bisa mendapat tanda tambah alih-alih spasi — itu bukan bug, itu dua konvensi yang bertabrakan.",
+          "Teks non-ASCII punya satu lapisan tambahan: karakter pertama dikonversi ke byte UTF-8, lalu tiap byte di-escape persen. Itulah sebabnya é menjadi %C3%A9 — dua byte — dan kenapa satu karakter Jepang bisa berubah menjadi sembilan rangkaian escape. Browser modern menampilkan URL Unicode yang cantik di bilah alamat, tetapi yang berkelana di kawat selalu bentuk ter-escape-nya.",
+        ],
+      },
+      {
+        heading: "Pengodean terjadi secara lokal, byte demi byte",
+        paragraphs: [
+          "URL sering membawa data yang tak ingin Anda bagikan: parameter pelacakan, token sesi, URI redirect OAuth, endpoint internal dengan pengenal. Menempel satu ke encoder daring acak yang mem-proxy ke server adalah paparan yang tak perlu. Di sini konversinya berjalan di JavaScript browser Anda — masukan tak pernah meninggalkan perangkat, dan tak ada server untuk mencatatnya.",
+          "Sifat lokalnya juga berarti offline dan seketika. Tanpa latensi bolak-balik, tanpa batas atas yang dipaksakan API, tanpa pembatasan laju saat Anda mengenkode satu batch parameter satu demi satu. Padukan dengan URL decoder untuk memverifikasi: enkode, dekode, dan pastikan byte aslinya kembali — bolak-balik dua detik yang menangkap kesalahan pemilihan mode sebelum mereka mencapai produksi.",
+          "Satu kebiasaan debugging yang layak diadopsi: ketika satu tautan berperilaku aneh, dekode penuh dan inspeksi apa yang benar-benar datang. Kebanyakan URL rusak adalah terenkode-ganda (%25 dari tanda persen yang muncul sekali terlalu sering) atau terenkode dengan mode yang salah — keduanya terlihat seketika begitu Anda melihat bentuk terdekodenya.",
+        ],
+      },
+    ],
   },
   "url-decoder": {
     name: "URL Decoder",
@@ -1901,6 +3635,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ada yang diunggah?",
         a: "Tidak. Dekode berjalan lokal di browser Anda — tidak ada yang meninggalkan perangkat.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Kesalahan dekode adalah informasi, bukan penghalang",
+        paragraphs: [
+          "Decoder ketat menolak tiga hal: % tunggal yang tak diikuti dua digit heksadesimal, rangkaian multi-byte yang terpotong seperti %E4%BD yang memulai satu karakter tapi tak pernah menyelesaikannya, dan rangkaian byte yang sama sekali bukan UTF-8 valid. Masing-masing adalah sinyal sungguhan tentang data yang sedang Anda lihat, itulah sebabnya alat ini melaporkannya alih-alih menggantinya dengan placeholder.",
+          "Kasus rangkaian-terpotong pantas perhatian dalam analisis log. Satu karakter multi-byte seperti 日 adalah tiga byte (%E6%97%A5); jika satu baris log dipotong pada lebar tetap, karakter terakhirnya bisa selamat hanya dengan dua dari tiga byte-nya. Decoder yang longgar mencetak sampah; yang ketat memberi tahu Anda lognya terpotong — sering kali bug yang sedang Anda buru.",
+          "Penggantian yang diam lebih buruk daripada kesalahan persis karena ia menyembunyikan masalahnya: karakter pengganti U+FFFD dalam keluaran Anda biasanya berarti byte sumbernya rusak di suatu tempat di hulu, dan menemukan di mana jauh lebih mudah ketika decoder menandai posisi yang persis alih-alih menguburnya dalam teks yang tampak terbaca.",
+        ],
+      },
+      {
+        heading: "Kesalahan mode dan konvensi +",
+        paragraphs: [
+          "Dua mode decoder ada karena mendekode satu nilai dengan mode URI-penuh adalah kegagalan diam klasik: %3D (=) dan %26 (&) tampak seperti struktur URL, jadi decodeURI membiarkan mereka tak tersentuh dan nilainya datang masih setengah-terenkode — hanya untuk terbelah salah saat Anda mem-parse query string-nya. Sebaliknya, mendekode satu URL utuh dengan mode komponen mendekode pemisah-pemisah yang mungkin ingin Anda pertahankan tetap terlihat.",
+          "Sakelar + ada karena sejarah otak-belah karakter spasi. Di string query terenkode-formulir (application/x-www-form-urlencoded), + benar-benar berarti spasi; di jalur dan di URL RFC 3986 yang ketat, + hanyalah tanda tambah. Mendekode satu string pencarian buatan-formulir dengan sakelar mati dan Anda akan melihat tanda tambah berserakan di teks Anda di tempat spasi seharusnya.",
+          "Satu jebakan lagi yang layak diketahui: pengodean ganda. Tanda persen sendiri terenkode sebagai %25, jadi string yang dienkode dua kali membawa %253D di tempat %3D seharusnya. Jika hasil terdekode masih berisi rangkaian %, dekode lagi — kebanyakan URL redirect yang “rusak” hanya terenkode dua kali oleh dua lapisan berbeda yang masing-masing mengira yang lain sudah melakukannya.",
+        ],
+      },
+      {
+        heading: "Membaca URL terenkode tanpa mengirimnya ke mana pun",
+        paragraphs: [
+          "URL yang perlu Anda dekode jarang publik: parameter pelacakan dari platform iklan, token sesi di dalam rantai redirect, URL bertanda-tangan dengan cap waktu kedaluwarsa, endpoint internal dari log akses. Mengirim mereka ke decoder daring yang mem-proxy ke server berarti menyerahkan token-token itu kepada pihak tak dikenal — tak perlu untuk tugas yang bisa dilakukan browser sendirian.",
+          "Semuanya di sini berjalan di JavaScript browser Anda. String terenkodenya diparse di perangkat Anda, rangkaian tak-valid dilaporkan lokal, dan tak ada riwayat apa pun tentang yang Anda tempel yang disimpan di mana pun. Ia juga bekerja offline — menempel URL dari halaman captive portal jaringan terkunci atau dari ekspor mesin air-gapped bekerja persis sama.",
+          "Satu tips alur kerja praktis: padukan dengan URL encoder. Dekode URL yang mencurigakan, perbaiki bagian yang salah, enkode-ulang tepat bagian itu, dan rakit tautan finalnya dengan tangan. Lingkar itu menangkap kebanyakan bug URL dunia nyata — pengodean ganda, mode salah, ambiguitas + — dalam waktu di bawah satu menit, sepenuhnya di mesin Anda.",
+        ],
       },
     ],
   },
@@ -1931,6 +3691,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Token didekode sepenuhnya di browser Anda dan tidak pernah meninggalkan perangkat — tidak ada unggahan. Meski begitu, perlakukan token sebagai kredensial dan hindari menempel token produksi di tempat yang tidak Anda perlukan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mendekode bukan memverifikasi — fakta keamanan yang paling berarti",
+        paragraphs: [
+          "Dua segmen pertama JWT adalah JSON terenkode-Base64URL polos tanpa enkripsi apa pun. Siapa pun yang menerima token bisa membaca tiap klaim di dalamnya, dan token apa pun bisa dirakit dengan tangan dalam hitungan detik. Itu memang desainnya: JWT ditandatangani, bukan disegel. Tanda tangan di ujungnya membuktikan token diterbitkan oleh pemegang kunci dan tak dimodifikasi sejak itu — ia tak melakukan apa pun untuk menyembunyikan isinya.",
+          "Konsekuensi yang harus tertanam di setiap pengembang: melihat header yang terformat baik, payload yang masuk akal, dan satu string tanda tangan tak membuktikan apa pun tentang legitimasi token. Penyerang bisa mengubah payload — membalik satu peran dari user menjadi admin — mengenkode ulang, dan menyematkan byte tanda tangan apa pun; ia terdekode indah dan tak terautentikasi di mana pun. Hanya server, yang memegang rahasia HMAC atau kunci publik, yang bisa membedakannya. Alat ini sengaja tak pernah memverifikasi: ia menunjukkan apa yang dikatakan token, dan apa yang dikatakannya tak punya otoritas sampai server Anda memeriksa tanda tangannya.",
+          "Dekode juga lensa audit atas apa yang sebenarnya Anda kirim. Tempel satu token dari alur login Anda sendiri dan periksa klaim yang mungkin tak Anda sadari terekspos: ID pengguna internal, alamat surel, nama tenant, daftar izin. Segalanya dalam payload terbaca oleh klien — termasuk siapa pun dengan dev tools browser terbuka — jadi aturannya: jangan pernah menaruh rahasia dalam payload JWT. Jika ia harus rahasia, ia tak berhak berada di token; gunakan ID sesi opaque yang didukung penyimpanan sisi-server.",
+        ],
+      },
+      {
+        heading: "Membaca klaim standar: exp, iat, dan jebakan jam",
+        paragraphs: [
+          "Klaim terdaftar (RFC 7519) punya makna yang disepakati: iss (penerbit), sub (subjek), aud (audiens), exp (kedaluwarsa), nbf (tidak sebelum), iat (diterbitkan pada). Semua waktu adalah detik sejak epoch Unix, bukan string ISO — exp=1893456000 adalah satu tanggal, dan alat ini merendernya dalam zona waktu Anda sehingga tak seorang pun perlu berhitung epoch untuk tahu apakah satu token telah kedaluwarsa.",
+          "Kegagalan klasiknya adalah pergeseran jam antara penerbit token dan pemeriksa: server yang jamnya telat satu menit menolak token yang masih valid menurut perspektif penerbitnya, dan perbaikannya adalah satu jendela toleransi kecil (pustaka biasanya mengekspos toleransi 30–60 detik). Jebakan lain adalah exp sebagai waktu absolut, bukan TTL — token yang diterbitkan dengan kedaluwarsa 30 hari tak bisa dipersingkat tanpa menerbitkan ulang, itulah sebabnya token akses berumur-pendek yang dipasangkan dengan refresh token menjadi pola standarnya.",
+          "Periksa aud dan iss juga, bukan hanya exp. Token yang belum kedaluwarsa tetapi diterbitkan untuk audiens berbeda setidak-validnya token yang kedaluwarsa — server yang hanya memeriksa exp menerima token yang dicetak untuk layanan lain. Saat mendebug satu 401, dekode dulu token itu di sini: lebih sering daripada tidak, jawabannya terlihat di payload sebelum Anda menyentuh log server mana pun.",
+        ],
+      },
+      {
+        heading: "Mengapa token tak pernah meninggalkan browser Anda",
+        paragraphs: [
+          "JWT adalah kredensial pembawa: siapa pun yang memegangnya bisa bertindak sebagai Anda sampai ia kedaluwarsa. Menempel satu token hidup ke decoder sisi-server berarti menyerahkan tepat kekuatan itu ke operator servernya — hasil terburuk tunggal dari satu alat debugging. Alat ini mem-parse segmen Base64URL dengan JavaScript browser saja; tokennya tak pernah dikirim, dicatat, atau disimpan, dan begitu halaman dimuat seluruhnya bekerja offline.",
+          "Bahkan begitu, perlakukan kotak tempelnya seperti tempat kredensial pergi mana pun. Utamakan menempel token yang kedaluwarsa atau token lingkungan-uji; jika Anda harus menginspeksi token produksi, lakukan sekali dan biarkan ia kedaluwarsa alih-alih meregenerasi token berumur-panjang untuk kesempatan itu.",
+          "Filosofi lokal tanpa-verifikasi yang sama berlanjut di seluruh situs: alat base64 mendekode segmen mentahnya jika Anda ingin turun ke level lebih rendah, dan alat hash membiarkan Anda mengambil sidik jari satu token untuk membandingkan apakah dua token yang diterbitkan berbeda tanpa pernah mengekspos isinya.",
+        ],
+      },
+    ],
   },
   "uuid-generator": {
     name: "UUID Generator",
@@ -1957,6 +3743,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah UUID-nya dihasilkan di server?",
         a: "Tidak. Mereka datang dari generator acak kriptografis browser Anda sendiri dan tidak pernah meninggalkan perangkat.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Seberapa acak UUID v4 sebenarnya",
+        paragraphs: [
+          "UUID versi 4 membawa 122 bit acak; 6 lainnya dipatok oleh formatnya — nibble versi selalu 4 dan dua bit di grup ketiga adalah penanda varian. Tata letak itu (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx, dengan y di 8, 9, a, atau b) adalah pemeriksaan visual cepat apakah satu pengenal v4 yang terformat baik, dan juga alasan UUID v4 tak bisa dikompres melampaui bentuk aslinya.",
+          "Pertanyaan tabrakan muncul setiap kali seseorang menghasilkan ID secara massal. Dengan 122 bit, matematika batas-birthday mengatakan Anda butuh di urutan 10^36 UUID yang dihasilkan agar satu duplikat menjadi masuk akal — jauh melampaui beban kerja realistis mana pun. Tabrakan praktis di sistem nyata menelusuri kembali ke keacakan yang rusak, bukan ke formatnya: generator pseudo-acak ber-seed yang dipakai ulang antar server, atau ID yang di-hardcode di fixture. Formatnya aman; sumber keacakannya yang harus aman.",
+          "Alat ini menghasilkan lewat crypto.randomUUID, sumber kriptografis-aman milik browser — kolam yang sama yang mengamankan sesi HTTPS — sehingga tiap pengenal tak terduga dan aman dipakai sebagai ID sumber daya yang tak bisa ditebak. Properti itu lebih berarti daripada keunikan mentah di beberapa desain: ID yang tak bisa dienumerasi siapa pun adalah kontrol akses lewat kerahasiaan yang dilakukan dengan benar, sepanjang server tetap memeriksa otorisasinya.",
+        ],
+      },
+      {
+        heading: "v4 versus versi-versi lainnya",
+        paragraphs: [
+          "Keluarga versi menjawab pertanyaan yang berbeda. v1 menyematkan cap waktu dan sering alamat MAC mesin penghasilnya — bisa diurutkan, tetapi ia membocorkan di mana dan kapan ia dibuat, dan alamat MAC yang terpublikasi dalam satu ID dokumen adalah cacat privasi kecil. v4 tak membawa cap waktu maupun identitas perangkat keras dan tak membocorkan apa pun, itulah sebabnya ia menjadi bawaan bagi pengenal yang menghadap publik.",
+          "Versi terurut-waktu yang lebih baru — v6 dan v7, ditambahkan oleh RFC 9562 pada 2024, dengan v7 memakai cap waktu Unix ditambah keacakan — ada persis untuk masalah database: keacakan v4 memecah indeks, sementara ID terurut-waktu menggumpalkan penyisipan sebagaimana ULID. Jika kunci Anda hidup di satu tabel terindeks besar, v7 atau ULID mengalahkan v4 pada lokalitas tulisan; jika pengenal Anda muncul di URL, token, atau apa pun yang dilihat pengguna, ketidakterlihatan v4 adalah fiturnya.",
+          "Aturan praktisnya: v4 sebagai bawaan di mana-mana, dan berubah secara disengaja ketika satu kebutuhan — keterurutan, kemampuan-disematkan, parser legacy yang hanya menerima v1 — mendorong Anda ke versi lain. Mencampur versi dalam satu ruang pengenal sah (nibble versi membedakannya) tetapi membuat validasi hilir lebih ketat, karena konsumen tak lagi bisa mengasumsikan satu bentuk.",
+        ],
+      },
+      {
+        heading: "Dihasilkan di perangkat Anda, dalam jumlah berapa pun",
+        paragraphs: [
+          "Pengenal-pengenalnya berasal dari generator acak kriptografis browser Anda dan tak pernah menyentuh server: batch hingga 500 muncul seketika, bekerja offline, dan tak ada yang dicatat atau disimpan. Lokalitas itu punya sudut privasi praktisnya — menghasilkan satu ID untuk dokumen, kasus dukungan, atau produk yang belum dirilis di situs web orang lain akan mengaitkan objek itu ke log pihak ketiga; di sini pembuatannya tak meninggalkan jejak di luar perangkat Anda.",
+          "Pembuatan massal adalah alur kerja umumnya: fixture uji, seed database, nama file, ID permintaan, draf kunci API untuk dibagikan nanti. Hasilkan batchnya, salin dengan satu klik, dan perlakukan daftarnya seperti rahasia sekali-pakai — tempel ke tempat yang dibutuhkan dan bersihkan. Karena pembuatannya lokal dan tak dicatat, satu batch tak pernah melintasi server pihak ketiga dalam perjalanannya menuju data Anda.",
+          "Satu peringatan yang berlaku untuk generator mana pun: keacakan dari browser kuat tetapi bukan sumber perangkat keras tersertifikasi, dan yurisdiksi dengan kebutuhan kepatuhan ketat kadang menuntut entropi tersertifikasi untuk materi kunci. Untuk pengenal biasa, ID permintaan, dan fixture — mayoritas mutlak penggunaannya — sumber browser lebih dari cukup.",
+        ],
       },
     ],
   },
@@ -1987,6 +3799,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak pernah. Hashing berjalan lokal di browser Anda — bahkan file bermulti-gigabita dibaca oleh perangkat Anda sendiri saja.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Satu algoritme per pekerjaan: keluarga SHA-2 versus yang rusak",
+        paragraphs: [
+          "Alat ini sengaja menawarkan lima algoritme karena pekerjaan yang berbeda butuh yang berbeda. SHA-256 dan SHA-512 adalah standar saat ini — mereka menopang sertifikat TLS, penandatanganan kode, dan Bitcoin. SHA-384 adalah konstruksi yang sama dengan SHA-512 dengan keluaran terpotong, dan umum di tempat standar menuntut digest lebih pendek. SHA-1 dan MD5 muncul di sini bukan untuk direkomendasikan melainkan karena dunia nyata masih memintanya: checksum arsip legacy, vendor tua, dan pemeriksa tua terus memintanya.",
+          "Sejarah kerusakannya layak diketahui dengan presisi. Ketahanan tabrakan MD5 runtuh pertengahan 2000-an, dengan malware Flame 2012 memalsukan satu sertifikat Microsoft sebagai demonstrasi utamanya. SHA-1 bertahan lebih lama: Google dan CWI Amsterdam mendemonstrasikan tabrakan SHA-1 praktis pertama (serangan SHAttered) pada 2017. Keduanya masih dapat diterima untuk integritas non-adversarial — memastikan satu file selamat dari transfer — tetapi keduanya harus ditolak di mana pun penyerang bisa memilih sebagian masukannya.",
+          "Aturan praktisnya: untuk apa pun yang Anda terbitkan hari ini, hasilkan SHA-256 (atau SHA-512 untuk file besar, tempat internal 64-bit-nya lebih cepat di CPU modern). Ketika Anda harus memverifikasi satu checksum MD5 atau SHA-1 lama, lakukan di sini sekali dan hasilkan SHA-256 di sampingnya, agar catatannya membawa pemeriksaan legacy dan yang siap-masa-depan sekaligus.",
+        ],
+      },
+      {
+        heading: "Panjang digest dan bentuk keluaran yang benar",
+        paragraphs: [
+          "Keluaran tiap algoritme berukuran tetap, yang membuat keluaran salah langsung terkenali: MD5 adalah 32 karakter heksadesimal, SHA-1 40, SHA-256 64, SHA-384 96, dan SHA-512 128. Jika satu “SHA-256” yang diakui punya 63 atau 65 karakter, ada yang rusak di hulu — pemotongan, salah salin-tempel, atau algoritme berbeda yang mengenakan label salah. Memeriksa panjangnya sebelum membandingkan menghemat kebingungan memburu satu ketidakcocokan yang sebenarnya kesalahan pemformatan.",
+          "Kapitalisasi heksa adalah jebakan pembandingan lainnya: sebagian alat mencetak digest kapital, sebagian kecil. Nilainya identik — heksadesimal hanyalah notasi — jadi bandingkan tak-peduli-kapital atau normalkan kedua sisi lebih dulu. Dan waspadai whitespace di ekor: menghash satu teks dengan baris baru terakhir menghasilkan digest berbeda dari tanpanya, itulah sebabnya mode teks di sini menghash persis karakter yang Anda berikan dan mode file menghash byte mentah filenya.",
+          "Properti satu-arah itulah yang membuat semua ini bekerja: digest berpanjang-tetap membuang informasi secara desain, dan byte yang identik selalu menghasilkan digest identik. Determinisme itulah yang membiarkan checksum yang diterbitkan satu proyek di satu negara cocok dengan yang Anda hitung di browser Anda di negara lain — byte sama, digest sama, tak peduli siapa yang menghitung atau di mana.",
+        ],
+      },
+      {
+        heading: "Menghash di tempat file itu hidup",
+        paragraphs: [
+          "Hash biasanya dihitung persis karena kepercayaannya sedang dipertanyakan — jadi lingkungan hashnya sama pentingnya dengan algoritmenya. Mengirim satu file ke server tak dikenal untuk dihash mengalahkan dirinya sendiri: Anda mengirim persis byte yang integritasnya coba Anda verifikasi. Semuanya di sini berjalan di browser Anda; teks terhash saat Anda mengetik dan file dibaca lokal dengan file API browser, tak pernah diunggah.",
+          "Eksekusi lokal juga menghapus batas atas praktisnya. Tak ada bandwidth unggahan, tak ada batas ukuran selain memori Anda, dan tak ada antrean — mengambil sidik jari ISO multi-gigabita hanya butuh selama membacanya dari disk, dan begitu halaman dimuat alurnya bekerja offline.",
+          "Untuk pekerjaan satu-algoritme yang terfokus, halaman generator SHA-256 dan generator MD5 memberi tiap algoritme satu tampilan khusus; halaman ini adalah alat bersebelahannya — satu masukan, lima digest, dan kebebasan memverifikasi checksum lama sekaligus menerbitkan yang baru di tempat yang sama.",
+        ],
+      },
+    ],
   },
   "md5-generator": {
     name: "MD5 Generator",
@@ -2013,6 +3851,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah teks dan file saya dikirim ke server?",
         a: "Tidak. Semuanya berjalan di browser Anda; bahkan file dibaca dan di-hash sepenuhnya di perangkat Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa MD5 rusak — dan kenapa ia masih selamat",
+        paragraphs: [
+          "MD5 dirancang Ron Rivest pada 1991 sebagai digest pesan 128-bit yang cepat, dan selama satu dekade ia adalah hash bawaan web. Kecepatan itulah titik jualnya — dan akhirnya kejatuhannya. Karena ia memproses data dengan cepat, penyerang bisa mencoba jumlah masukan yang sangat besar per detik, dan karena struktur internalnya punya kelemahan yang diketahui, mereka bahkan tak butuh brute force untuk mematahkan ketahanan tabrakannya.",
+          "Ketahanan tabrakan MD5 runtuh bertahap sepanjang pertengahan 2000-an: peneliti mendemonstrasikan teknik tabrakan yang praktis, dan malware Flame 2012 terkenal memakai satu tabrakan MD5 untuk memalsukan satu sertifikat penandatanganan-kode Microsoft. Sejak itu, tak ada protokol keamanan serius yang menerima MD5 untuk tanda tangan, sertifikat, atau autentikasi.",
+          "Namun MD5 tak lenyap, dan itu tidak apa-apa sepanjang Anda memahami pembedanya: serangan tabrakan membiarkan penyerang merakit dua masukan berbeda dengan hash yang sama, tetapi itu tidak menolong mereka membalikkan satu hash atau merusak satu file tanpa terdeteksi di setiap keadaan. Memverifikasi bahwa unduhan besar cocok dengan checksum yang diterbitkan sumber terpercaya yang sama bersifat non-adversarial — tak seorang pun merakit tabrakan terhadap Anda. Untuk pekerjaan itu MD5 tetap sangat dapat dipakai; untuk apa pun tempat penyerang memilih sebagian masukannya, tidak.",
+        ],
+      },
+      {
+        heading: "Memakai checksum dengan benar",
+        paragraphs: [
+          "Satu perbandingan checksum hanya setruster sumber nilai yang diharapkannya. Ketika satu proyek menerbitkan MD5 bersama unduhannya, checksum itu dimaksudkan mendeteksi kerusakan dalam transit — transfer yang terpotong, mirror yang buruk, disk yang tergores. Jika checksumnya sendiri datang dari kanal tak terpercaya, penyerang yang bisa menukar file juga bisa menukar checksumnya, dan MD5 akan dengan senang hati mengonfirmasi pemalsuan itu.",
+          "Sensitivitas kapital lebih sering membuat orang tersandung dari yang seharusnya: sebagian alat mencetak heksa kapital, sebagian kecil. Digestnya identik — A3F… dan a3f… adalah angka yang sama dalam notasi berbeda — jadi bandingkan tak-peduli-kapital atau normalkan sebelum menyatakan ketidakcocokan. Baris baru di ekor masukan adalah jebakan klasik lainnya: menghash satu file teks yang berakhir dengan baris baru memberi digest berbeda dari menghash karakter yang sama tanpanya, itulah sebabnya mode teks kami menghash persis karakter yang Anda berikan.",
+          "Untuk kunci dedup dan penghancur cache, kecepatan MD5 adalah fitur, bukan kompromi. Menghasilkan kunci 32-karakter dari satu gumpalan konten murah dan stabil lintas run, bahasa, dan platform — algoritme RFC 1321 yang sama menghasilkan keluaran yang sama entah Anda memanggilnya dari JavaScript di sini, md5sum di Linux, atau satu pustaka di backend Anda.",
+        ],
+      },
+      {
+        heading: "Semuanya berjalan di perangkat Anda",
+        paragraphs: [
+          "Menghash adalah persis jenis operasi yang tak ingin Anda luarangkan: seluruh poin memeriksa satu file sering kali karena Anda tak sepenuhnya memercayai jaringan tempatnya datang. Mengirim file yang sama ke server web tak dikenal untuk dihash mengalahkan tujuannya. Karena itu alat ini menghitung MD5 sepenuhnya di browser Anda — teks terhash saat Anda mengetik, dan file dibaca lokal dengan file API browser, tak pernah diunggah.",
+          "Desain lokal itu punya manfaat praktis melampaui privasi: tak ada waktu unggah, tak ada gerbang ukuran, dan tak ada antrean server. Satu citra ISO multi-gigabita hanya butuh selama membacanya dari disk dan bekerja offline begitu halaman dimuat.",
+          "Untuk apa pun yang kritis-keamanan, padukan alat ini dengan SHA-256 — generator SHA-256 kami memakai alur lokal yang sama, dan halaman hash-generator membiarkan Anda menghitung beberapa algoritme bersebelahan sehingga Anda bisa menerbitkan kedua digest bagi pengguna Anda.",
+        ],
       },
     ],
   },
@@ -2043,6 +3907,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Hashing berjalan lokal di browser Anda dengan WebCrypto — data Anda tidak pernah meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Keluarga SHA-2 dan ukuran keluarannya",
+        paragraphs: [
+          "SHA-256 adalah satu anggota keluarga SHA-2, yang distandarkan NIST AS pada awal 2000-an sebagai pengganti SHA-1. Nama keluarganya menyandikan ukuran keluaran dalam bit: SHA-224, SHA-256, SHA-384, dan SHA-512 menghasilkan 224, 256, 384, dan 512 bit — itulah 64, 64, 96, dan 128 karakter heksadesimal. Satu digest “SHA-256” yang bukan tepat 64 karakter heksa bukan SHA-256, apa pun klaim labelnya.",
+          "Varian-variannya juga berbeda secara internal, bukan hanya dalam pemotongan. SHA-512 bekerja pada kata 64-bit dan sebenarnya lebih cepat daripada SHA-256 di CPU 64-bit modern saat menghash file besar; SHA-256 memakai kata 32-bit dan menjadi pilihan kompatibilitas yang lebih luas. SHA-224 dan SHA-384 hanyalah varian terpotong yang didefinisikan untuk standar spesifik yang menginginkan digest lebih pendek.",
+          "Jangan mencampuradukkan SHA-2 dengan SHA-3 (Keccak), satu konstruksi berbeda yang distandarkan satu dekade kemudian, atau dengan SHA-1, pendahulu 160-bit yang rusak terhadap serangan tabrakan dan tak boleh dipakai dalam desain baru. Ketika satu halaman unduhan berkata “verifikasi dengan SHA-256”, alat ini memberi Anda tepat digest itu, dihitung oleh WebCrypto milik browser Anda.",
+        ],
+      },
+      {
+        heading: "Membaca dan membandingkan digest",
+        paragraphs: [
+          "Dua digest entah cocok persis atau filenya berbeda — tak ada nilai setengah hati. Membandingkan dengan mata melintasi 64 karakter rawan kesalahan, jadi otomatisasi: pipakan file yang diunduh melalui sha256sum, shasum -a 256, atau CertUtil, lalu bandingkan stringnya secara programatis atau dengan diff. Satu karakter berbeda berarti kerusakan atau penggantian, tak pernah artefak pembulatan.",
+          "Efek longsoran adalah properti yang membuat checksum terpercaya: balikkan satu bit di mana pun dalam file multi-gigabita dan digestnya menjadi satu nilai 256-bit acak yang tak berkaitan. Ini juga berarti Anda tak bisa menyimpulkan apa pun tentang kontennya dari digestnya — dua file yang tampak identik di pengelola file bisa berbeda metadatanya dan terhash berbeda.",
+          "Awasi pipa masukannya, bukan algoritmenya. Pengodean adalah pelaku biasanya: menghash teks “café” sebagai UTF-8 dan sebagai Latin-1 memberi digest berbeda karena byte-nya berbeda. Alat ini menghash persis byte dari yang Anda ketik (UTF-8 untuk teks) atau byte persis filenya, yang adalah yang diharapkan setiap alur checksum standar.",
+        ],
+      },
+      {
+        heading: "Mengapa menghitung hash di browser",
+        paragraphs: [
+          "Hash satu file hanya berarti jika lingkungan hashnya terpercaya, dan satu server web acak tidak. Alat ini memakai WebCrypto — pustaka kriptografi yang terbawa di dalam browser sendiri dan diandalkan TLS — sehingga digest yang Anda dapat datang dari kode natif ter-audit, dihitung lokal; teks dan file tak pernah meninggalkan perangkat Anda.",
+          "Perhitungan lokal juga menghapus batas atas praktisnya: tanpa bandwidth unggahan, tanpa batas ukuran selain memori tersedia, tanpa menunggu antrean. Mengambil sidik jari satu arsip besar terikat kecepatan baca disk, dan begitu halaman dimuat seluruh alurnya bekerja offline.",
+          "WebCrypto tak menawarkan MD5, itulah sebabnya generator MD5 di situs ini memakai implementasi JavaScript murni sementara SHA-256 menumpang yang natif. Untuk apa pun yang baru, utamakan SHA-256 atau lebih kuat — halaman hash-generator menghitung seluruh keluarga SHA-2 bersebelahan saat Anda butuh beberapa digest sekaligus.",
+        ],
+      },
+    ],
   },
   "regex-tester": {
     name: "Regex Tester",
@@ -2069,6 +3959,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah data uji saya dikirim ke mana pun?",
         a: "Tidak. Pencocokan berjalan langsung di browser Anda — tidak ada yang diunggah atau disimpan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Backtracking katastrofik: mengapa sebagian pola membekukan segalanya",
+        paragraphs: [
+          "Mesin regex yang backtracking mencoba setiap cara sub-pola bisa membelah masukan, dan sebagian kombinasi meledak secara eksponensial. Pelaku klasiknya adalah kuantifier bersarang seperti (a+)+ terhadap satu baris panjang “a” yang gagal di ujungnya: mesin membelah-ulang baris itu dengan lebih banyak cara daripada jumlah atom di alam semesta. Satu masukan berpanjang beberapa puluh karakter bisa menggantung satu thread server berjam-jam — inilah mekanisme di balik insiden nyata, tempat satu pola atau kolom yang diberikan pengguna mengenai satu validator yang dibangun di atas pola semacam itu.",
+          "Lookahead sering direkomendasikan sebagai perbaikan. Mengubah (a+)+ menjadi (?=(a+))a+ atau menganchorkan dengan ^ dan $ memangkas pohon pencarian karena asersinya tak mengonsumsi apa pun dan mesin berkomitmen lebih cepat. Grup atomik (?>...) dan kuantifier posesif a++ juga menghapus titik-titik backtrack, tetapi JavaScript RegExp tak mendukung keduanya — di JS Anda menirunya dengan lookahead atau menyusun ulang polanya.",
+          "Cara menandai satu pola berbahaya sebelum produksi: kuantifier bersarang ((.+)*, (\\w+)+), alternasi di dalam kuantifier ((a|a?)+), dan ekor opsional yang tumpang tindih dengan kepala serakah. Ujilah terhadap satu string panjang tak-cocok, bukan hanya yang cocok — pola yang lolos uji jalur-bahagia tetap bisa memakan waktu eksponensial pada masukan yang memang ditolaknya. Pustaka pengerasan ReDoS dan aturan lint (keluarga safe-regex) mengodekan persis pemeriksaan-pemeriksaan ini.",
+        ],
+      },
+      {
+        heading: "Lookahead, lookbehind, dan kecocokan lebar-nol",
+        paragraphs: [
+          "Asersi lookaround memeriksa apa yang mengelilingi satu posisi tanpa mengonsumsinya, yang menjadikannya alat untuk logika “memuat tetapi tak didahului oleh”. Misalnya, \\d+(?= dollars) mengambil angkanya hanya ketika kata dollars menyusul, dan foo(?!bar) mencocokkan foo di mana pun kecuali sebelum bar. Lookbehind negatif (?<!@)\\w+ baru tersedia di JavaScript sekitar 2018 (era V8 6.2), jadi Node dan Safari yang lebih tua menolak pola yang diterima browser terbaru.",
+          "Kecocokan berpanjang-nol adalah sudut halus lainnya. Pola seperti a* bisa berhasil tanpa mengonsumsi apa pun, jadi satu loop naif akan berputar selamanya di indeks yang sama. Perbaikan spesifikasi JavaScript: ketika satu kecocokan kosong, mesin maju satu posisi sebelum melanjutkan. Penguji ini mengikuti aturan itu, itulah sebabnya a* terhadap “baa” menghasilkan satu kecocokan kosong di indeks 0, lalu kecocokan nyata di 1 dan 2 — cocok dengan yang dikembalikan String.prototype.match dengan flag g.",
+          "Pembacaan praktis: grup tangkapan dari lookahead tetap menangkap. (?=(a+)) memberi Anda barisan “a” sebagai grup 1 sambil mencocokkan secara posisional. Grup bernama (?<year>\\d{4}) membuat ekstraksi mendokumentasikan dirinya sendiri dan selamat dari penataan-ulang pola. Ketika satu grup mungkin tidak berpartisipasi, buat ia opsional dan periksa undefined alih-alih berasumsi tiap grup selalu hadir pada tiap kecocokan.",
+        ],
+      },
+      {
+        heading: "Perbedaan dialek dan mengapa ini berjalan lokal",
+        paragraphs: [
+          "Regex bukan satu bahasa. JavaScript mendukung \\d, \\w, dan \\s tetapi tidak kelas POSIX seperti [[:alpha:]]; PCRE menambahkan rekursi dan \\K; Python menambahkan (?P<name>...) untuk grup bernama sementara JS memakai (?<name>...). Flag unicode mengubah apa yang dimaksud . dan \\w bagi karakter astral, dan flag s membuat titik mencocokkan baris baru. Saat memindahkan satu pola antar bahasa, ujilah portnya — kebanyakan ketidakcocokan bersembunyi di lookbehind, rekursi, dan escape properti-unicode (\\p{Script=Greek}, yang butuh flag u di JS).",
+          "Semuanya di sini dieksekusi di browser Anda dengan RegExp milik JavaScript sendiri — string uji Anda, yang bisa berupa baris log, payload API, atau data pelanggan, tak pernah meninggalkan perangkat. Itu keunggulan struktural atas layanan regex yang mengirim pola dan data sampel Anda ke server, tempat satu tempelan data produksi ke satu sesi debugging menjadi satu salinan di log orang lain. Tak ada di sini yang diunggah, disimpan, atau dibagikan; tutup tabnya dan semuanya lenyap.",
+        ],
       },
     ],
   },
@@ -2099,6 +4014,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Konversi terjadi secara lokal di browser Anda — tidak ada yang meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana pengutipan CSV sebenarnya bekerja",
+        paragraphs: [
+          "CSV tampak seperti format paling sederhana di bumi, dan aturan escapenya adalah alasan setiap konverter buatan-tangan akhirnya merusak data. Konvensi RFC 4180: satu kolom yang memuat koma, kutip-ganda, atau pemenggalan baris harus dibungkus kutip-ganda, dan tiap kutipan di dalamnya harus digandakan — satu nilai seperti he said “hi” menjadi \"he said \"\"hi\"\"\" di dalam file. Segala yang lain dibaca berbeda oleh pengimpor yang berbeda.",
+          "Pemenggalan baris di dalam kolom adalah aturan yang paling jarang diketahui. Satu sel boleh secara sah memuat baris baru, sepanjang ia dikutip — spreadsheet menanganinya dengan baik, tetapi parser naif baris-demi-baris memperlakukannya sebagai tiga catatan. Jika jumlah baris hasil konversi tampak salah di alat hilir Anda, satu baris baru yang tersemat di kolom teks adalah tersangka pertamanya.",
+          "Waspadai jebakan konversi-ganda: menempel CSV melalui satu alat lain yang juga membelah pada koma bisa menggandakan escape, meninggalkan pasangan \"\" yang terlihat di dalam sel. Ketika hasilnya tampak aneh, bandingkan dengan aturan-aturan di atas alih-alih berasumsi konverternya rusak — kebanyakan kali data sumbernya memuat satu kutipan atau koma yang tak Anda perhatikan.",
+        ],
+      },
+      {
+        heading: "Pemisah, lokal, dan jebakan desimal Excel",
+        paragraphs: [
+          "Pemisahnya bukan universal. Lokal Inggris dan Asia Timur membuka file terpisah-koma secara natif, tetapi sebagian besar Eropa memakai titik-koma karena koma sudah menjadi pemisah desimal: Excel Jerman yang membuka file terpisah-koma menempatkan 1,5 dan 2,5 ke dalam satu kolom. Jika penerima Anda orang Eropa, pilih opsi titik-koma sebelum mengirim.",
+          "Satu jebakan terkait terjadi bahkan dengan pemisah yang tepat: Excel memformat ulang nilai saat membuka. Pengenal yang tampak seperti angka kehilangan nol pendahulunya (kode pos, prefiks SKU), ID numerik panjang menjadi 4.31202E+12, dan tanggal direinterpretasi menurut lokal mesinnya. File CSV-nya sendiri baik-baik saja — tebakan tipenya spreadsheet yang merusaknya. Mengimpor lewat wizard dengan tipe kolom eksplisit menghindarkan semuanya.",
+          "Tipe JSON terpetakan dengan bersih selain itu: boolean menjadi teks true/false, angka lolos sebagai digit, null menjadi satu sel kosong. Perhatikan pembedaan antara sel kosong dan null — kebanyakan pengimpor memperlakukan mereka sama, tetapi sebagian database membedakan NULL eksplisit dari string kosong, jadi periksa konvensi target Anda jika pembedaan itu berarti.",
+        ],
+      },
+      {
+        heading: "Mengonversi ekspor secara lokal, bukan di cloud",
+        paragraphs: [
+          "JSON yang Anda konversi ke CSV biasanya ekspor catatan nyata: daftar pelanggan dari satu panel admin, riwayat pesanan dari satu API, baris analitik yang menuju tim keuangan. Ini persis dataset yang tak seharusnya lewat satu layanan web sembarangan — dan banyak konverter daring memang mengunggah dokumen Anda ke server mereka.",
+          "Di sini seluruh konversi berjalan di browser Anda: mem-parse array, menggabungkan kunci, meng-escape sel, semua dalam JavaScript lokal. Catatan berisi data pribadi, metrik produk yang belum dirilis, atau apa pun di bawah kontrak bisa dikonversi tanpa pernah melintasi jaringan, dan alatnya bekerja offline untuk momen ketika sumber datanya mesin internal yang sama sekali tak punya internet.",
+          "Tak ada juga gerbang jumlah barisnya: ekspor sepuluh-ribu-baris terkonversi semudah contoh dua barisnya. Padukan hasilnya dengan csv-to-json ketika alurnya berbalik — CSV yang kembali dari tim keuangan menuju API Anda — dan bolak-baliknya tetap konsisten karena kedua sisi mengikuti aturan pengutipan yang sama.",
+        ],
+      },
+    ],
   },
   "csv-to-json": {
     name: "CSV ke JSON",
@@ -2127,6 +4068,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Konversi berjalan lokal di browser Anda — data Anda tidak pernah meninggalkan perangkat.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Inferensi tipe: aturan konservatif yang menjaga data tetap jujur",
+        paragraphs: [
+          "Sel CSV adalah teks; JSON punya tipe. Menjembatani keduanya berarti konverter harus menduga, dan kualitas satu konverter hidup di cara ia menduga. Aturan-aturan di sini sengaja konservatif: satu sel menjadi angka hanya jika ia literal numerik yang bersih — tanpa nol pendahulu, tanpa spasi di sekelilingnya. true dan false menjadi boolean, literal null yang persis menjadi null, dan segala yang lain tetap string. Artinya 007 tetap “007”, bukan 7; kode pos, kode produk, dan nomor telepon mempertahankan nolnya; dan tanggal seperti 2024-03-04 tak diam-diam menjadi sesuatu yang lain.",
+          "Bawaan konservatifnya ada karena satu tipe yang salah adalah bug yang diam. Konsumen JSON yang menerima 7 alih-alih “007” tak bisa memulihkan aslinya; yang menerima satu string di tempat yang diinginkannya angka setidak-tidaknya gagal keras atau mudah dikonversi. Ketika Anda tahu satu kolom sungguh numerik, paksakan di hilir tempat asumsinya eksplisit — konverter bukan tempat yang tepat berjudi dengan pengenal Anda.",
+          "Penanganan header menutup dua penyakit klasik CSV: nama kolom kosong dan duplikat. Header kosong mendapat nama hasil-generasi (column1, column2, ...) agar tiap baris mempertahankan semua kolomnya; duplikat melipat ke kemunculan terakhir, karena objek JSON tak bisa membawa kunci berulang. Jika duplikat berarti bagi skema Anda, perbaiki headernya sebelum konversi — tak ada konverter yang bisa mengarang informasi yang tak pernah dimiliki sumbernya.",
+        ],
+      },
+      {
+        heading: "Mem-parse CSV dengan benar: kutipan, baris baru, pemisah",
+        paragraphs: [
+          "Membelah CSV pada koma salah begitu satu dataset nyata datang. RFC 4180, standar yang sebenarnya diikuti format ini dalam praktik, mendefinisikan kolom berkutip: satu kolom yang memuat koma, kutipan, atau pemenggalan baris harus dibungkus kutip-ganda, dan kutipan di dalam kolom semacam itu di-escape dengan penggandaan. Satu kolom nama yang berbunyi “Ada, Countess” adalah satu sel; pembelahan naif mengubahnya menjadi dua dan menggeser tiap kolom setelahnya.",
+          "Akhir baris adalah jebakan keduanya. File CSV mencampur CRLF (Windows, ekspor Excel) dan LF (alat Unix), dan satu pemenggalan baris di dalam kolom berkutip adalah data, bukan pemisah catatan — satu alamat multi-baris atau satu komentar tempelan harus selamat sebagai satu sel. Parsing yang benar adalah satu mesin keadaan kecil, bukan satu panggilan split(); itulah yang berjalan di sini.",
+          "Pemisah berbeda menurut lokal: Excel di sebagian besar Eropa dan Amerika Latin menulis file terpisah-titik-koma karena koma adalah pemisah desimal di lokal-lokal itu. Alat ini membiarkan Anda memilih koma atau titik-koma secara eksplisit alih-alih mengendus, sehingga satu file yang tiap kolomnya kebetulan memuat titik-koma tak salah terdeteksi. Jika sumber Anda memakai tab, saudari JSON-to-CSV menangani bolak-baliknya ke arah keluar.",
+        ],
+      },
+      {
+        heading: "Konversi lokal untuk data yang menyebut nama orang",
+        paragraphs: [
+          "CSV yang menuju JSON biasanya menuju satu API atau database — dan isinya biasanya dunia-nyata: pengguna, pesanan, kontak, respons. Mengonversi file semacam itu melalui satu situs yang memproses unggahan berarti baris-barisnya melintasi satu batas jaringan dan biasanya mendarat di log atau penyimpanan orang lain. Untuk data tentang orang yang dapat diidentifikasi, langkah itulah yang persis dihindari oleh kebijakan privasi dan akal sehat sekaligus.",
+          "Konverter ini mem-parse dan menyerialisasi sepenuhnya di browser Anda dengan JavaScript — tempelannya, parse-nya, inferensi tipenya, dan keluarannya semuanya terjadi di mesin Anda, tanpa langkah unggah sama sekali di jalur kodenya. Ia bekerja offline setelah dimuat, tak memaksakan kuota baris atau ukuran melampaui memori browser, dan tak ada yang Anda konversi yang pernah ditulis ke mana pun. Untuk satu file seed sekali-pakai berisi pengguna uji atau satu ekspor pelanggan yang tak boleh bergerak, itulah satu-satunya arsitektur yang menjaga janji datanya tetap utuh.",
+        ],
+      },
+    ],
   },
   "markdown-previewer": {
     name: "Pratinjau Markdown",
@@ -2153,6 +4119,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Di mana teks saya diproses?",
         a: "Sepenuhnya di browser Anda — Markdown tidak pernah meninggalkan perangkat, bahkan saat Anda menyalin HTML yang dihasilkan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "GFM versus CommonMark: mengapa tabel Anda ter-render",
+        paragraphs: [
+          "Markdown bukan satu bahasa. CommonMark adalah inti yang dispesifikasikan ketat — judul, daftar, penekanan, tautan — yang ada karena implementasi Perl asli 2004 terlalu ambigu sehingga tak ada dua renderer yang sepakat. GitHub Flavored Markdown (GFM) adalah CommonMark ditambah ekstensi: tabel, coret ~~seperti ini~~, daftar tugas, tautan-otomatis, dan blok kode berpagar dengan tag bahasa.",
+          "Pratinjau merender rasa GFM karena itulah yang benar-benar ditulis orang: README di GitHub, issue, deskripsi pull request, dan kebanyakan situs dokumentasi semuanya mengharapkan tabel dan daftar tugas bekerja. Jika Anda memindahkan dokumen yang sama ke renderer CommonMark ketat, tabel akan keluar sebagai teks mentah — satu kejutan porting yang layak diantisipasi, bukan bug.",
+          "Perbedaan tersisa antar rasa lebih halus: aturan pemenggalan baris di dalam paragraf, bagaimana daftar longgar vs rapat bersarang, dan kasus tepi seputar penekanan melintasi kata. Ketika satu cuplikan ter-render berbeda di halaman ini daripada di situs lain, penyebabnya hampir selalu rasanya, bukan kesalahan Markdown Anda — periksa ekstensi mana yang diaktifkan renderer lainnya.",
+        ],
+      },
+      {
+        heading: "Sanitizer adalah kisah keamanannya",
+        paragraphs: [
+          "Satu pratinjau Markdown mengeksekusi apa pun yang diluaskannya Markdown, dan HTML mentah dalam Markdown sah — yang berarti satu dokumen tempelan bisa membawa <script>, atribut onclick, atau tautan javascript:. Merender itu tanpa sanitasi adalah persis cara XSS terjadi di sistem komentar, halaman wiki, dan kolom CMS yang menerima Markdown dari pengguna.",
+          "Pratinjau ini menerapkan satu whitelist sebelum apa pun mencapai halaman: hanya tag pemformatan standar dan nilai atribut aman yang selamat. Tag script, penangan kejadian inline, dan URL javascript: dicabut. Konsekuensi praktisnya: Anda bisa menempel konten tak terpercaya — satu dokumen dari orang asing, satu benang komentar hasil gowes — dan pratinjaunya tak akan mengeksekusi apa pun yang memusuhi.",
+          "Sanitizer yang sama melindungi jalur salin-keluar. HTML yang Anda salin sudah bersih, jadi menempelnya ke CMS atau editor blog tak menyelundupkan skrip. Catat batasnya dengan jujur: sanitasi mencabut konten aktif, ia tak mengaudit apa yang dikatakan teks yang terlihat — satu dokumen bisa bebas skrip dan tetap memuat nasihat buruk.",
+        ],
+      },
+      {
+        heading: "Di mana draf Anda hidup",
+        paragraphs: [
+          "Draf dokumentasi adalah kerja yang sedang berjalan: changelog yang belum dirilis, runbook internal dengan detail infrastruktur, deskripsi PR yang membahas perbaikan keamanan. Satu pratinjau Markdown yang mengunggah draf ke server akan menempatkan tepat itu dalam perjalanan — jadi semuanya di sini berjalan lokal: mesin marked dan sanitizer keduanya mengeksekusi di JavaScript browser Anda.",
+          "Pemrosesan yang lokal berarti tak ada draf yang bertahan di mana pun, tak ada bolak-balik jaringan yang memperlambat rendering langsung, dan alatnya bekerja offline. Menulis dokumen di pesawat atau di lingkungan tanpa akses jaringan eksternal berperilaku identik dengan di meja Anda.",
+          "Ia juga memotong gesekan tempel-dan-format biasa: tanpa plugin editor untuk dipasang, tanpa langkah build untuk dijalankan, tanpa file untuk disimpan dulu. Tempel dari Slack, dari satu komentar kode, dari satu tiket — lihat dirender dalam satu detik, salin HTML bersih keluar jika Anda butuh.",
+        ],
       },
     ],
   },
@@ -2184,6 +4176,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Sekitar 70 yang umum — markup (&amp;, &lt;, &gt;, &quot;, &apos;), tanda baca (&mdash;, &hellip;, &ldquo;), aksen Latin dan simbol (&copy;, &euro;) — plus setiap referensi numerik desimal dan heksadesimal.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Lima karakter dan aturan-ampersand-dahulu",
+        paragraphs: [
+          "Membuat teks aman untuk HTML butuh meng-escape tepat lima karakter: &amp;, &lt;, &gt;, &quot;, dan &#39;. Ampersand datang lebih dulu karena tiap entitas dimulai darinya — satu & tak-terenkode yang diikuti huruf adalah sinyal yang dipakai browser untuk mulai mem-parse satu rujukan. Itu juga alasan urutan berarti saat meng-escape: & harus menjadi &amp; sebelum apa pun yang lain, atau entitas yang baru Anda buat ter-escape ulang menjadi &amp;lt;.",
+          "Arah sebaliknya membalik urutannya: saat unescaping, &amp; diproses terakhir, bukan pertama. Proses lebih dulu dan &amp;lt; menjadi &lt;, lalu satu < nyata — satu tag hidup di tempat penulisnya menginginkan teks yang terlihat. Kesalahan pengurutan tunggal itulah seluruh mekanisme di balik bug double-unescape, dan itu kesalahan yang dilakukan kebanyakan satu-baris regex.",
+          "Apakah kutipan perlu di-escape adalah pertanyaan konteks. Di node teks mereka tak berbahaya — <p>He said “hi”</p> sah. Di dalam nilai atribut, kutipan yang mengapit atribut harus di-escape, dan kutipan tak-terenkode dalam atribut adalah vektor injeksi klasik: satu nilai yang berakhir dengan “ bisa menutup atribut dan membuka yang baru. Escape kutipan untuk konteks atribut; biarkan mereka di teks polos jika Anda ingin keluarannya tetap terbaca.",
+        ],
+      },
+      {
+        heading: "Entitas, XSS, dan batas yang dinyatakan dengan jujur",
+        paragraphs: [
+          "Escaping adalah garis pertama pertahanan XSS: satu <script> yang dikirim pengguna menjadi &lt;script&gt;, yang dirender sebagai teks yang terlihat alih-alih dieksekusi. Mesin templat yang layak melakukannya secara otomatis untuk interpolasi teks — tetapi konkatenasi string manual, membangun HTML di JavaScript dengan +, atau merender konten pengguna ke atribut tetap butuh disiplin dengan tangan.",
+          "Batasnya pantas dinyatakan jujur: escaping membuat konten inert sebagai markup, ia tidak membuat kontennya terpercaya. Dokumen ter-escape tetap menampilkan apa pun yang ditulis penulisnya — teks phishing, instruksi yang menyesatkan. Escaping menangani kebenaran dan keamanan injeksi, bukan tinjauan konten.",
+          "Entitas numerik seperti &#233; dan &#x2019; ada demi portabilitas, bukan keamanan. Di dunia UTF-8 mereka kebanyakan tak perlu, tetapi pipa surel legacy, jalur kode lama dengan pengodean non-UTF-8, dan sistem yang mencabut byte tinggi semuanya tetap diuntungkan. Rujukan bernama yang dikenali arah unescape mencakup set sehari-hari — markup, tanda baca, aksen Latin, simbol mata uang — ditambah semua bentuk numerik.",
+        ],
+      },
+      {
+        heading: "Meng-escape konten pengguna secara lokal",
+        paragraphs: [
+          "Teks yang perlu di-escape biasanya kata-kata orang lain: pesan dukungan pelanggan, benang komentar yang digowes untuk analisis, bio pengguna yang menuju templat surel. Itu persis konten yang tak ingin Anda lewatkan melalui satu layanan web — dan sebagian versi daring alat ini memang mengirim teksnya ke backend mereka.",
+          "Semuanya di sini berjalan di JavaScript browser Anda: transformasinya manipulasi karakter murni tanpa keterlibatan jaringan di langkah mana pun. Tempel satu pesan lengkap pelanggan, satu dump komentar utuh, satu templat dengan kolom personalisasi; tak ada yang meninggalkan perangkat, tak ada yang dicatat, dan pelaporan jumlah karakter menjaga Anda jujur tentang seberapa besar escaping menggembungkan teksnya.",
+          "Pasangkan dengan pengodean URL saat melintasi konteks: entitas HTML melindungi konteks markup, pengodean persen melindungi konteks URL, dan keduanya tak saling menggantikan — satu & ter-escape-HTML di dalam satu string query adalah hal yang berbeda dari yang terenkode-persen. Melakukan kedua konversi secara lokal, bersebelahan, adalah cara konteks tetap tak tercampur.",
+        ],
+      },
+    ],
   },
   "url-parser": {
     name: "URL Parser",
@@ -2212,6 +4230,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Setiap kemunculan mendapat barisnya sendiri, dan ekspor JSON mencantumkannya sebagai pasangan key/nilai terpisah sehingga tidak ada yang tertimpa diam-diam.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Anatomi URL: bagian-bagian yang berarti",
+        paragraphs: [
+          "URL punya struktur lebih banyak daripada yang tampak. Dalam standar URL WHATWG yang diimplementasikan browser, URL seperti https://example.com:8443/shop/shoes?color=red#reviews terpecah menjadi scheme (https), host (example.com), port (8443 — https bawaannya 443, jadi URL setara tanpanya), path (/shop/shoes), query (?color=red), dan fragment (#reviews). Fragment itu istimewa: ia tak pernah dikirim ke server, hanya ada di browser — itulah sebabnya aplikasi satu-halaman memakainya, dan kenapa Anda tak bisa mendeteksinya di sisi-server.",
+          "Jalurnya bukan satu string opak melainkan satu hierarki segmen. Memecahkan tiap segmen ke barisnya sendiri membuat pola perutean terlihat: /shop/shoes adalah satu koleksi dengan satu item, dan redirect atau rewrite biasanya beroperasi pada segmen alih-alih seluruh jalur. Melihatnya terpisah juga membongkar keanehan seperti garis miring ganda atau segmen kosong yang disembunyikan satu string tunggal.",
+          "Port, userinfo (bentuk user:pass@host, yang sudah ditinggalkan tetapi tetap diparse), dan bahkan host IPv6 dalam tanda kurung siku semuanya bagian tata bahasa standarnya. URL API milik browser menangani semuanya — persis alasan alat ini mendelegasikan ke API itu alih-alih satu regex buatan-tangan: dekomposisi yang Anda lihat adalah dekomposisi yang dilihat server.",
+        ],
+      },
+      {
+        heading: "Pengodean, pendekodean, dan jebakan % klasik",
+        paragraphs: [
+          "Pengodean-persen adalah tempat parsing URL menjadi halus. Satu nilai seperti a%2Fb terdekode menjadi a/b — tetapi jika nilai itu dienkode karena memang sungguh memuat satu garis miring, mendekodenya untuk tampilan benar, sementara memperlakukannya sebagai pemisah jalur salah. Alat ini mendekode kunci dan nilai persis seperti yang akan dilakukan server penerima, jadi yang Anda baca adalah yang dilihat aplikasinya.",
+          "Perbedaan antara + dan %20 menangkap banyak orang. Dalam konvensi application/x-www-form-urlencoded (formulir, sebagian framework), satu spasi ditulis sebagai +; dalam standar URL yang sejati, + hanyalah tanda tambah. String yang sama ?q=a+b karena itu berarti q=a b atau q=a+b tergantung framework-nya. Saat ragu, tempel parameternya di sini dan bandingkan dengan yang dicatat backend Anda.",
+          "Pengodean juga alat audit: utm_source, fbclid, gclid, dan teman-temannya dalam satu daftar terparse membuat parameter pelacakan mustahil terlewat. Mencabut mereka dari satu tautan sebelum dibagikan adalah kemenangan privasi kecil — parameter-parameter itu ada untuk mengatribusikan Anda ke satu kampanye, dan mereka menumpang ke tiap URL yang disalin kecuali Anda menyadarinya.",
+        ],
+      },
+      {
+        heading: "Parsing terjadi di browser Anda",
+        paragraphs: [
+          "URL yang Anda inspeksi tak selalu tak berbahaya: tautan bertanda-tangan (URL pre-signed S3, callback OAuth dengan code=… atau token=…) membawa kredensial di string query-nya. Menempel satu ke parser berbasis-server akan mengirim satu kredensial yang berfungsi kepada siapa pun yang menjalankannya. Alat ini mem-parse dengan URL API natif browser Anda, sepenuhnya lokal — tak ada yang meninggalkan perangkat.",
+          "Parsing lokal juga berarti Anda bisa melempar sampah dengan aman. URL yang hampir cacat (skema hilang, spasi liar, karakter tak-terenkode) diterima atau dijelaskan, bukan ditolak dengan stack trace — karena parser URL browser lebih pengertian daripada validator ketat dan cocok dengan apa yang benar-benar diterima satu server.",
+          "Rantai dengan URL decoder ketika Anda perlu menginspeksi segmen terenkode secara manual, atau dengan encoder saat membangun string query — parse, sesuaikan, enkode-ulang adalah lingkar yang lebih cepat daripada menyunting URL mentah dengan tangan sambil berharap.",
+        ],
+      },
+    ],
   },
   "http-status-codes": {
     name: "Kode Status HTTP",
@@ -2238,6 +4282,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa 401 dan 403 sama-sama bilang saya tidak bisa masuk?",
         a: "401 berarti “kamu siapa?” — kredensial hilang atau salah. 403 berarti “aku tahu kamu siapa dan kamu tetap tidak bisa” — autentikasi berhasil tetapi resourcenya terlarang.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lima kelas dan cara membacanya",
+        paragraphs: [
+          "Digit pertama kode status memberi tahu keluarga mana yang sedang berbicara. 1xx adalah informasional — cakapan sementara seperti 100 Continue saat unggahan besar, tak pernah jawaban final. 2xx berarti sukses dalam bentuk tertentu: 200 adalah OK polos, 201 mengatakan satu sumber daya dibuat, 204 mengatakan sukses tanpa apa pun untuk dikembalikan. 3xx adalah pengalihan — sumber dayanya hidup di tempat lain. 4xx adalah kesalahan klien, 5xx kesalahan server.",
+          "Pemisahan kelas berarti untuk debugging karena ia langsung menugaskan salahnya. Satu 4xx di log Anda biasanya berarti klien mengirim sesuatu yang salah — kredensial buruk (401), izin yang tak ada (403), badan permintaan yang buruk (400), atau meminta sesuatu yang tak ada (404). Satu 5xx berarti server menghantam masalah internal — pengecualian yang tak tertangani (500), kegagalan hulu (502 Bad Gateway), kelebihan beban (503). Membaca kelasnya lebih dulu mengubah satu kesalahan dari misteri menjadi arah.",
+          "Dua subtlety yang layak diketahui: 202 Accepted berarti permintaannya diterima tetapi belum ditindaklanjuti — umum dengan antrean pekerjaan asinkron — dan satu 3xx tak selalu berarti redirect yang diikuti browser, karena 304 Not Modified adalah jawaban negosiasi cache tanpa badan sama sekali.",
+        ],
+      },
+      {
+        heading: "Redirect, cache, dan kode yang sering disalahpahami",
+        paragraphs: [
+          "Keluarga 3xx adalah tempat kesalahan dunia-nyata terkonsentrasi. 301 permanen: mesin pencari mentransfer peringkat, dan browser bisa meng-cache redirect-nya agresif. 302 sementara tetapi ambigu soal metodenya — klien secara historis mengubah POST menjadi GET setelah satu 302, yang persis dilarang 307. Ketika satu POST harus selamat dari redirect secara utuh, 307 (sementara) atau 308 (permanen) adalah jawaban yang benar; 303 See Other adalah instruksi “ubah ini menjadi GET” yang disengaja, klasik setelah satu POST formulir.",
+          "Perilaku cache adalah separuh lain yang tak diberi tahu oleh kelasnya. Satu 200 bisa bisa di-cache atau tidak tergantung header; 304 secara eksplisit jabat tangan cache; 410 Gone menyuruh klien berhenti bertanya, dan mesin pencari meng-indeksnya keluar lebih cepat daripada 404. Kode status membingkai, tetapi header yang memutuskan detailnya — itulah sebabnya satu API yang “mengembalikan 200 dengan objek kesalahan di badan” memutus cache dan percobaan-ulang di mana-mana: kodenya berkata sukses, semantiknya berkata gagal.",
+          "401 versus 403 pantas satu barisnya sendiri: 401 soal identitas (Anda belum terautentikasi, coba lagi dengan kredensial, biasanya dengan satu header WWW-Authenticate), sementara 403 soal otorisasi (identitas terkonfirmasi, akses ditolak). Mengembalikan 403 untuk login yang hilang alih-alih 401 adalah salah satu bug desain API paling umum — klien tak bisa tahu apakah autentikasi-ulang akan menolong.",
+        ],
+      },
+      {
+        heading: "Satu referensi yang tetap di mesin Anda",
+        paragraphs: [
+          "Halaman ini adalah satu referensi statis yang dirender lokal di browser Anda: tak ada permintaan pencarian yang dibuat saat Anda mencari atau mengeklik, dan begitu halaman dimuat ia bekerja offline. Desain itu cocok dengan cara ia dipakai — di tengah insiden, saat menelepon, dengan log produksi terbuka dan jaringan setengah rusak. Salin-saat-mengeklik ada karena kode status biasanya berakhir ditempel ke laporan bug, runbook, dan review kode, satu ketukan tombol demi satu ketukan.",
+          "Kode status datang dari standar HTTP (kelas intinya di RFC 9110 dan teman-temannya, kode ekstensi HTTP/2 seperti 425, dan 418 April Mop yang berakhir direservasi), dan setnya jarang bertambah — penambahan yang terakhir luas diadopsi adalah diagnosis-diagnosis yang lebih spesifik di rentang 4xx. Referensi ini mencakup set praktisnya dan menjelaskan tiap-tiapnya dalam bahasa sederhana alih-alih prosa spesifikasi.",
+          "Padukan dengan URL parser saat mendebug: satu 301 atau 302 tak berarti sampai Anda melihat ke mana header Location menunjuk, dan parser menampilkan struktur URL targetnya secara langsung.",
+        ],
       },
     ],
   },
@@ -2271,6 +4341,32 @@ export const id: Record<string, ToolCopy> = {
         a: "index/noindex memutuskan apakah halaman boleh muncul di hasil; follow/nofollow apakah tautannya menebar equity. Ia harus berada di halaman itu sendiri — robots.txt tidak bisa men-noindex apa pun.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Panjang judul diukur dalam piksel, bukan karakter",
+        paragraphs: [
+          "Nasihat “50–60 karakter” adalah aturan jempol yang menggantikan kendala sebenarnya: halaman hasil desktop memotong judul pada satu anggaran piksel — kira-kira 580px pada font yang dirender Google. Enam puluh karakter yang sama membentang lebar yang sangat berbeda tergantung aksaranya: judul Latin semua-kapital membakar piksel cepat, sementara glif CJK hampir persegi dan judul Jepang 30 karakter bisa melampaui lebar satu judul Inggris 55 karakter.",
+          "Pemotongan tidak fatal — Google tetap membaca seluruh tag — tetapi bagian yang terlihat adalah semua yang dilihat pencari sebelum memutuskan mengeklik, jadi kata-kata yang berarti seharusnya duduk sebelum garis potongnya. Tempat terburuk untuk nama merek adalah ujung satu judul panjang, di mana ia hal pertama yang dihapus.",
+          "Satu pemotongan kedua yang lebih senyap mengatur deskripsi: Google menulis-ulang mayoritas judul dan kebanyakan deskripsi ketika ukurannya buruk atau duplikat, menarik kalimat dari badan halaman sebagai gantinya. Satu deskripsi dekat 150–160 karakter adalah permintaan, bukan jaminan; menulis satu yang cocok dengan konten sebenarnya halamannya membuat penulisan-ulangnya, ketika terjadi, lebih ringan dampaknya.",
+        ],
+      },
+      {
+        heading: "robots meta versus robots.txt — lapisan berbeda, pekerjaan berbeda",
+        paragraphs: [
+          "Tag meta robots dan robots.txt sering tertukar karena keduanya memuat “robot” dalam namanya, tetapi mereka mengendalikan tahap yang berbeda. robots.txt mengatur pengambilan: satu URL yang disallow tak di-crawl. Tag meta mengatur pengindeksan: index/noindex memutuskan apakah halaman yang diambil boleh muncul di hasil, follow/nofollow apakah tautannya meneruskan nilai. Satu halaman yang diblokir robots.txt masih bisa muncul di hasil jika halaman lain menautkannya — memblokir bukanlah noindex.",
+          "Temuan audit klasiknya adalah kesalahan terbaliknya: satu halaman noindex yang diblokir robots.txt. Crawler tak pernah mengambil halamannya, tak pernah melihat noindex-nya, dan instruksinya duduk tak terbaca. Jika satu halaman harus keluar dari indeks, tag metanya harus terjangkau lebih dulu.",
+          "Di dalam tag itu sendiri, nilainya bergabung: index,follow adalah bawaannya dan biasanya dihilangkan, noindex,follow menjaga satu halaman keluar dari hasil sambil membiarkan tautannya di-crawl, dan noarchive, nosnippet, dan teman-temannya menyesuaikan fitur hasil tertentu. Satu robots meta per halaman — duplikat di dalam head diselesaikan secara tak terduga.",
+        ],
+      },
+      {
+        heading: "Apa yang seharusnya dan tak seharusnya dipancarkan generator",
+        paragraphs: [
+          "Meta keywords adalah pameran peringatannya: Google mengabaikannya sejak 2009, Bing bisa memperlakukannya sebagai sinyal spam, dan mempertahankannya hidup di templat kebanyakan memberi sinyal situs tak terpelihara kepada auditor. Generator ini memasukkannya hanya karena sebagian mesin niche dan platform pencarian internal masih memintanya — biarkan kosong kecuali ada yang secara eksplisit menuntutnya.",
+          "Tag viewport, sebaliknya, adalah kuda-bekerja yang senyap: ketiadaannya adalah satu kegagalan kegunaan-seluler yang paling umum, dan satu tag yang hilang bisa menandai tiap halaman satu situs dalam pemeriksaan keramahan-seluler. Tag deskriptif seperti author dan lainnya membawa bobot peringkat kecil tetapi tanpa biaya dan melengkapi head.",
+          "Escaping atribut lebih berarti daripada kelihatannya: satu deskripsi yang memuat satu tanda kutip diam-diam memutus satu templat yang tak ter-escape, memotong head di tengah satu atribut. Semua yang dikeluarkan alat ini ter-escape HTML, dan kolom kosong dihilangkan alih-alih dipancarkan sebagai tag kosong — satu head yang tak berkata apa pun dua kali adalah head yang konsisten. Semua generasi berjalan lokal di browser Anda.",
+        ],
+      },
+    ],
   },
   "open-graph-generator": {
     name: "Generator Open Graph",
@@ -2297,6 +4393,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "og:type mana yang sebaiknya dipilih?",
         a: "Gunakan website untuk halaman utama dan halaman generik, article untuk berita dan tulisan blog (tambahkan article:published_time jika bisa), dan product untuk halaman detail e-commerce. Tipenya mengubah cara beberapa platform mengategorikan tautannya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana platform benar-benar mengonsumsi tag-tag ini",
+        paragraphs: [
+          "Namespace Open Graph lahir di Facebook sekitar 2010 sebagai cara mengubah halaman mana pun menjadi satu objek graf yang kaya, dan sisanya industri mengadopsinya sebagai kosakata kartu-bagi de-facto: X, LinkedIn, WhatsApp, Slack, Discord, dan iMessage semuanya membaca og:title, og:description, dan og:image lebih dulu. Twitter mempertahankan namespace-nya sendiri tetapi jatuh kembali ke nilai og: untuk apa pun yang tak diberikan secara eksplisit.",
+          "Konsumsinya berbasis-crawler, bukan berbasis-pengguna: ketika seseorang menempel URL Anda, bot milik platform mengambil halamannya sekali dan meng-cache kartunya. Itulah sebabnya menyunting tag-nya tak berpengaruh apa pun sampai Anda memaksa penyegaran di debugger milik platform — Facebook Sharing Debugger, X Card Validator, LinkedIn Post Inspector — dan kenapa mengubah satu gambar tanpa mengubah nama filenya sering tetap menyajikan gambar lama dari cache.",
+          "Properti og:url melakukan lebih banyak daripada kelihatannya: ia menyatakan identitas kanonik objek yang dibagikan, dan kebanyakan platform memperlakukannya sebagai kunci tempat agregat suka dan bagi dikelompokkan. Menjaganya identik dengan rel=canonical Anda menghindarkan keterlibatan terpecah melintasi varian URL dari satu halaman yang sama.",
+        ],
+      },
+      {
+        heading: "Gambar 1200×630 dan mode-mode kegagalannya",
+        paragraphs: [
+          "Rasio 1.91:1 ada karena thumbnail tautan Facebook yang menetapkannya, dan semua yang lain mengikutinya; 1200×630 adalah ukuran yang terpotong bersih di setiap permukaan utama. Gambar di luar rasio mendapat potongan-tengah, dan potongan itulah yang menghilangkan teks Anda — simpan kata-kata apa pun di gambar di dalam area aman tengah alih-alih berdesakan di tepi.",
+          "Bobot lebih berarti daripada dimensi dalam praktik: banyak platform menolak mentah-mentah mengambil gambar di atas beberapa MB, dan satu gambar lambat berarti kartunya keluar dengan satu placeholder kosong. Satu URL absolut wajib — crawler mengambil halaman lalu gambarnya, dan satu jalur relatif ter-resolve terhadap konteks yang salah atau tidak sama sekali.",
+          "og:image:alt adalah kemenangan yang paling sering dilewati dan termurah: itulah yang dibacakan pembaca layar saat kartu dibagikan, dan sebagian platform menampilkannya sebagai teks cadangan jika gambarnya gagal dimuat. Menulisnya satu kalimat; melewatinya berarti tiap pengguna asistif dari tiap bagi mendapat satu deskripsi kosong.",
+        ],
+      },
+      {
+        heading: "Mengapa kedua namespace, dan apa yang tak dijanjikan pratinjau",
+        paragraphs: [
+          "Minimum jujurnya adalah set og: ditambah twitter:card, twitter:site, dan opsional twitter:creator — twitter:title, twitter:description, dan twitter:image adalah duplikasi murni di kebanyakan situs. Satu-satunya tag twitter: yang membawa informasi tak tergantikan adalah twitter:card: ia memilih summary_large_image (kartu foto lebar) versus summary (persegi kecil), yang tak diputuskan oleh padanan og: mana pun.",
+          "og:type lebih berarti untuk kategorisasi daripada tampilan: article menandakan konten berita/blog (pasangkan dengan article:published_time jika Anda memilikinya), product menandai halaman detail e-commerce, dan website adalah bawaan untuk sisanya. Platform memakainya untuk memilih bagaimana tautan dikontekstualisasikan di feed dan aplikasi pesan.",
+          "Pratinjau langsungnya mendekati satu kartu gambar-besar dan satu kartu summary dengan rendering lokal, tetapi tiap platform memotong, meng-crop, dan menata secara berbeda — perlakukan sebagai pemeriksaan kewarasan untuk panjang teks dan kehadiran gambar, lalu konfirmasikan aslinya di debugger resmi tiap platform sebelum halaman terkirim.",
+        ],
       },
     ],
   },
@@ -2327,6 +4449,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Gunakan 301 redirect saat duplikatnya harus mengarahkan pengguna ke tempat lain, noindex saat ia harus tetap terjangkau tetapi keluar dari hasil, dan canonical saat kedua versi harus tetap hidup dan bisa di-crawl.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa URL duplikat ada dan apa artinya konsolidasi",
+        paragraphs: [
+          "URL duplikat bukanlah kesalahan — mereka produk alami dari cara situs bekerja. Satu halaman yang sama terjangkau dengan garis miring akhir dan tanpa, lewat http dan https, dengan dan tanpa www, dengan parameter UTM yang disematkan tiap tautan kampanye, dengan parameter urut dan saring di halaman daftar, dan lewat tampilan print atau amp. Server menjawab semuanya dengan konten identik; mesin pencari, yang tak melihat instruksi apa pun, mengindeks mereka sebagai dokumen terpisah.",
+          "rel=canonical adalah instruksinya: ia berkata “alamat-alamat ini adalah salinan; gabungkan sinyalnya ke satu ini”. Konsolidasi berarti karena sinyal peringkat — tautan, klik, estimasi kualitas — menempel pada URL tempat mereka diperoleh. Terpecah melintasi lima duplikat, satu halaman bersaing dengan dirinya sendiri; terkonsolidasi, ia bersaing dengan halaman yang sebenarnya ingin Anda kalahkan.",
+          "Tag itu petunjuk kuat, bukan perintah. Google menggabungkannya dengan pola tautan internal, entri sitemap, dan perilaku redirect, dan diam-diam menimpa satu canonical yang bertentangan dengan semua yang lain di situs. Inilah sebabnya satu tag canonical yang melawan sitemap atau navigasi Anda sendiri biasanya kalah — kesepakatan melintasi sinyal mengalahkan kebenaran pada satu sinyal sendirian.",
+        ],
+      },
+      {
+        heading: "Penyalahgunaan klasik, dan mengarah-diri sebagai bawaannya",
+        paragraphs: [
+          "Klasik-klasik auditnya: satu URL relatif alih-alih absolut, satu #fragment yang tak pernah dilihat server, satu canonical yang menunjuk satu redirect 301 (mesin pencari harus menyelesaikan rantainya, dan sebagian tak mau), satu canonical yang mengarah ke halaman noindex (instruksi bertentangan — pilih satu), dan canonical menuju halaman beranda di tiap daftar berhalaman, yang efektif meminta halaman 2+ dikeluarkan dari indeks.",
+          "Kebiasaan paling efektif adalah mengarah-diri secara bawaan: tiap halaman menyatakan dirinya kanonik, bahkan yang unik. Itu tanpa biaya dan mengimunisasi Anda dari varian yang belum disadari siapa pun — satu parameter yang ditambahkan plugin bulan depan, satu inkonsistensi garis-miring-akhir yang diperkenalkan satu pembaruan framework. Tag mengarah-diri itulah yang membuat varian pertama tak berbahaya alih-alih menjadi satu temuan.",
+          "Memilih di antara alat-alatnya adalah satu keputusan masing-masing: redirect 301 ketika duplikatnya harus fisik mengirim pengguna ke tempat lain, noindex ketika ia harus tetap terjangkau tetapi keluar dari hasil (navigasi terfaset, pencarian internal), canonical ketika kedua versi harus tetap hidup dan dapat di-crawl. Mencampurnya — satu halaman noindex yang canonical-nya menunjuk ke tempat lain — mengirim sinyal bertentangan dan menunda semuanya.",
+        ],
+      },
+      {
+        heading: "Detail normalisasi yang ditangani generator ini untuk Anda",
+        paragraphs: [
+          "Satu URL canonical harus absolut — skema dan host termasuk — dan tiap halaman boleh membawa tepat satu. Generator mengecilkan huruf skema dan host (host tak peduli kapital di kawat, tetapi satu canonical berkapital-campuran adalah satu salinan-mendekat lainnya bagi mesin pencari), menegakkan satu keputusan garis-miring-akhir melintasi situs Anda, mempertahankan parameter query hanya ketika disengaja, dan mencabut fragment, yang hanya di sisi klien.",
+          "Pengurutan parameter adalah yang halus: ?b=1&a=2 dan ?a=2&b=1 adalah sumber daya yang sama tetapi string yang berbeda, dan sebagian crawler memperlakukannya sebagai terpisah. Canonical menyelesaikannya setelah kejadian; perbaikan yang lebih bersih adalah mengurutkan dan memangkas parameter di sisi-server. Jika Anda harus mempertahankan parameter dalam satu canonical, pertahankan juga bentuk kanonik dari string parameternya.",
+          "Verifikasi milik URL Inspection di Search Console, yang melaporkan URL mana yang sebenarnya dipilih Google untuk halamannya — tag, sitemap, dan tautan internal semuanya bisa benar secara terpisah dan tetap kalah oleh satu rantai redirect. Semuanya di sini berjalan di browser Anda: tak ada URL yang Anda ketik yang diunggah ke mana pun.",
+        ],
+      },
+    ],
   },
   "schema-markup-generator": {
     name: "Generator Schema Markup",
@@ -2353,6 +4501,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah structured data yang valid menjamin rich results?",
         a: "Tidak. Validitas membuat halaman memenuhi syarat untuk sebuah fitur; Google memutuskan per query dan per permukaan apakah menampilkannya. Jangan pernah menjanjikan bintang atau breadcrumb di laporan hanya berdasarkan markup.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Kelayakan, bukan hak: bagaimana hasil kaya benar-benar bekerja",
+        paragraphs: [
+          "Hubungan antara data terstruktur dan tampilan pencarian adalah gerbang dua tahap, dan mencampur tahap-tahapnya adalah akar kebanyakan janji berlebihan. Tahap satu adalah validitas: markup terparse, properti wajib ada, nilai cocok dengan format yang diharapkan. Tahap dua adalah kelayakan, yang diputuskan sendirian Google per query, per permukaan, dan per situs — dan ia bisa menolak bahkan markup tanpa cacat.",
+          "Data terstruktur juga bukan faktor peringkat. Yang dilakukannya adalah mengubah bagaimana satu halaman bisa disajikan: kelayakan membuka pintu menuju bintang, harga, breadcrumb, dan kotak acara, dan penyajian-penyajian itu bisa menggeser rasio klik-taut secara substansial. Efek trafiknya tidak langsung, dimediasi oleh apakah Google memilih tampilan kaya untuk satu query tertentu.",
+          "Kebijakan Google sendiri bergeser, dan mereka mengencangkan belakangan ini persis di area yang menghasilkan markup: hasil kaya FAQ kini ditampilkan hampir eksklusif untuk situs pemerintah dan kesehatan yang terkenal, dan tampilan HowTo dipensiunkan untuk seluler. Jadi tulislah secara konservatif: laporkan markup sebagaimana diterapkan dan tervalidasi, tak pernah menjanjikan fitur spesifik akan muncul. Alat yang menjamin snippet kaya sedang mendeskripsikan dunia yang tak ada lagi.",
+        ],
+      },
+      {
+        heading: "Mengapa JSON-LD menang, dan apa yang dituntut tiap tipe",
+        paragraphs: [
+          "Tiga sintaks mengekspresikan schema.org: atribut microdata yang ditenun melalui elemen HTML Anda, atribut RDFa, dan JSON-LD — satu blok script berdiri-sendiri berisi data murni. Dokumentasi Google menyukai JSON-LD, dan alasan praktisnya cocok dengan preferensi itu: bloknya tak menyentuh markup Anda, bisa dihasilkan dan disuntikkan oleh templat atau alat seperti ini, dan selamat dari desain-ulang karena ia hidup di samping kontennya alih-alih di dalamnya.",
+          "Tiap tipe membawa properti wajib yang menjadi sandi validitasnya. Satu Article butuh headline dan author; satu Product butuh name dan, untuk offers, harga dalam angka polos dengan mata uang; tanggal adalah string ISO 8601, bukan format apa pun yang dicetak CMS Anda. Satu properti wajib yang hilang membuat validasi gagal tanpa peduli sisanya sempurna — inilah sebabnya generator menghilangkan kolom kosong alih-alih memancarkan null yang akan ditandai validator.",
+          "Satu script per entitas menjadi bising pada halaman yang kaya; konstruksi @graph membiarkan beberapa entitas berbagi satu blok, dengan rujukan antar mereka diekspresikan lewat @id. Itu bentuk yang direkomendasikan untuk satu halaman dengan satu Article ditambah penerbit Organization-nya ditambah satu BreadcrumbList.",
+        ],
+      },
+      {
+        heading: "Jebakan markup mementingkan-diri, dan disiplin validasi",
+        paragraphs: [
+          "Risiko penaltinya bukan teoretis: markup yang terparse tetapi salah mewakili halaman — bintang ulasan di halaman tanpa ulasan nyata, satu Product dengan harga yang berbeda dari yang ditampilkan, jawaban FAQ yang tak terlihat pengunjung — melanggar pedoman dan bisa mengunduh satu tindakan manual yang bertahan lebih lama daripada manfaat apa pun yang dibawa hasil kaya itu. Aturan jempolnya sederhana: markup harus mendeskripsikan apa yang bisa dilihat pengunjung, tanpa menggulir ke markup.",
+          "Validasi punya dua lapisan yang layak dipisahkan. Satu validator sintaks memberi tahu Anda JSON-nya terformat baik; Google Rich Results Test memberi tahu Anda apakah markup itu memenuhi syarat fitur mana pun. Lolos yang pertama adalah taruhan dasar — generator ini menangani escaping agar kutipan dan ampersand tak bisa memutus blok script-nya — dan hanya yang kedua yang berarti apa pun untuk tampilan.",
+          "Disiplin penyebaran menutup lingkarnya: tempel bloknya, jalankan pengujiannya, lalu pantau laporan penyempurnaan Search Console, yang membongkar kesalahan pada skala besar setelah templat berubah. Markup adalah kode yang dikirim ke satu konsumen yang tak Anda kendalikan — perlakukan dengan kebiasaan versioning dan review yang sama seperti sisa halamannya. Semuanya di sini dihasilkan lokal di browser Anda; tak ada yang diunggah.",
+        ],
       },
     ],
   },
@@ -2383,6 +4557,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Memblokir crawling bukan memblokir indexing: jika halaman lain menautkan ke URL itu, Google masih bisa mengindeksnya tanpa kontennya. Untuk mengeluarkan halaman dari hasil, izinkan crawling dan gunakan meta tag noindex sebagai gantinya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana robots.txt sebenarnya diparse: grup dan pencocokan-prefiks",
+        paragraphs: [
+          "Protokolnya cukup kecil untuk dipegang kepala begitu Anda melihat dua aturannya. Pertama, pengelompokan: satu bot hanya membaca satu grup paling spesifik yang baris User-agent-nya memuatnya — bukan gabungan semua grup. Jika GPTBot muncul di satu blok dan juga di bawah wildcard *, aturan wildcard-nya lenyap bagi GPTBot. Itulah sebabnya generator ini menyatukan user-agent yang berbagi satu aturan ke satu grup alih-alih memancarkan blok paralel yang diam-diam saling membatalkan.",
+          "Kedua, pencocokan: jalur adalah pencocokan-prefiks sensitif-kapital, dievaluasi terpanjang-dahulu, dengan tepat dua karakter pola — * sebagai wildcard dan $ sebagai jangkar akhir. Disallow: /search memblokir /search, /searching, dan /search/x sekaligus; Disallow: /search$ hanya memblokir jalur persisnya. Dan satu Disallow: telanjang tanpa nilai berarti izinkan semuanya, yang membuat file tulisan-tangan tersandung.",
+          "Dua fakta struktural melengkapi gambarannya: hanya file di akar hostname yang berlaku — aturan di example.com tak pernah mencakup blog.example.com, yang butuh file sendiri — dan file yang mengaku robots.txt di tempat lain hanyalah teks. Baik direktif sitemap maupun crawl-delay bukan bagian standar aslinya: crawl-delay dihormati sebagian crawler (Bing) dan diabaikan yang terbesar (Google mengarahkan Anda ke setelan Search Console).",
+        ],
+      },
+      {
+        heading: "Crawling bukan pengindeksan: pasangannya dengan noindex",
+        paragraphs: [
+          "Salah paham paling berkonsekuensi tentang robots.txt adalah bahwa Disallow menghapus satu halaman dari hasil pencarian. Ia melakukan kebalikan penghapusan dalam satu kasus umum: URL-nya tak diambil, sehingga crawler tak pernah melihat isinya — tetapi jika halaman lain menautkannya, mesin pencari masih bisa mencantumkan URL itu sebagai entri tanpa snippet. Anda memblokir crawling dan mendapat satu URL terindeks tanpa cara menyematkan noindex.",
+          "Pasangan-pasangan yang benar: untuk menjaga crawler keluar dari satu bagian sepenuhnya, Disallow dan terima bahwa URL yang tertaut bisa tetap muncul telanjang. Untuk menghapus halaman dari hasil, biarkan mereka dapat di-crawl dan gunakan tag meta noindex atau header HTTP X-Robots-Tag. Untuk menghapusnya cepat, alat penghapusan Search Console, bukan robots.txt.",
+          "Logika yang sama menjelaskan mengapa Disallow ditambah noindex adalah pertentangan: bot yang diblokir mengambil tak akan pernah membaca tag yang memintanya menghapus diri. Tiap penerapan noindex seharusnya dimulai dengan satu pemeriksaan bahwa halamannya benar-benar terjangkau.",
+        ],
+      },
+      {
+        heading: "Crawler AI, dan batas jujur dari file ini",
+        paragraphs: [
+          "Menu kebijakan crawler AI ada karena user agent-nya baru dan komprominya benar-benar berbeda: crawler yang bersebelahan-pencarian seperti OAI-SearchBot dan PerplexityBot bisa membawa Anda pengunjung, yang berfokus-pelatihan seperti GPTBot, ClaudeBot, Google-Extended, dan CCBot tak menyumbang apa pun ke trafik referral, dan Bytespider teramati sebagian operator situs mengabaikan instruksi sepenuhnya. Keputusan per-bot adalah persis kasus yang tak pernah didesain untuk blok * tunggal.",
+          "Kepatuhannya sukarela di seluruh papan. Operator yang mendokumentasikan dukungan robots.txt kebanyakan menghormatinya, tetapi tak ada yang menegakkan file itu, dan identitas dilaporkan-sendiri — satu crawler bisa mengklaim nama apa pun. Untuk jaminan keras, titik penegakannya adalah CDN atau firewall Anda, mencocokkan user-agent dengan pengetahuan bahwa header bisa dipalsukan, atau pada pola perilaku.",
+          "Terakhir, ingat apa itu filenya: satu iklan publik. Siapa pun bisa membaca /robots.txt, dan ia mengenumerasi jalur yang Anda anggap privat — satu bantuan rekonnaissance klasik. Area sensitif butuh autentikasi; file itu menolong crawler yang sopan dan anggaran crawl Anda, bukan orang.",
+        ],
+      },
+    ],
   },
   "sitemap-generator": {
     name: "Generator XML Sitemap",
@@ -2409,6 +4609,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Seberapa besar sitemap boleh jadi?",
         a: "50.000 URL atau 50 MB tak terkompresi per file. Lebih dari itu, pecah menjadi beberapa sitemap dan daftarkan dalam file indeks sitemap, lalu kirimkan indeksnya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Satu petunjuk, bukan satu janji",
+        paragraphs: [
+          "Satu sitemap melakukan tepat satu hal: ia mencantumkan URL agar crawler menemukannya lebih cepat. Ia tak memaksa crawling, tak menjamin pengindeksan, dan tak membawa bobot peringkat — dokumentasi Google sendiri eksplisit pada ketiga poin itu. Anggap sebagai menyerahkan satu peta situs Anda kepada crawler alih-alih membiarkannya menemukan tiap lorong dengan berjalan.",
+          "Protokol yang ia ikuti — sitemaps.org 0.9 — dimulai sebagai usulan Google pada 2005 dan segera diadopsi bersama oleh Yahoo dan Microsoft; Google, Bing, dan Yandex masih menerimanya tanpa perubahan. Umur panjang itulah kenapa satu file valid yang dihasilkan hari ini berperilaku sama di setiap mesin utama.",
+          "Penemuan masih membayar di situs besar atau baru diluncurkan, tempat penautan internal belum mengejar inventaris URL-nya: satu sitemap menyerahkan daftar penuhnya kepada crawler di hari pertama alih-alih menunggu tautan terkumpul.",
+        ],
+      },
+      {
+        heading: "Tag mana yang benar-benar berpengaruh",
+        paragraphs: [
+          "Dari tiga tag konten, hanya lastmod yang berpengaruh terdokumentasi: Google membacanya untuk memutuskan kapan satu re-crawl layak dijadwalkan — dan hanya ketika nilainya akurat dan konsisten sepanjang waktu. changefreq dan priority terdokumentasi diabaikan; crawler Google menjadwalkan dirinya sendiri.",
+          "Masalah kejujuran lastmod bersifat struktural: pipa build mencap hari ini di tiap URL entah kontennya berubah atau tidak, dan crawler mempelajari bahwa sinyalnya adalah derau — setelah itu bahkan nilai lastmod yang jujur didiskon. Perbaikannya membosankan: perbarui lastmod hanya ketika kontennya berubah secara berarti, dalam format W3C Datetime (YYYY-MM-DD sudah cukup).",
+          "loc dan namespace XML yang mengerjakan strukturnya: tiap URL harus absolut, semua entri harus berbagi satu prefiks host, dan & di string query di-escape sebagai &amp; agar XML tetap valid. Deduplikasi juga berarti — URL yang sama tercantum dua kali membuang anggaran crawl dua kali.",
+        ],
+      },
+      {
+        heading: "Batas ukuran dan alur kerja yang cocok dengannya",
+        paragraphs: [
+          "Protokolnya membatasi satu file pada 50.000 URL atau 50 MB sebelum-kompresi — mana yang lebih dulu. Generator ini mengelompokkan entri menurut segmen jalur pertama persis agar satu situs besar terpecah bersih menjadi file per-bagian: /blog/*, /products/*, /docs/* masing-masing menjadi sitemap sendiri, tercantum bersama dalam satu indeks sitemap.",
+          "Pengelompokan terbayar dua kali: Search Console melaporkan kesalahan per-sitemap, jadi satu file yang gagal memberi tahu Anda bagian mana yang rusak alih-alih satu file raksasa yang tak memberi tahu apa pun; dan penanganan lastmod per-bagian cocok dengan realita — dokumen berubah harian, halaman tentang tak pernah.",
+          "Upacara hostingnya pendek: unduh sitemap.xml, unggah ke akar domain Anda, rujuk dari robots.txt dengan satu baris Sitemap: atau kirim langsung di Search Console, dan biarkan crawl pertama mengonfirmasinya. Seperti semua alat di sini, XML-nya dirakit sepenuhnya di browser Anda — inventaris URL Anda tak diunggah ke mana pun.",
+        ],
       },
     ],
   },
@@ -2439,6 +4665,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Saat Google menganggap string lain lebih cocok dengan query, ia bisa menggantinya dengan H1, anchor text tautan internal, atau nama situs. Pratinjau ini menampilkan kasus terbaik: tag Anda sendiri, tanpa modifikasi.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Piksel, bukan karakter",
+        paragraphs: [
+          "Halaman hasil Google menata judul dalam satu font proporsional dan memotong ketika barisnya kehabisan piksel — kira-kira 580–600 di desktop — bukan ketika satu jumlah karakter tercapai. Karena huruf berbeda lebar, IIIIIIII dan MMMMMMMM masing-masing delapan karakter dan sangat berbeda lebarnya; aturan apa pun yang diekspresikan dalam karakter adalah satu dugaan berjas.",
+          "Deskripsi mengikuti logika yang sama dengan batas yang lebih lunak: sekitar 155–160 karakter adalah langit-langit desktop umum sebelum elipsis, tetapi pada jumlah yang sama huruf lebar terpotong lebih awal daripada yang sempit. Seluler menggambar satu anggaran yang sedikit berbeda lagi, itulah sebabnya memeriksa kedua tata letak mengalahkan memercayai satu.",
+          "Pratinjau ini mengukur teks dengan metrik piksel yang dimodelkan pada font yang dipakai Google dan memotong di tempat halaman hasilnya memotong — angka yang Anda pantau adalah angka yang dipantau renderer Google, bukan satu aproksimasi darinya.",
+        ],
+      },
+      {
+        heading: "Google akan menulis-ulang Anda juga — rencanakan itu",
+        paragraphs: [
+          "Pratinjau menampilkan kasus terbaik: tag title Anda, kata demi kata. Dalam praktiknya Google mengganti judul dan deskripsi untuk porsi besar query — menarik H1, teks jangkar dari tautan internal, nama situs, atau tulisan-ulangnya sendiri atas kata-kata Anda ketika ia menilai satu string lain lebih cocok dengan query.",
+          "Pertahanannya bukan trik melainkan bukti: halaman yang judulnya cocok dengan kontennya dan query-nya lebih jarang ditulis-ulang. Satu deskripsi meta yang presisi dan spesifik menaikkan peluang milik Anda dipakai kata demi kata; satu kalimat pemasaran yang samar mengundang satu pengganti yang disesuaikan untuk pencari.",
+          "Jadi perlakukan pratinjau sebagai posisi negosiasi, bukan hasil yang dijamin: letakkan kata-kata yang harus selamat — merek, kata kunci utama, penawarannya — di awal judul, agar bahkan snippet yang terpotong atau ditulis-ulang tetap mempertahankannya.",
+        ],
+      },
+      {
+        heading: "Satu alur kerja yang selesai sebelum halaman terkirim",
+        paragraphs: [
+          "Ketik judul, deskripsi, dan URL, pantau kedua pengukur terisi, ganti desktop/seluler, pangkas. Suntingan yang membeli ruang itu dapat diprediksi: pindahkan merek ke akhir, potong adverbia pengisi, ganti frasa bertele-tele dengan kata benda polosnya.",
+          "Plugin CMS mempratinjau ide yang sama, tetapi mereka mengikatnya ke satu ketergantungan platform; satu pemeriksaan berdiri-sendiri bekerja untuk templat apa pun, tumpukan apa pun, dan tahap apa pun — termasuk meninjau halaman yang tak pernah menyentuh CMS, seperti landing page hasil generasi.",
+          "Semuanya dihitung lokal di browser Anda — judul draf untuk produk yang belum diumumkan bisa lewat tanpa dikirim ke mana pun. Ketika salinannya selamat dari kedua anggaran piksel, generator meta-tag dan Open Graph membawa string jadinya ke sisa perjalanannya.",
+        ],
+      },
+    ],
   },
   "keyword-density-checker": {
     name: "Pemeriksa Kepadatan Keyword",
@@ -2465,6 +4717,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bagaimana Cina dan Jepang dihitung?",
         a: "Tanpa segmenter sungguhan, teks CJK dihitung per karakter untuk token tunggal dan per pasangan karakter untuk frasa dua kata — aproksimasi bagus untuk menemukan istilah yang dipakai berlebihan, bukan analisis linguistik.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mit yang ketinggalan zaman: kepadatan kata kunci sebagai target peringkat",
+        paragraphs: [
+          "Kepadatan kata kunci adalah gagasan yang masuk akal pada 1990-an dan awal 2000-an: peringkatkan dokumen menurut seberapa sering kata query muncul di dalamnya, dan webmaster menyetel halaman mereka ke satu ambang ajaib yang diklaim forum SEO minggu itu — 2%, 3%, apa saja. Dunia itu sudah pergi. Sistem peringkat modern memakai embedding, model topik, dan sinyal kualitas yang menilai apakah satu halaman menutupi satu subjek dengan baik, bukan apakah satu frasa melintasi satu garis numerik.",
+          "Lebih buruk lagi, mengejar ambang itu kini terbaca sebagai sinyal negatif. Teks yang mengulang satu frasa melampaui tingkat alami persis yang dicari oleh filter spam, penilai kualitas, dan rumus keterbacaan. Satu halaman yang dipadatkan ke 5% lebih mungkin diturunkan daripada dinaikkan; frasa yang paling sering disetel berlebihan orang persis frasa yang diawasi algoritma.",
+          "Jadi untuk apa sebenarnya alat ini? Untuk mode kegagalan yang masih ada: satu halaman yang tak pernah menyatakan topiknya dengan jelas, atau yang bergeser di tengah draf ke kosakata yang berkaitan tetapi berbeda. Jika frasa-frasa teratas checker adalah yang ingin Anda peringkatkan, baik; jika frasa sasaran Anda tak muncul di tiga puluh besar, halamannya punya masalah nyata yang tak akan diperbaiki aturan kepadatan mana pun.",
+        ],
+      },
+      {
+        heading: "Penyebut, stopword, dan n-gram",
+        paragraphs: [
+          "Kepadatan adalah satu pecahan, dan penyebutnya memutuskan segalanya. Dihitung atas token mentah, kata-fungsi mendominasi: dalam prosa Inggris biasa, the dan of dan to selalu menjadi istilah teratas, dan topik Anda tenggelam. Membuang stopword mengubah hitungannya menjadi pangsa-kata-konten, yang adalah versi yang bisa memberi tahu Anda sesuatu tentang halamannya.",
+          "Kata tunggal juga unit yang salah untuk kebanyakan pencarian. Query adalah frasa — best running shoes, hotel in london — jadi alat ini menghitung bigram dan trigram di samping token tunggal. Perhatikan interaksi stopword-nya: dengan stopword dibuang, hotel in london melipat menjadi satu bigram hotel london, yang sering lebih dekat ke bentuk query sebenarnya. Bandingkan kedua tampilan alih-alih memercayai satu.",
+          "Teks CJK dihitung jujur tetapi mendekati: tanpa segmentasi kata nyata, token tunggal Mandarin dan Jepang dihitung per karakter dan frasa dua kata per pasangan karakter bersebelahan. Itu cukup untuk menandai satu karakter atau frasa yang dipakai berlebihan — pekerjaan sesungguhnya checker — tetapi itu bukan segmentasi linguistik, jadi perlakukan persentasenya sebagai diagnostik, bukan pengukuran.",
+        ],
+      },
+      {
+        heading: "Satu alur baca praktis",
+        paragraphs: [
+          "Gunakan puncak daftar satu-kata sebagai pemeriksaan kewarasan topik: istilah-istilah di sana seharusnya menamai subjek Anda. Sapukan daftar dua-kata dan tiga-kata untuk frasa yang Anda sasar; jika mereka absen, tuliskan secara alami alih-alih mengulang satu potongan frasa lebih banyak kali.",
+          "Waspadai pemenang tak sengaja. Draf yang ditulis di sekitar satu judul kerja sering membawa satu frasa dominan yang tak diduga — satu nama kode produk, nama klien, satu frasa klise yang berulang. Mengetahui bahwa halaman Anda “terbaca secara topik sebagai” sesuatu yang sedikit berbeda dari yang dimaksud lebih berharga daripada target persentase mana pun.",
+          "Dan pertahankan semuanya proporsional: alat kepadatan membaca teks Anda secara terisolasi, sementara mesin pencari membacanya terhadap seluruh korpus dan sejarah situs Anda. Satu hitungan di-browser yang seketika dan tak pernah mengunggah draf Anda yang belum terbit adalah instruktur tahap-draf — angkanya untuk Anda, penilaiannya tetap milik Anda.",
+        ],
       },
     ],
   },
@@ -2495,6 +4773,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Setiap versi bahasa tetap butuh canonical miliknya yang merujuk dirinya sendiri. hreflang memilih di antara halaman terjemahan yang setara; canonical menyelesaikan duplikat dalam satu bahasa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Resiprositas dan x-default: dua aturan yang memutuskan segalanya",
+        paragraphs: [
+          "Klaster hreflang divalidasi sebagai satu graf, bukan sebagai tag individual. Mesin pencari mengumpulkan tiap tautan rel=alternate hreflang dari tiap halaman, dan satu klaster hanya bekerja jika tertutup: halaman A mencantumkan B dan dirinya sendiri, B mencantumkan A dan dirinya sendiri, dan seterusnya bagi tiap anggota. Satu tautan-balik yang hilang — biasanya satu halaman yang <head>-nya tak pernah diperbarui — dan mesin memperlakukan klaster itu tak lengkap, mendiskon persis halaman-halaman yang coba Anda arahkan.",
+          "Itulah sebabnya kegagalannya senyap dengan cara yang menyebalkan: tak ada yang error, halaman-halamannya sekadar tak bertukar di hasil sebagaimana seharusnya. Audit berarti men-crawl semua anggota dan membedakan klaster mereka — melelahkan, itulah sebabnya menghasilkan seluruh blok dari satu masukan dan menempel set identik di mana-mana adalah alur kerja yang andal.",
+          "x-default adalah jawaban klaster untuk “tak satu pun di atas”: pengguna yang bahasa dan wilayahnya tak cocok dengan versi yang dinyatakan mana pun mendapat URL ini. Arahkan ke satu pemilih bahasa atau satu halaman beranda bahasa-bawaan. Ia opsional, tetapi tanpanya, pengunjung yang tak cocok mendapat satu pilihan sewenang-wenang — sering versi Inggrisnya, cocok atau tidak bagi audiens Anda.",
+        ],
+      },
+      {
+        heading: "Membaca BCP 47 dengan benar: bahasa lebih dulu, wilayah hanya saat berarti",
+        paragraphs: [
+          "Nilainya adalah tag bahasa BCP 47, dan subtag-nya membawa makna yang berbeda. Subtag utamanya adalah bahasanya (en, pt, zh); subtag wilayah (GB, BR, CN) memilih audiens menurut geografi; subtag aksara (Hans, Hant) memilih satu sistem tulis. Satu en telanjang mencocokkan tiap penutur Inggris di mana pun; en-GB menyasar pengguna Inggris-Raya secara spesifik.",
+          "Kesalahan umumnya adalah over-segmentasi dengan wilayah: tag en-US, en-GB, en-AU, en-CA yang semuanya menunjuk konten yang sama. Jika kontennya identik, nyatakan satu en dan biarkan ia mencocokkan semua orang — tag wilayah untuk konten yang benar-benar berbeda, seperti ejaan dan mata uang pt-BR versus pt-PT, atau fr-CA versus fr-FR. Varian wilayah ekstra dengan konten identik menciptakan salinan-mendekat yang dimaksudkan diselesaikan hreflang.",
+          "Mandarin adalah kasus aksara klasiknya: zh sendiri kurang spesifik, zh-Hans dan zh-Hant memilih sederhana dan tradisional. Dan catat apa yang bukan hreflang: ia mengarahkan audiens antara halaman-halaman setara, tetapi ia tak mengkonsolidasikan sinyal peringkat — tiap versi bahasa masih butuh canonical mengarah-dirinya sendiri dan tautan yang diperolehnya sendiri.",
+        ],
+      },
+      {
+        heading: "Di mana anotasinya hidup, dan apa yang tak dilakukan hreflang",
+        paragraphs: [
+          "Tiga penempatan membawa anotasi yang sama: elemen <link> di head (paling mudah diaudit halaman demi halaman, yang dipancarkan generator ini), header HTTP Link (tepat untuk file non-HTML seperti PDF), dan satu kolom sitemap XML (satu-satunya jalur praktis pada ribuan URL, tempat tautan head menjadi tak terpelihara). Pilih satu kanal per halaman — menduplikasi melintasi kanal mengundang inkonsistensi.",
+          "Jujur juga soal ruang lingkupnya: hreflang memengaruhi versi mana yang disajikan kepada audiens mana; ia bukan penambah peringkat, bukan instruksi untuk menerjemahkan apa pun, dan bukan pengganti dasar-dasar yang tak terlihat hreflang — tautan-balik yang benar, URL yang bisa di-crawl, dan canonical per-versi. Google memvalidasi tiap tag dengan ketat: satu nilai yang cacat format (satu tanda hubung hilang, satu kode negara salah ketik) bisa menodai klaster tempatnya berasal, itulah sebabnya memancarkan format yang persis dari satu generator mengalahkan mengetiknya dengan tangan.",
+        ],
+      },
+    ],
   },
   "utm-builder": {
     name: "Pembuat Tautan UTM",
@@ -2521,6 +4824,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah kapitalisasi di nilai UTM berpengaruh?",
         a: "Ya — utm_campaign=Spring dan utm_campaign=spring terhitung dua campaign di kebanyakan alat analitik. Standarkan ke huruf kecil dan laporan Anda tetap bersih.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sistem parameter, diuraikan",
+        paragraphs: [
+          "UTM singkatan Urchin Tracking Module — satu fosil dari Urchin Software, analitik webnya dibeli Google pada 2005 dan diubah menjadi Google Analytics. Lima parameter standarnya selamat dari tiap desain-ulang sejak itu: utm_source menamai asal pengunjung (google, newsletter, twitter), utm_medium menamai kanalnya (cpc, email, social, referral), utm_campaign menamai inisiatifnya, dan utm_term serta utm_content opsional memisahkan kata kunci berbayar dan varian A/B.",
+          "utm_id pantas disebut khusus: GA4 memakainya untuk mengaitkan tautan yang berbeda ke satu ID kampanye — cara bersih menggabungkan trafik yang datang dengan nama kampanye yang sedikit berbeda. Jika organisasi Anda sudah menugaskan ID kampanye, taruh nilai yang sama pada tiap tautan kampanye itu.",
+          "Parameternya adalah entri string query biasa — ditambahkan setelah jalur, sebelum #fragment — dan builder ini mengenkode-persen tiap nilai, sehingga spasi menjadi %20 dan selamat dari klien mail, generator QR, dan redirect platform iklan tanpa memutus URL-nya.",
+        ],
+      },
+      {
+        heading: "Konvensi penamaan adalah produk sebenarnya",
+        paragraphs: [
+          "Builder menjamin tautan yang terformat baik; hanya disiplin yang menjamin laporan yang berguna. Analitik memperlakukan nilai sebagai string sensitif-kapital, jadi utm_campaign=Spring_Sale dan utm_campaign=spring_sale memecah satu kampanye menjadi dua — dan tiap laporan masa depan harus menyatukannya kembali dengan tangan.",
+          "Konvensi yang menua dengan baik adalah yang membosankan: semua huruf kecil, tanda hubung atau garis bawah alih-alih spasi, tak ada tanggal di dalam nama kampanye (mereka memecah satu inisiatif menjadi salinan-mendekat mingguan), dan satu kosakata sumber dan medium yang stabil dipakai semua orang yang bisa membuat tautan. Sebagian tim menyimpan daftar itu di satu spreadsheet; sebagian lain membatasi siapa yang boleh membuat tautan sama sekali.",
+          "Menandai-ulang adalah jebakan lainnya: begitu satu URL dengan parameter UTM dibagikan, diindeks, atau dicetak, sejarahnya dilas pada tempatnya. Mengubah tag-nya belakangan tak memperbaiki masa lalu — ia memotong rangkaian waktunya. Putuskan taksonominya sebelum kampanye pertama, bukan setelah yang ketiga.",
+        ],
+      },
+      {
+        heading: "UTM dan SEO, tetangga bukan musuh",
+        paragraphs: [
+          "URL bertanda bisa memecah crawling: example.com/page dan example.com/page?utm_source=newsletter tampak seperti dua dokumen bagi satu crawler sampai satu tag canonical berkata sebaliknya. Satu canonical mengarah-diri di tiap halaman adalah pertahanan standarnya — itulah sebabnya generator canonical di situs ini berpasangan alami dengan yang ini.",
+          "Tautan internal umumnya tak seharusnya membawa parameter UTM (di sebagian setup analitik mereka mencemari data referral); UTM milik tautan yang Anda kendalikan di luar situs — iklan, newsletter, pos sosial, kode QR. Membuat tautan-keluar itu benar adalah tugas builder; menjaga mereka keluar dari navigasi Anda sendiri adalah tugas Anda.",
+          "Seperti segala hal di situs ini, URL yang dirakit tak pernah meninggalkan browser Anda — tanpa akun, tanpa pencatatan. Tempel satu tujuan, isi kolomnya, salin hasilnya ke platform iklan atau generator QR, dan rantai atribusinya dimulai dari satu tautan yang terdekode dengan cara yang sama di mana pun ia berkelana.",
+        ],
       },
     ],
   },
@@ -2555,6 +4884,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Pembuatan terjadi sepenuhnya di memori browser Anda. Tidak ada yang diunggah, dicatat, atau disimpan — muat ulang halaman dan kata sandinya lenyap selamanya, jadi simpan segera di password manager.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa entropi adalah ukuran kekuatan yang jujur",
+        paragraphs: [
+          "Entropi mengukur ruang pencarian yang harus dijelajahi penyerang, dalam bit: log2 dari ukuran set karakter, dikali jumlah karakternya. Satu serangan brute-force yang mencoba seratus triliun dugaan per detik — kapasitas perangkat keras pemecah khusus saat ini — butuh berabad-abad untuk mengalahkan 80 bit. Itulah sebabnya pelaporan di sini adalah angka nyata yang dihitung dari setelan Anda, bukan satu label kuat/lemah yang kabur.",
+          "Aritmetikanya juga menjelaskan mengapa panjang mengalahkan kompleksitas. Tiap karakter tambahan mengalikan ruang pencarian dengan ukuran kolamnya, sementara menukar satu “a” dengan satu “@” di dalam satu sandi pendek nyaris tak menggerakkan jarumnya. Aturan komposisi klasik — satu digit, satu simbol, satu kapital — mendorong orang menuju pola yang dapat diprediksi seperti Password1!, yang sudah hafal oleh kamus serangan. Panduan NIST terkini (SP 800-63B) menjatuhkan aturan-aturan itu demi panjang dan keacakan yang sungguhan.",
+          "Satu batas jujurnya: entropi mengukur keacakan proses pembuatannya, bukan ketahanan terhadap semua serangan. Satu generator sempurna tak melindungi satu sandi yang dipakai-ulang di situs lain yang mengalami kebocoran, maupun satu rahasia yang diketik di mesin yang terinfeksi malware. Penggunaan-ulang dan phishing — bukan brute force — yang menyumbang kebanyakan pengambilalihan akun dalam praktik.",
+        ],
+      },
+      {
+        heading: "CSPRNG vs Math.random, dan kenapa itu berarti",
+        paragraphs: [
+          "Nilai setiap generator sandi tepat sebesar sumber keacakannya. Math.random(), alat sehari-hari JavaScript, adalah satu generator pseudo-acak yang dioptimalkan untuk kecepatan dan reprodusibilitas dalam simulasi: amati beberapa keluaran dan Anda bisa memprediksi yang menyusulnya. Satu sandi yang dibangun dengannya tampak acak dan tidak — persis jenis jalan-pintas yang telah mematahkan situs generator sandi nyata.",
+          "Alat ini memakai crypto.getRandomValues, sumber kriptografis-aman milik browser. Ia di-seed oleh sistem operasi — entropi perangkat keras, waktu interupsi, waktu disk — dan didesain agar tak ada pengamat yang bisa memprediksi byte berikutnya bahkan setelah melihat semua sebelumnya. Byte-Byte itu kemudian dipetakan secara seragam ke set karakter pilihan Anda, jadi tak ada karakter yang muncul lebih sering daripada yang lain: satu pemetaan yang bias akan diam-diam menurunkan entropi nyata di bawah angka yang ditampilkan.",
+          "Sumber yang sama menggerakkan mode frasa-sandi, tetapi alih-alih byte ia memilih indeks ke dalam satu daftar 273 kata pendek tak-ambigu — sekitar 8,1 bit per kata. Lima kata acak memberi ≈40 bit dan satu frasa yang benar-benar bisa Anda ketik; delapan atau lebih mencapai wilayah sandi 16-karakter. Daftarnya disaring khusus untuk menghindari pasangan yang membingungkan saat mendikte atau membaca keras.",
+        ],
+      },
+      {
+        heading: "Apa yang berubah secara praktis ketika menghasilkan di browser",
+        paragraphs: [
+          "Situs yang menghasilkan sandi di sisi-server melihat tiap sandi yang mereka hasilkan — rahasianya melintasi jaringan dan, kebijakan retensi apa pun hasilnya, ada di satu log di mesin orang lain. Menghasilkan di browser membalikkan itu: byte acaknya lahir di perangkat Anda dan sandinya tak pernah meninggalkannya. Memuat ulang halaman menghapus segalanya; tak ada akun, riwayat, atau sinkronisasi yang bisa bocor.",
+          "Alur kerja yang direkomendasikan mengikuti darinya: hasilkan di sini, salin, tempel langsung ke formulir pendaftaran atau penggantian-sandi, dan simpan ke satu manajer sandi dalam napas yang sama. Manajernya mengingat; generatornya menjamin rahasianya lahir acak dan lokal. Bersama-sama mereka menutup dua titik kegagalan itu — sandi yang dapat diprediksi sejak lahir dan sandi yang terlupakan saat disimpan.",
+        ],
+      },
+    ],
   },
   "password-strength": {
     name: "Pemeriksa Kekuatan Kata Sandi",
@@ -2582,6 +4936,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah kata sandi saya dikirim ke mana pun?",
         a: "Tidak. Pustaka dan kamus zxcvbn dimuat ke browser Anda dan setiap perhitungan berjalan lokal. Tidak ada permintaan jaringan yang membawa masukan Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana zxcvbn berbeda dari pengukur penghitung-kelas",
+        paragraphs: [
+          "Pengukur kekuatan hijau-dan-merah yang akrab menghitung kelas karakter: satu kapital, satu digit, satu simbol, nilai hijau. Model itu tak pernah menjadi ukuran kekuatan — ia ukuran kepatuhan terhadap satu aturan. zxcvbn bekerja berbeda: ia mendekomposisi masukan Anda menjadi set pola yang diketahui paling murah — kata kamus, jalur keyboard seperti qwerty, pengulangan, barisan, tanggal, substitusi l33t — dan melaporkan jumlah dugaan yang dibutuhkan penyerang yang mengikuti strategi yang sama.",
+          "Itulah sebabnya Tr0ub4dor&3 bernilai buruk meski tampak kompleks: substitusi-substitusinya adalah aturan pertama yang diterapkan kamus pemecah, jadi biaya nyata menebaknya adalah biaya menebak “troubador” ditambah sedikit dekorasi. Mesin yang sama menjelaskan mengapa empat kata umum acak jauh lebih sulit dipecah daripada satu sandi pendek yang dibantalkan tiap jenis simbol.",
+          "Satu hal yang secara eksplisit bukan zxcvbn: vonis apakah sandi Anda ada dalam satu kebocoran spesifik. Ia mendekatinya dengan mencocokkan daftar sandi-bocor yang diketahui, tetapi satu-satunya pemeriksaan berotoritas adalah mem-query satu database kebocoran. Perlakukan skornya sebagai satu model biaya penyerang, bukan satu sertifikat.",
+        ],
+      },
+      {
+        heading: "Membaca tiga skenario serangan dengan jujur",
+        paragraphs: [
+          "Waktu retak tak bermakna tanpa satu model serangan. Satu serangan daring yang dibatasi laju (sekitar seratus dugaan per jam) adalah yang diizinkan satu formulir login yang berperilaku baik; satu serangan offline terhadap hash lambat seperti bcrypt (kira-kira sepuluh ribu dugaan per detik) adalah yang terjadi ketika satu database yang terhash benar bocor; satu serangan offline terhadap hash cepat atau tanpa-garam (miliaran dugaan per detik di GPU) adalah kasus terburuknya, dan itu jauh lebih umum daripada seharusnya.",
+          "Kebiasaan bergunanya adalah menilai satu sandi menurut skenario terburuknya, bukan terbaiknya. Satu sandi yang selamat satu minggu di kolom hash-cepat baik untuk satu situs yang berjalan baik dan tipis secara berbahaya bagi yang bocor dan ceroboh. Karena Anda tak bisa mengendalikan situs mana yang menghash dengan benar, bacaan konservatifnya adalah kolom hash-cepat — terutama untuk apa pun yang Anda pakai-ulang.",
+          "Catat juga apa yang diasumsikan estimasinya: penyerang tahu skema pembuatan Anda. Itu asumsi yang benar — serangan kamus dibangun persis di sekitar pola manusia yang umum — tetapi itu berarti angka-angkanya adalah lantai biaya penyerang bagi sandi buatan-manusia, bukan langit-langitnya.",
+        ],
+      },
+      {
+        heading: "Kekuatan bukan keselamatan, dan pemeriksaannya lokal",
+        paragraphs: [
+          "Kebenaran yang tak nyaman dari analisis kebocoran: kebanyakan pengambilalihan akun tak melibatkan memecahkan apa pun. Mereka melibatkan sandi yang dipakai-ulang dari satu kebocoran sebelumnya, atau kredensial yang diserahkan ke satu halaman phishing. Skor 4/4 sempurna tak melindungi satu sandi yang Anda pakai-ulang melintasi situs — tak ada metrik yang bisa. Pertahanan realistisnya adalah satu sandi unik per situs dan satu manajer sandi, dengan pemeriksaan kekuatan sebagai kaki ketiganya.",
+          "Pemeriksaannya sendiri aman di sini: pustaka zxcvbn dan kamus-kamusnya dimuat ke browser Anda dan tiap perhitungan berjalan di perangkat Anda. Tak ada permintaan jaringan yang pernah membawa yang Anda ketik, jadi masuk akal menguji bahkan sandi nyata — meski mengetik rahasia apa pun di mesin yang tak Anda percayai adalah satu risiko yang tak bisa dihapus oleh alat dalam-browser mana pun.",
+        ],
       },
     ],
   },
@@ -2613,6 +4992,29 @@ export const id: Record<string, ToolCopy> = {
         a: "Beberapa domain tidak mempublikasikan record MX dan mengandalkan record A mereka (routing implisit); alat ini memberi tahu saat itu kasusnya. Yang lain mempublikasikan null MX, secara eksplisit berkata “tidak ada surat di sini”. Domain korporasi atau yang baru dibuat juga bisa belum ada di cache resolver publik untuk sementara — coba lagi semenit kemudian.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Valid-format bukan sama dengan terjangkau",
+        paragraphs: [
+          "RFC secara formal mengizinkan alamat yang jauh lebih aneh daripada yang dilakukan dunia nyata: bagian-lokal berkutip seperti \"odd name\"@example.com, domain literal-IP, komentar di tengah satu alamat. Server mail nyata menolak kebanyakan dari itu, jadi satu validator yang mengimplementasikan tata bahasa RFC penuh akan memberi lampu hijau pada alamat yang tak bisa dipakai siapa pun. Alat ini memeriksa subset praktisnya — sintaks yang benar-benar diterima Gmail, Outlook, dan penyedia utama — yang adalah bar yang tepat untuk satu formulir pendaftaran.",
+          "Bahkan satu alamat yang terformat sempurna tak mengatakan apa pun tentang kotak surat di belakangnya. Ia bisa penuh, terhapus, satu catch-all yang menelan segalanya, atau satu spam trap yang meracuni reputasi pengirim Anda. Itulah sebabnya format saja adalah sinyal yang lemah: pertanyaan yang berarti adalah apakah domainnya dikonfigurasi menerima mail, dan itu bisa dijawab dengan satu query DNS publik.",
+        ],
+      },
+      {
+        heading: "Apa yang bisa dan tak bisa dikatakan pemeriksaan MX",
+        paragraphs: [
+          "Satu catatan MX adalah satu janji publik: mail untuk domain ini seharusnya menuju server-server ini, dalam urutan prioritas ini. Tanpa MX sama sekali biasanya berarti tanpa mail, tetapi ada dua pengecualian jujur — sebagian domain kecil menerima mail lewat catatan A mereka lewat perutean implisit, dan satu null MX adalah satu pernyataan eksplisit “kami tak menerima apa pun”. Alat ini membedakan mereka alih-alih melipatnya ke satu kegagalan, karena mereka berarti hal yang berbeda bagi satu corong pendaftaran.",
+          "Yang tak bisa dikatakan oleh query DNS mana pun adalah apakah satu kotak surat spesifik ada. Server mail sengaja tak mengumumkannya — menyelidik dengan perintah RCPT TO adalah cara kerja spammer pemanen-alamat, dan banyak server menerima semua penerima lalu memantul belakangan untuk menghindari mengonfirmasi apa pun. Verifikasi SMTP penuh milik layanan massal sisi-server; satu alat browser yang mengklaim memverifikasi kotak surat sedang mengklaim berlebihan. Format ditambah MX ditambah deteksi salah-ketik adalah langit-langit jujur untuk pemeriksaan sisi-klien.",
+        ],
+      },
+      {
+        heading: "Salah-ketik dan privasi pemisahannya",
+        paragraphs: [
+          "Porsi besar kegagalan pendaftaran adalah salah-ketik satu-huruf: gmial.com, hotmial.com, hitmail.com, atau .cm alih-alih .com. Memeriksa domainnya terhadap satu daftar penyedia paling umum menangkap kebanyakan dari itu sebelum pengguna bahkan mengalami satu pantulan — jauh lebih murah daripada membersihkan daftarnya belakangan. Menangkap salah-ketik saat masuk juga lebih lembut: pengguna memperbaiki satu karakter alih-alih tak pernah menerima mail konfirmasi yang ia tunggu.",
+          "Desain privasinya disengaja: validasi bagian-lokal — yang sering memuat nama atau handle Anda — berjalan sepenuhnya offline, dan hanya domainnya yang melintasi jaringan, sebagai satu query DNS biasa. Domain satu alamat jarang mengidentifikasi satu orang; bagian-lokalnya biasanya. Ingat pemisahan itu saat Anda menempel alamat yang tak ingin Anda catatkan.",
+        ],
+      },
+    ],
   },
   "dns-lookup": {
     name: "DNS Lookup",
@@ -2640,6 +5042,30 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa kadang saya melihat baris CNAME saat saya meminta A?",
         a: "Resolver menyertakan rantai penuhnya: jika www.example.com adalah CNAME ke example.com, query A mengembalikan aliasnya plus record A finalnya. Baris ekstra menunjukkan persis bagaimana namanya ter-resolve.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang terjadi di antara query dan jawaban Anda",
+        paragraphs: [
+          "DNS adalah satu hierarki, dan satu lookup bisa menyentuh beberapa server. Ketika tak ada yang ter-cache, satu resolver pertama bertanya kepada satu server root, yang menunjukkannya ke nameserver untuk domain tingkat-atas (.com, .org), yang menunjukkannya ke nameserver otoritatif milik domain itu sendiri — yang benar-benar memegang jawabannya. Tiap tingkat menjawab dengan satu rujukan, dan resolver berjalan turun rantai itu sampai ia mendapat satu catatan yang bisa ia serahkan kembali.",
+          "Cache mempersingkat perjalanan ini. Tiap catatan membawa satu TTL (time to live) dalam detik, memberi tahu resolver seberapa lama mereka boleh memakai-ulang jawabannya. TTL rendah seperti 300 berarti perubahan merambat dalam beberapa menit tetapi tiap lookup lebih sering menghantam server otoritatifnya; TTL tinggi seperti 86400 menjaga jawaban ter-cache satu hari, yang murah dan stabil tetapi lambat diperbarui. Ketika Anda menurunkan TTL sebelum satu migrasi terencana, Anda menjadwalkan seberapa cepat dunia akan melupakan jawaban lamanya.",
+          "Satu nuansa yang dibuat terlihat oleh alat ini: browser atau OS Anda bisa punya cache sendiri di depan resolver publik, dan sebagian resolver mengembalikan jawaban ter-cache tanpa memeriksa apakah zonanya berubah. Jika satu catatan tampak usang di sini, biasanya TTL-nya masih menghitung mundur — bukan kesalahan di query.",
+        ],
+      },
+      {
+        heading: "Memilih jenis catatan yang tepat untuk pekerjaannya",
+        paragraphs: [
+          "Kebanyakan debugging dimulai dari jenis catatan yang salah. Masalah mail hampir tak pernah masalah catatan-A: periksa MX lebih dulu, lalu catatan TXT untuk SPF, DKIM, dan DMARC. SPF hidup sebagai satu string TXT di domain itu sendiri, DKIM di satu subdomain pemilih seperti s1._domainkey.example.com, dan DMARC di _dmarc.example.com. Karena DoH mengembalikan jawaban mentah dengan segmen yang menyatu, Anda bisa membaca seluruh string kebijakannya di sini dan menandai kesalahan sintaks yang diam-diam memutus pengiriman mail.",
+          "A, AAAA, NS, dan CNAME menjawab pertanyaan yang berbeda: apakah situsnya ter-resolve, dan lewat IPv6? Siapa yang menjalankan DNS-nya? Apakah nama ini satu alias? Satu jawaban CNAME untuk satu query A normal dan diharapkan — resolver menyertakan seluruh rantainya — tetapi satu domain tak boleh memiliki satu CNAME bersama catatan lain pada nama yang sama, itulah sebabnya domain apex sering memakai ALIAS atau catatan yang diratakan di penyedianya.",
+        ],
+      },
+      {
+        heading: "Mengapa DNS-over-HTTPS, dan apa yang tak dilakukan alat ini",
+        paragraphs: [
+          "Query DNS tradisional berkelana sebagai UDP plaintext di port 53, terlihat oleh siapa pun di jalur jaringan — router kedai kopi, ISP, kotak-tengah. DNS-over-HTTPS membungkus query yang sama dalam satu koneksi TLS normal, sehingga lookupnya privat dari jaringan lokal dan lolos melintasi jaringan yang memblokir atau membajak port 53. Itulah sebabnya alat ini bekerja di lingkungan tempat dig gagal.",
+          "Ia adalah alat lookup, bukan layanan pemantauan langsung: ia menampilkan satu jawaban satu-titik-waktu dari satu resolver, termasuk nilai ter-cache, dan tak mem-query server otoritatif langsung atau membandingkan jawaban antar resolver. Untuk perubahan yang Anda kendalikan, alur kerja praktisnya: turunkan TTL lebih dulu, lakukan perubahannya, lalu periksa-ulang di sini sampai nilai barunya muncul.",
+        ],
       },
     ],
   },
@@ -2671,6 +5097,30 @@ export const id: Record<string, ToolCopy> = {
         a: "Hanya IP yang ingin Anda cari, dalam satu request HTTPS ke ipwho.is. Mencari IP Anda sendiri tentu membocorkan alamat Anda ke API itu — sama seperti yang dilihat layanan geolokasi mana pun.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Geolokasi IP adalah data registrasi, bukan pin peta",
+        paragraphs: [
+          "Salah kaprah paling umum tentang lookup IP adalah bahwa ia menemukan satu perangkat. Tidak. Satu database geolokasi dibangun dari catatan organisasi mana yang mendaftarkan satu blok alamat, di mana infrastruktur jaringan organisasi itu duduk, dan koreksi pengguna. Hasil yang Anda lihat adalah tempat perangkat keras perutean ISP terdaftar — satu pusat data, satu hub regional — bukan ponsel atau laptop yang benar-benar memakai alamat itu.",
+          "Mode-mode kegagalannya mengikuti darinya. Operator seluler merutekan trafik lewat gerbang regional, jadi satu ponsel di satu kota bisa menampilkan kota lain. Perusahaan besar mendaftarkan semua blok mereka di kantor pusat, jadi tiap cabang tergeolokasi ke satu gedung yang sama. Alamat hosting dan VPN ter-resolve ke pusat datanya, secara desain. Internet satelit bisa lewat satu negara penuh. Hasil tingkat-kota adalah satu estimasi tanpa jaminan akurasi.",
+          "Kolom yang andal adalah negara, ASN, dan ISP: mereka datang langsung dari data registri dan jarang berbohong. Urutan baca praktisnya adalah ASN lebih dulu — ia memberi tahu Anda apakah alamat itu milik ISP residensial, satu perusahaan hosting, atau satu jaringan seluler — dan hanya kemudian kolom lokasinya, dibobot sesuai.",
+        ],
+      },
+      {
+        heading: "Apa yang ditambahkan ASN ke gambarannya",
+        paragraphs: [
+          "Tiap blok ruang IP yang dirutekan milik satu sistem otonom: satu jaringan — atau kelompok jaringan — dengan satu kebijakan perutean, diidentifikasi oleh satu ASN. Mengetahui ASN-nya mengubah pertanyaan dari “di mana alamat ini” menjadi “jenis jaringan apa ini”, yang sering adalah jawaban yang sebenarnya Anda butuhkan.",
+          "Secara konkret: satu laporan penyalahgunaan lebih berguna terhadap satu ASN hosting daripada residensial, karena perusahaan hosting bertindak atas laporan dan ISP harus menelusuri satu pelanggan. Triage log juga bersandar padanya — satu login dari ISP residensial di satu negara tak biasa dan satu login dari ASN penyedia-cloud di negara yang sama adalah dua sinyal yang sangat berbeda. Keputusan pemblokiran yang diambil atas geolokasi tingkat-kota rutin gagal; keputusan yang diambil atas ASN dan jenis jaringan bertahan lebih baik.",
+        ],
+      },
+      {
+        heading: "Penggunaan sehari-hari dan batas yang jujur",
+        paragraphs: [
+          "Kasus-kasus sehari-harinya adalah memeriksa apa sebenarnya satu entri log, memeriksa kewarasan aturan firewall atau CDN sebelum satu deploy, dan memastikan VPN Anda benar-benar mengubah alamat yang terlihat — lookup IP Anda sendiri sebelum dan sesudah terhubung, dan bandingkan ASN serta negaranya. Yang terakhir adalah uji VPN termurah yang ada.",
+          "Batas-batas jujurnya: ini adalah informasi tingkat-jaringan dan tak bisa mengidentifikasi satu orang; query-nya sendiri terlihat oleh API geolokasi, termasuk saat Anda melihat IP sendiri; dan produk intelijen komersial menambahkan skor penipuan dan deteksi proxy yang tak dibawa database gratis. Gunakan untuk apa yang ia kuasai — identifikasi jaringan dan geografi mendekati — bukan sebagai titik-akhir investigatif.",
+        ],
+      },
+    ],
   },
   "whois-lookup": {
     name: "WHOIS Lookup",
@@ -2698,6 +5148,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apa yang dikirim lewat jaringan?",
         a: "Hanya nama domainnya, dalam satu request HTTPS ke rdap.org, yang bisa me-redirect ke endpoint RDAP resmi registry-nya. Data pendaftaran itu publik secara desain; tidak ada apa pun yang pribadi tentang Anda yang dikirim.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perlindungan privasi dan apa yang sebenarnya ditampilkan RDAP",
+        paragraphs: [
+          "Detail kontak pendaftar yang dulu dicetak penuh oleh WHOIS klasik — nama, jalan, surel — telah disunting di kebanyakan TLD generik selama bertahun-tahun, didorong penegakan GDPR dan layanan privasi registrar. Yang Anda lihat hari ini biasanya lapisan abstraksi registrar, kadang satu alamat layanan-privasi, kadang sekadar “REDACTED FOR PRIVACY”. Mengharapkan satu nama pribadi dari satu lookup .com modern adalah satu kesalahan sisa 2000-an.",
+          "Yang benar-benar berguna adalah segalanya yang dicatat registry sendiri: tanggal pembuatan dan kedaluwarsa, registrar pencatat, kode status EPP, dan nameserver. Penyuntingan mengubah kolom orang; kolom operasionalnya tetap. Itu masih cukup untuk pekerjaan-pekerjaan umum — memeriksa usia satu domain sebelum memercayainya, melihat kapan satu domain sandingan kedaluwarsa, mengonfirmasi satu kunci transfer.",
+          "Registry kode-negara menyetel aturan pengungkapannya sendiri, jadi cakupan dan verbositasnya sangat bervariasi per-TLD: sebagian menerbitkan detail kontak lebih banyak daripada .com mana pun, sebagian lebih sedikit. RDAP juga menormalkan JSON, itulah sebabnya alat ini bisa menampilkan hasil .com, .app, dan .dev dalam kolom yang sama meski registry-nya tak saling terkait.",
+        ],
+      },
+      {
+        heading: "Membaca tanggal dan kode status seperti seorang analis",
+        paragraphs: [
+          "Tanggal bercerita. Satu domain yang dibuat tiga minggu lalu mengiklankan “berdiri sejak 1995” adalah satu bendera merah; satu domain yang kedaluwarsa minggu depan yang dipegang satu bisnis nyata kemungkinan kelalaian, dan kirim surel sebelum ia jatuh. Kebiasaan registrasi juga berarti: satu domain yang diperpanjang otomatis dalam blok multi-tahun menandakan aset yang terpelihara, sementara sejarah kedaluwarsa-lalu-daftar-ulang mengisyaratkan domain yang dipungut reseller.",
+          "Kode status pantas satu kosakata kecil. clientTransferProhibited dan clientHold adalah kunci yang diset registrar; serverHold berarti registry menarik domain itu dari zona (sering satu tindakan kepatuhan); redemptionPeriod dan pendingDelete adalah tahap pengampunan 30-hari dan 5-hari setelah penghapusan, setelah itu domainnya bisa didaftarkan-ulang siapa pun. Satu lookup yang menampilkan pendingDelete efektif satu hitung mundur.",
+          "Satu kebiasaan yang layak dibentuk: silangkan nameserver di sini dengan alat DNS. Satu domain yang WHOIS-nya berkata registrar X tetapi NS-nya menunjuk penyedia hosting tak berkaitan itu umum dan jinak — tetapi ketika registrasinya segar dan NS-nya satu host tahan-peluru, kombinasi itu adalah pola klasik satu domain sekali-pakai.",
+        ],
+      },
+      {
+        heading: "Mengapa RDAP menggantikan WHOIS port-43",
+        paragraphs: [
+          "WHOIS klasik adalah protokol 1980-an: teks bebas tak-terstruktur lewat TCP plaintext port 43, dengan satu format yang berbeda per registry, tanpa autentikasi dan tanpa kontrak pembatasan-laju. RDAP — didefinisikan sebagai penggantinya oleh IETF — menjawab ketiganya: respons JSON lewat HTTPS, satu model data seragam melintasi registry, dan dukungan untuk kontrol akses, batas laju, dan nama domain terinternasionalisasi. ICANN mensyaratkannya bagi semua registry TLD generik.",
+          "Untuk satu alat browser perbedaannya struktural: respons RDAP adalah JSON yang diambil seperti panggilan API mana pun, sehingga hasilnya bisa dinormalkan alih-alih di-parse-regex dari sup teks. Alat ini bertanya kepada rdap.org, yang merutekan tiap query ke server RDAP otoritatif TLD domainnya dan mengikuti redirect-nya untuk Anda.",
+          "Catatan cakupan yang jujur: menjalankan server RDAP publik adalah keputusan tiap registry, jadi TLD generik hampir universal tercakup sementara banyak kode-negara tidak. Bagi TLD itu, lookup WHOIS legacy masih mungkin di tempat lain — tetapi harapkan keluaran teks-bebas dan satu query tak-terenkripsi, persis masalah yang dibangun RDAP untuk pensiunkan.",
+        ],
       },
     ],
   },
@@ -2729,6 +5205,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Semuanya dihitung di memori browser Anda dari crypto.getRandomValues; memuat ulang halaman menghapus hasilnya, dan tidak ada yang pernah diunggah.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bias modulo: bug yang dimiliki kebanyakan halaman angka-acak",
+        paragraphs: [
+          "Komputer menghasilkan bilangan bulat acak sebagai nilai 32-bit, tetapi hampir tak ada rentang berguna yang membagi 2^32 secara merata. Pendekatan naif — ambil satu angka 32-bit acak dan terapkan modulo ukuran rentangnya — menumpuk sisa yang tersisa ke ujung bawah rentang: dengan rentang 10, sebagian angka menjadi secara terukur lebih mungkin daripada yang lain. Untuk satu permainan tak terlihat; untuk satu undian berhadiah itu satu bug keadilan.",
+          "Perbaikannya adalah pengambilan-sampel penolakan: tarik satu nilai 32-bit, dan jika ia jatuh di sisa yang tersisa di puncak ruangnya, buang dan tarik lagi. Nilai-nilai yang diterima kemudian menutupi rentangnya dalam satu jendela persis seragam, sehingga tiap bilangan bulat dari min ke max membawa persis probabilitas 1/(max−min+1) yang sama. Biayanya beberapa tarikan ekstra rata-rata dan membeli keadilan matematis.",
+          "Alat ini menerapkan langkah itu dan mengatakannya dengan terang-terangan, karena “keacakan kriptografis” sendirian tak menjamin keseragaman — pemetaan dari byte mentah ke rentang Anda adalah tempat bias menyelinap. Ketika Anda menerbitkan hasil undian, pelaporan entropi (log2 ukuran rentang, dijumlahkan atas tarikannya) mendokumentasikan seberapa banyak keacakan sungguhan yang memutuskan hasilnya.",
+        ],
+      },
+      {
+        heading: "CSPRNG versus Math.random dan jam",
+        paragraphs: [
+          "Math.random() adalah satu generator pseudo-acak yang ditala untuk kecepatan: keadaan internalnya hingga, dan mengamati cukup banyak keluaran membongkar keadaan itu, setelah itu tiap angka “masa depan” bisa dihitung. Seeding dari jam sistem lebih buruk — jam bergerak secara dapat-diprediksi, jadi penyerang yang kira-kira tahu kapan Anda mengeklik bisa mereproduksi tarikan Anda. Tak satu pun kegagalan itu hipotetis; mereka alasan standar undian daring dipersoalkan.",
+          "crypto.getRandomValues adalah sumber kriptografis-aman milik browser: keluarannya didesain tak terduga bahkan bagi penyerang yang sudah melihat semua keluaran sebelumnya, dan ia di-seed oleh sistem operasi dari entropi perangkat keras. Alat ini memakai itu secara eksklusif — sumber yang sama yang diandalkan pembuatan sandi dan kunci.",
+          "Satu konsekuensi praktis: hasil di sini tak bisa direproduksi oleh siapa pun, termasuk Anda. Jika Anda butuh tarikan yang bisa diaudit, alur kerja jujurnya adalah menerbitkan batas dan jumlah Anda sebelum tarikan, menghasilkan di depan saksi atau dalam satu siaran, dan menyalin keluarannya seketika — halaman ini tak menyimpan catatan, yang adalah satu properti privasi, bukan satu keterbatasan untuk diakali.",
+        ],
+      },
+      {
+        heading: "Dengan atau tanpa pengembalian, dan tempat masing-masing",
+        paragraphs: [
+          "Dua mode pengambilan-sampel mencocokkan dua pertanyaan berbeda. Dengan pengembalian — tiap tarikan independen, duplikat diizinkan — menjawab “beri saya N angka acak”: data uji, pengambilan-sampel gaya-Monte-Carlo, dadu. Tanpa pengembalian — seperti menarik bola bernomor dari satu mangkuk — menjawab “pilih N pemenang dari M entri”: undian, hadiah, pengurutan acak satu daftar.",
+          "Tanpa pengembalian punya satu aturan keras: Anda tak bisa menarik lebih banyak angka unik daripada yang dimuat rentangnya. Alat yang diam-diam berloop atau bias dalam kasus itu rusak; yang ini menolak dan menjelaskan. Mengurutkan keluarannya setelah satu tarikan unik hanya mengubah penyajiannya — set pemenangnya sama — tetapi untuk undian multi-hadiah tempat peringkat berarti, pertahankan urutan tarikan dan perlakukan angka pertama sebagai hadiah pertama.",
+        ],
+      },
+    ],
   },
   "totp-generator": {
     name: "Generator TOTP",
@@ -2756,6 +5257,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa kode saya tidak cocok?",
         a: "Penyebab paling umum: algoritma salah (kebanyakan layanan memakai SHA-1), periode salah, atau jam perangkat bergeser lebih dari beberapa detik. Periksa ketiga pilihan itu terhadap halaman setup layanannya, dan sinkronkan jam sistem Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana jendela 30-detik bekerja, dan kenapa ia memaafkan jam",
+        paragraphs: [
+          "TOTP (RFC 6238) mengubah satu rahasia bersama ditambah waktu sekarang menjadi satu kode. Waktunya tak dipakai mentah: kedua sisi menghitung satu penghitung — waktu Unix dibagi periodenya, 30 detik secara bawaan — dan meng-HMAC-nya dengan rahasianya. Server menerima satu kode dari jendela sekarang dan biasanya satu-dua jendela di kedua sisi, sehingga beberapa detik pergeseran jam antara perangkat Anda dan server tak mengunci Anda keluar.",
+          "Toleransi itu juga anggaran keamanannya. Satu kode valid kira-kira 30 hingga 90 detik, yang cukup ketat sehingga mencegat satu hampir tak berguna tetapi cukup lebar bagi manusia yang mengetik lambat. Enam digit memberi satu juta kemungkinan per jendela; dengan pembatasan-laju tipikal beberapa dugaan per jendela, brute-forcing satu kode hidup adalah putus asa — permukaan serangannya adalah rahasianya sendiri, bukan digit-digitnya.",
+          "Ketika kode Anda tak cocok, penyebabnya hampir selalu salah satu dari tiga setelan, bukan algoritme yang rusak: hash yang salah (hampir semua memakai SHA-1 meski namanya terdengar usang), periode yang salah (30 vs 60 detik), atau satu jam yang bergeser melampaui jendela penerimaannya. Sinkronkan jam sistem lebih dulu; itu memperbaiki kebanyakan ketidakcocokan.",
+        ],
+      },
+      {
+        heading: "Rahasianya adalah rahasia bersama — perlakukan seperti kata sandi",
+        paragraphs: [
+          "String base32 yang Anda tempel adalah seluruh materi kriptografis faktor kedua Anda: siapa pun yang memegangnya bisa menghasilkan kode valid selamanya, di perangkat mana pun, tanpa mengenal ponsel Anda. Ia disebut rahasia “bersama” karena autentikator dan layanan memegang nilai yang sama. Itulah sebabnya menempelkannya ke satu situs TOTP daring acak setara dengan menyerahkan 2FA Anda.",
+          "Alat ini menghitung semuanya dengan WebCrypto di dalam browser Anda: tanpa panggilan jaringan, tanpa penyimpanan di localStorage atau cookie, tanpa apa pun yang ditulis ke disk. Tutup tabnya dan rahasianya lenyap dari memori. Itu menjadikan halaman ini jalur pemulihan yang sah — perhitungan yang sama yang dilakukan aplikasi ponsel Anda, hanya saja di tempat ponsel Anda tak berada.",
+          "Kebersihan dasarnya tetap: simpan rahasianya hanya di satu manajer sandi atau kode-pemulihan milik layanan, tak pernah di tangkapan layar atau log obrolan. Satu tautan otpauth:// nyaman ditempel di sini persis karena ia membundel rahasianya dengan parameternya — perlakukan satu tautan tempelan seperti satu sandi tempelan dan bersihkan clipboard Anda setelahnya.",
+        ],
+      },
+      {
+        heading: "TOTP versus SMS, dan di mana satu kode browser cocok",
+        paragraphs: [
+          "Kode SMS berkelana lewat jaringan telepon dan disimpan operator, yang membuatnya bisa dicegat — serangan SIM-swap ada persis karena kanalnya operator, bukan karena digitnya lemah. Kode TOTP tak pernah meninggalkan perangkat yang menghitungnya, sehingga sudut penyadapan itu lenyap sepenuhnya. Itu, ditambah fungsi offline dan kemandirian dari nomor telepon, adalah alasan setiap panduan keamanan serius lebih menyukai aplikasi autentikator daripada SMS.",
+          "Satu halaman browser yang menghasilkan kode bukan pengganti aplikasi di ponsel Anda — itu algoritme yang sama di tempat kedua. Ceruk jujurnya: pulih ketika ponsel rusak atau diganti, login di satu mesin tempat aplikasinya tak terpasang, dan memverifikasi parameter tautan setup. Jaga rahasianya keluar dari mesin bersama; di perangkat Anda sendiri, halamannya seaman perhitungan yang ia lakukan, yang bukan urusan siapa pun.",
+        ],
       },
     ],
   },
@@ -2788,6 +5314,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Seberapa akurat konversinya?",
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tiap faktor di halaman ini adalah satu definisi",
+        paragraphs: [
+          "Konversi inci-ke-sentimeter tak membawa kesalahan pengukuran karena ia bukan pengukuran: 1 in = 2.54 cm persis, dipatok perjanjian yard dan pound internasional 1959, yang mendamaikan perbedaan kecil yang menyelinap antara salinan yard milik AS dan Inggris. Perjanjian yang sama mematok yard pada 0.9144 m dan pound pada 0.45359237 kg, jadi seluruh tangga panjang imperial bergantung pada satu rasio yang persis.",
+          "Sisi metriknya sama persisnya. Meter pernah satu batang logam di satu brankas Paris, tetapi sejak 1983 ia didefinisikan lewat kecepatan cahaya: jarak yang ditempuh cahaya dalam 1/299.792.458 detik, dengan detik itu sendiri terkunci ke transisi atom sesium. Itu membuat kecepatan cahaya satu angka persis menurut definisi, dan tiap faktor panjang metrik persis bersamanya.",
+          "Karena kedua sisi adalah definisi, konversi berantai tak menumpuk pembulatan: inci ke kaki ke meter tak kehilangan apa pun tak peduli seberapa panjang rantainya. Pembulatan hanya muncul di tampilan, tempat hasilnya diformat ke enam digit signifikan — cukup untuk pekerjaan rekayasa tanpa mencetak digit yang murni derau.",
+        ],
+      },
+      {
+        heading: "Enam digit, dan satu mil yang bukan mil yang lain",
+        paragraphs: [
+          "Berhenti di enam digit signifikan disengaja. 1 mi persis 1.609,344 m, jadi mencetak lebih akan jujur tetapi tak berguna — meteran pita, penerima GPS, dan rambu jalan tak pernah mencapai presisi itu. Konversi harian butuh tiga-empat digit; enam menyisakan ruang untuk konstruksi dan pemesinan, tempat digit terakhirnya masih berarti.",
+          "Jebakan klasiknya adalah dua mil. Statute mile adalah 1.609,344 m; nautical mile 1.852 m — sekitar 8% lebih panjang. Penerbangan dan navigasi laut secara eksklusif memakai nautical mile, jadi satu rute yang direncanakan dengan statute miles meremehkan jarak dan bahan bakar sebesar margin itu. Alat ini mencantumkan nmi terpisah persis karena alasan itu.",
+          "Nilai nautical mile bukan sembarangan: ia mendekati satu menit busur lintang sepanjang satu meridian, yang adalah bagaimana ia selamat dari berabad-abad praktik navigasi. International Hydrographic Conference 1929 mematoknya persis 1.852 m, dan knot — satu nautical mile per jam — mewarisi ketepatan itu.",
+        ],
+      },
+      {
+        heading: "Di mana konversi benar-benar menggigit",
+        paragraphs: [
+          "Formulir bagasi maskapai bertanya dalam sentimeter sementara koper dijual dalam inci; spesifikasi furnitur, kelegaan pintu, dan ceruk peralatan mencampur sistem dalam satu proyek; rencana pertukangan kayu datang dari AS dalam kaki dan pecahan sementara kayu dijual dalam milimeter. Di semua itu, melihat tabel unit penuh sekaligus mengalahkan mengetik pasangan ke satu kotak pencarian.",
+          "Konverter mesin-pencari menangani satu pasaran sekali-jalan dan sering membulatkan ke dua-tiga digit — baik untuk jarak berjalan kaki, terlalu kasar untuk pemeriksaan berulang. Di sini satu masukan memperbarui tiap unit sekaligus, dan baris faktornya menampilkan rasio persis yang dipakai, sehingga satu hasil bisa diverifikasi alih-alih sekadar dipercayai.",
+          "Sejak 1959 inci identik di AS dan Inggris, tetapi dokumen lama — catatan tanah terutama — bisa membawa nilai survei pra-perjanjian yang berbeda di digit signifikan keenam. Semuanya dihitung lokal di browser Anda; area dan volume yang dibangun atas panjang-panjang ini dicakup oleh konverter area dan volume di bawah kebijakan faktor-persis yang sama.",
+        ],
       },
     ],
   },
@@ -2823,6 +5375,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Pound yang berhenti bergerak",
+        paragraphs: [
+          "Sebelum 1959, pound AS dan Inggris berbeda di sekitar desimal keenam — kecil, tetapi nyata saat Anda menimbang satu kapal muatan. Perjanjian yard dan pound internasional mematok pound avoirdupois pada persis 0.45359237 kg, mengakhiri pergeserannya. Tiap konversi pound-ke-kilogram sejak itu berjalan di atas satu angka yang beku.",
+          "Kilogram berubah lewat jalur yang berbeda: sejak 1889 ia didefinisikan oleh satu silinder platinum-iridium di satu brankas Sèvres (le Grand K), unit dasar SI terakhir yang didefinisikan oleh satu artefak. Pada 2019 ia didefinisikan-ulang lewat konstanta Planck — satu nilai persis yang dipatok alam, menggantikan satu objek yang bisa mendapat atau kehilangan atom.",
+          "Imbalan praktisnya sama entah arah mana: tanpa pembulatan antar sistem, selamanya. Stone (persis 14 lb), ounce (1/16 lb), dan ton semuanya tereduksi ke pecahan persis, jadi seluruh tabel konverter ini bergantung pada dua konstanta beku — 0.45359237 dan definisi kilogram — bukan pada rata-rata hasil pengukuran.",
+        ],
+      },
+      {
+        heading: "Troy, avoirdupois, dan satu ounce yang bukan ounce",
+        paragraphs: [
+          "Ounce biasa adalah avoirdupois: 28,349523125 g. Troy ounce — yang dikutip pasar emas, perak, dan permata — adalah 31,1034768 g, sekitar 10% lebih berat. Emas dihargai per troy ounce, selalu; makanan dan pos adalah avoirdupois. Mencampurnya menggeser harga logam sepuluh persen.",
+          "Stone adalah penyintasnya: persis 14 pound, dan masih unit berat-badan sehari-hari di Inggris dan Irlandia — seseorang yang menimbang 11 stone adalah 69,85 kg. Kebanyakan dunia tak pernah menjumpainya, yang persis sebabnya ia dicantumkan di sini alih-alih diam-diam dihilangkan.",
+          "Carat milik permata, persis 200 mg menurut konvensi internasional — dan ia mengukur massa, bukan kemurnian. Kemurnian adalah karat dengan k (emas 24-karat). Dua kata itu sepupu, dan mencampur mereka telah menghabiskan uang pembeli sungguhan di konter perhiasan.",
+        ],
+      },
+      {
+        heading: "Massa, berat, dan satu timbangan yang berbohong dengan sopan",
+        paragraphs: [
+          "Fisika membedakan massa (berapa banyak materi, dalam kilogram) dari berat (gaya yang diterapkan gravitasi, dalam newton). Timbangan sehari-hari mengukur gaya dan menampilkan satu angka massa — baik pada satu gravitasi, rusak di orbit. Ketiadaan-berat astronaut adalah hilangnya berat tampak, bukan massanya.",
+          "Halaman ini berurusan dengan massa saja: kg, g, lb, oz, stone, dan carat semuanya unit massa, dan tak ada unit gaya yang dicampur. Itulah sebabnya konversi yang sama bekerja untuk satu resep di São Paulo dan satu spesifikasi muatan sekaligus, sementara pembacaan satu timbangan pegas butuh gravitasi lokal yang sepakat.",
+          "Kuota bagasi, kelas berat atlet, dan harga paket semuanya hidup di dalam unit-unit ini, dan semuanya dihitung di browser Anda — angka timbangan kamar mandi Anda tetap milik Anda. Enam digit signifikan mencakup setting cincin (carat) hingga kargo (ton) tanpa berganti alat.",
+        ],
+      },
+    ],
   },
   "temperature-converter": {
     name: "Konverter Suhu",
@@ -2856,6 +5434,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tiga skala, tiga titik nol",
+        paragraphs: [
+          "Suhu adalah satu-satunya yang berbeda di antara unit: skalanya tak berbagi nol, jadi tiap konversi adalah satu rumus offset, bukan satu perkalian. Celsius berangkar pada air — 0 °C membeku, 100 °C mendidih pada tekanan standar. Fahrenheit berangkar berbeda — 32 °F membeku, 212 °F mendidih. Kelvin berangkar pada fisika itu sendiri: 0 K adalah nol absolut, −273,15 °C, tempat gerakan molekuler mencapai minimumnya.",
+          "Karena titik nolnya berbeda, rumus-rumusnya membawa baik rasio maupun offset: °F = °C × 9/5 + 32 dan K = °C + 273,15. Ukuran derajatnya berrelasi sebagai 9/5, tetapi offset itulah mengapa 0 °C bukan 0 °F — dan kenapa jalan-pintas kalikan-1,8 yang naif memberi jawaban salah untuk tiap masukan kecuali −40.",
+          "−40 adalah satu-satunya titik tempat skalanya bertemu: −40 °C = −40 °F persis. Kegemaran itu jatuh langsung dari rumus-rumusnya dan berlipat sebagai satu pemeriksaan kewarasan cepat — jika hitungan kepala Anda menempatkan persilangannya di tempat lain, offset-nya terlepas di tengah jalan.",
+        ],
+      },
+      {
+        heading: "Dari mana skalanya datang",
+        paragraphs: [
+          "Fahrenheit, pada awal abad ke-18, mematok nolnya pada satu rujukan dingin yang bisa ia reproduksi — satu campuran es, air, dan garam — dan menempatkan suhu tubuh dekat puncak rentang aslinya (96 derajat di versi pertamanya, dikalibrasi ulang belakangan). Jangkar 32 dan 212 yang aneh adalah residu pilihan-pilihan itu, bukan keanggunan yang disengaja.",
+          "Usulan Celsius 1742 sebenarnya berjalan terbalik dari hari ini: 0 pada titik didih, 100 pada titik beku. Bentuk terbalik yang kita pakai diadopsi tak lama setelah kematiannya, dan definisinya belakangan diangkar-ulang ke nol absolut dan titik-triple air alih-alih titik didih, karena titik didih bergeser dengan tekanan.",
+          "Kelvin, diusulkan pada abad ke-19, membuang jangkar arbitrer sepenuhnya: nol adalah sedingin apa pun yang bisa. Itu membuat Kelvin unit SI dan bahasa fisika — hukum gas, termodinamika, dan suhu warna semuanya berbahasa itu — sementara Celsius selamat sebagai Kelvin yang digeser 273,15 untuk cuaca sehari-hari.",
+        ],
+      },
+      {
+        heading: "Membaca suhu di alam liar",
+        paragraphs: [
+          "Angka yang sama berarti tingkat kenyamanan yang berbeda menurut domain: satu oven pada 180 °C adalah 356 °F sementara dial AS menandai 350 °F, jadi konversi di rentang itu tak pernah mendarat rata; suhu tubuh berpusat pada 37 °C / 98,6 °F, dan satu derajat demam adalah 1,8 derajat Fahrenheit; cuaca dari −10 hingga 40 °C dipetakan ke 14–104 °F.",
+          "Awasi jebakan perbedaannya: perubahan 1 derajat Celsius sama dengan perubahan 1,8 derajat Fahrenheit, jadi perbedaan suhu dikonversi lewat rasionya saja, tanpa offset. “Cuacanya hangat 10 °C” berarti 18 °F lebih hangat, bukan 50 °F. Alat ini mengonversi pembacaan absolut; perbedaan butuh rasio telanjangnya.",
+          "Rumus-rumus offsetnya persis, jadi hasilnya hanya dibatasi tampilan enam-digitnya. Semuanya dihitung di browser Anda — trivially benar untuk aritmetika seringan ini, tetapi ia membawa bonusnya: halamannya bekerja offline, di satu dapur tanpa sinyal, mengonversi setelan oven dari satu ponsel.",
+        ],
+      },
+    ],
   },
   "data-converter": {
     name: "Konverter Ukuran Data",
@@ -2883,6 +5487,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Seberapa akurat konversinya?",
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Persengketaan 1000 vs 1024, diselesaikan oleh standar",
+        paragraphs: [
+          "Dua tradisi bertabrakan dalam unit data. Perangkat keras dan telekomunikasi memakai prefiks desimal: 1 KB = 1.000 byte, karena kapasitas disk dan laju jaringan direkayasa dalam pangkat sepuluh. Memori dan sistem operasi secara historis memakai biner: 1 K = 1.024 byte, karena memori dialamatkan dalam pangkat dua. Tabrakan itu menghasilkan celah terkenal itu — satu drive “500 GB” menampilkan sekitar 465 “GB” di OS, karena drive bermaksud 500 × 10⁹ byte dan OS membagi dengan 1024³.",
+          "Standar IEC 1998 menyelesaikan penamaannya: prefiks biner adalah KiB, MiB, GiB (1 KiB = 1.024 byte), dan KB, MB, GB milik sistem desimal (1 MB = 1.000.000 byte). Windows masih melaporkan gaya-biner sambil melabelinya GB, yang mempertahankan kebingungannya; macOS beralih ke penghitungan desimal bertahun-tahun lalu, itulah sebabnya file yang sama “menyusut” saat dipindahkan antar platform.",
+          "Alat ini menampilkan kedua interpretasi bersebelahan sehingga Anda bisa memeriksa mana yang dipakai sistem sasarnya: kutipan bandwidth, kapasitas drive, dan spesifikasi RAM semuanya mengikuti konvensi berbeda, dan angka yang sama sungguh dua ukuran berbeda tergantung mana yang dimaksud.",
+        ],
+      },
+      {
+        heading: "Unit mana yang dipakai kapan",
+        paragraphs: [
+          "Bandwidth jaringan itu desimal, selalu: satu koneksi “100 Mbps” memindahkan 100 × 10⁶ bit per detik — sekitar 12,5 MB desimal per detik, bukan 12,5 MiB. Estimasi waktu-unduh yang mengabaikan ini berjalan sekitar 5% terlalu optimis pada skala megabita dan lebih buruk lagi di atasnya.",
+          "Ukuran file di kebanyakan OS dan antarmuka cloud modern itu desimal (atau campuran); RAM biner tanpa kecuali, karena chip memori dibangun dalam pangkat dua. Ketika satu spesifikasi sistem berkata “16 GB RAM”, itu 16 × 2³⁰ byte — jenis detail yang berarti saat mesin virtual atau batas memori sedang direncanakan.",
+          "Perencanaan penyimpanan adalah tempat uang nyata bertemu celahnya: satu pusat data yang memprovisi “1 PB” disk mentah mendapat sekitar 10–12% lebih sedikit kapasitas biner yang bisa dipakai daripada yang disarankan perhitungan naif, sebelum overhead filesystem apa pun. Kuota dan batas transfer dalam kontrak seharusnya dibaca dengan konvensi unitnya dalam kepala — “1 TB trafik bulanan” dalam desimal sekitar 7,4% kurang dari 1 TiB.",
+        ],
+      },
+      {
+        heading: "Presisi, konvensi-ganda, lokal",
+        paragraphs: [
+          "Tiap masukan dikonversi lewat faktor pangkat-sepuluh dan pangkat-dua yang persis — 1 KiB persis 1.024 byte, 1 KB persis 1.000 — dan hasilnya menampilkan cukup banyak digit signifikan sehingga kedua konvensi tak pernah melebur menjadi satu angka.",
+          "Alat ini mencakup bit sekaligus byte, karena bandwidth dikutip dalam bit: hubungan 8× antara satu byte dan satu bit adalah slip klasik lainnya (satu jalur “25 Mbps” tak pernah mengunduh 25 MB dalam satu detik — seperdelamannya).",
+          "Semua perhitungan berjalan di browser Anda; tak ada file atau jumlah byte yang dikirim. Untuk lembar perencanaan kapasitas dan pemeriksaan kontrak, tampilan gandanya berarti Anda tak perlu mengingat vendor mana menghitung ke arah mana.",
+        ],
       },
     ],
   },
@@ -2914,6 +5544,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Knot: satu unit yang lahir dari satu tali",
+        paragraphs: [
+          "Sebelum log kecepatan mekanis, pelaut melemparkan satu panel kayu yang terikat tali bermata ke laut, menghitung satu interval tetap dengan satu jam pasir, dan mengukur kecepatan menurut berapa banyak mata yang berlari melalui jari mereka — unit itu mempertahankan namanya. Definisi hari ini: satu knot adalah satu nautical mile per jam, dan karena nautical mile persis 1.852 m (dipatok International Hydrographic Conference 1929), 1 kn persis 1,852 km/jam.",
+          "Cuaca penerbangan dan maritim, rencana penerbangan, dan jalur pelayaran semuanya melaporkan dalam knot, sementara rambu jalan beralih ke km/jam atau mph — itulah sebabnya pilot yang mengonversi kecepatan pendekatan dan pelaut yang membaca peringatan badai memakai satu konversi ini lebih dari yang lain mana pun.",
+          "Karena 1 kn = 1,852 km/jam persis, konversi masuk-keluar knot tak membawa kesalahan pembulatan sampai langkah tampilannya. Enam digit signifikan menjaga angkanya jujur: 100 km/jam adalah 62,1371 mph, bukan 62 yang dibulatkan.",
+        ],
+      },
+      {
+        heading: "Mach bukan unit yang bisa Anda pasak",
+        paragraphs: [
+          "Kecepatan suara tak konstan: ia bergantung pada suhu udara, turun dari sekitar 340 m/s di permukaan laut ke kira-kira 295 m/s di ketinggian jelajah, tempat udara duduk pada −50 °C atau lebih dingin. Satu faktor Mach tunggal karena itu satu aproksimasi. Situs memakai nilai permukaan-laut (1 Mach = 340,29 m/s) dan mengatakannya langsung di nama unitnya.",
+          "Pelabelan itu berarti: satu jet yang menjelajah pada Mach 0,8 di 11 km sebenarnya bergerak sekitar 236 m/s (kira-kira 850 km/jam), bukan 272 m/s — menerapkan faktor permukaan-laut melebih-lebihkan kecepatan di tanahnya sekitar 15%. Gunakan baris Mach untuk perbandingan permukaan-laut kasar saja, dan baca kecepatan pesawat dalam knot atau km/jam saat presisi berarti.",
+          "Kolom m/s adalah jangkarnya: meter per detik adalah unit koheren SI, dan km/jam, mph, ft/s, serta knot semuanya tereduksi kepadanya lewat definisi panjang yang persis. Itulah sebabnya satu rantai seperti knot → m/s → mph tak pernah melayang.",
+        ],
+      },
+      {
+        heading: "Pace adalah kecepatan yang dibalik",
+        paragraphs: [
+          "Pelari berpikir dalam menit per kilometer, yang bukan unit kecepatan melainkan resiprokalnya: 5:00 min/km adalah 12 km/jam, dan 6:00 min/km adalah 10 km/jam. Pembalikan itulah mengapa pace tak bisa dikonversi dengan mengalikan — Anda membagi 60 dengan kecepatannya sebagai gantinya. Konverter ini mencantumkan unit kecepatan saja; untuk mendapat pace, konversikan ke km/jam dan bagi 60 dengannya (satu treadmill pada 12 km/jam adalah 5:00 min/km).",
+          "Penggunaan sehari-hari lainnya adalah mengemudi melintasi perbatasan: 120 km/jam terhadap satu batas 65 mph, atau 70 mph jalan-raya AS yang dibaca sebagai 113 km/jam. Karena 1 mph = 1,609344 km/jam persis (milnya sendiri persis), perbandingannya terpercaya hingga tiap digit yang ditampilkan.",
+          "Kecepatan angin menjembatani celah yang sama: layanan cuaca nasional melaporkan km/jam atau m/s sementara prakiraan maritim memakai knot — satu angin 10 m/s adalah 19,4 kn, persis jenis pemeriksaan sekilas yang dibangun halaman ini. Semua perhitungan berjalan di browser Anda, jadi halamannya terus bekerja offline, di tengah penerbangan, atau di laut, saat data seluler lenyap.",
+        ],
+      },
+    ],
   },
   "volume-converter": {
     name: "Konverter Volume",
@@ -2941,6 +5597,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Seberapa akurat konversinya?",
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dua galon, satu nama",
+        paragraphs: [
+          "Galon terpecah ketika imperiumnya terpecah. AS mempertahankan wine gallon Inggris yang lebih tua dari 231 inci kubik (distandarkan satu statuta Inggris awal 1700-an), yang kini menghitung persis 3,785411784 liter sekarang inci punya definisi metrik 1959-nya. Act of Weights and Measures Inggris 1824 menggantinya dengan satu imperial gallon yang didefinisikan sebagai volume sepuluh pound air: persis 4,54609 liter. Kata yang sama, sekitar 20% terpisah.",
+          "Ketidakcocokannya berantai: satu quart AS adalah 0,946 L, satu imperial quart 1,137 L; satu pint AS 473 mL sementara imperial pint — yang di pub Inggris — 568 mL. Resep, angka bahan bakar, dan bahan kimia kolam semuanya salah melintasi Atlantik ketika nama unitnya dipercayai alih-alih sistemnya.",
+          "Alat ini melabeli sistem tiap unit — gal (US), gal (UK), qt (US), pt (US) — persis karena namanya sendiri berbohong. Jika satu sumber sekadar berkata gallon, ketahui dulu di sisi Atlantik mana ia ditulis sebelum mengonversi.",
+        ],
+      },
+      {
+        heading: "Unit dapur juga definisi legal",
+        paragraphs: [
+          "Cup di sini adalah US legal cup, persis 236,5882365 mL, dan fluid ounce persis 29,5735295625 mL — keduanya pecahan tetap dari galon US (satu galon adalah 16 cup), bukan konvensi kenyamanan.",
+          "Resep adalah jebakan teratasnya: cup di satu buku Inggris dan pint di satu buku Amerika masing-masing merujuk volume legal yang berbeda. Konversikan unitnya sebelum menskala, atau rasio tepung-ke-cairannya pecah. Cairan terutama tak pernah berbohong — satu cup AS air adalah 236,6 g, jadi kesalahannya hanya bisa datang dari unit yang salah.",
+          "Unit kubik melayani dunia lainnya: kapasitas silinder mesin dalam inci kubik dan liter, akuarium dan tangki dalam kaki kubik, duct HVAC dalam meter kubik. 1 ft³ persis 28,316846592 L, dan sisi metriknya sejajar sebagai pangkat sepuluh yang bersih.",
+        ],
+      },
+      {
+        heading: "Membaca tabelnya, dan di mana ia membuktikan nilainya",
+        paragraphs: [
+          "Efisiensi bahan bakar sendiri terpecah menurut negara: US mpg dan UK mpg membawa celah galon 20% yang sama, itulah sebabnya satu spesifikasi 50 mpg Inggris tampak mustahil di sebelah angka Amerika. Angka apa pun yang berbasis galon mewarisi retakan itu.",
+          "Pendosisan akuarium dan pengklorinan kolam adalah kasus seriusnya: dosis menskala dengan volume nyata, dan satu kesalahan 20% adalah overdosis. Konversikan sekali ke liter dan dosiskan dari angka itu — itu saja mencegahnya.",
+          "Seperti di mana pun di situs ini, matematikanya berjalan di browser Anda dan tak ada angka yang diunggah. Enam digit signifikan terbaca jelas bagi resep dan spesifikasi sekaligus tanpa menumpuk digit yang tak dibaca siapa pun. Ketika volume melintasi sistem, baca nama sistemnya sebagai bagian dari nama unitnya — itulah kebiasaan yang ingin ditinggalkan halaman ini.",
+        ],
       },
     ],
   },
@@ -2972,6 +5654,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dari mana acre datang",
+        paragraphs: [
+          "Acre bukanlah satu penemuan metrik yang rapi — ia aritmetika pertanian abad pertengahan. Satu acre adalah area yang bisa dicangkul sepasang lembu dalam satu hari: satu pita sepanjang-jalur-bajak (satu furlong, sekitar 220 yard) selebar satu chain (22 yard), memberi 43.560 kaki persegi yang selamat hingga hari ini. Unit yang lahir dari kerja harian menjelaskan mengapa begitu banyak pengukuran tanah aneh spesifiknya — mereka mengodekan apa yang bisa diselesaikan satu hari kerja, bukan yang akan dipilih aritmetika desimal.",
+          "Hektar adalah jawaban metrik untuk pertanyaan yang sama: 100 meter kali 100 meter, persis 10.000 m², diadopsi bersama sistem metrik setelah Revolusi Prancis sebagai bagian reformasi pengukuran yang dirasionalkan. Satu hektar adalah 2,471 acre — faktor yang canggung itu adalah residu historis dua sistem yang menjawab satu kebutuhan.",
+          "Alat ini merutekan tiap unit lewat faktor SI yang persis alih-alih aproksimasi berpasangan: kaki internasional didefinisikan persis 0,3048 m oleh perjanjian 1959 antara negara-negara Anglo, jadi kaki persegi persis 0,09290304 m². US survey foot yang lebih tua berbeda sekitar 2 bagian per juta — jauh di bawah yang dibutuhkan iklan properti, tetapi alasan dokumen survei kadang menampilkan satu desimal kelima perbedaan.",
+        ],
+      },
+      {
+        heading: "Membaca ukuran tanah melintasi sistem",
+        paragraphs: [
+          "Jangkar sehari-hari yang layak dihafal: satu hektar sekitar dua koma setengah acre; satu lapangan sepakbola kira-kira 0,7 hektar (mendekati 1,8 acre); satu kavling hunian kota tipikal berkisar dari beberapa ratus hingga beberapa ribu meter persegi. Iklan properti di AS mengutip kaki persegi, di kebanyakan dunia meter persegi, untuk kavling tanah acre atau hektar — apartemen yang sama terbaca sangat berbeda melintasi unit-unit itu, yang persis tempat kesalahan konversi dalam keputusan pembelian terjadi.",
+          "Waspadai kebingungan persegi-versus-linear: menggandakan panjang sisi mengempatkan areanya. Satu kavling 20 m × 20 m adalah 400 m², bukan 200 — satu slip yang telah menghasilkan lebih dari satu sengketa properti. Serupa, harga per meter persegi dan harga per kaki persegi berbeda faktor sekitar 10,76, bukan 3,28.",
+          "Untuk lantai dan cat, konversinya adalah separuh mudahnya; separuh sulitnya adalah cadangan limbah — profesional menambahkan 5–10% untuk potongan dan cacat. Konverter memberi Anda area sebenarnya; jumlah pesanannya adalah penilaian di atasnya.",
+        ],
+      },
+      {
+        heading: "Faktor yang persis, semuanya dihitung lokal",
+        paragraphs: [
+          "Tiap konversi mengalikan dengan faktor resmi yang persis di browser Anda dan menampilkan enam digit signifikan, sehingga 1 acre tampil sebagai 4.046,86 m² — bukan 4.000 yang dibulatkan. Semua unit diperbarui langsung dari satu masukan, yang mengubah alat ini menjadi satu tabel perbandingan tanpa memilih-ulang apa pun.",
+          "Presisi double penuh dipakai secara internal; pembulatannya hanya terjadi di tampilan. Konversi berantai — acre ke hektar ke meter persegi — karenanya tak menumpuk kesalahan, karena tak ada nilai terbulatkan antara yang pernah dipakai ulang.",
+          "Tak ada yang dikirim ke mana pun: area tanah dan ukuran properti tetap di perangkat Anda. Bagi satu pembeli rumah yang membandingkan iklan atau satu petani yang menegosiasi sewa, model lokal itu juga berarti alatnya bekerja di lapangan, offline, tanpa koneksi apa pun.",
+        ],
+      },
+    ],
   },
   "time-converter": {
     name: "Konverter Satuan Waktu",
@@ -3001,6 +5709,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Detik: satu-satunya jam yang disertifikasi fisika",
+        paragraphs: [
+          "Semua di atas detik di halaman ini adalah aritmetika persis: satu menit adalah 60 s menurut definisi, satu jam 3.600, satu hari 86.400. Detiknya sendiri tak lagi terikat rotasi Bumi melainkan ke fisika atom — 9.192.631.770 periode radiasi satu atom sesium-133, satu definisi yang diadopsi 1967 yang menjaga jam tetap jujur bahkan saat putaran planetnya goyah.",
+          "Ketepatan itulah kenapa konversi bertingkat tak pernah melayang: nanodetik → milidetik → jam adalah perkalian murni oleh bilangan bulat yang terdefinisi. Pembulatan hanya masuk di tampilan, dibatasi enam digit signifikan oleh pemformat angka situs.",
+          "Rotasi Bumi adalah alasan waktu atomik dan waktu surya perlahan tak sepakat — detik-kabisat ada untuk menambal celahnya, dan “satu hari persis 86.400 detik” adalah satu konvensi matematika durasi, bukan satu jaminan astronomis. Pertanyaan yang melintasi tanggal nyata milik kalkulator tanggal; halaman ini menangani durasi murni.",
+        ],
+      },
+      {
+        heading: "Bulan dan tahun adalah rata-rata, secara disengaja",
+        paragraphs: [
+          "Bulan kalender berjalan dari 28 hingga 31 hari, jadi matematika durasi butuh satu konvensi. Alat ini memakai nilai Gregorian rata-rata: 30,436875 hari per bulan (365,2425 ÷ 12) dan 365,2425 hari per tahun — rata-rata atas satu siklus Gregorian 400-tahun penuh, yang 97 tahun kabisatnya persis alasan tahun rata-ratanya bukan 365,25.",
+          "Jalan-pintas 365,25 (“tahun Julian”) berbeda dari rata-rata Gregorian sekitar satu hari tiap 2.800 tahun — dapat diabaikan untuk satu rencana proyek, tidak untuk mekanika orbit atau penjadwalan jangka-panjang. Bagaimanapun itu rata-rata: mengonversi “3 bulan” di sini memberi 91,31 hari, sementara tiga bulan kalender nyata bisa membentang dari 89 hingga 92.",
+          "Aturan praktisnya: ketika masukannya durasi (satu masa langganan, satu waktu build, satu paruh-waktu), rata-rata-rata itu jawabannya yang benar; ketika masukannya melibatkan tanggal nyata (satu tenggat kontrak, satu ulang tahun), pakai kalkulator tanggal sebagai gantinya — kalender menambahkan hari-hari utuh secara tak teratur, dan tak ada satu faktor tunggal yang selamat dari itu.",
+        ],
+      },
+      {
+        heading: "Di mana matematika durasi membuktikan nilainya",
+        paragraphs: [
+          "Pengembang hidup di sini: timeout dalam milidetik, interval cron, jendela pembatas-laju — 1.500 ms adalah 1,5 s adalah 0,000417 h, dan melihat seluruh tangganya sekaligus mengalahkan mengulang satu pembagian kepala. Kerja audio dan video berjalan di refleks yang sama: 90 menit adalah 5.400 detik, bukan satu kecelakaan pembulatan.",
+          "Perencanaan bisnis segera menghantam rata-rata-ratanya: satu “uji-coba 90-hari” adalah 0,247 tahun, tagihan bulanan × 12 tak persis satu tahun, dan satu bulan 30-hari dalam satu kontrak berbeda sekitar 7% dari Februari. Menulis durasi dalam hari saat itu berarti memotong seluruh pertanyaannya — dan konverter ini menampilkan padanan-hari tiap unit bersebelahan.",
+          "Semuanya berjalan lokal di browser Anda, jadi halamannya merespons seketika dan bekerja offline. Yang ditampilkannya adalah konvensi durasi yang dinyatakan keras, bukan yang diselundupkan. Timestamp dan hitung-mundur yang dibangun atas tanggal nyata adalah pekerjaan alat timestamp dan tanggal terkait.",
+        ],
+      },
+    ],
   },
   "pressure-converter": {
     name: "Konverter Tekanan",
@@ -3028,6 +5762,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Seberapa akurat konversinya?",
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Satu besaran, selusin serikat",
+        paragraphs: [
+          "Tekanan punya begitu banyak unit karena tiap industri membekukan miliknya sendiri sebelum badan standar bisa berarbitrase: rekayasa AS mempertahankan psi, industri Eropa menstandarkan bar, kedokteran mempertahankan milimeter merkuri yang datang dari manometer merkuri, dan meteorologi mempertahankan milibar — diganti-nama hektopascal, identik secara numerik. Pascal, satu newton per meter persegi, adalah wasit SI tempat semuanya dikonversi.",
+          "Jangkar-jangkarnya persis di tempat standar menjaminnya: atmosfer standar persis 101.325 Pa, bar persis 100.000 Pa (dari bahasa Yunani baros, berat), dan psi tereduksi lewat definisi inci dan pound yang persis. mmHg adalah yang berbeda — satu nilai konvensional (sekitar 133,322 Pa) yang terikat kepadatan merkuri dan gravitasi standar.",
+          "Dengan faktor-faktornya dipatok, konversi berantai tak goyah: bar → psi → kPa → mmHg mendarat di angka yang sama tak peduli jalurnya, ditampilkan ke enam digit signifikan. Yang goyah adalah konvensi tempat tiap angka ditulis — itu masalah bagian berikutnya.",
+        ],
+      },
+      {
+        heading: "Gauge dan absolut: kesalahan tekanan klasik",
+        paragraphs: [
+          "Kebanyakan gauge membaca nol pada tekanan atmosfer — mereka melaporkan tekanan gauge, bagian di atas sekitarnya. Tekanan absolut menghitung dari nol sejati (vakum). Di permukaan laut, satu ban pada 32 psi gauge adalah sekitar 47 psi absolut; satu lembar spesifikasi yang tak mengatakan konvensi mana yang dipakainya adalah satu lembar spesifikasi yang patut dicurigai.",
+          "Kecelakaan nyata terjadi di sini: satu bejana yang dinilai 150 psi (gauge) diberi makan lewat satu gauge konvensi lainnya, atau tangki penyelam yang dibaca sebagai absolut, menghasilkan satu kesalahan tepat satu atmosfer — margin yang mematikan di kedalaman. Tabel selam, kode boiler, dan spesifikasi proses semuanya menyatakan konvensi mereka; bawa konvensinya bersama angkanya.",
+          "Konverter menampilkan konversi unit mentah, jadi penilaiannya milik Anda: pastikan apakah tiap angka yang Anda jumpai gauge atau absolut sebelum membandingkan apa pun. Grafik cuaca memakai satu kasus khusus absolut — tekanan permukaan sekitar 1013 hPa itu sendiri adalah berat satu atmosfer.",
+        ],
+      },
+      {
+        heading: "Angka-angka di balik tekanan sehari-hari",
+        paragraphs: [
+          "Satu ban mobil pada 32 psi adalah sekitar 2,21 bar — persis yang ditampilkan satu pompa Eropa, modulo pembulatannya. 120/80 mmHg tekanan darah kira-kira 16/10,7 kPa, dan kedokteran tak pernah beralih karena angka mmHg pendek dan universal di sisi tempat tidur.",
+          "Penyelam hidup di bar atau psi: satu tangki penuh pada 200 bar sekitar 2.900 psi, dan air laut menambahkan satu atmosfer tiap 10 meter kedalaman — di sana, konversi tekanan adalah aritmetika keselamatan, bukan trivia.",
+          "Seperti di mana pun di situs ini, matematikanya berjalan di browser Anda dan tak ada yang Anda masukkan yang disimpan. Enam digit signifikan menjaga perbedaan kecil tetap terlihat: antara 2,0 dan 2,2 bar di satu ban terdapat sekitar 3 psi — cukup sedikit untuk terlewat dalam percakapan, cukup untuk berarti bagi bahan bakar dan keausan.",
+        ],
       },
     ],
   },
@@ -3063,6 +5823,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Faktor konversi mengikuti definisi standar internasional (SI dan NIST). Hasil ditampilkan hingga 8 digit signifikan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Joule dan tagihan di kotak surat Anda",
+        paragraphs: [
+          "Joule adalah unit SI: satu newton gaya sepanjang satu meter, atau satu watt yang bertahan satu detik. Ia mungil pada skala rumah tangga, itulah sebabnya tagihan listrik berbicara kilowatt-jam — dan kilowatt-jam adalah satu bundel joule dengan satu definisi persis: 1 kWh = 3,6 MJ, selalu, karena watt-jam hanyalah joule kali 3.600.",
+          "Ketepatan itu membuat aritmetika energi sedikit istimewa: kolom listriknya tak memuat satu konstanta terukur pun. Satu pemanas 2.000 W yang berjalan satu jam mengonsumsi 2 kWh = 7,2 MJ, dan konversinya tak bisa melayang karena kedua sisi adalah besaran yang terdefinisi.",
+          "Membaca tagihan melintasi negara adalah imbalan sehari-harinya: Eropa mengutip kWh, gas kadang MJ, dan membandingkan satu pemanas dalam BTU dengan satu AC dalam watt butuh persis jembatan ini. Enam digit signifikan jauh melebihi yang dibutuhkan satu tagihan, tetapi mereka menjaga jumlah tingkat-audit tetap jujur.",
+        ],
+      },
+      {
+        heading: "Kepribadian ganda kalori",
+        paragraphs: [
+          "Kalori didefinisikan gaya abad ke-19: panas yang menaikkan satu gram air satu derajat Celsius. Kapasitas panas air sedikit bergeser dengan suhu, jadi definisi yang kabur itu bercabang menjadi beberapa kalori — alat ini memakai kalori termokimia, kini dipatok persis 4,184 J, konvensi di balik kebanyakan tabel kimia dan makanan.",
+          "Kalori makanan dengan C kapital adalah satu kilokalori: 1.000 kalori kecil, 4.184 J. Label EU menampilkan kJ dan kcal bersebelahan; label AS mengatakan Calories yang bermaksud kcal. Slip faktor-1.000 adalah kesalahan aplikasi-diet klasiknya — masukkan 1 kcal → cal di atas dan lihat celahnya.",
+          "Fisika mempensiunkan kalori dengan alasan yang baik, tetapi dapur dan gym tak akan pernah: unit itu selamat karena seberapa banyak panas menghangatkan satu gram air adalah gambaran energi paling intuitif yang pernah dikarang siapa pun. Bawa saja rasio 1:1.000 bersamanya.",
+        ],
+      },
+      {
+        heading: "BTU dan unit fisika yang tak di-tagihkan siapa pun",
+        paragraphs: [
+          "BTU — British thermal unit — adalah kalori milik dunia-pound: panas yang menaikkan satu pound air satu derajat Fahrenheit, sekitar 1.055 J dengan nilai ISO standar. Kapasitas HVAC dikutip dalam BTU per jam, jadi satu AC 10.000 BTU menyampaikan kira-kira 2,93 kWh pendinginan per jam — dan mengonsumsi sedikit lebih banyak listrik daripada itu untuk melakukannya.",
+          "Fisika menyimpan pembukuan dalam electronvolt sebagai gantinya: 1 eV persis 1,602176634 × 10⁻¹⁹ J, satu ketepatan yang dijamin redefinisi SI 2019. Akselerator partikel dan kimia baterai berbahasa eV; toko kelontong dan tagihan gas tak akan pernah.",
+          "Konverter ini menyelaraskan dunia-dunia itu bersebelahan — joule, kalori, kWh, BTU, dan eV dari satu masukan, semuanya dihitung lokal di browser Anda. Enam digit signifikan paling berarti di tempat magnitudonya bertabrakan: satu makanan ringan 200 kcal adalah 836.800 J, dan melihat angka itu di samping megajoule satu pemanas adalah cara tercepat merasakan apa yang dimaksud energi makanan.",
+        ],
+      },
+    ],
   },
   /* ------------------------------------------------------------------ */
   /* CALCULATORS & EVERYDAY UTILITIES (26)                               */
@@ -3094,6 +5880,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ini kurs acuan mid-market — titik tengah antara harga beli dan jual yang diperdagangkan bank. Jaringan kartu dan bank biasanya menambah spread atau biaya 1–3% di atas angka ini.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kurs pasar-tengah: angka adil yang tak akan dikutip bank Anda",
+        paragraphs: [
+          "Tiap mata uang punya dua harga hidup: harga beli para dealer dan harga jual mereka, dan kurs pasar-tengah adalah titik tengah di antara mereka. Titik tengah itu adalah angka yang Anda lihat di berita dan mesin pencari — ia juga kurs terbaik yang tak pernah sepenuhnya didapat satu pelanggan bank. Konversi eceran menumpuk satu spread di atasnya: 1–3% tipikal untuk kartu, lebih di meja bandar bandara.",
+          "Struktur itu menjelaskan cara membaca keluaran alat ini: angka yang ditampilkan adalah satu rujukan yang adil, dan kurs yang benar-benar dikenakan kartu Anda akan mendarat sedikit lebih buruk. Untuk satu pembelian 1.000-unit, spread 2% adalah 20 unit — cukup kecil untuk diabaikan sekali, mahal sebagai satu kebiasaan pada perjalanan sering atau pembayaran bisnis.",
+          "Kursnya datang dari layanan open.er-api.com, yang menerbitkan nilai pasar-tengah rujukan, dan alat ini meng-cache tabelnya di perangkat Anda selama satu jam sebelum mengambil-ulang. Ia jujur tentang apa artinya: ini satu rujukan pengambilan-keputusan, bukan satu harga eksekusi yang dijamin. Periksa kurs aktual penerbit kartu Anda ketika satu pembelian besar bergantung pada selisihnya.",
+        ],
+      },
+      {
+        heading: "Bagaimana kurs silang dihitung",
+        paragraphs: [
+          "Tak ada satu tabel kurs yang diterbitkan untuk tiap pasangan di bumi — dengan 160+ mata uang itu akan menjadi puluhan ribu kutipan. Sebagai gantinya, layanan menerbitkan satu tabel basis (di sini berbasis-USD: berapa banyak tiap mata uang yang dibeli satu dolar) dan tiap pasangan lain diturunkan: JPY ke GBP berarti membagi yen-per-dolar dengan pound-per-dolar. Segitiga ini adalah cara jaringan kartu dan layar forex bekerja juga.",
+          "Kurs turunannya persis seakurat tabel basisnya, tak lebih tak kurang: kedua kakinya bergerak bersama pasar, jadi selama gerakan yen yang tajam, silang JPY/GBP di sini bergerak serentak dengan terminal profesional mana pun yang memakai konvensi yang sama. Perbedaan kecil antar penyedia datang dari waktu snapshot, bukan metodenya.",
+          "Cache satu-jamnya berarti pada waktu sepi dan sibuk sekaligus. Semalam bagi kebanyakan pasangan kursnya nyaris tak bergerak dan cache itu tak terbedakan dari yang segar; selama volatilitas tinggi tombol segarkan memberi Anda snapshot yang lebih baru. Bagaimanapun, aritmetikanya tak pernah membulatkan untuk kepentingan Anda — perkaliannya terjadi lokal di atas tabel presisi-penuh.",
+        ],
+      },
+      {
+        heading: "Apa yang tak pernah meninggalkan perangkat Anda",
+        paragraphs: [
+          "Satu konversi mata uang terasa seperti satu pertanyaan tentang keuangan Anda, itulah sebabnya banyak konverter daring mencatat jumlah dan pasangannya. Alat ini menarik satu garis keras: satu-satunya trafik jaringan adalah unduhan tabel kurs publik anonim. Jumlah yang Anda ketik, pasangan yang Anda periksa, dan hasilnya tak pernah menyentuh satu server — perkaliannya berjalan di browser Anda, dan tabel ter-cache tetap bekerja offline.",
+          "Desain privasi itu juga menjelaskan profil kecepatan alatnya: setelah muatan pertama tak ada yang perlu ditunggu, tak ada bolak-balik per-query, tak ada iklan yang bergantung pada tiap konversi. Konversi berulang benar-benar berbiaya nol permintaan.",
+          "Alur kerja praktis: periksa kursnya sebelum satu perjalanan, segarkan sebelum mengikat satu pertukaran besar, dan ingat spread-nya saat membandingkan dengan yang dikutip bank Anda. Angka di sini adalah garis dasar adilnya; yang Anda negosiasikan terhadapnya adalah marginnya.",
+        ],
+      },
+    ],
   },
   "timezone-converter": {
     name: "Konverter Zona Waktu",
@@ -3121,6 +5933,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah alat ini butuh akses internet?",
         a: "Tidak. Waktu kota datang dari database zona waktu bawaan browser dan jam perangkat Anda — tidak ada yang diunduh dan tidak ada lokasi yang dibagikan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa database IANA berarti",
+        paragraphs: [
+          "Zona waktu bukan offset statis; mereka satu set aturan yang berubah sepanjang sejarah. Offset satu kota bergeser dengan hukum daylight saving, kebijakan masa perang, dan dekrit pemerintah — kadang secara retroaktif. Database zona waktu IANA (tz database) adalah catatan yang dipelihara komunitas atas aturan-aturan itu, dengan satu pengenal zona seperti America/New_York mengodekan bukan hanya offset melainkan seluruh sejarah kapan dan bagaimana ia berubah.",
+          "Browser Anda membawa satu salinan database ini dan mengeksposnya lewat API Intl standar, yang dipakai alat ini. Pilihan itu punya dua konsekuensi: konversi tak butuh panggilan jaringan — halamannya bekerja dalam mode pesawat — dan aturannya hanya sekinar browser Anda. Perubahan pemerintah terkini muncul ketika browser Anda memperbarui tzdata-nya, bukan seketika.",
+          "Memakai zona bernama alih-alih offset tetap juga menghindarkan satu kategori bug: “+5:30” mendeskripsikan India hari ini, tetapi “Asia/Kolkata” mendeskripsikan India melintasi dekade-dekade tanpa-DST dengan pergeseran historis sekali-itu-nya tetap utuh. Tabel offset-tetap yang beredar sebagai lembar curang menua; zona bernama tak bisa.",
+        ],
+      },
+      {
+        heading: "DST: transisi yang mematahkan matematika naif",
+        paragraphs: [
+          "Daylight saving adalah alasan Anda tak bisa sekadar mengurangkan dua offset dan memercayai hasilnya. Offset dua kota bisa 7 jam hari ini dan 6 atau 8 minggu depan, karena DST menyala pada tanggal berbeda di tempat berbeda — AS berganti pada Maret, Eropa belakangan di Maret, sebagian negara belahan-selatan berganti sekitar Oktober. Bahkan di dalam satu negara, satu wilayah bisa mengamati DST sementara yang lain tidak.",
+          "Transisi-transisinya sendiri punya tepi tajam: maju-musim-semi melompatkan satu jam dinding satu jam penuh — jadwal pada 2:30 pagi sekadar tak ada hari itu — dan mundur-musim-gugur membuat satu jam terjadi dua kali, sehingga “1:30 pagi” ambigu tanpa zonanya. Negara-negara juga menghapus DST sepenuhnya, seperti Meksiko bagi sebagian besar negaranya pada 2022, yang adalah alasan aturan bertanggal alih-alih offset konstan adalah satu-satunya pengodean yang aman.",
+          "Untuk rapat berulang, tabel jamnya membuktikan nilainya di sekitar tanggal-tanggal ganti itu: periksa hari-kerja yang sama melintasi minggu ketika transisi terjadi dan Anda akan melihat waktu rapat praktisnya melompat satu jam di satu sisi saja. Satu lirikan itu mencegah satu pergeseran undangan-berulang klasik yang perlahan menggiring satu panggilan dari pagi ke malam.",
+        ],
+      },
+      {
+        heading: "Membaca tabelnya dan tetap privat",
+        paragraphs: [
+          "Tabel 24-baris dihasilkan untuk tanggal yang Anda pilih, bukan hanya hari ini — itu berarti karena rapat yang Anda jadwalkan terjadi bulan depan, mungkin setelah satu ganti DST. Baris-baris tempat tanggal tujuan berbeda dari asalnya diberi label eksplisit: 9:00 Senin di Shanghai yang menjadi 21:00 Minggu di New York persis jenis detail yang dijatuhkan satu konversi tangan.",
+          "Offset setengah-jam dan 45-menit ada di alam liar — India pada +5:30, sebagian Australia pada +9:30, Nepal pada +5:45 — jadi jangan berasumsi selisih dua kota adalah satu bilangan bulat. Tabelnya membaca aturan nyatanya, jadi offset ganjil sekadar muncul dalam aritmetikanya.",
+          "Semuanya dihitung lokal: API Intl milik browser dan jam perangkat Anda, tanpa permintaan jaringan, tanpa berbagi lokasi, tanpa riwayat tersimpan. Alatnya hanya-baca secara kodrat — ia tak pernah mengubah zona waktu perangkat Anda — jadi aman menjelajahi waktu rapat hipotetis untuk satu perjalanan sebelum Anda benar-benar mengubah apa pun.",
+        ],
       },
     ],
   },
@@ -3151,6 +5989,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — grid ini mengonversi nilai bulat non-negatif, yang memang wujud pola bit, hash, dan alamat memori. Format bertanda dan pecahan bergantung pada pilihan encoding (two's complement, IEEE 754) yang membuat pemetaannya ambigu.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa hex dan biner adalah bahasa yang sama",
+        paragraphs: [
+          "Satu digit heksadesimal mengodekan tepat empat bit: 0–9 ditambah a–f menutupi enam belas nilai satu grup 4-bit. Itu bukan kenyamanan yang dipilih siapa pun — itulah sebabnya tiap digit hex dipetakan ke satu pola biner 4-bit yang tetap (F = 1111, 8 = 1000) tanpa ambiguitas di kedua arah. Yang sama berlaku untuk oktal pada tiga bit per digit, yang adalah alasan sistem lama (izin file, komputasi era-PDP) mengelompokkan dalam tiga.",
+          "Inilah alasan tampilannya mengelompokkan biner per 4 dan hex per 2: tiap grup persis satu byte, jadi satu nilai 32-bit tampil sebagai delapan digit hex atau empat nibble biner dan Anda bisa membaca batas byte langsung dari layar. Ketika Anda memeriksa satu bitmask atau satu header protokol, penyelarasan itu mengubah “hitung bitnya dengan hati-hati” menjadi “lirik grup-grupnya”.",
+          "Konversinya sendiri posisional: satu angka dalam basis b adalah jumlah tiap digit kali b dipangkatkan posisinya. Hex sekadar mengemas-ulang biner — 0xFF adalah 11111111 — jadi mengonversi antara hex dan biner mekanis, sementara konversi desimal butuh pembagian sungguhan. Keempat tampilan tetap sinkron di sini saat Anda mengetik, dengan BigInt membawa nilai persis pada ukuran mana pun.",
+        ],
+      },
+      {
+        heading: "Two's complement: dunia bertanda yang sengaja ditinggalkan grid ini",
+        paragraphs: [
+          "Perangkat keras tak menyimpan tanda minus. Bilangan bulat bertanda memakai two's complement, di mana bit tertinggi berlipat sebagai tanda dan angka negatif dibentuk dengan membalik semua bit dan menambah satu — itulah sebabnya −1 dalam 8 bit adalah 11111111 dan kenapa satu pembacaan tak-bertanda dari pola yang sama menampilkan 255. Satu pola bit, dua nilai: pemetaan dari bit ke makna bergantung pada interpretasinya, dan persis itulah alasan alat ini hanya mengonversi nilai tak-bertanda.",
+          "Aturan hanya-tak-bertanda juga memotong ambiguitas lainnya: pecahan. Bilangan titik-mengambang mengikuti IEEE 754, di mana bit terpecah menjadi kolom tanda, eksponen, dan mantissa — mengonversi pola bit itu sebagai satu bilangan bulat polos memberi satu angka raksasa tanpa kaitan ke nilai desimalnya. Dump hex float hanya masuk akal dengan pengodeannya di tangan.",
+          "Jadi simpan konverter ini untuk kegunaannya: pola bit, hash, warna yang dikemas ke bilangan bulat, alamat memori, dan flag. Saat memindahkan satu nilai keluar dari C, Rust, atau assembly, periksa dulu apakah variabel sumbernya bertanda — jika ya, tafsirkan sendiri bit teratasnya sebelum memercayai desimal di sini.",
+        ],
+      },
+      {
+        heading: "Dari mana batas 2^53 datang dan kenapa BigInt berarti",
+        paragraphs: [
+          "Angka biasa JavaScript adalah float 64-bit, dan IEEE 754 membelanjakan 53 bit itu untuk mantissa. Artinya tiap bilangan bulat hingga 2^53 — sekitar 9 kuadriliun — persis, dan melampauinya, angka mulai dibulatkan ke float yang dapat direpresentasikan terdekat: tambahkan 1 ke 2^53 dalam JavaScript polos dan tak ada yang berubah. ID, hash, dan nilai kriptografi rutin melampaui garis itu, itulah sebabnya string hex 64-bit yang ditempel secara historis kembali salah dari konverter naif.",
+          "BigInt memotong masalahnya dengan merepresentasikan angka sebagai bilangan bulat presisi-sewelter alih-alih float, jadi satu hash 256-bit atau satu desimal 40-digit terkonversi persis pada ukuran mana pun. Biayanya dapat diabaikan untuk beban kerja ini — konversinya tetap seketika — dan hasilnya adalah keempat kolom sepakat satu sama lain alih-alih masing-masing membulatkan sendiri.",
+          "Satu pemeriksaan kewarasan cepat saat Anda menduga masalah presisi di tempat lain: konversikan nilainya di sini dan bandingkan dengan yang dilaporkan alat lain. Jika digit rendahnya berbeda, alat lain membulatkan lewat float — grid ini menampilkan nilai sebenarnya.",
+        ],
+      },
+    ],
   },
   "roman-numeral": {
     name: "Konverter Angka Romawi",
@@ -3177,6 +6041,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah konverter menerima huruf kecil?",
         a: "Ya — masukan seperti mcmxciv otomatis dikapitalkan dan dikonversi menjadi 1994. Output selalu ditampilkan dalam huruf besar, seperti tradisi prasastinya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Satu sistem tanpa nol — dan kenapa itu membentuk segalanya",
+        paragraphs: [
+          "Angka Romawi adalah notasi aditif-subtraktif, bukan posisional: tiap simbol punya satu nilai tetap di mana pun ia berdiri, dan tak ada nol dan tak ada nilai tempat. Satu fakta itu menjelaskan baik kekuatan maupun batas sistemnya. Penjumlahan trivial — sekadar kumpulkan simbolnya — tetapi perkalian dan pembagian merekah, itulah sebabnya pedagang Romawi menghitung pada abacus dan menulis hasilnya dalam angka.",
+          "Ketiadaan nol juga membatasi rentangnya. Simbol terbesar notasi klasik adalah M (1000), dan konvensi menolak menulis satu huruf lebih dari tiga kali berarti angka terbesar yang terformat baik secara ketat adalah MMMCMXCIX — 3.999. Penulis abad-pertengahan belakangan mengarang vinculum, satu garis-atas yang mengalikan satu angka dengan 1.000, untuk mencapai nilai lebih besar, tetapi itu tak pernah menjadi bagian kanon klasik, jadi konverter yang tetap klasik berhenti di tempat yang berhenti ini.",
+          "Aturan-aturan ketatnya adalah kerapian modern sebanyak praktik kuno. Pasangan subtraktif (IV, IX, XL, XC, CD, CM) dipakai secara tak konsisten pada prasasti Romawi nyata — IIII muncul di samping IV pada gerbang colosseum — dan regex kanonik yang divalidasi alat ini mencerminkan bentuk klasik terstandar yang kelak disepakati pencetak dan perancang aksara.",
+        ],
+      },
+      {
+        heading: "Tradisi IIII pada muka jam",
+        paragraphs: [
+          "Lihat hampir tiap muka jam tradisional dan Anda akan melihat IIII di tempat aturan klasik berkata IV. Ini salah satu konvensi varian tertua dan paling gigih, dan pembuat jam memakai bentuk aditif itu selama berabad-abad — pada sundial, jam gereja, dan dial jam tangan sekaligus.",
+          "Tak ada satu alasan tunggal yang terdokumentasi di luar keraguan, dan penjelasan-penjelasan masuk akalnya menumpuk alih-alih bersaing. Keseimbangan visual: IIII duduk di seberang VIII pada dial dan goresan gabungan mereka selaras; dengan IV separuh kiri dial tampak lebih berat. Pemanufakturanan: mencetak empat punch I identik lebih murah daripada mengukir satu cetakan IV terpisah. Legenda kerajaan: legenda mengklaim satu raja menolak IV karena terlalu dekat dengan dewa Jupiter (ditulis IVPITER dalam Latin), meski cerita itu tradisi alih-alih sejarah terverifikasi.",
+          "Apa pun asalnya, kesimpulan bagi pengguna konverter adalah IIII adalah satu bentuk historis yang sah yang ditolak validasi klasik ketat. Alat ini menegakkan sistem kanonik — IV, tak pernah IIII — karena tugas satu konverter adalah satu jawaban yang konsisten, bukan satu ensiklopedia varian. Saat Anda menemui IIII pada satu dial, bacalah 4; saat Anda menulis satu angka, tulis bentuk kanoniknya.",
+        ],
+      },
+      {
+        heading: "Validasi ketat dan varian yang ditolaknya",
+        paragraphs: [
+          "Parser menerima tepat satu ejaan kanonik per angka dan menolak sisanya, dengan aturannya dijelaskan. Artinya VIIII (aditif 9), IIM (subtraktif melampaui satu langkah turun), IC (mengurangi melintasi dua pangkat), dan VX semuanya ditandai alih-alih diduga. Keketatannya disengaja: masukan ambigu adalah tempat kesalahan senyap hidup, dan satu konverter yang menduga tak mengajarkan apa pun.",
+          "Penggunaan historisnya lebih longgar daripada kanonnya. Prasasti dan manuskrip lama menampilkan bentuk aditif, subtraktif tak teratur, dan bahkan huruf-huruf yang nilainya bergeser sepanjang waktu — angka abad-pertengahan kadang berjalan bentuk sama sekali non-standar. Jika Anda mentranskripsikan satu sumber asli, harapkan menemui bentuk-bentuk yang ditolak alat ini; validatornya tetap menolong di sana, dengan memberi tahu Anda persis aturan klasik mana yang dilanggar tiap varian.",
+          "Masukan huruf-kecil diterima dan dinormalkan ke huruf-besar, mencocokkan cara prasasti secara tradisional diukir. Semuanya berjalan lokal di browser Anda — tempel tahun film, nomor bab, atau prasasti monumen dengan bebas; tak ada yang dikirim ke mana pun, dan kedua arah tetap hidup sehingga Anda bisa membuktikan sisi mana pun terhadap yang lain.",
+        ],
       },
     ],
   },
@@ -3207,6 +6097,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Total hari hidup adalah angka yang dipakai untuk tonggak bergaya “hari di bumi” dan untuk sistem yang menyimpan usia dalam hari. Ia dihitung dari tanggal kalender dalam UTC sehingga pergeseran daylight-saving tidak bisa membuatnya meleset satu.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa “umur” bukan satu angka tunggal",
+        paragraphs: [
+          "Tanyakan umur seseorang kepada tiga sistem dan Anda bisa mendapat tiga jawaban, karena umur adalah satu konvensi sebelum ia satu perhitungan. Konvensi paling umum — yang dipakai kalkulator ini — adalah umur-lengkap: berapa banyak tahun penuh, bulan, dan hari yang benar-benar telah berlalu sejak kelahiran. Dokumen resmi di kebanyakan negara memakai potongan “tahun-saja” dari angka yang sama, itulah sebabnya seseorang yang ulang tahunnya besok hari ini secara legal masih satu tahun lebih muda.",
+          "Konvensi lain ada karena alasan historis dan budaya. Beberapa sistem Asia Timur secara tradisional menghitung seseorang satu tahun saat lahir dan meng tua-kan semua orang bersama di tahun baru, yang menambahkan satu-dua tahun ke angka Barat; Korea Selatan secara resmi mengadopsi standar internasional bagi sebagian besar tujuan legal pada 2023, mengakhiri sebagian besar ambiguitas itu. Sebagian konteks medis dan asuransi malah memakai umur yang disesuaikan atau dibulatkan.",
+          "Ada juga satu subtlety waktu-dalam-hari yang sengaja diabaikan alat ini: seseorang yang lahir 23:50, secara ketat, beberapa jam lebih muda pada tanggal mana pun daripada yang lahir 00:10 hari yang sama. Karena kalkulator bekerja pada tanggal kalender utuh tanpa waktu kelahiran, keduanya mendapat umur yang sama — konvensi yang diikuti hampir semua formulir dan registri bagaimanapun.",
+        ],
+      },
+      {
+        heading: "Hari kabisat, panjang bulan, dan zona waktu",
+        paragraphs: [
+          "Pecahan tahun/bulan/hari adalah aritmetika kalender nyata, bukan pembagian oleh satu rata-rata. Bulan dikonsumsi utuh dari tanggal lahir maju, dan hari-hari sisa diukur terhadap panjang sebenarnya bulan yang tersisa — sehingga satu rentang melintasi satu bulan 31-hari, satu Februari 28-hari, atau tahun kabisat 2024 semuanya keluar persis. Satu tanggal lahir 29 Februasi diperlakukan menua pada 1 Maret di tahun biasa, mencocokkan konvensi yang dipakai kebanyakan yurisdiksi.",
+          "Total hari memotong kalender sepenuhnya: ia mengurangkan nomor hari UTC, yang sekadar satu hitungan hari absolut. Itu membuat angkanya kebal transisi daylight-saving, yang kalau tidak bisa membuat satu selisih waktu-lokal mendarat satu hari kurang atau lebih. Di mana pun di Bumi Anda menjalankan halamannya, “hari yang dijalani” adalah angka yang sama.",
+          "Hitung-mundur ulang-tahun-berikutnya berjalan maju dari tanggal umur-ke menuju kemunculan berikutnya bulan dan hari kelahiran, dan melaporkan hari-kerja tempatnya mendarat — berguna untuk merencanakan pesta sebelum melakukan aritmetika apa pun. Di satu tahun biasa, ulang tahun 29 Februari disasar ke 1 Maret karena alasan yang sama seperti di atas.",
+        ],
+      },
+      {
+        heading: "Dibandingkan spreadsheet, dan privasi",
+        paragraphs: [
+          "Spreadsheet bisa menghitung selisih umur dengan fungsi selisih-tanggal, tetapi aritmetika bulannya adalah sumber kesalahan yang sering: fungsinya terdokumentasi tak konsisten antar produk, dan mudah salah mengambil batas inklusif-eksklusif tanpa disadari. Alat ini menampilkan pecahan, total, dan hitung-mundurnya bersama-sama sehingga Anda bisa memeriksa silang satu terhadap yang lain sekilas.",
+          "Untuk tujuan resmi — visa, pendaftaran sekolah, aturan pensiun — dokumen dan konvensi yurisdiksi yang berlaku yang berotoritas, bukan kalkulator mana pun. Aturan seperti “umur pada 1 Januari untuk kohort sekolah” menimpa waktu-berlalu murni, dan alat ini tak memodelkannya.",
+          "Privasinya struktural di sini: tanggal lahir dimasukkan ke browser Anda saja, aritmetikanya berjalan di JavaScript lokal, dan tak ada yang diunggah, dicatat, atau disimpan. Itu berarti karena satu tanggal lahir penuh ditambah satu konteks cukup untuk mengidentifikasi satu orang, jadi satu kalkulator yang menjaga masukannya lokal adalah satu-satunya jenis yang seharusnya Anda tempeli tanggal lahir nyata.",
+        ],
+      },
+    ],
   },
   "bmi-calculator": {
     name: "Kalkulator BMI",
@@ -3233,6 +6149,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa BMI tidak cocok untuk atlet?",
         a: "Otot lebih padat daripada lemak, jadi orang yang sangat berotot bisa tercatat “kelebihan berat” sambil membawa sedikit lemak berlebih. Perlakukan BMI sebagai skrining populasi yang cepat dan gabungkan dengan pengukuran pinggang atau komposisi tubuh untuk gambaran yang lebih penuh.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa dikatakan BMI",
+        paragraphs: [
+          "BMI memperoleh tempatnya di kedokteran karena murah, konsisten, dan — melintasi populasi besar — berkorelasi cukup baik dengan lemak tubuh. Ia bekerja terbaik sebagai satu langkah skrining: ia menandai siapa yang pantas mendapat pemeriksaan lebih dekat, bukan apa yang ditemukan pemeriksaan itu. Satu atlet berotot dengan lemak tubuh 6% dan satu orang sedenter dengan 35% bisa berbagi BMI 27; angkanya identik, gambaran kesehatannya tidak.",
+          "Ia juga bergeser di tepi tinggi badan. Orang sangat tinggi terbaca sedikit tinggi dan yang sangat pendek sedikit rendah, karena BMI menskala berat dengan tinggi kuadrat sementara volume tubuh tak menskala serapi itu. Inilah sebabnya sebagian peneliti lebih menyukai alternatif yang lebih baru bagi individu — tetapi setiap organisasi kesehatan besar tetap menerbitkan ambang dalam istilah BMI, yang menjaganya tetap bahasa umum skrining berat.",
+          "Perlakukan kategorinya sebagai satu titik awal percakapan, bukan satu vonis. Tren lebih berarti daripada satu pembacaan tunggal: metode yang sama, timbangan yang sama, waktu hari yang sama, dilacak selama berbulan-bulan memberi tahu Anda jauh lebih banyak daripada satu angka yang pernah akan.",
+        ],
+      },
+      {
+        heading: "Dari mana ambang-ambangnya datang",
+        paragraphs: [
+          "Batas 18,5 / 25 / 30 bukanlah konstanta alam — mereka keputusan komite dengan sejarahnya. Adolphe Quetelet menurunkan indeks itu pada 1830-an dari rata-rata populasi; Ancel Keys menamainya “body mass index” pada 1972; dan pita saat ini distandarkan WHO pada 1990-an, sebagian besar dari studi yang mengaitkan kurva mortalitas ke indeks itu. Kurvanya berbentuk-U: risiko naik di kedua ujung, itulah sebabnya batas rendahnya juga ada.",
+          "Populasi Asia menunjukkan risiko kardiometabolik yang naik pada BMI lebih rendah daripada populasi Eropa, jadi sebagian pedoman nasional memakai ambang kelebihan-berat yang lebih rendah — 23 alih-alih 25 umum. Jika Anda membandingkan hasil Anda terhadap satu bagan dari negara lain, periksa standar mana yang dipakainya; rumusnya identik, pita interpretasinya tidak.",
+          "Anak-anak dan remaja adalah kasus yang sepenuhnya terpisah: BMI berubah dengan usia dan jenis kelamin sepanjang pertumbuhan, jadi bagan pediatrik memakai persentil usia-dan-jenis-kelamin, bukan angka tetap. Kalkulator ini mengikuti standar dewasa dan tak pantas bagi siapa pun di bawah 18.",
+        ],
+      },
+      {
+        heading: "Memakai BMI bersama angka-angka lain",
+        paragraphs: [
+          "Pendamping paling berguna adalah lingkar pinggang, karena ia menangkap adipositas sentral — pola distribusi lemak yang paling dikaitkan risiko metabolik. Pasangan umumnya adalah BMI untuk massa keseluruhan dan pinggang untuk distribusi: seseorang pada BMI 27 dengan pinggang kecil terbaca sangat berbeda dari yang 27 dan membawanya di tengah.",
+          "Persentase lemak tubuh, diukur dengan kaliper, timbangan bioimpedansi, atau DEXA, menjawab langsung apa yang tak bisa BMI: berapa banyak dari berat Anda yang lemak. Ia lebih sulit diukur konsisten, yang adalah kelemahannya — tubuh yang sama bisa bernilai 22% di satu timbangan bioimpedansi dan 26% di lain tergantung hidrasi dan waktu hari.",
+          "Satu rutinitas praktis: timbang diri Anda dalam kondisi konsisten, catat BMI di sini, dan biarkan profesional mengukur pinggang dan lemak tubuh secara berkala. Kombinasinya memberi Anda tren, komposisi, dan konteks klinis tanpa terlalu memercayai satu angka tunggal.",
+        ],
       },
     ],
   },
@@ -3263,6 +6205,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Boleh. Kedua masukan menerima negatif dan desimal, jadi “−5% dari 80” atau poin persen pada perubahan suhu berjalan lancar.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Basis siapa? Pertanyaan yang disembunyikan tiap persen",
+        paragraphs: [
+          "Satu persen tak pernah absolut — ia selalu satu rasio terhadap sesuatu basis, dan kebanyakan kebingungan persen datang dari memilih basis yang salah. Dalam “X% dari Y”, Y adalah basisnya dan hasilnya (X ÷ 100) × Y. Dalam “A adalah berapa persen dari B”, urutan frasa mematok perannya: A adalah pembilangnya dan B penyebutnya, jadi “30 adalah berapa persen dari 150” memberi 20% sementara “150 adalah berapa persen dari 30” memberi 500% — dua angka yang sama, jawaban berlawanan.",
+          "Perubahan persen punya aturan basisnya sendiri: nilai lama duduk di penyebut, dan nilai absolutnya dipakai agar tanda tetap bermakna. Satu kenaikan dari 480 ke 610 adalah +27,08% (130 ÷ 480); kejatuhan balik dari 610 ke 480 adalah −21,31% (−130 ÷ 610). Keduanya mendeskripsikan pergerakan 130-unit yang sama, dan tak satu pun salah — mereka mengukur terhadap titik awal yang berbeda.",
+          "Persen dan persentase-poin juga makhluk berbeda. Jika satu tingkat tabungan bergerak dari 3% ke 4%, itu satu persentase-poin tetapi satu kenaikan relatif 33% — berita dan lembar dana sering memilih mana yang terdengar lebih besar. Ketika satu perbandingan berarti, nyatakan basisnya secara eksplisit: “dari 3% ke 4%” mengalahkan “naik 33%”.",
+        ],
+      },
+      {
+        heading: "Mengapa persen tak terjumlah",
+        paragraphs: [
+          "Perubahan persen mengalikan alih-alih menjumlahkan, karena masing-masing bekerja pada hasil yang terakhir. Untung 20% dan Anda memegang ×1,2; rugi 20% dan Anda memegang ×0,8; digabung, ×0,96 — rugi bersih 4% meski +20 dan −20 tampak seharusnya saling meniadakan. Berpikir dalam pengali melarutkan paradoks itu seketika.",
+          "Asimetrinya tumbuh dengan ukuran: +50% lalu −50% menyisakan Anda pada 75% dari titik awal Anda (×1,5 × 0,5 = 0,75). Inilah sebabnya “pasar jatuh 10% jadi butuh naik 10% untuk pulih” itu salah — ia butuh +11,1%. Trader dan manajer dana hidup dengan aritmetika ini harian.",
+          "Penumpukan diskon berperilaku sama. Satu diskon 20% diikuti diskon 10% lebih lanjut adalah ×0,8 × 0,9 = ×0,72 — potong 28%, bukan 30%. Di mana pun persen berantai (gerakan harga, bunga, mark-up dan diskon), konversikan tiap-tiapnya menjadi satu faktor dan kalikan; menjumlahkan angka mentahnya selalu memberi jawaban salah.",
+        ],
+      },
+      {
+        heading: "Di mana satu kalkulator khusus mengalahkan spreadsheet",
+        paragraphs: [
+          "Tiga pertanyaan itu — X% dari Y, A sebagai pangsa dari B, dan perubahan antara dua nilai — mencakup kasus sehari-hari: pemeriksaan tip dan diskon, penilaian, VAT faktur, pertumbuhan penjualan, skor ujian. Satu spreadsheet menangani ketiganya tetapi masing-masing butuh satu rumusnya sendiri yang diketik benar; di sini mengganti frasa adalah satu klik dan rumusnya menyesuaikan.",
+          "Keluaran perubahan bertanda dan berlabel itu adalah perbedaan yang disengaja: satu kejatuhan dari 500 ke 400 mencetak −20% (penurunan 20%) alih-alih satu angka tak berlabel yang harus Anda tafsirkan sendiri, yang adalah tempat sel spreadsheet dan matematika kepala paling sering salah.",
+          "Semuanya berjalan lokal di browser Anda — tak ada masukan yang dikirim, jadi draf harga, lembar nilai, atau angka gaji bisa diperiksa tanpa akun. Padukan dengan kalkulator keuntungan untuk margin dan mark-up, atau kalkulator VAT ketika persennya hidup di dalam satu harga inklusif-pajak.",
+        ],
+      },
+    ],
   },
   "emi-calculator": {
     name: "Kalkulator EMI",
@@ -3289,6 +6257,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah biaya dan asuransi termasuk dalam EMI?",
         a: "Tidak. Biaya administrasi, asuransi, dan perubahan suku bunga mengapung dikecualikan — hasilnya EMI amortisasi murni untuk suku bunga yang Anda masukkan. Surat persetujuan pemberi pinjaman Anda menampilkan jumlah akhir yang terutang.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Metode saldo-menurun, dan kembaran flat-rate-nya",
+        paragraphs: [
+          "Rumus di sini adalah standar saldo-menurun: bunga tiap bulan dikenakan pada saldo yang tersisa, itulah sebabnya total bunga turun begitu tajam saat masa berkurang. Penirunya adalah kutipan flat-rate, yang umum dalam iklan keuangan-konsumen: bunga untuk seluruh masa dihitung sekali, atas pokok aslinya, dan dibagi merata melintasi bulan-bulannya.",
+          "Keduanya tidaklah dekat. Satu flat rate yang dikutip pada angka yang mirip satu tingkat saldo-menurun berbiaya kira-kira mendekati dua kali secara nyata, karena pokoknya tak pernah benar-benar menyusut dalam perhitungan flat. Ketika satu iklan membanggakan satu tingkat yang tampak kecil, pertanyaan pertamanya selalu: apakah ini di atas saldo-menurun, atau flat? Jika dokumennya hanya mengutip satu flat rate, konversikan sebelum membandingkan apa pun.",
+          "Alat ini hanya menghitung EMI saldo-menurun, yang adalah persamaan yang sama yang dipakai bank untuk pinjaman rumah, kendaraan, dan pribadi. Ia tak memodelkan biaya pemrosesan, asuransi, atau reset tingkat — bukan karena mereka kecil, melainkan karena mereka spesifik-produk, dan melipatnya ke dalam diam-diam mengubah masukan Anda alih-alih menampilkannya kepada Anda.",
+        ],
+      },
+      {
+        heading: "Masa, tingkat, dan pertukaran bunga/waktu",
+        paragraphs: [
+          "Total bunga tumbuh kira-kira dengan waktu yang dijalani saldo, jadi satu pinjaman 20-tahun pada tingkat yang sama membayar jauh lebih dari dua kali bunga pinjaman 10-tahun untuk pokok yang sama — cicilannya turun, tetapi tahun-tahunnya mengalikan. Saat membandingkan masa di sini, jaga mata Anda di baris total-bunga alih-alih baris EMI: EMI adalah yang sanggup Anda bayar, total bunga adalah biayanya.",
+          "Gerakan tingkat kurang berarti daripada masa pada cakrawala pendek tetapi berbunga pada yang panjang: pada satu pinjaman panjang, bahkan setengah poin persentase menumpuk menjadi satu selisih lima-digit. Itulah sebabnya keputusan refinansiasi seharusnya memakai kalkulator ini dua kali — sekali dengan saldo sisa dan masa sisa pinjaman Anda sekarang, bukan angka aslinya — dan selisih total bunganya adalah langit-langit realistis nilai satu biaya refinansiasi untuk dibayar.",
+          "Pelunasan-awal berinteraksi dengan kedua tuas sekaligus. Pokok ekstra mempersingkat masa efektif tanpa menyentuh yang kontraktual, jadi cara jujur mengevaluasi satu tawaran dengan penalti pelunasan-awal adalah menghitung bunga yang dihemat versus penaltinya, keduanya dari satu jadwal seperti yang dihasilkan rumus ini.",
+        ],
+      },
+      {
+        heading: "Apa yang tak dimuat angka EMI",
+        paragraphs: [
+          "EMI adalah pokok ditambah bunga dan tak lebih. Pinjaman nyata menambahkan biaya pemrosesan yang ditagih di muka, asuransi wajib di sebagian produk, biaya dokumentasi, dan — pada pinjaman bunga-mengambang — reset berkala yang mengubah EMI di tengah perjalanan. Tak satu pun dari itu muncul dalam satu perhitungan amortisasi murni, jadi perlakukan keluarannya sebagai garis dasar bersih yang nanti dimodifikasi jadwal pemberi pinjaman Anda.",
+          "Konvensi EMI juga artefak budaya: ia mendominasi pasar tempat cicilan setara adalah standarnya, tetapi alternatif struktur pokok-setara, dengan cicilan yang menurun, mengenakan bunga total lebih sedikit dengan harga cicilan awal lebih tinggi. Jika satu pemberi pinjaman menawarkan keduanya, jalankan keduanya di sini dengan masukan yang sama dan bandingkan total bunga terhadap anggaran tahun pertama Anda.",
+          "Dan seperti di mana pun di situs ini, angka-angkanya tak pernah meninggalkan browser Anda. Ukuran pinjaman, konteks gaji, dan tingkat tetap di perangkat Anda — berguna saat Anda membandingkan tawaran yang belum Anda terima.",
+        ],
       },
     ],
   },
@@ -3319,6 +6313,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya. Ia memodelkan pinjaman bunga tetap untuk suku bunga yang Anda masukkan. Untuk produk bunga mengapung, hitung ulang kapan pun acuannya me-reset — tiap reset mengubah cicilan dan jadwalnya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Total-cicilan-setara vs pokok-setara",
+        paragraphs: [
+          "Pinjaman konsumen hampir selalu memakai metode anuitas yang diimplementasikan alat ini: satu cicilan tetap untuk seluruh masa, dengan pangsa bunga menyusut dan pangsa pokok tumbuh saat saldonya turun. Alternatif utamanya, amortisasi pokok-setara, mempertahankan irisan pokok tetap dan membiarkan cicilan turun tiap bulan. Pada tingkat dan masa yang sama, pokok-setara mengenakan bunga total lebih sedikit, karena saldo dilunasi lebih cepat sejak hari pertama.",
+          "Bunga yang lebih rendah tak membuat pokok-setara “lebih baik”. Cicilan awalnya jauh lebih tinggi, yang persis yang tak sanggup dipikul kebanyakan anggaran rumah tangga, dan itulah sebabnya pemberi pinjaman beralih ke struktur anuitas. Nilai keduanya dengan keterjangkauan tahun-tahun awal dan total bunga — jangan pernah dengan membandingkan cicilan bulan-pertama satu metode terhadap cicilan bulan-belakangan metode lain.",
+          "Satu jebakan perbandingan pantas satu peringatan: sebagian pasar mengutip “flat rate”, di mana bunga untuk seluruh masa dihitung atas pokok asli alih-alih saldo yang menurun. Satu flat rate berbiaya kira-kira mendekati dua kali tingkat saldo-menurun yang setara. Sebelum membandingkan dua tawaran mana pun, pastikan keduanya kutipan saldo-menurun; kalau tidak angka-angkanya sama sekali tak bisa dibandingkan.",
+        ],
+      },
+      {
+        heading: "Di mana pelunasan-awal benar-benar membayar",
+        paragraphs: [
+          "Bunga tiap periode sama dengan saldo tertunggak kali tingkat bulanannya, jadi melunasi pokok lebih awal menghapus bunga pada tepat tingkat pinjaman Anda — satu “imbal hasil” tanpa risiko pada tingkat itu. Karena saldonya terbesar di tahun-tahun pertama, cicilan ekora yang sama menghemat bunga paling banyak di sana, dan secara terlihat kurang satu dekade kemudian. Tabel tahunan membuat perbedaan itu konkret alih-alih menyerahkannya ke satu aturan jempol.",
+          "Dua pemeriksaan praktis sebelum melunasi lebih awal: pastikan jumlah ekoranya diterapkan ke pokok alih-alih dibukukan sebagai satu bayaran-muka cicilan masa depan, dan tanyakan apakah kontraknya membawa biaya pelunasan-awal — sebagian produk tingkat-tetap membawanya. Satu biaya yang memakan sebagian besar bunga yang dihemat mengubah satu langkah baik menjadi satu langkah netral.",
+          "Alternatif jujurnya: jika Anda bisa secara andal memperoleh lebih banyak, setelah pajak dan risiko, daripada tingkat pinjaman Anda di tempat lain, menginvestasikan surplus mengalahkan melunasi lebih awal; jika tidak, melunasi lebih awal adalah versi terjamin dari imbal hasil itu. Alat ini tak memprediksi pasar — ia menunjukkan persis seberapa banyak bunga yang tiap skenario tinggalkan di meja.",
+        ],
+      },
+      {
+        heading: "Membaca jadwal tanpa salah membacanya",
+        paragraphs: [
+          "Tabelnya mengelompokkan dua belas bulan ke tiap baris, jadi kolom pokok dan bunga adalah total tahunan dan kolom saldo adalah angka akhir-tahun. Jangan bandingkan satu baris tahunan terhadap satu baris pernyataan bulanan — skalanya berbeda secara desain. Persilangannya, tempat pokok tahunan akhirnya melampaui bunga tahunan, biasanya hanya muncul di separuh kedua satu pinjaman panjang.",
+          "Jadwalnya memodelkan tingkat tetap, pembayaran tepat-waktu, dan tanpa biaya. Reset tingkat, pembayaran terlewat, asuransi yang digulung ke pinjaman, atau ketentuan yang direstrukturisasi semuanya mengubah jalur nyatanya, jadi perlakukan tabelnya sebagai satu skenario garis dasar dan hitung-ulang setelah perubahan apa pun pada masukannya.",
+          "Seperti segala hal di situs ini, perhitungannya berjalan sepenuhnya di browser Anda: tak ada jumlah pinjaman, tingkat, atau masa yang dikirim ke mana pun, jadi aman menjelajahi kutipan nyata dari bank nyata.",
+        ],
+      },
+    ],
   },
   "gst-calculator": {
     name: "Kalkulator GST",
@@ -3345,6 +6365,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah GST sama dengan VAT?",
         a: "Keduanya pajak nilai-tambah yang dikenakan di tiap tahap, tetapi GST di India adalah satu pajak terpadu yang menyerap excise pusat, service tax, dan VAT negara bagian, dibagi menjadi CGST + SGST (dalam negara bagian) atau IGST (antar negara bagian). Negara lain menyebut padanannya VAT saja.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Slab dan jebakan pengurangan",
+        paragraphs: [
+          "GST India diorganisasi sebagai satu struktur slab — tingkat kerjanya saat ini adalah 0–5% untuk kebutuhan pokok, 12% dan 18% untuk kebanyakan barang dan jasa, dan 28% untuk barang mewah atau dosa, kadang dengan satu cess tambahan di atasnya. Alat ini mengekspos empat slab standar sebagai pilihan sekali-tap, yang cocok dengan cara faktur benar-benar ditulis: tingkatnya satu set kecil, bukan satu desimal bebas.",
+          "Arah ekstraksi adalah jebakan klasiknya. GST di dalam satu harga inklusif-pajak adalah gross × rate ÷ (100 + rate), bukan gross × rate ÷ 100. Pada 18%, satu harga bruto 1.180 memuat 180 pajak — membagi 1.180 dengan 1,18 — sementara 18% naif dari 1.180 memberi 212,40, diam-diam melebih-lebihkan pajaknya.",
+          "Satu pemeriksaan kewarasan cepat untuk angka GST mana pun: net + pajak harus persis sama dengan bruto. Jika ketiga angka Anda tak tertutup, salah satunya datang dari basis yang salah — biasanya satu persen yang diterapkan ke bruto alih-alih rumus pembagiannya.",
+        ],
+      },
+      {
+        heading: "Satu pajak, terpecah antara dua tingkat pemerintah",
+        paragraphs: [
+          "GST menyatukan patchwork cukai pusat, pajak layanan, dan VAT negara-negara bagian individual menjadi satu pajak, itulah sebabnya satu faktur bisa menampilkan jumlah yang sama sebagai dua komponen: CGST plus SGST untuk penjualan intra-negara-bagian, atau IGST untuk antar-negara-bagian. Tingkat aritmetika yang Anda pilih di sini sama entah arah mana — pemecahannya soal bagaimana pajak disetorkan, bukan bagaimana ia dihitung.",
+          "Ini juga perbedaan praktisnya dari VAT sebagaimana dipakai kebanyakan negara lain: secara mekanis keduanya mengenakan pajak nilai-tambah di tiap tahap dan berakhir di konsumen, tetapi versi India merutekan penerimaannya antara pemerintah pusat dan negara bagian alih-alih ke satu otoritas tunggal.",
+          "Alat ini sengaja tinggal pada aritmetika. Apakah klasifikasi HSN satu produk menariknya ke satu slab berbeda, apakah satu cess berlaku di atasnya, atau bagaimana reverse charge dibukukan adalah pertanyaan klasifikasi dan pengajuan — konfirmasikan mereka terhadap notifikasi Dewan GST terkini untuk barang Anda.",
+        ],
+      },
+      {
+        heading: "Di mana ini cocok dalam satu alur kerja",
+        paragraphs: [
+          "Penggunaan harian paling umum adalah membaca harga gaya-MRP: satu harga stiker inklusif-pajak, jadi “Hapus pajak” menjawab berapa banyak dari yang Anda bayarkan yang sebenarnya pajak — berguna saat membandingkan produk melintasi kategori dengan slab berbeda, karena satu harga stiker lebih tinggi bisa menyembunyikan satu harga net lebih rendah.",
+          "Bagi penjual, arah menambah membangun satu faktur dari satu harga net: pilih slab-nya, baca bruto dan pajaknya, dan ketiga angkanya cocok dengan tata letak faktur alih-alih butuh satu spreadsheet terpisah. Draf tahun kontrak dan penetapan-harga diuntungkan oleh berjalan lokal di browser, tanpa data yang meninggalkan perangkat.",
+          "Pasangkan dengan kalkulator VAT saat bekerja melintasi negara, dan kalkulator keuntungan ketika angka netnya butuh satu margin di atasnya sebelum pajak ditambahkan.",
+        ],
       },
     ],
   },
@@ -3375,6 +6421,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Apa pun yang berlaku untuk barang atau jasa serta yurisdiksi Anda: tarif standar berkisar 0% hingga 27% di seluruh dunia, dan kebanyakan negara juga punya tarif lebih rendah untuk makanan, buku, atau obat. Saat ragu, periksa tabel terkini otoritas pajak Anda.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dua arah, dan kenapa 120 bukan 100 plus 24",
+        paragraphs: [
+          "Menambahkan VAT mudah: net × (1 + rate) — pada 20%, satu harga net 100 menjadi 120 bruto. Mengekstrak VAT adalah tempat kesalahannya hidup. Anda tak bisa mengalikan bruto dengan 20% untuk menemukan pajaknya, karena 20% berlaku pada basis net, bukan bruto. Langkah yang benar adalah membagi: net = gross ÷ (1 + rate).",
+          "Jadi satu harga bruto 120 pada 20% memuat tepat 20 VAT, bukan 24 — 120 × 20% yang naif melebih-lebihkan pajaknya seperlima. Pada 25%, celahnya bahkan lebih besar: satu harga bruto 125 memuat 25, bukan 31,25. Mode “Hapus pajak” melakukan pembagiannya dan menampilkan net, VAT, dan bruto bersebelahan sehingga kesalahannya tak bisa bersembunyi.",
+          "Trik pembagian ini adalah satu rumus yang paling banyak dipakai dalam pembukuan EU dan Inggris untuk pembelian yang direkam inklusif-pajak: kuitansinya menampilkan satu angka, dan bukunya butuh tiga. Aritmetika yang sama menjawab pertanyaan cermin penetapan-harga — jika Anda ingin 100 net diterima, kutip 120 bruto, bukan 125.",
+        ],
+      },
+      {
+        heading: "Satu pajak, banyak nama dan tingkat",
+        paragraphs: [
+          "VAT adalah nilai-tambah di tiap tahap: satu produsen menagihkannya atas penjualan dan mengkreditkan yang ia bayarkan atas pembelian, hanya menyetorkan selisihnya, sehingga konsumen akhir menanggung seluruhnya. Tingkat standar melintasi dunia berkisar kira-kira dari 0% hingga pertengahan-20-an persen, dan kebanyakan sistem menambahkan tingkat dikurangi untuk makanan, buku, atau obat — itulah sebabnya alat ini menerima tingkat desimal mana pun alih-alih satu daftar tetap yang akan menua dengan buruk.",
+          "Namanya berubah lebih dari mekaniknya: kebanyakan Eropa, Inggris, dan sebagian besar Afrika serta Asia mengatakan VAT; India menyebut versi terpadunya GST; yurisdiksi lain memakai label mereka sendiri. Secara perhitungan mereka desain nilai-tambah yang sama, jadi rumus yang sama berkelana melintasi perbatasan.",
+          "Apa yang tak bisa diputuskan aritmetika adalah tingkat mana yang ditarik satu pasokan, apakah reverse charge berlaku, atau di mana satu ambang registrasi duduk — itu pertanyaan hukum yang berubah dengan legislasi. Perlakukan alatnya sebagai satu bantuan aritmetika dan konfirmasikan perlakuannya dengan otoritas pajak atau akuntan Anda sebelum pengajuan.",
+        ],
+      },
+      {
+        heading: "Dibangun untuk kutipan, faktur, dan privasi",
+        paragraphs: [
+          "Bisnis dan konsumen mengutip harga ke arah yang berlawanan: konsumen melihat harga inklusif-pajak, faktur menampilkan net plus VAT. Satu alat yang terkunci ke satu tabel tingkat negara hanya menangani separuhnya; satu masukan tingkat bebas mencakup kedua arah untuk yurisdiksi mana pun yang tingkatnya Anda ketahui.",
+          "Semuanya dihitung lokal di browser Anda — tanpa unggahan, tanpa akun — sehingga draf faktur yang belum terbit, kutipan klien, dan penetapan-harga internal bisa dikerjakan tanpa angka-angkanya pernah meninggalkan perangkat.",
+          "Ia berpasangan alami dengan kalkulator GST bagi sistem slab India, kalkulator keuntungan saat penetapan-harga butuh satu margin di atas angka net-nya, dan kalkulator persen untuk pemeriksaan persen kecil di antaranya.",
+        ],
+      },
+    ],
   },
   "discount-calculator": {
     name: "Kalkulator Diskon",
@@ -3401,6 +6473,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ini memperhitungkan VAT atau pajak penjualan?",
         a: "Tidak — ia bekerja pada harga yang Anda ketik. Jika etiket menampilkan harga termasuk pajak, hasil diskonnya juga termasuk pajak. Untuk menggabungkan dengan pajak, lewatkan harga terdiskon ke kalkulator VAT atau GST.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Jenis diskon, dan kenapa labelnya jarang cocok dengan matematikanya",
+        paragraphs: [
+          "Diskon eceran datang dalam beberapa bentuk yang berperilaku berbeda: potongan persentase (“potong 30%”), potongan jumlah tetap (“potong $20”), tawaran bertumpuk (“tambahan 15% bagi anggota”), dan tawaran ambang (“potong $50 di atas $300”). Satu persentase dan satu jumlah tetap hanya bertepatan di satu titik harga — di atasnya jumlah tetapnya lebih lemah, di bawahnya lebih kuat — sehingga kampanye yang sama bisa menyukai ukuran keranjang berbeda.",
+          "Persentase bertumpuk adalah jebakan klasiknya, dan kolom kedua alat ini ada persis untuk kasus itu. Karena diskon kedua berlaku pada harga yang sudah dikurangi, tingkat efektifnya adalah satu dikurangi produk sisa-sisanya: 20% lalu 10% menyisakan 0,8 × 0,9 = 0,72, satu potongan efektif 28%. Retailer tahu pembeli membulatkan ke 30%, dan persis itulah sebabnya tawarannya dirumuskan sebagai dua diskon alih-alih satu.",
+          "Urutan tak pernah mengubah hasil untuk tumpukan persen murni — perkalian komutatif — tetapi ia bisa berarti ketika satu diskon jumlah-tetap dicampur: mengambil potongan $20 sebelum potongan 30% menyisakan harga berbeda dari sebaliknya. Ketika satu kasir membiarkan Anda memilih urutannya, terapkan persentase lebih dulu dan jumlah tetap kedua jika aturannya mengizinkan; jalankan kedua urutan di sini jika Anda tak yakin.",
+        ],
+      },
+      {
+        heading: "Pertanyaan harga-dasar di balik tiap diskon",
+        paragraphs: [
+          "Tiap persen di sini dihitung terhadap harga yang Anda masukkan, yang diam-diam berasumsi harga itu satu rujukan yang jujur. Gerakan balik yang umum adalah inflasi harga-rujukan: menaikkan harga “asli” sebelum satu sale agar diskonnya tampak lebih besar. Regulasi di kebanyakan pasar mensyaratkan satu harga sebelumnya benar-benar dikenakan selama periode wajar, tetapi penegakannya bervariasi dan toko lintas-batas bermain dengan aturan berbeda.",
+          "Satu pertahanan praktis tak butuh kepercayaan sama sekali: lacak harganya sepanjang waktu. Jika harga “asal” tak pernah muncul di bulan-bulan sebelum kampanyenya, persentase diskonnya adalah aritmetika atas satu fiksi. Alat riwayat-harga dan tangkapan layar sederhana mengerjakan itu; peran kalkulator ini adalah separuh jujurnya — diberi satu harga asli yang benar, menghitung persis apa nilai tawarannya.",
+          "Perhitungan terbalik adalah penggunaan sehari-hari lainnya: membagi harga jual dengan (1 − diskon ÷ 100) memulihkan asli tersiratnya, yang membiarkan Anda memeriksa apakah dua tawaran yang didiskon berbeda sebenarnya tawaran yang sama mengenakan angka yang berbeda.",
+        ],
+      },
+      {
+        heading: "Pajak, dan kenapa totalnya tetap mengejutkan Anda",
+        paragraphs: [
+          "Diskonnya dihitung pada harga yang Anda ketik, jadi perlakuan pajaknya mengikuti harga itu: di pasar inklusif-pajak hasilnya sudah memuat pajak, di pasar eksklusif-pajak pajaknya ditambahkan setelahnya. Jebakan sehari-harinya adalah mencampur keduanya — satu harga pra-pajak yang didiskon yang kemudian diberi pajak penjualan bisa berakhir lebih tinggi daripada satu diskon headline yang lebih kecil pada satu stiker inklusif-pajak.",
+          "Kode voucher menambahkan satu lapisan kejutan kedua: ambang belanja-minimum, pengecualian pada item yang sudah dikurangi, dan batas atas diskon maksimum sering berlaku sebelum persentase yang Anda lihat diiklankan. Jika satu kode kurang memenuhi harapan di kasir, bandingkan hasil efektifnya di sini terhadap alternatif sekadar membeli pada diskon raknya.",
+          "Seperti tiap alat di situs ini, aritmetikanya berjalan sepenuhnya di browser Anda — harga, persen, dan perbandingan tetap di perangkat Anda, dan tak ada data belanja yang dikirim ke mana pun.",
+        ],
       },
     ],
   },
@@ -3431,6 +6529,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ia bekerja pada dua angka yang Anda masukkan, jadi biaya pemrosesan pembayaran, pengiriman, dan pajak penjualan hanya muncul jika Anda melipatkannya ke biaya atau harga lebih dulu. Untuk penetapan harga termasuk pajak, lewatkan angkanya ke kalkulator VAT atau GST.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Margin vs mark-up: keuntungan yang sama, dua penyebut",
+        paragraphs: [
+          "Kedua rasio mendeskripsikan keuntungan yang sama, tetapi mereka membagi dengan hal yang berbeda. Margin membagi keuntungan dengan harga jual — ia menjawab “berapa pecahan tiap dolar pendapatan yang keuntungan?” dan adalah angka yang dianut akuntan dan investor. Mark-up membagi keuntungan dengan biaya — ia menjawab “berapa banyak yang saya tambahkan di atas yang saya bayarkan?” dan adalah angka yang dikerjakan pembeli dan penulis daftar-harga.",
+          "Karena penyebutnya berbeda, keduanya tak pernah cocok, dan mereka semakin bercabang seiring margin tumbuh. Satu margin 20% adalah satu mark-up 25%; satu margin 33,3% adalah satu mark-up 50%; pada margin 100% mark-upnya tak terhingga — Anda menjual di dua kali biaya, tetapi keuntungannya adalah seluruh harga, jadi mark-up sisi-biaya tak menyisakan apa pun untuk dibagi. Konversinya adalah margin = markup ÷ (1 + markup) dan markup = margin ÷ (1 − margin).",
+          "Kegagalan klasiknya adalah satu audiens campuran: satu pembeli meminta “25% atas biaya”, pemiliknya menghargainya begitu, lalu melaporkan hasilnya ke bank sebagai “margin 25%” — yang bukan. Menghargai ke satu margin 25% butuh cost ÷ 0,75, bukan cost × 1,25; yang terakhir hanya menyampaikan satu margin 20%. Selalu periksa penyebut mana yang dimaksud orang yang Anda ajak bicara.",
+        ],
+      },
+      {
+        heading: "Apa yang sengaja ditinggalkan rumus-rumus polos",
+        paragraphs: [
+          "Keuntungan = pendapatan − biaya tampak jelas dirinya, tetapi kedua kata menyembunyikan keputusan. “Biaya” bagi satu bisnis nyata lebih dari harga belinya: angkutan per-pengiriman, biaya pemrosesan-pembayaran beberapa persen, kemasan, pengembalian yang Anda refund, dan waktu Anda sendiri. Jika Anda hanya memasukkan biaya faktur, margin yang ditampilkan menyanjung realita; lipatkan biaya ke dalam biaya dan kurangkan diskon dari harga sebelum menilai apakah satu lini produk layak.",
+          "Pajak adalah batas lainnya. Alat ini menghitung aritmetika pra-pajak atas dua angka yang diberikan; pajak penjualan, VAT, dan pajak penghasilan mengubah kedua sisi secara berbeda, jadi penetapan-harga inklusif-pajak milik satu kalkulator VAT/GST khusus. Menjaga modelnya sederhana adalah satu fitur — ia membuat jelas angka mana yang Anda suplai dan mana yang tidak.",
+          "Satu angka yang tak bisa diberikan kalkulator ini adalah titik-balik-modal: biaya tetap seperti sewa dibagi ke semua penjualan, jadi keuntungan per-item hanya bermakna setelah biaya tetap tertutup. Gunakan margin-margin ini untuk membandingkan produk antar satu sama lain, lalu gunakan analisis break-even atau margin-keuntungan yang proper ketika pertanyaannya adalah apakah bisnis secara keseluruhan bertahan.",
+        ],
+      },
+      {
+        heading: "Di mana ini cocok dalam satu alur penetapan-harga",
+        paragraphs: [
+          "Templat spreadsheet menangani ini baik untuk satu item tetapi canggung untuk what-if cepat di konter: “pemasok menaikkan harga 8%, apa dampaknya ke margin saya pada harga rak yang sama?” Alat ini menjawab itu secara langsung tanpa rumus yang perlu dipelihara, dan tampilan berpasangannya berarti angka yang Anda kutip kepada pelanggan dan angka dalam buku Anda tak bisa diam-diam tak sepakat.",
+          "Dibandingkan alat penetapan-harga target-margin, yang ini menampilkan kedua rasio pada tiap hasil, dan itulah poinnya: kesalahannya bukan menghitung salah satu rasio salah — itu menghitung satu dan menyebutnya yang lain. Sebagai satu pemeriksaan cepat sebelum mengirim kutipan, melihat 25% dan 33,3% bersebelahan membuat konvensinya eksplisit.",
+          "Seperti di tempat lain di situs ini, semua perhitungan terjadi lokal di browser Anda. Biaya, harga, dan margin termasuk angka paling sensitif yang dimiliki satu bisnis kecil; mereka tak pernah dikirim atau disimpan, jadi kalkulatornya aman dipakai di tengah negosiasi di satu mesin bersama atau publik.",
+        ],
+      },
+    ],
   },
   "scientific-calculator": {
     name: "Kalkulator Ilmiah",
@@ -3457,6 +6581,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa hasil saya ditampilkan dengan digit terbatas?",
         a: "Hasil dibulatkan ke 12 digit signifikan untuk menyembunyikan derau floating-point seperti 0,30000000000000004. Presisi melampaui 12 digit jarang bermakna di perangkat keras floating-point biner.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Precedence operator dan kenapa −2² sama dengan −4",
+        paragraphs: [
+          "Tugas satu kalkulator bukan aritmetika — itu memutuskan apa yang dimaksud satu ekspresi. Evaluator ini mengikuti konvensi matematis yang Anda pelajari di sekolah: tanda kurung lebih dulu, lalu minus unary, lalu operasi postfix seperti % dan x², lalu pangkat, lalu perkalian dan pembagian, lalu penjumlahan dan pengurangan. Mendapatkan urutan ini benar adalah persis perbedaan antara satu kalkulator dan satu mainan.",
+          "Satu konvensi mengejutkan orang: 2^3^2 berarti 2^(3^2) = 512, bukan (2^3)^2 = 64. Eksponensiasi mengikat ke kanan, mengikuti praktik matematis standar — pangkat bertumpuk dibaca atas-ke-bawah. Terkait, −2² adalah −4, bukan 4, karena kuadrat berlaku pada 2 sebelum minus unary melakukannya. Spreadsheet kadang tak sepakat dengan konvensi-konvensi ini; kalkulator ini cocok dengan buku teks.",
+          "Perkalian implisit bekerja antara nilai-nilai bersebelahan — 2π, 3(4+1), (1+2)(3+4) semuanya mengalikan tanpa tanda × eksplisit. Satu subtlety yang disengaja: perkalian implisit mengikat lebih rapat daripada pembagian dalam satu run yang sama, jadi 1/2π dibaca sebagai 1/(2π) alih-alih (1/2)×π — pembacaan yang dimaksud fisikawan dan insinyur saat menulisnya inline.",
+        ],
+      },
+      {
+        heading: "Mengapa tak ada eval, dan kejujuran titik-mengambang",
+        paragraphs: [
+          "Kebanyakan kalkulator web menyuap ekspresi Anda ke eval JavaScript atau konstruktor Function — browser mem-parse stringnya sebagai kode dan mengeksekusinya. Cepat dibangun, tetapi itu berarti satu string yang dirakit bisa menjalankan kode arbitrer, dan itu membuat perilaku alatnya bergantung pada keanehan JavaScript alih-alih aturan kalkulator. Evaluator ini adalah satu tokenizer kecil ditambah satu parser recursive-descent yang ditulis untuk halamannya: masukan tak-valid menghasilkan satu pesan kesalahan, tak pernah satu eksekusi.",
+          "Angkanya adalah float presisi-double IEEE 754, yang adalah deskripsi jujur dari apa yang dilakukan setiap mesin kalkulator utama di bawah lapisan tampilannya. Itu menghasilkan artefak seperti 0,1 + 0,2 = 0,30000000000000004 — desimal 0,1 tak punya representasi biner yang persis, jadi jumlahnya membawa derau representasi. Hasil di sini dibulatkan ke 12 digit signifikan untuk menekan derau itu, yang juga alasan operasi berulang tak terlihat menumpuk sampah.",
+          "Dua batas jujur: pembulatan melampaui 12 digit tak bermakna di perangkat keras biner, jadi menuntut lebih banyak presisi tak membeli apa pun; dan hasil trigonometri mewarisi beberapa unit di tempat terakhir bahkan untuk sudut persis, jadi tan dari sudut mendekati-siku meledak secara kodrat — kalkulator ini melaporkan perilaku titik-mengambang yang sebenarnya alih-alih menambalnya.",
+        ],
+      },
+      {
+        heading: "Derajat, radian, dan alur kerja perantaraan",
+        paragraphs: [
+          "Sakelar DEG/RAD adalah satu sumber jawaban trig yang salah terbesar di mana pun, jadi ia pantas satu aturan: DEG adalah bawaannya karena kebanyakan orang yang meraih kalkulator bekerja dalam derajat; RAD untuk matematika gaya-kalkulus dan apa pun yang diekspresikan dengan π. tan(π/4) dalam mode DEG memberi jawaban salah dengan keyakinan penuh — kalkulator tak bisa tahu mana yang Anda maksud, jadi periksa sakelarnya sebelum menyalahkan hasilnya.",
+          "Pratinjau langsungnya berarti ekspresinya selalu bisa disunting: perbaiki satu suku di tengah dan seluruh hasilnya menghitung-ulang, alih-alih mengetik ulang ke satu kalkulator berbasis-tumpukan. Menekan = melipat hasilnya kembali ke satu baris ekspresi, sehingga perantaraan — mengambil satu hasil, mengalikan, lalu mengambil satu log — terjadi pada satu baris yang bisa disunting alih-alih lewat register memori.",
+          "Semuanya berjalan lokal di browser Anda: tak ada ekspresi atau hasil yang dikirim, dan halamannya bekerja offline begitu dimuat. Untuk perhitungan yang melibatkan apa pun yang privat — penetapan-harga, payroll, soal ujian — itu berarti perhitungannya milik Anda sendiri. Kalkulator-persen dan binary-converter terkait menangani dua pekerjaan (aritmetika persen dan konversi basis) yang dilakukan secara canggung oleh satu keypad ilmiah.",
+        ],
       },
     ],
   },
@@ -3487,6 +6637,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Kedua mode berjalan sepenuhnya di browser Anda memakai aritmetika tanggal JavaScript; tidak ada yang diunggah dan tidak ada yang disimpan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa “hari di antara” lebih rumit dari yang tampak",
+        paragraphs: [
+          "Menghitung hari di antara dua tanggal trivial bagi komputer dan mengejutkan ambigu bagi manusia. Alat ini sengaja memberi tiga pembacaan: pecahan kalendernya (tahun, bulan, hari), total mentah harinya, dan minggu ditambah hari sisanya — karena kontrak, ulang tahun, dan ketentuan sewa masing-masing mengutip yang berbeda. Satu sewa “1 tahun 6 bulan” dan satu sewa “547 hari” bisa mendeskripsikan rentang berbeda tergantung konvensi mana yang dipakai klausa itu.",
+          "Aritmetika bulannya mengikuti konvensi yang sama yang dipakai orang untuk ulang tahun: tahun penuh dan bulan penuh dihitung lebih dulu, dan sisanya diukur terhadap panjang sebenarnya bulan-bulan yang terlibat. Itulah sebabnya “satu bulan setelah 31 Januari” mendarat pada 28 Februari di satu tahun biasa — satu kasus tepi nyata yang membuat tersandung kebanyakan pustaka tanggal awal.",
+          "Mode tambah-kurang berjalan hari utuh sebagai gantinya, yang memotong pertanyaan batas-bulan sepenuhnya: menambahkan 90 hari kalender ke 31 Januari selalu memberi jawaban yang sama entah bagaimana pustaka Anda menangani akhir bulan. Ketika satu tenggat berkata “hari”, ia hampir selalu berarti hari-hari kalender ini — pertanyaan hari-kerja dicakup di FAQ di atas.",
+        ],
+      },
+      {
+        heading: "Tahun kabisat dan aturan Gregorian",
+        paragraphs: [
+          "Tahun kabisat mengikuti aturan Gregorian penuh, bukan “tiap empat tahun” buku sekolah: satu tahun kabisat bila habis dibagi 4, kecuali abad, yang harus habis dibagi 400. Itulah sebabnya 2000 tahun kabisat tetapi 1900 bukan, dan kenapa 2100 juga bukan. Rentang apa pun yang melintasi satu tepi abad itu dihitung dengan benar tanpa penanganan khusus dari Anda.",
+          "29 Februasi itu sendiri diperlakukan sebagai hari terakhir Februari, sehingga satu selisih yang membentang satu hari kabisat tak digembongkan satu hari, dan satu tanggal yang tak ada di satu tahun sasaran (29 Februari di satu tahun biasa) ter-resolve ke 28 Februari alih-alih menyelinap ke Maret. Dua keputusan ini menjaga hasil tetap stabil melintasi perangkat lunak yang tak sepakat pada detailnya.",
+          "Semua aritmetika berjalan pada nomor hari UTC, sehingga transisi daylight-saving tak bisa menggeser satu hasil satu hari. Itu berarti di sekitar pergantian jam Maret dan November: matematika tanggal yang dilakukan dalam waktu-lokal bisa mendarat satu hari kurang atau lebih di sebagian lingkungan, sementara penghitungan hari-UTC-utuh memberi jawaban yang sama di mana pun di Bumi.",
+        ],
+      },
+      {
+        heading: "Alur kerja praktis dan privasi",
+        paragraphs: [
+          "Klausa tenggat, jendela validitas visa, masa uji-coba, dan ketentuan garansi adalah pengguna sehari-hari halaman ini. Satu kebiasaan baik: hitung rentangnya dalam kedua pembacaan — pecahan kalender dan hari mentah — dan kutip hari mentahnya dalam kontrak bersama kata-katanya. Angka lebih sulit diperdebatkan daripada nama bulan.",
+          "Untuk peringatan dan kenangan, hari-kerja hasilnya sering adalah jawaban yang sungguh dicari — “ulang tahun ke-10 kami jatuh hari apa?” — itulah sebabnya ia ditampilkan bersama tanggalnya alih-alih disembunyikan. Untuk rentang panjang, ingat aturan abadnya: satu kontrak yang berjalan melampaui 2100 akan melintasi satu tahun abad non-kabisat, dan alat ini sudah memperhitungkannya.",
+          "Semuanya dihitung lokal: tanggalnya tak pernah meninggalkan browser Anda, tak ada yang diunggah atau dicatat, dan halamannya bekerja offline. Tanggal kontrak, tanggal medis, dan tonggak pribadi sensitif persis karena mereka mengidentifikasi saat digabungkan dengan apa pun — satu kalkulator yang menjaga masukannya lokal adalah jenis yang tepat untuk menempelkannya.",
+        ],
+      },
+    ],
   },
   "qr-generator": {
     name: "Generator Kode QR",
@@ -3513,6 +6689,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah teks atau URL saya diunggah ke mana pun?",
         a: "Tidak. Pustaka qrcode berjalan di dalam browser Anda dan merender ke canvas lokal; teksnya maupun gambar yang dihasilkan tidak pernah meninggalkan perangkat.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tingkat koreksi-kesalahan dan tawaran lapisan-tindih logo",
+        paragraphs: [
+          "Kode QR selamat dari kerusakan melalui koreksi kesalahan Reed–Solomon: data yang dienkode ditambah kata-kode redundansi, dan pemindai bisa merekonstruksi pesannya dari pecahan apa pun yang selamat. Standarnya mendefinisikan empat tingkat — L memulihkan 7% kata-kode, M 15%, Q 25%, H 30% — dan tiap poin persentase ketahanan ekstra menghabiskan ruang simbol, jadi URL yang sama pada tingkat H menghasilkan satu grid lebih rapat daripada pada level L.",
+          "Trik lapisan-tindih logo memanfaatkan persis anggaran ini: cetak satu logo di atas pusat satu kode tingkat-H dan wilayah yang rusak jatuh di dalam 30% yang bisa dibangun ulang koreksinya. Lapisan-tindih yang sama pada satu kode tingkat-M sering membunuhnya. Aturan jempolnya: hanya tutup bagian tengah ketika tingkatnya H, jaga area tertutup tetap sederhana, dan jangan pernah mengaburkan tiga pola finder di sudut — pemindai melokasikan simbolnya lewat mereka, dan tak ada koreksi kesalahan yang menolong jika sudutnya lenyap.",
+          "Untuk penggunaan layar biasa, tingkat yang lebih tinggi bukan kualitas gratis: grid yang lebih rapat butuh lebih banyak piksel per modul dan ter-scan lebih buruk pada ukuran gambar yang sama. Pilih L atau M untuk URL di satu situs web, naik ke Q atau H hanya ketika medium fisiknya kasar, kecil, atau sebagian bisa tertutup.",
+        ],
+      },
+      {
+        heading: "Kode statis, pelacakan, dan apa artinya “kedaluwarsa” sama sekali",
+        paragraphs: [
+          "Satu kode QR hanyalah satu gambar data: URL atau teksnya dienkode dalam pola modul itu sendiri, dan satu ponsel mana pun mendekodenya langsung tanpa server yang terlibat. Itulah sebabnya kode-kode ini tak pernah kedaluwarsa dan kenapa tak ada pelacakannya — tak ada layanan di belakang gambarnya, jadi tak ada yang bisa menghitung pemindaian atau dimatikan. Layanan QR “dinamis”, sebaliknya, mengodekan satu URL redirect pendek dan menyimpan pemetaannya di server mereka; ketika langganannya berakhir, tiap kode tercetak mati sekaligus.",
+          "Statis adalah pilihan yang benar untuk apa pun yang diukir ke dunia fisik: menu restoran, badge konferensi, label peralatan. Dinamis dibenarkan hanya ketika Anda perlu mengubah tujuannya setelah mencetak atau sungguh menginginkan analitik pemindaian — dan saat itu Anda seharusnya menimbang apa yang Anda daftarkan.",
+          "Satu peringatan memotong dua arah: karena tak ada yang berdiri di belakang satu kode statis, aktor jahat bisa mencetak kode statis mereka sendiri yang menunjuk satu situs memusuhi dan menempelkannya di atas satu yang sah. Pemindai menampilkan satu URL mentah dengan alasan yang baik; periksa ke mana satu kode mengklaim menuju sebelum membukanya, dan saat Anda mendistribusikan kode, pertimbangkan mengodekan seluruh domain secara terlihat alih-alih satu shortener.",
+        ],
+      },
+      {
+        heading: "Warna, kontras, dan realitas pencetakan",
+        paragraphs: [
+          "Pemindai membaca kontras antara modul dan latar, bukan warna-walanya sendiri. Modul gelap pada latar terang dengan kontras kuat adalah susunan yang andal; kode terbalik (modul terang pada latar gelap) gagal pada kebanyakan pembaca, dan pasangan kontras-rendah seperti biru muda pada putih hilang sepenuhnya dalam cahaya sekitar. Jaga warna modul gelapnya dekat hitam kecuali kendala merek menuntut sebaliknya, dan selalu uji dengan kamera ponsel nyata.",
+          "Zona senyap — tepi kosong di sekeliling simbolnya — adalah bagian standar karena satu alasan: pemindai memakainya untuk menemukan tepi simbolnya. Memotong satu QR rata ke tepi satu selebaran atau menindihnya pada satu foto sibuk menghapus zona itu dan menurunkan pemindaian bahkan ketika tiap modul utuh.",
+          "Untuk format keluaran, SVG menang untuk cetak karena ia diskala tanpa tepi bergerigi pada ukuran mana pun; PNG pada 768 px berlimpah untuk layar dan cetak kecil. Dan seluruh pipanya berjalan lokal di browser Anda — teks yang Anda enkode, entah kata sandi Wi-Fi atau URL internal, tak pernah diunggah ke mana pun.",
+        ],
       },
     ],
   },
@@ -3543,6 +6745,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Unduhannya SVG vektor, jadi menskalakan ke DPI mana pun tanpa blur. Jaga quiet zone-nya (margin kosong di tiap sisi) tetap utuh saat menempatkannya — memotongnya adalah penyebab paling umum scan tak terbaca.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Code128 vs EAN-13: dua pekerjaan, dua simbologi",
+        paragraphs: [
+          "Format-format ini ada untuk pekerjaan yang berbeda dan tak saling dipertukarkan. EAN-13 dan UPC-A adalah simbologi ritel GS1: panjang tetap, hanya numerik, terikat ke satu prefiks perusahaan yang Anda lisensikan dari satu organisasi anggota GS1, dan dipahami oleh tiap pemindai kasir di dunia. CODE128 adalah simbologi logistik: panjang variabel, ASCII penuh, bebas dipakai untuk apa pun internal — bin gudang, tag aset, nomor seri, referensi pengiriman.",
+          "Perbedaannya terlihat dalam kepadatan dan toleransi. CODE128 otomatis beralih di antara subset A (huruf-besar + kontrol), B (alfanumerik penuh), dan C (pasangan-digit)-nya, jadi satu barisan digit panjang dikemas dua per kata-kode — itulah sebabnya satu label CODE128 yang memuat angka yang sama dengan satu EAN-13 keluar nyata lebih sempit. EAN-13, sebaliknya, mematok lebar modul lewat standar agar pemindai kasir mana pun bisa mendekodenya dengan cepat tak peduli siapa yang mencetaknya.",
+          "Satu aturan praktis: jika satu retailer atau marketplace akan menugaskan Anda satu nomor produk, cetak sebagai EAN-13/UPC-A dan tak pernah mengenkode-ulangnya dalam format lain, karena sistem mereka mencocokkan pada nomor GS1-nya. Untuk segala hal yang tak pernah meninggalkan operasi Anda sendiri, CODE128 lebih sederhana dan lebih fleksibel.",
+        ],
+      },
+      {
+        heading: "Digit pemeriksa dan kenapa masukan dikoreksi",
+        paragraphs: [
+          "Simbologi ritel berakhir dengan satu karakter pemeriksa modulo-10 yang dihitung dari satu penjumlahan berbobot digit-digit lainnya. Untuk EAN-13, digit dibobot 1 dan 3 berselang-seling dari kanan; digit pemeriksa adalah yang membuat totalnya mencapai kelipatan 10 berikutnya. Ini menangkap dua kegagalan dunia-nyata paling umum: satu digit salah ketik dan dua digit bersebelahan yang tertukar (digit tertukar berbeda bobot 3−1=2, jadi banyak tetapi tak semua penukaran tertangkap).",
+          "Generator ini menerima entah 12 digit dan menghitung yang ke-13, atau satu penuh 13 dengan verifikasi — jadi satu masukan dengan digit akhir yang salah ditolak alih-alih dicetak-ulang diam-diam. Jika Anda mentranskripsikan satu angka dari satu kertas kerja, memasukkan 12 digit dan membiarkan alat menghitung digit pemeriksaannya adalah alur kerja yang lebih aman: ia tak akan memvalidasi, tetapi ia akan membongkar satu ketidakcocokan.",
+          "Keluarga modulo-10 yang sama membentang melintasi kode logistik GS1, itulah sebabnya kebiasaan memverifikasi digit akhirnya menular: jika satu kode ter-scan konsisten gagal di kasir atau di aplikasi inventaris Anda sementara labelnya tampak baik, satu digit pemeriksa yang korup adalah salah satu yang pertama untuk diduga.",
+        ],
+      },
+      {
+        heading: "Zona senyap, lebar bar, dan ukuran cetak",
+        paragraphs: [
+          "Tiap simbologi mereservasi zona senyap — margin kosong di kedua sisi bar yang dipakai pemindai untuk menemukan awal simbolnya. GS1 menypesifikasikan lebar minimum dalam ukuran absolut, bukan piksel; ketika Anda memotong atau menempatkan satu barcode rata terhadap teks atau tepi satu kotak, kodenya bisa menjadi tak terbaca meski tiap bar tampak sempurna. Tinggalkan lebih banyak margin daripada yang terasa perlu, terutama pada label kecil.",
+          "Lebar dan tinggi bar saling menukar dengan kemampuan pemindai. Bar sempit menaikkan tuntutan pada resolusi cetak dan optik pemindai; bar yang lebih tinggi memberi pemindai satu band vertikal lebih panjang untuk dihantam pada sudut miring. Untuk pemindaian genggam dan kasir, ikuti panduan ukuran cetak standar Anda alih-alih mengecilkan label agar cocok dengan tata letaknya — satu kode yang ter-scan 200 kali sehari membayar ruang label yang ia makan.",
+          "Karena keluarannya SVG vektor, file yang sama tetap tajam pada ukuran mana pun; yang tak diskala adalah fisikanya. Uji-scan tiap format baru dengan pemindai aktual Anda dan stok cetak aktual Anda sebelum mengikat satu run, dan tak ada yang perlu meninggalkan browser Anda selama iterasi — renderingnya terjadi lokal.",
+        ],
+      },
+    ],
   },
   "color-picker": {
     name: "Pemilih Warna",
@@ -3569,6 +6797,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah pengambilan sampel layar itu privat?",
         a: "Ya. API EyeDropper menampilkan picker sistem dan hanya mengembalikan satu piksel yang Anda klik; pembacaannya terjadi di browser Anda dan tidak ada screenshot, riwayat, atau nilai yang dikirim atau disimpan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "EyeDropper API: apa yang bisa dan tak bisa ia lakukan",
+        paragraphs: [
+          "EyeDropper adalah satu kontras yang disengaja terhadap API tangkap-layar yang lebih tua. Ia tak meminta kamera, izin perekaman-layar, atau akses persisten: browser menampilkan pembesar sistem, Anda mengeklik satu piksel, dan API-nya resolve dengan tepat satu string hex. Tak ada apa pun untuk dicabut belakangan karena tak ada yang disimpan — tak ada stream yang terbuka antar panggilan, sehingga satu halaman tak bisa menyadap layar Anda selama Anda bekerja.",
+          "Batasnya mengikuti desain itu. Ia hanya membaca apa yang saat ini dikompositkan di layar Anda, pada resolusi layar Anda — zum ke satu gambar lebih dulu jika Anda butuh satu piksel presisi dari satu area luas. Dan ia hanya-klik: tanpa pratinjau hover atas nilai sebelum mengikat, dan tanpa cara mengambil satu wilayah secara programatis. Untuk pekerjaan presisi-piksel pada satu mockup, desainer tetap membuka filenya di satu editor; untuk mengambil satu warna merek dari satu halaman hidup, satu klik mengalahkan alur tangkap-layar-dan-inspeksi setiap kali.",
+          "Dukungannya adalah batas praktis lainnya: browser Chromium mengirimkannya sejak 2022; Firefox dan Safari belum mengeksposnya. Alat ini mendeteksi fitur dan sekadar menyembunyikan opsi layar di tempat ia tak ada, sehingga picker-nya menurun ke hanya-swatch tanpa memutus apa pun.",
+        ],
+      },
+      {
+        heading: "Mengapa warna hasil sampling kadang bergeser sedikit",
+        paragraphs: [
+          "Satu warna hasil sampling melewati lebih banyak langkah daripada yang tampak: sumbernya diotori dalam satu ruang warna tertentu, dirender ke profil layar Anda, dikompositkan, lalu diserahkan kembali ke JavaScript sebagai satu triplet hex sRGB. Jika aslinya hidup di satu gamut lebih luas daripada sRGB — satu warna Display-P3 di satu Mac, misalnya — bolak-baliknya memotongnya ke nilai sRGB terdekat, dan hex yang Anda dapat adalah satu aproksimasi sRGB terbaik, bukan aslinya.",
+          "Manajemen warna menjelaskan sisanya. Sistem operasi memetakan nilai sRGB ke profil layar, dan layar dengan mode vivid atau penyesuaian ala night-shift bisa mengubah yang secara fisik ditampilkan tanpa mengubah nilai tersimpannya. Sampling karenanya melaporkan apa yang ada di kaca dalam ruang standarnya; dua monitor bisa menampilkan hex yang sama secara berbeda sementara nilai dasarnya identik.",
+          "Untuk pekerjaan merek perlindungannya sederhana: perlakukan satu sampel layar sebagai satu titik awal, lalu konfirmasikan terhadap nilai sumber resminya jika ada. Tiga format di sini — hex, rgb(), hsl() — tetap konsisten secara matematis satu sama lain bagaimanapun, karena konversinya terjadi lokal dari satu nilai hasil sampling tunggal.",
+        ],
+      },
+      {
+        heading: "Satu alur kerja picker yang selamat dari satu sistem desain",
+        paragraphs: [
+          "Mendapatkan satu warna adalah bagian mudahnya; menjaganya tetap berguna adalah disiplinnya. Setelah sampling, patokkan dulu format kanoniknya — kebanyakan sistem desain memakai hex sebagai tokennya, dengan rgb()/hsl() sebagai tampilan turunan — dan simpan satu nilai, bukan tiga yang bisa saling menjauh. Alat ini menyalin ketiganya, tetapi yang Anda tempel ke file token Anda adalah yang menjadi kebenaran.",
+          "Lalu bangun keadaan-keadaan dari satu sumbernya: hover sedikit lebih terang, pressed sedikit lebih gelap, disabled satu opasitas tetap. Menurunkan mereka secara aritmetika dari basis hasil-sampling (seperti yang dilakukan konverter warna terkait dengan baris tint-and-shade-nya) menjaga tiap keadaan bisa diregenerasi, alih-alih menumpuk satu nilai hex sekali-pakai yang tak bisa dijelaskan siapa pun.",
+          "Terakhir, catat di mana warnanya akan muncul. Satu latar gelap hasil-sampling dengan teks putih seharusnya diperiksa-ulang kontrasnya sebelum terkirim; memilih dan mengonversi tak pernah memvalidasi aksesibilitas, mereka hanya mereproduksi yang Anda lihat. Semuanya berjalan lokal di browser — nilai hasil sampling tak direkam di mana pun.",
+        ],
       },
     ],
   },
@@ -3599,6 +6853,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tint (dicampur putih) membuat latar hover, badge, dan kartu; shade (dicampur hitam) membuat pressed state, border, dan permukaan dark-mode. Menurunkan keduanya dari satu warna merek menjaga setiap state UI konsisten secara visual.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa konversi RGB-ke-HSL kehilangan informasi",
+        paragraphs: [
+          "Hex dan RGB mendeskripsikan hal yang sama — tiga nilai kanal — jadi mengonversi di antara mereka hanyalah pembukuan basis-16, lossless di kedua arah. HSL berbeda: ia satu redeskripsi warna dalam koordinat silinder (hue sebagai sudut, saturasi dan kecerahan sebagai persentase). Bolak-balik hex → HSL → hex tetap mengembalikan warna yang sama, tetapi triplet HSL yang terbaca-manusia itu sendiri terkuantisasi, itulah sebabnya dua warna yang berbeda secara halus bisa berbagi satu hue HSL.",
+          "Masalah yang lebih dalam adalah persepsi. Kecerahan HSL bukan kecerahan persepsi: hsl(60, 100%, 50%) — kuning murni — tampak jauh lebih terang daripada hsl(240, 100%, 50%) — biru murni — meski keduanya mengklaim kecerahan 50%. Desainer yang menghasilkan palet dengan memutar hue pada kecerahan HML tetap mendapat palet tempat tiap warna terasa berbobot berbeda. Konverter ini melaporkan matematika yang jujurnya alih-alih berpura-pura kecerahan HSL adalah yang dilihat mata Anda.",
+          "Kesimpulan praktisnya: pakai HSL untuk yang dikuasainya — menggeser satu hue, membangun satu tangga tint yang dapat diprediksi di sekitar satu warna — dan verifikasi rasio kontras dengan nilai luminansi nyata alih-alih memercayai angka L. Baris tint-and-shade di sini mencampur dengan putih dan hitam dalam ruang RGB, yang menjaga tangganya konsisten dengan cara browser mengompositkan warna.",
+        ],
+      },
+      {
+        heading: "OKLCH dan ruang seragam-persepsi: apa yang bukan konverter ini",
+        paragraphs: [
+          "CSS modern mendukung OKLCH, satu ruang seragam-persepsi tempat bergerak satu jarak tetap dalam ruang koordinatnya mengubah warna yang dipersepsi kira-kira sebesar yang sama di mana pun — kuning dan biru pada nilai L yang sama sungguh tampak sama terangnya. Konverter ini sengaja tinggal di triad sRGB klasik hex, RGB, dan HSL, karena itulah yang masih dispesifikasikan sistem desain legacy, pedoman merek, dan token gaya.",
+          "Perbedaannya paling berarti dalam pembuatan palet. Dalam HSL, melangkah hue mengelilingi lingkaran pada L konstan menghasilkan warna dengan intensitas persepsi yang liar; dalam OKLCH perjalanan yang sama menghasilkan satu ramp merata. Serupa, “saturasi 50%” HSL tak berarti separuh chroma yang dipersepsi. Jika Anda membangun satu skala token desain baru dari nol, ada gunanya menghasilkan dalam satu ruang seragam — tetapi menerjemahkan nilai hex merek yang ada ke dalamnya mengubah angka-angka yang sudah dihafal tim Anda.",
+          "Juga di luar model ini: warna gamut-lebar. Nilai di sini sRGB, ruang yang disasar tiap browser dan kebanyakan layar; layar Display-P3 bisa menampilkan hijau dan merah yang lebih jenuh daripada yang bisa diekspresikan sRGB. Satu warna yang dipilih di sini akan dirender dengan benar di mana-mana tetapi meninggalkan gamut ekstranya tak terpakai — satu bawaan yang aman dan kompatibel untuk pekerjaan UI.",
+        ],
+      },
+      {
+        heading: "Bagaimana tint dan shade sebenarnya dibangun",
+        paragraphs: [
+          "Satu tint adalah warna yang dicampur putih, satu shade dicampur hitam, masing-masing pada pecahan tetap. Dalam istilah RGB itu satu interpolasi linear kanal-demi-kanal: satu tint 40% dari rgb(0, 113, 227) mengangkat tiap kanal 40% jalan menuju 255, dan satu shade 40% menurunkan tiap-tiapnya 40% menuju 0. Langkah-langkah di sini adalah 20/40/60/80%, memberi lima pemberhentian yang berguna di atas dan di bawah warna dasarnya.",
+          "Pencampuran sederhana ini sengaja tak sama dengan blending yang dikelola-warna dalam ruang berbasis-Lab, yang mencoba menjaga hue persepsi tetap konstan sementara kecerahan berubah. Pencampuran RGB sederhana menggelapkan warna jenuh sedikit tak merata — satu perilaku yang dikenal dan diterima di kebanyakan sistem desain, tempat tangganya dihasilkan sekali dan diperiksa mata.",
+          "Dari sisi alur kerja, menghasilkan tangganya dari nilai sumber yang sama setiap kali mengalahkan memilih varian dengan tangan: keadaan hover, tombol disabled, dan permukaan mode-gelap tetap dapat direproduksi, dan semua orang di tim bisa meregenerasi set yang persis sama dari satu hex yang mereka hafal. Semuanya dihitung lokal di browser — warnanya tak pernah meninggalkan halaman.",
+        ],
+      },
+    ],
   },
   "timestamp-converter": {
     name: "Konverter Unix Timestamp",
@@ -3625,6 +6905,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah timestamp yang sama terdekode berbeda di zona waktu lain?",
         a: "Angka mentahnya tidak pernah berubah — ia mengenkode satu momen absolut. Hanya render yang terbaca manusianya yang berbeda, itulah mengapa alat menampilkan waktu lokal dan UTC Anda berdampingan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa waktu Unix mengabaikan jam dan kalender",
+        paragraphs: [
+          "Waktu Unix adalah satu bilangan bulat tunggal yang menghitung detik sejak 1970-01-01 00:00:00 UTC — epoch Unix. Tak ada zona waktu, tak ada daylight saving, tak ada panjang bulan di dalam angka itu sendiri; semuanya penyajian, yang diterapkan hanya ketika satu renderer mengubah bilangan bulat itu menjadi satu tanggal manusia. Persis itulah sebabnya tiap API, database, dan sistem log menyimpan waktu dengan cara ini: membandingkan dua momen adalah pengurangan bilangan bulat, dan pengurutan adalah pengurutan bilangan bulat.",
+          "Detik-kabisat sengaja dikecualikan. Angka 1.700.000.000 tak menandai 1,7 miliar detik fisik — ia menandai 1,7 miliar detik SI sejak epoch ditambah jumlah detik-kabisat yang diserap sistem sementara itu. Untuk penjadwalan dan pencatatan penyederhanaan ini satu fitur; untuk presisi astronomis bukan, itulah sebabnya sistem ilmiah menyimpan skala mereka sendiri (TAI, UTC).",
+          "Timestamp negatif sah: mereka menghitung mundur sebelum 1970, jadi 1969-07-20 (pendaratan Bulan) duduk di sekitar −14182940 detik. Sebagian sistem 32-bit lama menolak negatif, yang adalah alasan sebagian pustaka legacy salah menangani tanggal sebelum 1970 meski standarnya tak pernah berkata begitu.",
+        ],
+      },
+      {
+        heading: "Detik, milidetik, dan masalah 2038",
+        paragraphs: [
+          "Digit-digitnya memberi tahu unitnya. Sepuluh digit mencakup 1973 hingga 2286 dalam detik; tiga belas digit mencakup era modern dalam milidetik. Alat ini membaca menurut magnitudonya dan memberi tahu Anda interpretasi mana yang diterapkannya, karena satu asumsi unit yang salah menghasilkan tanggal yang tampak masuk akal — satu nilai 13-digit yang dibaca sebagai detik mendarat di tahun 55.000, yang sulit terlewat, tetapi dua pustaka yang tak sepakat tentang unit di dalam satu kode dasar justru menghasilkan bug off-by-a-thousand yang halus.",
+          "Bilangan bulat bertanda 32-bit yang dipakai sistem Unix awal untuk menyimpan detik meluap pada Januari 2038, ketika hitungannya mencapai 2.147.483.647. Sistem 64-bit modern aman untuk ±290 miliar tahun berikutnya, tetapi perangkat tertanam, format file legacy, dan sebagian database masih membawa kolom timestamp 32-bit. Pelajaran praktisnya bukan panik soal 2038 hari ini, melainkan memperhatikan jenis data mana yang dipakai satu sistem saat mengintegrasikan dengannya.",
+          "Jebakan yang lebih halus bukan unitnya melainkan produsennya: sebagian sistem memancarkan detik-dengan-desimal seperti 1700000000,123, dan parser naif memotong atau membulatkan secara berbeda. Saat mendebug satu diskrepansi timestamp, konfirmasikan dulu kedua sisi sepakat tentang unit, lalu presisi, lalu rendering zona-waktu — dalam urutan itu.",
+        ],
+      },
+      {
+        heading: "Bekerja dengan timestamp sehari-hari",
+        paragraphs: [
+          "Penghitung langsungnya adalah satu instrumen debugging sebanyak satu kenyamanan: sebelum mengejar satu bug penjadwalan, lirik itu untuk memastikan jam perangkat Anda kira-kira benar — satu mesin dengan jam yang miring menghasilkan timestamp yang meracuni log dan pemeriksaan kedaluwarsa token sekaligus. Salin-satu-klik berarti Anda bisa menempel satu timestamp sekarang ke satu permintaan curl atau satu fixture uji tanpa mengetik digit.",
+          "Ingat bahwa angka mentahnya bebas-zona menurut definisi. Cacat produksi klasiknya adalah menyimpan timestamp dengan benar tetapi merendernya dengan satu server yang diset UTC sementara pengguna hidup di tempat lain — semuanya tampak mundur delapan jam. Selalu pasangkan timestamp dengan satu zona waktu eksplisit di lapisan renderingnya; tampilan lokal dan UTC bersebelahan di sini ada untuk membuat pasangan itu terlihat.",
+          "Semuanya berjalan lokal di browser Anda: timestamp yang ditempel, tanggal yang dipilih, dan jam langsungnya tak pernah meninggalkan perangkat Anda, yang berarti saat mendekode timestamp dari log, data insiden, atau apa pun yang sensitif. Tak ada pembatasan laju dan tak ada riwayat — dekode sebanyak nilai yang Anda butuhkan sambil meng-bisect kapan satu bug pertama muncul.",
+        ],
       },
     ],
   },
@@ -3655,6 +6961,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya — tagihan plus tip dibagi rata dengan jumlah orang. Untuk bagian yang tidak rata (seseorang hanya makan salad), hitung item bersama sebagai subtotal lebih dulu dan tambahkan item individual di atasnya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Budaya tip bervariasi lebih dari matematikanya",
+        paragraphs: [
+          "Aritmetikanya trivial; budayanya tidak. Di Amerika Serikat, pekerja layanan bergaji-tip sering dibayar satu gaji dasar yang mengasumsikan tip menyusun sebagian besar penghasilan mereka, jadi 15–20% di restoran adalah satu ekspektasi sosial alih-alih satu bonus. Di sebagian besar Eropa dan Amerika Latin satu biaya layanan sering sudah ada di tagihannya, dan 10% atau pembulatan ke atas adalah satu gestur ramah alih-alih satu kewajiban.",
+          "Di tempat lain bawaannya terbalik: di Jepang memberi tip bisa sungguh membingungkan stafnya, dan di Tiongkok ia nyaris tak ada — meninggalkan uang tunai di meja bisa berarti satu pelayan mengejar Anda untuk mengembalikannya. Panduan perjalanan dan penduduk lokal adalah sumber terbaik untuk norma terkini di satu tempat tertentu; kebiasaan juga bergeser sepanjang waktu, jadi alat ini menjaga presetnya bisa disunting alih-alih menghardcode aturan negara mana pun.",
+          "Satu strategi praktis di luar negeri: periksa apakah satu baris “layanan termasuk” sudah ada di tagihannya, dan perlakukan persentase kalkulator ini sebagai satu kosakata — mengetahui apa yang berarti 10%, 15%, dan 20% dalam mata uang lokal membiarkan Anda merespons dengan tepat di mana pun Anda berada.",
+        ],
+      },
+      {
+        heading: "Preset, basis pra-pajak, dan pembagiannya",
+        paragraphs: [
+          "Preset-presetnya mengepung jawaban-jawaban umum — 10% untuk layanan sederhana atau konter, 15% sebagai tengah tradisionalnya, 18–20% untuk layanan meja-penuh yang baik, 25% untuk yang luar biasa — dan kolom kustomnya mencakup konvensi lokal mana pun. Satu pemeriksaan kepala cepat: 10% adalah titik desimal yang digeser satu tempat ke kiri, 20% itu digandakan, dan 15% di tengah-tengahnya.",
+          "Jawaban etiket tradisional berkata beri tip pada jumlah pra-pajaknya, karena pajak bukan layanan yang Anda terima; dalam praktik kebanyakan orang memberi tip pada total slip kartunya, yang sedikit memberi tip berlebihan dan jarang ditolak. Jika selisihnya berarti bagi Anda, masukkan angka pra-pajak sebagai tagihannya.",
+          "Pembagiannya membagi total yang diberi-tip merata menurut ukuran rombongan, yang mencocokkan cara kelompok biasanya menyelesaikan tetapi menyembunyikan perbedaan konsumsi. Untuk pesanan tak merata, subtotalkan item bersamanya, beri tip subtotal itu, lalu tambahkan item individual tiap orang — satu langkah-dua yang didukung alatnya dengan menjalankannya dua kali.",
+        ],
+      },
+      {
+        heading: "Didesain untuk meja, bukan spreadsheet",
+        paragraphs: [
+          "Di akhir satu makanan pertanyaan yang berguna tepat tiga: berapa tipnya, berapa totalnya, berapa per orang. Satu kalkulator persen generik bisa menjawabnya, tetapi satu-sekali-jalan dan dengan mengetik-ulang; di sini tagihan, tingkat, dan ukuran rombongan semuanya bisa disunting sekaligus dan tiap angka menghitung-ulang langsung saat Anda menyesuaikan salah satunya.",
+          "Ia juga berjalan sepenuhnya di perangkat Anda tanpa ketergantungan jaringan, yang bukan satu hiasan pemasaran — basement restoran, zona mati roaming, dan SIM asing persis saat Anda membutuhkannya, dan tak ada tentang tagihannya yang meninggalkan ponsel Anda.",
+          "Ia bekerja dengan mata uang mana pun karena matematikanya tak pernah mengasumsikan satu: ketik jumlahnya sebagaimana ditampilkan tagihannya dan baca keluarannya dalam unit yang sama. Untuk harga inklusif-pajak atau pemeriksaan diskon sebelum memesan, kalkulator persen dan kalkulator VAT menangani kasus-kasus tetangganya.",
+        ],
+      },
+    ],
   },
   "fuel-cost-calculator": {
     name: "Kalkulator Biaya Bahan Bakar",
@@ -3683,6 +7015,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — ia menghitung bahan bakarnya saja. Untuk biaya per kilometer yang sejati, tambahkan tol dan bagikan item keausan (ban, servis, depresiasi) secara terpisah; banyak pengemudi menganggarkan tambahan 5–10 sen per km di luar bahan bakar.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dua bahasa efisiensi, satu hubungan resiprokal",
+        paragraphs: [
+          "Dunia mengukur konsumsi bahan bakar ke dua arah berlawanan. Liter per 100 km menjawab “berapa biaya bahan bakar menempuh satu jarak tetap?”, jadi lebih rendah lebih baik. Miles per gallon menjawab “seberapa jauh satu jumlah bahan bakar tetap membawa Anda?”, jadi lebih tinggi lebih baik. Karena satu adalah laju dan yang lain resiprokalnya, mengonversi di antara mereka adalah satu pembagian, bukan satu pergeseran linear.",
+          "Konstanta konversinya untuk galon AS adalah 235,2: bagi dengan angka MPG dan Anda dapat L/100 km — 30 MPG sekitar 7,8 L/100 km, dan satu 6 L/100 km yang hemat sekitar 39,2 MPG. (Untuk galon imperial Inggris konstantanya berbeda.) Satu jebakan halus mengikuti skala resiprokalnya: naik dari 10 ke 20 MPG menghemat bahan bakar jauh lebih banyak per mil daripada naik dari 30 ke 40 MPG, meski keduanya “+10 MPG”.",
+          "Alat ini menerima angka mana pun yang ditampilkan dashboard atau lembar spesifikasi Anda, jadi tak ada konversi manual yang berdiri di antara Anda dan estimasinya — dan mencampur jarak metrik dengan MPG atau mil dengan L/100 km diam-diam menghasilkan jawaban salah, itulah sebabnya pilihan unitnya berlaku untuk jarak, efisiensi, dan harga sekaligus.",
+        ],
+      },
+      {
+        heading: "Mengapa estimasi dan kuitansi tak sepakat",
+        paragraphs: [
+          "Angka konsumsi resmi dan dashboard diukur dalam kondisi yang diidealkan — kecepatan stabil, suhu sedang, tanpa muatan. Berkendara nyata mendorong angkanya naik: lalu-lintas stop-and-go, start dingin (mesin menghangat perlahan, membakar bahan bakar ekstra untuk kilometer-kilometer pertama), rak atap dan kotak, akselerasi agresif, dan pendingin udara semuanya menambahkan konsumsi, dan satu mobil penuh-beban yang mendaki jalan gunung menambah lebih lagi.",
+          "Satu kebiasaan kalibrasi praktis: isi tangkinya, reset penghitung perjalanannya, berkendaralah normal, dan bagi liter dengan jarak nyata di pengisian berikutnya. Satu-dua siklus dari ini memberi satu angka konsumsi pribadi jauh lebih jujur daripada lembar spesifikasi mana pun — masukkan itu ke kalkulatornya dan estimasi biayanya mulai cocok dengan yang ditagih pompa Anda.",
+          "Perlakukan total alatnya sebagai satu estimasi tengah untuk jalan raya dan berkendara campuran, dan sebagai satu lantai untuk perjalanan kaya-kota. Tol, parkir, dan biaya-jalan non-bahan-bakar (ban, servis, depresiasi) sengaja di luar matematikanya; anggarkan mereka terpisah untuk biaya-per-kilometer yang sejati.",
+        ],
+      },
+      {
+        heading: "Dibangun untuk keputusan sebelum berangkat",
+        paragraphs: [
+          "Momen-momen bergunanya semuanya pra-berangkat: menganggarkan satu minggu perjalanan pulang-pergi, membagi bahan bakar satu road trip di antara penumpang (total biaya dibagi orang), atau menghargai satu jalur memutar — apakah supermarket lebih murah 15 km jauhnya benar-benar lebih murah begitu perjalanan ke sana memakan bahan bakar? Sakelar perjalanan-pulang-pergi ada karena melupakan menggandakan jarak adalah kesalahan masukan paling umum.",
+          "Biaya per kilometer (atau mil) ditampilkan di samping totalnya karena itulah angka perbandingannya: rute, mobil, dan kebiasaan berbeda total jaraknya, jadi biaya per-unit itulah yang membuat perbandingannya bermakna.",
+          "Perhitungannya berjalan lokal di browser — berguna di pompa pedesaan tanpa sinyal, dan itu berarti harga bahan bakar, rute, dan pola berkendara yang Anda masukkan tak pernah meninggalkan perangkat Anda.",
+        ],
+      },
+    ],
   },
   "aspect-ratio-calculator": {
     name: "Kalkulator Aspect Ratio",
@@ -3709,6 +7067,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bisakah memakai rasio desimal atau tak lazim?",
         a: "Bisa. Kedua kolom rasio menerima angka positif apa pun, jadi cinema scope 2,39:1, 1,85:1, crop sosial potret 4:5, atau ukuran sensor seperti 1,5:1 semuanya bekerja — matematis proporsinya identik.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rasio sinema: 1,85:1 vs 2,39:1",
+        paragraphs: [
+          "Hollywood menetap dua standar widescreen setelah puluhan tahun format bersaing. Rasio “flat” 1,85:1 mengisi satu layar teater standar dan dipakai untuk kebanyakan film arus-utama dan pekerjaan bersebelahan-TV; rasio “scope” 2,39:1 adalah tampilan lebar ber-letterbox dari film epik dan aksi. Ketika satu film scope ditampilkan di satu TV 16:9, batang hitam yang Anda lihat bukan bug — mereka geometri jujur dari selisih antara 2,39:1 dan 1,78:1.",
+          "Konsekuensi praktis bagi kreator: syuting atau crop pada 2,39:1 dan tiap platform akan memberi letterbox; crop pada 1,85:1 atau 16:9 dan Anda mempertahankan lebih banyak gambar vertikal tetapi kehilangan framing sinematiknya. Pakai kalkulator ini sebelum mengikat — masukkan 3840 sebagai lebar untuk 2,39:1 dan Anda akan melihat frame butuh sekitar 1607 piksel tinggi, yang langsung memberi tahu Anda seberapa banyak resolusi vertikal yang dibuang satu crop scope.",
+          "Format-formaat lama masih bermunculan dalam alur kerja modern: 4:3 datang dari televisi dan fotografi diam 35mm, 3:2 dari frame film 35mm, dan 1:1 dari format cetak persegi jauh sebelum Instagram. Mengetahui silsunya menolong saat memulihkan rekaman lama atau mencocokkan tampilan vintage, karena rasionya sendiri membawa eranya.",
+        ],
+      },
+      {
+        heading: "Dari mana 16:9 datang dan kenapa ia menetap",
+        paragraphs: [
+          "16:9 tak dipilih demi estetika. Ia satu kompromi yang diturunkan pada 1980-an agar satu tampilan bisa menampilkan baik televisi 4:3 yang ada maupun konten widescreen sinema dengan pemborosan paling sedikit: 16:9 adalah rata-rata geometris yang membelah selisih antara 4:3 (1,33) dan rasio film umum sekitar 2,35, meminimalkan letterbox di kedua arah. Ketika televisi HD distandarkan, 16:9 datang bersamanya, dan 1920×1080, 1280×720, dan 3840×2160 semuanya mewarisi bentuk yang sama.",
+          "Warisan itulah kenapa 16:9 adalah bawaan yang aman untuk video di tiap platform utama hari ini, sementara 16:10 (1920×1200) selamat kebanyakan di laptop dan monitor yang menyasar pekerjaan dokumen dan kode — sepersepuluh layar vertikal ekstra menampung satu baris teks lagi atau satu toolbar tanpa menggulir.",
+          "Aritmetikanya persis, bukan kebetulan: 1920÷16 = 120 dan 1080÷9 = 120, jadi tiap resolusi 16:9 adalah satu kelipatan bersih. Itu juga alasan kalkulator ini mereduksi 1920×1080 ke tepat 16:9 lewat pembagi bersama terbesar alih-alih mendekati — GCD dari 1920 dan 1080 adalah 120, dan membagi kedua sisi memberi rasio kanoniknya.",
+        ],
+      },
+      {
+        heading: "Kesalahan umum saat mengubah ukuran",
+        paragraphs: [
+          "Kesalahan paling umum adalah memasukkan rasionya sebagai desimal di satu kolom dan bilangan bulat di lain — 1,7778:1 bukan komitmen yang sama dengan 16:9 untuk pekerjaan presisi-piksel, karena pembulatan menumpuk. Ketik rasio bilangan-bulat saat Anda memilikinya dan biarkan alat menampilkan desimalnya untuk rujukan, alih-alih sebaliknya.",
+          "Kesalahan kedua adalah membulatkan dimensi keluarannya ke satu angka “rapi”. Jika 2,39:1 dengan lebar 1920 menghitung satu tinggi sekitar 803, menyentak ke 800 mengubah rasionya hampir setengah persen — tak terlihat pada satu pratinjau kasar, terlihat sebagai satu hanyutan dalam satu suntingan multi-klip. Ketika piksel persisnya pecahan, putuskan secara disengaja: bulatkan untuk tampilan, atau pertahankan nilai persisnya untuk file induknya.",
+          "Terakhir, ingat bahwa object-fit: cover di CSS memotong alih-alih menskala — satu gambar 4:3 di dalam satu kontainer 16:9 kehilangan atas dan bawahnya, ia tak terjepit. Mengukur gambar sumbernya dengan kalkulator ini agar cocok rasio kontainernya lebih dulu menghindarkan membuang konten diam-diam.",
+        ],
       },
     ],
   },
@@ -3740,6 +7124,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — hasilnya pertumbuhan nominal pada suku bunga yang Anda masukkan. Pajak atas bunga, biaya akun, dan inflasi semuanya mengurangi imbal hasil nyata, jadi perlakukan saldo akhir sebagai batas atas dari yang benar-benar akan Anda pegang.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa frekuensi perbungaan mengubah jawabannya",
+        paragraphs: [
+          "Frekuensi perbungaan memutuskan seberapa sering bunga yang diperoleh bergabung ke pokoknya dan mulai memperoleh miliknya sendiri. Tingkat periodenya adalah tingkat tahunan dibagi jumlah periodenya, jadi perbungaan bulanan pada 8% memakai 0,667% per bulan — dan karena bunga itu dikreditkan dua belas kali setahun alih-alih sekali, hasil tahunan efektifnya merayap di atas 8%. Harian mengalahkan bulanan, bulanan mengalahkan kuartalan, kuartalan mengalahkan tahunan, selalu dalam urutan itu untuk tingkat nominal yang sama.",
+          "Yang mengejutkan orang adalah seberapa kecil celahnya pada tingkat konsumen. Pada 5% nominal, perbungaan tahunan menghasilkan 5,00% dan perbungaan bulanan sekitar 5,12% — sepersepuluh poin yang hanya menjadi uang serius melintasi dekade atau pada saldo besar. Pemasaran mengeksploitasi ini: satu bank bisa mengutip satu tingkat nominal yang tampak identik dengan pesaingnya sementara frekuensi perbungaannya diam-diam yang membedakan.",
+          "Frekuensi hanya mengubah jawabannya jika tingkat nominalnya yang Anda bandingkan. Begitu semuanya dikonversi ke satu hasil tahunan efektif, frekuensinya sudah terlipat ke dalam dan dua akun dengan APY yang sama sungguh setara — persis alasan kalkulator APY di situs ini ada di samping yang ini.",
+        ],
+      },
+      {
+        heading: "Titik-persilangan, dan kenapa waktu mendominasi tingkat",
+        paragraphs: [
+          "Tabel tahun-per-tahun ada untuk menampilkan satu momen spesifik: titik persilangannya, tempat bunga yang diperoleh dalam satu tahun melampaui kontribusi Anda sendiri. Pada tingkat sedang ini butuh dekade-dekade, itulah sebabnya perbungaan terasa tak mengesankan selama sepuluh tahun pertama dan absurd setelah tiga puluh. Kurvanya datar, lalu membengkok — dan hampir semua orang meremehkan seberapa terlambat lengkungan itu datang.",
+          "Inilah juga mengapa jumlah awal lebih berarti daripada yang disarankan naluri pengoptimalnya. Satu poin tingkat ekstra itu linear; satu dekade perbungaan ekstra itu eksponensial. Di antara mulai sepuluh tahun lebih awal pada tingkat sederhana dan mulai hari ini pada tingkat satu poin lebih tinggi, awal yang lebih awal biasanya menang dengan margin yang tidak nyaman — tabelnya membiarkan Anda menguji klaim itu pada angka Anda sendiri alih-alih menerimanya bulat.",
+          "Dua peringatan jujur: alatnya menyetorkan kontribusi di awal tiap periode, yang adalah konvensi optimisnya, dan ia mengasumsikan tingkatnya tak pernah berubah, yang tak dihormati investasi nyata mana pun. Keluarannya satu skenario, bukan satu prakiraan — tahun persilangannya terutama seharusnya dibaca “kira-kira kapan”, bukan satu tanggal untuk dilingkari.",
+        ],
+      },
+      {
+        heading: "Pertumbuhan nominal, daya-beli nyata",
+        paragraphs: [
+          "Semua yang ditampilkan kalkulator itu nominal: tingkat yang Anda ketik diterapkan ke saldo yang Anda ketik, tanpa pajak, tanpa biaya, tanpa inflasi. Tiap kekuatan itu memotong dari sisi yang berbeda — pajak atas bunga mengurangi tingkat yang dikreditkan, biaya akun mengurangkan jumlah tetap, dan inflasi diam-diam mengecilkan yang dibeli saldo akhirnya. Angka di layar adalah batas atas dari apa yang benar-benar akan Anda pertahankan.",
+          "Satu latihan kewarasan yang berguna: kurangkan inflasi tahunan yang Anda harapkan dari tingkatnya sebelum memasukkannya. Satu imbal hasil nominal 5% dengan inflasi 2,5% berbunga dengan cara yang sama tetapi menceritakan satu kisah yang jauh lebih jujur tentang daya-beli masa depan saldonya. Matematikanya identik; hanya tafsirnya yang berubah.",
+          "Dan seperti setiap alat di sini, proyeksinya berjalan sepenuhnya di browser Anda: saldo, tingkat, dan jumlah kontribusi tak pernah meninggalkan perangkat Anda, jadi aman memodelkan angka yang tak akan Anda tempel ke satu formulir yang mengirim data ke satu server.",
+        ],
+      },
+    ],
   },
   "random-name-picker": {
     name: "Pemilih Nama Acak",
@@ -3767,6 +7177,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bisakah mengundi beberapa pemenang berturut-turut?",
         a: "Bisa. Aktifkan 'Hapus pemenang setelah tiap undian' dan tiap pilihan otomatis keluar dari daftar, jadi tak ada yang dipilih dua kali. Panel riwayat di bawah mencatat setiap undian sesi ini, berurutan, dengan penanda waktunya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang membuat satu undian dapat dibuktikan adil",
+        paragraphs: [
+          "Mode kegagalan halus pengundi acak adalah bias modulo. Satu skrip naif melakukan Math.floor(Math.random() * n) — tetapi Math.random() menghasilkan satu nilai titik-mengambang dalam satu rentang tetap, dan ketika rentang itu tak membagi merata oleh jumlah entrinya, beberapa nama pertama terpilih secara terukur lebih sering. Dengan 100 nama, sebagian entri bisa berakhir satu-dua persen lebih mungkin daripada yang lain: tak terlihat dalam satu putaran, menentukan melintasi satu masa undian kelas.",
+          "Alat ini menghindari masalah itu dua kali lipat. Ia memakai crypto.getRandomValues — sumber acak kriptografis browser, generator yang sama di balik kunci keamanan — dan menerapkan pengambilan-sampel penolakan: nilai-nilai yang akan membias distribusinya dibuang dan ditarik-ulang, sehingga tiap-tiap n entri mendapat persis probabilitas 1/n. Tarikan kritisnya terjadi sebelum animasinya dimulai, yang berarti roda tak bisa memengaruhi hasilnya dengan cara apa pun.",
+          "Pemisahan tarikan dan tampilan itulah yang membiarkan Anda membuktikan keadilannya kepada satu audiensi: hasilnya ada saat Anda menekan tombolnya, animasinya hanya mengungkapnya. Tak ada apa pun tentang warna segmen, kecepatan roda, atau tempat mulainya pointer yang memengaruhi siapa yang menang — dan karena tarikannya kriptografis alih-alih di-seed waktu, bahkan orang yang menjalankan alatnya tak bisa memprediksi atau mengendalikan hasilnya.",
+        ],
+      },
+      {
+        heading: "Bergilir, eliminasi, dan panel riwayatnya",
+        paragraphs: [
+          "Dua opsi mengerjakan kebanyakan praktiknya. Membuang duplikat lebih berarti daripada yang terlihat: satu daftar yang ditempel dari satu spreadsheet sering membawa pengulangan tersembunyi — spasi di ekor, pembalikan urutan nama, baris ganda tak sengaja — dan tiap duplikat menggandakan peluang orang itu. Deduplikasi sebelum tarikan kecuali pengulangannya memang disengaja.",
+          "Membuang pemenangnya setelah tiap tarikan mengubah roda itu menjadi satu antrean eliminasi yang bersih. Ini cara Anda mengerjakan satu kelas agar tiap siswa presentasi persis sekali, atau membagikan hadiah berurutan tanpa melacak kertas. Panel riwayat di bawahnya merekam tiap pilihan dengan cap waktunya, berurutan, sehingga sengketa seperti “kamu memilih mereka dua kali” bisa diselesaikan dengan menggulir alih-alih ingatan.",
+          "Satu batas jujur: riwayatnya hanya hidup di sesi browser ini. Memuat-ulang halaman menghapusnya. Jika Anda butuh satu catatan yang bisa diaudit — satu giveaway dengan hadiah nyata, misalnya — salin pemenangnya saat berjalan alih-alih memercayai sesinya untuk bertahan.",
+        ],
+      },
+      {
+        heading: "Di mana daftarnya hidup — dan tak hidup",
+        paragraphs: [
+          "Semuanya berjalan lokal di browser Anda. Daftar yang Anda tempel tak pernah dikirim, disimpan, atau dicatat ke mana pun; tak ada server yang terlibat dalam tarikannya sama sekali. Itu membuat alatnya aman untuk daftar yang tak akan Anda tempel ke satu situs web acak — nama karyawan untuk satu lotere shift, inisial pasien dalam satu latihan pelatihan, nama anggota grup privat.",
+          "Ia juga berarti alatnya terus bekerja tanpa jaringan: satu kelas dengan Wi-Fi buruk tetap bisa menjalankan undiannya, dan halaman yang sama terus berfungsi offline begitu dimuat. Satu-satunya data yang pernah meninggalkan satu tab adalah yang Anda salin keluar dengan sengaja lewat tombol salinnya.",
+          "Untuk undian berbobot atau ber-seed — raffle tempat jumlah tiket seharusnya mengubah peluang, atau pilihan yang dapat direproduksi untuk pengujian — alat ini sengaja yang salah: satu nama, satu peluang, tanpa bobot. Kendala itu satu fitur ketika keadilan adalah poinnya; ketika peluang seharusnya tak merata, pakai satu alat raffle khusus alih-alih membengkokkan ini.",
+        ],
       },
     ],
   },
@@ -3798,6 +7234,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Kode QR standar mana pun: URL, teks polos, nomor telepon, string gabung WiFi, kontak vCard, string pembayaran UPI atau PIX, dan lainnya. Alat menampilkan konten mentah terdekodenya — untuk kode WiFi atau pembayaran, salin teksnya ke aplikasi yang mengonsumsi format itu.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Izin kamera: mengapa browser bertanya dan apa artinya",
+        paragraphs: [
+          "API getUserMedia di balik mode kamera dijaga dua gerbang yang ditegakkan browser, bukan halamannya. Pertama, satu prompt izin: situsnya hanya bisa meminta, dan Anda bisa memberi atau menolak — penolakan diingat dan bisa diubah dari ikon bilah alamat. Kedua, satu aturan konteks-aman: akses kamera hanya diizinkan pada halaman https, jadi satu mirror tak-aman dari alat ini bahkan tak bisa bertanya.",
+          "Apa yang tak diberikan izinnya sama pentingnya: tak ada akses latar. Satu halaman hanya bisa membaca frame sementara satu stream video hidup, browser menunjukkan kamera aktif secara terlihat dengan satu indikator, dan menghentikan streamnya (yang dilakukan alat ini secara otomatis pada satu dekode yang berhasil) mengakhiri semua akses. Tak ada frame yang bisa ditangkap diam-diam di latar belakang.",
+          "Inilah alasan mode kegagalannya begitu spesifik: satu kamera yang tak mau menyala hampir selalu satu izin yang diblokir, satu masalah konteks-https, atau sungguh tak ada kamera di perangkatnya. Alat ini membedakan kasus-kasus itu alih-alih menampilkan satu kesalahan generik, karena tiap-tiapnya punya perbaikan yang berbeda.",
+        ],
+      },
+      {
+        heading: "Bagaimana dekode QR benar-benar menemukan kodenya",
+        paragraphs: [
+          "Satu simbol QR mengangkarkan dirinya dengan tiga pola finder besar — persegi di sudut kiri-atas, kanan-atas, dan kiri-bawah. Satu decoder memindai grid piksel mencari tepat bentuk-bentuk itu, memakai posisi mereka untuk menetapkan rotasi dan perspektif simbolnya, dan hanya kemudian membaca modul-datanya dan menjalankan koreksi kesalahan. Itulah sebabnya satu kode yang dipotret pada sudut miring tetap bisa terdekode: pola finder menyediakan geometrinya.",
+          "Kualitas gambar menggerakkan hasilnya lebih dari apa pun. Kegagalan klasiknya adalah silau di atas satu pola finder, satu kode yang menempati terlalu sedikit piksel setelah diskala-turun, dan kontras rendah antara modul dan latarnya. Satu foto lebih tajam, satu crop lebih dekat, atau satu sudut lebih tegak memperbaiki kebanyakan salah-baca — decoder itu deterministik, bukan probabilistik.",
+          "Payload yang terdekode ditampilkan sebagai teks mentah secara sengaja. Kode QR bisa mengodekan string masuk-WiFi, vCard, dan format pembayaran, tetapi kodenya sendiri tak mengumumkan tipenya; menampilkan string mentahnya membiarkan Anda memverifikasi apa yang sebenarnya dimuat satu kode sebelum satu aplikasi mengonsumsinya — yang adalah seluruh poin menginspeksi satu kode dari satu poster atau paket sebelum membuka tautannya.",
+        ],
+      },
+      {
+        heading: "Menginspeksi kode sebelum memercayainya",
+        paragraphs: [
+          "Aplikasi kamera ponsel semakin sering langsung membuka tautan QR, yang nyaman dan persis yang diandalkan satu eksploit stiker jahat. Satu kode QR adalah data tanpa-autentikasi: siapa pun bisa mencetak satu yang menunjuk ke mana pun. Membaca teks terdekodenya lebih dulu — seperti yang dilakukan alat ini sebelum menawarkan tombol buka — menyisipkan satu jeda yang disengaja di antara melihat satu kode dan bertindak atasnya.",
+          "Kebiasaan-kebiasaan praktisnya: periksa bahwa domain URL-nya cocok dengan yang dijanjikan konteksnya (satu meteran parkir, satu menu restoran), curigai shortener yang menyembunyikan tujuannya, dan jangan pernah memasukkan kredensial pada satu halaman yang Anda capai dari satu kode yang tak terverifikasi. Untuk kode pembayaran, verifikasi string penerimanya karakter demi karakter alih-alih memercayai labelnya.",
+          "Privasi bertahan bagi kedua jalur: dekode gambar hanya membaca piksel lokal file yang Anda jatuhkan, dan frame kamera dianalisis dalam memori lalu dibuang. Tak ada yang diunggah, dicatat, atau disimpan — inspeksinya tetap sepenuhnya di perangkat Anda.",
+        ],
+      },
+    ],
   },
   /* ------------------------------------------------------------------ */
   /* Pengembang / Utilitas — CSV ⇄ Excel, kontras, nilai                 */
@@ -3826,6 +7288,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Pemisah dideteksi otomatis dengan menghitung kandidat di luar tanda kutip; Anda juga bisa memilihnya manual. Koma di dalam sel, kutip ganda, dan baris baru semuanya dipertahankan saat konversi.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa satu .xlsx sungguhan mengalahkan mengganti-nama satu .txt",
+        paragraphs: [
+          "Satu trik umum untuk “mengonversi” CSV ke Excel adalah mengganti nama filenya dan berharap satu aplikasi spreadsheet menebak. Kadang berhasil; lebih sering Anda mendapat satu kolom raksasa, mojibake pada teks beraksen, atau nol pendahulu yang dicabut dari kode pos dan nomor telepon. Satu .xlsx sungguhan adalah satu arsip ZIP dari bagian-bagian XML dengan jenis sel yang eksplisit — shared string untuk teks, sel numerik untuk angka, gaya untuk tanggal — dan menulisnya berarti keputusan tipenya terjadi sekali, saat waktu konversi, alih-alih ditebak-ulang oleh tiap program yang membuka file itu.",
+          "Keputusan tipenya adalah tempat kejujuran hidup. Satu sel yang berbunyi 9.5 ditulis sebagai sel numerik sehingga SUM dan grafik langsung bekerja padanya; satu sel yang berbunyi 007 sengaja dipertahankan sebagai teks, karena mengonversinya ke 7 merusak informasinya. Bentuk-bentuk ambigu seperti 1e3 atau 0.500 juga tetap teks — mereka terparse sebagai angka, tetapi konversinya diam-diam mengubah yang ditampilkan sel itu. Kebijakan ini mengikuti satu aturan sederhana: jangan pernah membiarkan konverter menebak dengan cara yang kehilangan data.",
+          "Pemisahnya adalah satu permainan-tebak lainnya. Alat ini menghitung kandidat pemisah (koma, titik-koma, tab) di luar kolom berkutip dan memilih pemenangnya, yang menangani baik bawaan koma gaya-AS maupun konvensi titik-koma Eropa yang dihasilkan Excel sendiri di kebanyakan lokal. Kolom berkutip dengan koma tersemat, kutipan ganda, dan baris baru diparse menurut RFC 4180, jadi satu sel alamat multi-baris datang ke Excel sebagai satu sel, bukan lima baris.",
+        ],
+      },
+      {
+        heading: "Apa yang tak bisa dibawa CSV, dan bagaimana konversinya menanganinya",
+        paragraphs: [
+          "CSV tak punya tipe, gaya, dan struktur apa pun melampaui barisan teks, jadi konverternya harus mengambil keputusan yang tak pernah direkam formatnya. Baris pertama diperlakukan sebagai header secara bawaan — kebanyakan CSV diekspor dengan satu, tetapi tidak semua, itulah sebabnya sakelarnya ada. Formula, grafik, dan pemformatan sel sekadar tak ada di sumbernya; jika satu alur kerja mengharapkan satu laporan bergaya, CSV-nya hanya lapisan datanya dan seseorang harus menerapkan penyajiannya belakangan.",
+          "Pengodeannya adalah kegagalan-diam klasiknya. Byte CSV tak membawa label pengodean; Excel di Windows terkenal salah membaca file UTF-8 tanpa BOM, mengubah nama dan alamat menjadi sampah. Data yang dihasilkan pipa di sini ditulis sebagai UTF-8 secara internal, dan format xlsx itu sendiri menyimpan teks sebagai XML dengan satu pengodean eksplisit, jadi yang Anda tempel adalah yang mendarat di sel-selnya — karakter beraksen, teks CJK, dan emoji termasuk.",
+          "Satu batas lagi yang layak diketahui: CSV yang sangat besar dibatasi memori browser selama konversi, bukan oleh batas server mana pun. File dalam ratusan ribu baris terkonversi baik di satu mesin biasa; ekspor multi-gigabita milik satu skrip atau satu importer database, bukan satu tab browser.",
+        ],
+      },
+      {
+        heading: "Baris-baris sensitif pantas satu konverter lokal",
+        paragraphs: [
+          "CSV yang dibutuhkan orang dalam bentuk spreadsheet jarang anonim: daftar pelanggan, ekspor payroll, respons survei dengan kolom kontak, item keuangan. Mengunggah satu ke satu situs konverter berarti tiap baris melintasi dan sering bertahan di penyimpanan orang lain — untuk data yang dicakup satu NDA, satu kebijakan perusahaan, atau satu regulasi privasi, itu bukan satu tawaran yang layak demi satu kenyamanan pemformatan.",
+          "Alat ini mem-parse CSV dan membangun workbook-nya sepenuhnya di browser Anda dengan SheetJS, satu pustaka spreadsheet JavaScript yang luas dipakai. File yang Anda jatuhkan dibaca dari disk lokal, .xlsx-nya dirakit di memori dan diserahkan langsung ke tautan unduhnya; tak ada langkah unggah dalam arsitekturnya, bukan sekadar satu janji bahwa ia tak dicatat. Begitu halaman dimuat ia bekerja offline, dan tak ada kuota jumlah baris melampaui memori mesin Anda.",
+        ],
+      },
+    ],
   },
   "excel-to-csv": {
     name: "Excel ke CSV",
@@ -3849,6 +7336,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apa yang terjadi pada rumus dan pemformatan?",
         a: "Anda mendapat nilai terakhir yang dihitung sebagaimana sel menampilkannya — bukan rumusnya. Sel yang menampilkan 1.234,50 diekspor dengan nilai itu, dan format seperti simbol mata uang tetap sebagaimana tampil.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "RFC 4180: mengapa aturan pengutipan CSV ada",
+        paragraphs: [
+          "CSV tampak trivial dan terkenal tidaknya. Format yang benar-benar saling beroperasi oleh database dan program spreadsheet dideskripsikan RFC 4180, dan tiga aturannya mencakup hampir tiap bug yang pernah Anda temui dalam satu impor CSV. Aturan satu: satu kolom yang memuat pemisah, satu kutipan, atau satu pemenggalan baris harus diapit kutip-ganda. Aturan dua: satu kutipan di dalam satu kolom berkutip di-escape dengan penggandaan. Aturan tiga: pemenggalan baris di dalam satu kolom berkutip adalah data, bukan pemisah catatan.",
+          "Bug-bugnya semuanya datang dari alat yang mengabaikan salah satunya. Satu penulis naif menyambung sel dengan koma dan menghasilkan satu file yang meledak menjadi kolom-kolom ekstra saat satu kolom alamat memuat satu koma. Satu pembaca naif membelah di tiap baris baru dan mengubah satu sel multi-baris menjadi lima catatan. Alat ini menulis secara ketat menurut aturannya: kutip hanya bila perlu, gandakan kutipan tersemat, pertahankan baris baru internal — sehingga parser hilir yang mengikuti aturan yang sama (kebanyakan yang modern melakukannya) merekonstruksi sheetnya dengan persis.",
+          "Satu keputusan senyap lagi: baris header-nya. CSV tak punya konsep formal satu header — RFC 4180 memperlakukan tiap baris sama — tetapi praktis tiap konsumen mengasumsikan baris pertama adalah nama-namanya. Mengekspor tanpa penyesuaian biasanya benar; alat sesekali yang butuh ia dimatikan adalah pengecualiannya, bukan aturannya.",
+        ],
+      },
+      {
+        heading: "Apa yang hilang dalam konversinya: formula, tipe, dan sheet",
+        paragraphs: [
+          "CSV menyimpan teks dan tak lebih, jadi konversinya inheren lossy dalam tiga cara spesifik. Formula menjadi nilai terhitung terakhirnya — satu sel dengan =SUM(A1:A5) diekspor sebagai angka yang ia saat ini evaluasi, dan pembaruan di Excel tak akan pernah mengalir kembali ke CSV-nya. Pemformatan tampilan ikut dibakar: satu sel yang diformat sebagai mata uang diekspor dengan simbol atau pemisah mata uang persis seperti yang ditampilkan, yang kadang menghasilkan nilai seperti $1,234.50 yang kemudian dilihat parser hilir sebagai teks.",
+          "Tipe data lenyap: tanggal keluar sebagai string dalam format apa pun yang ditampilkan sheetnya (03/04/2024 ambigu melintasi lokal), nol pendahulu dalam kode hanya dipertahankan jika selnya disimpan sebagai teks, dan segalanya menjadi string saat re-impor. Database yang menginginkan kolom bertipe butuh satu langkah impor yang menebak atau diberi tahu tipenya. Jika kesetiaan persis berarti, simpan spreadsheetnya sebagai sumber kebenaran dan perlakukan CSV-nya sebagai satu ekspor satu-arah.",
+          "Sheet, grafik, sel gabungan, dan warna sama sekali tak punya representasi CSV. Satu workbook dengan beberapa sheet butuh satu CSV per sheet — itu bukan keterbatasan alat ini melainkan formatnya, yang tak punya cara menyimpan lebih dari satu tabel. Sel gabungan diekspor dengan nilainya di sel kiri-atas dan string kosong di tempat lain; jika Anda mengandalkan penggabungan demi semantik, ratakan mereka sebelum mengekspor.",
+        ],
+      },
+      {
+        heading: "Pengodean, BOM, dan memproses file secara lokal",
+        paragraphs: [
+          "Mojibake yang terkenal saat klik-ganda adalah satu kisah pengodean. CSV adalah byte, bukan teks, dan Excel di Windows menebak pengodean satu file tanpa BOM — sering mendarat di satu codepage legacy dan mengubah 中文 atau café menjadi sampah. File yang diunduh di sini dimulai dengan satu BOM UTF-8, tiga byte yang dipakai Excel untuk mendeteksi UTF-8 saat membuka. Program yang mengonsumsi filenya secara programatis (skrip, database) biasanya menyukai UTF-8 tanpa-BOM, itulah sebabnya tombol salinnya menyediakan tepat itu.",
+          "Spreadsheet termasuk file paling sensitif yang diseret ke konverter daring: daftar pelanggan, payroll, proyeksi keuangan, data karyawan. Mengunggah satu ke satu server konverter berarti baris-barisnya mendarat di infrastruktur orang lain, mungkin dicatat atau di-cache. Alat ini mem-parse workbook sepenuhnya di browser Anda memakai satu pustaka JavaScript — file dibaca dari disk secara lokal, dikonversi di memori, dan tak pernah dikirim ke mana pun; tak ada langkah pemrosesan sisi-server sama sekali.",
+          "Itu juga berarti tak ada batas ukuran yang dipaksakan dari luar — langit-langitnya memori browser Anda, yang menangani sheet dengan ratusan ribu baris dengan nyaman. Jika Anda bekerja dengan data yang diatur atau data pribadi, desain hanya-lokalnya bukan satu fitur kenyamanan melainkan satu kebutuhan yang membuat alur kerjanya sama sekali diperbolehkan.",
+        ],
       },
     ],
   },
@@ -3876,6 +7389,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Setiap warna dilinearkan dari sRGB lalu digabung menjadi luminans relatif L = 0.2126·R + 0.7152·G + 0.0722·B; rasionya (L terang + 0.05) / (L gelap + 0.05) — persis rumus spesifikasi WCAG 2.x. Alfa rgba() di bawah 1 diratakan ke putih sebelum dihitung.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang sebenarnya bermakna 4,5:1 dan 3:1",
+        paragraphs: [
+          "Rasio kontras adalah satu perbandingan luminansi yang didefinisikan WCAG: ukur luminansi relatif latar-depan dan latar-belakang, tambahkan offset kecil ke masing-masing, dan bagi yang terang dengan yang gelap. Hasilnya berkisar dari 1:1 (warna identik) hingga 21:1 (hitam pada putih). Rumusnya datang dari cara mata manusia mempersepsi kecerahan secara non-linear, itulah sebabnya perhitungannya mengonversi warna ke luminansi linear alih-alih membandingkan nilai kanal mentah — dua abu-abu yang “tampak dekat” di picker bisa berbeda secara terukur dalam luminansi.",
+          "WCAG 2.x menyetel dua ambang. Tingkat AA: 4,5:1 untuk teks isi normal, 3:1 untuk teks besar — didefinisikan sebagai 18pt (24px) regular atau 14pt (kira-kira 18,5px) bold dan lebih besar. Tingkat AAA menaikkan palangnya ke 7:1 untuk teks normal dan 4,5:1 untuk besar. Objek grafis dan batas komponen UI (ikon, tepi input) juga masuk kebutuhan 3:1 di WCAG 2.1.",
+          "Ambang-ambang itu lantai, bukan target desain. Satu situs bisa lolos pada 4,5:1 sambil tetap sulit dibaca di bawah matahari atau di layar murah; kebanyakan riset keterbacaan mendukung menyasar jauh di atas minimum untuk teks isi.",
+        ],
+      },
+      {
+        heading: "Cara umum desainer salah menilai kontras",
+        paragraphs: [
+          "Kegagalan klasiknya adalah teks berwarna pada latar berwarna: satu abu-abu-tengah pada satu pastel bisa terukur di bawah 4,5:1 meski kedua warnanya terasa “lembut”. Mata mengompensasi; matematikanya tidak. Kedua, mengasumsikan mode-gelap menyelesaikan kontras — teks abu-abu gelap pada latar abu-abu gelap gagal dengan rumus yang persis sama, hanya dibalik.",
+          "Teks di atas gambar adalah jebakan yang berulang: kontras terhadap satu piksel foto bisa lolos sementara piksel lain gagal. Solusi praktisnya adalah satu scrim (lapisan tindih) atau satu pill solid di belakang teksnya, lalu periksa-ulang warna latar efektifnya — alat menerima dua warna mana pun, jadi uji piksel latar terburuknya.",
+          "Opasitas adalah matematika yang tak terlihat: satu teks hitam pada opasitas 60% di atas putih bukan “kehitaman”, itu satu blend yang dihitung — kira-kira satu abu-abu-tengah — dan rasionya seharusnya diperiksa pada hasil blend-nya, bukan warna sumbernya.",
+        ],
+      },
+      {
+        heading: "Hitung lokal, iterasi seketika",
+        paragraphs: [
+          "Rasionya dihitung di browser Anda pada tiap perubahan warna — tanpa API, tanpa bolak-balik. Tempel nilai hex dari sistem desain Anda, atau sesuaikan langsung, dan lencana lolos/gagalnya diperbarui per ketukan tombol.",
+          "Semuanya lokal, yang berarti karena warna desain sering rahasia sebelum diluncurkan: palet yang belum dirilis dan eksplorasi merek tak pernah meninggalkan halaman. Muat ulang dan masukannya kosong.",
+          "Padukan dengan generator gradien saat memeriksa teks yang ditempatkan di atas gradien — ambil titik terterang gradien sebagai latar dan uji terhadap itu, karena jaminan kontras hanya berlaku pada kasus terburuk, bukan rata-ratanya.",
+        ],
+      },
+    ],
   },
   "grade-calculator": {
     name: "Kalkulator Nilai",
@@ -3899,6 +7438,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bagaimana kalau bobot saya tidak berjumlah 100%?",
         a: "Tidak masalah. Nilai saat ini dinormalisasi terhadap bobot yang benar-benar Anda masukkan, sehingga kursus yang baru setengah dinilai tetap adil. Perhitungan ujian akhir menumpuk bobot ujian di atas bobot yang sudah dinilai, persis seperti rencana perkuliahan. Hasil di atas 100% berarti target tak terjangkau; negatif berarti sudah aman.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rata-rata berbobot: aritmetika di balik hasilnya",
+        paragraphs: [
+          "Satu nilai mata kuliah hampir tak pernah rata-rata polos bagiannya: tugas, ujian-tengah, dan ujian-akhir berkontribusi dengan bobot berbeda, biasanya disetel silabusnya. Rata-rata berbobot mengalikan tiap skor dengan bobotnya dan membagi total bobotnya — identik secara matematis dengan cara GPA mengkredit mata kuliah menurut jam kreditnya, hanya satu tingkat ke bawah.",
+          "Total bobotnya seharusnya sama dengan 100%. Ketika bagian-bagiannya masih belum dinilai, angka yang bermakna adalah posisi saat ini: rata-rata berbobot Anda atas bagian yang sudah dinilai sejauh ini, ditambah skor berapa yang Anda butuhkan pada pekerjaan tersisanya untuk mencapai satu nilai sasaran. Rumus skor-yang-dibutuhkan adalah (target × total bobot − jumlah berbobot sekarang) ÷ bobot tersisa — ini perhitungan “berapa yang saya butuhkan di ujian akhir” yang dijalankan tiap siswa di Desember.",
+          "Waspadai jebakan penyebutnya: merata-ratakan bagian yang dinilai tanpa membobotnya dengan bobot sebenarnya memberi angka berbeda kapan pun bobotnya berbeda — dan itu hampir selalu yang salah. Satu 100% pada satu tugas 10% tak mengimbangi satu 60% pada satu ujian 50%.",
+        ],
+      },
+      {
+        heading: "Konvensi skala berbeda — periksa silabus Anda",
+        paragraphs: [
+          "Kebanyakan institusi AS memetakan huruf pada skala 4,0 (A = 4,0, B = 3,0), tetapi penanganan plus/minusnya bervariasi: sebagian sekolah memberi A− = 3,7, sebagian 3,67, sebagian kecil membulatkan A− ke 3,0. Batas persen-ke-huruf juga bergeser antar mata kuliah — 89,5% bisa satu A atau satu A− tergantung dosennya. Kalkulator ini menerapkan satu pemetaan konvensional; tabel registrar Anda yang berotoritas.",
+          "Detail pembobotan yang perlu diverifikasi: apakah skor tugas terendah dijatuhkan, apakah kehadiran atau partisipasi membawa bobot, dan apakah ujian akhir bisa mengganti nilai sebelumnya. Kebijakan-kebijakan ini mengubah aritmetikanya secara berarti dan hidup di silabusnya, bukan di kalkulator mana pun.",
+          "Ketika mensimulasikan hasil, masukkan skor masa-depan yang masuk akal, bukan yang optimis — poin perhitungannya adalah mengetahui skor yang Anda butuhkan, dan merencanakan untuk skenario minimum-lulus lebih berguna daripada merencanakan untuk satu mukjizat.",
+        ],
+      },
+      {
+        heading: "Matematika nilai yang lokal dan privat",
+        paragraphs: [
+          "Semuanya dihitung di browser Anda saat Anda mengetik. Nilai termasuk data pribadi paling sensitif yang ada — satu alat yang mengunggahnya adalah alat yang salah. Tak ada yang disimpan, dicatat, atau dikirim; muat ulang dan sheetnya tereset.",
+          "Kalkulator ini menangani baris parsial dengan cara yang aman: satu mata kuliah dengan skor yang hilang tak berkontribusi apa pun alih-alih dihitung nol, yang akan diam-diam menghukum pekerjaan yang belum dikerjakan.",
+          "Untuk GPA kumulatif melintasi semester, padukan ini dengan kalkulator GPA — kedua alat mencakup pertanyaan tingkat-mata-kuliah dan tingkat-transkrip secara terpisah, dan keduanya berjalan sepenuhnya di perangkat Anda.",
+        ],
       },
     ],
   },
@@ -3933,6 +7498,32 @@ export const id: Record<string, ToolCopy> = {
         a: "JPG tak bisa menyimpan transparansi — saat menyimpan, bingkainya akan putih. Alat beralih ke PNG secara otomatis setiap kali isian transparan dipilih; pilih opsi Warna jika Anda ingin JPG.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Padding versus penskalaan: kenapa canvas tumbuh keluar",
+        paragraphs: [
+          "Kebingungan paling umum dengan tepi gambar adalah apa yang terjadi pada piksel di bawahnya. Sebagian editor menerapkan satu tepi sebagai satu lapisan-tindih yang memakan gambar, efektif mengecilkan yang terlihat. Alat ini melakukan sebaliknya: ia memperluas canvas keluar, jadi satu tepi 20 px pada satu foto 1000×800 menghasilkan satu hasil 1040×840 dengan piksel aslinya tak tersentuh di tengah.",
+          "Tanpa resampling adalah manfaat praktisnya. Tak ada yang diregangkan, diskala, atau dienkode-ulang pada ukuran baru, jadi satu tepi tak pernah melembutkan gambar sebagaimana bisa dilakukan satu upscale agresif. Piksel yang Anda miliki adalah piksel yang Anda pertahankan; tepinya murni ruang baru di sekelilingnya.",
+          "Karena lebar tepinya berlaku pada keempat sisi, total dimensinya tumbuh dua kali nilai slider di tiap arah. Memantau pratinjau langsung saat Anda menyeret slider membuat komprominya jelas: tepi lebar memakan ruang tata letak sekitarnya, yang berarti saat Anda menyesuaikan satu tangkapan layar ke satu kolom blog berlebar-tetap.",
+        ],
+      },
+      {
+        heading: "Padding transparan, alpha PNG, dan pengecualian JPG",
+        paragraphs: [
+          "Transparansi dalam satu tepi terdengar eksotis tetapi menyelesaikan satu masalah nyata: stiker, hasil-potongan, dan aset lapisan-tindih harus duduk di latar mana pun tanpa satu persegi putih atau hitam yang terlihat di sekelilingnya. PNG menyimpan satu kanal alpha, jadi satu tepi transparan tetap benar-benar tembus-pandang setelah disimpan.",
+          "JPG sekadar tak punya kanal alpha — ia didesain untuk fotografi, tempat tiap piksel punya satu warna. Menyimpan satu tepi transparan sebagai JPG akan memaksanya ke satu warna datar, biasanya putih. Itulah sebabnya alat ini beralih ke PNG secara otomatis ketika padding transparan dipilih, dan kenapa opsi JPG tetap tersedia hanya saat Anda memilih satu warna solid.",
+          "Satu trik terkait untuk post sosial: alih-alih transparan, pilih satu tepi solid dalam warna latar halaman atau feed tempat Anda mempostingnya. Satu tepi yang cocok dengan latar tujuannya terbaca sebagai ruang-putih yang murah hati alih-alih satu bingkai, dan ia menjaga alur kerja JPG-nya tetap utuh.",
+        ],
+      },
+      {
+        heading: "Alur kerja batch, bingkai yang dibakar, dan privasi",
+        paragraphs: [
+          "Membingkai tangkapan layar untuk dokumentasi atau satu galeri produk adalah pekerjaan repetitif: tiap gambar butuh lebar yang sama, warna yang sama. Mode batch menerapkan satu nilai slider ke tiap file yang dimuat dan menyerahkan kembali tiap hasil ditambah satu ZIP opsional, yang mengubah tugas editor per-gambar menjadi satu klik.",
+          "Satu bingkai yang dibakar juga bertahan di tempat-tempat yang tak selamat oleh satu tepi CSS. Platform yang merender-ulang gambar yang diunggah, aplikasi chat yang mencabut gaya, dan renderer markdown semuanya mempertahankan piksel file itu sendiri — sehingga bingkainya berkelana bersama gambarnya ke mana pun ia diposting.",
+          "Seperti segala hal di situs ini, pemrosesannya terjadi sepenuhnya di browser Anda. Tak ada gambar yang diunggah ke satu server: file-file didekode dan dienkode-ulang secara lokal, yang berarti untuk foto produk di bawah NDA, pekerjaan klien, atau apa pun yang sekadar tak ingin Anda biarkan meninggalkan perangkat Anda.",
+        ],
+      },
+    ],
   },
   "image-splitter": {
     name: "Pecah Gambar",
@@ -3962,6 +7553,32 @@ export const id: Record<string, ToolCopy> = {
         a: "PNG lossless, jadi petak mempertahankan piksel sumber yang presisi. Itu penting ketika potongan akan disatukan kembali atau dipakai sebagai sprite.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana satu pembelahan bersih bekerja — dan kenapa matematika piksel berarti",
+        paragraphs: [
+          "Membelah satu gambar hanya lossless ketika gridnya membagi dimensinya secara merata. Satu foto 1600×1200 dibelah ke 2×2 ubin memberi empat keping 800×600 yang bersih; foto yang sama dibelah ke 3 kolom menyisakan satu sisa 4-piksel yang harus diputuskan seseorang — padati, regangkan, atau kecilkan. Alat ini membulatkan ukuran ubinnya ke bawah dan menjaga tiap potongan di satu batas piksel yang persis, sehingga tak ada ubin yang di-resample.",
+          "Aturan batas-piksel itulah kenapa mode grid meminta baris dan kolom alih-alih satu ukuran ubin sasaran dalam sentimeter atau inci: koordinat gambar hidup dalam piksel, dan konversi apa pun melalui unit fisik menyuntikkan koordinat pecahan yang memaksa interpolasi dan melembutkan tepi.",
+          "Mode strip adalah ide yang sama dalam satu dimensi: potong gambar menjadi satu band horizontal berpijar-tinggi yang sama. Itu alur kerja standar mengubah satu tangkapan layar halaman-penuh yang tinggi menjadi slide carousel atau gambar dokumentasi langkah-demi-langkah yang terbaca berurutan.",
+        ],
+      },
+      {
+        heading: "Memilih satu tata letak: grid, strip, dan preset sosial",
+        paragraphs: [
+          "Mode grid (baris × kolom) cocok untuk kolase dan post bergaya-teka-teki tempat kepingnya menyusun-ulang secara visual. Mode strip cocok untuk konten dengan satu urutan baca — tutorial, struk panjang, log obrolan — tempat tiap band meneruskan sebelumnya. Memilih mode yang salah adalah kesalahan paling umum: satu tangkapan layar obrolan yang dipotong ke satu grid 3×3 terbaca dalam urutan salah pada satu carousel.",
+          "Untuk carousel sosial, pikirkan dalam rasio aspek platformnya lebih dulu: satu kanvas persegi 1080×1080 berarti satu tangkapan layar lebar biasanya seharusnya dipotong menjadi strip-setinggi-itu, bukan diperas ke satu grid. Sebagian platform meng-crop-ulang unggahan yang tak-sesuai-rasio, jadi menjaga ubin pada rasio natifnya menghindarkan artefak crop-ganda.",
+          "Potongan yang tumpang-tindih layak dipertimbangkan demi keterbacaan: saat satu baris teks duduk tepat di satu garis potongan ia terbelah dua. Memotong ubin sedikit lebih tinggi, atau meng-crop-ulang sumbernya agar baris-baris jatuh di antara potongan, memperbaiki apa yang tak bisa oleh algoritma pembelahan mana pun.",
+        ],
+      },
+      {
+        heading: "Format keluaran dan pemrosesan lokal",
+        paragraphs: [
+          "Keluaran PNG menjaga teks dan tepi keras tetap tajam — tangkapan layar dan dokumen seharusnya hampir selalu tetap PNG, karena kompresi lossy JPG menambahkan artefak gemeretak di sekitar huruf pada tiap penyimpanan-ulang. Keluaran JPG cocok untuk ubin fotografi tempat ukuran lebih berarti daripada tepi sempurna-piksel.",
+          "Penamaan berarti ketika ubin-ubinnya harus menyusun-ulang: nama file bernomor yang konsisten (dalam urutan baris-utama) membiarkan Anda dan audiens Anda merekonstruksi aslinya. Satu pembelahan 3×2 dari satu diagram tanpa nama berurutan adalah satu folder fragmen misterius.",
+          "Tiap potongan terjadi di browser Anda: gambar didekode ke satu canvas, dislice, dan dienkode-ulang secara lokal. Tak ada yang diunggah — berguna saat membelah dasbor internal, tangkapan layar klien, atau dokumen apa pun yang tak akan Anda serahkan ke satu layanan pihak-ketiga.",
+        ],
+      },
+    ],
   },
   "crop-circle-image": {
     name: "Potong Melingkar",
@@ -3989,6 +7606,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah gambar saya dikodekan ulang dan mutunya menurun?",
         a: "Piksel di dalam lingkaran disalin apa adanya ke PNG lossless. Hanya area di luar yang hilang; tidak ada di dalamnya yang diskalakan ulang atau dikompresi ulang.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bagaimana satu crop melingkar berbeda dari satu persegi",
+        paragraphs: [
+          "Satu crop persegi sekadar menggerakkan satu jendela di atas piksel dan menyimpan yang di dalamnya. Satu crop melingkar tak bisa melakukan itu sendirian, karena gambar itu grid persegi: lingkarannya harus digambar dengan menambahkan transparansi di luarnya. Itulah sebabnya satu avatar melingkar selalu disimpan sebagai PNG — JPG tak punya kanal alpha dan akan mengubah luar lingkaran menjadi satu persegi warna solid.",
+          "Lingkaran yang terinskripsi dalam gambarnya menyentuh tengah tiap tepi, jadi diameternya sama dengan yang lebih kecil antara lebar dan tinggi. Wilayah-wilayah sudut sekadar dibuang. Jika subjek Anda tak terpusat, pindahkan atau crop sumbernya lebih dulu — tak ada satu alat lingkaran yang bisa memulihkan piksel yang jatuh di luar radiusnya.",
+          "Tepi-tepi juga berarti: satu lingkaran yang dipotong tanpa anti-aliasing tampak bergerigi di layar. Menghaluskan tepinya dengan transparansi parsial atas beberapa piksel adalah yang memisahkan hasil yang bersih dari yang jelas buatan-sendiri, dan itu hanya bekerja dalam PNG.",
+        ],
+      },
+      {
+        heading: "Di mana crop melingkar diharapkan",
+        paragraphs: [
+          "Avatar dan gambar profil adalah kasus guna besarnya: kebanyakan platform sosial, forum, dan aplikasi pesan menampilkan gambar profil sebagai lingkaran, dan banyak yang meng-crop-nya sendiri ke satu lingkaran jika Anda mengunggah satu persegi. Meng-crop ke satu lingkaran sebelum mengunggah berarti yang Anda lihat adalah yang ditampilkan — tanpa satu kejutan re-crop sisi-platform yang memotong puncak kepala Anda.",
+          "Logo dan badge diuntungkan karena alasan yang sama. Satu marka logo melingkar yang ditempatkan pada satu halaman berwarna tampak disengaja; satu logo persegi dengan satu latar yang tak cocok tampak seperti satu stiker yang ditempel. Sistem desain semakin sering menspesifikasi slot avatar melingkar persis karena lingkaran terbaca netral pada latar mana pun.",
+          "Cetak dan merchandise memakainya secara berbeda: templat stiker melingkar, pin tombol, dan coaster semuanya butuh desain yang dibatasi satu lingkaran. Menghasilkan PNG dengan transparansi pada diameternya yang tepat menghemat satu putaran masking manual belakangan.",
+        ],
+      },
+      {
+        heading: "Privasi dan pemrosesan lokal",
+        paragraphs: [
+          "Foto profil bersifat pribadi secara kodrat — sering wajah Anda, keluarga, atau kolega. Menjalankan crop-nya secara lokal di browser Anda berarti piksel-piksel itu tak pernah meninggalkan perangkat Anda; tak ada langkah unggahan yang bisa mencatat, meng-cache, atau menyimpan gambarnya.",
+          "Model pemrosesannya sederhana dan bisa diinspeksi: gambar didekode ke satu canvas, satu mask lingkaran diterapkan dengan satu kanal alpha, dan hasilnya dienkode kembali ke PNG dalam satu sesi yang sama. Tak ada yang disimpan antar kunjungan.",
+          "Satu tips alur kerja kecil: simpan foto persegi aslinya di suatu tempat sebelum meng-crop. Lingkarannya membuang sudut-sudut secara permanen, dan satu-satunya cara mengubah framing belakangan adalah memulai lagi dari sumber yang belum dipotong.",
+        ],
       },
     ],
   },
@@ -4022,6 +7665,31 @@ export const id: Record<string, ToolCopy> = {
         a: "Apa pun yang browser Anda mampu gambar: PNG, JPEG, GIF, WebP, SVG, BMP, AVIF, dan lainnya. Alat memverifikasi bahwa muatan adalah base64 valid, bahwa MIME yang dinyatakan bertipe gambar, dan memperingatkan Anda saat magic byte berkas tidak cocok dengan tipe yang dinyatakan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa base64 menggembungkan gambar sekitar 33%",
+        paragraphs: [
+          "Base64 mengemas tiap 3 byte ke 4 karakter teks, jadi payloadnya selalu berakhir sepertiga lebih besar daripada file binernya — 4/3 adalah rasio tetapnya, independen format maupun konten. Tambahkan prefiks data:image/…;base64, dan pelipatan baris apa pun yang diterapkan satu konsumen, dan overhead efektifnya merayap sedikit lebih tinggi. Tak ada yang dikompres atau dibuang; byte yang sama sekadar diekspresikan-ulang dalam satu alfabet aman-teks agar ia bisa berkelana di dalam CSS, HTML, atau JSON.",
+          "Penggelembungan itulah kenapa perbandingan ukuran di alat ini lebih berarti daripada konversinya sendiri. Satu keputusan klasik: meng-inline menghemat satu permintaan HTTP, tetapi berbiaya bandwidth dan memblokir cache. Satu ikon 1 KB yang di-inline di CSS biasanya satu kemenangan; satu foto 100 KB sebagai satu URL data hampir tak pernah — ia menggembungkan stylesheet ~133 KB, terunduh-ulang dengan tiap halaman yang merujuknya, dan tak bisa di-cache secara independen. Foto JPEG dan WebP khususnya mengompres data biner begitu efisien sehingga teks base64 membatalkan sebagian besar kompresinya.",
+          "Satu subtlety yang terlewat orang: SVG sudah teks, jadi mengenkode satu SVG ke base64 sering memboroskan ruang dibanding satu SVG inline terenkode-URL atau mentah. Di sisi lain, gzip mengompres teks base64 cukup baik, jadi ketika satu server menyajikan payloadnya terkompres, biaya transfer efektifnya lebih dekat ke ukuran aslinya daripada yang disarankan +33% mentahnya.",
+        ],
+      },
+      {
+        heading: "Mendekode dengan aman: jenis MIME, byte ajaib, dan kepercayaan",
+        paragraphs: [
+          "Satu URL data mendeskripsikan-diri dirinya di permukaannya — data:image/png;base64, mengklaim satu PNG — tetapi klaimnya hanyalah satu string. Decoder ini memeriksa byte sebenarnya: file PNG dimulai satu tanda 8-byte yang khas, JPEG dengan FF D8, GIF dengan GIF8, dan seterusnya. Ketika jenis MIME yang dideklarasikan dan byte ajaibnya tak sepakat, Anda mendapat satu peringatan alih-alih satu gambar yang diam-diam rusak — berguna saat menginspeksi payload dari sumber tak dikenal atau mendebug kenapa satu <img> menolak merender.",
+          "Dekode juga gagal keras pada masukan yang cacat: karakter base64 tak-valid, padding salah, atau satu jenis yang dideklarasikan sama sekali bukan gambar. Itu berarti untuk keamanan. Satu URL data: yang mengklaim text/html bisa mengeksekusi skrip di sebagian konteks, yang adalah alasan browser membatasi URL data dalam navigasi tingkat-atas. Memperlakukan satu URL data tempelan sebagai masukan tak-terpercaya — memvalidasi sebelum merender — adalah bawaan yang aman, dan persis yang dilakukan alat ini untuk Anda.",
+          "Catat apa yang tak bisa diberi tahu oleh pratinjaunya: apakah gambarnya terformat baik melampaui byte header-nya, atau apa yang dilukiskannya. Ia dirender di browser, jadi apa pun yang bisa ditampilkan browser Anda (PNG, JPEG, GIF, WebP, SVG, AVIF, dan lainnya) bekerja, dan yang tak bisa tampil sama seperti di satu halaman.",
+        ],
+      },
+      {
+        heading: "Konversi lokal sebagai garis dasar privasi",
+        paragraphs: [
+          "Gambar adalah persis jenis aset yang tak ingin Anda unggah hanya untuk menginspeksi: tangkapan layar dengan data pribadi, comp desain di bawah NDA, dokumen hasil pindai, citra produk internal. Banyak konverter base64 daring mengirim file ke server mereka, yang berarti gambar Anda berkelana, disimpan infrastruktur orang lain, dan bisa di-cache atau dicatat. Alat ini melakukan konversinya di browser Anda dengan JavaScript — file tak pernah meninggalkan perangkat Anda, tak ada kuota ukuran yang diset satu server, dan halamannya bekerja offline.",
+          "Alur kerja yang ia gantikan adalah bolak-balik lewat terminal: base64 -i image.png untuk mengenkode, menempel satu dinding teks ke satu file, menyambungkan prefiks URI data dengan tangan. Di sini Anda menjatuhkan filenya, menyalin URL jadinya, dan arah sebaliknya sama cepatnya — tempel satu URL data dari satu stylesheet atau respons API dan dapatkan kembali gambarnya, tervalidasi dan bisa diunduh.",
+        ],
+      },
+    ],
   },
   "html-to-markdown": {
     name: "HTML ke Markdown",
@@ -4048,6 +7716,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah HTML saya keluar dari browser?",
         a: "Tidak. Konversi berjalan lokal dengan turndown di browser Anda — tidak ada yang diunggah, bahkan saat mengunduh berkas .md.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dialek Markdown: mengapa opsinya ada",
+        paragraphs: [
+          "Markdown bukan satu format melainkan satu keluarga. Deskripsi sintaks asli John Gruber 2004 membiarkan banyak perilaku tak dispesifikasi, sehingga implementasinya bercabang: CommonMark kini menyediakan satu spesifikasi ketat yang diikuti kebanyakan renderer modern (GitHub, misalnya), GFM menambahkan tabel dan coret di atasnya, dan rasa-rasa lama berbeda dalam cara mereka menangani pemenggalan baris, penekanan dengan garis bawah, dan daftar bersarang. Itulah sebabnya mengonversi HTML ke Markdown adalah satu keputusan gaya, bukan satu pemetaan mekanis.",
+          "Dua opsi di alat ini menangani pemisahan yang paling terlihat. Gaya judul: ATX (# Judul) bekerja di mana-mana dan mendukung keenam tingkat, sementara Setext (satu baris = atau - di bawah teksnya) hanya mencapai tingkat dua dan terbaca lebih baik bagi sebagian editor. Penanda daftar: -, *, dan + semuanya bullet CommonMark yang sah, tetapi panduan gaya (dan keterbacaan diff) sering menyukai satu. Memilih kombinasi yang tepat di awal mengalahkan satu putaran cari-dan-ganti belakangan.",
+          "Apa yang tak punya padanan Markdown diratakan alih-alih dipalsukan: tabel, formulir, dan widget interaktif tereduksi ke konten teksnya. Tabel bergaya-GFM butuh satu konverter sadar-dialek; memancarkan tabel sintaks-pipa dari HTML arbitrer akan menghasilkan keluaran yang tak bisa diparse banyak renderer. Kejujuran tentang batas mengalahkan sampah yang tampak masuk akal.",
+        ],
+      },
+      {
+        heading: "Kasus-kasus sulit: escaping, markup inline, dan keluaran bersih",
+        paragraphs: [
+          "Bagian tersulit dari konversi HTML-ke-Markdown apa pun bukan memetakan tag — itu meng-escape karakter yang diperlakukan istimewa oleh Markdown. Teks yang memuat asterisk literal, garis bawah, tanda pagar, atau tanda kurung siku butuh escape backslash, kalau tidak ia dirender sebagai penekanan, judul, atau tautan ketika Markdown-nya dikonsumsi. Satu konverter yang melewatkan escaping menghasilkan teks yang tampak baik sampai seseorang menempelkannya ke satu editor dan formatnya berubah wujud.",
+          "Struktur inline juga butuh pertimbangan. Penekanan dan tebal terpetakan ke asterisk (atau garis bawah, tergantung konfigurasi); whitespace di sekitarnya berarti karena Markdown mengabaikan penekanan yang menempel langsung ke karakter kata di sebagian rasa. Pemenggalan baris keras dari <br> menjadi dua spasi di ekor atau satu backslash tergantung rasanya — salah satu detail tempat CommonMark dan implementasi lama sungguh berbeda.",
+          "Kode adalah jebakan klasik lainnya: kode inline dengan backtick di dalamnya butuh satu pagar lebih panjang, dan blok kode mempertahankan konten apa adanya sehingga tak ada escaping lebih lanjut yang diterapkan di dalamnya. Hasil yang Anda dapat di sini mengikuti aturan-aturan ini lewat turndown, itulah sebabnya dokumen yang ditempel — post blog, README, ekspor CMS — biasanya keluar siap-commit alih-alih butuh satu putaran pembersihan.",
+        ],
+      },
+      {
+        heading: "Konversi lokal untuk dokumen privat",
+        paragraphs: [
+          "Dokumen yang dikonversi orang sering privat: halaman wiki internal, dokumen yang belum terbit, balasan dukungan berisi detail pelanggan, satu post blog perusahaan dalam draf. Mengunggah salah satunya ke satu endpoint konverter mengirim teks penuhnya ke infrastruktur yang tak Anda kendalikan, tempat ia bisa di-cache atau dicatat. Alat ini menjalankan turndown sepenuhnya di browser Anda — HTML tak pernah meninggalkan perangkat, tak ada langkah unggah, dan unduhan file .md-nya terjadi dari memori lokal.",
+          "Pilihan pustakanya sama berartinya dengan arsitekturnya: turndown adalah standar de-facto untuk HTML-ke-Markdown di JavaScript, dengan bertahun-tahun penanganan kasus-tepi yang terakumulasi melintasi proyek-proyek, jadi keluarannya cocok dengan yang diharapkan ekosistem yang lebih luas. Memasangkan satu konverter yang teruji-baik dengan eksekusi lokal memberi kualitas yang sama yang akan Anda dapat dari satu layanan host, minus paparan datanya.",
+          "Untuk konversi massal atau otomatis, pustaka yang sama bisa dipasang di satu skrip Node; halaman ini adalah front end interaktif untuk pekerjaan yang sama. Entah arah mana alur kerjanya tetap di mesin Anda — pantas entah sumbernya satu changelog publik atau satu dokumen yang tak seharusnya dilihat orang lain.",
+        ],
       },
     ],
   },
@@ -4078,6 +7772,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak. Penguraian terjadi lokal di browser Anda dengan fast-xml-parser — tidak ada yang meninggalkan perangkat Anda.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana fitur XML terpetakan ke kunci JSON",
+        paragraphs: [
+          "Mengonversi XML ke JSON berarti meratakan satu format lebih kaya ke satu yang lebih sederhana, dan tiap pilihan adalah satu konvensi. Yang paling berkonsekuensi adalah atribut: <book id=\"7\" lang=\"en\"> menyimpan id dan lang di samping elemennya, dan kehilangan pembedaan itu diam-diam mengubah data Anda. Konverter ini mempertahankannya dengan memprefiks tiap atribut dengan @ — {\"@id\":\"7\",\"@lang\":\"en\"} — satu konvensi yang dibagikan dengan alat JSON to XML kami, sehingga data bisa berkelana di kedua arah dan kembali sama.",
+          "Pengulangan adalah konvensi keduanya. XML mengizinkan sejumlah elemen saudara bernama sama — satu feed dengan satu <item> atau lima puluh terparse identik — sementara JSON butuh satu keputusan: apakah <item> satu nilai atau satu array? Aturannya di sini adalah saudara yang berulang menjadi satu array JSON dan satu elemen tunggal tetap satu nilai polos. Itu pembacaan yang alami, tetapi ia punya satu tepi tajam: satu feed yang biasanya banyak item-nya tapi kebetulan satu terkonversi ke satu skalar, dan satu konsumen yang mengharapkan satu daftar rusak. Selalu periksa ke-array-an di hilir.",
+          "Ketika satu elemen punya baik atribut maupun teks, teksnya tak bisa tetap telanjang — ia berpindah ke bawah “#text”, sehingga <price currency=\"usd\">19.99</price> menjadi {\"@currency\":\"usd\",\"#text\":19.99}. Elemen yang murni teks mempertahankan nilainya secara langsung, yang menjaga keluarannya tetap terbaca alih-alih membungkus tiap daun dalam satu objek #text.",
+        ],
+      },
+      {
+        heading: "Pemaksaan tipe dan batas pemetaannya",
+        paragraphs: [
+          "XML tak punya tipe — tiap nilai adalah teks sampai Anda memutuskan sebaliknya. Konverter menerapkan satu pemaksaan ringan: teks yang tampak seperti angka menjadi satu angka JSON, true/false menjadi boolean, dan sisanya tetap string. Nilai atribut sengaja tetap string, karena atribut hampir selalu membawa pengenal, kode, dan tanggal di mana “07” dan 7 adalah hal yang berbeda. Jika konsumen Anda butuh satu angka di sana, konversikan secara eksplisit alih-alih memercayai dugaannya.",
+          "Sebagian konstruksi XML sekadar tak punya rumah JSON. Namespace bertahan sebagai prefiks pada nama tag tetapi pengikat URI-nya hilang, jadi dua dokumen yang memakai prefiks berbeda untuk namespace yang sama tak akan bolak-balik identik. Komentar, instruksi pemrosesan, dan DOCTYPE dibuang — tak satu pun membawa data. CDATA menyatu dengan teks biasa, yang hanya berarti jika konsumen Anda mengandalkan pembedaan itu, yang seharusnya tak dilakukan konsumen yang berperilaku baik.",
+          "Batas-batas ini inheren pada celah formatnya, bukan pada alat ini: konverter XML-ke-JSON mana pun harus mengambil jenis keputusan yang sama, dan kebanyakan mengambil yang lebih buruk. Alur kerja yang andal adalah menguji bolak-baliknya pada satu sampel representatif dokumen nyata Anda — konversikan ke JSON, kembali ke XML, dan bandingkan — sebelum mengikat satu pipa ke pemetaannya.",
+        ],
+      },
+      {
+        heading: "Validasi dulu, konversikan lokal",
+        paragraphs: [
+          "XML cacat adalah kegagalan paling umumnya, dan ia pantas satu kesalahan lebih baik daripada satu stack trace. Konverter memvalidasi dokumennya sebelum menyentuhnya dan melaporkan masalah dengan satu penunjuk di baris yang bermasalah, jadi satu tag penutup yang hilang adalah satu perbaikan satu-baris alih-alih satu sore. Ketika masukannya datang dari satu sumber suntingan-tangan, jalankan lewat XML validator lebih dulu — laporannya lebih ketat dan menangkap atribut duplikat dan entitas ilegal yang bisa dilewati konversi.",
+          "Konversinya berjalan sepenuhnya di browser Anda dengan fast-xml-parser, satu pustaka parsing yang dipercaya banyak alat build. XML Anda tak pernah diunggah: feed dengan data pelanggan, respons SOAP yang memuat token sesi, ekspor konfigurasi internal — semuanya tetap di perangkat Anda. Untuk payload persis semacam ini, konversi lokal-browser bukan satu kenyamanan melainkan poinnya.",
+          "Sifat lokalnya juga membuat alat ini cocok untuk pekerjaan iteratif: tempel satu sampel, inspeksi bentuknya, sesuaikan ekspektasi konsumen Anda, tempel lagi. Tak ada bolak-balik unggahan dalam lingkarnya, jadi tiap iterasi hanya beberapa detik, dan seluruhnya bekerja offline — berguna saat Anda mendebug satu feed di satu mesin yang tak bisa mencapai jaringan.",
+        ],
+      },
+    ],
   },
   "json-to-xml": {
     name: "JSON ke XML",
@@ -4106,6 +7826,32 @@ export const id: Record<string, ToolCopy> = {
         a: 'Kunci itu dipaksa: karakter ilegal menjadi garis bawah dan kunci yang diawali angka mendapat garis bawah di depan ("2fa" → <_2fa>). Huruf CJK dan beraksen sudah merupakan nama XML sah dan tetap apa adanya.',
       },
     ],
+    deepDive: [
+      {
+        heading: "Atribut versus elemen — keputusan desainnya",
+        paragraphs: [
+          "XML membiarkan Anda mengekspresikan data yang sama dua cara: <book id=\"1\"/> (atribut) atau <book><id>1</id></book> (elemen anak). Semantiknya berbeda lebih dari yang disarankan sintaksnya. Atribut tak berurutan, unik per elemen, dan tak bisa berulang atau bersarang; elemen anak bisa berulang, membawa atribut mereka sendiri, dan muncul berurutan. Metadata — pengenal, bahasa, cap waktu — secara tradisional pergi ke atribut; payloadnya pergi ke elemen.",
+          "JSON tak punya dualitas semacam itu, itulah sebabnya konverter butuh satu konvensi. Alat ini mengikuti konvensi prefiks-@ yang luas dipakai: satu anggota bernama @id menjadi satu atribut, satu anggota bernama #text menjadi konten teks elemen itu sendiri. Konvensi yang sama yang dipancarkan alat XML to JSON kami saat mem-parse, sehingga satu dokumen bisa berjalan JSON → XML → JSON dan kembali dapat dikenali.",
+          "Pilihannya bukan sekadar kosmetik. Sebagian konsumen XML (sebagian tumpukan SOAP, validator XSD) bersikeras data hidup satu arah atau yang lain; dokumen kaya-atribut sedikit lebih kompak tetapi lebih sulit diperluas belakangan, karena menambahkan struktur ke satu atribut berarti mengonversinya ke satu elemen dan menyentuh tiap konsumen. Jika Anda mendesain satu format XML baru alih-alih mencocokkan yang lama, utamakan elemen bagi apa pun yang mungkin tumbuh.",
+        ],
+      },
+      {
+        heading: "Escaping dan pemaksaan nama: kenapa keluarannya selalu well-formed",
+        paragraphs: [
+          "XML lebih ketat daripada JSON soal karakter. Lima karakter istimewa — & < > \" ' — dan dua pertama akan merusak dokumennya jika dipancarkan mentah. Tiap teks dan nilai atribut di sini di-escape dengan entitas standarnya, jadi satu string JSON yang memuat <script> menjadi satu &lt;script&gt; yang tak berbahaya di keluarannya. Jebakan sebaliknya juga ada: rangkaian seperti &#xHHHH; (rujukan karakter numerik) sah dalam XML tetapi tak bisa dihasilkan dari bolak-balik JSON arbitrer.",
+          "Nama elemennya bahkan lebih ketat: mereka harus dimulai satu huruf atau garis bawah dan tak boleh memuat spasi atau banyak karakter tanda baca. Kunci JSON, sebaliknya, adalah string arbitrer. Alat ini memaksanya — karakter ilegal menjadi garis bawah, satu digit pendahulu mendapat satu garis bawah prefiks — sehingga dokumennya selalu bisa diparse. Karakter CJK dan huruf Latin beraksen adalah nama XML yang sah dan selamat tak tersentuh.",
+          "Pemaksaan-pemaksaan ini berarti pemetaannya tak injektif: dua kunci JSON berbeda bisa tercuci ke nama XML yang sama, dan begitu itu terjadi, mengonversi kembali tak bisa memulihkan aslinya. Jika kunci Anda memuat spasi, garis miring, atau dimulai digit, perlakukan sisi XML sebagai satu proyeksi lossy dan simpan JSON sebagai sumber kebenaran Anda.",
+        ],
+      },
+      {
+        heading: "Konversi lokal untuk payload sensitif",
+        paragraphs: [
+          "Payload JSON yang menuju XML sering data bisnis: faktur, catatan pengguna, permintaan API dengan pengenal pelanggan. Memberinya ke satu konverter berbasis-server mengirim data itu ke pihak ketiga yang kebijakan retensinya tak Anda ketahui. Konverter ini berjalan sepenuhnya di browser Anda — konversinya terjadi saat Anda mengetik, tak ada permintaan yang dibuat, dan halamannya bekerja offline begitu dimuat.",
+          "Alur kerja dua-arah itu berarti untuk pekerjaan migrasi: konversikan JSON Anda ke XML dengan alat ini, tempel XML-nya ke alat XML to JSON, dan bandingkan — jika hasilnya cocok secara struktural dengan masukan Anda, konvensi pemetaannya (@ atribut, #text) kompatibel dengan konsumen Anda. Menemukan satu ketidakcocokan secara lokal mengalahkan menemukannya setelah endpoint SOAP menolak permintaan pertama Anda.",
+          "Padukan dengan XML formatter ketika konsumennya butuh indentasi berbeda atau ketika Anda ingin mengamati keluarannya — dan ingat batas terdokumentasinya: null dan array kosong melipat ke elemen kosong, jadi satu skema yang mengharapkan xsi:nil akan butuh satu langkah pasca-pemrosesan.",
+        ],
+      },
+    ],
   },
   "cron-explainer": {
     name: "Penjelajah cron",
@@ -4129,6 +7875,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Saya mengisi hari dalam bulan dan hari dalam minggu sekaligus — mengapa eksekusinya lebih sering dari perkiraan?",
         a: "cron klasik menggabungkan keduanya dengan ATAU: bila kedua bidang dibatasi (tak satu pun *), hari yang cocok dengan salah satunya sudah memicu pekerjaan. «0 0 1 * MON» berjalan pada tanggal 1 dan setiap hari Senin. Untuk menuntut kedua syarat sekaligus, ekspresinya harus disusun lain — melihat lima eksekusi berikutnya di sini membuat perilakunya langsung terlihat.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lima kolom dan aturan OR yang tak diingat siapa pun",
+        paragraphs: [
+          "Cron standar mengevaluasi lima kolom kiri-ke-kanan: menit (0-59), jam (0-23), hari-dalam-bulan (1-31), bulan (1-12), dan hari-dalam-minggu (0-7, di mana baik 0 maupun 7 adalah Minggu). Tiap kolom bisa satu nilai, satu rentang (9-17), satu daftar (0,15,30), atau satu langkah (*/5, berarti tiap nilai ke-5 mulai dari lantai kolomnya). Satu pekerjaan menyala ketika semua kolom cocok — dengan satu pengecualian terkenal: ketika baik hari-dalam-bulan maupun hari-dalam-minggu dibatasi, pekerjaan itu berjalan pada hari yang cocok SALAH SATU.",
+          "Aturan OR itu menelusuri kembali ke implementasi cron Unix aslinya, dan ia ada agar kombinasi seperti “tanggal 1 bulan plus tiap Senin” tetap dapat diekspresikan dalam lima kolom. Jebakannya adalah kebanyakan orang yang menulis “0 0 1 * 1” bermaksud “Senin pertama bulan itu” — yang mereka dapat adalah tanggal 1 DAN tiap Senin, dua kali lebih sering. Jika Anda butuh semantik AND, jalan-pintas biasanya satu pemeriksaan di dalam pekerjaannya (bandingkan date +%d dengan targetnya) atau berpindah ke satu scheduler dengan trigger yang lebih kaya.",
+          "Kejutan lainnya adalah 0 0 * * 7 versus 6: penomoran hari-dalam-minggu dimulai dari Minggu (0), bukan Senin, dan sebagian dialek cron menerima 7 sebagai satu nama kedua untuk Minggu sementara lainnya menolaknya. Menulis nama — MON, SUN — alih-alih angka menghapus ambiguitasnya sepenuhnya, tanpa biaya apa pun dalam cron standar.",
+        ],
+      },
+      {
+        heading: "Zona waktu dan daylight saving: tempat jadwal diam-diam rusak",
+        paragraphs: [
+          "Cron tak punya zona waktunya sendiri — ia menyala di zona apa pun yang diset jam servernya. Satu pekerjaan yang didefinisikan “0 3 * * *” berjalan pukul 3 pagi waktu server, yang pukul 11 pagi di UTC+8 jika servernya di UTC. Tim yang men-deploy ke VM cloud sering melupakan bawaan platformnya: kebanyakan VM boot di UTC tak peduli di mana perusahaan duduk, dan tanda pertamanya adalah satu pekerjaan yang menyala pada yang secara lokal tengah hari kerja. Periksa dengan date atau timedatectl pada hostnya, atau baca baris TZ dari /etc/default/cron di tempat ia diset.",
+          "Daylight saving memperburuk masalahnya dua kali setahun. Di zona yang mengamati DST, satu pekerjaan 2:30 pagi mungkin tak menyala sama sekali pada malam maju-musim-semi (2:30 tak pernah ada), dan malam mundur-musim-gugur menyalakannya dua kali — berjarak satu jam. Pekerjaan yang dipatok UTC tak punya masalah ini tetapi harus ditulis dalam UTC: “0 3 * * *” di satu crontab UTC berarti 3 pagi UTC, bukan 3 pagi lokal. Pratinjau run-berikutnya alat ini sadar-zona-waktu persis agar Anda bisa melihat mana dari keduanya yang benar-benar akan dilakukan server Anda.",
+          "Pertahanan praktisnya adalah memverifikasi, bukan berasumsi: tempel ekspresinya di sini, alihkan tampilannya ke zona server, dan periksa lima waktu nyala berikutnya terhadap ekspektasi. Satu jadwal yang selamat dari pemeriksaan itu juga layak dianotasi di komentar crontab — orang yang mendebugnya dua tahun lagi adalah Anda.",
+        ],
+      },
+      {
+        heading: "Kasus tepi: bulan pendek, langkah, dan jebakan dekat-DST",
+        paragraphs: [
+          "Dua nilai hari-dalam-bulan bertanggung jawab atas porsi besar run yang terlewat: 31 dan 30 dalam kombinasi dengan langkah. “0 0 */31 * *” tak berjalan pada hari terakhir tiap bulan — ia hanya berjalan di bulan yang punya tanggal 31 (Januari, Maret, Mei...), diam-diam melewati April dan Juni. Serupa “0 0 30 2 *” adalah satu no-op permanen karena Februari tak pernah punya 30 hari. Cron tak memperingatkan; ia sekadar mengevaluasi dan menemukan tak ada yang cocok. Melihat lima waktu run berikutnya kosong atau berongga adalah cara tercepat menangkap ini.",
+          "Aritmetika langkah dimulai dari lantai kolomnya, bukan dari satu offset yang Anda pilih: */10 di kolom menit adalah 0,10,20,30,40,50, bukan 5,15,25. Untuk menganchorkan secara berbeda Anda menulis rentangnya secara eksplisit — 5-59/10. Pengutipan juga berarti di dalam file crontab: tanda persen (%) diperlakukan sebagai baris baru oleh cron klasik, jadi satu perintah seperti date +“%Y” harus meng-escape persennya sebagai \\% atau barisnya pecah di tengah perintah.",
+          "Mempratinjau waktu nyala nyata mengalahkan membaca ekspresinya karena aturan-aturan ini berinteraksi: satu langkah atas satu bulan 30-hari ditambah satu pembatasan hari-kerja bisa menghasilkan satu celah berminggu-minggu. Alat yang hanya menerjemahkan kolom-kolomnya (menjelaskan apa yang dimaksud */31) tak bisa memunculkan itu; hanya mengiterasi kalendernya maju menunjukkan kapan pekerjaan itu benar-benar akan berjalan. Iterasi itu persis yang dilakukan alat ini, di browser Anda, tanpa satu pun data jadwal yang dikirim ke mana pun.",
+        ],
       },
     ],
   },
@@ -4155,6 +7927,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Itu arah bergeraknya gradien, diukur searah jarum jam dari atas: 0deg dari bawah ke atas, 90deg dari kiri ke kanan, 180deg dari atas ke bawah. Alat ini menormalkan sudut apa pun (−45 menjadi 315) dan aturan arah terbalik pada sintaks lama sudah ditangani di baris -webkit-.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Sudut, arah, dan sumbu satu gradien",
+        paragraphs: [
+          "Dalam CSS, sudut satu gradien linear mendeskripsikan arah ke mana warna-walanya bergerak, diukur dari satu garis yang menunjuk ke atas: 0deg bergerak bawah-ke-atas, 90deg kiri-ke-kanan, 180deg atas-ke-bawah. Arah sebaliknya butuh sudutnya plus 180, yang adalah satu slip mental nomor satu dalam pekerjaan gradien — satu matahari-terbenam yang seharusnya memudar ke atas tetapi memudar ke samping biasanya satu sudut yang salah 90 derajat.",
+          "Pemberhentian warna adalah posisi sepanjang sumbu itu, dalam persentase atau panjang. Distribusi merata bawaannya sering salah untuk tujuan desain: menempatkan satu stop lebih awal (mis. warna pada 20%) menahan warna itu lebih lama, sementara posisi satu stop menandai tempat warnanya tercapai penuh. Satu “stop keras” — dua stop pada posisi yang sama — menghasilkan satu tepi tajam alih-alih satu blend, teknik di balik garis-garis tajam dan bar bersegmen yang dibangun sepenuhnya dari gradien.",
+          "Gradien dua-stop menginterpolasi dalam sRGB secara bawaan, yang bisa menghasilkan satu tengah lumpur: mencampur kuning ke biru melewati satu abu-abu tak-jenuh alih-alih melewati hijau. Desainer yang peduli memutari ini dengan satu stop-tengah ketiga dalam hue yang mereka inginkan, atau dengan memilih endpoint yang lebih dekat dalam hue.",
+        ],
+      },
+      {
+        heading: "Membaca dan menulis sintaks gradien",
+        paragraphs: [
+          "Keluaran CSS-nya terpetakan langsung ke satu deklarasi linear-gradient: linear-gradient(90deg, #ff0000 0%, #0000ff 100%). Gradien radial mengganti sudutnya dengan satu bentuk dan posisi — lingkaran atau elips, terpusat atau diangkar ke satu sudut — berguna untuk lampu-sorot, vignette, dan pendaran lembut.",
+          "Kegagalan debugging umum: melupakan unit deg (angka telanjang tak valid), memakai koma di tempat browser mengharapkan spasi di dalam fungsi warna, dan menyarangkan gradiennya sebagai background-image sementara satu background-color duduk di belakangnya — warnanya hanya menembus di tempat gradiennya punya transparansi.",
+          "Satu catatan kinerja yang jarang berarti tetapi kadang ya: gradien dirender di GPU dan murah, tetapi menganimasikan posisi stop memaksa repaint. Menganimasikan opasitas atau transform satu elemen tindih adalah jalur yang halus.",
+        ],
+      },
+      {
+        heading: "Umpan-balik visual, unggahan nol",
+        paragraphs: [
+          "Pratinjaunya dirender langsung saat Anda menggerakkan stop dan mengubah warna, dan CSS-nya siap-salin — tempel ke satu stylesheet mana pun tanpa pembersihan. Semuanya dihitung dan dirender di browser Anda; alatnya bekerja offline dan tak menyimpan apa pun.",
+          "Disiplin kontras berlaku di sini: teks di atas satu gradien harus diperiksa terhadap stop terterang gradien itu, bukan rata-ratanya, memakai contrast checker. Satu gradien yang tampak hebat tanpa teks di atasnya bisa gagal keterbacaan saat satu judul mendarat di ujung terangnya.",
+          "Untuk eksplorasi cepat, mulai dari dua endpoint yang dekat dalam hue dan tingkatkan pemisahannya secara bertahap — kebanyakan keluhan “gradien lumpur” adalah endpoint dari sisi berlawanan roda warna, bukan satu generator yang rusak.",
+        ],
+      },
+    ],
   },
   "compress-image-to-size": {
     name: "Kompres gambar ke ukuran tertentu",
@@ -4178,6 +7976,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Sebaiknya pilih JPEG atau WebP?",
         a: "Pada kualitas visual yang sama WebP biasanya 20–30% lebih kecil daripada JPEG, jadi dengan anggaran ketat ia sering lolos dengan kehilangan lebih sedikit. JPEG adalah pilihan aman ketika berkas harus bisa dibuka di mana saja, termasuk perangkat lunak lama tanpa dukungan WebP.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa menghantam satu ukuran file persis butuh iterasi",
+        paragraphs: [
+          "Tak ada rumus yang memetakan satu nilai kualitas langsung ke satu ukuran file hasilnya: ukuran keluaran JPEG bergantung pada kompleksitas gambar itu sendiri — detail, derau, tekstur — jadi setelan kualitas yang sama bisa menghasilkan 200 KB pada satu diagram datar dan 2 MB pada satu foto berbintik. Satu-satunya cara andal mendarat di bawah satu batas adalah mengompres, mengukur, menyesuaikan, dan mengulang.",
+          "Alat ini mengotomasikan loop itu. Anda menyatakan satu ukuran sasaran, ia mengenkode pada satu kualitas awal, memeriksa jumlah byte nyatanya dan mengiterasi — menyesuaikan kualitas sampai file cocok atau lantai kualitasnya tercapai. Hasilnya adalah satu file yang benar-benar lolos pemeriksaan unggahan, bukan yang “seharusnya kira-kira benar”.",
+          "Satu lantai kualitas ada karena satu alasan: mengejar satu sasaran 20 KB agresif pada satu foto berdetail bisa mendorong kualitas sedemikian rendah hingga artefak blok muncul. Jika loopnya berhenti di atas sasaran Anda, pembacaan jujurnya adalah gambarnya perlu lebih kecil dalam piksel, bukan sekadar lebih diperas.",
+        ],
+      },
+      {
+        heading: "Membaca komprominya: kualitas, dimensi, dan format",
+        paragraphs: [
+          "Anda mengendalikan dua tuas dan satu kendala. Tuas-tuasnya adalah kualitas (seberapa agresif piksel dibuang selama pengodean) dan dimensi (berapa banyak piksel yang ada untuk dienkode). Ketika satu sasaran ukuran tak bisa dipenuhi, mengecilkan dimensi biasanya mempertahankan kualitas yang dipersepsi lebih baik daripada meremukkan kualitas — satu gambar 1200 px lebar pada kualitas 70 biasanya tampak lebih baik daripada satu gambar 2000 px pada kualitas 25.",
+          "Urutan operasi berarti: ubah ukuran lebih dulu, lalu biarkan kualitas menemukan persen terakhirnya. Membagi dua kedua dimensi memotong jumlah piksel kira-kira empat kali, yang mengalahkan apa pun yang bisa dicapai slider kualitas.",
+          "Format juga berarti: jika tujuannya menerima WebP, kualitas yang dipersepsi yang sama sering mendarat pada jumlah byte yang jauh lebih kecil daripada JPEG. Simpan file aslinya dengan aman sebelum mengompres — kompresi di sini satu-arah, dan tak ada setelan kualitas yang memulihkan informasi yang sudah dibuang.",
+        ],
+      },
+      {
+        heading: "Dari mana batas ukuran keras datang — dan privasi",
+        paragraphs: [
+          "Batas keras mengelilingi Anda di alur kerja nyata: portal pemerintah dan aplikasi visa, sistem penerimaan universitas, daftar marketplace, dan lampiran surel semuanya menegakkan maksimum persis (sering 100 KB, 200 KB, 500 KB, atau 1 MB), dan formulir unggahannya menolak apa pun yang lebih besar tanpa bernegosiasi.",
+          "Trik lolos pemeriksaan-pemeriksaan ini tanpa pusing adalah menyasar sedikit di bawah batasnya alih-alih tepat padanya: sebagian server mengukur ukurannya setelah pemrosesan-ulang mereka sendiri, atau membulatkan berbeda, dan satu file yang mendarat 5% di bawah plafonnya selamat dari keanehan-keanehan itu.",
+          "Semuanya di sini berjalan lokal di browser Anda — gambar didekode, diubah ukurannya, dienkode, dan diukur di perangkat Anda, dan tak pernah diunggah. Itu berarti untuk hasil pindai paspor, dokumen identitas, dan foto aplikasi, yang persis jenis file yang cenderung dituntut portal-portal ketat ini.",
+        ],
       },
     ],
   },
@@ -4212,6 +8036,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Bunga tiap bulan dikenakan pada saldo berjalan, yang paling besar di awal. Tabel amortisasi memperlihatkan titik baliknya: cicilan awal hampir seluruhnya bunga, dan di tahun-tahun akhir hampir seluruhnya pokok. Karena itu pelunasan pokok di awal pinjaman menghemat bunga paling banyak.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang tak dimuat tingkat pada iklannya",
+        paragraphs: [
+          "Tingkat yang Anda ketik ke kalkulator mortgage mana pun adalah tingkat catatan — ia menggerakkan pokok dan bunga dan tak lebih. Biaya nyata satu mortgage juga menyembunyikan biaya pembukaan, poin, biaya penilaian dan penutupan, yang dirangkum pemberi pinjaman dalam satu angka terpisah yang sering disebut APR. Karena APR melipat biaya ke satu angka tahunan, dua tawaran dengan tingkat catatan yang sama bisa berbeda secara bermakna di APR, dan selisih itulah bicara biayanya.",
+          "Alat ini sengaja hanya memodelkan yang digerakkan tingkatnya: P&I dari rumus amortisasi, ditambah baris PITI yang Anda masukkan sendiri untuk pajak, asuransi, dan HOA. Pemisahan itu jujur — pajak dan asuransi bukan bunga, dan membundelnya ke satu angka “biaya” membuat mustahil melihat tuas mana yang bergerak. Saat membandingkan pemberi pinjaman, bandingkan lembar biayanya di samping tingkatnya.",
+          "Escrow adalah variabel senyap lainnya. Di kebanyakan pasar pemberi pinjaman mengumpulkan satu per-duabelas bulanan pajak properti dan asuransi dan membayarnya untuk Anda; di lainnya Anda membayar tagihan-tagihan itu langsung. PITI bulanannya di sini sama entah arah mana, tetapi ritme arus-kas Anda bukan — dan sebagian pemberi pinjaman menuntut escrow persis ketika uang-muka-nya kecil.",
+        ],
+      },
+      {
+        heading: "Uang muka, masa, dan kompromi 15/30",
+        paragraphs: [
+          "Uang muka yang lebih besar mengecilkan pinjamannya, bunganya, dan sering tingkatnya sendiri, karena pemberi pinjaman menghargakan risiko sebagian atas rasio pinjaman-ke-nilai. Di sebagian pasar uang muka di bawah 20% juga memicu asuransi mortgage, satu baris bulanan ekstra yang didekati alat ini lewat menambahkannya ke kolom asuransi. Angka 20% bukan sihir — itu ambang historis tempat asuransi itu biasanya berhenti dituntut.",
+          "Pilihan 15-versus-30-tahun tampak seperti pertanyaan tingkat tetapi kebanyakan pertanyaan masa: masa yang lebih pendek membawa tingkat lebih rendah dan total bunga jauh lebih sedikit, karena saldo dilunasi dalam separuh waktunya. Tabel amortisasi tahunannya menunjukkan mekaniknya — pada satu pinjaman 30-tahun, bunga tetap mendominasi cicilan jauh ke dekade keduanya, sementara satu jadwal 15-tahun membalik ke kaya-pokok dalam beberapa tahun.",
+          "Apa yang tak bisa diberi tahu oleh perbandingannya adalah biaya peluangnya. Cicilan yang lebih rendah pada masa 30-tahun membiarkan kas bulanan bebas untuk darurat, akun pensiun, atau pelunasan-awal sesuka hati — fleksibilitas yang diambil paksa oleh satu kontrak 15-tahun. Jalankan kedua skenario di sini, lihat selisih total-bunga-nya, lalu putuskan apakah membeli fleksibilitas itu layak bagimu.",
+        ],
+      },
+      {
+        heading: "Membaca PITI seperti pemberi pinjaman",
+        paragraphs: [
+          "Pemberi pinjaman menilai keterjangkauan dengan rasio, bukan perasaan: pengeluaran hunian (PITI yang Anda lihat di sini) terhadap penghasilan bruto, dan total utang bulanan terhadap penghasilan bruto — ukuran utang-ke-penghasilan. Panduan umum menjaga hunian di bawah kira-kira 28% penghasilan bruto dan total utang di bawah pertengahan-30-an persen, meski programnya bervariasi; ini heuristik perencanaan, bukan aturan yang dipaksakan satu regulator mana pun di mana-mana.",
+          "Tabel tahunannya juga satu peta pelunasan-awal. Karena bunga dikenakan pada saldo tersisa, satu cicilan ekstra setahun yang disasar ke pokok bisa memangkas tahun dari satu pinjaman 30-tahun — tetapi hanya jika pemberi pinjaman menerapkannya ke pokok, jadi katakan tertulis saat Anda membayar. Tabelnya membiarkan Anda mensketsa efeknya dengan mempersingkat masa dan membandingkan saldo tahun demi tahun.",
+          "Semua angka di sini estimasi: tingkatnya apa pun yang Anda ketik, bukan satu tawaran, dan jumlah escrow aktual, premi asuransi, dan pajak berubah sepanjang tahun. Perhitungannya berjalan lokal di browser Anda — harga rumah, angka penghasilan, dan tingkat tak pernah meninggalkan perangkat Anda.",
+        ],
+      },
+    ],
   },
   "salary-to-hourly": {
     name: "Kalkulator Gaji ke Upah Per Jam",
@@ -4241,6 +8091,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — semua angka adalah bruto sebelum pajak penghasilan, iuran sosial, dan potongan lain. Gaji bersih tergantung lapisan pajak dan lokasi Anda, jadi perlakukan hasil ini sebagai angka bruto untuk perbandingan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Garis dasar 2.080-jam dan asumsinya",
+        paragraphs: [
+          "Membagi dengan 40 × 52 = 2.080 jam adalah konvensi standar di balik kebanyakan tawaran kerja, dan ia menyematkan dua asumsi yang layak dinamai: bahwa Anda dibayar untuk semua 52 minggu (cuti berbayar termasuk) dan bahwa jadwal mingguan nominalnya mencerminkan jam yang benar-benar dijalani. Untuk satu peran bergaji dengan cuti berbayar dan lembur sedang, 2.080 adalah penyebut yang adil.",
+          "Penyebutnya mengubah jawaban secara dramatis. Satu gaji 65.000 yang sama adalah 31,25 per jam pada satu tahun 2.080-jam, 35,75 jika Anda benar-benar menjalani minggu-minggu 45-jam, dan di atas 40 jika cuti tanpa-gaji mengecilkan tahun berbayarnya. Inilah sebabnya kolom jadwalnya lebih berarti daripada tampaknya — tingkat per jamnya bukan properti gajinya, ia properti gaji dibagi jam.",
+          "Konvensi 2.080 juga punya satu gema legal di AS: uji pengecualian untuk aturan lembur secara historis merujuk tingkat gaji alih-alih jumlah per jam, yang adalah satu alasan peran bergaji dikutip tahunan bahkan ketika kerjanya yang mendasari diukur dalam jam. Mengonversi kembali ke per-jam memulihkan unit yang benar-benar dibutuhkan perbandingannya.",
+        ],
+      },
+      {
+        heading: "Apa yang dibongkar tingkat per jam yang disesuaikan",
+        paragraphs: [
+          "Tingkat per jam headline-nya dan yang disesuaikan bisa berbeda secara bermakna, dan celahnya adalah harga waktu-libur tak-berbayar. Tiap hari tanpa-gaji menghapus seperlima satu minggu kerja dari penyebutnya, jadi sepuluh hari tanpa-gaji mengecilkan tahunnya ke sekitar 50 minggu dan mendorong tingkat per jam efektifnya naik kira-kira 4%. Gajinya tetap terkunci; yang berubah hanya jam yang Anda jalani.",
+          "Angka yang disesuaikan ini basis jujur untuk membandingkan satu pekerjaan bergaji terhadap satu per-jam. Satu peran bergaji yang tampak setara pada tingkat headlinenya sering kalah begitu lembur tanpa-gaji yang berat atau satu kontrak tanpa cuti berbayar masuk ke gambarannya — tampilan per-jam-aktual membongkar apa yang disembunyikan angka tahunannya.",
+          "Catat apa yang tak dilakukan tingkat yang disesuaikan: ia tak menghargai cuti itu sendiri. Waktu-libur berbayar punya nilai melampaui aritmetikanya — ia penghasilan selama hari-hari yang tak Anda kerjakan. Tingkat yang disesuaikan mempersempit perbandingannya ke jam yang benar-benar dijalani, yang persis yang Anda inginkan untuk perbandingan usaha dan persis yang tak seharusnya dipakai sendirian untuk keputusan kualitas-hidup.",
+        ],
+      },
+      {
+        heading: "Salah-baca umum dan cara memakainya",
+        paragraphs: [
+          "Salah-baca paling umum adalah memperlakukan angka per-jamnya sebagai satu tawaran yang benar-benar bisa Anda dapat. Satu gaji 52.000 “setara” 25,00 per jam di atas kertas, tetapi sedikit pemberi kerja akan merekrut jam-jam yang sama pada 25,00 per jam — kompensasi bergaji membundel cuti berbayar, hari sakit, dan penghasilan yang dapat diprediksi. Gunakan angka per-jamnya untuk membandingkan, bukan untuk merenegosiasi.",
+          "Yang kedua adalah melupakan bahwa payroll bulanan membagi merata. Tahunan ÷ 12 membayar sama di Februari seperti di Juli tak peduli hari kerja; siklus mingguan atau dua-mingguan tidak. Jika anggaran Anda mingguan, gunakan angka mingguannya, bukan satu per-duabelas tahunan.",
+          "Semuanya dihitung lokal di browser Anda — gaji Anda tak pernah meninggalkan perangkat, yang berarti saat menguji angka untuk satu tawaran yang sedang dibahas. Satu alur kerja baik: jalankan gaji Anda sekarang, lalu satu tawaran pesaing dengan jadwal sebenarnya (termasuk hari tanpa-gaji), dan bandingkan tingkat per jam yang disesuaikan alih-alih angka tahunan headline-nya.",
+        ],
+      },
+    ],
   },
   "hourly-to-salary": {
     name: "Kalkulator Upah Per Jam ke Gaji",
@@ -4267,6 +8143,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa slip gaji asli saya berbeda?",
         a: "Angkanya bruto. Pajak penghasilan, jaminan sosial, dan potongan tunjangan mengurangi bersih, dan banyak pekerjaan bergaji menyebarkan pembayaran ke 12 bulan meski Anda bekerja lebih sedikit minggu. Gunakan hasil tahunan untuk membandingkan tawaran, bukan sebagai perkiraan pendapatan bersih.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa 52 minggu — dan kapan ia berbohong",
+        paragraphs: [
+          "Bawaan 40 × 52 = 2.080 jam berbayar adalah satu konvensi akuntansi, bukan satu deskripsi pekerjaan nyata mana pun. Ia berasumsi Anda dibayar tiap minggu setahun, termasuk minggu yang Anda ambil libur. Untuk satu karyawan bergaji dengan cuti berbayar, itu kira-kira benar — gajinya menutup seluruh tahunnya, jadi membaginya dengan 2.080 jam memberi padanan per-jam yang jujur.",
+          "Bagi satu pekerja per-jam asumsinya pecah. Tak ada kerja, tak ada bayar: satu cuti tanpa-gaji dua-minggu membuat tahun nyatanya 50 minggu, dan 2.080 jam diam-diam melebih-lebihkan penghasilan Anda 4%. Itulah sebabnya kolom minggu-per-tahunnya bisa disunting — setel ke minggu yang benar-benar akan dibayar Anda, dan angka tahunannya menjadi yang benar-benar akan Anda lihat.",
+          "Kerja musiman adalah kasus ekstremnya: satu pekerjaan hanya-musim-panas mungkin mencakup 14–18 minggu. Memasukkan 40 jam dan 52 minggu bagi peran semacam itu akan menggembungkan hasilnya hampir empat kali lipat. Aturan jempolnya sederhana — kolom minggu seharusnya menjawab “berapa banyak minggu uang benar-benar akan datang”, bukan “berapa panjang satu tahun”.",
+        ],
+      },
+      {
+        heading: "Membaca kelima keluaran bersama-sama",
+        paragraphs: [
+          "Kelima angka itu adalah angka tahunan yang sama yang dislice berbeda, dan mengetahui irisan mana yang dibandingkan dengan apa lebih berarti daripada aritmetikanya. Tahunan adalah angka yang dipakai tawaran kerja dan aplikasi pinjaman. Bulanan — tahunan ÷ 12 — yang dipedulikan aplikasi sewa dan anggaran langganan, tetapi catat bahwa kebanyakan payroll bulanan membagi merata bahkan di bulan dengan lebih sedikit hari kerja.",
+          "Mingguan (tahunan ÷ 52 secara bawaan) adalah unit yang benar-benar dijalani pekerja per-jam, dua-mingguan menggandakannya dan mencocokkan siklus bayar AS paling umum, dan harian mengasumsikan satu minggu 5-hari. Saat membandingkan satu pekerjaan per-jam terhadap satu tawaran bergaji, konversikan keduanya ke siklus yang sama lebih dulu — satu gaji bulanan yang “lebih tinggi” bisa menyembunyikan minggu berbayar yang lebih sedikit.",
+          "Tiap angka di sini bruto. Pajak, kontribusi sosial, dan potongan tunjangan keluar belakangan, pada tingkat yang bergantung negara dan braket Anda, jadi satu angka tahunan 60.000 tak pernah berarti 5.000 yang datang tiap bulan. Perlakukan ini sebagai satu lapisan perbandingan pra-pajak; penghasilan net adalah perhitungan terpisah.",
+        ],
+      },
+      {
+        heading: "Penggunaan praktis dan kesalahan umum",
+        paragraphs: [
+          "Penggunaan paling umumnya adalah membandingkan tawaran dengan struktur bayar berbeda: satu 30,00 per-jam terhadap satu 60.000 bergaji berhenti menjadi tebakan begitu keduanya diekspresikan tahunan. Aplikasi pinjaman dan apartemen adalah keduanya — mereka hampir selalu bertanya angka tahunan atau bulanan, bukan per-jam, dan konverter ini menghasilkannya dalam bentuk persis yang diharapkan formulirnya.",
+          "Kesalahan paling umumnya adalah melupakan bahwa lembur dikecualikan. Perkalian lurus menghargakan tiap jam pada tingkat dasar Anda; jika kontrak Anda membayar 1,5× melampaui 40 jam dan Anda rutin menjalaninya, tahunan nyata Anda akan melampaui estimasi ini — tambahkan jam lembur tipikal secara sengaja ke kolom jam jika Anda ingin mereka dihargakan.",
+          "Semuanya berjalan lokal di browser Anda: tingkat dan jadwal tak pernah meninggalkan perangkat, yang berarti saat Anda mengevaluasi satu tawaran yang belum Anda terima. Ubah satu masukan demi satu dan lihat seberapa sensitif angka tahunannya — itu membuat kompromi antara satu kenaikan tingkat kecil dan satu minggu berbayar ekstra setahun terlihat seketika.",
+        ],
       },
     ],
   },
@@ -4298,6 +8200,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ia memodelkan satu produk dengan ekonomi per unit tetap — kasus buku teks klasik. Untuk campuran produk, gunakan rata-rata campuran harga dikurangi biaya variabel Anda; untuk diskon volume atau biaya tetap bertingkat, hitung ulang tiap skenario.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tetap vs variabel: pemisahan yang memutuskan segalanya",
+        paragraphs: [
+          "Seluruh analisisnya bersandar pada satu keputusan klasifikasi: biaya mana yang tetap dan mana yang variabel. Biaya tetap — sewa, staf bergaji, asuransi, langganan perangkat lunak — tak bergerak dengan volume sepanjang periode yang Anda analisis. Biaya variabel — bahan, kemasan per-unit, biaya pemrosesan-pembayaran, pengiriman per-pesanan — menskala langsung dengan tiap unit yang terjual. Margin kontribusinya, harga dikurangi biaya variabel, hanya sejujur pemisahan ini.",
+          "Biaya nyata jarang jatuh bersih ke satu ember. Listrik punya satu garis dasar tetap plus satu porsi variabel per-mesin; satu tenaga-penjualan berbasis-komisi mencampur keduanya. Konvensi praktisnya adalah mengklasifikasikan menurut apa yang berubah ketika Anda menjual satu unit lagi: jika satu biaya akan naik dengan penjualan berikutnya, ia milik V; jika tidak, ia milik F. Saat ragu, taruh di biaya variabel — itu membuat estimasi break-even Anda konservatif alih-alih optimis.",
+          "Pemisahan ini juga kenapa rumusnya sama sekali bekerja: biaya tetap harus dibayar penuh entah apa, sementara tiap penjualan menyumbangkan marginnya ke tumpukan itu. Begitu 500 penjualan masing-masing menyumbang 20, 10.000 biaya tetapnya tertutup dan tiap unit setelahnya menyumbang keuntungan murni. Itu model mental di balik tabel keuntungan di bawah angkanya.",
+        ],
+      },
+      {
+        heading: "Membaca margin dan tabel keuntungannya",
+        paragraphs: [
+          "Rasio marginnya — margin kontribusi dibagi harga — memberi tahu Anda berapa banyak tiap dolar penjualan tersedia untuk melawan biaya tetap. Satu margin 40% berarti 60 sen tiap penjualan dikonsumsi biaya variabel. Bisnis margin-rendah butuh volume tinggi untuk break even; yang margin-tinggi bisa bertahan pada lebih sedikit penjualan tetapi sering membawa biaya tetap yang lebih berat (perangkat lunak, R&D), yang mendorong break-even mereka naik kembali. Rasinya membuat kompromi itu terlihat.",
+          "Tabel keuntungan pada 0,5×, 1,5×, dan 2× break-even menampilkan bentuk imbal hasilnya. Di bawah titiknya, kerugian menumpuk linear — pada setengah break-even Anda kehilangan persis setengah biaya tetapnya. Di atasnya, keuntungan menumpuk pada satu kemiringan konstan yang sama. Simetrinya adalah poinnya: ia menunjukkan bahwa begitu ekonomi unitnya terkunci, satu-satunya tuas menuju titik break-even adalah volume, dan melewatinya, tiap unit memperoleh margin yang sama.",
+          "Gunakan tabelnya untuk memeriksa target: jika 2× break-even adalah sisi-atas realistis tahun pertama, sisi-bawahnya pada 0,5× memberi tahu Anda seberapa banyak kas yang bisa dibakar bisnis sebelum ia harus menetap-ulang harga atau memotong biaya. Celah antara kedua baris itu adalah amplop perencanaan Anda.",
+        ],
+      },
+      {
+        heading: "Di mana model buku-teks membengkok",
+        paragraphs: [
+          "Rumusnya mengasumsikan harga dan biaya variabel garis datar, dan realitanya melengkung. Diskon volume atas bahan menurunkan V seiring tumbuhnya volume; bayaran lembur, batas kapasitas, dan angkutan cepat menaikkannya. Harga itu sendiri sering jatuh pada skala saat Anda mendorong ke segmen pasar yang kurang antusias. Masing-masing membengkokkan garis-garis lurus itu menjadi kurva, dan satu angka break-even tunggal menjadi satu rentang. Jalankan-ulang perhitungannya per skenario alih-alih mengekstrapolasi satu jawaban.",
+          "Bisnis multi-produk menghadapi masalah yang sama: rumusnya mencakup satu produk, jadi satu campuran produk butuh satu margin kontribusi blended yang dibobot pangsa penjualan yang diharapkan — dan campurannya sendiri bergeser seiring tumbuhnya volume. Biaya tetap juga bisa berbentuk-tangga: gudang kedua atau perekrutan kesepuluh melompatkan F, ia tak tumbuh halus.",
+          "Tak satu pun dari itu membuat modelnya tak berguna — ia tetap satu pemeriksaan kelayakan putaran-pertama tercepat untuk satu produk, satu perubahan harga, atau satu stagnasi di satu pasar. Sekadar perlakukan keluarannya sebagai satu garis dasar perencanaan, jalankan-ulang dengan masukan pesimis dan optimis, dan ingat peringatan penyebutnya: jika marginnya mendekati nol, satu slip biaya kecil bisa memindahkan break-even dari terjangkau ke mustahil.",
+        ],
+      },
+    ],
   },
   "bmr-calculator": {
     name: "Kalkulator BMR",
@@ -4325,6 +8253,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ini nasihat medis?",
         a: "Tidak — ini perkiraan, bukan nasihat medis. Penyakit, obat, kehamilan, dan komposisi tubuh yang tak biasa semuanya menggeser pengeluaran energi nyata; diskusikan perubahan diet apa pun dengan tenaga kesehatan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mifflin-St Jeor versus persamaan-persamaan yang lebih tua",
+        paragraphs: [
+          "Alat ini memakai persamaan Mifflin-St Jeor, diterbitkan 1990: untuk pria, 10 × berat (kg) + 6,25 × tinggi (cm) − 5 × usia + 5, dan untuk wanita ekspresi yang sama dikurangi 161 alih-alih +5. Ia dipaskan ke pengeluaran energi istirahat yang terukur dan divalidasi terhadap kalorimetri tidak-langsung, standar-emas lab yang mengukur konsumsi oksigen secara langsung.",
+          "Alternatif yang paling sering Anda temui adalah Harris-Benedict, aslinya diterbitkan 1919 dan direvisi 1984. Satu perbandingan American Dietetic Association 2005 yang luas dikutip menemukan Mifflin-St Jeor lebih akurat untuk populasi modern, itulah sebabnya kalkulator ini menstandarkan padanya. Satu opsi ketiga, Katch-McArdle, memakai massa tanpa-lemak alih-alih berat dan bisa lebih tajam bagi orang yang tahu persentase lemak tubuh mereka — tetapi ia menuntut satu angka yang tak dimiliki kebanyakan orang.",
+          "Kesimpulan praktisnya: selisih antara persamaan-persamaan ini biasanya puluhan kilokalori, lebih kecil daripada variasi hari-ke-hari pengeluaran Anda sendiri. Jika dua kalkulator sedikit tak sepakat, pilihan rumusnya biasanya alasannya, dan tak satu pun salah.",
+        ],
+      },
+      {
+        heading: "Membaca angkanya: BMR bukan pembakaran harian Anda",
+        paragraphs: [
+          "BMR adalah lantainya, bukan anggarannya. Ia mencakup pernapasan, sirkulasi, perbaikan sel, dan regulasi suhu pada istirahat total — kira-kira 60–70% dari yang dibakar kebanyakan orang dewasa sedentari dalam satu hari. Pengeluaran energi harian total (TDEE) Anda yang nyata adalah BMR dikali satu faktor aktivitas, dari sekitar 1,2 untuk satu hari terikat-meja hingga sekitar 1,9 untuk kerja fisik berat atau pelatihan keras harian.",
+          "Perkalian itu lebih berarti daripada rumusnya sendiri. Dua orang dengan BMR identik bisa membakar 800+ kcal terpisah per hari murni dari gaya hidup. Kalkulator ini sengaja hanya melaporkan BMR; kalkulator kalori di situs ini mengambil langkah berikutnya dan menerapkan faktor aktivitas dan satu sasaran untuk Anda.",
+          "Satu pemeriksaan kewarasan yang berguna: BMR berskala terutama dengan berat, tinggi, dan usia, jadi jika hasilnya bergeser tajam setelah satu perubahan masukan kecil, periksa-ulang unitnya — kg versus lb adalah kecampuran klasiknya.",
+        ],
+      },
+      {
+        heading: "Kesalahan umum dan batas jujurnya",
+        paragraphs: [
+          "Tiap persamaan prediktif membawa kesalahan individual. Mifflin-St Jeor mendarat dalam kira-kira ±10% pengukuran lab bagi kebanyakan orang dewasa, tetapi individu dengan massa otot sangat tinggi atau rendah, kondisi tiroid, atau obat-obatan tertentu bisa duduk jauh di luar pita itu. Perlakukan keluarannya sebagai satu titik awal perencanaan, bukan satu fakta fisiologis.",
+          "Jangan gunakan BMR untuk membenarkan makan di bawahnya. Metabolisme istirahat sudah dicakup oleh jaringan tanpa-lemak yang menjaga Anda hidup; defisit agresif di bawah BMR adalah keputusan untuk satu profesional kesehatan, bukan satu kalkulator. Serupa, adaptasi metabolik berarti angka yang Anda hitung pada 90 kg berhenti akurat pada 80 kg — hitung-ulang saat berat Anda berubah.",
+          "Seperti segala hal di situs ini, perhitungannya berjalan sepenuhnya di browser Anda: tak ada masukan yang dikirim ke mana pun, jadi tak ada alasan ragu memasukkan angka nyata.",
+        ],
       },
     ],
   },
@@ -4356,6 +8310,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — ini perkiraan, bukan nasihat medis. Jika Anda hamil, mengelola kondisi kronis, minum obat, atau punya riwayat gangguan makan, tetapkan target bersama tenaga kesehatan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana angka pemeliharaannya dibangun",
+        paragraphs: [
+          "Perhitungannya satu rantai dua-langkah. Pertama, BMR datang dari persamaan Mifflin-St Jeor (1990): pria 10 × berat (kg) + 6,25 × tinggi (cm) − 5 × usia + 5, wanita ekspresi yang sama dikurangi 161. Kedua, BMR itu dikalikan salah satu dari lima faktor aktivitas standar: 1,2 sedentari, 1,375 ringan-aktif, 1,55 moderat-aktif, 1,725 sangat-aktif, 1,9 ekstra-aktif.",
+          "Lima faktor itu menelusuri kembali ke tradisi Harris-Benedict dan selamat karena mereka memetakan bersih ke cara orang benar-benar hidup: latihan sendirian tak mendefinisikan aktivitas — satu pekerja konstruksi tanpa waktu gym mendarat lebih tinggi daripada satu pekerja kantor dengan tiga sesi seminggu.",
+          "Penyesuaian sasaran kemudian menerapkan heuristik klasiknya: 1 kg lemak tubuh menyimpan kira-kira 7.700 kcal, jadi sekitar ±500 kcal per hari berkorespondensi kira-kira 0,5 kg perubahan mingguan. Kalkulator mengurangi 500 untuk menurunkan, menambah 500 untuk menaikkan, dan membiarkan pemeliharaannya tak tersentuh.",
+        ],
+      },
+      {
+        heading: "Menafsirkan sasarannya: harapkan satu kurva, bukan satu garis",
+        paragraphs: [
+          "Penurunan berat awal selalu melampaui matematikanya: satu-dua minggu pertama kebanyakan menurunkan air dan glikogen, bukan lemak. Setelah itu hasilnya melambat karena pengeluaran Anda turun saat Anda menjadi lebih ringan — orang yang menimbang 90 kg membakar lebih sedikit pada 82 kg, jadi defisit yang menghasilkan setengah kilo seminggu di bulan pertama sering menghasilkan sepertiga itu di bulan ketiga.",
+          "Alur kerja praktisnya adalah memperlakukan sasarannya sebagai satu hipotesis: timbang dalam kondisi konsisten, bandingkan terhadap satu rata-rata bergulir dua-minggu alih-alih derau harian, dan sesuaikan 100–200 kcal ketika trennya berhenti selama beberapa minggu.",
+          "Hitung-ulang setelah tiap beberapa kilo perubahan, dan ingat bahwa angka pemeliharaan yang sama mendukung hasil yang sangat berbeda tergantung apa yang Anda makan — protein, serat, dan waktu makan tak mengubah matematika kalorinya, tetapi mereka mengubah seberapa layak-huni defisitnya terasa.",
+        ],
+      },
+      {
+        heading: "Kesalahan umum",
+        paragraphs: [
+          "Kesalahan paling sering adalah menggembungkan tingkat aktivitas. Orang menghitung satu latihan sebagai “moderat-aktif” lalu juga duduk sepuluh jam sehari; jika Anda berolahraga 3–5 kali seminggu tetapi bekerja di satu pekerjaan meja, 1,55 biasanya sudah murah hati. Saat ragu, pilih faktor yang lebih rendah dan sesuaikan dari hasil yang terukur.",
+          "Jangan menumpuk penyesuaian ±500 melampaui nalar. Defisit jauh di bawah BMR Anda atau kenaikan +1.000 kcal sehari kebanyakan menghasilkan kelelahan dan kenaikan lemak masing-masing; tingkat yang berkelanjutan bagi kebanyakan orang dewasa adalah 0,25–0,75 kg per minggu di kedua arah. Siapa pun yang hamil, mengelola satu kondisi kronis, atau dengan riwayat gangguan-makan seharusnya menyetel sasaran dengan satu klinisi alih-alih.",
+          "Terakhir, perlakukan tiap keluaran di sini sebagai satu estimasi rata-rata-populasi: metabolisme nyata bervariasi kira-kira ±10% antar individu, dan hanya tren terukur Anda sendiri selama berminggu-minggu yang menyelesaikan pertanyaannya.",
+        ],
+      },
+    ],
   },
   "body-fat-calculator": {
     name: "Kalkulator Lemak Tubuh",
@@ -4383,6 +8363,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa hasilnya negatif atau mustahil?",
         a: "Rumusnya dicetak tanpa pembatasan, jadi masukan mustahil — misalnya pinggang yang tidak lebih besar dari leher — menghasilkan keluaran mustahil. Perlakukan nilai apa pun di bawah tingkat lemak esensial atau di atas sekitar 60% sebagai galat ukur dan ukur ulang. Dan seperti biasa, perkiraan ini bukan nasihat medis.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Di dalam metode lingkar Angkatan-Laut",
+        paragraphs: [
+          "Rumusnya mengestimasi lemak tubuh dari rasio lingkar. Untuk pria ia memakai 495 / (1,0324 − 0,19077·log10(pinggang − leher) + 0,15456·log10(tinggi)) − 450, semua pengukuran dalam sentimeter; untuk wanita suku lingkarnya menjadi log10(pinggang + pinggul − leher) dengan koefisien wanita dari makalah yang sama. Suku-suku log itulah kenapa inci di sekitar tengah menggerakkan estimasinya jauh lebih banyak daripada inci tinggi.",
+          "Metodenya dikembangkan James Hodgdon dan Jack Beckett pada 1984 untuk Angkatan-Laut AS, yang butuh satu skrining komposisi-tubuh tahunan bagi puluhan ribu pelaut tanpa akses ke peralatan laboratorium. Ia divalidasi terhadap penimbangan-tercelup (densitometri hidrostatik), lalu standar rujukannya — dan Angkatan-Laut masih memakainya hari ini, yang sekuat uji lapangan mana pun yang bisa didapat satu rumus.",
+          "Logika dasarnya adalah bahwa lemak menumpuk secara dapat-diprediksi di situs-situs tertentu (abdomen bagi pria, pinggul dan paha bagi wanita) sementara leher tetap ramping, jadi selisih pinggang-ke-leher membawa informasi nyata tentang massa lemak yang tak bisa dilihat satu timbangan sendirian.",
+        ],
+      },
+      {
+        heading: "Membaca kategori-kategorinya — dan trennya",
+        paragraphs: [
+          "Kalkulator menempatkan hasil Anda ke pita-pita standar yang dikutip American Council on Exercise: bagi pria, 2–5% lemak esensial, 6–13% atlet, 14–17% fitnes, 18–24% rata-rata, 25%+ obesitas; bagi wanita, 10–13% esensial, 14–20% atlet, 21–24% fitnes, 25–31% rata-rata, 32%+ obesitas. Wanita membawa lebih banyak lemak esensial karena fungsi hormonal dan reproduktif bergantung padanya.",
+          "Harapkan satu akurasi absolut kira-kira ±3–4% terhadap satu pindai DXA. Itu terdengar banyak sampai Anda memperhatikan apa yang benar-benar dikuasai metodenya: konsistensi. Diukur di situs-situs yang sama, waktu-hari yang sama, oleh orang yang sama, estimasi pita melacak perubahan nyata komposisi tubuh dengan sangat baik.",
+          "Jadi penggunaan praktisnya arah: satu bulan pelatihan yang menggerakkan Anda dari 24% ke 22% adalah hasil nyata meski kedua pembacaannya membawa kesalahan ±3%, karena kesalahannya sebagian besar sistematis dan saling menghapus saat membandingkan dua pengukuran tubuh yang sama.",
+        ],
+      },
+      {
+        heading: "Di mana estimasi pita salah",
+        paragraphs: [
+          "Teknik pengukuran mendominasi anggaran kesalahannya. Leher pergi di bawah laring dengan pita miring sedikit turun di depan; pinggang duduk di pusar bagi pria dan titik tersempit bagi wanita; pinggul di bagian terpadatnya. Tarik pita rapat tapi tak pernah mengompres kulitnya, hembuskan napas normal, dan tak pernah mengukur tepat setelah satu makan besar atau satu sesi pelatihan berat.",
+          "Keluaran mustahil menandai masukan mustahil: karena rumusnya dicetak tanpa-clamp, satu pinggang yang diukur lebih kecil dari leher bisa menghasilkan satu persentase lemak-tubuh negatif. Apa pun di bawah tingkat lemak-esensial atau di atas kira-kira 60% berarti ukur-ulang, bukan rayakan atau panik.",
+          "Individu berotot dan ramping bisa mendorong metode lapangan ke batasnya, dan orang yang lemaknya terdistribusi tak biasa (misalnya dominan-viseral) bisa salah-baca oleh satu model berbasis-lingkar. Untuk tujuan medis, asuransi, atau kompetitif, satu pindai klinis tetap rujukannya — alat ini untuk melacak tren Anda sendiri.",
+        ],
       },
     ],
   },
@@ -4414,6 +8420,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — ini perkiraan, bukan nasihat medis. Atlet dan orang sangat berotot berada di atas rentang sambil sangat sehat, dan beberapa kondisi menggeser rentang sehat. Diskusikan berat target dengan tenaga kesehatan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dari mana rumus Devine datang",
+        paragraphs: [
+          "Rumus Devine diterbitkan Dr. B. J. Devine pada 1975 — tetapi bukan sebagai satu sasaran kebugaran. Ia muncul dari pekerjaan dosing obat, pertama digoxin dan belakangan obat-obatan lain yang dosis amannya bergantung ukuran tubuh: 50 kg untuk 5 kaki tinggi pertama plus 2,3 kg per inci tambahan bagi pria, 45,5 kg bagi wanita.",
+          "Klinisi butuh satu estimasi cepat berbasis-tinggi dari satu “berat dosing”, dan milik Devine menjadi persamaan berat-ideal yang paling banyak dikutip dalam literatur medis — sedemikian luas dicetak-ulang sehingga generasi pembaca mengasumsikannya mendefinisikan berapa seharusnya seseorang menimbang. Ia tak pernah begitu.",
+          "Angka kedua yang ditampilkan kalkulator ini adalah pita BMI sehat: tinggi Anda dalam meter kuadrat dikali 18,5 dan 24,9, batas rentang-normal dalam klasifikasi WHO. Ini mengangkarkan jawabannya ke data kesehatan populasi alih-alih ke satu jalan-pintas dosing.",
+        ],
+      },
+      {
+        heading: "Mengapa jawabannya satu rentang, bukan satu angka",
+        paragraphs: [
+          "Kedua metode biasanya tak sepakat beberapa kilogram, dan ketidaksepakatannya adalah pesannya: tak ada satu berat ideal tunggal. Ukuran bingkai, massa otot, usia, dan perbedaan etnis komposisi tubuh semuanya menggeser apa yang sehat untuk satu tinggi tertentu, yang persis sebabnya WHO mendefinisikan satu pita alih-alih satu sasaran.",
+          "Baca kedua keluarannya bersama sebagai satu kurung: kebanyakan orang dewasa yang beratnya duduk di antara angka Devine dan tepi pita BMI berada dalam rentang yang dianggap wajar klinisi. Jika berat Anda sekarang duduk di luar keduanya, celahnya memberi tahu Anda arah perubahannya, bukan seberapa cepat mengejarnya.",
+          "Catat juga apa yang tak ditangkap angkanya: pada BMI yang sama, seseorang yang berlatih membawa lebih banyak jaringan tanpa-lemak daripada yang tidak, dan riset atas orang dewasa lanjut mengisyaratkan berat sedikit lebih tinggi bahkan bisa protektif. Berat sehat cukup pribadi sehingga satu percakapan dengan satu profesional mengalahkan rumus mana pun.",
+        ],
+      },
+      {
+        heading: "Penyalahgunaan umum",
+        paragraphs: [
+          "Penyalahgunaan tertuanya adalah memperlakukan Devine sebagai satu standar estetika — satu angka untuk didietkan. Ia didesain menghitung dosis obat; memakainya sebagai satu sasaran tubuh mengimpor satu kenyamanan dosing ke satu keputusan yang tak pernah dimaksudkannya menginformasikan.",
+          "Atlet dan orang sangat berotot duduk jauh di atas pita BMI sambil sepenuhnya sehat, karena pita itu mengasumsikan satu komposisi tubuh rata-rata. Jika Anda berlatih serius, abaikan kedua angka sebagai sasaran dan nilai menurut tren lemak-tubuh dan performa sebagai gantinya.",
+          "Terakhir, bagan tinggi-berat cepat yang beredar daring sering menelusuri kembali ke tabel perusahaan-asuransi dari pertengahan abad kedua-puluh, dibangun dari data yang dilaporkan-sendiri para pemohon — satu basis lebih lemah daripada kedua metode yang ditampilkan di sini. Kalkulator ini berjalan lokal di browser Anda dan tak menyimpan apa pun; gunakan untuk orientasi, bukan diagnosis.",
+        ],
+      },
+    ],
   },
   "water-intake-calculator": {
     name: "Kalkulator Asupan Air",
@@ -4441,6 +8473,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ini nasihat medis?",
         a: "Tidak — ini perkiraan umum. Penderita penyakit jantung, ginjal, atau hati, dan yang dianjurkan membatasi cairan, sering membutuhkan kurang dari jumlah yang dihitung: ikuti instruksi klinisi Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dari mana angka-angkanya datang",
+        paragraphs: [
+          "Garis dasarnya memakai heuristik cairan-pemeliharaan yang diajarkan melintasi praktik klinis: 35 ml air per kilogram berat tubuh per hari (panduan dewasa sering dikutip sebagai satu rentang 30–35 ml/kg). Ia berasal dari manajemen cairan pediatrik, tempat dosing cairan menurut berat rutin, dan dibawa ke orang dewasa sebagai satu aturan jempol cepat.",
+          "Tambahan olahraganya sekitar 350 ml per 30 menit mencerminkan tingkat keringat tipikal 0,5–1 liter per jam aktivitas sedang; kerja keras dalam panas bisa melampaui satu liter per jam. Kalkulator menampilkan garis dasar dan bonus olahraganya terpisah sehingga Anda bisa melihat bahwa angka keduanya adalah yang tak pasti — output keringat bervariasi sangat besar antar orang dan kondisi.",
+          "Sebagai konteks, European Food Safety Authority menyetel total asupan air memadai pada 2,0 L/hari bagi wanita dan 2,5 L/hari bagi pria — angka-angka yang termasuk air dari makanan, yang biasanya menyuplai 20–30% total asupan.",
+        ],
+      },
+      {
+        heading: "Berapa banyak dari totalnya yang seharusnya air biasa?",
+        paragraphs: [
+          "Lebih sedikit daripada angka headline-nya. Makanan, kopi, teh, susu, dan jus semuanya berkontribusi — minuman berkafein moderat menghidrasi alih-alih mendehidrasi, salah kaprah yang selamat dari puluhan tahun. Angka yang dihitung adalah panduan untuk total cairan di atas satu diet normal, jadi orang tipikal mungkin meminum mungkin dua per tiga dari itu sebagai air biasa.",
+          "Tubuh Anda juga menyediakan umpan-balik waktu-nyata yang mengungguli rumus mana pun: haus, dan warna urin. Kuning-jerami pucat berarti Anda baik-baik saja; amber gelap berarti minum sekarang. Sinyal-sinyal ini melacak keadaan aktual Anda, sementara kalkulernya melacak masukan Anda.",
+          "Harapkan kebutuhannya bergerak hari demi hari. Panas, kelembapan, ketinggian, penyakit dengan demam, dan alkohol semuanya menaikkan kehilangan; satu hari istirahat ber-AC menurunkannya. Angka yang dihitung satu rujukan hari-tenang, bukan satu kuota untuk dihantam tak peduli keadaan.",
+        ],
+      },
+      {
+        heading: "Variasi individual dan siapa yang tak seharusnya mengikuti satu kalkulator",
+        paragraphs: [
+          "Berat tubuh satu proksi kasar. Tingkat keringat sebagian bisa dilatih dan sangat individual — dua orang dengan berat identik bisa kehilangan jumlah natrium dan cairan yang radikal berbeda dalam sesi yang sama. Atlet daya-tahan serius akhirnya menimbang diri sebelum dan sesudah sesi: berat yang hilang (kebanyakan keringat) adalah angka air paling pribadi yang ada.",
+          "Minum berlebihan satu risiko nyata, bukan hanya teoretis: memaksakan liter melampaui haus bisa mengencerkan natrium darah (hiponatremia terkait-olahraga), yang telah menyebabkan kerusakan serius pada pelari maraton lambat yang minum di tiap stasiun. Lebih banyak bukan lebih baik; mencocokkan kehilangan adalah tujuannya.",
+          "Siapa pun dengan gagal-jantung, penyakit-ginjal, atau penyakit-hati sering ditempatkan pada pembatasan cairan, dan sebagian obat memengaruhi keseimbangan cairan. Jika Anda diperintahkan membatasi cairan, angka klinisi Anda menimpa kalkulator ini — tak ada rumus umum yang bisa memperhitungkan satu pembatasan medis.",
+        ],
       },
     ],
   },
@@ -4471,6 +8529,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya. Jarak khusus menerima kedua satuan, dan hasil selalu ditampilkan dua-duanya: pace per km dan per mil, kecepatan dalam km/jam dan mph. Konversi memakai mil internasional yang tepat sebesar 1,609344 km.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Aritmetika pace — dan 1,06 milik Riegel",
+        paragraphs: [
+          "Pace itu sendiri pembagian sederhana: waktu atas jarak, ditampilkan per kilometer dan per mil dari masukan yang sama, dengan konversinya dihitung persis (satu mil internasional = 1,609344 km). Satu 10K 45:00 adalah 4:30/km dan 7:14/mile — tanpa permainan pembulatan, tanpa matematika kepala di lintasan.",
+          "Prediktor perlombaan adalah separuh menariknya. Peter Riegel, satu insinyur riset, menerbitkan T₂ = T₁ × (D₂/D₁)^1,06 di Runner's World pada 1977 setelah menganalisis ratusan hasil lomba yang terekam. Eksponen 1,06 menangkap memudarnya pace dengan jarak: menggandakan jarak lomba butuh sekitar 9% lebih lama daripada yang disarankan dua kali waktunya.",
+          "Eksponen itu satu rata-rata populasi yang dipaskan ke pelari nyata, bukan fisiologi. Ia mengasumsikan pelatihan yang proper untuk jarak sasarannya — ia mengekstrapolasi apa yang dilakukan pelari terlatih, dan ia akan dengan senang hati mengekstrapolasi omong-kosong bagi seseorang yang tak pernah berlari jauh.",
+        ],
+      },
+      {
+        heading: "Menafsirkan prediksi-prediksinya",
+        paragraphs: [
+          "Prediksi menurun dengan jarak dari perlombaan masukan Anda. Memproyeksikan satu 10K dari satu half marathon biasanya dekat; memproyeksikan satu marathon dari satu 5K adalah fantasi kecuali lari-panjangnya ada di pelatihan. Semakin panjang celahnya, semakin banyak yang diasumsikan proyeksi itu tentang basis daya-tahan Anda.",
+          "Gunakan prediksinya untuk rencana pace alih-alih janji: satu half marathon di-bawah-2:00 butuh sekitar 5:41/km, dan melihat apa yang itu implikasikan bagi satu marathon penuh memberi tahu Anda apakah sasarannya realistis musim ini atau butuh satu siklus pelatihan lagi.",
+          "Satu pemeriksaan praktis: jika Anda baru lomba dua jarak, Anda bisa memverifikasi rumusnya terhadap diri sendiri — ketika rasio Anda sendiri menyimpang dari 1,06, kekuatan atau kelemahan Anda pada jarak itu terlihat, dan itu informasi pelatihan yang berguna.",
+        ],
+      },
+      {
+        heading: "Di mana data dunia-nyata berbohong",
+        paragraphs: [
+          "Jam GPS menumpuk hanyutan: tutupan pepohonan, gedung tinggi, dan belokan ketat bisa mendistorsi satu jalur terekam satu persen atau lebih, cukup untuk menggeser pace yang ditampilkan beberapa detik per kilometer. Treadmill lebih buruk — kebanyakan optimis kecuali terkalibrasi, dan bahkan yang terkalibrasi berbeda dari berlari-ruangan secara biomekanik.",
+          "Jalur perlombaan sendiri bervariasi: profil elevasi, belokan, cuaca, dan keramaian di garis awal semuanya menggerakkan waktu selesai beberapa menit. Membandingkan satu 10K trail berbukit terhadap satu 10K jalan datar seolah mereka angka yang sama akan meracuni prediksi mana pun.",
+          "Jadi alur kerjanya: masukkan hasil lomba, bukan run pelatihan; utamakan jalur datar tersertifikasi; dan perlakukan hasil terbaru sebagai jangkarnya. Halaman ini berjalan sepenuhnya di browser Anda — waktu-waktu Anda tak pernah meninggalkan perangkat.",
+        ],
+      },
+    ],
   },
   "one-rep-max-calculator": {
     name: "Kalkulator 1RM",
@@ -4499,6 +8583,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Karena di situ rumus-rumusnya berhenti bermakna. Di atas sekitar 12 repetisi hasilnya didominasi daya tahan lokal alih-alih kekuatan, dan penyebut Brzycki (37 − reps) runtuh menuju nol. Set repetisi tinggi mengukur kondisi fisik; jika ingin perkiraan maksimal darinya, pakai rumus yang dirancang untuk kerja daya tahan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Epley vs Brzycki: dua rumus, satu kurung",
+        paragraphs: [
+          "Kedua rumus mengestimasi berat yang bisa Anda angkat tepat sekali dari satu set yang benar-benar Anda selesaikan. Epley, diterbitkan 1985, menghitung w × (1 + reps/30); Brzycki, dari 1993, menghitung w × 36/(37 − reps). Keduanya sepakat erat hingga sekitar 10 reps lalu bercabang — Epley berjalan sedikit optimis pada jumlah reps tinggi, Brzycki sedikit konservatif.",
+          "Percabangan itulah kenapa kalkulator ini menampilkan keduanya alih-alih memilih satu pemenang. Ketika kedua estimasi mendarat dalam beberapa kilogram, Anda punya angka yang andal; ketika mereka menyebar, set Anda duduk di zona tempat prediksi submaksimal goyah dan satu set uji yang lebih berat lebih pendek akan menajamkan estimasinya.",
+          "Akurasinya terbaik dari set kira-kira 1–6 reps bersih. Melampaui selusin, angkatannya menjadi satu uji daya-tahan lokal alih-alih kekuatan, dan tak ada rumus kekuatan yang bisa menyelamatkannya — itulah sebabnya masukannya dibatasi 20 reps.",
+        ],
+      },
+      {
+        heading: "Memakai tabel persentasenya",
+        paragraphs: [
+          "Tabel pelatihannya membalikkan persamaan Epley: maksimal yang bisa Anda angkat untuk n reps kira-kira 1RM × 30/(30 + n). Sepuluh reps menghitung 75% dari 1RM, lima ke sekitar 86%, tiga ke sekitar 91%. Pelatih kekuatan memprogram dari persentase-persentase ini persisnya — blok kekuatan berat sekitar 85–95% untuk reps rendah, pekerjaan hipertrofi sekitar 65–80% untuk 6–12 reps, daya-tahan masih lebih tinggi.",
+          "Persentase-persentase itu bagian yang dapat ditransfer dari estimasinya: begitu Anda tahu 1RM Anda, Anda tak pernah perlu menguji lagi untuk menyetel beban pelatihan. Ubah programnya, bukan maksimalnya — dan hitung-ulang maksimalnya sendiri hanya tiap dua bulan saja seiring angka pelatihan Anda melayang naik.",
+          "Ketahui bahwa performa nyata melayang menurut angkatannya: squat menoleransi lebih banyak reps pada persentase tertentu daripada press atau deadlift, karena refleks peregangan dan waktu setup-nya berbeda. Perlakukan tabelnya sebagai satu dosis awal dan sesuaikan menurut bagaimana reps terakhirnya benar-benar terasa.",
+        ],
+      },
+      {
+        heading: "Mengapa Anda tak seharusnya menguji satu 1RM sejati",
+        paragraphs: [
+          "Estimasi maksimal ada persis agar Anda tak pernah menguji yang sejatinya. Satu percobaan 1RM sejati menuntut spotter, teknik segar di bawah beban maksimal, dan satu pemanasan yang ditingkatkan dengan benar; risiko cederanya nyata, dan informasi yang diperoleh di atas satu set 3-reps yang dijalankan baik marginal.",
+          "Estimasinya kehilangan sedikit: satu set keras 3–5 reps memprediksi 1RM dalam beberapa persen dari satu single sejati bagi kebanyakan lifter terlatih. Kompetitor yang memuncak untuk satu pertemuan pengecualiannya, dan mereka bekerja dengan pelatih dan setup keselamatan yang proper.",
+          "Satu jebakan lagi: memasukkan reps yang ceroboh. Rumus-rumus mengasumsikan repetisi bersih jangkauan-penuh — memeras rep terakhir dengan bentuk buruk menggembungkan estimasinya. Juga ingat maksimalnya spesifik-olahraga: satu 1RM squat tak mengatakan apa pun tentang bench Anda.",
+        ],
+      },
+    ],
   },
   "sleep-calculator": {
     name: "Kalkulator Tidur",
@@ -4525,6 +8635,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Berapa siklus yang saya butuhkan?",
         a: "Kebanyakan orang dewasa baik-baik saja dengan 5 siklus (7,5 jam) dan banyak yang butuh 6 (9 jam); 4 siklus (6 jam) menolong sebagian orang jangka pendek tetapi jarang jangka panjang. Konsistensi jadwal sama pentingnya dengan total — 6 siklus yang sama pada jam tidur yang liar membuat Anda lebih buruk keadaannya.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Seberapa kokoh teori siklus 90-menit itu, sebenarnya",
+        paragraphs: [
+          "Tidur berselang-seling antara tidur ringan, tidur dalam, dan REM, dan arsitektur luas itu adalah satu temuan kokoh riset tidur — polisomnografi (PSG) bisa mengamati langsung tanda elektris tiap tahapnya. Bahwa satu malam memuat beberapa siklus semacam itu, berulang berurutan, juga tak disengketakan.",
+          "Yang disengketakan adalah angka bulatnya “90 menit”. Itu datang dari rata-rata populasi studi laboratorium yang lebih tua, tetapi pengukuran belakangan menempatkan panjang siklus di mana saja dari kira-kira 80 hingga 110 menit, dan siklus orang yang sama bervariasi dalam satu malam tunggal: separuh pertama kaya-tidur-dalam dengan siklus yang lebih panjang, separuh kedua bergeser menuju REM dan struktur berbeda. Mendaratkan alarm pada satu batas yang dihitung hanya menguntit peluang ke arah tidur lebih ringan — itu bukan satu sakelar biologis yang persis.",
+          "Jadi perlakukan alat ini sebagai satu bantuan perencanaan, bukan nasihat medis: selaraskan bangun dengan batas yang dihasilkan model rata-ratanya, amati bagaimana pagi-paginya terasa selama satu-dua minggu, lalu geser waktu-tidur 15 menit untuk menemukan ritme Anda sendiri. Insomnia persisten, sering terbangun malam, atau kantuk siang berat adalah gejala untuk dievaluasi dokter, bukan sesuatu untuk diselesaikan dengan penempatan alarm.",
+        ],
+      },
+      {
+        heading: "Anggaran onset-tidur 15-menit dan membaca hasilnya",
+        paragraphs: [
+          "Kolom waktu-tidur pertama membawa 15 menit lebih banyak daripada yang diberikan mengurangi N siklus: satu buffer onset-tidurnya. Siklus pertama hanya dimulai begitu Anda benar-benar tertidur, dan kebanyakan orang butuh 10–20 menit setelah masuk kasur. Alat memakai 15 sebagai satu nilai tengah; kalibrasilah terhadap pengalaman Anda sendiri — jika Anda bisa terlelap menggulir ponsel, kurangi 10; jika kepala Anda berlomba di kasur, tambahkan beberapa.",
+          "Dalam mode terbalik, hasilnya diurutkan sebagai “waktu-tidur + 15 menit + siklus utuh”, jadi berbaring pukul 23:30 menjadikan 01:15 kandidat pertama. Salah-baca umumnya adalah memperlakukan waktu-waktu itu sebagai jaminan Anda akan bangun; mereka titik-titik tempat bangun akan paling ringan jika satu siklus selesai. Dalam praktik, setel satu alarm sedikit lebih lambat sebagai cadangan dan biarkan bangun alami terjadi dekat satu batas.",
+          "Kedua mode mencantumkan hingga 3 siklus (4,5 jam), dan muncul dalam daftarnya bukan satu rekomendasi. Kurang dari 4 siklus adalah deprivasi tidur akut, dengan penilaian dan waktu-reaksi yang jelas menurun; barisnya ada agar satu penerbangan mata-merah atau begadang datang dengan satu tag harga yang jujur.",
+        ],
+      },
+      {
+        heading: "Alarm siklus tak bisa membayar satu utang tidur",
+        paragraphs: [
+          "Menyelaraskan siklus memperbaiki bagaimana momen bangun terasa; ia tak melakukan apa pun tentang total jamnya. Utang yang dibangun oleh berminggu-minggu malam 5-jam tak dibayar dengan tidur berlebihan akhir pekan. Keteraturan jadwal — satu waktu bangun tetap di atas segalanya — menyumbang lebih banyak ke energi hari-ke-hari daripada penyelarasan siklus per-malam, satu poin yang sering diulang literatur kedokteran-tidur.",
+          "Dibandingkan wearable dan matras pintar, alat ini tak mengumpulkan data sama sekali. Pelacakan tahap-tidur konsumen tak terlalu akurat sejak awal, dan semuanya di sini dihitung lokal di browser Anda — tak ada waktu yang dikirim atau disimpan. Ia bekerja baik sebagai satu titik awal gratis; penggemar yang ingin mengukur panjang siklus nyata mereka bisa mempertimbangkan satu perangkat belakangan.",
+        ],
       },
     ],
   },
@@ -4556,6 +8691,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Aritmetika tanggal pada waktu lokal bisa mengembar satu hari di sekitar transisi DST — rentang yang melintasi pergantian November atau Maret bisa keluar satu hari lebih pendek atau panjang di beberapa peramban. Menghitung dalam hari UTC utuh menepis masalah itu sepenuhnya: rentang Jumat ke Senin adalah 2 hari kerja di mana pun di bumi.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang dihitung “hari kerja” — dan apa yang tidak",
+        paragraphs: [
+          "Jawaban jujurnya adalah hari kerja satu konvensi, dan konvensi berbeda. Alat ini menghitung Senin-sampai-Jumat (atau Jumat-sampai-Sabtu jika Anda mengalihkan setelan akhir-pekan) dan tak lebih secara bawaan: ia tak membawa satu kalender hari-libur-publik bawaan, karena libur disetel oleh negara, oleh wilayah, kadang oleh tahun dengan cara yang tak pernah benar satu daftar statis. Sebagai gantinya Anda menempel baris libur Anda sendiri, sehingga hitungannya tepat satu yang dimaksud perusahaan atau kontrak Anda.",
+          "Dua keputusan mengubah satu hitungan secara dramatis dan layak diperiksa setiap saat. Pertama, titik-ujung: hitungan ini inklusif kedua tanggal, jadi Senin sampai Jumat dalam satu minggu adalah 5, bukan 3 — sebagian sistem menghitung celahnya secara ketat di antara dan akan mengembalikan 3. Kedua, apakah tanggal awal dikonsumsi dalam mode tambah-kurang: di sini tidak, jadi Jumat plus satu hari kerja adalah Senin.",
+          "Jika kontrak atau SLA Anda berkata “hari kerja” tanpa mendefinisikannya, konvensinya biasanya hari-kerja lokal yurisdiksi yang mengaturnya — yang bisa punya akhir-pekan selain Sabtu/Minggu dan libur yang tak pernah didengar alat ini. Alur kerja amannya: tempel daftar libur yurisdiksi itu, hitung di sini, dan taruh tanggal kalender hasilnya secara tertulis.",
+        ],
+      },
+      {
+        heading: "Bagaimana hitungannya sebenarnya dihitung",
+        paragraphs: [
+          "Mode antar-nya berjalan melintasi kalender nyata hari demi hari, menandai tiap tanggal hari-kerja atau bukan menurut definisi akhir-pekan dan baris libur Anda. Karena ia berjalan tanggal nyata, jawabannya selalu cocok dengan yang akan Anda dapat dengan menunjuk satu kalender — dan baris libur dicocokkan tanggal persis, jadi satu libur di hari Sabtu tak menghapus apa pun ekstra, karena hari itu sudah dikecualikan aturan akhir-pekan.",
+          "Mode tambah-kurang melangkah maju atau mundur satu hari kerja demi satu, melompati hari non-kerja tanpa mengonsumsinya. Itulah sebabnya Sabtu plus satu hari kerja mendarat di Senin alih-alih Minggu: hari-hari istirahat dilewati, tidak dihitung. Query berulang murah — aritmetikanya satu loop polos atas nomor hari UTC.",
+          "Semuanya berjalan pada nomor hari UTC, yang kebal transisi daylight-saving. Matematika tanggal waktu-lokal di dekat pergantian Maret atau November bisa melayang satu hari di sebagian lingkungan; menghitung hari-UTC-utuh memberi jawaban Jumat-ke-Senin-adalah-2 yang sama di mana pun di Bumi, di tiap musim.",
+        ],
+      },
+      {
+        heading: "Di mana alat ini cocok, dan privasi",
+        paragraphs: [
+          "Pengguna tipikalnya: periode pemberitahuan kontrak, waktu-lead build dan pengiriman, jendela respons SLA, potongan-gaji, dan antrean janji visa. Untuk apa pun yang berulang, simpan daftar libur sekali dan pakai-ulang sepanjang tahun — menempel sepuluh-lima belas tanggal hanya detik dan mengubah satu tebakan menjadi satu angka yang bisa dipertahankan.",
+          "Dibandingkan fungsi workday spreadsheet, perbedaannya adalah transparansi dan kendali: spreadsheet menyembunyikan hari mana yang dilewati dan kenapa, dan banyak yang menuntut memuat satu tabel libur dari sheet lain. Di sini masukannya — definisi akhir-pekan dan baris libur — terlihat di halaman, dan tanggal mendarat plus hari-kerjanya menunjukkan persis di mana hitungannya berhenti.",
+          "Tak ada data libur yang diunduh dan tak ada tanggal yang diunggah: penghitungannya berjalan di browser Anda dan bekerja offline. Garis-waktu kontrak dan tanggal perekrutan sensitif-bisnis secara kodrat, yang satu alasan lagi perhitungannya tak pernah meninggalkan perangkat Anda.",
+        ],
+      },
+    ],
   },
   "cooking-conversion": {
     name: "Kalkulator Konversi Memasak",
@@ -4583,6 +8744,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Kenapa 350 °F dikonversi jadi 175 °C, bukan 176,7 °C?",
         a: "Konversi tepatnya (350 − 32) × 5/9 = 176,7 °C, tetapi oven ditandai dalam langkah 5–10 derajat dan penulis resep membulatkan ke pengaturan familiar terdekat, jadi 175 °C adalah pasangan standarnya. Tabel menampilkan pasangan konvensional itu; suhu nyata kenop oven memang hampiran.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa satu cup bukan satu angka",
+        paragraphs: [
+          "Volume mengukur ruang; berat mengukur materi, dan jembatan di antara mereka adalah kepadatan — yang bervariasi sangat besar antar bahan. Satu cup madu (340 g) menimbang hampir tiga kali satu cup oat gulung (90 g), padahal keduanya mengisi 240 ml yang sama. Konverter mana pun yang menawarkan satu faktor “cup ke gram” tunggal diam-diam mengasumsikan satu kepadatan untuk segalanya, yang persis asumsi yang merusak baking.",
+          "Alat ini mempertahankan satu tabel per-bahan sebagai gantinya. Tepung duduk pada 120 g per cup — angka disendoki-dan-diratakan yang dipakai King Arthur dan kebanyakan test kitchen AS — sementara gula (200), mentega (227), dan madu (340) membawa nilai yang diterbitkan mereka sendiri. Pembedaan itu paling berarti untuk tepung karena ia bisa dipadatkan: cup fisik yang sama bisa menimbang 110 g saat mengembang atau 150 g saat di-scoop langsung dari kantongnya.",
+          "Kesimpulan praktisnya: perlakukan keluaran gramnya sebagai rata-rata bersumber-baik, bukan konstanta lab. Baker profesional mengonversi resep ke gram sekali, lalu menimbang segalanya secara permanen — satu timbangan dapur menghapus varians scoop ±15% yang tak bisa dilihat kalkulator mana pun. Pakai alat ini untuk konversi pertama itu, dan untuk menerjemahkan resep berbasis-volume ke kebiasaan menimbang.",
+        ],
+      },
+      {
+        heading: "Ukuran cup di sekitar dunia",
+        paragraphs: [
+          "Kata “cup” tak distandarkan global, dan selisihnya cukup besar untuk terasa. Alat ini memakai satu cooking cup kustom AS 240 ml, konvensi di balik resep Amerika dan label nutrisi — dibangun dari 16 sendok makan 15 ml atau 48 sendok teh 5 ml. Resep Australia juga memakai cup 250 ml, jadi bahkan sumber berbahasa-Inggris tak sepakat.",
+          "Jika resep Anda ditulis untuk measuring cup metrik (250 ml, umum di Eropa, Jepang, dan kebanyakan Amerika Latin), tiap angka volume di sini berjalan sekitar 4% lebih kecil daripada cup Anda. Cup imperial Inggris (284 ml) berjalan ke arah sebaliknya. Bahan berbasis-berat seperti tepung bergeser beberapa gram per cup; dengan cairan kesalahannya proporsional dan jarang berarti. Perbaikan amannya adalah mengonversi sekali ke gram, lalu bekerja menurut berat.",
+          "Sendok makan menyembunyikan satu jebakan kedua: sendok makan AS 15 ml, yang Australia 20 ml, dan resep Inggris lama bisa mengasumsikan 17,7 ml. Kecil per sendok, tetapi satu resep dengan enam sendok makan minyak melayang terlihat. Ketika satu resep berkata “sendok makan” tanpa negara, asumsikan 15 ml kecuali sumbernya Australia.",
+        ],
+      },
+      {
+        heading: "Suhu oven dan eksekusi lokal",
+        paragraphs: [
+          "Tabel °F↔°C menerapkan rumus persis °C = (°F − 32) × 5⁄9, tetapi membulatkan ke setelan yang benar-benar dimiliki oven: 350 °F menjadi 175 °C alih-alih 176,7 °C literalnya, karena dial melangkah dalam kenaikan 5–10 derajat dan tiap penulis resep membulatkan ke satu marka akrab terdekat. Pasangan standar lainnya mengikuti logika yang sama — 300 °F ≈ 150 °C, 400 °F ≈ 200 °C, 425 °F ≈ 220 °C.",
+          "Ingat bahwa marka pada satu dial itu sendiri satu aproksimasi: oven rumah rutin melayang 10–25 derajat dari titik setnya, itulah sebabnya resep serius merekomendasikan satu termometer oven independen sebelum menyalahkan satu konversi. Tabelnya menyelesaikan masalah unitnya; ia tak bisa memperbaiki satu oven yang salah kalibrasi.",
+          "Semuanya di sini — tabel kepadatannya, matematika unitnya, rumus suhunya — berjalan sepenuhnya di browser Anda. Tak ada daftar bahan, tak ada kuantitas, dan tak ada pencarian yang dikirim ke mana pun, itulah sebabnya alatnya tetap seketika tanpa spinner pemuatan. Ia juga bekerja offline begitu dimuat, berguna untuk ponsel yang disandarkan ke satu konter berdebu-tepung.",
+        ],
       },
     ],
   },
@@ -4614,6 +8801,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah ada yang dikirim ke server?",
         a: "Tidak. SVG dibangun dari templat string di peramban Anda dan versi raster digambar pada canvas lokal. Tak ada yang meninggalkan halaman: ia bekerja luring dan aman untuk desain yang belum dirilis.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "SVG sebagai format sumbernya: teks yang diskala",
+        paragraphs: [
+          "Satu placeholder tak butuh satu file raster — ia butuh satu persegi dengan satu label. Mengekspresikannya sebagai SVG berarti keluarannya beberapa baris markup yang terbaca: satu rect, satu elemen text, mungkin satu atribut fill. Teks itulah alasan SVG menyalin bersih ke HTML, JSX, Figma, atau satu README, dan kenapa ia bisa disunting-ulang belakangan — ubah labelnya atau warna hexnya di markup dan gambarnya diperbarui. Satu PNG dari hal yang sama adalah piksel beku yang tak bisa disesuaikan siapa pun tanpa meregenerasi.",
+          "SVG juga diskala: file 1 KB yang sama dirender tajam pada 64×64 di satu slot avatar dan pada 1200×630 di satu mockup hero, karena satu gambar vektor tak punya resolusi. Placeholder raster entah tampak buram saat diregangkan atau membunuh byte saat berukuran berlebih. Untuk wireframe dan dokumentasi — habitat utama placeholder — jalur vektor biasanya secara ketat lebih baik.",
+          "Dua format raster memperoleh tempatnya di ceruk spesifik. PNG cocok untuk platform yang menyanitasi atau merusak SVG inline (sebagian CMS, klien surel, dan aplikasi chat mencabut atau memutusnya), dan JPG menang ketika placeholder meniru satu foto karena kompresi JPEG menangani gradien dan derau lebih baik daripada pendekatan palet PNG. Pratinjau sama, tiga format penyajian — pilihannya milik platform sasarannya, bukan selera.",
+        ],
+      },
+      {
+        heading: "Dimensi-dimensi yang berarti di tata letak nyata",
+        paragraphs: [
+          "Ukuran-ukuran tertentu berulang karena platform mematoknya. Persegi 1200×630 adalah ukuran kartu open-graph/pratinjau-sosial kanoniknya — rasio yang di-crop kebanyakan platform untuk pratinjau tautan. 256×256 dan pangkat-dua serupa mencocokkan slot avatar dan ikon. Persegi 16:9 (1280×720) berbaris dengan embed video. Memilih satu placeholder dengan rasio aspek aset finalnya berarti mockup tak pernah bergeser saat gambar nyatanya datang, karena reflow tata-letak adalah bug mahal yang dicegah gambar-gambar ini.",
+          "Batas 1–5000 piksel bukan sembarangan. Di bawah 1 piksel satu gambar tak bisa dirender bermakna; di atas beberapa ribu, browser dan alat desain mulai tersedak alokasi canvas — satu PNG 5000×5000 pada kualitas penuh sudah puluhan megabita data piksel mentah sebelum kompresi. Generator placeholder jarang butuh lebih, dan menolak ukuran ekstrem dengan satu pesan jelas mengalahkan menghasilkan satu file yang tak akan terbuka di mana pun.",
+          "Satu kebiasaan yang layak diadopsi: jaga teks labelnya di dalam gambar tetapi jaga dimensi nyatanya di markup sekitarnya. Satu tag img dengan atribut width dan height eksplisit plus satu placeholder pada rasio yang sama memberi Anda satu kotak tata-letak yang stabil sekarang dan satu pengganti langsung nanti — tanpa operasi CSS saat aset nyatanya mendarat.",
+        ],
+      },
+      {
+        heading: "Mengapa generasinya tetap di mesin Anda",
+        paragraphs: [
+          "Gambar placeholder muncul paling awal dalam hidup satu proyek — wireframe produk yang belum dirilis, mockup fitur di bawah NDA, dasbor internal yang tak seharusnya dilihat siapa pun di luar perusahaan. Itu membuat alur kerja generator-daring biasa tidak nyaman: ketik dimensi Anda ke satu layanan dan permintaannya (sering termasuk satu label yang membongkar proyek) menghantam server orang lain dan bisa dicatat. Alat ini membangun SVG-nya dari satu templat string dan menggambar versi raster pada satu canvas lokal — tak ada permintaan jaringan yang membawa desain Anda di titik mana pun.",
+          "Generasi lokal juga menghapus ekonomi akun-dan-watermark yang mengelilingi banyak layanan placeholder: tanpa pendaftaran, tanpa batas laju harian, tanpa branding yang dibakar ke sudut mockup Anda. File yang Anda unduh persis file yang Anda spesifikasikan, dan markup SVG yang Anda salin milik Anda untuk dimodifikasi.",
+          "Ia juga bekerja offline begitu halaman dimuat, yang berarti lebih dari yang terdengar: desainer dan pengembang sering bekerja dalam perjalanan atau di jaringan terbatas, dan satu alat yang mati tanpa konektivitas tak berguna di persis situasi tempat satu placeholder cepat dibutuhkan. Hasilkan, unduh, tutup tabnya — tak ada yang pernah dikirim.",
+        ],
       },
     ],
   },
@@ -4648,6 +8861,32 @@ export const id: Record<string, ToolCopy> = {
         a: "FLSA menghitung lembur atas «tarif reguler», yang bisa mencakup lebih dari upah pokok — differential shift dan bonus non-diskresioner adalah contohnya. Kalkulator ini memakai tarif pokok murni, jadi jika Anda menerima tambahan-tambahan itu, tarif lembur legal Anda bisa lebih tinggi dari yang ditampilkan di sini.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dari mana pengali 1,5× datang — dan di mana ia bervariasi",
+        paragraphs: [
+          "Konvensi time-and-a-half paling terkodifikasi di Fair Labor Standards Act AS, yang menuntut sekurang-kurangnya 1,5 kali tingkat regular bagi karyawan non-exempt melampaui 40 jam dalam satu minggu kerja. Banyak negara lain mengatur lembur berbeda — sebagian menyetel satu batas umum jam mingguan dengan premi yang dinegosiasikan sektor atau kontrak, lainnya kebanyakan mengandalkan kesepakatan antara pemberi kerja dan karyawan.",
+          "Itulah sebabnya kalkulator ini membiarkan Anda memilih pengalinya alih-alih menghardcode satu: 1,5× adalah bawaan umumnya, tetapi double time ada di sebagian negara bagian AS untuk hari libur atau shift harian panjang, dan perjanjian kolektif di tempat lain menyetel premi dari mana saja mulai 1,25×. Perlakukan keluaran kalkulatornya sebagai satu model ketentuan kontrak Anda, bukan satu pernyataan apa yang dijamin hukum mana pun.",
+          "Pembacaan konservatifnya: periksa apa yang sebenarnya dikatakan kontrak kerja Anda, perjanjian sektor Anda, atau otoritas tenaga-kerja lokal Anda tentang jam melampaui minggu kerja standar, lalu masukkan pengali dan ambang yang cocok. Matematikanya sendiri — tingkat × pengali × jam — tak pernah berubah; hanya masukannya yang berubah.",
+        ],
+      },
+      {
+        heading: "Jebakan tingkat-regular: apa yang dihitung sebagai basis Anda",
+        paragraphs: [
+          "Kesalahan paling umum dalam mengestimasi bayaran lembur adalah memakai satu basis terlalu rendah. Di bawah aturan seperti milik FLSA, lembur berutang pada “tingkat regular” — satu rata-rata blend yang harus termasuk kebanyakan bonus nondiskresioner, diferensial shift, dan komisi, bukan hanya gaji dasarnya. Satu karyawan yang tingkat regulernya sebenarnya 27,00 tetapi menghitung lembur dari satu basis 25,00 kehilangan uang tiap jam lemburnya.",
+          "Kalkulator ini sengaja memakai satu tingkat dasar lurus yang Anda masukkan, yang menjaga modelnya transparan: Anda melihat persis tingkat × pengali × jam, tanpa apa pun yang ditambahkan atau disembunyikan. Jika bayaran Anda memuat ekstra yang secara legal milik tingkat regulernya, hak Anda yang sebenarnya lebih tinggi daripada yang ditampilkan — masukkan satu tingkat yang dirata-ratakan manual untuk mendekatinya.",
+          "Bagi karyawan bergaji, basisnya harus diturunkan lebih dulu: gaji tahunan dibagi jam regular per minggu kali minggu per tahun, yang adalah yang dilakukan mode gaji di sini. Hasilnya hanya seakurat jadwal yang Anda masukkan — orang bergaji yang benar-benar menjalani 45 jam seminggu punya satu tingkat per-jam turunan yang lebih rendah, dan satu gambar lembur yang berbeda, daripada yang disarankan jadwal 40-jam nominalnya.",
+        ],
+      },
+      {
+        heading: "Membaca pembagiannya dan merencanakan dengannya",
+        paragraphs: [
+          "Pembagian mingguannya — bayaran regular versus premi lemburnya — adalah angka yang layak dipantau, bukan totalnya. Baris preminya penghasilan marginal murni: ia menunjukkan apa yang benar-benar bernilai tiap jam ekstra pada margin, dan secara simetri apa yang mengeluarkan Anda tiap jam lembur yang ditolak atau tak dibayar. Satu minggu lima-jam pada 1,5× pada satu tingkat 25,00 menambahkan 187,50 premi — terlihat, bisa dinegosiasikan, layak dilacak.",
+          "Angka tahunannya mengalikan total mingguannya dengan minggu setahun yang Anda kerjakan. Bacalah sebagai satu plafon, bukan satu janji: lembur jarang dijamin tiap minggu, jadi satu rentang realistis memakai minggu-minggu lembur tipikal Anda alih-alih 52. Menganggarkan dari satu proyeksi lembur tahun-penuh adalah cara orang berakhir kekurangan saat jam-jam ekstranya mengering.",
+          "Semuanya berjalan lokal di browser Anda dan tak ada yang disimpan atau dikirim — berguna saat menguji angka sebelum satu percakapan bayaran. Bawalah pembagiannya, bukan hanya totalnya: “minggu regular saya 1.000,00 dan lima jam yang Anda minta saya tambahkan bernilai 187,50 pada time and a half” adalah satu permintaan yang lebih jelas daripada angka gumpalan mana pun.",
+        ],
+      },
+    ],
   },
   "rent-affordability-calculator": {
     name: "Kalkulator Kemampuan Sewa",
@@ -4675,6 +8914,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apa arti persentase utang-terhadap-pendapatan di sini?",
         a: "Itu porsi pendapatan Anda yang dikonsumsi sewa maksimum ditambah utang dan asuransi yang Anda daftarkan. Pemberi pinjaman umumnya menyukai DTI total di bawah sekitar 36%; di atas sekitar 43% sulit memenuhi syarat hipotek. Angka tinggi berarti batas sewa terlalu agresif bagi kewajiban Anda yang lain.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dari mana aturan 30% datang — dan apa yang dilupakannya",
+        paragraphs: [
+          "Benchmar 30% punya satu asal-usul legislasi Amerika: Brooke Amendment 1969 membatasi sewa di perumahan publik pada 25% penghasilan, dan plafonnya dinaikkan ke 30% pada 1981. Badan perumahan masih memakai garis 30% untuk mendefinisikan satu rumah tangga “terbebani-biaya”, dan dari sana ia bocor ke nasihat sewa umum. Mengetahui asal-usulnya berarti karena angkanya satu aturan subsidi, bukan satu temuan tentang apa yang benar-benar sanggup dibayar rumah tangga mana pun.",
+          "Aturannya didesain di sekitar struktur penghasilan-bruto dan rumah-tangga pertengahan abad ke-20. Ia tak mengatakan apa pun tentang sisa anggarannya: satu penyewa dengan pinjaman-kuliah dan cicilan mobil pada 30% bruto lebih tertekan daripada satu tanpa utang pada 35%. Ia juga mengabaikan baris paling fleksibel dalam anggarannya — tak ada dalam aturan itu yang memperhitungkan pengasuhan anak, perjalanan, atau biaya medis, yang bervariasi jauh lebih banyak daripada sewanya.",
+          "Itulah sebabnya kalkulator ini menawarkan tiga preset alih-alih satu kebenaran: 30% bruto untuk pembacaan klasik, 33% untuk satu peregangan sederhana, dan 40% take-home untuk kota berbiaya-tinggi di mana 30% bruto mungkin tak menghargakan satu apartemen nyata. Preset mana pun yang Anda pilih, kurangkan utang dan asuransi setelahnya — anggaran tersisanya adalah angka yang menjawab “bisakah saya hidup dari ini”, bukan plafonnya sendiri.",
+        ],
+      },
+      {
+        heading: "Bruto atau net: memilih satu basis dan tetap konsisten",
+        paragraphs: [
+          "Aturan klasiknya dinyatakan dalam penghasilan bruto, yang diam-diam menyanjungnya: 30% bruto bisa menjadi 38–40% take-home setelah pajak dan potongan payroll, tergantung negara dan braket Anda. Merencanakan dari penghasilan net terasa lebih jujur karena slipslip gajilah yang benar-benar datang — tetapi rasio berbasis-net butuh lebih tinggi untuk mendarat di tempat yang sama, karenanya 40% net sebagai preset kota-berbiaya-tinggi.",
+          "Kesalahan yang dihindari adalah mengganti basis di tengah analisis. Satu anggaran sewa yang dibangun di atas 30% bruto, lalu dibandingkan tiap bulan terhadap setoran net, menghasilkan satu kekurangan hantu permanen yang tampak seperti pemborosan. Pilih satu basis, catat itu, dan pertahankan tiap pemeriksaan belakangan pada basis itu — kalkulator melabeli bruto versus net persis agar plafonnya dan rekening-bank Anda membicarakan uang yang sama.",
+          "Pemilik rumah menambahkan penyaringan mereka sendiri di atasnya: pengali penghasilan dua-koma-lima hingga tiga kali sewa bulanan umum, bersama pemeriksaan kredit dan referensi. Penyaringan-penyaringan itu tentang risiko mereka, bukan anggaran Anda — lolos pada rasio sewa-ke-penghasilan 45% tetaplah satu anggaran yang tertekan, dan angka DTI di sini membuat itu terlihat sebelum Anda menandatangani.",
+        ],
+      },
+      {
+        heading: "Utang-ke-penghasilan dan membaca sisanya",
+        paragraphs: [
+          "Persentase utang-ke-penghasilan yang ditampilkan pada sewa maksimal adalah ukuran yang sama yang dipakai pemberi pinjaman: total kewajiban bulanan atas total penghasilan bulanan. Sebagai satu kompas kasar, total DTI sekitar 36% umumnya dianggap nyaman, dan mendaki menuju pertengahan-40-an adalah tempat persetujuan mortgage dan sewa mulai kesulitan — ini praktik industri umum, bukan batas legal yang tetap, dan ambangnya berbeda menurut negara dan pemberi pinjaman.",
+          "Baca anggaran tersisanya sebelum plafonnya. Dua penghasilan bisa menghasilkan rasio sewa-ke-penghasilan yang sama sambil menyisakan jumlah yang sangat berbeda untuk makanan, transportasi, dan tabungan — 4.500 penghasilan dengan 1.350 sewa menyisakan dua kali apa yang disisakan 2.600. Sisa absolutnya yang menangkap pengeluaran tak-terencana; rasionya hanya menormalkan.",
+          "Terakhir, baris negatifnya satu fitur: saat sewa plus utang melampaui penghasilan, alatnya berkata begitu alih-alih menghaluskannya. Itu sinyal jujurnya untuk mengecilkan preset rasio, mencari sewa lebih murah, atau melunasi satu utang lebih dulu — kalkulatornya berjalan sepenuhnya di browser Anda dan tak menyimpan apa pun, jadi angka penghasilan nyata aman dimasukkan.",
+        ],
       },
     ],
   },
@@ -4706,6 +8971,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Kalkulator ini memakai 365 periode per tahun, konvensi yang diikuti sebagian besar rekening tabungan konsumen. Beberapa produk keuangan justru menahunkan pada basis 360 hari, yang menggeser tarif efektif sedikit — jika catatan kecil menulis 360, perlakukan hasilnya sebagai perkiraan dekat, bukan kutipan eksak.",
       },
     ],
+    deepDive: [
+      {
+        heading: "APR, APY, dan siapa yang diuntungkan oleh kebingungannya",
+        paragraphs: [
+          "APR adalah satu tingkat tahunan nominal: apa yang akan diperoleh, atau diutangi, saldo itu jika bunga dikenakan sekali setahun. APY adalah hasil tahunan efektifnya begitu perbungaan dilipat ke dalamnya. Identitas yang menghubungkan mereka, APY = (1 + r/n)^n − 1, mengatakan tingkat nominal yang sama menghasilkan satu hasil efektif lebih tinggi semakin sering ia berbunga — selisihnya persis bunga yang diperoleh bunga Anda.",
+          "Asimetri dalam iklan mengikuti insentifnya: tabungan dikutip dalam APY karena itu angka yang lebih besar, pinjaman dalam APR karena yang lebih kecil. Tak satu pun praktik yang tidak jujur dengan sendirinya — kedua angka distandarkan di kebanyakan pasar — tetapi membandingkan satu APY tabungan langsung terhadap satu APR pinjaman, atau dua tingkat dengan frekuensi perbungaan berbeda, adalah membandingkan unit yang berbeda.",
+          "Aturan satu-baris yang diautomatiskan alat ini: bagi deposito, bandingkan APY dengan APY, yang sudah menormalkan frekuensinya; bagi utang, bandingkan APR dengan APR lalu periksa seberapa sering tiap kontrak benar-benar mengkapitalisasi. Hanya tingkat pada pijakan yang sama bisa memeringkat dua tawaran.",
+        ],
+      },
+      {
+        heading: "Catatan kaki 365-vs-360, dan konvensi lain yang menggerakkan angkanya",
+        paragraphs: [
+          "Alat ini memakai 365 periode untuk perbungaan harian, konvensi yang paling diikuti akun tabungan konsumen. Tetapi cetak kecil produk keuangan punya lebih dari satu kalender: sebagian product menahunkan pada basis 360-hari, dan sebagian kontrak pinjaman menghitung bunga pada jumlah hari nyata dalam tahunnya. Tiap konvensi menggeser tingkat efektifnya sedikit — kecil per tahun, bermakna sepanjang hidup satu saldo besar.",
+          "Waktu pembayaran juga menggerakkan angkanya. Satu deposito yang memperoleh bunga sejak hari kedatangannya tumbuh sedikit lebih cepat daripada yang dikreditkan di akhir periode; apakah satu pinjaman mengkapitalisasi bunga bulanan atau harian mengubah biaya efektifnya bahkan pada tingkat nominal yang sama. Ketika dua kutipan berbeda beberapa perseratus poin, penyebabnya hampir selalu satu konvensi seperti ini, bukan satu kesalahan aritmetika di sisi siapa pun.",
+          "Itu juga kenapa arah sebaliknya berarti: diberi satu APY yang diiklankan, alat ini memulihkan APR nominal yang akan menghasilkannya, sehingga Anda bisa melihat tingkat mentah di balik angka pemasarannya dan membandingkan kontrak yang mengutip dalam unit berbeda. Bolak-baliknya persis karena itu persamaan yang sama yang diselesaikan kedua arah.",
+        ],
+      },
+      {
+        heading: "Apa yang ditambahkan proyeksinya, dan di mana ia berhenti",
+        paragraphs: [
+          "Deposito dan cakrawala opsional mengubah satu perbandingan tingkat menjadi satu perbandingan uang: pecahan poin yang sama di antara dua APY itu trivial pada satu dana darurat kecil dan empat digit melintasi satu dekade pada satu deposito besar. Proyeksinya berbunga pada tingkat efektifnya, jadi ia menjawab pertanyaan praktisnya — apa yang dibeli selisih ini bagi saya melintasi cakrawala aktual saya — alih-alih menyatakan-ulang tingkat-tingkatnya.",
+          "Apa yang tak dilakukannya adalah memodelkan pajak atau biaya. Penghasilan bunga kena pajak di kebanyakan yurisdiksi, dan biaya akun mengurangkan langsung dari saldonya, jadi APY setelah-pajak, setelah-biaya yang benar-benar Anda alami lebih rendah daripada yang dikutipkan. Konversikan angka Anda sendiri secara konservatif dan perlakukan saldo yang diproyeksikan sebagai satu plafon, bukan satu janji.",
+          "Seperti sisanya situs ini, konversinya dan proyeksinya berjalan lokal di browser Anda. Tingkat yang masih Anda negosiasikan dan ukuran deposito tak pernah meninggalkan perangkat Anda — yang lebih berarti dari yang terdengar saat Anda di tengah satu perbandingan antara dua bank.",
+        ],
+      },
+    ],
   },
   "gpa-calculator": {
     name: "Kalkulator GPA",
@@ -4733,6 +9024,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Mengapa baris tanpa nilai atau kredit tidak mengubah GPA saya?",
         a: "Mata kuliah hanya dihitung bila jam kredit dan nilai hurufnya keduanya ada — apa pun yang terisi setengah dibuang alih-alih dianggap nol, agar GPA mencerminkan mata kuliah yang benar-benar Anda selesaikan. Lengkapi barisnya dan total langsung diperbarui.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa skala 4,0 tak terjelas dengan bersih",
+        paragraphs: [
+          "Skala 4,0 adalah satu konvensi institusi AS, bukan satu standar internasional. Tabel paling umum memberi A+ dan A = 4,0, A− = 3,7, B+ = 3,3 dan langkah 0,3–0,33 ke bawah huruf-hurufnya, tetapi sekolah berbeda dengan cara nyata: sebagian membatasi A+ pada 4,0, sebagian memberinya 4,3; sebagian membobot mata kuliah honors atau AP di atas 4,0; sebagian kecil menghilangkan nilai minus sepenuhnya. Dua transkrip yang membaca “3,7” karenanya bisa mendeskripsikan performa yang sedikit berbeda.",
+          "Mengonversi ke atau dari satu sistem persen lebih buruk dari lossy — ia sering tak-terpulihkan. Satu 85/100 Tiongkok bisa terpetakan ke satu A− di satu tabel evaluasi-kredensial dan satu B di lainnya; satu 2,0 Jerman tak berkorespondensi dengan satu huruf AS tunggal dengan keyakinan. Evaluasi resmi (WES dan layanan serupa) menjalankan rumus terdokumentasi mereka sendiri persis karena tak ada satu konversi universal yang ada.",
+          "Aturan praktisnya: untuk pelacakan dan perencanaan Anda sendiri, satu tabel konsisten mana pun bekerja, dan alat ini memakai yang paling luas tersebar. Untuk aplikasi — penerimaan pascasarjana, beasiswa, proses visa atau kredensial — tabel resmi sekolah dan transkrip itu sendiri yang memutuskan, jadi selalu verifikasi skala mana yang diharapkan satu aplikasi sebelum mengutip satu angka.",
+        ],
+      },
+      {
+        heading: "Pembobotan kredit dan apa yang benar-benar bisa digerakkan satu semester",
+        paragraphs: [
+          "GPA adalah satu rata-rata berbobot-kredit, bukan rata-rata nilai. Rumus Σ(poin × kredit) ÷ Σkredit berarti satu A 4-kredit menyumbang 12 poin kualitas sementara satu B+ 3-kredit menyumbang 9,9 — jadi mata kuliah dengan kredit terbanyak yang paling banyak mengemudikan GPA Anda. Saat merencanakan satu semester, mendorong mata-kuliah kredita-tinggi dari satu B ke satu A− biasanya mengalahkan menyempurnakan satu seminar 1-kredit.",
+          "Blend kumulatinya bekerja dengan cara yang sama satu tingkat ke atas: (GPA semester × kredit semester + GPA sebelumnya × kredit sebelumnya) ÷ total kredit. Aritmetikanya menjelaskan satu frustrasi yang dihadapi setiap orang yang mekar belakangan — dengan 60 kredit 3,00 di belakang Anda, satu semester 3,60 cemerlang atas 7 kredit hanya mengangkat kumulatifnya ke sekitar 3,06. Semester-semester awal menggerakkan angkanya banyak; yang belakangan nyaris tak menggoyangkannya.",
+          "Matematika yang sama itulah kenapa satu semester ringan nyaris tak mencekungkan catatannya, dan kenapa menggugurkan satu mata kuliah 3-kredit di tengah semester berpengaruh lebih besar daripada intuisi orang — menghapus kredit-kredit itu mengubah baik pembilang maupun penyebutnya. Jika Anda memodelkan skenario, masukkan mata kuliah persis sebagaimana akan tampak setelah pengguguran, bukan sebagai nol.",
+        ],
+      },
+      {
+        heading: "Baris tak-lengkap, Pass/Fail, dan privasi",
+        paragraphs: [
+          "Satu baris hanya dihitung ketika baik kredit maupun satu nilai huruf terisi. Mata kuliah yang setengah-masukan dilewati alih-alih bernilai nol — menilai mereka nol akan diam-diam menghukum mata kuliah yang belum Anda ambil, yang adalah cara paling umum kalkulator GPA naif menghasilkan angka salah. Mata kuliah Pass/Fail milik luar alat ini: kebanyakan registrar mengecualikannya dari GPA sepenuhnya.",
+          "Semuanya berjalan di browser Anda. Nilai dan nama mata kuliah tak pernah meninggalkan perangkat Anda — tak ada akun, tak ada bolak-balik server, tak ada riwayat tersimpan. Itu lebih berarti dari yang terdengar: draf GPA sering mendahului hasil resmi, dan menempel transkrip ke satu formulir web tak dikenal adalah satu paparan tak perlu. Muat-ulang halaman dan sheetnya kosong lagi.",
+        ],
       },
     ],
   },
@@ -4764,6 +9080,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Ukur pagi hari, tepat setelah terbangun dan sebelum keluar tempat tidur: hitung denyut nadi selama 60 detik (atau 30 detik × 2), dan ulangi beberapa hari untuk meratakan derau. Angka istirahat 7 hari dari perangkat wearable juga bisa. Orang dewasa biasa berada di antara 60 dan 80 bpm; atlet ketahanan yang terlatih baik sering berada di kisaran 40-an atau 50-an. Bila denyut istirahat Anda di atas estimasi maksimum — atau obat seperti beta-blocker memengaruhi denyut jantung Anda — masukkan kedua angka secara manual.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Dua rumus yang bekerja bersama: Karvonen dan HR maksimal",
+        paragraphs: [
+          "Metode Karvonen mendefinisikan intensitas sebagai satu persentase cadangan-denyut-jantung Anda: bpm = HR istirahat + % × (HR maksimal − HR istirahat). Menskala cadangannya alih-alih maksimalnya adalah seluruh poinnya — satu pelari dengan denyut istirahat 45 punya rentang yang bisa dilatih jauh lebih besar daripada yang 70, dan zona berbasis-cadangan menghormatinya.",
+          "Denyut jantung maksimal sendiri diestimasi di sini sebagai 206,9 − 0,67 × usia, satu regresi yang dipaskan ke maksimal yang terukur-laboratorium oleh Gellish dan kolega pada 2007. Aturan terkenal 220 − usia menelusuri kembali ke satu tabel kenyamanan kasar 1970-an dan secara sistematis melebih-lebihkan HR maksimal pada orang dewasa lanjut; regresi-regresi modern (208 − 0,7 × usia milik Tanaka di antaranya) memaskan data terukurnya jauh lebih baik.",
+          "Zona-zonanya kemudian membelah cadangannya pada batas klasiknya — Z1 pada 50%, Z2 pada 60%, Z3 pada 70%, Z4 pada 80%, Z5 pada 90% — memberi lima pita dari berlari pemulihan melalui pekerjaan ambang hingga interval VO2-max.",
+        ],
+      },
+      {
+        heading: "Cara memakai tiap zona",
+        paragraphs: [
+          "Zona-zonanya mendeskripsikan niat fisiologis, bukan kecepatan. Z1–Z2 membangun basis aerobik dan seharusnya terasa sungguh mudah — kebanyakan pelari rekreasional berlatih terlalu keras di sini, itulah sebabnya rencana pelatihan terpolarisasi menekankan tetap jujur di zona-zona mudah. Z3 duduk di sekitar usaha stabil yang nyaman; Z4 adalah pekerjaan ambang yang bisa Anda pertahankan kira-kira 20–60 menit; Z5 adalah interval pendek keras dekat langit-langit Anda.",
+          "Periksa angka-angkanya terhadap satu strap dada atau satu jam tangan ber-HR optik selama minggu-minggu pertama. Jika usaha yang Anda persepsi berkata Z3 sementara strap berkata Z2, percayai usaha — tidur dan stres akan menjelaskan celahnya — denyut jantung melayang dengan kelelahan, panas, ketinggian, dan hidrasi, hari demi hari.",
+          "Tahu HR maksimal nyata Anda dari satu uji lab atau satu finish race habis-semuanya? Masukkan secara manual — satu nilai terukur selalu mengalahkan satu persamaan, karena maksimal individual tersebar kira-kira ±10 bpm di sekitar satu garis regresi mana pun.",
+        ],
+      },
+      {
+        heading: "Di mana estimasinya runtuh",
+        paragraphs: [
+          "Beta-blocker dan obat pembatas-denyut lainnya meratakan seluruh modelnya: mereka membatasi denyut jantung jauh di bawah yang diprediksi persamaan mana pun, jadi pelatihan zona pada obat-obatan ini seharusnya mengikuti satu panduan klinisi atau fisiolog, bukan kalkulator.",
+          "Regresinya juga lebih lemah di ekstremnya — atlet yang sangat muda dan orang dewasa jauh melampaui tujuh puluh berada di luar data tempat persamaan-persamaan itu dipaskan. Dan sensor pergelangan optik lambat pada interval; untuk pekerjaan Z4–Z5 satu strap dada layak.",
+          "Terakhir, HR istirahat perlu diukur, bukan diduga: ambil di pagi sebelum bangkit, selama beberapa hari. Memakai satu nilai istirahat yang menggembung menekan tiap zona ke bawah dan diam-diam membuat hari-hari mudah Anda terlalu keras.",
+        ],
+      },
+    ],
   },
   "shoe-size-converter": {
     name: "Konverter Ukuran Sepatu",
@@ -4786,6 +9128,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Bagaimana cara mengukur kaki saya?",
         a: "Berdirilah di atas selembar kertas di akhir hari, telusuri kedua kaki, dan ukur dari tumit ke jari terpanjang dalam sentimeter. Gunakan kaki yang lebih besar.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa ukuran sepatu adalah satu kacau konvensi",
+        paragraphs: [
+          "Angka ukuran sepatu arbitrer, dan tiap region mengarang skalanya sendiri. Sistem AS dan Inggris menomori ukuran dari satu tangga berbasis-barleycorn — tiap langkah ukuran penuh bernilai sekitar sepertiga inci (kira-kira 8,5 mm) — sementara skala EU membagi panjang kaki dengan satu angka basis dengan pembulatannya sendiri, dan Jepang memakai Mondopoint, yang sekadar panjang kaki dalam sentimeter. Tak satu pun skala yang berbagi nol umum, itulah sebabnya kaki fisik yang sama bisa terbaca 9 di satu sistem dan 42 di lain.",
+          "Skala pria dan wanita di AS dan Inggris saling ter-offset — satu 8 wanita-AS berkorespondensi kira-kira satu 6,5 pria — karena sizing wanita secara historis berjalan satu tangganya sendiri sekitar 1,5 ukuran di atas pria. Inilah sebabnya satu konverter uniseks butuh pemilih jenis-kelaminnya: mengonversi satu ukuran wanita lewat tangga pria tanpa offset mendaratkan Anda dua ukuran melenceng, salah satu kesalahan paling umum saat berbelanja gaya uniseks.",
+          "Mengangkar pada panjang kaki dalam sentimeter memutari kebanyakan ini: panjang adalah fakta fisiknya, angka ukuran adalah labelnya. Setengah ukuran bernilai kira-kira 4–5 mm panjangnya, jadi ketika satu bagan menempatkan Anda di antara dua ukuran, sentimeter terukur Anda memberi tahu Anda di sisi mana celah itu kaki Anda benar-benar duduk.",
+        ],
+      },
+      {
+        heading: "Cara memakai satu konversi dengan jujur",
+        paragraphs: [
+          "Kaki membengkak sepanjang hari — berdiri, berjalan, dan panas mendorong darah ke jaringannya — jadi satu pengukuran pagi bisa terbaca setengah ukuran di bawah sepatu yang benar-benar Anda butuhkan menjelang malam. Ukur di akhir hari, berdiri dengan berat penuh di kakinya, dan ukur atau telusuri kedua kaki: kaki kebanyakan orang sedikit berbeda, dan sepatunya harus cocok dengan yang lebih besar.",
+          "Merek membangun sepatu pada last yang berbeda — satu cetakan berbentuk-kaki yang dibentuk sepatunya — dan satu last yang sempit di tumit atau lega di jari mengubah kecocokannya tanpa mengubah angka ukuran yang dicap. Satu US 10 di satu merek yang cocok seperti 9,5 di lain normal, bukan kesalahan bagan. Retailer daring menerbitkan catatan ukuran mereka sendiri (“berjalan kecil”, “naik setengah ukuran”); catatan-catatan itu mengungguli tabel universal mana pun.",
+          "Ketika ukuran hasil konversi Anda duduk di antara dua opsi, ambil yang lebih besar untuk sepatu tertutup — kulit meregang, kaus kaki makan ruang, dan satu sepatu sedikit longgar menyesuaikan lebih baik daripada yang mengencangkan. Untuk tali, sandal, dan gaya terbuka, menurunkan ukuran lebih aman. Perlakukan tiap konversi di sini sebagai pusat satu rentang, lalu biarkan bagan milik merek mengecilkan itu.",
+        ],
+      },
+      {
+        heading: "Sistem secara detail dan eksekusi lokal",
+        paragraphs: [
+          "Mondopoint (ukuran panjang-kaki yang dirujuk ISO, dipakai Jepang dan sepatu-ski di seluruh dunia) yang paling rasional dari sistem-sistemnya: satu 25,0 Jepang berarti satu kaki 25 cm, tanpa offset dan tanpa pemisahan jenis-kelamin secara prinsip. Skala EU yang paling longgar — ia ditegakkan oleh praktik alih-alih satu standar ketat, dan sumber Prancis/Jerman tak sepakat satu ukuran di sebagian titik. Bagan AS dan Inggris presisi tetapi terpecah menurut jenis-kelamin, dan Inggris berjalan persis satu ukuran di bawah pria-AS di kebanyakan titik skala.",
+          "Sizing anak-anak dunianya sendiri — konvensi ruang-pertumbuhan seperti satu ruang selebar-penuh-ibu-jari umum, dan tangga anak di AS dan Inggris berbeda dari yang dewasa. Konverter ini mencakup bagan pria-dewasa dan wanita-dewasa; konversi anak butuh satu tabel anak-anak khusus.",
+          "Seluruh tabelnya berjalan di browser Anda dari bagan terbitan statis — tanpa akun, tanpa unggahan pengukuran, tanpa apa pun yang disimpan. Buka-ulang kapan pun bagan satu merek mengejutkan Anda; membandingkan angkanya terhadap jangkar standarnya biasanya cukup untuk melihat apakah mereknya berjalan kecil atau bagannya sekadar memakai satu pembulatan berbeda.",
+        ],
       },
     ],
   },
@@ -4812,6 +9180,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Tidak — seperti stopwatch fisik, mengatur ulang atau memuat ulang membersihkan sesi. Biarkan tab terbuka untuk menyimpan lap.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa penghitung-waktu menumpuk kesalahan — dan kenapa yang ini tidak",
+        paragraphs: [
+          "Satu stopwatch yang dibangun di setInterval menumpuk satu detik per callback, dan desain itu membawa tiga sumber kesalahan yang berbeda: callback menyala telat saat thread utama sibuk, browser membatasi tab latar (kadang sekali per detik atau lebih buruk), dan tiap keterlambatan kecil ditambahkan ke total terkumpulnya alih-alih dikoreksi. Melintasi satu run sepuluh-menit, detik hanyutan realistis; melintasi satu jam, menit.",
+          "Stopwatch ini menghitung waktu-berlalu sebagai Date.now() dikurangi satu cap waktu mulai yang tetap. Jam sistem milik browser adalah satu-satunya sumber kebenarannya, jadi betapapun lambat tabnya atau seberapa agresif ia dibatasi, repaint berikutnya menampilkan waktu berlalu yang sebenarnya. Jeda ditangani dengan cara yang sama — saat resume ia merekam satu segmen terangkar baru alih-alih memercayai nilai mana pun yang dihitung.",
+          "Tampilannya menampilkan per-seratus-detik karena jam dasarnya mudah me-resolvenya, tetapi kejujuran berarti di sini juga: yang dijamin digitnya adalah aritmetikanya, bukan refleks siapa pun yang menekan Start. Waktu-reaksi manusia sepersepuluh-dua-detik mengalahkan kesalahan komputasi mana pun dalam desain ini — itulah sebabnya badan penyelenggara masih memakai perangkat keras khusus dengan sensor kontak fisik atau foto.",
+        ],
+      },
+      {
+        heading: "Bagaimana lap dan split tetap konsisten",
+        paragraphs: [
+          "Tiap lap mencap jam terangkar yang sama pada momen Anda menekan Lap: split-nya waktu sejak cap lap sebelumnya, dan totalnya waktu sejak mulai. Karena keduanya datang dari mengurangkan cap waktu nyata — tak pernah dari menjumlahkan interval — tiap kolom konsisten-diri entah Anda mengambil berapa banyak lap atau seberapa telat kliknya.",
+          "Konsistensi itu layak diperiksa saat membandingkan stopwatch: pada satu penghitung yang menumpuk, split-splitnya mungkin tak berjumlah persis ke totalnya, dan diskrepansinya tumbuh dengan pembatasan dan beban. Di sini jumlah split-splitnya sama dengan total finalnya secara konstruksi — angka-angkanya tak bisa tak sepakat satu sama lain.",
+          "Menutup atau memuat-ulang tab menghapus sesinya, dan itu sengaja: tanpa penyimpanan berarti tak ada yang bocor dan tak ada yang tereset salah. Jika Anda butuh angka-angkanya, bacalah (atau tangkap-layar) sebelum menutup — alatnya berperilaku seperti satu perangkat fisik, bukan satu database.",
+        ],
+      },
+      {
+        heading: "Di mana satu stopwatch browser cocok",
+        paragraphs: [
+          "Cocok: interval pelatihan tempat atlet membaca waktu mereka sendiri, latihan rapat dan presentasi, mengetimkan build atau render, demonstrasi kelas, langkah memasak yang butuh tim per-langkah. Digit tabel yang besar itu ada persis karena pembacanya sering di tengah usaha dan melirik setengah detik.",
+          "Tak cocok: penyelenggaraan kompetisi, eksperimen waktu-reaksi, pelacakan waktu kelas-billing. Di setelan-setelan itu tampilan per-seratus-detik menjanjikan berlebihan — tekanan tombolnya sendiri komponen paling tak-presisi — dan perangkat khusus atau perangkat lunak dengan penangkapan kejadian level-keyboard adalah instrumen yang lebih baik.",
+          "Seperti segala hal di halaman ini, pengetimannya berjalan sepenuhnya di browser Anda: tak ada yang direkam, dikirim, atau dibagikan, dan stopwatch-nya bekerja offline. Data sesi hanya hidup di memori halaman, jadi satu power user yang mengetimkan sesuatu yang sensitif tak pernah harus bertanya ke mana angka-angkanya pergi.",
+        ],
+      },
+    ],
   },
   "countdown-timer": {
     name: "Timer Hitung Mundur",
@@ -4834,6 +9228,32 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah saya akan mendengar dentangnya?",
         a: "Itu nada sintetis singkat via WebAudio. Biarkan tab tidak dibisukan dan volume perangkat Anda dinaikkan; tak ada berkas audio untuk diunduh.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa hitung-mundur melayang — dan bagaimana yang ini menghindarinya",
+        paragraphs: [
+          "Cara naif membangun satu penghitung adalah setInterval yang mengurangi satu detik per tick. Ia gagal karena satu alasan struktural: setInterval satu permintaan, bukan satu janji. Browser membatasi penghitung di tab latar — secara historis ke sekitar sekali per detik atau jauh lebih kasar — jadi satu penghitung 10-menit di satu tab tak-aktif bisa diam-diam menghitung jauh lebih lama daripada sepuluh menit. Alarm berbasis-penghitung di browser adalah sumber bug “ia menyala telat” yang terkenal.",
+          "Alat ini mengambil pendekatan sebaliknya: saat Anda menekan Start ia merekam satu tenggat dinding-jam, dan tiap pembaruan tampilan menghitung-ulang sisa waktunya sebagai tenggat dikurangi sekarang. Tik-tik yang Anda lihat bisa berjeda sementara tabnya dibatasi, tetapi sasaran dasarnya tak pernah bergerak, jadi begitu halaman merepaint, ring dan digitnya sudah benar. Sederhananya: penghitungnya bisa telat merender, tapi tak pernah telat untuk benar.",
+          "Pengangkaran yang sama itulah kenapa tampilan yang tidur dan beban CPU berat tak menumpuk kesalahan — tak ada yang untuk ditumpuk, karena tak ada penghitung yang di-increment. Komprominya adalah chime-nya sendiri tetap bergantung tabnya cukup hidup untuk menjalankan callback-nya; bagi penghitung tempat alarm telat tak dapat diterima (ujian, memasak yang di-tim persis), satu penghitung perangkat-keras tetap pilihan yang lebih defensif.",
+        ],
+      },
+      {
+        heading: "Chime, browser, dan kebijakan audio",
+        paragraphs: [
+          "Chime-nya disintesis dengan Web Audio API — satu oscillator yang menghasilkan tonenya saat runtime alih-alih satu file audio yang diunduh. Itu menjaga halamannya ringan dan membuat suaranya bekerja offline. Ia juga menjelaskan satu kendala: browser menuntut satu gestur pengguna (satu klik atau ketukan tombol di halaman) sebelum audio boleh diputar, satu kebijakan yang menyasar memblokir iklan autoplay. Menekan Start sekali memenuhinya, itulah sebabnya mulai yang pertama berarti.",
+          "Jika tabnya berakhir senyap atau volume perangkatnya mati, chime-nya dibungkam dan tak ada suara cadangannya — browser tak membiarkan satu halaman menimpa mute sistem. Sinyal visual dipertahankan sebagai kanal keduanya: ring yang berubah hijau di nol adalah keadaan yang bisa Anda tangkap sekilas bahkan saat suaranya tak terbawa.",
+          "Tak ada tentang penghitungnya yang menyentuh satu server: durasi, preset, dan keadaan hidup di memori halaman, dan menutup tab mengakhiri semuanya. Tak ada prompt izin notifikasi, tak ada service worker, tak ada push latar — hitung-mundurnya hidup persis selama tabnya.",
+        ],
+      },
+      {
+        heading: "Memilih satu durasi dan memakai preset",
+        paragraphs: [
+          "Preset 1-sampai-25-menit ada karena kebanyakan hitung-mundur nyata menggerombol di band itu: menyeduh teh (2–5 menit), blok fokus gaya-Pomodoro (25), timebox rapat (5–15), latihan dan interval istirahat. Mengetuk satu preset lebih cepat daripada mengetik menit dan detik dan menghindari kesalahan klasik memasukkan menit ke kolom detik.",
+          "Untuk apa pun yang lebih dari satu jam, satu hitung-mundur biasanya bentuk yang salah — satu tenggat yang diangkar ke satu jam (pukul berapa ia selesai?) bertahan dari penutupan tab lebih baik daripada satu tampilan durasi-berlalu. Alat ini menangani rentang pendek sekali-lihat; untuk perencanaan skala-hari, satu alat tanggal atau hitung-mundur-ke-tanggal yang lebih cocok.",
+          "Sifat murni lokalnya juga punya satu manfaat senyap di ruang bersama: tanpa akun, tanpa iklan banner yang menyegarkan di sebelah penghitung Anda, dan tak ada tentang apa yang Anda timkan yang meninggalkan perangkat — yang berarti saat penghitungnya di satu layar yang terlihat satu kelas atau satu ruang rapat.",
+        ],
       },
     ],
   },
@@ -4863,6 +9283,30 @@ export const id: Record<string, ToolCopy> = {
         a: "Ya — satu sampel tidak bisa membuktikan opsionalitas, jadi semuanya required. Tandai sendiri field yang opsional di tempat API Anda mengizinkan null atau key yang hilang.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa dikatakan inferensi tipe dari satu sampel",
+        paragraphs: [
+          "Menghasilkan tipe dari satu sampel JSON adalah deduksi dari satu titik data, dan jujur mengetahui di mana deduksinya berhenti. Apa pun yang ditampilkan sampelnya bisa ditipe dengan setia: objek bersarang menjadi interface bernama, array objek melebur kunci-kuncinya ke satu bentuk, dan array tipe-campuran menjadi satu union seperti string | number. Tetapi apa pun yang tak ditampilkan sampelnya tak terlihat — satu kolom yang null di payload tampak seperti null, sementara satu kolom yang kadang hilang tampak wajib, karena ketiadaan tak bisa muncul dalam satu observasi.",
+          "Konsekuensinya adalah keluarannya satu titik awal, bukan satu kontrak. Payload API nyata melayang: satu kolom yang ditipe string bisa kadang mengembalikan null, satu objek bisa absen pada respons kesalahan, dan satu array yang kebetulan memuat satu elemen bukan bukti ia selalu akan. Alur kerja pragmatisnya adalah menghasilkan tipenya, lalu melebarkan kolom yang Anda tahu nullable atau opsional dengan satu ? atau satu union null — beberapa menit review manual mengalahkan kesalahan kompilator di produksi.",
+          "Tipe union adalah batas jujur lainnya. Jika dua elemen array punya bentuk berbeda, melebur tiap kunci ke satu interface (semua opsional) atau memancarkan satu union keduanya dapat dipertahankan; alat ini melebur, yang mencocokkan cara satu reviewer manusia biasanya melipat payload contoh tetapi bisa menyembunyikan kunci yang tak pernah bersama-sama. Ketika presisi berarti, JSON Schema atau satu union terdiskriminasi yang ditulis tangan adalah alat yang lebih kuat — codegen mencakup kasus 90% dengan cepat, dan Anda mengencangkan sisanya.",
+        ],
+      },
+      {
+        heading: "Mengapa klien API bertipe menangkap hanyutan lebih awal",
+        paragraphs: [
+          "Nilai nyata interface yang dihasilkan muncul setelah Anda menempelnya: kompilator menjadi satu pemeriksa bentuk bagi tiap situs panggilan. Jika backend mengganti nama satu kolom, membelah satu objek, atau mempersempit satu nilai ke null, TypeScript menandai akses-akses yang tak lagi cocok — pemeriksaan properti-berlebih menangkap salah-ketik di literal objek, dan strictNullChecks memaksa tiap kolom potensial-absen ditangani. Satu loop sampel-ke-tipe mengubah “API-nya berubah diam-diam” menjadi satu kesalahan build dengan satu file dan satu nomor baris.",
+          "Itulah sebabnya alat ini memancarkan deklarasi interface polos tanpa helper runtime: tipe hanya ada pada waktu kompilasi, jadi keluarannya menambahkan nol byte ke bundle Anda dan bekerja dengan kompilator modern mana pun dan bundler mana pun. Tak ada yang diimpor, dikonfigurasi, atau dikunci-versi — hapus tipenya dan kode runtime Anda tak tersentuh.",
+        ],
+      },
+      {
+        heading: "Generasi lokal dan perbandingannya dengan alat yang lebih berat",
+        paragraphs: [
+          "Tempel satu sampel respons dan interface-nya dihasilkan di browser Anda — JSON-nya tak pernah meninggalkan perangkat Anda. Itu berarti karena payload yang paling ingin Anda tipe sering yang sensitif: respons API terautentikasi, endpoint admin internal, catatan pelanggan atau data staging dengan surel nyata di dalamnya. Mengirim mereka ke satu layanan web untuk dikonversi mengalahkan kehati-hatian yang Anda pakai menjaga mereka keluar dari log.",
+          "Generator tujuan-umum seperti quicktype menyasar selusin bahasa, JSON Schema, dan validator runtime, dan adalah pilihan yang tepat bagi satu permukaan API besar yang diatur dari satu sumber kebenaran. Alat ini menjawab satu pertanyaan sempit dengan cepat: payload tunggal ini tampak seperti apa sebagai tipe? Dikombinasikan dengan privasi generasi lokalnya, ia cocok dengan loop sehari-hari menginspeksi satu endpoint dan mendapatkan satu stub klien bertipe dalam beberapa detik.",
+        ],
+      },
+    ],
   },
   "json-diff": {
     name: "JSON Diff",
@@ -4885,6 +9329,31 @@ export const id: Record<string, ToolCopy> = {
       {
         q: "Apakah urutan key berpengaruh?",
         a: "Tidak — objek dibandingkan berdasarkan key, bukan urutan penyisipan. Dua dokumen dengan key yang sama dalam urutan berbeda dianggap identik.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Diff semantik versus diff karakter",
+        paragraphs: [
+          "Satu diff tingkat-karakter (git diff, alat diff teks polos) menjawab “byte apa yang berubah”, dan itu hampir tak pernah pertanyaannya dengan JSON. Dua respons API yang hanya berbeda karena satu di-pretty-print dengan 4 spasi dan yang lain dengan 2, atau karena satu encoder menata-ulang kunci objeknya, identik secara semantik — namun satu diff teks menampilkan ratusan baris berubah. Alat ini mem-parse kedua dokumen lebih dulu dan membandingkan nilainya, jadi derau pemformatan tak bisa menghasilkan positif-palsu.",
+          "Konsekuensinya satu asimetri yang disengaja: urutan kunci objek diabaikan, karena objek JSON adalah peta tak-berurutan menurut spesifikasi dan tiap konsumen membacanya menurut kunci — {“a”:1,“b”:2} sama dengan {“b”:2,“a”:1}. Urutan array, sebaliknya, signifikan, karena array adalah daftar berurutan dan konsumen membaca posisi indeks; [1,2,3] versus [3,2,1] melaporkan tiap elemen berubah. Mencocokkan semantik yang diterapkan konsumen itulah yang membuat keluaran diffnya terpercaya.",
+          "Tiap perubahan yang dilaporkan membawa satu jalur-titik penuh dalam gaya $.a.b[0].c yang dipakai JSONPath dan RFC 6902 JSON Patch. Notasi itu bukan dekorasi: satu baris diff bisa diubah menjadi satu asersi uji (harapkan payload.user.role sama dengan “admin”) atau menjadi satu operasi patch tanpa satu terjemahan mental pun antara tampilan diff dan kode yang mengonsumsinya.",
+        ],
+      },
+      {
+        heading: "Membaca diff tanpa tertipu",
+        paragraphs: [
+          "Kunci yang ditambahkan di dokumen baru adalah yang diperiksa untuk kompatibilitas-balik: satu respons API yang mendapat satu kolom biasanya aman bagi klien lama, tetapi satu file konfigurasi yang mendapat satu kunci bisa berarti satu bawaan berubah di suatu tempat. Kunci yang dihapus kebalikannya — mereka yang memutus konsumen yang membaca kolom-kolom itu. Nilai yang berubah dengan baik lama dan baru yang ditampilkan bersebelahan membuat delta perilaku sebenarnya terlihat, yang persis yang dibutuhkan satu review kode atas satu perubahan konfigurasi dan yang jarang ditangkap pesan commit.",
+          "Array dibandingkan menurut indeks, jadi menyisipkan satu elemen di tengah satu daftar menggeser tiap indeks berikutnya dan melaporkan satu kaskade perubahan. Jika data Anda secara konseptual satu set atau satu koleksi berkunci, bandingkan dengan elemen-elemennya terurut atau sebagai satu objek berkunci-ID — diff-nya kemudian menampilkan delta sejatinya alih-alih pergeserannya. Keputusan prapemrosesan itu milik alur kerjanya, bukan alatnya, itulah sebabnya alat menjaga aturannya sederhana dan dapat diprediksi.",
+          "Format daftar rata juga bekerja sebagai satu checklist deploy: tempel sebelum dan sesudah satu respons API, dan tiap barisnya adalah sesuatu yang satu konsumen dependen tangani atau tidak. Tim yang mengambil snapshot payload API sebelum rilis memakai persis loop ini, dan melakukannya lokal berarti payload tak pernah meninggalkan mesin.",
+        ],
+      },
+      {
+        heading: "Perbandingan lokal untuk payload yang tak bisa Anda tempel di tempat lain",
+        paragraphs: [
+          "Dokumen yang Anda diff dalam praktik bukan sampel mainan: respons API produksi dengan catatan pengguna, konfigurasi lingkungan dengan kredensial dan hostname internal, ekspor pelanggan. Menempel salah satu sisi ke satu layanan diff web sembarangan berarti mengirim data itu ke pihak ketiga — alatnya menjadi satu tautan terlemah dalam satu perbandingan yang persis Anda jalankan demi melindungi kebenarannya.",
+          "Semuanya di sini berjalan di JavaScript browser Anda: parsing, perjalanan rekursif, dan pembangunan jalurnya semua terjadi di mesin Anda, dan tak ada yang dikirim, disimpan, atau dicatat. Ia juga bekerja offline begitu dimuat, yang berarti karena diff konfigurasi lingkungan cenderung terjadi pada satu box staging dan jaringan yang dibatasi-VPN tempat alat eksternal tak terjangkau bagaimanapun. Batas jujurnya memori browser — dokumen jauh ke puluhan megabita dibandingkan baik, dan apa pun melampauinya milik satu pipa terskrip.",
+        ],
       },
     ],
   },
@@ -4911,6 +9380,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Anda mendapat alasan persisnya: key mana yang hilang atau indeks mana yang di luar jangkauan. Tidak ada yang crash.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang bisa dan tak bisa diekspresikan notasi jalurnya",
+        paragraphs: [
+          "Subset yang didukung sengaja kecil: $ untuk akarnya, .key untuk anggota objek, [0] untuk indeks array, dan kunci berkutip seperti $['weird key'] untuk nama yang memuat titik, kurung, atau spasi. Itu mencakup mayoritas absolut lookup nyata — menunjuk satu nilai konkret dalam satu struktur yang diketahui.",
+          "Yang tak dicakupnya adalah sisi deklaratif JSONPath: wildcard $..price, ekspresi filter $[?(@.active==true)], slice $[1:5], union. Operator-operator itu ada bagi dokumen yang bentuknya tak Anda ketahui di muka. Ketika Anda memang mengetahui bentuknya — yang adalah kebanyakan pekerjaan debugging dan pengujian — satu jalur langsung lebih cepat ditulis dan lebih cepat dinalar daripada satu ekspresi filter.",
+          "Kunci berkutip adalah detail yang terlewat orang. Satu API yang mengembalikan satu kunci seperti user.name atau order[0] sebagai satu nama kunci literal memutus notasi titik — jalurnya diam-diam menurun ke satu node yang salah. Membungkus kuncinya dalam kutipan memberi tahu evaluator “seluruh string ini satu kunci”, yang me-resolve ambiguitasnya tanpa satu trik escape pun.",
+        ],
+      },
+      {
+        heading: "Mengapa kesalahannya terbaca seperti kalimat",
+        paragraphs: [
+          "Evaluasi jalur berbasis-pustaka biasanya gagal dengan salah satu dari dua cara tak-menyenangkan: satu akses undefined yang mengembalikan “undefined” tanpa penjelasan, atau satu pengecualian dengan satu stack trace yang menunjuk ke dalam pustakanya. Keduanya membiarkan Anda reverse-engineering kegagalannya dari string jalurnya sendirian.",
+          "Evaluator ini berjalan jalurnya langkah demi langkah dan berhenti di satu diskrepansi pertama, melaporkan persis langkah mana yang gagal dan kenapa — “kunci \"address\" tak ditemukan di $.user” atau “indeks 3 di luar rentang, array punya 2 item”. Itu mengubah debugging jalur dari duga-dan-coba-ulang menjadi membaca: kesalahannya menamai node tempat realitas menyimpang dari asumsi Anda.",
+          "Jaminan tak-crash lebih berarti dari yang terdengar. Jalur panjang terhadap payload API yang bersarang dalam biasanya gagal beberapa kali selama Anda menyelidiki strukturnya; satu alat yang menurun ke satu pesan bahasa-polos menjaga loopnya tetap cepat, sementara satu pengecualian per percobaan mengubah penyelidikan yang sama menjadi satu kerja-keras.",
+        ],
+      },
+      {
+        heading: "Menyelidiki payload tanpa mengunggahnya",
+        paragraphs: [
+          "Payload yang Anda query sering rahasia: respons API produksi dengan catatan pelanggan, dump kesalahan yang memuat data akun, file konfigurasi dengan kredensial. Satu alat yang mengirim dokumen dan jalurnya ke satu backend akan mengekspos semuanya; di sini query-nya mengeksekusi sepenuhnya di JavaScript browser Anda terhadap satu dokumen yang diparse di perangkat Anda.",
+          "Tak ada juga yang dikonfigurasi: tanpa runtime untuk dipasang, tanpa binari jq, tanpa proyek. Tempel satu respons, ketik satu jalur, baca nilainya — yang menjadikannya alat yang tepat untuk investigasi sekali-jalan tempat menyeting satu lingkungan skrip berbiaya lebih mahal daripada pertanyaannya sendiri.",
+          "Gabungkan dengan formatter ketika satu payload terlalu besar untuk diamati mata: format sekali untuk melihat strukturnya, lalu ekstrak nilai persis yang Anda butuhkan dengan jalur alih-alih menggulir. Dan karena semuanya lokal, Anda bisa dengan aman menyelidiki satu respons gagal pelanggan nyata yang disalin langsung dari produksi.",
+        ],
+      },
+    ],
   },
   "json-yaml-converter": {
     name: "Konverter JSON ⇄ YAML",
@@ -4935,6 +9430,32 @@ export const id: Record<string, ToolCopy> = {
         a: "Paling sering karena karakter tab di indentasi YAML (tab dilarang di sana) atau key duplikat di JSON. Pesan error menunjukkan masalahnya.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa JSON dan YAML tak bisa bolak-balik sempurna",
+        paragraphs: [
+          "JSON dan YAML bukan dua ejaan model data yang sama — YAML satu superset dalam ambisinya. YAML membawa informasi yang tak punya slot JSON: anchor dan alias membiarkan satu node direferensikan dari beberapa tempat, beberapa dokumen bisa hidup di satu file dipisah ---, dan tag kustom bisa menandai satu nilai sebagai satu timestamp, blob biner, atau tipe spesifik-domain. Satu konverter yang hanya memodelkan JSON tak bisa mewakili satupun itu dengan setia.",
+          "Alat ini sengaja membatasi dirinya ke skema inti — peta bersarang, sekuens, dan skalar — agar apa pun yang ia pancarkan bisa diparse kembali lossless. Anchor sengaja di luar cakupan: mengonversi satu file YAML yang memakai alias ke JSON harus meng-inline tiap referensi, dan mengonversi kembali tak akan pernah memulihkan struktur anchor aslinya.",
+          "Kehati-hatian yang sama berlaku bagi file multi-dokumen. Satu .yaml yang memuat beberapa dokumen dipisah --- sungguh satu daftar file, bukan satu objek; mengonversi hanya dokumen pertama diam-diam atau melebur mereka akan merusak maknanya. Beri makan alatnya satu dokumen demi satu dan bolak-baliknya tetap persis.",
+        ],
+      },
+      {
+        heading: "Jebakan pemaksaan-tipe yang ditinggalkan YAML 1.1",
+        paragraphs: [
+          "Parser YAML memutuskan tipe satu skalar dengan melihatnya. Dalam aturan legacy 1.1 yang masih menjadi bawaan kebanyakan parser, kata telanjang Norway satu boolean false (satu akronim N-o-r-w-a-y, yang mencocokkan keluarga yes/no/on/off), nomor versi seperti 1,20 bisa melipat ke 1,2, dan satu kunci yang dimulai spasi mudah hilang sepenuhnya. Ini bukan kasus-tepi eksotis — mereka memutus konfigurasi CI nyata tiap tahun.",
+          "Insiden keamanan klasiknya adalah kode-negara Norwegia: satu kolom negara pengguna yang berbunyi NO menjadi false di dokumen terparse-nya. Kutipan adalah pertahanannya — tulis \"NO\", \"on\", \"1.0\" sebagai string kapan pun satu nilai berarti teks, bukan satu tipe. Saat Anda menempel YAML di sini dan mengonversi ke JSON, skema inti js-yaml memutuskan pemaksaan-pemaksaan itu, dan keluaran JSON membuat tipe-tipe hasilnya terlihat agar Anda bisa menangkapnya.",
+          "Keunggulan JSON adalah ia tak punya dugaan semacam itu: tiap nilai harus menyatakan tipenya secara struktural — \"false\" dalam kutipan satu string, 2,0 tetap satu angka. Itu satu alasan JSON tetap format kawat yang lebih aman bahkan ketika tujuan akhirnya YAML: konversikan lewat JSON dan tiap tipe sudah dipaksa keluar ke terang.",
+        ],
+      },
+      {
+        heading: "Satu alur kerja konversi yang tetap lokal",
+        paragraphs: [
+          "File konfigurasi termasuk teks paling sensitif yang dimiliki satu proyek: rahasia Kubernetes (yang terenkode-base64 sekalipun), blok lingkungan docker-compose, variabel CI. Menempel mereka ke satu konverter yang mengirim masukannya ke satu server akan membocorkan mereka kepada siapa pun yang menjalankannya. Semuanya di sini berjalan di browser Anda — tanpa unggah, tanpa pencatatan, dan halaman tetap bekerja offline begitu dimuat.",
+          "Alur kerja praktis yang dibangun di sekeliling alat ini adalah perantaraan berarah: konversikan JSON ke YAML, ubah satu-dua baris dengan tangan, lalu tukar arahnya dan konversikan kembali ke JSON untuk memvalidasi bahwa suntingan Anda masih terparse. Indentasi buruk dan tab terlarang dilaporkan di baris yang bermasalah alih-alih sebagai satu kegagalan generik, sehingga satu manifest yang disunting tangan bisa dibuktikan dalam hitungan detik.",
+          "Padukan alat ini dengan JSON formatter dan JSON validator saat mendebug: format sisi JSON-nya demi keterbacaan, validasi sebelum konversi, dan pakai keluaran YAML-nya langsung sebagai file konfigurasi Anda — ia keluar dalam gaya blok, terindentasi seperti satu manifest tulisan-tangan alih-alih satu dump mesin.",
+        ],
+      },
+    ],
   },
   "sha1-generator": {
     name: 'Generator SHA-1',
@@ -4946,6 +9467,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "SHA-1 pada 2024: rusak untuk tanda tangan, hidup di Git",
+        paragraphs: [
+          "SHA-1 menghasilkan satu digest 160-bit — 40 karakter heksadesimal huruf-kecil — distandarkan di FIPS 180-4. Bertahun-tahun ia hash bawaan webnya: sertifikat TLS, penandatanganan kode, kontrol versi. Era itu berakhir bertahap: NIST mendepresiasi SHA-1 untuk tanda tangan pada 2011 dan melarangnya di sana oleh 2013, setelah peneliti mendemonstrasikan bahwa serangan tabrakan menjadi praktis.",
+          "Pukulan menentukannya adalah SHAttered 2017: dua file PDF yang sengaja berbeda dengan digest SHA-1 yang sama, dihasilkan dengan satu usaha komputasi besar tetapi layak. Setelah itu, memakai SHA-1 di mana pun penyerang bisa memengaruhi masukannya — tanda tangan, sertifikat, janji integritas — menjadi tak dapat dipertahankan. Browser modern menolak sertifikat SHA-1, dan ekosistemnya berpindah ke SHA-256.",
+          "SHA-1 belum mati, bagaimanapun, karena ia selamat di tempat ketahanan-tabrakan bukan janji yang dibuatnya. Git masih mengidentifikasi commit dan objek dengan SHA-1 — ia kini memasangkan hashnya dengan deteksi tabrakan, dan migrasi ke satu hash yang lebih kuat sedang berjalan di hulu. Checksum unduhan lama dan sidik jari file dari sistem yang tak pernah meningkat adalah pertemuan umum lainnya. Gunakan alat ini untuk mereproduksi dan memverifikasi sidik jari legacy itu; pilih SHA-256 bagi apa pun yang baru.",
+        ],
+      },
+      {
+        heading: "Tabrakan vs preimage: membaca ancamannya dengan presisi",
+        paragraphs: [
+          "“SHA-1 rusak” butuh dibongkar, karena dua serangan berbeda ada dan mereka tak sama sekteriknya. Satu serangan tabrakan menemukan dua masukan apa pun dengan digest yang sama — penyerang mengendalikan keduanya, dan itu memutus tanda tangan dan sertifikat, tempat satu pihak menandatangani yang disuplai pihak lainnya. Ini yang didemonstrasikan SHAttered, dan itulah sebabnya penandatanganan SHA-1 selesai.",
+          "Satu serangan preimage berbeda: diberi satu digest, temukan beberapa masukan yang menghasilkannya. Untuk SHA-1 ini masih jauh di luar jangkauan — ruang 160-bitnya masih efektif tak bisa disearched. Asimetri itulah persis kenapa penggunaan Git bertahan dari pengawasan: ID commit bukan payload tanda tangan yang dikendalikan-penyerang dengan cara yang sama, dan deteksi tabrakan yang ditingkatkan milik Git menandai masukan yang dirakit.",
+          "Terjemahan praktisnya: jangan menerima satu digest SHA-1 sebagai bukti keaslian dari satu pihak yang tak Anda percayai, dan jangan pernah membangun alur tanda-tangan atau sertifikat baru di atasnya. Sebagai satu sidik jari konten yang Anda peroleh lewat satu kanal yang sudah Anda percayai — mereproduksi apa yang diterbitkan satu sistem legacy — ia masih dapat dipakai, dan itulah peran alat ini.",
+        ],
+      },
+      {
+        heading: "Hashing lokal dengan WebCrypto natif",
+        paragraphs: [
+          "Digestnya dihitung di browser Anda lewat API SubtleCrypto WebCrypto natif — jalur kode ter-audit yang sama yang dipakai browser Anda untuk TLS. Tempel teks dan digest 40-karakternya memperbarui langsung; alihkan ke mode file dan jatuhkan satu file yang dihash lokal, tanpa unggah dan tanpa batas atas ukuran selain perangkat Anda. Untuk verifikasi checksum legacy lokalisasi itulah poinnya: file yang diverifikasi biasanya datang dari tempat tak-terpercaya, jadi mengirimnya ke satu layanan jaringan lain untuk dihash akan melemahkan seluruh latihannya.",
+          "Presisi masukan mengatur apakah satu perbandingan bisa berhasil sama sekali. Teks dihash sebagai byte UTF-8, jadi hash filenya sendiri alih-alih mengetik-ulang isinya saat memverifikasi unduhan; satu editor teks yang mengonversi akhir-baris atau menambahkan satu baris baru mengubah tiap byte digestnya. Keluarannya heksadesimal huruf-kecil, yang mencocokkan sha1sum, openssl, dan nilai yang diterbitkan sistem legacy — salin dan bandingkan secara programatis alih-alih dengan mata melintasi 40 karakter.",
+          "Untuk desain baru jawabannya seragam: SHA-256 lewat sha256-generator di situs ini, atau seluruh keluarga bersebelahan di hash-generator. Pertahankan SHA-1 secara ketat bagi antarmuka dan arsip yang sudah berbahasa itu.",
+        ],
+      },
+    ],
   },
   "sha384-generator": {
     name: 'Generator SHA-384',
@@ -4956,6 +9503,31 @@ export const id: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "Di mana SHA-384 duduk dalam keluarga SHA-2",
+        paragraphs: [
+          "SHA-2 bukan satu algoritme melainkan satu keluarga yang distandarkan di FIPS 180-4, didefinisikan oleh dua mesin internal: SHA-224 dan SHA-256 menjalankan mesin 256-bit (kata 32-bit), sementara SHA-384 dan SHA-512 menjalankan mesin 512-bit (kata 64-bit). Keluarannya masing-masing 224, 256, 384, dan 512 bit — itu 56, 64, 96, dan 128 karakter heksadesimal. SHA-384 adalah apa yang Anda dapat ketika mesin 512-bit diinisialisasi dengan konstanta berbeda dan keluarannya dipotong ke 384 bit.",
+          "Pemotongan itulah kenapa SHA-384 bukan sekadar “SHA-512 dipotong pendek”. Nilai awalnya yang berbeda menjadikannya satu algoritme berbeda dengan spesifikasinya sendiri: tak ada serangan yang diketahui pada SHA-512 yang akan berpindah ke keluaran SHA-384 yang lebih pendek, dan sebaliknya Anda tak bisa memverifikasi satu digest SHA-384 dengan menghash dengan SHA-512 dan memotongnya. Alat-alatnya harus sepakat tentang algoritmenya, bukan hanya keluarganya.",
+          "Dari sisi keamanan, keempat varian SHA-2 dipercaya menawarkan mendekati panjang keluaran mereka dalam ketahanan-tabrakan — SHA-384 memberi satu tingkat keamanan 192-bit terhadap tabrakan, jauh melampaui kebutuhan praktis mana pun. Alasan biasa memilih satu daripada yang lain adalah kompatibilitas infrastruktur: apa yang sudah diharapkan suite TLS Anda, rantai penandatanganan-kode Anda, atau verifier pihak-lawan Anda.",
+        ],
+      },
+      {
+        heading: "Membaca keluarannya dan memeriksanya dengan benar",
+        paragraphs: [
+          "Digestnya 96 karakter heksadesimal, dipancarkan di sini huruf-kecil — perbandingan heksadesimal tak-peduli-kapital, tetapi sebagian alat verifier membandingkan string secara literal, jadi satu ketidakcocokan kapital bisa tampak seperti satu ketidakcocokan hash. Digestnya deterministik: byte masukan yang sama selalu memberi keluaran yang sama di tiap implementasi yang benar, yang persis kenapa ia bekerja sebagai satu checksum.",
+          "Waspadai jebakan pengodeannya saat membandingkan dengan satu nilai referensi: menghash teks “hello” sebagai UTF-8, UTF-16, atau dengan satu baris baru di ekornya menghasilkan tiga digest berbeda. Alat baris-perintah terkenal menambahkan satu baris baru ke keluaran echo kecuali Anda memakai echo -n atau printf. Ketika digest Anda tak cocok, datanya hampir pasti berbeda — algoritme sama, byte berbeda.",
+          "Untuk file, digest mengidentifikasi konten, bukan metadata: menyalin file mempertahankan hashnya, sementara mengenkode-ulang, mengonversi akhir-baris, atau menyimpan-ulang melalui satu editor mengubahnya. Properti itulah yang membuat digest SHA-384 berguna sebagai bukti-perusakan bagi installer dan sertifikat — dan kenapa hash yang cocok hanya membuktikan byte-nya identik, bukan bahwa pengirimnya terpercaya.",
+        ],
+      },
+      {
+        heading: "Kripto natif, pemrosesan lokal",
+        paragraphs: [
+          "Hashing-nya melewati SubtleCrypto WebCrypto natif browser Anda, bukan kode JavaScript yang ditulis situs ini — implementasi ter-audit yang sama yang dipakai browser Anda untuk TLS. Keluarannya mencocokkan sha384sum, OpenSSL, dan tiap alat lain yang patuh FIPS 180-4 byte demi byte, dan ia berjalan lebih cepat daripada hash JS-murni mana pun untuk file besar.",
+          "Masukan teks dan file tak pernah meninggalkan perangkat Anda: digestnya dihitung di memori browser Anda dan tak ada yang diunggah, disimpan, atau dicatat. Itu berarti untuk penggunaan tipikalnya — memverifikasi installer, menghash rahasia internal untuk konfigurasi, atau menghitung digest satu dokumen yang belum Anda terbitkan.",
+        ],
+      },
+    ],
   },
   "sha512-generator": {
     name: 'Generator SHA-512',
@@ -4965,6 +9537,32 @@ export const id: Record<string, ToolCopy> = {
     faqs: [
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "SHA-512: digest terlebar dalam keluarga SHA-2",
+        paragraphs: [
+          "SHA-512 adalah anggota standar terbesar keluarga SHA-2, distandarkan di FIPS 180-4: digest 512-bit yang ditulis sebagai 128 karakter heksadesimal huruf-kecil. Secara internal ia memproses blok 1024-bit melalui 80 putaran kata 64-bit — satu pipa yang lebih lebar daripada kata 32-bit milik SHA-256, yang memberinya karakternya.",
+          "Desain 64-bit itu punya satu konsekuensi praktis yang terkenal: pada CPU 64-bit modern, SHA-512 benar-benar menghash file besar lebih cepat daripada SHA-256, meski menghasilkan lebih banyak keluaran. Jika Anda mengambil sidik jari installer, citra disk, atau arsip backup, digest SHA-2 terkuat juga biasanya yang tercepat — satu kasus langka tempat pilihan paranoid dan pilihan pragmatis satu dan sama.",
+          "Tak ada serangan tabrakan atau preimage praktis yang diketahui terhadap SHA-512. Margin itulah kenapa ia mengangkarkan komitmen integritas berumur-panjang: tanda tangan API HMAC-SHA512, entri sandi di /etc/shadow Linux modern, dan manifest arsip yang dimaksudkan masih terverifikasi puluhan tahun dari sekarang. Untuk desain baru tanpa kendala eksternal, SHA-256 adalah bawaan konvensionalnya dan SHA-512 peningkatannya yang konvensional.",
+        ],
+      },
+      {
+        heading: "Membaca, membandingkan, dan memercayai digest 128-karakter",
+        paragraphs: [
+          "Pemeriksaan panjang datang lebih dulu: satu digest SHA-512 persis 128 karakter heksa. Nilai dengan panjang lain di satu kolom konfigurasi bernama sha512 adalah satu algoritme berbeda yang salah label, dan ketidakcocokannya akan muncul sebagai satu kegagalan integrasi belakangan. Alat ini menghasilkan bentuk huruf-kecil kanoniknya, yang mencocokkan sha512sum, OpenSSL, dan tiap implementasi patuh lainnya.",
+          "Perbandingannya all-or-nothing: dua digest entah cocok persis atau masukannya berbeda. Satu bit terbalik di mana pun dalam satu file multi-gigabita menghasilkan satu nilai 512-bit tak berkaitan — efek longsoran yang membuat checksum terpercaya. Bandingkan secara programatis (diff, ==, atau satu utilitas checksum) alih-alih membuktikan 128 karakter dengan mata, di mana satu pasangan tertukar tak terlihat.",
+          "Ingat apa yang dijanjikan dan tak dijanjikan satu digest. Ia membuktikan byte-nya tak berubah sejak digestnya dihitung, dengan syarat digestnya sendiri mencapai Anda lewat satu kanal yang tak bisa ditulis-ulang penyerang. Ia tak mengatakan apa pun tentang siapa yang menghasilkan masukannya, dan — karena hashing satu-arah — ia tak bisa dibalik untuk memulihkan kontennya. Menerbitkan satu checksum di samping satu unduhan adalah satu langkah integritas, bukan satu tanda tangan.",
+        ],
+      },
+      {
+        heading: "Mengapa menghash file secara lokal sama sekali",
+        paragraphs: [
+          "Satu hash hanya bermakna jika lingkungan hashnya terpercaya, dan satu layanan web acak bukan. Alat ini menghitung lewat SubtleCrypto WebCrypto natif milik browser — kode ter-audit yang sudah membawa trafik TLS Anda — dan tak ada yang meninggalkan perangkat: teks terhash saat Anda mengetik, dan mode file menghash byte persis filenya secara lokal tanpa unggah dan tanpa langit-langit selain memori tersedia.",
+          "Untuk beban kerja tipikal alatnya, lokalisasi ini bukan kemewahan. Citra disk dan installer adalah gigabita yang tak ingin diunggah siapa pun hanya untuk diberi sidik jari; manifest arsip sering mencakup file dengan kendala lisensi atau privasi; dan materi penandatanganan API tak boleh pernah melintasi satu halaman pihak-ketiga. Begitu halaman dimuat, seluruh alurnya berjalan offline.",
+          "Presisi masukan melengkapi gambarnya: teks dihash sebagai byte UTF-8, jadi konversi akhir-baris atau satu baris baru yang ditambahkan editor mengubah tiap karakter keluarannya. Saat memverifikasi satu unduhan, hash filenya sendiri alih-alih konten yang diketik-ulang, lalu bandingkan dengan nilai penerbitnya secara programatis — pasangan kebiasaan itu menangkap pada dasarnya tiap ketidakcocokan alarm-palsu.",
+        ],
+      },
     ],
   },
   "text-to-binary": {
@@ -4980,6 +9578,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "Biner adalah byte, bukan sihir",
+        paragraphs: [
+          "Yang dihasilkan alat ini bukan “teks yang diubah menjadi 01” oleh satu proses abstrak — itu rangkaian byte UTF-8 persis yang sudah disimpan satu komputer untuk teks Anda, dirender sebagai digit biner. Huruf “A” satu byte, 01000001, yang adalah angka 65 — kode ASCII yang telah berarti A sejak 1960-an. Tak ada langkah terjemahan dan tak ada interpretasi: bit di layar adalah bit di filenya.",
+          "UTF-8 adalah detail kuncinya. Karakter ASCII (A-Z, digit, tanda baca umum) makan satu byte masing-masing, jadi biner mereka pendek. Karakter di luar ASCII makan dua-empat byte: “é” adalah 0xC3 0xA9 (11000011 10101001), emoji 😀 empat byte. Itulah sebabnya kata yang sama menghasilkan panjang biner berbeda tergantung karakternya — dan kenapa satu baris teks Tionghoa kira-kira tiga kali lebih panjang dalam byte daripada makna yang sama dalam bahasa Inggris.",
+          "Dekode hanya bekerja dengan benar jika pembacanya mengasumsikan pengodean yang sama. Byte yang membentuk UTF-8 valid tak bermakna sebagai EBCDIC atau sebagai Latin-1 — fenomena “mojibake” membaca teks lewat pengodean yang salah adalah versi terlihat dari asumsi itu yang gagal.",
+        ],
+      },
+      {
+        heading: "Mengapa kelompok 8-bit dan apa artinya bit pendahulunya",
+        paragraphs: [
+          "Byte dikelompokkan dalam 8 karena itu unit karakter praktis sejak era mainframe, dan UTF-8 didesain di sekitarnya. Rangkaian multi-byte mendeskripsikan-diri: satu byte yang dimulai 110 memulai satu karakter dua-byte, 1110 memulai tiga, 11110 memulai empat, dan byte lanjutan selalu dimulai 10. Struktur itulah kenapa UTF-8 resinkronisasi setelah kesalahan transmisi dan kenapa ia menjadi pengodean dominan webnya.",
+          "Membaca satu byte dengan tangan: 01000001 terpecah sebagai 0 (ASCII, satu byte), lalu 1000001 = 65 = A. Untuk 11000011, prefiks 110 mengumumkan satu rangkaian dua-byte dan byte berikutnya harus dimulai 10. Begitu Anda melihat polanya, binernya berhenti menjadi derau.",
+          "Spasi, baris baru, dan bahkan konvensi pengelompokannya adalah pilihan tampilan — data dasarnya adalah string digitnya. Sebagian alat mengelompokkan per 8, sebagian per karakter, sebagian memancarkan satu stream kontinu; semuanya mengenkode byte yang sama.",
+        ],
+      },
+      {
+        heading: "Kasus guna dan privasi",
+        paragraphs: [
+          "Penggunaan praktisnya: mengajari dan mendebug pengodean, memeriksa persis byte mana yang akan diterima satu regex atau API, menghasilkan teka-teki biner, dan memverifikasi bolak-balik — teks → biner → teks harus mereproduksi aslinya byte demi byte. Ketidakcocokan apa pun berarti seseorang mengubah pengodeannya di tengah jalan.",
+          "Bagi pengembang, ini cara tercepat menjawab “karakter ini satu byte atau empat?” tanpa membuka satu debugger. Bagi pelajar, mengonversi nama Anda sendiri dan melihat huruf mana yang tetap satu byte dan mana yang melebar membuat UTF-8 konkret dengan cara yang tak dilakukan satu kuliah.",
+          "Konversinya berjalan lokal di JavaScript saat Anda mengetik — tak ada yang diunggah, dan ia bekerja offline. Teks yang Anda tempel tetap di mesin Anda, entah itu satu cuplikan kode sumber atau satu draf pesan.",
+        ],
+      },
+    ],
   },
   "text-to-unicode": {
     name: 'Teks → Unicode',
@@ -4993,6 +9617,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang sebenarnya ditampilkan konversi Unicode",
+        paragraphs: [
+          "Tiap karakter yang Anda ketik adalah satu angka. Unicode menugaskan tiap-tiapnya satu kode-poin — “A” adalah U+0041, tanda euro € adalah U+20AC, satu emoji di suatu tempat di rentang U+1F300. Alat ini menampilkan pemetaan itu: ia menampilkan kode-poinnya dalam beberapa notasi (U+XXXX, desimal, heksadesimal) dan, bagi karakter melampaui BMP, pasangan surrogate UTF-16 yang benar-benar dipegang JavaScript di memori.",
+          "Celah antara “yang Anda lihat” dan “yang disimpan” adalah alasan alat ini ada. Satu karakter yang tampak tunggal — é, satu emoji bendera, satu ideograf CJK — bisa satu kode-poin, dua separuh surrogate, atau satu karakter dasar ditambah tanda penggabung. Menempel teks masuk menampilkan kasus mana yang Anda hadapi, yang berarti saat satu skrip salah menghitung panjang atau satu database memotong di satu batas yang salah.",
+          "Kode-poin tak sama dengan byte: U+00E9 adalah konsepnya “e dengan aksen tajam”, yang menjadi dua byte 0xC3 0xA9 dalam UTF-8. Jika Anda butuh byte alih-alih kode-poin, konverter biner adalah alat saudaranya untuk pertanyaan itu.",
+        ],
+      },
+      {
+        heading: "Escape dan pengodean: \", &#, dan teman-temannya",
+        paragraphs: [
+          "Karakter yang sama punya banyak ejaan tergantung konteks. Dalam string JSON dan JavaScript, é bisa ditulis \\u00e9 (atau \\u{e9} dalam sintaks lebih baru). Dalam HTML, &#233; atau &eacute;. Dalam CSS, \\00e9. Dalam URL, UTF-8 terenkode-persen: %C3%A9. Tak satu pun dari itu karakter yang berbeda — mereka sistem notasi berbeda untuk angka yang sama, dan alat ini mengeluarkan varian-varian yang bisa Anda tempel langsung ke tiap konteks.",
+          "Dua mode kegagalan umum yang dicegahnya: pengodean-ganda (\\u00e9 ditempel ke satu sistem yang meng-escape backslash-nya lagi, menghasilkan teks literal “\\u00e9”), dan ketidakcocokan pengodean (satu halaman menyatakan satu charset sementara filenya disimpan yang lain, sehingga tiap karakter non-ASCII dirender sebagai kotak pengganti).",
+          "Batas BMP di U+FFFF adalah gotcha klasiknya: karakter di atasnya — kebanyakan emoji — tak bisa muat satu unit UTF-16, jadi escape-nya tampak seperti \\ud83d\\ude00 alih-alih \\u1f600. Sistem lama yang hanya menangani escape \\uXXXX tak bisa sama sekali mengekspresikannya.",
+        ],
+      },
+      {
+        heading: "Dekode lokal, tanpa bolak-balik",
+        paragraphs: [
+          "Semuanya berjalan di JavaScript browser: kode-poin dibaca langsung dari stringnya di memori. Tanpa unggah, tanpa API, bekerja offline — relevan karena penggunaan paling umumnya adalah mendebug satu string yang Anda dapat dari satu log atau respons API yang mungkin tak ingin Anda tempel ke satu layanan web sembarangan.",
+          "Keluarannya diperbarui per ketukan tombol, jadi Anda bisa menyapu satu string mencurigakan karakter demi karakter dan melihat kode-poin mana yang muncul di mana. Satu karakter pengganti U+FFFD dalam keluarannya berarti teks sumbernya sudah korup sebelum mencapai alatnya.",
+          "Padukan dengan konverter biner untuk pertanyaan tingkat-byte dan konverter kapitalisasi saat mendebug perilaku pemetaan-kapital pada karakter eksotis — ketiganya mencakup alur kerja debugging Unicode sehari-hari.",
+        ],
+      },
     ],
   },
   "text-to-nato-alphabet": {
@@ -5011,6 +9661,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah angka juga dikonversi?', a: 'Ya. 0–9 menjadi Zero, One (Wun), Two, Tree, Fower, Five, Six, Seven, Eight, Nine — pelafalan standar ICAO ditampilkan di samping setiap kata kode.' },
         { q: 'Bagaimana aksen dan emoji?', a: 'Huruf beraksen dikembalikan ke huruf dasarnya (É → Echo); emoji dan karakter di luar alfabet ditampilkan apa adanya karena tidak bisa dieja.' },
     ],
+    deepDive: [
+      {
+        heading: "Mengapa Alfa, Bravo, Charlie ada",
+        paragraphs: [
+          "Mengeja satu nama lewat satu panggilan telepon satu mimpi buruk: B dan P hampir identik terdengar, M dan N kabur, dan satu garis buruk menghapus selisih antara F dan S. Alfabet pengejaan memperbaiki ini dengan menugaskan tiap huruf satu kata yang tak-ambigu — B menjadi Bravo, M menjadi Mike — dipilih sehingga tak ada dua kata yang terdengar serupa bahkan di atas satu kanal berbising.",
+          "Alfabet NATO (secara resmi alfabet pengejaan ICAO) adalah standar yang menang. Ia tumbuh dari puluhan tahun eksperimen militer dan penerbangan: alfabet Inggris dan Amerika sebelumnya memakai kata-kata seperti Able, Baker, Charlie, tetapi uji-ujian menemukan operator radio internasional salah mendengar mereka. Revisi ICAO 1950-an menguji kata-kata kandidat dengan penutur banyak bahasa dan memilih setnya — Alfa (sengaja bukan “Alpha”, agar penutur bahasa tanpa bunyi “ph” menulisnya dengan benar), Bravo, Charlie hingga Zulu — yang selamat dari ujian-ujian itu.",
+          "Ia kini hidup jauh melampaui militer: maskapai, pusat panggilan, dukungan IT yang membaca nomor seri, dan siapa pun yang memberi satu kode konfirmasi lewat suara. Ketika satu agen dukungan berkata “S seperti Sierra”, mereka memakai sistem yang sama.",
+        ],
+      },
+      {
+        heading: "Digit dan huruf-huruf yang sulit",
+        paragraphs: [
+          "Standarnya juga mencakup digit, diucapkan untuk membedakan mereka dari kata-kata yang membingungkan: 9 menjadi “Niner” (menghindari kebingungan dengan “nein” Jerman dan lima yang terdengar datar), 3 adalah “Tree”, 5 adalah “Fife”. Pengucapan-pengucapan itu datang dari uji-intelligibilitas yang sama yang membentuk huruf-hurufnya.",
+          "Huruf-huruf yang paling membuat orang tersandung dalam praktik: pasangan E/K (Echo, Kilo), pasangan M/N (Mike, November), dan pasangan S/F (Sierra, Foxtrot) — persis pasangan-pasangan yang dibangun alfabetnya untuk memisahkan. Kata-kata dengan beberapa ejaan umum dihindari secara desain; ejaan Alfa adalah contoh terjelas satu kata yang direkayasa alih-alih dipilih.",
+          "Saat mengeja kode campuran — satu nomor pesanan dengan huruf dan digit — eja tiap karakter terpisah dan pertahankan urutannya: “C-O-D-E-4” terbaca Charlie Oscar Delta Echo Fower... Fower adalah digit 4. Jeda sama berartinya dengan kata-katanya; alfabetnya tak menolong jika pendengarnya kehilangan pengelompokannya.",
+        ],
+      },
+      {
+        heading: "Lookup seketika, tak ada yang dikirim",
+        paragraphs: [
+          "Konversinya berjalan karakter demi karakter di browser Anda saat Anda mengetik — tanpa panggilan server, bekerja offline. Kapitalisasi diabaikan (alfabetnya tak punya huruf kecil), dan karakter non-huruf lolos tak terubah agar kode-kodenya mempertahankan bentuknya.",
+          "Inilah alat yang diraih sebelum satu panggilan dukungan: tempel nomor serinya, bacalah keluarannya keras. Ia juga berlipat sebagai satu bantuan belajar prosedur radio dan bagi anak-anak yang mempelajari nama-nama huruf.",
+          "Tak ada yang disimpan atau dikirim — satu nomor seri, kunci lisensi, atau kode pesanan yang ditempel di sini tetap di perangkat Anda. Seluruh tabelnya dikirim bersama halamannya, sehingga lookup-nya bekerja tanpa koneksi sama sekali.",
+        ],
+      },
+    ],
   },
   "hmac-generator": {
     name: 'Generator HMAC',
@@ -5026,6 +9702,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah kunci rahasia saya aman di sini?', a: 'Aman — semua perhitungan berjalan di WebCrypto browser Anda. Kunci dan pesan tidak pernah keluar dari perangkat; tidak ada yang dicatat atau dikirim. Meski begitu, sebagai kebiasaan, ganti kunci yang Anda tempel di situs mana pun secara berkala.' },
         { q: 'HMAC-SHA-256 atau HMAC-SHA-512?', a: 'SHA-256 adalah standar universal. SHA-512 memberi margin lebih besar dan justru lebih cepat di CPU 64-bit; pilih jika spesifikasi mengizinkan. Hindari SHA-1 kecuali sistem lama menuntut.' },
     ],
+    deepDive: [
+      {
+        heading: "Bagaimana HMAC sebenarnya bekerja: dua putaran, satu kunci",
+        paragraphs: [
+          "Menggabungkan satu kunci dengan satu hash secara naif — SHA-256(key + message) — punya kelemahan yang diketahui: menambahkan data dan menghitung-ulang bisa mungkin jika keadaan internal hashnya bocor, dan tabrakan kunci pada batas bloknya canggung. HMAC, distandarkan di RFC 2104 (1997) dan belakangan di NIST FIPS 198, menghindari keduanya dengan menghash kuncinya dua kali dalam satu struktur tetap: pertama pesannya dihash dengan satu kunci XOR dengan satu konstanta padding (opad), lalu hasil itu dihash lagi dengan kunci yang di-XOR dengan satu konstanta lainnya (ipad).",
+          "Konstruksi ganda itu berarti keluarannya tak membocorkan apa pun tentang kuncinya bahkan ketika penyerang mengendalikan pesan-pesannya, dan pemisahan dalam/luar memblokir serangan perpanjangan-panjang yang mengganggu hash Merkle-Damgård telanjang. Inilah sebabnya HMAC-SHA-256 tetap aman meski SHA-256 mentah punya keanehan struktural yang diketahui — pembungkusnya, bukan hashnya sendirian, yang menyediakan properti autentikasinya.",
+          "Detail implementasi lebih berarti daripada yang diperkirakan orang. Kuncinya di-padding atau dihash ke ukuran bloknya (64 byte bagi SHA-256, 128 bagi SHA-512); kunci yang lebih pendek di-padding nol, yang lebih panjang dihash lebih dulu. Kunci yang jauh lebih panjang dari ukuran blok atau lebih pendek dari beberapa byte keduanya menurunkan konstruksinya — titik-manis praktisnya satu kunci 32 hingga 64 byte acak, persis yang dibagikan kebanyakan penyedia webhook.",
+        ],
+      },
+      {
+        heading: "Memverifikasi webhook tanpa menembak kaki sendiri",
+        paragraphs: [
+          "Kegagalan verifikasi yang mengisi tiket-dukungan adalah ketidakcocokan byte, bukan satu algoritme yang rusak. Layanan menandatangani badan permintaan mentahnya — byte persis sebagaimana dikirim. Jika framework Anda meng-serialisasi-ulang JSON-nya (menata-ulang kunci, mengubah whitespace, mengonversi akhir-baris) sebelum Anda memverifikasi, tanda tangan yang dihitung-ulang tak akan pernah cocok. Bandingkan terhadap badan yang tak diparse, dan waspadai proxy atau parser badan yang “secara membantu” menormalkannya lebih dulu.",
+          "Sebagian penyedia (Stripe contoh yang terkenal) menandatangani satu string yang dirakit berisi timestamp plus payload alih-alih badannya sendirian, dan menambahkan satu timestamp ke headernya agar Anda bisa menolak pesan basi — satu serangan replay kalau tidak mungkin karena HMAC sendirian tak memberi kesegef. Selalu baca panduan verifikasi penyedianya alih-alih berasumsi teks bertanda-tangannya hanyalah badannya. Juga pikirkan pengodean keluarannya: hex versus Base64 adalah sumber ketidakcocokan-palsu yang paling umum kedua.",
+          "Saat membandingkan tanda tangan, gunakan satu perbandingan waktu-konstan alih-alih kesetaraan string di tempat timing bisa bocor — kebanyakan bahasa mengirim satu (crypto.timingSafeEqual di Node, hmac.compare_digest di Python). Satu pemeriksaan tanda tangan yang membocorkan berapa byte pendahulunya yang cocok membiarkan satu penyerang memalsukan tanda tangan byte demi byte. Itu satu detail kecil, tetapi itulah selisih antara satu verifikasi dan satu oracle.",
+        ],
+      },
+      {
+        heading: "Mengapa perhitungan lokal berarti bagi satu alat penandatangan",
+        paragraphs: [
+          "Satu alat penandatangan menangani satu kredensial paling sensitif yang punya satu pengembang dalam perjalanan: rahasia bersama satu penyedia pembayaran atau kontrol-sumber. Itu membentuk arsitekturnya. Semuanya di sini berjalan lewat API WebCrypto milik browser — rahasianya dan pesannya diproses di dalam proses Anda sendiri, dan tak ada permintaan jaringan yang membawanya ke mana pun. Tak ada padanan sisi-server yang bisa mencatat, meng-cache, atau menyitanya.",
+          "Konsekuensi praktisnya adalah Anda bisa memverifikasi satu rahasia webhook produksi terhadap satu payload nyata tanpa ia pernah diketik ke log orang lain. Tetap pertahankan aturan kebersihannya: satu rahasia yang ditempel ke satu alat browser mana pun telah melewati riwayat clipboard dan mungkin memori satu ekstensi, jadi merotasi rahasia webhook secara berkala adalah praktik yang baik bahkan saat alatnya sendiri tak pernah mengirim mereka.",
+          "Untuk otomatisasi berumur-panjang, utamakan primitif yang sama di kode Anda sendiri (Web Crypto API atau satu fungsi HMAC di pustaka standar bahasa Anda) dengan rahasianya dibaca dari satu variabel lingkungan atau manajer rahasia. Satu alat browser seperti ini untuk verifikasi dan debugging interaktif — mereproduksi satu tanda tangan untuk menemukan kenapa satu permintaan ditolak — alih-alih untuk disematkan ke satu pipa penyebaran.",
+        ],
+      },
+    ],
   },
   "unlock-pdf": {
     name: 'Buka Kunci PDF',
@@ -5038,6 +9740,32 @@ export const id: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Apakah bisa menghapus kata sandi pembuka?', a: 'Hanya jika pembaca Anda menyimpannya dan menampilkan isi tanpa menanyakan. Berkas yang benar-benar memerlukan kata sandi untuk dibuka terenkripsi dengannya, dan alat ini tidak mencoba membobol maupun mendekripsi.' },
         { q: 'Bisakah saya juga melindungi PDF dengan kata sandi di sini?', a: 'Tidak. Enkripsi AES yang andal untuk PDF tidak mungkin dilakukan dengan implementasi ringan hanya-peramban, jadi situs ini tidak menyediakan penambahan kata sandi — hanya penghapusan pembatasan dari berkas yang bisa dibaca.' },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang benar-benar dikunci perlindungan-kata-sandi PDF — dan apa yang bisa dilakukan unlock",
+        paragraphs: [
+          "Enkripsi PDF punya dua lapisan yang berbeda, dan mencampuradukkannya menyebabkan kebanyakan kebingungan. Kata-sandi-buka (user password) menggerbang seluruh file: tanpanya, kontennya sama sekali tak terbaca. Kata-sandi-izin (owner password) menggerbang tindakan-tindakannya — mencetak, menyalin teks, menyunting — sementara filenya terbuka bebas. Satu file yang dibatasi kata-sandi-pemilik sepenuhnya terbaca; ia sekadar ditandai “jangan izinkan menyalin”.",
+          "Alat ini untuk skenario kedua dan yang pertama dengan kata-sandinya di tangan: file yang bisa Anda buka secara sah tapi membawa pembatasan, atau file yang kata-sandinya Anda tahu dan bisa suplai. Membuka kunci menghapus lapisan enkripsinya dan menghasilkan satu salinan tak-terenkripsi — setelah itu, tak ada penampil yang meminta apa pun dan tak ada pembatasan yang berlaku.",
+          "Batasnya harus dinyatakan terus-terusan: ini bukan alat pemecah-kata-sandi, dan ia tak bisa membuka satu file yang kata-sandinya tak Anda miliki. Jika Anda kehilangan kata sandi satu dokumen milik Anda, jalannya pemulihan kata sandi, bukan penghapusan enkripsi. Menghapus pembatasan pada satu file yang Anda berotorisasi membukanya — ekspor Anda sendiri, dokumen yang Anda terima secara sah — adalah penggunaan yang dimaksudkan.",
+        ],
+      },
+      {
+        heading: "Dari mana pembatasan kata-sandi-pemilik datang, dan kapan penghapusannya sah",
+        paragraphs: [
+          "Kata-sandi pemilik muncul di alam liar lebih sering sebagai satu kecelakaan alih-alih satu perlindungan. Dialog ekspor PDF membiarkan penulis menandai “batasi penyuntingan” atau “batasi penyalinan” dengan satu kata-sandi-pemilik yang dihasilkan acak yang mungkin tak pernah dicatat penulisnya — sehingga pembatasannya hidup lebih lama daripada pengetahuan penulisnya. Sumber umum lainnya: perusahaan templat yang mengunci file mereka terhadap penyuntingan, dan alur kerja lama yang membatasi pencetakan sebagai satu hal yang biasa.",
+          "Penghapusannya sah ketika Anda punya hak membaca filenya. Pembatasan-pembatasan itu beroperasi pada orang-orang yang sudah bisa membuka dokumennya — mereka satu kebijakan penggunaan, bukan kerahasiaan. Jika Anda menerima satu dokumen secara sah dan bisa membacanya, menghapus pembatasan-salin untuk penggunaan Anda sendiri (mengutip satu klausul ke catatan Anda, mencetak satu formulir) adalah ekspektasi normal kepemilikan dokumen; jika lisensi dokumennya berkata sebaliknya, hormati lisensinya.",
+          "Apa yang tak diubah oleh pembukaan-kunci: kontennya sendiri. Tak ada pemrosesan-ulang yang terjadi — halaman, teks, font, dan gambar didekripsi dan dibungkus-ulang tanpa satu konversi pun. Itulah sebabnya pembukaan-kunci lossless dan cepat bahkan untuk file besar, dan kenapa keluarannya bit-setara secara konten dengan yang Anda lihat di penampilnya.",
+        ],
+      },
+      {
+        heading: "Logika privasi membuka-kunci secara lokal",
+        paragraphs: [
+          "Pikirkan apa yang dituntut satu layanan unlock: Anda akan menyuplai file yang terkunci — dan sering, dalam praktik, kata-sandinya — kepada satu pihak ketiga. Satu kata sandi satu kredensial, bukan sekadar data; kombinasi satu file dan kata-sandi bukanya di server orang lain adalah satu kompromi penuh kerahasiaan dokumen itu, tercatat di log, demi menghapus satu bendera.",
+          "Alat ini mendekripsi di browser Anda: file dan kata-sandinya ditangani di perangkat Anda, dekripsi terjadi di memori, dan salinan tak-terenkripsinya disimpan oleh browser Anda langsung. Kata sandinya tak pernah dikirim atau disimpan di mana pun — tak ada server yang terlibat di titik mana pun, dan operasinya bekerja sepenuhnya offline.",
+          "Satu catatan praktis bagi pembukaan-kunci batch: arsip yang diekspor dari sistem lama sering punya satu kata-sandi umum melintasi banyak file. Karena alatnya memproses secara lokal tanpa pembatasan-laju atau antrean unggah, membuka satu set penuh secepat membuka satu — dan tak satu pun file itu, atau kata-sandi bersama mereka, yang meninggalkan mesin Anda.",
+        ],
+      },
     ],
   },
   "flatten-pdf": {
@@ -5052,6 +9780,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah halaman terlihat sama setelah diachat?', a: 'Ya. Nilai bidang digambar di tempatnya, sehingga hasil visualnya sama seperti yang Anda lihat. Perbedaannya di dalam: berkas tidak lagi memuat objek bidang interaktif.' },
         { q: 'Bisakah formulir diedit lagi setelahnya?', a: 'Tidak, dan memang itulah tujuannya. Pengachatan tidak dapat dibatalkan pada hasilnya — nilai menjadi konten halaman biasa. Simpan berkas interaktif aslinya jika Anda mungkin perlu merevisinya nanti.' },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang benar-benar diperbaiki pelataran",
+        paragraphs: [
+          "Satu PDF bisa membawa lapisan-lapisan interaktif di atas konten tercetaknya: kolom formulir dengan nilai yang diketik seseorang, objek anotasi (sorotan, komentar, cap), dan grup konten opsional (lapisan). Tak satu pun dari itu tinta. Satu kolom formulir satu widget yang membaca nilainya dari struktur data dokumen saat waktu tampilan; satu anotasi satu objek terpisah yang ditempatkan di atas halaman. Penampil dan pencetak seharusnya merender mereka, tetapi tak semuanya melakukannya — satu pencetak yang mengabaikan kolom formulir menghasilkan satu halaman dengan kotak-kotak kosong di tempat jawaban seharusnya.",
+          "Melatakan membakar lapisan-lapisan ini ke halamannya secara permanen. Nilai sekarang tiap kolom digambar sebagai konten halaman biasa, tiap anotasi diraster atau dikonversi menjadi grafik halaman, dan mesin interaktifnya dihapus dari keluarannya. Hasilnya tampak identik di penampil mana pun, tercetak identik di pencetak mana pun, dan tak bisa lagi disunting sebagai satu formulir.",
+          "Kegagalan klasik yang dicegahnya: Anda mengisi satu formulir, menyimpannya, mengirimnya lewat surel — dan penerima membukanya di satu penampil yang menampilkan kolom-kolom kosong, atau aplikasi “balas dengan tanda tangan”-nya mencabut kolom-kolomnya saat ekspor. Melatakan sebelum mengirim membekukan jawaban Anda ke halamannya sendiri, sehingga yang Anda lihat adalah yang mereka dapat.",
+        ],
+      },
+      {
+        heading: "Kapan melatakan, kapan tidak",
+        paragraphs: [
+          "Latakan saat dokumennya selesai dan keluar: satu formulir aplikasi yang selesai, satu kontrak bertanda-tangan yang dimailkan, satu draf yang ditinjau yang komentarnya harus bertahan dari satu pencetak ceroboh. Melatakan juga langkah standar sebelum menggabungkan: menggabungkan dua file yang salah satu punya kolom formulir bisa menghasilkan nama kolom yang bertabrakan, dan masukan yang terlatakan bergabung sebagai halaman tak-aktif.",
+          "Jangan latakan dokumen yang sedang dikerjakan. Sekali terlatakan, nilai-nilai kolom adalah piksel dan teks di halamannya — Anda tak bisa membuka-ulang formulirnya dan mengubah satu entri; Anda harus menyimpan salinan interaktif aslinya. Serupa, anotasi yang masih perlu di-resolve satu kolega sebagai komentar kehilangan ke-komentaran-nya dan menjadi bagian halamannya.",
+          "Satu subtlety: melatakan membakar keadaan sekarangnya. Jika satu kolom menampilkan “pilih...” karena tak ada yang mengisinya, placeholder itulah yang terbakar. Isi segalanya yang Anda maksud isi lebih dulu, lalu latakan — operasinya menangkap dokumen persis seperti tampak pada momen itu.",
+        ],
+      },
+      {
+        heading: "Melatakan secara lokal dan kerahasiaan dokumen",
+        paragraphs: [
+          "Dokumen yang terlatakan, secara kodrat, versi yang paling selesai dan paling sensitif: sewa yang bertanda-tangan, formulir pajak yang terisi, surat tawaran finalnya. Ini persis file yang diunggah orang ke situs-situs “perbaiki-PDF-gratis”, dan situs-situs itu memproses dokumen legal dan keuangan Anda yang selesai di server mereka sebagai satu biaya operasional biasa menjalankan situsnya.",
+          "Di sini seluruh operasinya terjadi di browser Anda: dokumen diparse dan dirender-ulang lokal, kolom dan anotasi dikompositkan ke grafik halaman di memori, dan file terlatakan ditulis langsung ke unduhan Anda. Tak ada yang diunggah, diantrikan, atau dipertahankan di mana pun, dan tak ada satu skenario pun di mana nilai-nilai terisinya ada di luar perangkat Anda.",
+          "Satu tips praktis bagi yang benar-benar hati-hati: setelah melatakan, buka hasilnya dan coba mengeklik di tempat satu kolom dulu berada. Tak ada yang seharusnya bisa dipilih atau disunting — itu konfirmasi Anda lapisan interaktifnya lenyap. Jika Anda juga ingin teksnya tak-bisa-disalin, itu operasi berbeda (meraster, seperti yang dilakukan alat compress), bukan melatakan; melatakan menghapus interaktivitasnya, bukan lapisan teksnya.",
+        ],
+      },
+    ],
   },
   "pdf-crop": {
     name: 'Potong PDF',
@@ -5064,6 +9818,32 @@ export const id: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Apakah pemangkasan bersifat merusak?', a: 'Tidak. Crop box hanya mengubah area mana yang ditampilkan dan dicetak; konten aslinya tetap ada di berkas. Pembaca yang mengembalikan crop box ke media box kembali menampilkan halaman asli secara utuh.' },
         { q: 'Mengapa pratinjau hanya menampilkan halaman 1?', a: 'Persegi panjang didefinisikan dalam persentase halaman, sehingga diskalakan ke setiap halaman target meski ukurannya berbeda. Halaman 1 dirender langsung dengan pdf.js, dan empat input angka memberi kendali persis ketika menyeret kurang presisi.' },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang sebenarnya berubah saat meng-crop satu PDF — dan yang tidak",
+        paragraphs: [
+          "Meng-crop satu PDF secara bawaan tak menghapus apa pun — ia mengubah crop box halamannya, satu persegi yang memberi tahu penampil bagian mana dari halamannya yang ditampilkan dan dicetak. Konten penuhnya tetap ada di luar area yang terlihat; satu pembaca dengan alat, atau satu salin-tempel agresif, bisa mencapai konten yang Anda kira sudah Anda potong. Ini secara fundamental berbeda dari crop gambar, di mana piksel di luar framenyata benar-benar hilang.",
+          "Untuk menyembunyikan margin sensitif (satu header faks, satu anotasi hasil-pindai di tepinya), perubahan crop-box kosmetik. Untuk kasus guna sehari-hari — memangkas tepi pemindai, menghapus whitespace dari slide, mencocokkan area cetak yang bisa dicetak satu pencetak — ia persis alat yang tepat, karena ia mempertahankan semuanya sambil mengubah bagaimana halamannya dibingkai.",
+          "Ketika Anda sungguh butuh kontennya hilang, crop tak cukup: raster halamannya (seperti yang dilakukan alat compress) setelah meng-crop, atau hapus halamannya sepenuhnya. Model mental yang aman: meng-crop menyembunyikan, meraster membakar, menghapus menghilangkan. Pilih per niat, dan ingat pembedaannya saat dokumennya menuju satu penerima yang tak-terpercaya.",
+        ],
+      },
+      {
+        heading: "Margin, konsistensi, dan cara memilih persegiannya",
+        paragraphs: [
+          "Pekerjaan crop paling umum adalah keripik pemindai: tepi hitam, margin miring, dan garis-bayangan tutup pemindai. Untuk satu pindai multi-halaman, meng-crop tiap halaman secara individual melelahkan dan menghasilkan ukuran halaman tak-konsisten — satu dokumen yang halaman-halamannya halus berbeda dimensi tercetak dan terbaca lebih buruk. Meng-crop semua halaman dengan satu persegi bersama menjaga dokumen seragamnya; crop per-halaman masuk akal hanya ketika halaman-halamannya sungguh berbeda, seperti bundel orientasi-campuran.",
+          "Satu trik berguna bagi dokumen teks: crop secara konservatif alih-alih ketat. Memotong sedikit whitespace luar tanpa biaya, tetapi memotong ke area hidupnya memangkas ascender, catatan kaki, atau teks header. Zoom ke konten paling ketat di halaman terburuk lebih dulu, lalu tambahkan satu margin keselamatan kecil — dokumen hampir selalu punya satu halaman yang kontennya membentang lebih jauh daripada sisanya.",
+          "Ingat bahwa crop juga berinteraksi dengan pencetakan: penampil PDF biasanya menyesuaikan halaman yang di-crop ke lembarannya, jadi satu halaman A4 yang dipotong ketat dicetak pada kertas A4 memperbesar sedikit, mengubah ukuran teksnya. Jika keluarannya harus tercetak pada skala asli yang persis, pertahankan margin cukup agar ukuran yang di-crop cocok satu ukuran kertas standar.",
+        ],
+      },
+      {
+        heading: "Meng-crop secara lokal saat halaman-halamannya privat",
+        paragraphs: [
+          "Dokumen yang butuh crop biasanya pindai asli yang Anda pegang: kontrak, surat, sertifikat, struk. Mengunggah mereka ke satu cropper daring menyerahkan seluruh gambar tak-terpotong — termasuk apa pun yang Anda maksud potong — ke layanan itu. Satu ironi kecil kerja privasi: langkah yang dimaksudkan merapikan satu dokumen menjadi langkah yang paling sepenuhnya mengeksposnya.",
+          "Alat ini menerapkan crop box-nya sepenuhnya di browser Anda: halaman-halaman diparse lokal, persegi-persegi barunya ditulis ke struktur dokumen, dan hasilnya disimpan oleh perangkat Anda sendiri. Tak ada yang dikirim, dan file asli di disk tak pernah disentuh — Anda selalu mempertahankan sumber tak-terpotong kalau nanti Anda perlu menyesuaikan perseginya.",
+          "Karena crop di sini tingkat-metadata dan lossless, ia juga seketika bahkan untuk file besar — tak ada putaran pengodean-ulangnya. Itu membuat iterasinya praktis: crop, lihat, sempurnakan, crop-ulang, tanpa menunggu. Pasangkan dengan alat delete-pages untuk satu alur kerja “bersihkan satu pindai” penuh yang tak pernah meninggalkan mesin Anda.",
+        ],
+      },
     ],
   },
   "eta-calculator": {
@@ -5080,6 +9860,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Satuan apa yang dipakai untuk beban kerja?', a: 'Satuan konsisten apa pun: tiket, artikel, kilometer jalan, baris basis data. Kalkulator hanya perlu rasio beban dan laju, jadi kedua sisi harus memakai satuan yang sama.' },
         { q: 'Bisakah waktu mulai diatur ke masa depan atau lampau?', a: 'Bisa. Hitung mundur default dimulai sekarang, tetapi Anda bisa mengaktifkan waktu mulai kustom — berguna untuk memperkirakan pekerjaan yang dimulai Senin depan, atau memeriksa kapan tugas yang dimulai minggu lalu akan selesai.' },
     ],
+    deepDive: [
+      {
+        heading: "Aritmetika di balik satu ETA",
+        paragraphs: [
+          "Di intinya proyeksinya satu pembagian: beban-kerja tersisa dibagi tingkat efektifnya. Subtletynya adalah apa yang berarti “efektif”. Satu tingkat per-jam dipakai apa adanya; satu tingkat harian diproyeksikan ke setelan jam-kerja Anda, jadi satu pekerjaan 40-jam pada 8 jam sehari membentang lima hari kalender, bukan satu; satu tingkat mingguan mengasumsikan satu minggu kerja lima-hari, jadi ia membentang melintasi tujuh hari kalender. Tiap pilihan menggerakkan timestamp selesainya, itulah sebabnya alatnya bertanya.",
+          "Hitung-mundurnya dan durasi yang dihumanisasi adalah proyeksi yang sama yang dirender dua cara: hitung-mundurnya waktu dari titik mulai ke selesainya, dan “3 hari 4 jam” adalah rentang yang sama yang dinyatakan-ulang dalam unit yang dijadwalkan orang. Karena ketiga keluaran diturunkan dari satu rumus, mengubah tingkatnya memperbarui semuanya sekaligus — yang cara tercepat melihat apa yang benar-benar bernilai mempercepat atau memperlambat.",
+          "Satu batas jujur: modelnya linear. Ia mengasumsikan tiap unit kerja butuh waktu yang sama dengan yang terakhir, tanpa pemanasan, tanpa kerja-ulang, dan tanpa interupsi. Antrean nyata mengecil di ekornya — 10 persen terakhir sering butuh lebih lama per unit daripada 90 pertamanya — jadi perlakukan satu ETA tahap-akhir sebagai optimis secara bawaan dan segarkan saat kemajuan nyata datang.",
+        ],
+      },
+      {
+        heading: "Memilih tingkatnya: sumber kesalahan terbesarnya",
+        paragraphs: [
+          "Kebanyakan ETA yang salah salah karena tingkatnya, bukan matematikanya. Kesalahan klasiknya adalah memasukkan satu tingkat kasus-terbaik — yang Anda capai pada satu sore yang cerah tanpa-interupsi — dan membiarkannya berdiri bagi tingkat rata-ratanya termasuk rapat, pergantian-konteks, dan hari buruk. Satu tingkat yang setengah dari kasus terbaik Anda biasanya memprediksi penyelesaian nyata jauh lebih baik daripada kasus terbaiknya sendiri.",
+          "Jebakan keduanya adalah ketidakcocokan unit: memasukkan tiket per hari terhadap satu beban-kerja dalam halaman, atau tingkat per-jam dengan beban-kerja per-hari. Alatnya butuh kedua sisi di unit yang sama, dan pemeriksaan paling aman adalah menghitung-ulang satu potongan kecil yang sudah selesai dan melihat apakah rumusnya akan memprediksi durasinya.",
+          "Jam kerja dan kalender juga berinteraksi: satu tingkat harian tak otomatis melewati akhir-pekan, dan libur tak dikurangkan kecuali tingkat Anda sudah memperhitungkannya. Jika tanggal selesainya mendarat di satu Sabtu dan Anda tak akan bekerja hari itu, geser tingkatnya turun atau perpanjang garis waktunya secara manual — alatnya memodelkan asumsi yang Anda nyatakan, bukan kalender privat Anda.",
+        ],
+      },
+      {
+        heading: "Memakai ETA tanpa terbakar olehnya",
+        paragraphs: [
+          "Alur kerja paling andal adalah peramalan-ulang: masukkan beban-kernya, jalankan estimasinya, lalu — saat kerjanya berlanjut — perbarui beban-kerja tersisanya dan tingkat yang sebenarnya telah Anda capai. Satu ETA yang dihitung-ulang pada 25 persen selesai jauh lebih akurat daripada satu yang dibuat di nol, karena tingkat yang terwujud diukur alih-alih diduga.",
+          "Ketika estimasinya untuk orang lain (satu klien, satu pemangku-kepentingan), durasi yang terbaca adalah keluaran yang dibagikan, dan paddingnya milik tingkatnya, bukan satu buffer tak-dijelaskan di atasnya: “12 unit seminggu, bukan 20” satu pernyataan yang bisa dipertahankan, sementara satu angka telanjang dengan satu pad 40 persen tersembunyi mengundang jadwalnya diterima apa adanya.",
+          "Seperti segala hal di halaman ini, perhitungannya berjalan lokal di browser Anda — tak ada data beban-kerja atau tingkat yang diunggah, dicatat, atau dibagikan. Itu membuatnya bisa dipakai untuk rencana staffing internal dan kutipan klien sekaligus tanpa angka-angka itu pernah meninggalkan perangkat Anda.",
+        ],
+      },
+    ],
   },
   "mime-types": {
     name: 'Tabel Tipe MIME',
@@ -5094,6 +9900,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah ini registri tipe media IANA yang lengkap?', a: 'Bukan — IANA mencantumkan lebih dari seribu tipe terdaftar, banyak yang khusus vendor atau historis. Tabel ini fokus pada sekitar 120 entri yang benar-benar ditemui di pengembangan web, konfigurasi deploy, dan surel, dengan nilai terkini yang benar.' },
         { q: 'Mengapa .ts muncul dua kali dengan kategori berbeda?', a: 'Ekstensinya memang ambigu: kode sumber TypeScript (text/x.typescript) dan aliran transport MPEG (video/mp2t) sama-sama memakai .ts. Server memilih menurut konteks direktori, jadi periksa mana yang berlaku untuk kasus Anda.' },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang sebenarnya satu jenis MIME",
+        paragraphs: [
+          "Satu jenis MIME adalah satu label dua-bagian — type/subtype, seperti text/html atau image/png — yang memberi tahu satu penerima cara menafsirkan satu payload. Registrinya dipelihara IANA, dan jenis-jenisnya diturunkan dari sistem lampiran surel yang menamai formatnya (Multipurpose Internet Mail Extensions). Browser, server, dan klien surel semuanya bergantung pada satu baris metadata ini.",
+          "Jenis-jenis tingkat-atasnya sedikit: text, image, audio, video, application, plus beberapa yang istimewa seperti multipart dan font. Subtypenya yang membawa informasi sebenarnya — application/json berarti data terstruktur, application/pdf berarti satu dokumen, application/octet-stream berarti “byte opak, semoga beruntung”. Konvensi +akhiran (application/+json, +xml) mengindikasikan struktur internal subtypenya.",
+          "Parameter menyusul setelah satu titik-koma: text/html; charset=utf-8 menyatakan pengodean karakternya. Di sinilah jumlah bug yang mengejutkan hidup — satu halaman yang disajikan tanpa charset bisa dirender baik di satu browser dan kacau di lainnya.",
+        ],
+      },
+      {
+        heading: "Mengapa browser mengendus, dan apa yang membayarnya",
+        paragraphs: [
+          "Server sering salah mendapatkan jenis MIME: host yang salah konfigurasi mengirim teks polos dengan satu ekstensi .css, atau segalanya sebagai application/octet-stream. Daripada rusak, browser secara historis menduga dari konten — “MIME sniffing” — membaca byte ajaib (satu PNG dimulai 89504E47, satu PDF dengan %PDF) dan merender sesuai. Perilaku itu menyebabkan kerentanan nyata: menyajikan konten unggahan-pengguna sebagai text/html membiarkan satu penyerang mengeksekusi skrip pada origin Anda, yang adalah alasan perangkat keamanan ada untuk mematikan sniffing per-respons.",
+          "Kontrak modernnya: setel Content-Type yang benar bagi segalanya yang Anda sajikan, tambahkan header nosniff bagi konten pengguna, dan jangan pernah menyajikan unggahan pengguna sebagai text/html. Database di sini untuk memeriksa kontrak itu — sebelum menyajikan satu jenis file, lihat jenis kanoniknya alih-alih mengarang satu.",
+          "Pemetaan ekstensi-ke-MIME konvensi, bukan hukum: satu file .dat bisa apa saja, dan beberapa format berbagi ekstensi (.mp4 untuk baik kontainer audio maupun video). Saat ragu, endus sendiri byte ajaib filenya sebelum menyatakan satu jenis.",
+        ],
+      },
+      {
+        heading: "Tabel referensi offline",
+        paragraphs: [
+          "Tabelnya satu referensi statis yang dikirim bersama halamannya — lookup terjadi seketika di browser Anda tanpa permintaan jaringan. Itu membuatnya bisa dipakai di lingkungan air-terkunci dan cukup cepat untuk tetap terbuka di samping satu file konfigurasi yang sedang Anda sunting.",
+          "Untuk pekerjaan konfigurasi server, lookup paling umum adalah pasangan sisi-servernya: jenis konten untuk font (font/woff2), manifest (application/manifest+json), dan media yang dialirkan. Mendapatkan ini benar mencegah gejala klasiknya — font yang diam-diam gagal pemeriksaan CORS, stylesheet yang menolak dimuat di bawah pemeriksaan MIME ketat.",
+          "Tak ada tentang trafik atau file Anda yang direkam; halamannya satu kamus, bukan satu layanan. Pasangkan dengan alat-alat JSON saat mendebug respons API yang header Content-Type-nya mencurigakan.",
+        ],
+      },
+    ],
   },
   "keycode-info": {
     name: 'Info Kode Tombol',
@@ -5107,6 +9939,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Mengapa event.key dan event.code berbeda untuk tombol yang sama?', a: 'event.key melaporkan karakter yang dihasilkan dengan layout dan status modifier saat ini ("A", "á", "1"), sedangkan event.code melaporkan posisi fisik (KeyA, Digit1) yang bebas dari layout. Pintasan umumnya cocok dengan code; penanganan teks membaca key.' },
         { q: 'Apakah keyCode sudah usang?', a: 'Ya — itu warisan lama, dipertahankan hanya agar kode tua yang bercabang pada angka seperti 13 (Enter) atau 27 (Escape) tetap jalan. Kode baru sebaiknya memakai event.key atau event.code; alat ini menampilkannya untuk memetakan konstanta lama saat migrasi.' },
         { q: 'Mengapa nilai yang sama berulang saat saya menahan tombol?', a: 'Menahan tombol membuat OS mengirim keydown berulang dengan repeat true. Aktifkan "abaikan auto-repeat" untuk menampilkan hanya penekanan awal; matikan bila perlu memastikan handler menerima peristiwa ulang dengan benar.' },
+    ],
+    deepDive: [
+      {
+        heading: "keyCode didepresiasi — ini peta wilayahnya",
+        paragraphs: [
+          "Kode kunci numerik yang ditampilkan alat ini datang dari properti KeyboardEvent.keyCode dan which aslinya, yang diperkenalkan 1990-an dan kini secara formal didepresiasi. Mereka tetap pengenal kunci yang paling luas diketahui karena puluhan tahun tutorial, pustaka, dan jawaban Stack Overflow dibangun atas mereka — tetapi standar yang mengganti mereka adalah KeyboardEvent.key (karakternya, seperti “a” atau “ArrowLeft”) dan KeyboardEvent.code (tombol fisiknya, seperti “KeyA” atau “ArrowLeft”).",
+          "Pembedaannya berarti: key menghormati tata-letak keyboard (menekan tombol di sebelah Tab pada satu AZERTY Prancis menghasilkan nilai key berbeda daripada pada satu QWERTY AS), sementara code selalu mengidentifikasi posisi fisik yang sama. Untuk kontrol gim dan sistem pintasan, code biasanya benar; untuk penanganan teks, key yang benar.",
+          "Masalah lain keyCode adalah inkonsistensinya: tombol panah, tombol fungsi, dan sebagian tombol numpad punya nilai yang bergantung browser dan platform, dan penanganan legacy tombol-mati dan masukan IME bervariasi. Kode baru seharusnya memperlakukan angka-angka alat ini sebagai satu rujukan untuk membaca kode lama, bukan sebagai apa yang ditulis.",
+        ],
+      },
+      {
+        heading: "Membaca pengenal kunci dalam praktik",
+        paragraphs: [
+          "Ketiga properti menjawab pertanyaan berbeda: keyCode (didepresiasi) memberi satu angka, key memberi apa yang dimaksud tekanannya, code memberi di mana tombolnya duduk. Satu tekanan tombol fisik yang sama bisa melaporkan key “a” dengan code “KeyA”; dengan Shift ditahan, key menjadi “A” sementara code tetap “KeyA”. Menahan satu modifier mengubah key tapi tak pernah code.",
+          "Tombol Escape satu kasus yang stabil (key “Escape”, code “Escape”, keyCode 27 — satu-satunya angka legacy yang hampir semua orang hafalkan). Space satu jebakan: nilai key-nya “ ” (satu spasi literal), bukan “Space”, yang telah memutus banyak switch statement naif.",
+          "Untuk pintasan, dengarkan code ketika pengikatannya posisional (gerakan WASD) dan key ketika tipografis (Ctrl+Shift+P seharusnya bekerja pada AZERTY juga). Dan gunakan e.repeat untuk mengabaikan auto-repeat saat satu pintasan seharusnya menyala sekali per tekanan.",
+        ],
+      },
+      {
+        heading: "Lookup referensi, offline",
+        paragraphs: [
+          "Alatnya menampilkan kode numeriknya di samping nilai key dan code modernnya, sehingga Anda bisa menerjemahkan keyCode 188 satu cuplikan lama ke padanan-padanan modernnya tanpa membuka satu debugger browser dan menekan tombol satu demi satu.",
+          "Semuanya satu tabel statis yang dirender di browser Anda — tanpa permintaan jaringan, bekerja tanpa koneksi, dan tak ada tentang keyboard Anda yang dilaporkan ke mana pun.",
+          "Saat menulis penangan kejadian baru, uji pada keyboard nyata dengan tata-letak pengguna sasaran Anda, karena nilai-nilai bergantung-tata-letak berbeda lebih banyak daripada yang bisa ditunjukkan tabel mana pun. Halaman ini kamusnya; keyboard Anda uji lapangannya.",
+        ],
+      },
     ],
   },
   "ipv4-subnet-calculator": {
@@ -5123,6 +9981,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah kelas IP masih berarti?', a: 'Tidak untuk routing — internet beralih ke CIDR kelas-tak-tentu puluhan tahun lalu. Huruf A/B/C/D/E hanya ditampilkan sebagai referensi, karena dokumentasi lama, soal ujian, dan sebagian perangkat tua masih memakai istilah kelas.' },
         { q: 'Bagaimana CIDR terkecil untuk dua IP dihitung?', a: 'Kedua alamat di-XOR untuk melihat bit rendah mana yang berbeda; awalannya adalah posisi bit pertama tempat keduanya sama, dan blok diselaraskan ke batas itu. Misalnya 10.1.2.3 dan 10.1.9.200 jatuh bersama dalam 10.1.0.0/20.' },
     ],
+    deepDive: [
+      {
+        heading: "CIDR dan subnet mask, dari prinsip pertamanya",
+        paragraphs: [
+          "Satu alamat IPv4 32 bit, dan prefiks CIDR-nya berkata berapa banyak bit pendahulunya mengidentifikasi jaringannya: /24 berarti 24 bit pertama tetap dan 8 terakhir milik host. Mask bertitik hanyalah aturan itu yang ditulis dalam notasi IP — 255.255.255.0 punya tepat 24 angka satu. Wildcard mask inversi bitwise-nya, yang diminta sintaks ACL firewall sebagai gantinya: di mana mask berkata “harus cocok”, wildcard berkata “tidak peduli”.",
+          "Nilai-nilai standarnya jatuh mekanis begitu batasnya diset: alamat jaringannya punya semua bit host dinolkan, alamat broadcastnya semua diset, dan host yang berguna berjalan dari jaringan+1 hingga broadcast−1. Jumlah bergunanya 2^(32−n) − 2 karena jaringan dan broadcast direservasi — satu /24 memuat 256 alamat tetapi 254 host berguna, dan itu off-by-two adalah alasan paling umum satu rencana jaringan kekurangan satu host.",
+          "Dua pengecualian sengaja dihormati: tautan point-to-point /31 RFC 3021 memakai kedua alamat tanpa jaringan atau broadcast terreservasi, dan /32 satu rute host-tunggal menurut definisi. Jika model kepala Anda berkata “selalu kurangkan dua”, dua kasus inilah di mana konfigurasi dunia-nyata menyimpang dari buku teksnya.",
+        ],
+      },
+      {
+        heading: "Rentang privat dan kesalahan firewall klasiknya",
+        paragraphs: [
+          "Tak setiap alamat unik secara global. RFC 1918 mereservasi 10.0.0.0/8, 172.16.0.0/12, dan 192.168.0.0/16 untuk jaringan privat; 127.0.0.0/8 loopback, 169.254.0.0/16 link-local, dan 100.64.0.0/10 ruang bersama CGNAT yang dipakai operator antara modem mereka dan inti mereka. Alat ini menandai semuanya sehingga Anda tahu jenis alamat apa yang sebenarnya Anda lihat.",
+          "Kesalahan yang dicegah penandanya: menulis satu aturan izinkan-firewall untuk satu rentang yang Anda percayai publik, saat sebenarnya di dalam RFC 1918 — misalnya secara tak sengaja mengizinkan lingkungan 172.16.0.0/12. Sebaliknya, memperlakukan satu sumber CGNAT sebagai satu pengunjung publik membiarkan alamat operator yang sama muncul dari jutaan pelanggan, yang memutus batas-laju per-IP dan asumsi pencatatan.",
+          "Satu jebakan lagi hidup di rentang 172 secara khusus: 172.16/12 membentang 172.16.0.0 hingga 172.31.255.255, jadi 172.20.x.x privat tetapi 172.32.x.x publik. Ingatan berkata “172 itu privat”, realita berkata hanya satu irisan selebar-16-bit dari ruang 172 yang demikian. Ini satu-satunya kesalahan lookup rentang-privat paling umum dalam praktik, dan persis kolom bendera yang menyelesaikannya seketika.",
+        ],
+      },
+      {
+        heading: "CIDR penutup terkecil dan kenapa penggabungan-tangan gagal",
+        paragraphs: [
+          "Diberi dua IP, blok minimal yang memuat keduanya ditemukan dengan membandingkan bit: XOR kedua alamatnya, dan posisi bit berbeda tertinggi memberi tahu Anda berapa banyak bit urutan-rendah yang bervariasi. Prefiksnya segala di atas posisi itu, dan bloknya diselaraskan turun ke batas itu — jadi 10.1.2.3 dan 10.1.9.200 berbagi satu /20 tetapi tak akan berbagi satu /21, karena selisih mereka mencapai rentang bit 20.",
+          "Penggabungan-tangan gagal karena manusia mewawasrai dalam desimal. 10.1.2.3 “tampak seperti” milik bersama 10.1.2.x, dan satu /24 memang memuatnya — tetapi memasangkannya dengan 10.1.9.200 memaksa satu blok yang oktet ketiganya membentang 0–15, yang tak diintuisi siapa pun dari string desimalnya. Metode XOR mengubah satu masalah intuisi menjadi satu aritmetika bit yang entah bekerja atau secara dapat-dibuktikan tidak.",
+          "Hasil pencakupannya juga memberi tahu Anda biaya summarisasi: menggabungkan dua host ke satu aturan bisa menarik 2.048 alamat yang tak Anda maksud sertakan. Baca jumlah host-berguna blok hasilnya sebelum menempelkannya ke satu firewall, dan utamakan dua aturan spesifik daripada satu yang luas saat alamat ekstranya berarti. Semuanya di sini dihitung lokal di browser — rencana pengalamatan internal tak pernah meninggalkan halaman.",
+        ],
+      },
+    ],
   },
   "json-viewer": {
     name: 'Penampil JSON',
@@ -5137,6 +10021,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah dokumen besar ditangani?', a: 'Ya untuk payload API dan konfigurasi umum — puluhan ribu node terrender mulus. Pemotongan 60 karakter hanya untuk tampilan; panel mentah dan tombol salin selalu menyimpan data lengkap.' },
         { q: 'Apakah data saya keluar dari perangkat?', a: 'Tidak. Penguraian dan rendering sepenuhnya di memori browser. Tidak ada yang dikirim ke server — aman untuk respons API internal dan konfigurasi.' },
     ],
+    deepDive: [
+      {
+        heading: "Apa yang diubah tampilan pohon tentang membaca JSON",
+        paragraphs: [
+          "JSON mentah dioptimalkan bagi mesin: ia mengemas struktur ke tanda baca dan whitespace, sehingga satu payload yang bersarang dalam terbaca sebagai satu dinding kurung. Satu tampilan pohon membalikkan itu — tiap objek dan array menjadi satu node yang bisa Anda lipat, sehingga tingkat atasnya menjawab “apa isi respons ini?” dalam satu lirikan dan detail hanya muncul di tempat Anda memperluas. Bagi satu respons API 200-baris, itulah selisih antara menggulir dan bernavigasi.",
+          "Pemberian-warna menurut tipe bukan dekorasi. Dalam payload nyata bug menggerombol di batas-batasnya: satu angka yang datang sebagai string (“42”), satu false yang sebenarnya string “false”, satu null yang seharusnya satu objek. Ketika string, angka, boolean, dan null masing-masing punya warna mereka sendiri, anomali-anomali ini menonjol secara visual — Anda bisa menyapu satu respons penuh mencari tipe yang mencurigakan tanpa membaca satu nama kunci pun.",
+          "Pemotongan string-panjang adalah trik keterbacaan ketiganya. Blob Base64, fragmen HTML, dan deskripsi panjang rutin membentangkan satu nilai melintasi ratusan karakter dan mengubur strukturnya. Memotong tampilan pada 60 karakter menjaga tiap nilai satu baris — sementara panel mentah dan tombol salinnya selalu membawa teks penuhnya, jadi tak ada yang hilang. Pemotongannya penyajian, bukan data.",
+        ],
+      },
+      {
+        heading: "Membaca kesalahan parse: baris, kolom, dan tersangka-sangka biasa",
+        paragraphs: [
+          "JSON tak pengampun dengan cara-cara yang spesifik dan repetitif, dan kesalahan parsernya terpetakan ke mereka. Kegagalan-kegagalan klasiknya: satu koma di ekor setelah elemen terakhir satu objek atau array (sah dalam literal JavaScript, ilegal dalam JSON), kunci tak-berkutip atau berkutip-tunggal, kutip-tunggal di sekitar string, satu kurung yang hilang yang hanya muncul ratusan baris belakangan, dan komentar — // baik dalam JS, tak pernah sah dalam JSON. Mengetahui daftar ini mengubah kebanyakan pesan kesalahan menjadi perbaikan satu-detik.",
+          "Nomor baris dan kolom berarti karena titik kegagalannya sering jauh dari titik kesalahannya: satu kurung penutup yang hilang di baris 10 mungkin hanya dilaporkan ketika parser menghantam satu token bertentangan di baris 40. Perbaiki kesalahan pertama yang dilaporkan dan parse-ulang alih-alih mengejar semuanya sekaligus — parser memulihkan buruk dari kesalahan berantai, dan satu pesan pertama yang terpercaya.",
+          "Viewer ini melaporkan kesalahannya dengan satu pesan milik parser plus posisinya, lalu merender-ulang pohonnya saat masukannya menjadi valid. Loop-nya — tempel, lihat kesalahan, perbaiki, lihat pohon — cukup cepat bahwa mendebug satu file konfigurasi cacat mengalahkan beralih ke satu editor dengan satu linter JSON untuk satu pemeriksaan sekali-jalan.",
+        ],
+      },
+      {
+        heading: "Parsing lokal, dan kapan meraih satu alat berbeda",
+        paragraphs: [
+          "Semuanya berjalan di browser Anda: parsing, pembangunan pohon, dan rendering terjadi di JavaScript di perangkat Anda, dan tak ada yang dikirim atau disimpan. Itu paling berarti bagi payload yang benar-benar Anda tempel — respons API terautentikasi, konfigurasi internal, catatan pelanggan yang ditarik dari satu database. Mengirim mereka ke satu layanan JSON daring untuk di-pretty-print menciptakan satu salinan sisi-server yang tak Anda kendalikan dan tak Anda butuhkan.",
+          "Skala batas jujurnya. Puluhan ribu node dirender baik; satu ekspor beberapa-ratus-megabita akan menekan tab browsernya tak peduli viewer mana pun yang merendernya, dan satu alat streaming atau baris-perintah jawaban yang lebih baik di sana. Untuk rentang sehari-hari — respons API, payload webhook, file konfigurasi — satu pohon browser jalur tercepat dari “apa isi ini?” menuju satu jawaban.",
+          "Padukan dengan alat-alat sekitarnya untuk langkah-langkah berikutnya: formatter menormalkan indentasi sebelum Anda mengikat satu perbaikan, validator mengonfirmasi kepatuhan ketat, dan json-path-query mengekstrak satu subtree tanpa berburu melalui pohonnya dengan tangan. Viewer adalah alat bacaannya; yang lain melakukan penulisan dan query.",
+        ],
+      },
+    ],
   },
   "chmod-calculator": {
     name: 'Kalkulator chmod',
@@ -5150,6 +10060,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apa arti 755 sebenarnya?', a: 'Pemilik: baca+tulis+eksekusi (7=4+2+1); grup: baca+eksekusi (5=4+1); lainnya: baca+eksekusi (5). Pengaturan khas direktori bersama dan skrip yang boleh dijalankan orang lain.' },
         { q: 'Untuk apa sticky bit?', a: 'Pada direktori ia mencegah menghapus file milik orang lain — itulah «t» di /tmp (drwxrwxrwt). Pada file eksekusi ia menjaga program di memori — kini kebanyakan historis.' },
         { q: 'Apa fungsi setuid dan setgid?', a: 'Pada file eksekusi, setuid menjalankannya dengan identitas pemilik (setgid: grup) — dari sinilah bahayanya. Pada direktori, setgid memaksa file baru mewarisi grup direktori.' },
+    ],
+    deepDive: [
+      {
+        heading: "Dari mana 755 dan 644 datang: aritmetika 4-2-1",
+        paragraphs: [
+          "Tiap-tiap tiga kelas izin — pemilik, grup, lainnya — memegang tiga bit: baca, tulis, eksekusi. Digit oktalnya penjumlahan bit yang diaktifkan dibobot 4-2-1, itulah sebabnya digit itu hanya bisa 0–7 dan tiap nilai terpetakan ke tepat satu string rwx. 7 adalah rwx (4+2+1), 6 rw- (4+2), 5 r-x (4+1), 4 r-- (4). Tak ada kombinasi yang bisa menghasilkan, katakanlah, satu 3 yang berarti sesuatu selain -wx, jadi notasinya tak-ambigu begitu Anda menginternalisasi bobotnya.",
+          "Aritmetika itu menjelaskan kedua mode kuda-kerja. 755 (rwxr-xr-x) berarti pemiliknya melakukan segalanya sementara semua orang lain bisa masuk dan membaca tapi tak memodifikasi — mode alami untuk direktori dan bagi skrip yang harus dieksekusi orang lain. 644 (rw-r--r--) menghapus eksekusi dari gambarannya sepenuhnya: terbaca semua orang, tertulis hanya pemiliknya, yang cocok file biasa. Alasan server web menginginkan 644 pada file dan 755 pada direktori sekadar bahwa memasuki satu direktori satu operasi eksekusi, bukan baca.",
+          "Umask melengkapi gambarnya. Satu umask tipikal 022 dikurangkan dari bawaan 666/777 saat pembuatan, yang persis kenapa file baru mendarat di 644 dan direktori baru di 755. Ketika satu file terus “kehilangan” bit eksekusinya atau tulis-grup terus menghilang, pelakunya biasanya umask atau satu alat sinkronisasi yang terlalu bersemangat, bukan chmod sendirinya — memeriksa modusnya dengan stat sebelum memberi-ulang menghemat banyak garuk-kepala.",
+        ],
+      },
+      {
+        heading: "Bit-bit istimewanya: setuid, setgid, dan sticky",
+        paragraphs: [
+          "Melampaui sembilan bit izin duduk tiga lagi. setuid (oktal 4000) membuat satu executable berjalan dengan identitas pemilik file-nya alih-alih si pemanggil — mekanisme di balik passwd, yang harus menulis ke file milik-root sambil bisa dijalankan semua orang. setgid (2000) melakukan hal yang sama dengan grupnya, dan pada direktori ia membuat file baru mewarisi grup direktorinya, yang cara satu folder tim bersama mempertahankan kepemilikan yang koheren.",
+          "Bit sticky (1000) kebanyakan historis bagi file, tetapi pada direktori ia berarti hanya pemilik file (atau root) yang bisa menghapus atau mengganti-nama entri di dalamnya. /tmp contoh kanoniknya: 1777, dapat-ditulis-dunia, namun pengguna tak bisa menghapus file satu sama lain. COPY --chmod milik Docker dan skrip CI kadang butuh digit-digit ini dieja, yang persis saat bentuk empat-digitnya berarti — digit pendahulunya oktal bit-istimewa, 0 saat absen.",
+          "Notasi simboliknya mengodekan keadaannya di tempat x: s huruf-kecil berarti bit-istimewa plus eksekusi (rws), S huruf-besar berarti bit-istimewa tanpa eksekusi — biasanya satu kesalahan, karena satu file setuid yang tak-bisa-dieksekusi tak melakukan apa pun. Logika yang sama berlaku bagi t versus T pada direktori. Melihat rwS atau rwT dalam satu listing satu sinyal untuk memberi eksekusi atau menghapus bit-istimewanya.",
+        ],
+      },
+      {
+        heading: "Jebakan praktis dan cara memeriksa mode dengan aman",
+        paragraphs: [
+          "Kesalahan operasional paling umum adalah chmod -R 777 sebagai satu perbaikan untuk satu kesalahan izin. Ia membuat masalah langsungnya lenyap dan meninggalkan satu pohon dapat-ditulis-dunia — satu lubang keamanan sungguhan di satu host multi-pengguna mana pun, dan tak berguna sebagai satu diagnosis karena ia merusak bukti apa modus sebenarnya yang pernah ada. Ketika satu layanan tak bisa membaca satu file, kerjalah turun jalurnya: tiap direktori di jalannya butuh eksekusi (biasanya baca juga) bagi pengguna layanan itu, dan kegagalannya sering satu direktori induk, bukan filenya.",
+          "Satu jebakan terkait: chmod 644 pada satu direktori mencabut bit eksekusinya (r--r--r--), dan tak seorang pun — termasuk pemiliknya — bisa kemudian memasukinya, karena melintasi satu direktori satu eksekusi. Direktori hampir selalu menginginkan sekurang-kurangnya 755 atau 700, tak pernah 644. Saat memulihkan mode dari satu dokumentasi, utamakan bentuk digit eksplisitnya (chmod 755) atas ekspresi simbolik seperti +x yang efeknya bergantung pada modus sekarang dan umask.",
+          "Satu kalkulator seperti ini sengaja hanya-periksa dan offline: ia menghitung digit-digitnya di browser Anda dan menyerahkan Anda satu perintah untuk ditinjau sebelum dijalankan. Itu menjaga alur kerjanya di tempat miliknya — Anda menempel perintahnya ke terminal Anda sendiri, terhadap file Anda sendiri, dan tak ada tentang filesystem atau struktur direktori Anda yang pernah meninggalkan mesin.",
+        ],
+      },
     ],
   },
   "ulid-generator": {
@@ -5166,6 +10102,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apa itu Crockford Base32?', a: 'Alfabet 32 karakter (angka plus A-Z tanpa I, L, O, U) yang dirancang bertahan terhadap transkripsi manusia: tak ada pasangan mirip huruf/angka, tidak sensitif huruf besar-kecil. 25% lebih padat dari hex dan tanpa +, /, = — aman untuk URL, nama file, dan XML tanpa escaping.' },
         { q: 'Dua ULID pada milidetik yang sama bertabrakan?', a: 'Praktisnya tidak: 80 bit acak memberi ~1,2 × 10²⁴ kemungkinan per milidetik. Spesifikasi juga mendefinisikan generasi monotonik (menaikkan bagian acak dalam milidetik yang sama), yang dipatuhi mode batch secara konstruksi.' },
     ],
+    deepDive: [
+      {
+        heading: "Keterurutan: selisih yang mengubah indeks Anda",
+        paragraphs: [
+          "Satu kunci utama UUIDv4 menebarkan baris baru ke posisi acak dalam indeksnya. Pada penyimpanan B-tree itu berarti pembelahan halaman, cache miss, dan satu indeks yang semakin terfragmentasi seiring tumbuhnya tabelnya — satu sakit operasional yang terkenal pada tabel kaya-tulis. Satu kunci ULID selalu mendarat di kanan tiap kunci sebelumnya, jadi penyisipan tetap seperti-append dan indeksnya tetap kompak.",
+          "Keterurutan juga mengubah query apa yang bisa Anda tulis. Dengan kunci ULID, “beri saya segalanya yang dibuat antara 14:00 dan 15:00” adalah satu pemindaian rentang polos atas kunci utamanya — tanpa satu indeks created_at terpisah yang dibutuhkan untuk jendela kasar. Log, tabel kejadian, dan antrean pesan paling banyak diuntungkan, karena pola akses mereka didominasi waktu.",
+          "Komprominya jujur dinyatakan: ULID mengekspos waktu pembuatan mereka kepada siapa pun yang melihat pengenalnya, dan ID berurutan dapat diprediksi dalam milidetik yang sama. Jika pengenal harus opak (membagikan ID secara publik di mana enumerasi berarti), pertahankan UUIDv4. Bagi kunci internal di log dan database, keterurutan ULID yang menang.",
+        ],
+      },
+      {
+        heading: "Crockford Base32 dan membaca pengenal dengan keras",
+        paragraphs: [
+          "26 karakter satu ULID memakai Crockford Base32: digit 0-9 ditambah huruf A-Z tanpa I, L, O, U. Keempatnya dikecualikan karena dalam transkripsi sehari-hari mereka bertabrakan dengan 1 dan 0 — tiket dukungan, serah-terima verbal, dan runbook tercetak semuanya melibatkan manusia menyalin pengenal dengan mata, dan tiap kebingungan satu bug catatan-salah.",
+          "Pengodeannya juga tak-peduli-kapital menurut konvensi (I dan l keduanya terdekode sama dengan 1), yang memaafkan tempelan huruf-kecil dari terminal dan URL. Dibandingkan hex, Base32 mengemas 25% lebih banyak informasi per karakter, itulah sebabnya satu nilai 128-bit butuh 26 karakter alih-alih 32. Dibandingkan base64, tak ada +, /, atau = — sehingga pengenalnya aman di URL, nama file, atribut XML, dan konteks berdekatan-DNS tanpa satu lapisan escape pun.",
+          "Mendekode menutup lingkarnya: karena 10 karakter pertamanya murni timestamp, ULID mana pun yang Anda temukan di satu log lama terkonversi kembali ke milidetik persis kelahirannya. Itu membuat sesi debugging jauh lebih ramah — pengenalnya sendiri menjawab “kapan catatan ini mulai ada?”.",
+        ],
+      },
+      {
+        heading: "Keacakan, jamnya, dan apa yang tetap di perangkat Anda",
+        paragraphs: [
+          "Generasi di sini memakai dua sumber: separuh timestamp datang dari jam perangkat Anda, 80 bit acaknya dari crypto.getRandomValues — sumber acak kriptografis milik browser, primitif yang sama di balik kunci sesi TLS. Tanpa tabel pra-hitung, tanpa penghitung yang dibagikan ke satu server, dan tanpa ketergantungan pada ketersediaan layanan daring mana pun.",
+          "Itu juga berarti generasinya offline dan tak-terbatas. Menyiapkan data seed database, fixture bagi satu test suite, atau satu batch migrasi ribuan pengenal bekerja identik di satu pesawat dan di satu pusat data terkunci; tak ada yang diunggah, dicatat, atau dibatasi-laju, dan mendekode ULID yang ada hanya menyentuh jam dan JavaScript Anda sendiri.",
+          "Satu peringatan praktis yang layak diketahui: pengenal yang diturunkan dari jam satu perangkat mewarisi akurasinya. Jika jam satu mesin salah, ULID yang ia hasilkan terurut dengan benar di antara mereka sendiri tapi duduk di titik waktu absolut yang salah. Bagi mayoritas mutlak aplikasinya ini tak relevan — tetapi ingat itu saat mengorelasikan ULID terhadap sistem eksternal dengan kebutuhan waktu yang ketat.",
+        ],
+      },
+    ],
   },
   "user-agent-parser": {
     name: 'Parser User-Agent',
@@ -5180,6 +10142,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Mengapa Chrome mengaku Safari dan Mozilla?', a: 'Kompatibilitas historis. Situs yang kompatibel Netscape disajikan ke browser yang mengumumkan «Mozilla», dan Chrome mewarisi penyamaran itu untuk mendapat konten yang sama — itulah sebabnya UA Chrome modern berbunyi «Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/…». Parser membaca dari ujung rantai (token Chrome), bukan dari awal.' },
         { q: 'Bagaimana membedakan bot dari pengguna sungguhan?', a: 'Perayap yang dikenal menerbitkan tokennya secara eksplisit — Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit muncul harfiah di UA. Parser ini menamai mereka dari tanda tangan, bukan menebak; yang tak dikenal tetap browser biasa, tidak ditandai bot.' },
         { q: 'Apakah UA sniffing cukup untuk mengatur fitur?', a: 'Tidak untuk jalur kritis — string UA berbohong by design dan mudah dipalsukan. Gunakan penguraian UA untuk analitik, log, dan keputusan non-keamanan (menampilkan tata letak seluler, menghitung trafik bot); untuk apa pun yang fungsional lakukan feature-detect di halaman. Alat ini membaca UA, bukan mempercayainya.' },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa string User-Agent berbohong, dan secara desain",
+        paragraphs: [
+          "Tiap string UA browser modern dimulai Mozilla/5.0, terlepas dari kaitan apa pun dengan Mozilla milik Netscape. Ini sejarah kompatibilitas kompetitif, bukan malfungsi: pada 1990-an browser mengiklankan 'Mozilla' untuk menerima konten yang baik, dan tiap pendatang menyalin seluruh prefiksnya agar tak disajikan versi yang terdegradasi. UA Chrome kemudian mengklaim AppleWebKit (yang mengklaim Gecko), token kompatibel-Safari menumpang, dan browser-belakangan menambahkan diri mereka ke tumpukannya.",
+          "Hasilnya satu rantai klaim yang diwarisi: 'Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/… Safari/…'. Mem-parse-nya mundur teknik yang andal — token yang paling spesifik biasanya yang paling jujur, itulah sebabnya Edge (Edg/), Opera (OPR/), dan Samsung Internet mendapat entri mereka sendiri setelah satu pencocokan Chrome generik, dan kenapa deteksi keluarga-Chrome harus berjalan sebelum fallback generik alih-alih sesudahnya.",
+          "Perlombaan senjatanya belum usai: dengan pengurangan-UA, browser membekukan dan memangkas string-string ini, dan sebagian kini mengirim string UA yang pada dasarnya identik terlepas versinya. Trajektori itu layak diketahui sebelum Anda membangun apa pun di atas parsing-UA — sinyalnya tak-andal secara desain dan semakin senyap. Baca UA untuk analitik dan pencatatan; jangan pernah menggategikan keamanan atau fungsi kritis pada satu.",
+        ],
+      },
+      {
+        heading: "Apa yang bisa dan tak bisa dikatakan satu parse",
+        paragraphs: [
+          "Satu parser memulihkan apa yang dideklarasikan stringnya: keluarga dan versi browser, mesin rendering (Blink, Gecko, WebKit), sistem operasi, kelas perangkat (desktop, seluler, tablet), dan — ketika tokennya muncul apa adanya — botnya. Crawler yang dikenal mengidentifikasi diri mereka eksplisit: Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit, dan teman-temannya, yang adalah kenapa mereka dicocokkan menurut nama alih-alih diduga dari kolom seluler atau desktop.",
+          "Apa yang tak bisa dipulihkan satu parse adalah kebenaran di balik satu klaim yang dipalsukan. String UA bisa diset trivially oleh klien — curl mengirim miliknya sendiri, pustaka membiarkan Anda mengoper string apa pun, dan aplikasi seluler sering mengirim WebView dengan identitas yang dipinjam. Jadi satu parse satu rekaman tentang apa yang dikatakan klien tentang dirinya, bukan satu hasil autentikasi; perlakukan bendera botnya dengan cara yang sama, karena apa pun yang tak dikenal tetap berlabel browser normal alih-alih ditandai.",
+          "Penggunaan praktisnya berbaris dengan batas-batas itu: dasbor analitik (distribusi browser dan OS), triage log (membidik satu WebView atau satu crawler di antara trafik nyata), mendebug kenapa satu pemeriksaan fitur gagal, dan mengklasifikasikan trafik dalam satu dataset. Bagi apa pun yang fungsional di dalam satu halaman — mengaktifkan satu fitur, memilih satu tata-letak — jawaban standarnya adalah deteksi fitur di klien, dengan parsing-UA sebagai satu petunjuk alih-alih satu gerbang.",
+        ],
+      },
+      {
+        heading: "Parsing secara lokal, termasuk UA Anda sendiri",
+        paragraphs: [
+          "Semuanya di sini berjalan di browser Anda: string yang Anda tempel tak pernah meninggalkan perangkat. Itu berarti karena string yang Anda selidiki sering artefak operasional — header dari satu log internal, satu permintaan mencurigakan yang ditangkap satu firewall, satu UA dari satu garis-waktu insiden. Mengirim mereka ke satu layanan pihak-ketiga untuk diparse mengubah satu diagnosis privat menjadi dataset orang lain.",
+          "UA milik browser Anda sendiri tersedia sebagai satu contoh satu-klik, yang cara tercepat melihat bentuk keluaran parsernya dan memverifikasi makna kolom-kolomnya terhadap satu kebenaran yang diketahui — Anda tahu browser dan OS apa yang Anda jalankan, jadi satu parse yang benar bisa diperiksa seketika.",
+          "Triage batch adalah alur kerja alami lainnya: tempel string satu demi satu dari satu kutipan log dan baca hasilnya sebagai satu tabel browser/mesin/OS/perangkat. Karena aturan-aturannya berjalan sisi-klien tanpa satu bolak-balik server, mem-parse lusinan string seketika, bekerja offline, dan tak ada isi log yang dikirim — yang biasanya persis apa yang tak dimaksudkan satu kutipan log.",
+        ],
+      },
     ],
   },
   "token-generator": {
@@ -5196,6 +10184,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Berapa panjang token yang sebaiknya?', a: 'Untuk kunci internal dan ID sesi, 32 karakter alfanumerik (~190 bit) jauh melampaui brute force. Token heksadesimal disukai karena memetakan byte persis: 32 karakter hex = 16 byte acak. Simbol menambah entropi per karakter tetapi merusak sistem yang tidak mengenkode URL — pakai hanya jika konsumennya menanganinya.' },
         { q: 'Token, UUID, atau ULID?', a: 'Gunakan token acak opak (alat ini) saat pengidentifikasi tidak boleh ditebak: kunci API, sesi, rahasia webhook. UUID/ULID untuk pengidentifikasi yang dibuat paralel atau bisa diurutkan waktu — mereka membocorkan informasi waktu atau jumlah dan tak seharusnya menanggung peran keamanan. Perlu ID yang bisa diurutkan? Pakai generator ULID.' },
     ],
+    deepDive: [
+      {
+        heading: "Panjang token dan aritmetika brute force",
+        paragraphs: [
+          "Keamanan satu token adalah entrópinya, dan entropi aritmetika sederhana: log2 ukuran set karakternya, dikali panjangnya. Set alfanumerik 62-karakter memberi sekitar 5,95 bit per karakter, jadi 32 karakter ~190 bit — satu ruang pencarian yang tak bisa dilalui satu perangkat keras yang bisa dibayangkan. Bahkan 16 karakter alfanumerik (~95 bit) duduk nyaman melampaui menebak-daring dan kebanyakan skenario offline.",
+          "Yang sebenarnya dibeli panjangnya adalah margin terhadap dua realita: token yang bocor sebagian (satu log, satu header referrer, satu tangkapan layar) dan algoritme yang membaik. Satu token 128-bit dengan 30 bit bocor masih membawa 98 — baik; satu token 40-bit yang bocor 10 hampir habis. Inilah sebabnya rekomendasi jujurnya adalah “lebih banyak daripada yang Anda pikir butuh”: entropi murah, rotasi setelah paparan mahal.",
+          "Satu peringatan yang tak bisa dilihat pelaporannya: entropi mengukur proses generasinya, bukan penanganannya. Satu token 190-bit yang sempurna-acak yang ditempel ke satu tiket, di-commit ke satu repositori, atau dicatat satu proxy punya satu kekuatan efektif nol sampai dirotasi. Panjang melindungi dari menebak; kebersihan melindungi dari segalanya yang lain.",
+        ],
+      },
+      {
+        heading: "Token opak vs UUID: bukan pekerjaan yang sama",
+        paragraphs: [
+          "Menggoda memperlakukan string acak-tampak mana pun sebagai satu rahasia, tetapi pengenal terpecah ke dua keluarga dengan kebutuhan berlawanan. UUID dan ULID didesain dihasilkan di mana pun, secara paralel, dan (bagi ULID) terurut waktu — yang berarti mereka sengaja mengodekan informasi: bit versi, timestamp, kadang satu penghitung. Keter-tebak-an bukan kepedulian mereka.",
+          "Satu token acak opak kebalikannya: ia tak mengodekan apa pun dan ada hanya untuk tak-tertebak. Itu primitif yang benar bagi kunci API, token bearer, pengenal sesi, dan rahasia webhook. Memakai satu UUID v1 sebagai satu ID sesi, misalnya, membocorkan alamat MAC mesinnya dan waktu generasinya — satu kelas kerentanan historis nyata, bukan teoretis.",
+          "Hex pantas satu catatan: ia terpetakan persis ke byte (32 karakter hex = 16 byte acak), itulah sebabnya begitu banyak protokol menampilkan rahasia dengan cara itu, tetapi ia hanya membawa 4 bit per karakter — separuh kepadatan alfanumerik. Simbol menaikkan kepadatan tapi memutus konsumen yang tak mengenkode-URL header; pilih set yang benar-benar diterima konsumen Anda.",
+        ],
+      },
+      {
+        heading: "Mengapa Math.random gagal bagi rahasia, dan generasi lokal",
+        paragraphs: [
+          "Math.random() satu generator pseudo-acak yang keadaan internalnya hingga dan dapat direkonstruksi: penyerang yang mengamati cukup banyak keluaran — atau yang kira-kira tahu kapan tokennya dihasilkan — bisa mereproduksinya. Token yang dibangun atasnya tampak acak dan telah diprediksi dalam insiden nyata; jalan-pintasnya selamat di tutorial dan jawaban Stack Overflow, yang persis kenapa ia terus terjadi.",
+          "crypto.getRandomValues adalah sumber kriptografis-aman milik browser, di-seed oleh OS dari entropi perangkat keras dan didesain agar tak ada pengamat yang bisa memprediksi keluaran berikutnya dari yang sebelumnya. Alat ini menarik darinya dan memetakan byte ke set karakter pilihan Anda tanpa bias, lalu menampilkan entrópinya yang dihasilkan agar angkanya bisa diaudit alih-alih diaklaimasi.",
+          "Generasinya juga lokal: token dibuat di memori browser Anda dan tak pernah dikirim, jadi satu rahasia produksi yang lahir di sini tak pernah muncul di satu log server pihak-ketiga. Muat-ulang halaman dan mereka lenyap — salin mereka ke penyimpanan rahasia Anda dalam satu sesi yang sama. Bagi kredensial berumur-panjang, penyimpanan itu rumah permanennya; generatornya tempat kelahirannya, bukan arsipnya.",
+        ],
+      },
+    ],
   },
   "extract-audio": {
     name: 'Video ke MP3',
@@ -5211,6 +10225,32 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Mengapa konversi pertama lambat?', a: 'Eksekusi pertama mengunduh mesin WebAssembly (~31 MB) — biaya sekali; setelah itu cache browser menyajikannya seketika. Konversinya sendiri berjalan mendekati kecepatan waktu nyata atau lebih cepat: mengode audio jauh lebih ringan daripada mengode ulang video.' },
         { q: 'Kualitas mana yang dipilih?', a: '320 kbps transparan untuk musik; 192 kbps adalah titik terbaik untuk sebagian besar konten termasuk podcast dan kuliah; 128 kbps menjaga file lisan tetap kecil. Catatan: MP3 tidak melampaui kualitas sumber — video sumber ber-bitrate rendah tetap rendah apa pun pengaturannya.' },
         { q: 'Alat bilang trek audio tidak ditemukan — mengapa?', a: 'Beberapa video memang tanpa suara; sedikit wadah (stream .ts mentah, sebagian .flv) tidak ditangani demuxer cepat. Konversi dulu ke MP4, atau pastikan file berbunyi di pemutar Anda.' },
+    ],
+    deepDive: [
+      {
+        heading: "Apa yang benar-benar terjadi pada file Anda",
+        paragraphs: [
+          "Videoninya tak pernah meninggalkan mesin Anda. ffmpeg.wasm — basis kode FFmpeg desktop yang dikompilasi ke WebAssembly — dimuat sekali (sekitar 31 MB, ter-cache setelahnya), dan dari sana semuanya terjadi di dalam tab: file dibaca ke satu filesystem virtual di memori, didemux untuk memisahkan stream-streamnya, stream audionya didekode dan dienkode-ulang ke MP3 dengan libmp3lame, dan hasilnya kembali sebagai satu unduhan.",
+          "Demuxing itulah kenapa ekstraksinya cepat: frame videonya tak pernah disentuh. Alat ini membaca kontainernya (MP4, MOV, WebM, MKV…), memilih track audionya — biasanya AAC di dalam file keluarga-MP4, Opus atau Vorbis di dalam WebM — dan hanya track itu yang didekode dan dienkode-ulang. Pengodean-audio-saja berjalan pada atau lebih cepat dari waktu nyata, itulah sebabnya satu kuliah 2-jam selesai dalam beberapa menit.",
+          "Build satu-thread-nya tak butuh SharedArrayBuffer, jadi halamannya berjalan di browser modern mana pun tanpa header server istimewa — alasan yang sama file-nya tak pernah perlu diunggah: kekuatan pemrosesan yang dituntutnya muat nyaman di satu tab.",
+        ],
+      },
+      {
+        heading: "Kontainer, codec, dan kesalahan tanpa-track-audio",
+        paragraphs: [
+          "Ekstensi file menamai kontainer, bukan audio: satu .mp4 bisa memuat AAC, MP3, atau tak sama sekali, dan satu .mov dari satu kamera hanyalah QuickTime yang membungkus apa pun yang dihasilkan perekamnya. Itulah sebabnya alat ini menginspeksi stream-streamnya alih-alih memercayai ekstensinya — dan kenapa satu video yang sungguh senyap (rekaman layar tanpa mikrofon) mendapat satu pesan tanpa-track-audio yang jujur.",
+          "Beberapa kontainer membuat tersandung demuxer cepatnya: stream broadcast .ts mentah dan sebagian file .flv gagal inspeksi bahkan saat mereka membawa suara. Jalan pintasnya mekanis — konversikan filenya ke MP4 lebih dulu dengan satu alat desktop mana pun, lalu ekstrak di sini. Jika satu file diputar bersuara di satu pemutar Anda dan tetap gagal, ia milik bucket itu.",
+          "Ekstraksi versus transcoding adalah pembedaan kuncinya: mengenkode-ulang audionya ke MP3 tak terelakkan (browser tak bisa menyerahkan Anda stream AAC mentahnya sebagai satu file), tetapi stream videonya dibuang tak tersentuh dan tak pernah didekode kedua kalinya — itulah seluruh kisah kecepatannya.",
+        ],
+      },
+      {
+        heading: "Memilih bitrate, dengan jujur",
+        paragraphs: [
+          "Bitrate MP3 membatasi apa yang selamat dari pengodeannya: 320 kbps transparan bagi musik, 192 kbps titik-manis praktisnya bagi podcast dan kuliah, dan 128 kbps menjaga file kata-ucapan tetap kecil. Kualitas sumbernya satu langit-langit keras — satu track AAC 96 kbps tak membaik karena ditulis ke file yang lebih besar.",
+          "Langit-langit itu juga kenapa ekstraksi tak bisa pernah memulihkan audio: apa yang dirusak kompresi agresif satu panggilan video tetap rusak. Jika kualitas arsip berarti, kembalilah ke rekaman aslinya, bukan ke satu video yang selamat dari satu platform pertemuan.",
+          "Video panjang biaya waktunya yang utama, dan bilah kemajuannya melaporkan kemajuan ffmpeg nyata alih-alih satu animasi kosmetik. Semuanya berjalan lokal — kuliah dengan data pribadi, panggilan rahasia, rekaman yang belum dirilis tak pernah mencapai satu server; dan begitu mesinnya ter-cache, alatnya bekerja offline.",
+        ],
+      },
     ],
   },
 };
