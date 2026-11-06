@@ -38,6 +38,32 @@ export default defineTool({
           a: "It models one product with constant unit economics — the classic textbook case. For a product mix, use your blended average of price minus variable cost; for volume discounts or step-fixed costs, rerun the numbers per scenario.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Fixed vs. variable costs: the split that decides everything",
+          paragraphs: [
+            "The whole analysis rests on one classification decision: which costs are fixed and which are variable. Fixed costs — rent, salaried staff, insurance, software subscriptions — do not move with volume over the period you are analyzing. Variable costs — materials, per-unit packaging, payment processing fees, per-order shipping — scale directly with each unit sold. The contribution margin, price minus variable cost, is only as honest as this split.",
+            "Real costs rarely fall cleanly into one bucket. Electricity has a fixed baseline plus a per-machine variable portion; a commission-based salesperson mixes the two. The practical convention is to classify by what changes when you sell one more unit: if a cost would rise with the next sale, it belongs in V; if it would not, it belongs in F. When in doubt, put it in variable cost — that makes your break-even estimate conservative rather than optimistic.",
+            "This split is also why the formula works at all: fixed costs must be repaid in full no matter what, while each sale contributes its margin toward that pile. Once 500 sales have each contributed 20, the 10,000 of fixed cost is covered and every unit after that contributes pure profit. That is the mental model behind the profit table below the number.",
+          ],
+        },
+        {
+          heading: "Reading the margin and the profit table",
+          paragraphs: [
+            "The margin ratio — contribution margin divided by price — tells you how much of every sales dollar is available to fight fixed costs. A 40% margin means 60 cents of every sale is consumed by variable costs. Low-margin businesses need high volume to break even; high-margin ones can survive on fewer sales but often carry heavier fixed costs (software, R&D), which pushes their break-even back up. The ratio makes that trade-off visible.",
+            "The profit table at 0.5×, 1.5× and 2× break-even shows the shape of the payoff. Below the point, losses accumulate linearly — at half break-even you are losing exactly half the fixed cost. Above it, profit accumulates at the same constant slope. The symmetry is the point: it shows that once unit economics are fixed, the only lever to the break-even point is volume, and past it, every unit earns the same margin.",
+            "Use the table to sanity-check targets: if 2× break-even is the realistic upside in year one, the downside at 0.5× tells you how much cash the business can burn before it must reprice or cut costs. That gap between the two rows is your planning envelope.",
+          ],
+        },
+        {
+          heading: "Where the textbook model bends",
+          paragraphs: [
+            "The formula assumes price and variable cost are flat lines, and reality is curved. Bulk discounts on materials lower V as volume grows; overtime pay, capacity limits and expedited freight raise it. Price itself often falls at scale as you push into less eager market segments. Each of these bends the straight lines into curves, and the single break-even number becomes a range. Rerun the calculation per scenario instead of extrapolating one answer.",
+            "Multi-product businesses face the same problem: the formula covers one product, so a product mix needs a blended contribution margin weighted by expected sales share — and the mix itself shifts as volume grows. Fixed costs can also be step-shaped: the second warehouse or the tenth hire jumps F, it does not grow smoothly.",
+            "None of this makes the model useless — it remains the fastest first-pass feasibility check for a product, a price change or a stall at a market. Just treat the output as a planning baseline, rerun it with pessimistic and optimistic inputs, and remember the denominator's warning: if margin is near zero, a small cost slip can move break-even from reachable to impossible.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "盈亏平衡计算器",
@@ -67,6 +93,32 @@ export default defineTool({
           a: "本工具按单一产品、单位经济模型不变的经典教科书场景计算。产品组合可以用“单价减变动成本”的平均混合值;有批量折扣或阶梯式固定成本时,按情景分别重算即可。",
         },
       ],
+      deepDive: [
+        {
+          heading: "固定成本与变动成本:这个划分决定一切",
+          paragraphs: [
+            "整个分析都建立在一个分类决定上:哪些成本是固定的,哪些是变动的。固定成本——房租、正式员工工资、保险、软件订阅费——在你分析的期间内不随销量变动。变动成本——原材料、单件包装、支付手续费、按单计的运费——随每售出一件而线性增加。边际贡献(单价减变动成本)是否可信,完全取决于这个划分。",
+            "真实成本很少干净地落进某一类:电费有固定基础费用加上随机器运转变动的部分,提成制销售则是两者的混合。实务上的判断标准是“多卖一件会不会多花这笔钱”:会涨的归入变动成本,不会的归入固定成本。拿不准时宁可放进变动成本——这样算出的平衡点偏保守,而不是偏乐观。",
+            "这个划分也解释了公式为什么成立:固定成本不管卖多少都得全额支付,而每笔销售都会贡献自己的边际去填这个坑。500 件每件贡献 20,10,000 的固定成本就补满了,之后的每一件都是纯利润。下面那张利润表背后的逻辑正是如此。",
+          ],
+        },
+        {
+          heading: "怎么读边际贡献率和利润表",
+          paragraphs: [
+            "边际贡献率(边际贡献 ÷ 单价)告诉你每收进一元钱里有多少能用来消化固定成本。40% 的边际贡献率意味着每笔销售的六成被变动成本吃掉。低毛利生意需要巨大的销量才能平衡;高毛利生意销量少也能活,但往往背着更重的固定成本(研发、软件),又把平衡点推了回去。这个比率让利弊取舍一目了然。",
+            "0.5×、1.5× 和 2× 平衡销量的利润表展示的是收益曲线的形状。平衡点以下亏损线性累积——半量即亏掉一半固定成本;以上利润也以同样的斜率线性累积。对称性本身就有信息量:单位经济模型一旦定死,平衡点之前唯一的杠杆是销量,过了平衡点每件挣的都是同样的边际。",
+            "用这张表校验目标:如果第一年现实的上限是 2 倍平衡销量,那 0.5 倍那一行的亏损就告诉你业务能烧多少钱才必须调价或砍成本。两行之间的差额就是你的规划空间。",
+          ],
+        },
+        {
+          heading: "教科书模型在哪里失真",
+          paragraphs: [
+            "公式假设单价和变动成本是两条水平线,现实是曲线。原材料批量采购会压低变动成本;加班费、产能瓶颈和加急运费会抬高它。价格本身在放量后也常因进入更不情愿买的客群而下滑。这些都会把直线掰弯,唯一的平衡点变成一个区间。别外推一个答案,按情景分别重算。",
+            "多产品生意同理:公式只覆盖单一产品,产品组合需要按预期销量占比加权出混合边际贡献——而组合本身也会随规模变化。固定成本还可能是阶梯状的:第二间仓库、第十名员工让固定成本跳一跳,而不是平滑增长。",
+            "这些都不妨碍模型的价值——它仍是给产品、调价或摆摊做第一轮可行性判断最快的工具。只要把输出当规划基线,分别用悲观和乐观参数重跑,并且盯住分母的警告:边际贡献接近零时,一点成本波动就能把平衡点从够得着推到够不着。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "損益分岐点計算",
@@ -94,6 +146,32 @@ export default defineTool({
         {
           q: "複数製品やコスト変動にも対応しますか?",
           a: "対象は単一製品で単位あたりの経済性が一定という、教科書的なケースです。製品ミックスでは「単価 − 変動費」の平均値を使い、数量割引や段階的固定費がある場合はシナリオごとに計算し直してください。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "固定費と変動費の切り分けがすべてを決める",
+          paragraphs: [
+            "分析全体を支えるのは一つの分類判断です。固定費——家賃、正社員の人件費、保険、ソフトウェア契約——は分析する期間中、販売量に応じて動きません。変動費——材料、1 個あたりの梱包費、決済手数料、注文ごとの送料——は売れた個数に比例して増えます。限界利益(単価 − 変動費)の信頼性は、この切り分け次第です。",
+            "現実のコストはきれいには分かれません。電気代は固定の基本料金と稼働に応じた従量部分を持ち、歩合制の営業人件費は両方の性質を併せ持ちます。実務上の基準は「もう 1 個売るときにこの費用が増えるか」です。増えるなら変動費、増えないなら固定費。迷ったら変動費に入れるのが安全です——分岐点が楽観ではなく保守寄りに出ます。",
+            "この切り分けがあるから式が成立します。固定費は売れ行きにかかわらず全額払わねばならず、1 個の売上がその山へ限界利益を積み上げます。500 個 × 20 の貢献で 10,000 の固定費が埋まり、それ以降の 1 個はそのまま利益になります。下の利益表の考え方はまさにこれです。",
+          ],
+        },
+        {
+          heading: "限界利益率と利益表の読み方",
+          paragraphs: [
+            "限界利益率(限界利益 ÷ 単価)は、売上 1 円のうち固定費の埋め合わせに回せる割合を示します。40% なら売上の 6 割が変動費で消えます。低マージンの事業は損益分岐までに大きな数量が必要で、高マージンの事業は少数の売上で成り立つ代わりに研究開発やソフトウェアなど固定費が重く、分岐点がまた押し上がります。この比率がそのトレードオフを見える化します。",
+            "分岐点の 0.5 倍・1.5 倍・2 倍の利益表は損益の形を示します。分岐点の下では損失が線形に積み上がり(半量なら固定費の半分が赤字)、上では同じ傾きで利益が積み上がります。この対称性が大事です。単位あたりの経済性が決まっていれば、分岐点までの唯一のレバーは数量で、超えた後は 1 個ごとに同じ限界利益が乗ります。",
+            "この表で目標の整合性を確認しましょう。初年度の現実的な上限が分岐点の 2 倍なら、0.5 倍の行の赤字が、値付けの見直しやコスト削減までに耐えられる現金の額を教えます。2 行の差が計画の許容範囲です。",
+          ],
+        },
+        {
+          heading: "教科書モデルが曲がる場所",
+          paragraphs: [
+            "この式は単価と変動費が水平線であると仮定しますが、現実は曲線です。材料の大量購入は変動費を下げ、残業代・生産能力の限界・緊急輸送は上げます。単価も量を拡大すると買い控え層に売るため下がりがちです。これらは直線を曲げ、単一の分岐点を範囲に変えます。一つの答えを外挿せず、シナリオごとに計算し直してください。",
+            "多製品事業も同様です。式は単一製品用なので、製品ミックスでは予想販売比率で加重した平均限界利益を使います——しかもミックス自体が量の拡大とともに動きます。固定費も階段状になりえます。2 つ目の倉庫や 10 人目の採用は固定費を滑らかに増やすのではなく、一気に跳ね上げます。",
+            "それでもこのモデルの価値は変わりません。製品立ち上げ、価格変更、出店などの一発目の実現可能性チェックとしては最速です。出力を計画の基準値と考え、悲観・楽観の入力でそれぞれ再計算し、分母の警告を忘れないでください。限界利益がゼロに近いと、わずかなコストの狂いで分岐点が手の届く範囲から手の届かない範囲へ移ります。",
+          ],
         },
       ],
     },

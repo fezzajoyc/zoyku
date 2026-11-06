@@ -38,6 +38,30 @@ export default defineTool({
           a: "Resolvers include the full chain: if www.example.com is a CNAME to example.com, an A query returns the alias plus the final A record. The extra rows show you exactly how the name resolves.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What happens between your query and the answer",
+          paragraphs: [
+            "DNS is a hierarchy, and a single lookup can touch several servers. When nothing is cached, a resolver first asks a root server, which points it at the nameservers for the top-level domain (.com, .org), which point it at the domain's own authoritative nameservers — the ones that actually hold the answer. Each level replies with a referral, and the resolver walks down the chain until it gets a record it can hand back.",
+            "Caching shortens this walk. Every record carries a TTL (time to live) in seconds, telling resolvers how long they may reuse the answer. A low TTL like 300 means changes propagate within minutes but every lookup hits the authoritative server more often; a high TTL like 86400 keeps answers cached for a day, which is cheap and stable but slow to update. When you lower a TTL before a planned migration, you are scheduling how quickly the world will forget the old answer.",
+            "One nuance this tool makes visible: your browser or OS may have its own cache in front of the public resolver, and some resolvers return cached answers without checking whether the zone changed. If a record looks stale here, it is usually TTL still counting down — not a mistake in the query.",
+          ],
+        },
+        {
+          heading: "Choosing the right record type for the job",
+          paragraphs: [
+            "Most debugging starts with the wrong record type. Mail problems are almost never an A-record problem: check MX first, then the TXT records for SPF, DKIM and DMARC. SPF lives as a single TXT string on the domain itself, DKIM on a selector subdomain such as s1._domainkey.example.com, and DMARC on _dmarc.example.com. Because DoH returns the raw answer with segments merged, you can read the whole policy string here and spot the syntax mistakes that silently break mail delivery.",
+            "A, AAAA, NS and CNAME answer different questions: does the site resolve, and over IPv6? Who runs the DNS? Is this name an alias? A CNAME answer to an A query is normal and expected — resolvers include the whole chain — but a domain cannot have a CNAME alongside other records at the same name, which is why apex domains often use ALIAS or flattened records at the provider instead.",
+          ],
+        },
+        {
+          heading: "Why DNS-over-HTTPS, and what this tool does not do",
+          paragraphs: [
+            "Traditional DNS queries travel as plaintext UDP on port 53, visible to anyone on the network path — the coffee-shop router, the ISP, middleboxes. DNS-over-HTTPS wraps the same query in a normal TLS connection, so the lookup is private from the local network and passes through networks that block or hijack port 53. That is why this tool works in environments where dig fails.",
+            "It is a lookup tool, not a live monitoring service: it shows one point-in-time answer from one resolver, including cached values, and does not query authoritative servers directly or compare answers across resolvers. For changes you control, the practical workflow is: lower the TTL in advance, make the change, then re-check here until the new value appears.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "DNS 记录查询",
@@ -64,6 +88,30 @@ export default defineTool({
         {
           q: "查询 A 记录时为什么会出现 CNAME 行?",
           a: "解析器会返回完整链路:如果 www.example.com 是指向 example.com 的 CNAME,A 查询会同时返回别名和最终的 A 记录。多出的行正好展示了域名的完整解析路径。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "从你的查询到答案之间发生了什么",
+          paragraphs: [
+            "DNS 是分层体系,一次查询可能要经过多台服务器。缓存全空时,解析器先问根服务器,根服务器指到顶级域名(.com、.org)的 NS,再指到该域名自己的权威服务器——真正存答案的地方。每一级只给“下一站”的指引,解析器顺着这条链走到底,才拿到能返回的记录。",
+            "缓存让这条链变短。每条记录带 TTL(生存时间,单位秒),告诉解析器答案可以复用多久。低 TTL(如 300)意味着变更几分钟内生效,但权威服务器会被问得更勤;高 TTL(如 86400)让答案缓存一整天,便宜又稳定,但更新慢。迁移前先调低 TTL,本质是在安排“全世界多快忘掉旧答案”。",
+            "一个本工具能让你看清的细节:浏览器或操作系统自己也有缓存,公共解析器返回的可能是没过期检查的缓存值。这里查到旧记录,多半是 TTL 还在倒数,不是查询出错。",
+          ],
+        },
+        {
+          heading: "按问题选对记录类型",
+          paragraphs: [
+            "大多数排查从选错记录类型开始。邮件问题几乎从来不是 A 记录的问题:先查 MX,再查 SPF、DKIM、DMARC 对应的 TXT。SPF 是域名本身的一条 TXT 字符串;DKIM 在选择器子域上,例如 s1._domainkey.example.com;DMARC 在 _dmarc.example.com。DoH 返回的原始答案会把分段合并好,你可以在这里读完整条策略串,找出那些让邮件悄悄发不出去的语法错误。",
+            "A、AAAA、NS、CNAME 各答各的问题:网站能不能解析、支不支持 IPv6?DNS 由谁运营?这个名字是不是别名?查 A 返回 CNAME 行是正常现象——解析器会带上完整链路——但同一个名字上 CNAME 不能与其他记录共存,所以裸域名通常在服务商那里用 ALIAS 或“拍平”记录代替。",
+          ],
+        },
+        {
+          heading: "为什么用 DoH,以及本工具不做什么",
+          paragraphs: [
+            "传统 DNS 查询是 53 端口上的明文 UDP,链路上谁都看得见——路由器、运营商、中间盒。DNS-over-HTTPS 把同样的查询装进一条普通 TLS 连接,本地网络看不到内容,在封禁或劫持 53 端口的网络里也能用。dig 失效的环境下这个工具仍然可用,原因就在这里。",
+            "它是查询工具,不是监控服务:展示的是某一时刻、某个解析器给出的答案(含缓存值),不会直接问权威服务器,也不对比多家解析器的结果是否一致。对变更的实用流程是:提前调低 TTL,做修改,然后在这里反复查,直到出现新值。",
+          ],
         },
       ],
     },

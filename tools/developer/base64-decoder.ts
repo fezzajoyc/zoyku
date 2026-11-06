@@ -37,6 +37,30 @@ export default defineTool({
           a: "No. Everything runs in your browser; the string never leaves your device.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Base64 is encoding, not encryption",
+          paragraphs: [
+            "The most common misconception about Base64 is that it hides anything. It does not. Base64 is a reversible encoding defined by RFC 4648: it takes arbitrary bytes and re-expresses them using 64 safe characters (A-Z, a-z, 0-9, + and /) so binary data survives channels that only handle text, like email attachments or JSON fields. Anyone with the string can decode it in one step — this tool does it instantly, and so does any other decoder. If you need secrecy, you need encryption (AES, RSA) with a key; Base64 offers none.",
+            "Why 64 characters? Six bits can index exactly 64 values, so Base64 packs every 3 bytes (24 bits) into 4 characters (4 × 6 bits). Data whose length is not a multiple of 3 leaves a remainder, and that is where the = padding comes in: one = means the final group held 2 bytes, two = means 1 byte. Padding is technically optional information — decoders can infer it — which is why you will meet Base64 strings with the trailing = stripped, and why a decoder should accept both.",
+            "A related variant matters in practice: URL-safe Base64 replaces + and / with - and _, because + and / cause trouble in URLs and filenames. JWTs use this alphabet, which is why a JWT header or payload decodes cleanly here even though a strict RFC 4648 decoder might reject the - characters.",
+          ],
+        },
+        {
+          heading: "What you get back, and what garbage output means",
+          paragraphs: [
+            "Decoding always produces bytes; the question is how those bytes are interpreted. This tool runs them through a UTF-8 TextDecoder, so text that was encoded as UTF-8 comes back exactly as it started — accented letters, emoji, CJK characters all round-trip because Base64 carries bytes, not characters. If the output shows replacement symbols (�), the input was probably never UTF-8 text: it may be an image, a PDF, or a file encoded in another codepage. The decode still worked; there is simply no text to show.",
+            "Real-world Base64 is messy, so the tool cleans before it decodes: whitespace and line breaks are stripped (email and PEM output wrap Base64 at 76 characters, which breaks strict decoders), and a data URI prefix like data:image/png;base64, is removed so you can paste the whole thing. Length is the other common failure: Base64 length must be a multiple of 4, so a string truncated mid-way by a copy-paste or a log line breaks decoding — check the edges first.",
+          ],
+        },
+        {
+          heading: "Local by design, and how it compares with the CLI",
+          paragraphs: [
+            "Encoded strings are everywhere in sensitive contexts: Authorization headers, API keys inside config blobs, JWTs containing account identifiers, embedded payloads you found in traffic. Pasting any of those into a random website that sends input to a server would mean shipping the very data you are inspecting to a third party. This decoder runs entirely in your browser with JavaScript — nothing is uploaded, nothing is logged, and it works offline once the page is loaded.",
+            "Command-line tools (openssl base64 -d, certutil, python base64) are powerful but fussy about wrapped input, missing padding and file handling, and they differ across platforms. For a one-off “what is this string?” moment, a browser tool that tolerates prefixes and whitespace, decodes JWT-style URL-safe alphabets, and shows multibyte text correctly is usually faster — with the same privacy guarantee and no shell history storing your encoded secret.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "Base64 解码",
@@ -62,6 +86,30 @@ export default defineTool({
         {
           q: "解码是在服务器上做的吗?",
           a: "不是。一切都在浏览器中完成,字符串不会离开你的设备。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Base64 是编码,不是加密",
+          paragraphs: [
+            "关于 Base64 最常见的误解是它能保密。它不能。Base64 是 RFC 4648 定义的一种可逆编码:把任意字节用 64 个安全字符(A-Z、a-z、0-9、+ 和 /)重新表示,让二进制数据能通过只认文本的通道,比如邮件附件或 JSON 字段。任何人拿到字符串都能一步解码——本工具可以,任何其他解码器也可以。真要保密,你需要的是带密钥的加密(AES、RSA),Base64 提供不了。",
+            "为什么正好 64 个字符?6 个比特恰好能表示 64 个值,所以 Base64 把每 3 个字节(24 比特)打包成 4 个字符(4 × 6 比特)。数据长度不是 3 的倍数时会剩下余数,这就是 = 填充的来历:一个 = 表示最后一组只有 2 个字节,两个 = 表示 1 个字节。填充在信息上其实是多余的——解码器可以自己推算——所以你会遇到结尾 = 被去掉的 Base64 字符串,这也是解码器应该两种都接受的原因。",
+            "还有一个实用变体:URL 安全的 Base64 用 - 和 _ 替换 + 和 /,因为后两者在 URL 和文件名里会出问题。JWT 用的就是这套字母表,所以 JWT 的 header 和 payload 在这里能正常解码,而严格的 RFC 4648 解码器可能会拒绝里面的 - 字符。",
+          ],
+        },
+        {
+          heading: "解码结果怎么读,乱码说明了什么",
+          paragraphs: [
+            "解码产出的永远是字节,问题在于这些字节怎么解释。本工具用 UTF-8 TextDecoder 处理它们,所以用 UTF-8 编码过的文本会原样还原——重音字母、emoji、中日韩字符都能完整还原,因为 Base64 携带的是字节而不是字符。如果输出出现替换符号(�),说明输入很可能从来就不是 UTF-8 文本:也许是图片、PDF 或别的码页编码的文件。解码本身成功了,只是没有文本可显示。",
+            "现实中的 Base64 往往不干净,所以工具在解码前先做清理:去掉空白和换行(邮件和 PEM 格式会按 76 字符换行,这会让严格的解码器报错),去掉 data:image/png;base64, 这类 data URI 前缀,让你可以直接整段粘贴。长度是另一个常见坑:Base64 长度必须是 4 的倍数,所以被复制粘贴或日志截断的字符串会解码失败——先检查两端。",
+          ],
+        },
+        {
+          heading: "本地运行是设计原则,也说说和命令行的差别",
+          paragraphs: [
+            "编码字符串经常出现在敏感场景:Authorization 头、配置块里的 API key、带账号标识的 JWT、流量里翻出来的嵌入负载。把这类内容贴进一个会把输入发到服务器的网站,等于把你要检查的数据亲手交给第三方。这个解码器完全在你的浏览器里用 JavaScript 运行——不上传、不留日志,页面加载完成后离线也能用。",
+            "命令行工具(openssl base64 -d、certutil、python base64)功能强但对换行、缺填充、文件处理都很挑剔,而且各平台行为不一致。对于“这串东西是什么”的一次性疑问,一个容忍前缀和空白、支持 JWT 风格 URL 安全字母表、能正确显示多字节文本的浏览器工具通常更快——隐私保障相同,还不用担心编码过的密钥留在 shell 历史里。",
+          ],
         },
       ],
     },
@@ -90,6 +138,30 @@ export default defineTool({
         {
           q: "デコードはサーバー上で行われますか?",
           a: "いいえ。すべてブラウザ内で完結し、文字列が端末の外に出ることはありません。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Base64 はエンコードであって、暗号化ではありません",
+          paragraphs: [
+            "Base64 について最も多い誤解は「内容を隠せる」というものです。できません。Base64 は RFC 4648 で定義された可逆エンコードであり、任意のバイト列を 64 種類の安全な文字(A-Z、a-z、0-9、+、/)で表し直す仕組みです。メール添付や JSON フィールドなど、テキストしか通さない経路でバイナリを運ぶためのものです。文字列を持っている人なら誰でもワンステップで復号できます。秘匿性が必要なら、鍵を使う暗号化(AES、RSA)が必要で、Base64 にはその機能がまったくありません。",
+            "なぜ 64 文字なのか。6 ビットはちょうど 64 通りを表せるので、Base64 は 3 バイト(24 ビット)を 4 文字(4 × 6 ビット)に詰め込みます。データ長が 3 の倍数でないと余りが出ます。これが = パディングの由来です。= が 1 つなら最終グループは 2 バイト、2 つなら 1 バイトを意味します。パディングは情報として冗長なので(デコーダ側で推測可能)、末尾の = を削った Base64 文字列も実際には存在し、デコーダは両方を受け付けるべきです。",
+            "実務で重要な派生形もあります。URL セーフ Base64 は + と / を - と _ に置き換えます。URL やファイル名ではこの 2 文字が問題になるためです。JWT はこのアルファベットを使うので、JWT の header や payload はここで問題なくデコードできます。厳密な RFC 4648 デコーダなら - を拒否する場面です。",
+          ],
+        },
+        {
+          heading: "結果の読み方と、文字化けが意味するもの",
+          paragraphs: [
+            "デコードの結果は常にバイト列であり、問題はその解釈の仕方です。このツールは UTF-8 の TextDecoder に通すので、UTF-8 でエンコードされたテキストは元どおりに復元されます。アクセント記号・絵文字・CJK も問題なく戻ります。Base64 が運ぶのは文字ではなくバイトだからです。出力に置換記号(�)が並ぶ場合は、入力がもともと UTF-8 テキストではない可能性が高いです。画像・PDF・別のコードページのファイルかもしれません。デコード自体は成功しており、表示できるテキストがないだけです。",
+            "現実の Base64 は汚いことが多いので、ツールはデコード前に整えます。空白と改行を取り除き(メールや PEM は 76 文字ごとに折り返すため、厳密なデコーダはエラーになります)、data:image/png;base64, のような data URI プレフィックスを除去して、全体をそのまま貼れるようにします。もう一つの落とし穴は長さです。Base64 の長さは 4 の倍数でなければならないため、コピー・ログで途中まで切れた文字列はデコードできません。まず両端を確認してください。",
+          ],
+        },
+        {
+          heading: "ローカル完結という設計と、CLI との違い",
+          paragraphs: [
+            "エンコード済み文字列は機密性の高い文脈に現れます。Authorization ヘッダ、設定ブロック内の API キー、アカウント識別子を含む JWT、通信から見つけた埋め込みペイロードなどです。入力をサーバーへ送るウェブサイトにそれを貼ることは、確認しようとしていたデータそのものを第三者へ渡すことを意味します。このデコーダはブラウザ内の JavaScript だけで動作し、アップロードも記録もなく、ページを読み込めばオフラインでも使えます。",
+            "コマンドラインツール(openssl base64 -d、certutil、python base64)は強力ですが、折り返し入力やパディング欠落・ファイル扱いにうるさく、プラットフォームごとに挙動が違います。「この文字列は何?」という一度きりの疑問には、プレフィックスや空白を許容し、JWT 風の URL セーフ文字列に対応し、マルチバイトを正しく表示するブラウザツールのほうが通常速いでしょう。プライバシー面は同等で、シェル履歴にエンコード済みシークレットが残る心配もありません。",
+          ],
         },
       ],
     },

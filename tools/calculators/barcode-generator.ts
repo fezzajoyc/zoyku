@@ -36,6 +36,32 @@ export default defineTool({
           a: "The download is a vector SVG, so it scales to any DPI without blur. Keep the quiet zones (the blank margins on each side) intact when placing it — trimming them is the most common cause of unreadable scans.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Code128 vs EAN-13: two jobs, two symbologies",
+          paragraphs: [
+            "These formats exist for different jobs and are not interchangeable. EAN-13 and UPC-A are GS1 retail symbologies: fixed length, numeric only, tied to a company prefix you license from a GS1 member organization, and understood by every checkout scanner in the world. CODE128 is a logistics symbology: variable length, full ASCII, free to use for anything internal — warehouse bins, asset tags, serial numbers, shipping references.",
+            "The difference shows in density and tolerance. CODE128 auto-switches among its A (upper case + control), B (full alphanumeric) and C (digit-pairs) subsets, so a long run of digits is packed as two per code word — that is why a CODE128 label holding the same number as an EAN-13 comes out noticeably narrower. EAN-13, by contrast, fixes the module widths by standard so that any checkout scanner can decode it at speed regardless of who printed it.",
+            "A practical rule: if a retailer or marketplace will assign you a product number, print it as EAN-13/UPC-A and never re-encode it in another format, because their systems match on the GS1 number. For everything that never leaves your own operation, CODE128 is simpler and more flexible.",
+          ],
+        },
+        {
+          heading: "The check digit and why input gets corrected",
+          paragraphs: [
+            "Retail symbologies end with a modulo-10 check character computed from a weighted sum of the other digits. For EAN-13, digits are weighted 1 and 3 alternately from the right; the check digit is what makes the total reach the next multiple of 10. This catches the two most common real-world failures: a mistyped digit and two transposed adjacent digits (transposed digits differ by weight 3−1=2, so many but not all swaps are caught).",
+            "This generator accepts either 12 digits and computes the 13th, or a full 13 with verification — so an input with a wrong final digit is rejected rather than silently reprinted. If you are transcribing a number from paperwork, entering 12 digits and letting the tool compute the check digit is the safer workflow: it will not validate, but it will reveal a mismatch.",
+            "The same modulo-10 family extends across GS1 logistics codes, which is why the habit of verifying the final digit transfers: if a scanned code consistently fails at the till or in your inventory app while the label looks fine, a corrupted check digit is one of the first things to suspect.",
+          ],
+        },
+        {
+          heading: "Quiet zones, bar width and print sizing",
+          paragraphs: [
+            "Every symbology reserves quiet zones — blank margins on both sides of the bars that scanners use to find the symbol's start. GS1 specifies minimum widths in absolute size, not pixels; when you crop or place a barcode flush against text or a box edge, the code can become unreadable even though every bar looks perfect. Leave more margin than feels necessary, especially on small labels.",
+            "Bar width and height trade off against scanner capability. Narrow bars raise the demands on print resolution and scanner optics; taller bars give scanners a longer vertical band to hit at an angle. For handheld and checkout scanning, follow the print-size guidance of your standard rather than shrinking labels to fit the layout — a code that scans 200 times a day pays for the label space it takes.",
+            "Because the output is vector SVG, the same file stays sharp at any size; what does not scale is the physics. Test-scan each new format with your actual scanner and your actual print stock before committing to a run, and nothing needs to leave your browser while you iterate — the rendering happens locally.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "条形码生成器",
