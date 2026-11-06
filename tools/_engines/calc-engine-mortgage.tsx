@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, Stats, TableBox, fmtMoney, pick } from "./calc-ui";
 import { mortgage } from "../_lib/finance";
+import { DonutChart, BalanceChart, chartText } from "./calc-charts";
 
 /**
  * Mortgage payment engine on top of finance.mortgage(): P&I via the standard
@@ -155,6 +156,32 @@ export function CalcEngineMortgage() {
           })}
         </Note>
       </div>
+
+      {Number.isFinite(res.monthlyPI) && res.totalInterest > 0 && (
+        <div className="mt-5">
+          <h3 className="mb-3 text-[15px] font-semibold">{chartText(locale, "composition")}</h3>
+          <DonutChart
+            slices={[
+              { label: chartText(locale, "principal"), value: loan, color: "var(--color-accent)" },
+              { label: chartText(locale, "interestOnly"), value: res.totalInterest, color: "var(--color-good)" },
+            ]}
+            centerTitle={pick(locale, S.loan)}
+            centerValue={money(loan)}
+            ariaLabel={chartText(locale, "composition")}
+          />
+        </div>
+      )}
+
+      {res.schedule.length > 1 && (
+        <div className="mt-6">
+          <h3 className="mb-3 text-[15px] font-semibold">{chartText(locale, "balanceCurve")}</h3>
+          <BalanceChart
+            values={res.schedule.map((r) => r.balance)}
+            ariaLabel={chartText(locale, "balanceCurve")}
+            valueFormatter={(n) => money(n)}
+          />
+        </div>
+      )}
 
       {res.schedule.length > 0 && (
         <div className="mt-7">

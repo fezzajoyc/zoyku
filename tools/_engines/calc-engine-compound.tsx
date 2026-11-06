@@ -6,6 +6,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, Stats, TableBox, fmtMoney, pick } from "./calc-ui";
 import { compound, type Freq } from "../_lib/finance";
+import { DonutChart, BalanceChart, chartText } from "./calc-charts";
 
 /**
  * Compound interest with regular monthly contributions.
@@ -134,6 +135,32 @@ export function CalcEngineCompound() {
           })}
         </Note>
       </div>
+
+      {Number.isFinite(total) && interest > 0 && contributed > 0 && (
+        <div className="mt-5">
+          <h3 className="mb-3 text-[15px] font-semibold">{chartText(locale, "composition")}</h3>
+          <DonutChart
+            slices={[
+              { label: chartText(locale, "principal"), value: contributed, color: "var(--color-accent)" },
+              { label: chartText(locale, "interestOnly"), value: interest, color: "var(--color-good)" },
+            ]}
+            centerTitle={chartText(locale, "interestOnly")}
+            centerValue={`${Math.round((interest / (contributed + interest)) * 100)}%`}
+            ariaLabel={chartText(locale, "composition")}
+          />
+        </div>
+      )}
+
+      {schedule.length > 1 && (
+        <div className="mt-6">
+          <h3 className="mb-3 text-[15px] font-semibold">{chartText(locale, "balanceCurve")}</h3>
+          <BalanceChart
+            values={schedule.map((r) => r.balance)}
+            ariaLabel={chartText(locale, "balanceCurve")}
+            valueFormatter={(n) => money(n)}
+          />
+        </div>
+      )}
 
       {schedule.length > 0 && (
         <div className="mt-7">
