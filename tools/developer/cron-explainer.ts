@@ -203,6 +203,32 @@ export default defineTool({
           a: "El cron clásico combina ambos con un OR: cuando los dos campos están restringidos (ninguno es *), un día que coincida con cualquiera dispara el trabajo. «0 0 1 * MON» se ejecuta el día 1 y todos los lunes. Si quieres cumplir ambas condiciones a la vez, la expresión necesita otra estructura — ver aquí las próximas ejecuciones hace el comportamiento visible al instante.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Los cinco campos y sus trampas",
+          paragraphs: [
+            "Un cron estándar son cinco campos — minuto, hora, día del mes, mes y día de la semana — separados por espacios. Cada campo acepta un valor, una lista, un rango, un paso (\*/15) y los especiales como \*. Las trampas viven en los detalles: el paso se aplica al inicio del rango, así que \*/15 en minutos dispara a :00, :15, :30 y :45, no cada 15 desde ahora.",
+            "El truco de día es la fuente clásica de bugs: cuando tanto el día del mes como el día de la semana están restringidos (no \*), la mayoría de los crons ejecutan si CUALQUIERA de los dos coincide — no los dos. Un trabajo que pretendías \"el día 1, si es lunes\" se convierte en \"el día 1 O todos los lunes\". Esta ambigüedad histórica viene de las primeras implementaciones de Unix y sigue viva en la mayoría de sistemas.",
+            "Hay siete campos si el planificador usa la extensión de segundos (Quartz, Spring, algunas bibliotecas de Node), y nombres como JAN o MON se aceptan según la implementación. Al pegar una expresión entre sistemas, verifica primero qué dialecto espera cada uno — este explicador sigue el cron estándar de cinco campos.",
+          ],
+        },
+        {
+          heading: "Zonas horarias y DST: donde las agendas se rompen",
+          paragraphs: [
+            "Cron no sabe de zonas horarias: dispara según el reloj del sistema donde corre el planificador. Un servidor en UTC y una reunión esperada en hora local difieren por el desfase — y ese desfase no es constante si hay horario de verano en cualquiera de los dos lados. Los trabajos que parecen \"cada día a las 9:00\" silenciosamente corren a las 8:00 durante medio año.",
+            "El horario de verano añade sus propias aristas. La mayoría de los crons no \"recuperan\" una ejecución cuando el reloj retrocede, y la ejecución de las 2:30 desaparece por completo el día del salto de primavera — el trabajo simplemente no corre esa noche. Si un trabajo diario importa, programa en un cronmetro sin DST (UTC) o verifica cómo tu planificador maneja las transiciones.",
+            "Los husos horarios con cambios legales recientes (han habido varios en la última década) se aplican cuando el sistema actualiza su base de datos tz — no al instante. Una programación validada hoy puede cambiar de hora efectiva tras una actualización del sistema, otra razón para re-verificar la próxima ejecución real en lugar de confiar en la expresión.",
+          ],
+        },
+        {
+          heading: "Del cron leído al cron confiable",
+          paragraphs: [
+            "Explicar la expresión es el primer paso; el segundo es comprobar la próxima ejecución real, no la que imaginas. \"0 9 \* \* 1-5\" es \"9:00 en días laborables\" solo si el sistema corre en tu zona horaria y no hay DST esa semana. El buen hábito es validar la expresión aquí y luego confirmar las próximas dos o tres ejecuciones en el propio planificador (cron -l, la UI del programador, los registros).",
+            "La legibilidad también importa a largo plazo: \"0 3 \* \* 6\" puede ser correcto y aun así obligar a cada lector futuro a contar dedos. Comentar la expresión junto al trabajo (o usar un planificador que acepte descripciones) evita que el siguiente encargado de mantenimiento — normalmente tú en seis meses — reinterprete la intención.",
+            "Este explicador funciona completamente en tu navegador: la expresión que pegas nunca sale de tu dispositivo, y el análisis es texto puro — sin acceso a tu crontab real, sin conexiones de red. Pega expresiones de producción con confianza.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Explicador de expressões cron",
@@ -230,6 +256,58 @@ export default defineTool({
         {
           q: "Escrevi dia do mês e dia da semana — por que roda mais vezes do que eu esperava?",
           a: "O cron clássico combina os dois com OR: quando ambos os campos são restritos (nenhum é *), um dia que corresponda a qualquer um dos dois dispara o job. «0 0 1 * MON» roda no dia 1 e em toda segunda-feira. Para exigir as duas condições ao mesmo tempo, a expressão precisa de outra estrutura — ver as próximas execuções aqui deixa o comportamento visível na hora.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Os cinco campos e suas armadilhas",
+          paragraphs: [
+            "Um cron padrão são cinco campos — minuto, hora, dia do mês, mês e dia da semana — separados por espaços. Cada campo aceita um valor, lista, intervalo, passo (\*/15) e os especiais como \*. As armadilhas moram nos detalhes: o passo parte do início da faixa, então \*/15 nos minutos dispara em :00, :15, :30 e :45 — não a cada 15 a partir de agora.",
+            "O truque de dias é a fonte clássica de bugs: quando tanto o dia do mês quanto o dia da semana estão restringidos (não \*), a maioria dos crons executa se QUALQUER um casar — não os dois. Um trabalho pensado como \"dia 1, se for segunda\" vira \"dia 1 OU todas as segundas\". Essa ambiguidade vem das primeiras implementações Unix e segue viva na maioria dos sistemas.",
+            "São sete campos se o agendador usa a extensão de segundos (Quartz, Spring, bibliotecas Node), e nomes como JAN ou MON são aceitos conforme a implementação. Ao colar uma expressão entre sistemas, verifique primeiro qual dialeto cada um espera — este explicador segue o cron padrão de cinco campos.",
+          ],
+        },
+        {
+          heading: "Fuso horário e horário de verão: onde as agendas quebram",
+          paragraphs: [
+            "Cron não entende de fuso: dispara pelo relógio do sistema onde o agendador roda. Um servidor em UTC e uma reunião esperada no horário local diferem pelo deslocamento — e esse deslocamento não é constante se houver horário de verão em qualquer lado. Trabalhos que parecem \"todo dia às 9:00\" silenciosamente rodam às 8:00 por meio ano.",
+            "O horário de verão tem arestas próprias. A maioria dos crons não \"recupera\" uma execução quando o relógio volta, e a execução das 2:30 desaparece por inteiro no dia do salto de primavera — o trabalho simplesmente não roda naquela noite. Se um trabalho diário importa, agende num cronômetro sem horário de verão (UTC) ou verifique como seu agendador trata as transições.",
+            "Fusos com mudanças legais recentes (houve várias na última década) valem quando o sistema atualiza sua base tz — não na hora. Uma agenda validada hoje pode mudar de hora efetiva após uma atualização do sistema, mais um motivo para conferir a próxima execução real em vez de confiar na expressão.",
+          ],
+        },
+        {
+          heading: "Do cron lido ao cron confiável",
+          paragraphs: [
+            "Explicar a expressão é o primeiro passo; o segundo é conferir a próxima execução real, não a que você imagina. \"0 9 \* \* 1-5\" é \"9:00 em dias úteis\" só se o sistema roda no seu fuso e não há horário de verão naquela semana. O bom hábito é validar a expressão aqui e depois confirmar as duas ou três próximas execuções no próprio agendador (crontab -l, a UI do scheduler, os logs).",
+            "Legibilidade também importa no longo prazo: \"0 3 \* \* 6\" pode estar certo e ainda assim obrigar cada leitor futuro a contar nos dedos. Comentar a expressão junto ao trabalho (ou usar um agendador que aceite descrições) evita que o próximo responsável — normalmente você, em seis meses — reinterprete a intenção.",
+            "Este explicador roda inteiro no seu navegador: a expressão colada nunca sai do seu dispositivo, e a análise é texto puro — sem acesso ao seu crontab real, sem conexões de rede. Cole expressões de produção com confiança.",
+          ],
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Os cinco campos e a regra OR que ninguém lembra",
+          paragraphs: [
+            "O cron padrão avalia cinco campos da esquerda para a direita: minuto (0-59), hora (0-23), dia do mês (1-31), mês (1-12) e dia da semana (0-7, onde 0 e 7 são ambos domingo). Cada campo aceita um valor, um intervalo (9-17), uma lista (0,15,30) ou um passo (*/5, cada 5 valores a partir do piso do campo). Um job dispara quando todos os campos batem — com uma exceção famosa: quando tanto o dia do mês quanto o dia da semana estão restritos, o job roda num dia que corresponda a QUALQUER um dos dois.",
+            "Essa regra OR vem da implementação original do Unix cron, e existe para que combinações como “dia 1 do mês mais toda segunda-feira” continuem expressáveis em cinco campos. A armadilha é que a maioria das pessoas que escreve “0 0 1 * 1” quer “a primeira segunda-feira do mês” — o que ela recebe é o dia 1 E toda segunda-feira, o dobro de vezes. Se você precisa de semântica AND, a solução usual é um teste dentro do job (comparar date +%d com o dia alvo) ou migrar para um agendador com gatilhos mais ricos.",
+            "A outra surpresa é a numeração do dia da semana: começa no domingo (0), não na segunda, e alguns dialetos de cron aceitam 7 como segundo nome do domingo enquanto outros rejeitam. Escrever nomes — MON, SUN — elimina a ambiguidade por completo, sem custo algum no cron padrão.",
+          ],
+        },
+        {
+          heading: "Fusos horários e horário de verão: onde as agendas quebram em silêncio",
+          paragraphs: [
+            "O cron não tem fuso próprio — dispara no fuso em que o relógio do servidor estiver. Um job “0 3 * * *” roda às 3 da manhã do servidor, que são 11 da manhã em UTC+8 se o servidor está em UTC. Equipes que implantam em VMs na nuvem costumam esquecer o padrão da plataforma: a maioria das VMs inicia em UTC independentemente de onde fica a empresa, e o primeiro sinal é um job que roda em pleno expediente local. Confirme com date ou timedatectl no host, ou leia a linha TZ do /etc/default/cron onde estiver configurado.",
+            "O horário de verão agrava o problema duas vezes por ano. Em zonas com DST, um job das 2:30 da manhã pode não rodar na noite do avanço de primavera (2:30 não existe naquela noite), e a noite do retorno de outono o dispara duas vezes — com uma hora de diferença. Jobs fixados em UTC não têm esse problema mas precisam ser escritos em UTC: “0 3 * * *” num crontab UTC significa 3 da manhã UTC, não 3 da manhã locais. A prévia das próximas execuções desta ferramenta considera o fuso justamente para você ver qual das duas o seu servidor fará.",
+            "A defesa prática é verificar, não presumir: cole a expressão aqui, mude a exibição para o fuso do servidor e confira as próximas cinco execuções contra o esperado. Uma agenda que sobrevive a essa checagem também merece uma anotação no comentário do crontab — a pessoa que vai depurá-la daqui a dois anos é você.",
+          ],
+        },
+        {
+          heading: "Casos de borda: meses curtos, passos e armadilhas do calendário",
+          paragraphs: [
+            "Dois valores de dia do mês respondem por boa parte das execuções perdidas: 31 e 30, em combinação com passos. “0 0 */31 * *” não roda no último dia de cada mês — roda só em meses que têm dia 31 (janeiro, março, maio...), pulando abril e junho em silêncio. Da mesma forma “0 0 30 2 *” é uma não-operação permanente, porque fevereiro nunca tem 30 dias. O cron não avisa; apenas avalia e não encontra correspondência. Ver as próximas cinco execuções vazias ou com lacunas grandes é a forma mais rápida de detectar isso.",
+            "A aritmética dos passos parte do piso do campo, não do deslocamento que você escolher: */10 no campo de minutos é 0,10,20,30,40,50, não 5,15,25. Para ancorar de outro jeito, escreva o intervalo explícito — 5-59/10. As aspas também importam dentro de arquivos crontab: o cron clássico trata sinais de porcentagem (%) como quebras de linha, então um comando como date +“%Y” precisa escapar o porcento como \% ou a linha quebra no meio do comando.",
+            "Pré-visualizar execuções reais supera ler a expressão porque essas regras interagem: um passo sobre um mês de 30 dias mais uma restrição de dia da semana pode produzir um intervalo de semanas. Ferramentas que só traduzem os campos (explicar o que significa */31) não conseguem revelar isso; só iterar o calendário para frente mostra quando o job vai rodar de fato. Essa iteração é exatamente o que esta ferramenta faz, no seu navegador, sem enviar dados da agenda a lugar nenhum.",
+          ],
         },
       ],
     },
