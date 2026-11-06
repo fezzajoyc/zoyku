@@ -1115,6 +1115,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "1:1 (vuông). Đa số nền tảng xã hội cắt avatar thành hình tròn trong khung vuông, nên đặt chủ thể vào giữa vùng chọn 1:1 là an toàn nhất.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Cắt ảnh là xóa vĩnh viễn pixel — hãy nghĩ trước khi cắt",
+        paragraphs: [
+          "Cắt ảnh khác với thu nhỏ ở chỗ nó mang tính hủy hoại: thu nhỏ giữ nguyên toàn bộ nội dung với mức chi tiết thấp hơn, còn cắt xóa vĩnh viễn những gì nằm ngoài khung. Khi bạn lưu bản cắt, các pixel bên ngoài vùng chọn đã mất khỏi file đó. Vì vậy quy tắc vàng là: giữ file gốc và coi mọi phiên bản đã cắt là file phái sinh, luôn có thể tạo lại từ gốc bất cứ lúc nào.",
+          "Hãy bắt đầu từ nguồn lớn nhất bạn có. Cắt một ảnh nhỏ rồi phóng to sẽ cộng dồn độ mềm; cắt ảnh gốc ở độ phân giải đầy đủ rồi thu nhỏ kết quả lại giúp cạnh sắc nét. Nếu bạn cần đồng thời một banner rộng và một avatar vuông, hãy cắt hai lần từ cùng một ảnh gốc thay vì cắt tiếp trên bản đã cắt.",
+          "Cắt cũng cần chủ đích về tỷ lệ khung hình: xác định đích đến trước (header blog, bài đăng trên nền tảng, khung in) và đặt tỷ lệ cắt theo đúng tỷ lệ ấy, thay vì cắt tự do rồi mới phát hiện kết quả không vừa chỗ nào và phải đệm thêm viền.",
+        ],
+      },
+      {
+        heading: "Những nguyên tắc bố cục cơ bản giúp lần cắt đẹp hơn",
+        paragraphs: [
+          "Hai quy ước khung hình mang lại phần lớn giá trị. Quy tắc một phần ba đặt chủ thể gần giao điểm của các đường chia khung thành ba hàng ba cột — đặt đường chân trời trên đường một phần ba phía trên hoặc phía dưới thay vì chính giữa thường nhìn có chủ đích hơn. Ngược lại, khung chính giữa phù hợp với chủ thể đối xứng, khuôn mặt và ảnh sản phẩm.",
+          "Hãy chừa khoảng trống phía trước hướng di chuyển của chủ thể động: một người đang chạy với khoảng trống phía trước trông có nhịp điệu, còn bị cắt sát phía sau trông như sắp đâm vào tường. Điều này cũng đúng với ánh nhìn — chân dung thường đẹp hơn khi có chút không gian về phía người đang nhìn.",
+          "Kiểm tra mép khung sau cùng: tay chân lạc lõng, vật thể bị cắt nửa vời và điểm sáng chói ở rìa khung sẽ kéo sự chú ý đi chỗ khác. Sau khi đặt xong vùng cắt, thu nhỏ xem lại toàn bộ hình chữ nhật một lần trước khi chốt.",
+        ],
+      },
+      {
+        heading: "Xử lý cục bộ giữ kín những lần cắt nhạy cảm",
+        paragraphs: [
+          "Người ta cắt ảnh thường chính là vì ảnh có thứ không được phép hiện ra — mép một tài liệu, người tình cờ đi ngang, nhãn địa chỉ. Gửi bức ảnh đó lên một công cụ cắt dựa trên upload để che chi tiết là tự đánh bại mục đích: bản ảnh đầy đủ, chưa cắt khi đó nằm trên máy chủ của người khác.",
+          "Công cụ này xử lý hoàn toàn trong trình duyệt của bạn: giải mã, chọn vùng và mã hóa lại đều diễn ra trên thiết bị, không có gì được truyền đi hay lưu lại. Bản bạn cắt chính là bản bạn công bố; bản gốc đầy đủ vẫn ở với bạn.",
+          "Một lưu ý về quy trình: cắt không phải là xóa dữ liệu (redaction). Loại bỏ một vùng khỏi vùng nhìn thấy là xóa nó khỏi file — đó là xóa thật sự, khác với làm mờ hay vẽ hình chữ nhật đen đè lên nội dung, vốn đôi khi có thể bị phục hồi nếu áp dụng cẩu thả trên dữ liệu đã nén. Để giấu vùng nhạy cảm, cắt hoặc che trước khi xuất là nước đi an toàn hơn.",
+        ],
+      },
+    ],
   },
   "exif-remover": {
     name: "Xóa EXIF",
@@ -2749,6 +2775,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Chỉ bộ nhớ trình duyệt của bạn — so sánh dài bằng cả cuốn sách vẫn chạy, dù văn bản rất lớn cần một lát để hiển thị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Diff thực sự tìm ra thay đổi như thế nào",
+        paragraphs: [
+          "Diff không phải là quét từng ký tự. Dưới hầu hết mọi công cụ diff là thuật toán Chuỗi con chung dài nhất (LCS): tìm dãy dòng (hoặc ký tự) dài nhất xuất hiện ở cả hai văn bản theo đúng thứ tự, và mọi thứ ngoài dãy đó là thêm hoặc xóa. Đó là lý do một diff tốt căn chỉnh phần giữa nguyên vẹn của hai tài liệu và chỉ gắn cờ phần thay đổi quanh nó.",
+          "Độ mịn là lựa chọn mà người dùng nhìn thấy được. Diff mức dòng đánh dấu cả dòng là thêm hay xóa — chế độ của code review, git và soát đỏ bản hợp đồng, vì dòng là đơn vị con người nói chuyện. Diff mức ký tự (hoặc mức từ) căn chỉnh bên trong một dòng đã đổi và cho thấy chỉ ba từ dịch chuyển — chế độ dành cho biên tập văn xuôi, nơi việc hiển thị cả đoạn văn hầu như giống hệt thành “toàn bộ xóa, toàn bộ thêm” là bất khả đọc.",
+          "Khi một phần thêm và một phần xóa xảy ra cùng chỗ, công cụ ghép chúng thành một cặp sửa đổi. Các phương án ngang bằng nhau luôn tồn tại — ghép khác đi vẫn cho cùng văn bản cuối — và quy ước là giảm thiểu số khối thay đổi để người đọc đỡ phải đọc.",
+        ],
+      },
+      {
+        heading: "Đọc diff mà không bị đánh lừa",
+        paragraphs: [
+          "Cách đọc sai phổ biến: diff lớn không có nghĩa là thay đổi lớn. Một dòng chèn thêm có thể đẩy căn chỉnh LCS và khiến các đoạn phía sau hiện ra như bị xóa rồi thêm lại, dù bên trong chẳng có gì đổi. Khác biệt khoảng trắng làm trầm trọng điều này — một dấu cách cuối dòng biến dòng đó thành “đã thay đổi”. Vì vậy chuẩn hóa khoảng trắng trước khi diff (bước làm sạch văn bản) cho kết quả sạch hơn hẳn.",
+          "Chế độ mức từ là thuốc giải cho văn xuôi: thay vì “một đoạn đã đổi”, bạn thấy “đã phát triển → đã mở rộng”. Với hợp đồng và mã nguồn, hãy giữ mức dòng — các khớp một phần dòng ở đó tạo ra sự tự tin sai rằng điều khoản pháp lý “về cơ bản là giống nhau”.",
+          "Một cách đọc sai thứ hai là hướng: văn bản nào là “trước” và văn bản nào là “sau”. Công cụ gắn nhãn các khung, nhưng kỷ luật vẫn quan trọng trong luồng soát duyệt — một diff đọc ngược biến phần thêm thành phần xóa và đổi luôn ý nghĩa của việc phê duyệt.",
+        ],
+      },
+      {
+        heading: "So sánh thuần phía máy khách",
+        paragraphs: [
+          "Phép so sánh chạy hoàn toàn trong trình duyệt của bạn: LCS trên hai văn bản, hiển thị thành các khối được tô sáng. Không upload, không vòng đi lại máy chủ, chạy được offline — kiến trúc đúng đắn khi các văn bản là hợp đồng, tài liệu cá nhân hay mã nguồn chưa công bố.",
+          "LCS tệ nhất là O(n × m), lý do một số công cụ từ chối file lớn; các bản cài đặt có cắt tiền tố chung và băm xử lý thoải mái tài liệu hàng trăm nghìn dòng. Với phép so sánh thực sự khổng lồ, chia nhỏ theo từng phần là cách làm thực tế.",
+          "Không gì được lưu lại: tải lại trang là cả hai khung đều trống. Điều đó biến đây thành công cụ an toàn cho tình huống nhạy cảm kinh điển — so sánh hai phiên bản của một bản thảo hợp đồng, một file cấu hình hay một danh sách thông tin đăng nhập xuất ra, với văn bản chưa bao giờ rời thiết bị.",
+        ],
+      },
+    ],
   },
   "text-sorter": {
     name: "Sắp xếp văn bản",
@@ -2777,6 +2829,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — đầu vào nguyên vẹn và kết quả đã sắp xuất hiện trong ô đầu ra, nên bạn luôn có thể quay lại.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Sắp xếp văn bản không phải là sắp xếp số",
+        paragraphs: [
+          "Sắp theo số và sắp theo từ điển không đồng ý với nhau ở những chuyện cơ bản: theo thứ tự từ điển, “10” đứng trước “9” vì ký tự “1” xếp trước “9”. Sắp một danh sách giá, phiên bản hay số chương theo bảng chữ cái cho ra thứ tự kinh điển 1, 10, 11, 2, 3 mà chẳng ai muốn. Sắp xếp nhận biết số sửa điều này bằng cách so cả giá trị, chứ không so dãy ký tự.",
+          "Chữ hoa/thường là nhánh lựa chọn khác: thứ tự ASCII đặt mọi chữ hoa trước mọi chữ thường, nên “Zebra” xếp trước “apple”. So sánh không phân biệt hoa thường là điều đa số mong đợi với một danh sách từ. Hướng (tăng/giảm) và tính duy nhất (giữ trùng hay gộp trùng) hoàn tất bộ tùy chọn.",
+          "Mạo từ đầu dòng là một lựa chọn mang tính biên tập đúng nghĩa: tựa sách bắt đầu bằng “The” thường được xếp lên kệ theo từ thứ hai. Một công cụ sắp xếp có tùy chọn này tốt hơn công cụ buộc bạn sửa tay từng dòng trước.",
+        ],
+      },
+      {
+        heading: "So sánh theo ngôn ngữ: vì sao é và å có ý kiến riêng",
+        paragraphs: [
+          "Sắp theo mã điểm trần coi các chữ có dấu là người lạ: chữ å tiếng Thụy Điển được sắp như thể là “a” rồi đến rác, chữ ä tiếng Đức rơi xa khỏi “a”, còn tiếng Tây Ban Nha theo truyền thống coi “ch” và “ll” là những chữ cái riêng của bảng chữ. Trật tự collation theo ngôn ngữ (Thuật toán Collation Unicode, có sẵn trong mọi runtime hiện đại) sửa chỗ này: trong tiếng Thụy Điển, å xếp sau z; trong thứ tự danh bạ tiếng Đức, ä nằm cạnh a.",
+          "Điều này quan trọng khi danh sách là tên thật — danh sách khách hàng, tên thành phố, chỉ mục tác giả. Sắp một danh bạ tiếng Tây Ban Nha hay tiếng Thụy Điển theo mã điểm trần cho ra thứ tự mà người bản xứ lập tức thấy là sai. Công cụ áp quy tắc theo ngôn ngữ để tên được sắp đúng cách người bản ngữ mong đợi.",
+          "CJK có quy ước riêng: tiếng Trung trong đa số bối cảnh hiện đại sắp theo pinyin, còn từ điển sắp theo số nét. Thứ tự kana tiếng Nhật theo chuỗi gojūon. Collation hoàn hảo cho mọi ngôn ngữ là một hố thỏ, nhưng làm đúng dấu Latin đã phủ được phần lớn danh sách hằng ngày.",
+        ],
+      },
+      {
+        heading: "Thiết kế thuần máy khách",
+        paragraphs: [
+          "Việc sắp diễn ra hoàn toàn trong trình duyệt của bạn khi các dòng được tách, so và sắp lại. Không có upload — với danh sách khách hàng, dữ liệu nhân sự hay danh sách chưa công bố, một trang sắp xếp không gửi đi đâu cả là kiểu duy nhất có thể chấp nhận.",
+          "Hiệu năng không phải vấn đề ở quy mô thực tế: một trăm nghìn dòng sắp trong một cái chớp mắt, vì phép so sánh bên dưới là mã gốc được tối ưu. Tính ổn định được giữ: những dòng so bằng nhau giữ nguyên thứ tự ban đầu thay vì bị xáo trộn — điều quan trọng khi file là log mà dòng sau mang trạng thái mới hơn.",
+          "Không gì tồn tại giữa hai lần tải lại. Sắp, sao chép kết quả, làm tiếp — dữ liệu đầu vào không bao giờ thành bản ghi được lưu ở bất cứ đâu.",
+        ],
+      },
+    ],
   },
   "word-counter": {
     name: "Đếm từ",
@@ -2803,6 +2881,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có giới hạn độ dài?",
         a: "Không giới hạn cứng — bộ đếm chỉ bị chặn bởi bộ nhớ trình duyệt, vốn xử lý thoải mái văn bản dài bằng cả cuốn sách.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Đếm từ thực sự hoạt động thế nào",
+        paragraphs: [
+          "Mọi bộ đếm trên web đều tách văn bản của bạn thành token rồi đếm, nhưng quy tắc tách token khác nhau hơn bạn tưởng. Công cụ này đếm một từ là bất kỳ dãy ký tự nào ngăn cách bởi dấu cách hoặc xuống dòng — cùng quy ước với Microsoft Word, nên giới hạn từ của trường học và văn phòng khớp với số bạn thấy ở đây. Các từ ghép có gạch nối như “state-of-the-art” tính là một từ; các số đứng riêng mỗi số tính là một từ khi được ngăn bằng dấu cách.",
+          "Ký tự được đếm theo hai cách vì ngoài đời tồn tại hai loại giới hạn: tính cả dấu cách (đa số nền tảng mạng xã hội đếm mọi lần gõ, kể cả dấu cách) và không tính dấu cách (các form luận văn và một số giới hạn ký tự của CMS loại trừ khoảng trắng). Cả hai con số cập nhật trực tiếp khi bạn gõ, để bạn dõi theo đúng giới hạn mình đang viết.",
+          "Văn bản CJK — Trung, Nhật, Hàn — là chỗ các bộ đếm ngây thơ gãy. Đếm token ngăn cách bằng dấu cách trong một đoạn tiếng Trung trả về gần như con số 0, vì tiếng Trung không dùng dấu cách giữa các từ. Công cụ này tách các ký tự CJK khỏi bước đếm từ, đếm từng ký tự CJK riêng lẻ (quy ước chuẩn “ký tự ≈ từ” cho CJK) rồi cộng hai con số lại, nên một đoạn tiếng Trung 500 ký tự báo ≈500 từ thay vì 1.",
+        ],
+      },
+      {
+        heading: "Thời gian đọc, thời gian nói và cấp lớp",
+        paragraphs: [
+          "Thời gian đọc dùng 220 từ mỗi phút cho văn bản Latin và 300 ký tự mỗi phút cho CJK — hai tốc độ chênh đủ nhiều để một tài liệu pha ngôn ngữ cần cả hai. Thời gian nói chạy chậm hơn (130 wpm Latin, 180 cpm CJK) vì người nghe không thể đọc lại; hãy dùng nó trước khi thu giọng đọc hay tập nói một bài thuyết trình.",
+          "Cấp lớp Flesch-Kincaid ước lượng cấp lớp học Mỹ cần thiết để đọc văn bản của bạn, dựa trên độ dài câu và số âm tiết mỗi từ. Đó là một heuristic: biệt ngữ kỹ thuật với các từ ngắn có thể ghi điểm thấp một cách đánh lừa, và một câu tiếng Hàn 300 ký tự chỉ là một “từ” với công thức. Hãy coi nó như một chiều hướng (dễ hay khó hơn), không phải một bản án.",
+          "Nhịp câu chia văn bản của bạn thành bốn dải — 1–6 từ (dứt khoát), 7–14 (chuẩn), 15–24 (dài), 25+ (rất dài) — và tô sáng từng câu theo dải. Độ dài câu đa dạng đọc lên hay hơn độ dài đều đều; nếu mọi câu rơi vào cùng một dải, thử tách câu dài nhất hoặc gộp hai câu ngắn.",
+        ],
+      },
+      {
+        heading: "So với các bộ đếm khác",
+        paragraphs: [
+          "Các bộ xử lý văn bản (Word, Google Docs) là chuẩn tham chiếu cho giới hạn tài liệu nhưng cần cài ứng dụng; bộ đếm trên trình duyệt nhanh hơn cho luồng dán-và-kiểm. Các bộ đếm của nền tảng mạng xã hội (X, Instagram) đóng cứng quy tắc riêng của từng nền tảng — công cụ này thay vào đó giữ một bảng giới hạn nền tảng riêng, để một ô nhập phục vụ mọi nền tảng.",
+          "Riêng tư là khác biệt cấu trúc: nhiều bộ đếm trực tuyến POST văn bản của bạn lên máy chủ để xử lý. Mọi thứ ở đây chạy bằng JavaScript trong trình duyệt của bạn — văn bản chưa bao giờ rời thiết bị, điều quan trọng với bản thảo chưa công bố, văn bản khách hàng hay bất cứ thứ gì nằm dưới NDA.",
+        ],
       },
     ],
   },
@@ -3480,6 +3583,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc chuyển đổi diễn ra cục bộ trong trình duyệt — không gì rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Quy tắc trích dẫn CSV thực sự hoạt động thế nào",
+        paragraphs: [
+          "CSV trông như định dạng đơn giản nhất hành tinh, và chính quy tắc escape của nó là lý do mọi bộ chuyển đổi viết tay cuối cùng cũng làm hỏng dữ liệu. Quy ước RFC 4180: một trường chứa dấu phẩy, dấu nháy kép hoặc xuống dòng phải được bọc trong dấu nháy kép, và mọi dấu nháy bên trong phải được nhân đôi — một giá trị như he said \"hi\" thành \"he said \"\"hi\"\"\" trong file. Một trường có các ký tự ấy mà không được bọc sẽ bị các bộ nhập khác nhau đọc thành các giá trị khác nhau.",
+          "Xuống dòng bên trong trường là quy tắc ít người biết nhất. Một ô được phép chứa ký tự xuống dòng, miễn là nó nằm trong ngoặc — bảng tính xử lý tốt, nhưng bộ phân tích quét từng dòng ngây thơ coi nó là ba bản ghi. Nếu số dòng sau chuyển đổi có vẻ sai trong công cụ phía sau của bạn, một ký tự xuống dòng chèn trong trường văn bản là nghi phạm đầu tiên.",
+          "Cẩn thận bẫy chuyển đổi kép: dán CSV qua một công cụ khác cũng tách theo dấu phẩy có thể escape hai lần, để lại các cặp \"\" nhìn thấy được bên trong ô. Khi kết quả trông lạ, hãy đối chiếu với các quy tắc trên thay vì đoán bộ chuyển đổi hỏng — phần lớn trường hợp dữ liệu nguồn vốn có một dấu nháy hay dấu phẩy mà bạn không để ý.",
+        ],
+      },
+      {
+        heading: "Ký tự phân tách, ngôn ngữ và cái bẫy số thập phân của Excel",
+        paragraphs: [
+          "Ký tự phân tách không phải phổ quát. Các ngôn ngữ tiếng Anh và Đông Á mở file phân tách bằng dấu phẩy ngay lập tức, nhưng phần lớn châu Âu dùng dấu chấm phẩy vì dấu phẩy đã là dấu thập phân: một Excel tiếng Đức mở file phân tách bởi dấu phẩy sẽ dồn 1,5 và 2,5 vào cùng một cột. Nếu người nhận là người châu Âu, hãy chọn tùy chọn dấu chấm phẩy trước khi gửi.",
+          "Một cái bẫy liên quan xảy ra ngay cả khi ký tự phân tách đã đúng: Excel định dạng lại giá trị khi mở. Các mã định danh trông như số mất số 0 ở đầu (mã bưu chính, tiền tố SKU), ID số dài thành 4.31202E+12, và ngày tháng bị diễn giải lại theo ngôn ngữ của máy. Bản CSV vốn không sai — là việc đoán kiểu của bảng tính làm hỏng. Nhập qua trình hướng dẫn với kiểu cột tường minh tránh được tất cả.",
+          "Kiểu của JSON ánh xạ sạch về phần còn lại: boolean thành văn bản true/false, số đi qua như các chữ số, null thành ô rỗng. Lưu ý phân biệt ô rỗng với null — đa số bộ nhập coi chúng như nhau, nhưng một số cơ sở dữ liệu phân biệt NULL tường minh với chuỗi rỗng, nên kiểm tra quy ước của đích đến nếu sự khác biệt ấy có ý nghĩa.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi dữ liệu xuất cục bộ, không qua đám mây",
+        paragraphs: [
+          "JSON bạn chuyển thành CSV thường là bản xuất các bản ghi thật: danh sách khách hàng từ trang quản trị, lịch sử đơn hàng từ API, các dòng phân tích đang trên đường đến đội tài chính. Đây chính là những tập dữ liệu không nên đi qua một dịch vụ web ngẫu nhiên — và nhiều bộ chuyển đổi trực tuyến có upload tài liệu của bạn lên máy chủ của họ.",
+          "Ở đây toàn bộ phép chuyển đổi chạy trong trình duyệt của bạn: phân tích mảng, hợp nhất khóa, escape các ô — tất cả bằng JavaScript cục bộ. Bản ghi có dữ liệu cá nhân, số liệu sản phẩm chưa phát hành hay bất cứ thứ gì ràng buộc hợp đồng có thể được chuyển đổi mà không hề đi qua mạng, và công cụ chạy offline cho những lúc nguồn dữ liệu là máy nội bộ không có internet.",
+          "Cũng không có cổng giới hạn số dòng: bản xuất mười nghìn dòng chuyển đổi dễ dàng như mẫu hai dòng. Ghép kết quả với csv-to-json khi luồng đảo chiều — CSV quay về từ đội tài chính vào API của bạn — và chuyến khứ hồi giữ nhất quán vì cả hai phía theo cùng quy tắc trích dẫn.",
+        ],
+      },
+    ],
   },
   "json-validator": {
     name: "JSON Validator",
@@ -3506,6 +3635,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "JSON của tôi có bị tải lên đâu không?",
         a: "Không. Việc kiểm tra diễn ra cục bộ trong trình duyệt; không gì rời khỏi thiết bị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bộ kiểm tra cú pháp nói được gì và không nói được gì",
+        paragraphs: [
+          "Bộ kiểm tra này trả lời đúng một câu hỏi: tài liệu này có phải JSON hợp lệ theo RFC 8259 không? Nó kiểm tra cấu trúc — ngoặc nhọn và ngoặc vuông cân, dấu phẩy giữa các phần tử, chuỗi và khóa bọc trong nháy kép, escape hợp lệ, đúng một giá trị cấp trên cùng. Nó không kiểm tra dữ liệu có hợp lý hay không.",
+          "Kiểm tra theo schema là việc khác. Một tài liệu như {\"age\": \"forty\"} hoàn toàn là JSON hợp lệ ở đây — giá trị là một chuỗi hợp pháp — dù API của bạn mong đợi một số. Bắt sự lệch ấy cần JSON Schema hay một bộ kiểm tra tinh chỉnh theo hợp đồng API, và trộn hai việc lại dẫn đến kết quả khó hiểu. Hãy dùng công cụ này trước để xác nhận tài liệu parse được đã; rồi mới lo các trường nghĩa là gì.",
+          "Một mô hình tinh thần hữu ích: kiểm tra cú pháp là kiểm tra chính tả, kiểm tra schema là kiểm tra ngữ pháp. Hãy sửa mọi cờ đỏ ở đây trước khi chạy payload qua schema hay gửi tới endpoint thật, vì một bộ kiểm tra schema không thể bắt đầu với đầu vào vốn không parse được.",
+        ],
+      },
+      {
+        heading: "Đọc báo cáo dòng và cột",
+        paragraphs: [
+          "Vị trí được báo là điểm vào ký tự đầu tiên khiến việc parse trở nên bất khả, không phải nguyên nhân gốc. Thiếu dấu phẩy trước dòng 7 thường bị báo là lỗi ở dòng 7, nơi parser gặp thứ nó không mong đợi. Khi sửa một lỗi, hãy chạy lại: lỗi hay chồng lên nhau, và một thiếu ngoặc có thể che giấu vài lỗi khác phía sau.",
+          "Những thủ phạm phổ biến nhất trong JSON sửa tay là dấu phẩy thừa sau phần tử cuối, nháy đơn thay vì nháy kép (thói quen mang từ JavaScript), và ký tự vô hình dán vào — một khoảng trắng không ngắt ở đầu dòng bị báo là token bất ngờ dù bạn không nhìn thấy nó. Xóa dòng bị gắn cờ rồi gõ lại là cách xử lý trường hợp ký tự vô hình.",
+          "Một kinh điển khác: ký tự xuống dòng thật bên trong chuỗi. Chuỗi JSON phải nằm trên một dòng, với \\n viết thành dãy escape hai ký tự. Trình soạn thảo tự ngắt dòng khiến điều này khó phát hiện, đó là lý do số cột — chứ không chỉ số dòng — quan trọng khi đọc báo cáo.",
+        ],
+      },
+      {
+        heading: "Vì sao kiểm tra cục bộ mới quan trọng",
+        paragraphs: [
+          "Payload bạn dán vào bộ kiểm tra hiếm khi là công khai: thân webhook chứa email người dùng, phản hồi API từ môi trường staging, file cấu hình có token, bản dump cơ sở dữ liệu đang trên đường di chuyển. Gửi chúng tới một máy chủ lạ để được kiểm tra là rủi ro rò rỉ dữ liệu nhỏ nhưng thật — và nhiều bộ kiểm tra trực tuyến đúng là làm vậy.",
+          "Mọi thứ ở đây chạy bằng JavaScript trong trình duyệt của bạn. Tài liệu được parse trên thiết bị và không bao giờ được truyền đi, ghi log hay lưu lại — bạn có thể kiểm tra bí mật, payload API nội bộ và dữ liệu khách hàng mà không cần suy nghĩ thêm. Điều đó cũng có nghĩa công cụ chạy offline: một chuyến bay, một mạng công ty khóa chặt hay một VPN chết cũng không ngăn bạn kiểm tra cấu hình.",
+          "Cũng không có cổng giới hạn kích thước — giới hạn là bộ nhớ trình duyệt của bạn, chứ không phải trần upload. Log lớn chuyển thành JSON, bản xuất toàn bộ cơ sở dữ liệu và tài liệu do máy sinh ra được kiểm tra nhanh như một đoạn hai dòng.",
+        ],
       },
     ],
   },
@@ -3536,6 +3691,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Token được giải mã hoàn toàn trong trình duyệt và không bao giờ rời khỏi thiết bị — không có bước tải lên. Dù vậy, hãy coi token như thông tin xác thực và tránh dán token production ở những nơi không cần thiết.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Giải mã không phải là xác thực — sự thật an ninh quan trọng nhất",
+        paragraphs: [
+          "Hai đoạn đầu của một JWT chỉ là JSON mã hóa Base64URL thuần túy, không hề có mã hóa. Bất kỳ ai nhận được token đều đọc được mọi claim trong đó, và bất kỳ token nào cũng có thể được dựng tay trong vài giây. Đó là chủ đích thiết kế: JWT được ký, không được niêm phong. Chữ ký ở cuối chứng minh token do người giữ khóa phát hành và không bị sửa kể từ đó — nó không làm gì để giấu nội dung.",
+          "Hệ quả mọi lập trình viên phải thấm: thấy một header đúng khuôn, một payload hợp lý và một chuỗi chữ ký không chứng minh gì về tính chính danh của token. Kẻ tấn công có thể đổi payload — lật một role từ user thành admin — mã hóa lại rồi gắn vào bất kỳ byte chữ ký nào; nó giải mã đẹp đẽ nhưng không xác thực ở đâu cả. Chỉ máy chủ, người giữ bí mật HMAC hay khóa công khai, mới phân biệt được. Công cụ này cố ý không bao giờ xác thực: nó cho bạn thấy token nói gì, và điều nó nói không có thẩm quyền gì cho tới khi máy chủ của bạn kiểm tra chữ ký.",
+          "Giải mã còn là một thấu kính kiểm toán cho thứ bạn thực sự đang vận chuyển. Dán một token từ luồng đăng nhập của chính bạn và soát những claim có khi bạn không nhận ra là đang phơi ra: ID người dùng nội bộ, địa chỉ email, tên tenant, danh sách quyền. Mọi thứ trong payload đều đọc được từ phía máy khách — kể cả bất kỳ ai mở dev tools — nên quy tắc là: đừng bao giờ đặt bí mật vào payload của JWT. Nếu điều đó phải bí mật, nó không thuộc về token; hãy dùng một session ID mờ (opaque) có lưu trữ phía máy chủ thay thế.",
+        ],
+      },
+      {
+        heading: "Đọc các claim chuẩn: exp, iat và các cái bẫy đồng hồ",
+        paragraphs: [
+          "Các claim đăng ký (RFC 7519) có nghĩa đã thống nhất: iss (bên phát hành), sub (chủ thể), aud (đối tượng), exp (hết hạn), nbf (không trước), iat (phát hành lúc). Mọi mốc thời gian là số giây kể từ Unix epoch, không phải chuỗi ISO — exp=1893456000 là một ngày, và công cụ này hiển thị nó theo múi giờ của bạn để không ai phải tính epoch bằng tay mới biết token đã hết hạn chưa.",
+          "Lỗi kinh điển là lệch đồng hồ giữa bên phát hành token và bên xác minh: một máy chủ có đồng hồ chậm một phút sẽ từ chối những token vẫn còn hợp lệ dưới góc nhìn của bên phát hành, và cách sửa là một cửa sổ dung sai nhỏ (các thư viện thường mở tolerance 30–60 giây). Một cái bẫy khác là exp là thời điểm tuyệt đối, không phải TTL — một token phát hành với hạn 30 ngày không thể rút ngắn nếu không phát hành lại, vì vậy cặp access token ngắn hạn + refresh token mới trở thành mẫu chuẩn.",
+          "Hãy kiểm tra cả aud và iss, đừng chỉ exp. Một token chưa hết hạn nhưng phát hành cho đối tượng khác thì bất hợp lệ y như một token hết hạn — máy chủ chỉ kiểm tra exp sẽ nhận cả token đúc cho dịch vụ khác. Khi debug một lỗi 401, hãy giải mã token ở đây trước: thường thường câu trả lời đã hiện trong payload trước khi bạn động tới bất kỳ log máy chủ nào.",
+        ],
+      },
+      {
+        heading: "Vì sao token không bao giờ rời trình duyệt của bạn",
+        paragraphs: [
+          "JWT là một thông tin xác thực dạng bearer: ai giữ nó có thể hành động như bạn cho tới khi nó hết hạn. Dán một token đang sống vào một bộ giải mã phía máy chủ là trao đúng quyền lực ấy cho người vận hành máy chủ — kết quả tệ nhất có thể có của một công cụ debug. Công cụ này phân tích các đoạn Base64URL chỉ bằng JavaScript trên trình duyệt; token không bao giờ được truyền đi, ghi log hay lưu lại, và sau khi trang tải xong thì toàn bộ chạy offline.",
+          "Dẫu vậy, hãy đối xử với ô dán như với bất kỳ nơi nào bạn đưa thông tin xác thực vào. Ưu tiên dán token đã hết hạn hay từ môi trường test; nếu buộc phải xem một token production, hãy làm một lần rồi để nó hết hạn tự nhiên, thay vì phát hành lại một token sống lâu cho dịp ấy.",
+          "Triết lý cục bộ, không xác thực ấy tiếp tục khắp trang: các công cụ base64 giải mã các đoạn thô nếu bạn muốn xuống tầng thấp hơn, và các công cụ băm cho bạn vân tay của token để so hai token phát hành có khác nhau không mà không phơi nội dung của chúng.",
+        ],
+      },
+    ],
   },
   "markdown-previewer": {
     name: "Markdown Previewer",
@@ -3562,6 +3743,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Văn bản của tôi được xử lý ở đâu?",
         a: "Hoàn toàn trong trình duyệt — Markdown không bao giờ rời khỏi thiết bị, kể cả khi bạn sao chép HTML sinh ra.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "GFM và CommonMark: vì sao bảng của bạn render được",
+        paragraphs: [
+          "Markdown không phải một ngôn ngữ duy nhất. CommonMark là phần lõi được đặc tả nghiêm ngặt — tiêu đề, danh sách, nhấn mạnh, liên kết — ra đời vì bản cài đặt Perl năm 2004 mơ hồ đến mức không hai bộ render nào đồng ý với nhau. GitHub Flavored Markdown (GFM) là CommonMark cộng các phần mở rộng: bảng, gạch ngang ~~như thế này~~, task list, autolink và khối mã có nhãn ngôn ngữ.",
+          "Bản xem trước render flavor GFM vì đó là thứ mọi người thực sự viết: README trên GitHub, issue, mô tả pull request và đa số trang tài liệu đều mặc định bảng và task list hoạt động. Nếu bạn chuyển cùng tài liệu sang một bộ render CommonMark nghiêm ngặt, bảng sẽ thành văn bản thô — một bất ngờ khi chuyển nền tảng đáng được ngờ trước, không phải lỗi.",
+          "Các khác biệt còn lại giữa các flavor tinh tế hơn: quy tắc ngắt dòng trong đoạn văn, danh sách lỏng khác danh sách chặt lồng nhau thế nào, và các ca biên quanh nhấn mạnh xuyên qua từ. Khi một đoạn mã hiển thị khác trên trang này so với trang khác, nguyên nhân gần như luôn là flavor, không phải lỗi Markdown của bạn — hãy kiểm tra bộ render kia bật những phần mở rộng nào.",
+        ],
+      },
+      {
+        heading: "Bộ làm sạch chính là câu chuyện an ninh",
+        paragraphs: [
+          "Một bộ xem trước Markdown thực thi bất cứ thứ gì Markdown bung ra, còn HTML thô trong Markdown là hợp pháp — nghĩa là một tài liệu dán vào có thể mang theo <script>, thuộc tính onclick hay liên kết javascript:. Render thứ đó mà không làm sạch chính xác là cách XSS xảy ra trong hệ thống bình luận, trang wiki và trường CMS nhận Markdown từ người dùng.",
+          "Bản xem trước này áp một whitelist trước khi bất cứ thứ gì chạm trang: chỉ các thẻ định dạng chuẩn và giá trị thuộc tính an toàn sống sót. Thẻ script, bộ xử lý sự kiện nội tuyến và URL javascript: bị cắt bỏ. Hệ quả thực dụng: bạn có thể dán nội dung không đáng tin — tài liệu của người lạ, một chuỗi bình luận lấy từ web — và bản xem trước sẽ không thực thi thứ gì độc hại.",
+          "Cùng bộ làm sạch đó bảo vệ cả lối sao chép ra. HTML bạn sao chép đã sạch sẵn, nên dán vào CMS hay trình soạn blog không buôn lậu script theo. Nói thẳng giới hạn: làm sạch loại bỏ nội dung chủ động, nhưng không soát nội dung chữ nhìn thấy nói gì — một tài liệu có thể không có script mà vẫn chứa lời khuyên tồi.",
+        ],
+      },
+      {
+        heading: "Bản thảo của bạn sống ở đâu",
+        paragraphs: [
+          "Bản thảo tài liệu là hàng đang làm dở: changelog chưa phát hành, runbook nội bộ có chi tiết hạ tầng, mô tả PR bàn về bản vá an ninh. Một bộ xem trước Markdown tải bản thảo lên máy chủ sẽ đưa đúng những thứ ấy lên đường — nên mọi thứ ở đây chạy cục bộ: engine marked lẫn bộ làm sạch đều thực thi bằng JavaScript trong trình duyệt của bạn.",
+          "Xử lý cục bộ còn nghĩa là không bản thảo nào lưu lại ở đâu cả, không vòng mạng nào làm chậm render trực tiếp, và công cụ chạy offline. Viết tài liệu trên máy bay hay trong môi trường không có mạng ngoài hành xử y như tại bàn làm việc của bạn.",
+          "Nó còn né được ma cũ dán-và-định-dạng: không cần cài plugin cho trình soạn thảo, không cần chạy bước build, không cần lưu file trước. Dán từ Slack, từ một comment trong code, từ một ticket — thấy kết quả render trong một giây, sao chép HTML sạch ra nếu cần.",
+        ],
       },
     ],
   },
@@ -3592,6 +3799,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Mọi thứ chạy trong trình duyệt; kể cả file cũng được đọc và hash hoàn toàn trên thiết bị của bạn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao MD5 gãy — và vì sao nó vẫn sống",
+        paragraphs: [
+          "MD5 do Ron Rivest thiết kế năm 1991 như một message digest 128-bit nhanh, và trong một thập kỷ nó là hash mặc định của web. Chính tốc độ ấy là điểm bán hàng — rồi cũng là khởi đầu sự sụp đổ. Vì nó xử lý dữ liệu nhanh, kẻ tấn công thử được khối lượng đầu vào khổng lồ mỗi giây, và vì cấu trúc bên trong có các điểm yếu đã biết, chúng thậm chí không cần vét cạn để phá khả năng kháng va chạm.",
+          "Khả năng kháng va chạm của MD5 sụp đổ qua nhiều giai đoạn giữa những năm 2000: các nhà nghiên cứu chứng minh kỹ thuật tạo va chạm thực dụng, và năm 2012 malware Flame nổi tiếng dùng một va chạm MD5 để làm giả chứng chỉ ký code của Microsoft. Từ đó, không giao thức an ninh nghiêm túc nào chấp nhận MD5 cho chữ ký, chứng chỉ hay xác thực.",
+          "Thế nhưng MD5 chưa biến mất, và điều đó chẳng sao miễn bạn phân biệt được: một tấn công va chạm cho phép kẻ tấn công dựng hai đầu vào khác nhau có cùng hash, nhưng nó không giúp chúng đảo ngược một hash hay can thiệp file mà không bị phát hiện trong mọi tình huống. Kiểm tra một bản tải xuống lớn khớp checksum do cùng nguồn đáng tin công bố là chuyện không đối kháng — không ai dựng va chạm chống bạn. Với việc đó, MD5 vẫn hoàn toàn dùng được; với bất cứ việc nào kẻ tấn công được chọn một phần đầu vào, thì không.",
+        ],
+      },
+      {
+        heading: "Dùng checksum cho đúng",
+        paragraphs: [
+          "Một phép so checksum chỉ đáng tin cẩn bằng nguồn của giá trị mong đợi. Khi một dự án công bố MD5 cạnh bản tải xuống, checksum đó nhằm phát hiện hư hỏng trên đường truyền — một bản truyền bị cắt cụt, một mirror lỗi, một đĩa trầy. Nếu bản thân checksum đến từ kênh không đáng tin, kẻ tấn công thay được file cũng thay được checksum, và MD5 sẽ vui vẻ xác nhận bản giả.",
+          "Chữ hoa/thường vướng người hơn nó đáng lẽ: một số tool in hex hoa, một số in thường. Digest y hệt nhau — A3F… và a3f… là cùng một số viết theo ký hiệu khác — nên so sánh không phân biệt hoa thường hay chuẩn hóa trước khi tuyên bố lệch. Một ký tự xuống dòng cuối đầu vào là cái bẫy kinh điển khác: băm một file văn bản kết thúc bằng newline cho digest khác với băm cùng các ký tự nhưng không có nó — vì vậy chế độ văn bản ở đây băm chính xác các ký tự bạn cung cấp.",
+          "Với khóa dedup và cache buster, tốc độ của MD5 là tính năng, không phải nhượng bộ. Sinh một khóa 32 ký tự từ một khối nội dung rẻ và ổn định qua các lần chạy, ngôn ngữ và nền tảng — cùng thuật toán RFC 1321 cho ra cùng output dù bạn gọi từ JavaScript ở đây, md5sum trên Linux hay một thư viện ở backend của bạn.",
+        ],
+      },
+      {
+        heading: "Mọi thứ chạy trên thiết bị của bạn",
+        paragraphs: [
+          "Băm đúng là loại thao tác bạn không muốn thuê ngoài: mục đích của việc kiểm tra một file thường là vì bạn chưa tin trọn vẹn mạng nó đến từ đó. Gửi đúng file đó lên một máy chủ web lạ để được băm là đánh bại mục đích. Vì vậy công cụ này tính MD5 hoàn toàn trong trình duyệt của bạn — văn bản được băm ngay khi bạn gõ, file được đọc cục bộ bằng file API của trình duyệt, không bao giờ upload.",
+          "Thiết kế cục bộ ấy còn có lợi thiết thực ngoài riêng tư: không có thời gian upload, không có trần kích thước, không xếp hàng phía máy chủ. Một ảnh ISO nhiều gigabyte tốn đúng bằng thời gian đọc từ đĩa, và chạy được offline khi trang đã tải.",
+          "Với bất cứ việc nào nghiêm túc về an ninh, hãy ghép công cụ này với SHA-256 — bộ sinh SHA-256 của trang dùng cùng quy trình cục bộ, và trang hash-generator cho bạn tính vài thuật toán cạnh nhau để công bố cả hai digest cho người dùng.",
+        ],
+      },
+    ],
   },
   "regex-tester": {
     name: "Regex Tester",
@@ -3618,6 +3851,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Dữ liệu thử của tôi có được gửi đi đâu?",
         a: "Không. Việc khớp chạy trực tiếp trong trình duyệt — không có gì được tải lên hay lưu lại.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Backtracking thảm họa: vì sao một số pattern treo máy",
+        paragraphs: [
+          "Một engine regex có backtracking thử mọi cách các sub-pattern có thể chia đầu vào, và một số tổ hợp nổ theo cấp số nhân. Thủ phạm kinh điển là lượng tử hóa lồng nhau như (a+)+ đối với một chuỗi dài các chữ “a” mà thất bại ở cuối: engine chia lại chuỗi theo nhiều cách hơn số nguyên tử trong vũ trụ. Một đầu vào vài chục ký tự có thể treo một thread máy chủ hàng giờ — đây là cơ chế đứng sau các sự cố thật, khi một pattern do người dùng cung cấp hay một trường người dùng nhập chạm một validator xây trên pattern như vậy.",
+          "Lookahead thường là bản vá được khuyên dùng. Đổi (a+)+ thành (?=(a+))a+ hay neo bằng ^ và $ cắt tỉa cây tìm kiếm vì assertion không tiêu thụ gì và engine commit sớm hơn. Atomic group (?>...) và possessive quantifier a++ cũng xóa các điểm backtrack, nhưng JavaScript RegExp không hỗ trợ cả hai — trong JS bạn mô phỏng bằng lookahead hoặc viết lại pattern.",
+          "Cách nhận diện pattern nguy hiểm trước khi lên production: lượng tử hóa lồng nhau ((.+)*, (\\w+)+), thay thế bên trong lượng tử ((a|a?)+), và đuôi tùy chọn chồng lên đầu tham lam. Hãy thử chúng với một chuỗi dài KHÔNG khớp, chứ không chỉ chuỗi khớp — một pattern qua được các test happy-path vẫn có thể mất thời gian cấp số nhân với đầu vào nó vốn được thiết kế để từ chối. Các thư viện tăng cường ReDoS và lint rule (như họ safe-regex) mã hóa đúng những kiểm tra này.",
+        ],
+      },
+      {
+        heading: "Lookahead, lookbehind và khớp độ dài không",
+        paragraphs: [
+          "Assertion lookaround soát những gì bao quanh một vị trí mà không tiêu thụ nó, khiến chúng là công cụ cho logic “có chứa nhưng không đứng sau X”. Ví dụ, \\d+(?= dollars) chỉ lấy số khi chữ dollars đứng sau, còn foo(?!bar) khớp foo ở mọi nơi trừ trước bar. Negative lookbehind (?<!@)\\w+ mới có mặt trong JavaScript khoảng 2018 (thời V8 6.2), nên các bản Node và Safari cũ từ chối những pattern trình duyệt mới nhận.",
+          "Khớp độ dài không là góc tinh tế còn lại. Một pattern như a* có thể thành công mà không tiêu thụ gì, nên một vòng lặp ngây thơ sẽ quay vĩnh viễn tại cùng một chỉ số. Quy cách JavaScript sửa như sau: khi một khớp rỗng, engine tiến một vị trí trước khi tiếp tục. Bộ thử này theo đúng quy tắc đó, đó là lý do a* với “baa” cho một khớp rỗng tại chỉ số 0, rồi các khớp thật tại 1 và 2 — trùng với điều String.prototype.match mang cờ g trả về.",
+          "Đọc cho thực dụng: các nhóm bắt trong lookahead vẫn bắt được. (?=(a+)) đưa bạn chuỗi các chữ “a” thành nhóm 1 trong khi khớp theo vị trí. Named group (?<year>\\d{4}) tự làm rõ việc trích xuất và sống sót qua việc đổi thứ tự pattern. Khi một nhóm có thể không tham gia, hãy khai báo nó tùy chọn và kiểm tra undefined thay vì mặc định mọi nhóm luôn có mặt ở mọi khớp.",
+        ],
+      },
+      {
+        heading: "Khác biệt phương ngữ và vì sao chạy cục bộ",
+        paragraphs: [
+          "Regex không phải một ngôn ngữ duy nhất. JavaScript hỗ trợ \\d, \\w và \\s nhưng không có lớp POSIX như [[:alpha:]]; PCRE thêm đệ quy và \\K; Python dùng (?P<name>...) cho named group trong khi JS dùng (?<name>...). Cờ unicode đổi nghĩa của . và \\w với ký tự astral, và cờ s làm dấu chấm khớp cả xuống dòng. Khi chuyển một pattern giữa các ngôn ngữ, hãy test bản chuyển — đa số lệch nhau nấp ở lookbehind, đệ quy và unicode property escape (\\p{Script=Greek}, cần cờ u trong JS).",
+          "Mọi thứ ở đây thực thi trong trình duyệt của bạn bằng RegExp của chính JavaScript — các chuỗi thử của bạn, có thể là dòng log, payload API hay dữ liệu khách hàng, không bao giờ rời thiết bị. Đó là lợi thế cấu trúc so với các dịch vụ regex POST pattern và dữ liệu mẫu lên máy chủ, nơi một lần dán dữ liệu production vào phiên debug thành một bản sao trong log của người khác. Không gì ở đây được upload, lưu hay chia sẻ; đóng tab là hết.",
+        ],
       },
     ],
   },
@@ -3648,6 +3906,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc hash chạy cục bộ trong trình duyệt bằng WebCrypto — dữ liệu không bao giờ rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Gia đình SHA-2 và kích thước output của chúng",
+        paragraphs: [
+          "SHA-256 là một thành viên của họ SHA-2, do NIST Mỹ chuẩn hóa đầu những năm 2000 làm người thay thế SHA-1. Tên họ mã hóa kích thước output theo bit: SHA-224, SHA-256, SHA-384 và SHA-512 cho ra 224, 256, 384 và 512 bit — tức 64, 64, 96 và 128 ký tự hex. Một digest “SHA-256” không đúng 64 ký tự hex thì không phải SHA-256, dù nhãn ghi gì.",
+          "Các biến thể khác nhau cả bên trong, không chỉ ở phần cắt. SHA-512 làm việc trên từ 64-bit và thực ra nhanh hơn SHA-256 trên CPU 64-bit hiện đại khi băm file lớn; SHA-256 dùng từ 32-bit và là lựa chọn cho khả năng tương thích rộng hơn. SHA-224 và SHA-384 đơn thuần là các biến thể cắt ngắn được định nghĩa cho một số tiêu chuẩn cụ thể muốn digest ngắn hơn.",
+          "Đừng nhầm SHA-2 với SHA-3 (Keccak) — một cấu trúc khác được chuẩn hóa một thập kỷ sau — hay với SHA-1, người tiền nhiệm 160-bit đã gãy trước tấn công va chạm và không được dùng trong thiết kế mới. Khi một trang tải xuống nói “xác minh bằng SHA-256”, công cụ này cho bạn đúng digest đó, tính bằng WebCrypto của trình duyệt.",
+        ],
+      },
+      {
+        heading: "Đọc và so sánh digest",
+        paragraphs: [
+          "Hai digest hoặc khớp chính xác hoặc các file khác nhau — không có điểm cộng một phần. So bằng mắt qua 64 ký tự dễ sai, nên hãy tự động hóa: đẩy file tải xuống qua sha256sum, shasum -a 256 hay CertUtil, rồi so chuỗi bằng chương trình hoặc bằng diff. Một ký tự khác nhau nghĩa là hư hỏng hay bị thay thế, không bao giờ là hiện tượng làm tròn.",
+          "Hiệu ứng tuyết lở là tính chất khiến checksum đáng tin: lật một bit bất kỳ trong file nhiều gigabyte và digest thành một giá trị 256-bit ngẫu nhiên không liên quan. Điều này cũng có nghĩa bạn không thể suy ra gì về nội dung từ digest — hai file trông như nhau trong file manager có thể khác metadata và băm ra khác nhau.",
+          "Hãy canh đường ống đầu vào, chứ không phải thuật toán. Encoding là thủ phạm quen thuộc: băm chữ “café” theo UTF-8 và theo Latin-1 cho hai digest khác nhau vì các byte khác nhau. Công cụ này băm chính xác các byte của thứ bạn gõ (UTF-8 cho văn bản) hay đúng các byte của file — điều mọi quy trình checksum chuẩn đều mong đợi.",
+        ],
+      },
+      {
+        heading: "Vì sao tính hash ngay trong trình duyệt",
+        paragraphs: [
+          "Một hash của file chỉ có ý nghĩa nếu môi trường băm đáng tin, còn một máy chủ web ngẫu nhiên thì không. Công cụ này dùng WebCrypto — thư viện mật mã được xây sẵn trong trình duyệt và cả TLS tin dùng — nên digest bạn nhận đến từ mã gốc đã được kiểm toán, tính cục bộ; văn bản và file không bao giờ rời thiết bị.",
+          "Tính cục bộ còn xóa các trần thực dụng: không băng thông upload, không giới hạn kích thước ngoài bộ nhớ khả dụng, không chờ đợi trong hàng đợi. Lấy vân tay một kho lưu trữ lớn bị chặn bởi tốc độ đọc đĩa, và khi trang đã tải thì toàn bộ quy trình chạy offline.",
+          "WebCrypto không cung cấp MD5, đó là lý do bộ sinh MD5 của trang này dùng bản cài thuần JavaScript trong khi SHA-256 đi trên bản gốc. Với bất cứ thứ gì mới, hãy ưu tiên SHA-256 hoặc mạnh hơn — trang hash-generator tính cả họ SHA-2 cạnh nhau khi bạn cần vài digest cùng lúc.",
+        ],
+      },
+    ],
   },
   "sql-formatter": {
     name: "SQL Formatter",
@@ -3674,6 +3958,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Truy vấn của tôi có được gửi lên máy chủ?",
         a: "Không. Việc định dạng chạy cục bộ trong trình duyệt — SQL không bao giờ rời khỏi thiết bị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao quy ước phong cách SQL tồn tại",
+        paragraphs: [
+          "SQL được thực thi như một dòng token bất kể bố cục, nên mọi quy tắc định dạng trên đời đều thuần túy dành cho con người. Đó chính là lý do quy ước có lời: các query sống nhiều năm, được dán vào ticket, review và tài liệu, và một JOIN 40 dòng liền nhau lấy của mỗi người đọc sau này nhiều thời gian hơn cả việc định dạng từng tốn. Phong cách nhất quán biến query từ một hiện vật phải giải mã thành một tài liệu để đọc.",
+          "Quy ước ồn nhất là chữ hoa/thường của từ khóa. Viết hoa SELECT, FROM, JOIN và WHERE tách bộ xương cấu trúc của query khỏi dữ liệu của nó trong một cái nhìn — mắt rơi vào từ khóa trước, định danh sau. Một số nhóm thích từ khóa thường với định danh được bọc quote; lựa chọn cụ thể nào ít quan trọng hơn việc áp một lựa chọn ở khắp mọi nơi. Công cụ này viết hoa từ khóa, quy ước được nhận rộng nhất.",
+          "Định dạng không đổi gì về thực thi: chỉ khoảng trắng và chữ hoa/thường thay đổi, chuỗi ký tự và định danh được bọc giữ nguyên tuyệt đối, và query bạn sao chép về đồng nhất về ngữ nghĩa với query đã dán vào. Chính bảo đảm ấy khiến việc định dạng query do máy sinh, output của ORM hay bản dump chưa định dạng của đồng nghiệp trước khi đọc là an toàn.",
+        ],
+      },
+      {
+        heading: "Phương ngữ: chỗ SQL không phải một ngôn ngữ",
+        paragraphs: [
+          "SQL là một họ phương ngữ chung một lõi, và bộ định dạng không được làm hỏng những phần khác nhau. Việc định dạng ở đây chạy trên SQL chuẩn, và engine sql-formatter bên dưới còn hiểu cú pháp riêng từng phương ngữ — PostgreSQL, MySQL, T-SQL, PL/SQL, BigQuery, Snowflake và các hệ khác — nên các cấu trúc phổ biến được định dạng đúng trên chúng.",
+          "Các phương ngữ khác nhau theo cách người đọc nên biết, xa hơn cả định dạng. Bọc chuỗi chia nhánh: SQL chuẩn chỉ dùng nháy đơn, MySQL mặc định cũng nhận nháy kép cho chuỗi trong khi PostgreSQL coi nháy kép là định danh. Bọc định danh cũng khác — backtick ở MySQL, nháy kép ở PostgreSQL, ngoặc vuông ở T-SQL. Cột tự tăng, cú pháp upsert và hàm ngày đều có chính tả riêng theo hãng.",
+          "Quy tắc an toàn khi định dạng SQL chưa quen: nếu output trông sai cấu trúc — một từ khóa bị cắt kỳ lạ hay một literal bị phá — hãy kiểm tra phương ngữ trước khi kết luận lỗi. Định dạng không đổi ngữ nghĩa theo thiết kế, nhưng nó chỉ làm được thế khi cú pháp nó nhìn thấy được nhận diện; và với công việc đa cơ sở dữ liệu, hãy chạy thử query đã định dạng trên một cơ sở dữ liệu phát triển trước khi nó chạm thứ gì thật.",
+        ],
+      },
+      {
+        heading: "Định dạng query cục bộ",
+        paragraphs: [
+          "Query là một trong những văn bản nhạy cảm nhất lập trình viên xử lý: chúng tiết lộ tên bảng, bố cục cột, logic nghiệp vụ, đôi khi cả thông tin xác thực thật nhúng trong ví dụ kết nối. Các bộ định dạng trực tuyến POST query lên máy chủ biến mỗi lần dán thành một lần tiềm ẩn tiết lộ; bộ này định dạng hoàn toàn trong trình duyệt của bạn, nên query production, schema nội bộ và SQL của khách hàng có thể đi qua mà không rời thiết bị.",
+          "Cục bộ còn xóa đi ma sát khiến việc định dạng không bao giờ diễn ra. Không chờ upload, không giới hạn kích thước ngoài bộ nhớ trình duyệt, và kết quả hiện ngay khi bạn gõ — khiến việc định dạng một query dài, đọc nó, chỉnh rồi dán về trở nên thực tế trong cùng một phiên. Nó chạy offline, nên dùng được trong môi trường hạn chế nơi một công cụ web sẽ không khả dụng.",
+          "Một quy trình đáng giữ: xác nhận logic trên cơ sở dữ liệu dev, định dạng ở đây để review và tài liệu hóa, và lưu bản đã định dạng làm bản chuẩn trong repository hay tài liệu của bạn. Người đọc sau — kể cả chính bạn — kế thừa bản đọc được, và cuộc review diễn ra trên một cấu trúc ai cũng parse được.",
+        ],
       },
     ],
   },
@@ -3704,6 +4014,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc giải mã chạy cục bộ trong trình duyệt — không gì rời khỏi thiết bị.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Lỗi decode là thông tin, không phải vật cản",
+        paragraphs: [
+          "Một bộ decode nghiêm ngặt từ chối ba thứ: một dấu % đơn không theo sau bởi hai chữ số hex, một dãy đa byte bị cắt cụt như %E4%BD bắt đầu một ký tự nhưng không bao giờ hoàn tất nó, và các dãy byte không hợp lệ theo UTF-8. Mỗi thứ đều là tín hiệu thật về dữ liệu bạn đang nhìn, đó là lý do công cụ này báo chúng thay vì thay bằng một ký tự chỗ trống.",
+          "Trường hợp dãy bị cắt cụt xứng đáng được chú ý trong phân tích log. Một ký tự đa byte như 日 là ba byte (%E6%97%A5); nếu một dòng log bị cắt ở bề rộng cố định, ký tự cuối có thể sống sót với chỉ hai trong ba byte của nó. Bộ decode dễ dãi in ra rác; bộ nghiêm ngặt nói với bạn rằng log đã bị cắt — thường chính là bug bạn đang săn.",
+          "Thay thế im lặng còn tệ hơn lỗi, chính vì nó giấu vấn đề: một ký tự thay thế U+FFFD trong output của bạn thường có nghĩa là các byte nguồn đã bị hư hại ở đâu đó phía thượng nguồn, và việc tìm ra chỗ đó dễ hơn nhiều khi decoder gắn cờ đúng vị trí thay vì chôn nó trong văn bản trông đọc được.",
+        ],
+      },
+      {
+        heading: "Sai chế độ và quy ước dấu +",
+        paragraphs: [
+          "Hai chế độ decode tồn tại vì decode một giá trị bằng chế độ full-URI là một lỗi im lặng kinh điển: %3D (=) và %26 (&) trông như cấu trúc URL, nên decodeURI bỏ nguyên chúng và giá trị đến tay bạn vẫn còn nửa đóng mã — rồi bị tách sai khi bạn parse chuỗi query. Ngược lại, decode cả một URL bằng chế độ component sẽ decode luôn các ký tự phân tách mà có khi bạn muốn giữ nhìn thấy.",
+          "Công tắc + tồn tại vì lịch sử hai bộ não của ký tự dấu cách. Trong chuỗi query mã hóa form (application/x-www-form-urlencoded), + thực sự nghĩa là dấu cách; trong path và trong URL RFC 3986 nghiêm ngặt, + chỉ là dấu cộng. Decode một chuỗi tìm kiếm do form dựng với công tắc tắt và bạn sẽ thấy các dấu cộng rải khắp văn bản nơi đáng ra là dấu cách.",
+          "Một cái bẫy nữa đáng biết: đóng mã hai lần. Bản thân dấu % đóng mã thành %25, nên một chuỗi bị đóng mã hai lần mang %253D ở chỗ đáng ra là %3D. Nếu kết quả decode vẫn còn chứa các dãy %, hãy decode lần nữa — đa số URL redirect “hỏng” chỉ là bị hai tầng khác nhau đóng mã hai lần, mỗi tầng tưởng tầng kia đã làm.",
+        ],
+      },
+      {
+        heading: "Đọc URL đã đóng mã mà không gửi chúng đi đâu",
+        paragraphs: [
+          "URL bạn cần decode hiếm khi công khai: tham số tracking từ một nền tảng quảng cáo, session token trong chuỗi redirect, URL có chữ ký kèm mốc hết hạn, endpoint nội bộ từ access log. Gửi chúng tới một bộ decode trực tuyến có proxy qua máy chủ là trao những token ấy cho một bên lạ — điều không cần thiết cho một việc mà một trình duyệt tự làm được.",
+          "Mọi thứ ở đây chạy bằng JavaScript trong trình duyệt của bạn. Chuỗi đã đóng mã được parse trên thiết bị, các dãy không hợp lệ được báo ngay tại chỗ, và không có lịch sử nào về những gì bạn dán được lưu lại. Nó còn chạy offline — dán một URL từ trang captive portal của mạng khóa chặt hay từ bản xuất của một máy cách ly hành xử y hệt.",
+          "Một mẹo quy trình thực dụng: ghép với bộ mã hóa URL. Decode URL đáng ngờ, sửa phần sai, đóng mã lại chỉ phần đó, rồi ghép link cuối bằng tay. Vòng lặp ấy bắt đa số bug URL ngoài đời — đóng mã hai lần, sai chế độ, mơ hồ dấu + — trong dưới một phút, hoàn toàn trên máy của bạn.",
+        ],
+      },
+    ],
   },
   "url-encoder": {
     name: "URL Encoder",
@@ -3730,6 +4066,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Xử lý được ký tự ngoài Latinh?",
         a: "Có — ký tự ngoài ASCII được mã hóa UTF-8 trước, rồi mã hóa phần trăm, đúng như trình duyệt làm.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ký tự dành riêng và hai chế độ mã hóa",
+        paragraphs: [
+          "Một URL được dựng từ các ký tự có việc phải làm: / tách các đoạn path, ? mở đầu query, & tách các tham số, = nối khóa với giá trị, : và // neo scheme. RFC 3986 gọi chúng là reserved vì chúng là một phần ngữ pháp của URL, và đó chính là chỗ hai chế độ chia đường. Mã hóa theo component coi toàn bộ đầu vào của bạn là một giá trị trơ — mọi ký tự reserved được escape, nên a=b&c=d thành a%3Db%26c%3Dd và di chuyển như một tham số duy nhất thay vì viết lại chuỗi query.",
+          "Mã hóa full URI mặc định bạn đã có một URL hoàn chỉnh, có cấu trúc sẵn và chỉ cần nó an toàn khi vận chuyển: các ký tự cấu trúc giữ nguyên văn, và mọi thứ ngoài tập unreserved (chữ cái, chữ số, - . _ ~) được escape. Mã hóa cả một URL bằng chế độ component là lỗi kinh điển — bạn nhận %3A%2F%2F khắp nơi và link không còn là link.",
+          "Quy tắc ngón tay cái an toàn: mã hóa từng giá trị riêng lẻ bằng chế độ component, rồi tự tay ghép chúng vào URL. Nếu bạn thấy mình đang mã hóa một URL bên trong một URL khác — một đích redirect, một tham số callback — URL bên trong là một giá trị, nên nó nhận mã hóa component dù trông như một URL.",
+        ],
+      },
+      {
+        heading: "Sự mơ hồ dấu cách-cộng và UTF-8 đứng sau mỗi %XX",
+        paragraphs: [
+          "Dấu cách có hai cách mã hóa ngoài đời, và trộn chúng là nguồn bug dai dẳng. Dạng chuẩn là %20: RFC 3986 percent-encode dấu cách như mọi byte khác. Dạng + đến từ gửi form HTML theo application/x-www-form-urlencoded, một quy ước cũ hơn cả thời kỳ đặc tả được viết cẩn thận. Một số máy chủ và framework decode + ngược thành dấu cách — nhưng chỉ trong thân form-encoding và chuỗi query theo quy ước ấy; trong một đoạn path, + nguyên văn thường nghĩa là dấu cộng.",
+          "Công cụ này luôn phát %20, thứ decode đúng ở khắp mọi nơi. Hệ quả thực dụng: nếu bạn dán một chuỗi form-encoded chứa + vào một bộ percent-decode thuần, bạn có thể nhận dấu cộng thay cho dấu cách — đó không phải lỗi, đó là hai quy ước va vào nhau.",
+          "Văn bản không phải ASCII có thêm một tầng: ký tự trước hết được đổi thành byte UTF-8, rồi từng byte được percent-escape. Đó là lý do é thành %C3%A9 — hai byte — và một ký tự tiếng Nhật có thể biến thành chín dãy escape. Trình duyệt hiện đại cho bạn thấy URL Unicode đẹp trong thanh địa chỉ, nhưng thứ đi trên dây truyền luôn là dạng đã escape.",
+        ],
+      },
+      {
+        heading: "Mã hóa diễn ra cục bộ, từng byte một",
+        paragraphs: [
+          "URL thường mang dữ liệu bạn chẳng muốn chia sẻ: tham số tracking, session token, URI redirect OAuth, endpoint nội bộ kèm định danh. Dán một URL như vậy vào một bộ mã hóa trực tuyến ngẫu nhiên có proxy qua máy chủ là phơi nhiễm không cần thiết. Ở đây phép chuyển đổi chạy bằng JavaScript trong trình duyệt của bạn — đầu vào không bao giờ rời thiết bị, và không có máy chủ nào để ghi log.",
+          "Cục bộ còn có nghĩa là offline và tức thì. Không độ trễ vòng đi về, không trần kích thước do API áp đặt, không giới hạn tần suất khi bạn mã hóa một loạt tham số từng cái một. Ghép với bộ decode URL để kiểm chứng: mã hóa, decode, xác nhận bạn nhận lại đúng các byte gốc — một vòng hai giây bắt lỗi chọn sai chế độ trước khi chúng tới production.",
+          "Một thói quen debug đáng nhận: khi một link hành xử lạ, hãy decode toàn phần và soát thứ thực sự đến nơi. Đa số URL hỏng là bị đóng mã hai lần (dấu %25 của dấu percent xuất hiện một lần thừa) hoặc được mã hóa bằng sai chế độ — cả hai hiện ra ngay khi bạn nhìn vào dạng đã decode.",
+        ],
       },
     ],
   },
@@ -3760,6 +4122,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Mỗi lần xuất hiện có một hàng riêng, và bản xuất JSON liệt kê chúng thành các cặp khóa/giá trị riêng nên không gì bị ghi đè lặng lẽ.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Giải phẫu một URL: những phần quan trọng",
+        paragraphs: [
+          "Một URL có cấu trúc nhiều hơn vẻ ngoài của nó. Theo tiêu chuẩn WHATWG URL mà các trình duyệt cài đặt, một URL như https://example.com:8443/shop/shoes?color=red#reviews tách thành scheme (https), host (example.com), port (8443 — https mặc định là 443, nên URL tương đương khi bỏ nó), path (/shop/shoes), query (?color=red) và fragment (#reviews). Fragment là đặc biệt: nó không bao giờ được gửi tới máy chủ, chỉ tồn tại trong trình duyệt — đó là lý do ứng dụng single-page dùng nó, và lý do bạn không thể phát hiện nó phía máy chủ.",
+          "Path không phải một chuỗi mờ đục mà là một hệ phân cấp các đoạn. Tách từng đoạn ra một dòng khiến các mẫu định tuyến hiện hình: /shop/shoes là một tập hợp với một phần tử, và redirect hay rewrite thường tác động lên các đoạn chứ không phải cả path. Nhìn chúng riêng lẻ còn phơi ra các điều kỳ lạ như dấu chéo kép hay đoạn rỗng mà một chuỗi duy nhất che giấu.",
+          "Port, userinfo (dạng user:pass@host, đã lỗi thời nhưng vẫn được parse) và cả host IPv6 trong ngoặc vuông đều thuộc ngữ pháp chuẩn. URL API của trình duyệt xử lý tất cả — đó chính là lý do công cụ này ủy thác cho API ấy thay vì một regex viết tay: sự phân rã bạn thấy là sự phân rã máy chủ thấy.",
+        ],
+      },
+      {
+        heading: "Mã hóa, decode và các cái bẫy % kinh điển",
+        paragraphs: [
+          "Percent-encoding là chỗ parse URL trở nên tinh tế. Một giá trị như a%2Fb decode thành a/b — nhưng nếu giá trị ấy được mã hóa vì nó thực sự chứa dấu gạch, decode nó để hiển thị là đúng, còn coi nó là dấu phân tách path là sai. Công cụ này decode khóa và giá trị chính xác như máy chủ nhận sẽ làm, nên thứ bạn đọc là thứ ứng dụng thấy.",
+          "Khác biệt giữa + và %20 đánh lừa nhiều người. Theo quy ước application/x-www-form-urlencoded (form, một số framework), dấu cách được viết thành +; trong tiêu chuẩn URL đích thực, + chỉ là dấu cộng. Cùng một chuỗi ?q=a+b do đó có nghĩa là q=a b hay q=a+b tùy framework. Khi phân vân, dán tham số vào đây và đối chiếu với log backend của bạn.",
+          "Mã hóa còn là một công cụ kiểm toán: utm_source, fbclid, gclid và bạn bè trong một danh sách đã parse khiến tham số tracking không thể bị bỏ sót. Gỡ chúng khỏi link trước khi chia sẻ là một thắng lợi riêng tư nhỏ — các tham số ấy tồn tại để quy bạn về một chiến dịch, và chúng bám theo vào mọi URL được sao chép trừ khi bạn để ý.",
+        ],
+      },
+      {
+        heading: "Phân tích diễn ra trong trình duyệt của bạn",
+        paragraphs: [
+          "URL bạn soi không phải lúc nào cũng vô hại: link có chữ ký (S3 pre-signed URL, callback OAuth với code=… hay token=…) mang thông tin xác thực trong chuỗi query. Dán một link như vậy vào bộ parse phía máy chủ là truyền một thông tin xác thực còn sống cho bất kỳ ai vận hành nó. Công cụ này parse bằng URL API gốc của trình duyệt, hoàn toàn cục bộ — không gì rời thiết bị.",
+          "Parse cục bộ còn có nghĩa là bạn có thể ném rác vào nó một cách an toàn. Một URL suýt sai khuôn (thiếu scheme, dấu cách lạc, ký tự chưa mã hóa) được chấp nhận hoặc được giải thích, chứ không bị từ chối kèm một stack trace — vì parser URL của trình duyệt dễ dãi hơn một validator nghiêm ngặt và khớp với thứ máy chủ thực sự nhận.",
+          "Ghép nó với bộ decode URL khi cần soi các đoạn đã mã hóa bằng tay, hay với bộ mã hóa khi dựng chuỗi query — parse, chỉnh, mã hóa lại là một vòng nhanh hơn việc sửa URL thô bằng tay và cầu nguyện.",
+        ],
+      },
+    ],
   },
   "uuid-generator": {
     name: "Trình tạo UUID",
@@ -3786,6 +4174,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "UUID có được tạo trên máy chủ?",
         a: "Không. Chúng đến từ bộ sinh ngẫu nhiên mật mã của chính trình duyệt bạn và không bao giờ rời khỏi thiết bị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Một UUID v4 ngẫu nhiên đến mức nào",
+        paragraphs: [
+          "Một UUID phiên bản 4 mang 122 bit ngẫu nhiên; 6 bit còn lại bị định dạng cố định — nibble phiên bản luôn là 4 và hai bit của nhóm thứ ba là dấu hiệu variant. Bố cục đó (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx, với y thuộc 8, 9, a hay b) là phép kiểm tra nhanh bằng mắt xem một định danh có phải v4 đúng khuôn không, và cũng là lý do một UUID v4 không thể bị nén nhỏ hơn hiện trạng của nó.",
+          "Câu hỏi va chạm nổi lên mỗi khi ai đó sinh ID hàng loạt. Với 122 bit, toán cận sinh nhật nói bạn cần cỡ 10^36 UUID được sinh ra để một bản trùng trở nên khả dĩ — vượt xa mọi khối lượng công việc thực tế. Các va chạm thực dụng trong hệ thống thật truy về độ ngẫu nhiên hỏng, không phải định dạng: một bộ sinh giả ngẫu nhiên có seed dùng lại qua các máy chủ, hay một ID viết cứng trong fixture. Định dạng an toàn; nguồn ngẫu nhiên mới là thứ phải an toàn.",
+          "Công cụ này sinh qua crypto.randomUUID, nguồn an toàn mật mã của trình duyệt — cùng hồ ngẫu nhiên bảo vệ các phiên HTTPS — nên mỗi định danh khó đoán và an toàn để dùng làm ID tài nguyên không thể đoán. Tính chất đó quan trọng hơn tính duy nhất thô trong một số thiết kế: một ID không ai liệt kê được là kiểm soát truy cập bằng khó đoán làm đúng cách, miễn là máy chủ vẫn kiểm tra phân quyền.",
+        ],
+      },
+      {
+        heading: "v4 so với các phiên bản khác",
+        paragraphs: [
+          "Cả họ phiên bản trả lời những câu hỏi khác nhau. v1 nhúng dấu thời gian và thường là địa chỉ MAC của máy sinh — có thể sắp thứ tự, nhưng nó làm lộ nơi nào và khi nào nó được tạo, và một địa chỉ MAC công bố trong một ID tài liệu là một khuyết điểm riêng tư nhỏ. v4 không mang dấu thời gian hay danh tính phần cứng và không lộ gì — vì vậy nó trở thành mặc định cho các định danh hướng công khai.",
+          "Các phiên bản theo thứ tự thời gian mới hơn — v6 và v7, do RFC 9562 bổ sung năm 2024, với v7 dùng dấu thời gian Unix cộng độ ngẫu nhiên — tồn tại đúng cho bài toán cơ sở dữ liệu: tính ngẫu nhiên của v4 làm phân mảnh chỉ mục, trong khi ID theo thứ tự thời gian tụ các lần chèn lại như ULID. Nếu khóa của bạn nằm trong một bảng có chỉ mục lớn, v7 hay ULID thắng v4 về tính cục bộ ghi; nếu định danh của bạn xuất hiện trong URL, token hay bất cứ thứ gì người dùng nhìn thấy, độ mờ đục của v4 chính là tính năng.",
+          "Một quy tắc thực dụng: v4 làm mặc định ở khắp nơi, và đổi một cách chủ đích khi một yêu cầu — khả năng sắp thứ tự, khả năng nhúng, một parser cũ chỉ nhận v1 — đẩy bạn sang phiên bản khác. Trộn các phiên bản trong một không gian định danh là hợp lệ (nibble phiên bản phân biệt chúng) nhưng khiến việc xác thực phía sau chặt hơn, vì bên tiêu dùng không thể giả định một khuôn duy nhất.",
+        ],
+      },
+      {
+        heading: "Sinh ngay trên thiết bị của bạn, với số lượng nào cũng được",
+        paragraphs: [
+          "Các định danh đến từ bộ sinh ngẫu nhiên mật mã của trình duyệt và không bao giờ chạm máy chủ: các lô đến 500 cái hiện tức thì, chạy offline, và không gì được ghi log hay lưu lại. Tính cục bộ ấy có một góc riêng tư thiết thực — sinh một ID cho một tài liệu, một case hỗ trợ hay một sản phẩm chưa công bố trên website của người khác là gắn đối tượng đó vào log của bên thứ ba; ở đây việc sinh không để lại vết nào ngoài thiết bị của bạn.",
+          "Sinh hàng loạt là quy trình phổ biến: fixture test, seed cơ sở dữ liệu, tên file, request ID, bản nháp khóa API để phát sau. Sinh cả lô, sao chép một cú bấm, và coi danh sách ấy như một bí mật dùng một lần — dán vào nơi cần rồi xóa đi. Vì việc sinh diễn ra cục bộ và không có log, một lô không bao giờ đi qua máy chủ bên thứ ba trên đường đến dữ liệu của bạn.",
+          "Một lưu ý áp cho mọi bộ sinh: độ ngẫu nhiên từ trình duyệt mạnh nhưng không phải nguồn phần cứng được chứng nhận, và các khu vực pháp lý yêu cầu tuân thủ nghiêm ngặt đôi khi đòi entropy chứng nhận cho vật liệu khóa. Với định danh thường, request ID và fixture — phần áp đảo các cách dùng — nguồn trình duyệt là hơn đủ.",
+        ],
       },
     ],
   },
@@ -3816,6 +4230,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc định dạng diễn ra hoàn toàn trong trình duyệt; không có gì được gửi đi đâu cả.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Định dạng thực sự đổi gì — và không được đổi gì",
+        paragraphs: [
+          "XML có một cạnh sắc mà việc định dạng đi thẳng vào: khoảng trắng có ý nghĩa bên trong nội dung văn bản. Một bộ định dạng phải chuẩn hóa khoảng trắng giữa các phần tử để cây đọc được, đồng thời bảo toàn khoảng trắng bên trong phần tử — một khối <code>, một câu thơ, một câu SQL trong file cấu hình đều mất nghĩa nếu các khoảng trắng bên trong bị xếp lại. Công cụ này giữ nội dung văn bản nguyên vẹn (chỉ cắt ở mép) và giữ các đoạn CDATA đúng từng byte.",
+          "Mọi thứ khác được bảo toàn chứ không bị bịa: comment ở nguyên chỗ, CDATA sống sót nguyên trạng, chỉ thị xử lý và khai báo DOCTYPE đi qua. Bộ định dạng chỉ thụt lề lại — lồng nhau 2 dấu cách, văn bản ngắn giữ trên một dòng cùng các thẻ của nó — nên thứ bạn sao chép về parse thành đúng cùng cây với thứ đã dán vào.",
+          "Một lưu ý thuộc phần chữ nhỏ của mọi bộ định dạng trung thực: với hiếm hoi những tài liệu coi khoảng trắng giữa các phần tử là dữ liệu (nội dung pha trộn nơi một dấu cách lạc giữa hai phần tử là có nghĩa), mọi lần thụt lề lại đều thay đổi tài liệu. Với sitemap, RSS, file cấu hình và SOAP — phần áp đảo XML thật — khoảng trắng giữa các phần tử bị mọi bên tiêu dùng bỏ qua, và định dạng là an toàn.",
+        ],
+      },
+      {
+        heading: "Đọc XML theo cách cấu trúc của nó muốn",
+        paragraphs: [
+          "Một tài liệu XML một dòng đúng về mặt kỹ thuật và không đọc được trên thực tế — trạng thái thường trực của sitemap do máy sinh, phản hồi API và bản xuất cấu hình đã min. Thụt lề mua cho bạn khả năng nhìn thấy cây: phần tử nào là anh em, phần tử nào lồng trong phần tử nào, một cấu trúc lặp lại lặp ở đâu. Một khi nhìn thấy được, các câu hỏi debug tự trả lời — phần tử này có nằm trong đúng cha không, <item> của feed có lặp đúng dự kiến không, vì sao phần tử rỗng này ở đây.",
+          "Tài liệu dài hưởng lợi từ một lượt thứ hai: sau khi định dạng, hãy soát độ sâu. Cấu trúc lồng hơn bốn hay năm tầng thường báo một sai lầm ánh xạ — tài liệu XML sâu vậy khó tiêu thụ và khó soát bằng mắt. Cũng đáng quét danh sách thuộc tính cùng lúc; thuộc tính trùng hay thuộc tính lẽ ra phải là phần tử hiện rõ một khi tài liệu đã có hình.",
+          "Định dạng còn làm nhiệm vụ kiểm tra toàn vẹn rẻ tiền: nếu bộ định dạng từ chối đầu vào của bạn, có gì đó gãy trước khi bạn tốn thời gian debug phía hạ nguồn. Ghép với bộ validator để nhận thông báo lỗi chính xác, rồi định dạng để đọc, rồi đưa tài liệu đã định dạng cho bên tiêu dùng — nó parse y hệt, và người tiếp theo mở nó bắt đầu từ một nền đọc được.",
+        ],
+      },
+      {
+        heading: "Định dạng cục bộ, không upload gì",
+        paragraphs: [
+          "Việc định dạng chạy hoàn toàn trong trình duyệt của bạn: XML không bao giờ rời thiết bị, chạy offline, và không có trần upload ngoài bộ nhớ. Các tài liệu bạn định dạng thường thuộc loại nhạy cảm — cấu hình dịch vụ nội bộ, phản hồi SOAP có dữ liệu phiên, payload API riêng tư, file dưới NDA. Gửi bất kỳ tài liệu nào trong số đó tới một bộ định dạng trực tuyến để được in đẹp là một lần tiết lộ nhỏ nhưng tránh được; định dạng cục bộ xóa luôn câu hỏi.",
+          "Nó còn khiến công cụ vừa với việc lặp: dán, đọc, chỉnh nguồn, dán lại — mỗi vòng tức thì vì không gì đi qua mạng. Với tài liệu lớn điều này có ý nghĩa thiết thực: việc định dạng là một lượt nhanh duy nhất, và file nhiều megabyte lẽ ra phải là thời gian upload trên công cụ dựa máy chủ thì được xử lý tại chỗ, bị chặn chỉ bởi thiết bị của bạn.",
+          "Quy trình khép lại với các công cụ XML khác của trang: validate trước để nhận lỗi chính xác, định dạng để đọc, chuyển bằng XML to JSON khi bên tiêu dùng nói tiếng JSON. Vì cả ba chạy cục bộ, toàn bộ vòng — kiểm tra, đọc, chuyển đổi — diễn ra được trên một máy không có mạng, và đó thường là chính xác nơi những tài liệu này sống.",
+        ],
+      },
+    ],
   },
   "xml-validator": {
     name: "XML Validator",
@@ -3842,6 +4282,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "XML của tôi có được gửi đi đâu?",
         a: "Không. Việc kiểm tra chạy trong trình duyệt bằng DOMParser gốc — dữ liệu không bao giờ rời khỏi thiết bị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Well-formedness: những quy tắc mọi bên tiêu dùng đều thực thi",
+        paragraphs: [
+          "Bộ validator ở đây trả lời đúng một câu hỏi — tài liệu này có là XML well-formed không? — bằng chính parser XML của trình duyệt, thứ thực thi chính xác những gì công cụ XML thật thực thi. Danh sách quy tắc ngắn nhưng tuyệt đối: mọi thẻ mở phải đóng, và theo đúng thứ tự; thuộc tính phải được bọc quote và xuất hiện một lần mỗi phần tử; tham chiếu thực thể phải được định nghĩa; một tài liệu có đúng một phần tử gốc; ký tự bất hợp pháp (ký tự điều khiển, dấu < hay & lạc trong văn bản) bị từ chối.",
+          "Đây không phải quy tắc phong cách mà là những bức tường chịu lực của định dạng. Một thẻ lệch không phải một cảnh báo — nó khiến tài liệu không thể parse với mọi bên tiêu dùng phía hạ nguồn, từ trình duyệt đến trình đọc feed đến một stack SOAP. Vì vậy thất bại validation chặn đường ống: không tồn tại thứ “suýt well-formed” cho parser làm việc. Mặt thuận là việc vượt qua là một tuyên bố mạnh: bất kỳ thư viện XML nào ở đâu cũng mở được tài liệu.",
+          "Điều vượt qua KHÔNG có nghĩa: tài liệu hợp lệ theo một schema. Một tài liệu có <price> chứa “free” thay vì một con số, hay thiếu một phần tử bắt buộc, có thể well-formed hoàn hảo mà vẫn sai. Validation theo schema (XSD hay DTD) là một việc riêng, chặt hơn, cần định nghĩa schema của bạn — công cụ này cho bạn biết tài liệu parse được; chỉ bạn mới nói được nó có nghĩa lý gì.",
+        ],
+      },
+      {
+        heading: "Đọc các lỗi: những nghi phạm quen thuộc",
+        paragraphs: [
+          "Các thất bại phổ biến nhất tầm thường. Một thẻ chưa đóng — thường do một thẻ đóng bị xóa hay đổi tên — chồng đổ: parser báo ở chỗ cấu trúc cuối cùng gãy, có thể xa rất nhiều so với chỗ sai thật. Thuộc tính không bọc quote (id=7 thay vì id=\"7\") là bất hợp pháp ở khắp nơi; các thói quen HTML như <br> và <img ...> không tự đóng cũng bị từ chối, vì XML không có đóng tùy chọn.",
+          "Rắc rối thực thể là họ thứ hai. Một dấu & trần trong văn bản mở đầu một tham chiếu thực thể và phải viết thành &amp;; một dấu < lạc cũng phải thành &lt;. Dán nội dung từ HTML hay từ bộ xử lý văn bản là nguồn quen thuộc — những môi trường đó dung thứ những thứ XML không dung thứ. Thực thể không hợp lệ hay chưa định nghĩa (&nbsp; trong một tài liệu không có khai báo namespace XHTML, chẳng hạn) cũng gãy.",
+          "Vòng debug thực dụng ngắn: sửa lỗi đầu tiên được báo, chạy lại, lặp. Lỗi chồng lên nhau, nên lỗi đầu thường là nguyên nhân gốc và các lỗi sau chỉ là tiếng vọng. Khi đầu vào đến từ chuyển đổi hay sinh ra thay vì sửa tay, vị trí lỗi thường chỉ vào bug của mã sinh ra nó, không phải vào dữ liệu.",
+        ],
+      },
+      {
+        heading: "Vì sao validate ngay trong trình duyệt",
+        paragraphs: [
+          "Phép kiểm tra chạy trên DOMParser gốc của trình duyệt — XML của bạn không bao giờ rời thiết bị, và không có upload, không giới hạn tần suất, không vết. Các tài liệu bạn validate thường là loại mật: payload dịch vụ nội bộ, sitemap chưa công bố, phong bì SOAP có thông tin xác thực, file dưới lệnh pháp lý. Một bộ validator tải chúng lên biến mỗi lần kiểm tra thành một lần tiết lộ; validation cục bộ xóa sạch rủi ro ấy.",
+          "Cục bộ còn có nghĩa là vừa với việc lặp: dán, đọc lỗi, sửa, dán lại — mỗi vòng vài giây, chạy offline, và xử lý tài liệu nhiều megabyte bị chặn chỉ bởi bộ nhớ. Nó ghép tự nhiên với bộ định dạng (parse sạch cộng cấu trúc đọc được) và với XML to JSON (validate trước khi chuyển, để một lỗi sai khuôn schema không giả làm bug chuyển đổi).",
+          "Một giới hạn đáng nói thẳng: parser của trình duyệt thực thi well-formedness với độ trung thực cao, nhưng nó không tải DTD bên ngoài hay thực hiện validation theo schema. Nếu đường ống của bạn đòi XSD, công cụ này là cánh cổng rẻ đầu tiên — bắt mọi lỗi cấu trúc ở đây, và chỉ gửi tài liệu sạch tới bộ validator schema, nơi thất bại khi đó thực sự nghĩa là vi phạm schema.",
+        ],
       },
     ],
   },
@@ -3875,6 +4341,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Dùng redirect 301 khi bản trùng nên đưa người dùng đi nơi khác, noindex khi nó phải truy cập được nhưng nằm ngoài kết quả, và canonical khi cả hai phiên bản phải cùng sống và được thu thập.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao URL trùng tồn tại và việc hợp nhất nghĩa là gì",
+        paragraphs: [
+          "URL trùng không phải một sai lầm — chúng là sản phẩm tự nhiên của cách website vận hành. Cùng một trang truy cập được có dấu gạch cuối và không có, qua http và https, có và không www, kèm tham số UTM gắn bởi mọi link chiến dịch, kèm tham số sắp xếp và lọc trên trang liệt kê, và qua bản xem in hay amp. Máy chủ trả lời tất cả chúng bằng nội dung y hệt; các công cụ tìm kiếm, không thấy chỉ dẫn nào, đánh chỉ mục chúng như những tài liệu riêng biệt.",
+          "rel=canonical chính là chỉ dẫn: nó nói “những địa chỉ này là bản sao; hãy gộp tín hiệu của chúng vào địa chỉ này”. Hợp nhất quan trọng vì tín hiệu xếp hạng — link, cú nhấp, ước lượng chất lượng — gắn vào URL nơi chúng được kiếm được. Chia trên năm bản trùng, một trang tự cạnh tranh với chính nó; hợp nhất rồi, nó cạnh tranh với trang bạn thực sự muốn vượt.",
+          "Thẻ là một gợi ý mạnh, không phải mệnh lệnh. Google kết hợp nó với mẫu liên kết nội bộ, mục sitemap và hành vi redirect, và lặng lẽ ghi đè một canonical mâu thuẫn với mọi thứ khác trên trang. Đó là lý do một thẻ canonical chống lại chính sitemap hay điều hướng của bạn thường thua — sự đồng thuận giữa các tín hiệu đánh bại sự đúng đắn trên một tín hiệu đơn lẻ.",
+        ],
+      },
+      {
+        heading: "Những kiểu dùng sai kinh điển, và tự tham chiếu làm mặc định",
+        paragraphs: [
+          "Các kinh điển của buổi audit: URL tương đối thay vì tuyệt đối, một #fragment mà máy chủ không bao giờ thấy, một canonical trỏ vào một redirect 301 (các công cụ tìm kiếm phải đi hết chuỗi, và một số không làm), một canonical nhắm vào trang noindex (chỉ dẫn mâu thuẫn — chọn một), và canonical về trang chủ trên mọi trang liệt kê phân trang — thực chất là xin cho các trang 2+ bị gỡ khỏi chỉ mục.",
+          "Thói quen hiệu quả nhất là tự tham chiếu làm mặc định: mọi trang tự tuyên bố canonical, kể cả những trang duy nhất. Nó không tốn gì và tạo miễn dịch với các biến thể chưa ai để ý — một tham số do plugin thêm vào tháng sau, một sự bất nhất dấu gạch cuối do một lần nâng cấp framework mang lại. Chính thẻ tự tham chiếu khiến biến thể đầu tiên vô hại thay vì là một khám phá.",
+          "Chọn giữa các công cụ là một quyết định mỗi lần: 301 redirect khi bản trùng nên thực sự đưa người dùng đi chỗ khác, noindex khi nó phải vẫn truy cập được nhưng ngoài kết quả (điều hướng phân khúc, tìm kiếm nội bộ), canonical khi cả hai phiên bản phải sống và thu thập được song song. Trộn chúng — một trang noindex mà canonical trỏ đi chỗ khác — gửi tín hiệu mâu thuẫn và làm chậm mọi thứ.",
+        ],
+      },
+      {
+        heading: "Các chi tiết chuẩn hóa mà bộ sinh này xử lý thay bạn",
+        paragraphs: [
+          "Một URL canonical phải tuyệt đối — gồm cả scheme và host — và mỗi trang chỉ mang đúng một cái. Bộ sinh viết thường scheme và host (host không phân biệt hoa thường trên dây, nhưng một canonical hỗn hợp hoa thường là một bản gần-trùng nữa với công cụ tìm kiếm), áp một quyết định dấu gạch cuối nhất quán khắp trang, giữ tham số query chỉ khi có chủ đích, và cắt fragment vốn chỉ thuộc về máy khách.",
+          "Thứ tự tham số là điều tinh tế: ?b=1&a=2 và ?a=2&b=1 là cùng một tài nguyên nhưng hai chuỗi khác nhau, và một số crawler coi chúng khác nhau. Canonical giải quyết chuyện đó sau sự việc; bản vá sạch hơn là sắp xếp và cắt gọn tham số phía máy chủ. Nếu bạn buộc phải giữ tham số trong canonical, hãy giữ cả dạng chuẩn của chuỗi tham số.",
+          "Việc xác minh thuộc về URL Inspection của Search Console, nơi báo URL nào Google thực sự chọn cho trang — thẻ, sitemap và các link nội bộ có thể đều đúng riêng lẻ mà vẫn thua một chuỗi redirect. Mọi thứ ở đây chạy trong trình duyệt của bạn: không URL nào bạn gõ được upload đi đâu.",
+        ],
+      },
+    ],
   },
   "hreflang-generator": {
     name: "Trình tạo hreflang",
@@ -3901,6 +4393,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "hreflang có thay thế thẻ canonical?",
         a: "Không. Mỗi phiên bản ngôn ngữ vẫn cần canonical tự trỏ riêng. hreflang chọn giữa các trang dịch tương đương; canonical xử lý bản trùng trong cùng một ngôn ngữ.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tính qua lại và x-default: hai quy tắc quyết định tất cả",
+        paragraphs: [
+          "Các cụm hreflang được kiểm chứng như một đồ thị, không phải từng thẻ riêng lẻ. Các công cụ tìm kiếm thu thập mọi link rel=alternate hreflang từ mọi trang, và một cụm chỉ hoạt động khi nó khép kín: trang A liệt kê B và chính nó, B liệt kê A và chính nó, v.v. cho mọi thành viên. Một link hồi đáp bị thiếu — thường là một trang có phần head chưa bao giờ được cập nhật — và các engine coi cụm là chưa hoàn chỉnh, triệt tiêu chính những trang bạn đang định điều hướng.",
+          "Đó là lý do thất bại im lặng một cách khó chịu: chẳng có lỗi nào, các trang đơn giản không đổi chỗ cho nhau trong kết quả như lẽ ra. Audit nghĩa là quét toàn bộ thành viên và diff các cụm của chúng — mệt mỏi, vì vậy sinh cả khối từ một đầu vào và dán cùng một bộ ở khắp mọi nơi là quy trình đáng tin.",
+          "x-default là câu trả lời của cụm cho “không cái nào ở trên”: người dùng có ngôn ngữ và vùng không khớp phiên bản nào được khai báo sẽ nhận URL này. Hãy trỏ nó vào một trang chọn ngôn ngữ hay trang chủ ngôn ngữ mặc định. Nó là tùy chọn, nhưng thiếu nó, khách truy cập không khớp nhận một lựa chọn tùy hứng — thường là phiên bản tiếng Anh, bất kể có hợp khán giả của bạn hay không.",
+        ],
+      },
+      {
+        heading: "Đọc BCP 47 cho đúng: ngôn ngữ trước, vùng chỉ khi có ý nghĩa",
+        paragraphs: [
+          "Các giá trị là thẻ ngôn ngữ BCP 47, và các subtag mang nghĩa khác nhau. Subtag chính là ngôn ngữ (en, pt, zh); subtag vùng (GB, BR, CN) chọn khán giả theo địa lý; subtag chữ viết (Hans, Hant) chọn hệ chữ. Một en trần khớp mọi người nói tiếng Anh ở mọi nơi; en-GB nhắm riêng người dùng Anh.",
+          "Lỗi phổ biến là phân mảnh thái quá bằng vùng: các thẻ en-US, en-GB, en-AU, en-CA cùng trỏ vào một nội dung. Nếu nội dung y hệt nhau, khai báo một en và để nó khớp mọi người — thẻ vùng dành cho nội dung thực sự khác nhau, như chính tả và tiền tệ của pt-BR khác pt-PT, hay fr-CA khác fr-FR. Các biến thể vùng thừa với nội dung giống nhau tạo ra chính những bản gần-trùng mà hreflang được sinh ra để giải quyết.",
+          "Tiếng Trung là ca chữ viết kinh điển: zh một mình là chưa đủ xác định, zh-Hans và zh-Hant chọn giản thể và phồn thể. Và nhớ những gì hreflang không làm: nó điều hướng khán giả giữa các trang tương đương, nhưng không hợp nhất tín hiệu xếp hạng — mỗi phiên bản ngôn ngữ vẫn cần canonical tự tham chiếu riêng và các link tự kiếm riêng.",
+        ],
+      },
+      {
+        heading: "Chú thích sống ở đâu, và hreflang không làm gì",
+        paragraphs: [
+          "Ba vị trí mang cùng một chú thích: phần tử <link> trong head (dễ audit từng trang nhất, thứ bộ sinh này phát ra), HTTP Link header (đúng cho các file không phải HTML như PDF), và một cột trong sitemap XML (con đường thực dụng duy nhất ở hàng nghìn URL, nơi link trong head trở nên không bảo trì nổi). Chọn đúng một kênh cho mỗi trang — nhân bản qua nhiều kênh mời sự bất nhất.",
+          "Nói thẳng về phạm vi: hreflang ảnh hưởng phiên bản nào được phục vụ cho khán giả nào; nó không phải một cú đẩy xếp hạng, không phải chỉ dẫn dịch bất cứ thứ gì, và không thay thế các nền tảng mà hreflang không nhìn thấy — link hồi đáp đúng, URL thu thập được, và canonical riêng cho từng phiên bản. Google kiểm chứng từng thẻ nghiêm ngặt: một giá trị sai khuôn (thiếu dấu gạch, mã nước gõ sai) có thể làm bẩn cả cụm nó thuộc về — vì vậy phát đúng định dạng từ bộ sinh thắng việc gõ tay.",
+        ],
       },
     ],
   },
@@ -3931,6 +4448,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không có bộ tách từ thật, văn bản CJK được đếm theo ký tự cho token đơn và theo cặp ký tự cho cụm hai từ — ước lượng tốt để phát hiện từ bị lạm dụng, không phải phân tích ngôn ngữ học.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Huyền thoại lỗi thời: mật độ từ khóa như một đích xếp hạng",
+        paragraphs: [
+          "Mật độ từ khóa từng là một ý tưởng hợp lý thập niên 90 và đầu 2000: xếp tài liệu theo tần suất các từ truy vấn xuất hiện trong đó, và các webmaster tinh chỉnh trang về một ngưỡng ma thuật đời nào — 2%, 3%, tùy diễn đàn SEO tuần đó tuyên bố. Thế giới ấy đã qua. Các hệ thống xếp hạng hiện đại dùng embeddings, mô hình chủ đề và tín hiệu chất lượng để đánh giá trang có phủ tốt một chủ đề hay không, chứ không phải một cụm từ có vượt một vạch số hay không.",
+          "Tệ hơn, săn ngưỡng bây giờ còn bị đọc thành tín hiệu âm tính. Văn bản lặp một cụm từ vượt mức tự nhiên chính xác là thứ các bộ lọc spam, người chấm chất lượng và công thức độ dễ đọc được dựng để bắt. Một trang nhồi đến 5% nhiều khả năng bị hạ hơn được nâng; cụm từ người ta tinh chỉnh thái quá lại chính là cụm từ thuật toán canh chừng.",
+          "Vậy công cụ này thực sự để làm gì? Chế độ thất bại vẫn còn tồn tại: một trang không bao giờ nói rõ chủ đề của nó, hay trôi giữa bản thảo sang vốn từ liên quan nhưng khác. Nếu các cụm từ đầu bảng của bộ kiểm tra là thứ bạn muốn xếp hạng, ổn; nếu cụm từ mục tiêu của bạn không xuất hiện trong ba mươi đầu, trang có một vấn đề thật mà không quy tắc mật độ nào sửa nổi.",
+        ],
+      },
+      {
+        heading: "Mẫu số, stopword và n-gram",
+        paragraphs: [
+          "Mật độ là một phân số, và mẫu số quyết định tất cả. Đếm trên token thô, các từ chức năng thống trị: trong văn xuôi tiếng Anh thường, the, of và to luôn là các thuật ngữ đầu bảng, và chủ đề của bạn chìm. Loại stopword biến phép đếm thành tỷ trọng của từ nội dung — phiên bản có thể cho bạn biết điều gì đó về trang.",
+          "Từ đơn cũng là đơn vị sai cho đa số tìm kiếm. Truy vấn là cụm — best running shoes, hotel in london — nên công cụ này đếm bigram và trigram cạnh token đơn. Chú ý sự tương tác stopword: khi stopword bị loại, hotel in london gộp thành bigram hotel london, thường gần với dạng truy vấn thật hơn. Hãy so sánh cả hai góc nhìn thay vì tin một cái.",
+          "Văn bản CJK được đếm trung thực nhưng xấp xỉ: không có phân đoạn từ thật, token đơn tiếng Trung và tiếng Nhật được đếm theo ký tự và cụm hai từ theo từng cặp ký tự kề nhau. Đủ để phát hiện một ký tự hay cụm bị dùng thái quá — công việc thật của bộ kiểm tra — nhưng đó không phải phân đoạn ngôn ngữ, nên hãy coi các phần trăm như một chẩn đoán, không phải một phép đo.",
+        ],
+      },
+      {
+        heading: "Một quy trình đọc thực dụng",
+        paragraphs: [
+          "Dùng phần đầu của danh sách 1 từ làm phép kiểm tra thực tế chủ đề: các thuật ngữ ở đó nên gọi tên chủ đề của bạn. Quét danh sách 2 từ và 3 từ tìm các cụm bạn đang nhắm; nếu vắng mặt, hãy viết chúng vào một cách tự nhiên thay vì lặp lại một khúc cụm nhiều lần hơn.",
+          "Canh các kẻ thắng tình cờ. Bản thảo viết quanh một tựa làm việc thường mang một cụm thống trị không ngờ — một tên mã sản phẩm, tên khách hàng, một câu cửa miệng lặp lại. Biết trang của bạn “đọc theo chủ đề” hơi khác ý định đáng giá hơn bất kỳ đích phần trăm nào.",
+          "Và giữ mọi thứ đúng tỷ lệ: công cụ mật độ đọc văn bản của bạn cô lập, trong khi công cụ tìm kiếm đọc nó đối chiếu cả kho dữ liệu và lịch sử site của bạn. Một phép đếm cục bộ, trong trình duyệt, chạy tức thì và không bao giờ upload bản thảo chưa công bố là một công cụ cho giai đoạn bản thảo — các con số dành cho bạn, phán quyết vẫn là của bạn.",
+        ],
+      },
+    ],
   },
   "meta-tag-generator": {
     name: "Trình tạo thẻ Meta",
@@ -3957,6 +4500,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Thẻ meta robots kiểm soát gì?",
         a: "index/noindex quyết định trang có được xuất hiện trong kết quả; follow/nofollow quyết định liên kết có truyền sức mạnh hay không. Nó phải nằm trên chính trang — robots.txt không thể noindex bất cứ thứ gì.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Độ dài title được đo bằng pixel, không phải ký tự",
+        paragraphs: [
+          "Lời khuyên “50–60 ký tự” là một quy tắc ngón tay cái đứng thay cho ràng buộc thật: trang kết quả trên desktop cắt title theo một ngân sách pixel — cỡ 580px ở font Google render. Cùng 60 ký tự đó trải rất khác nhau theo hệ chữ: một title Latin toàn chữ hoa đốt pixel nhanh, trong khi glyph CJK gần vuông và một title tiếng Nhật 30 ký tự có thể rộng hơn một title tiếng Anh 55 ký tự.",
+          "Bị cắt không phải tử vong — Google vẫn đọc trọn thẻ — nhưng phần nhìn thấy là tất cả những gì người tìm thấy thấy trước khi quyết nhấp, nên các từ quan trọng phải ngồi trước vạch cắt. Chỗ tệ nhất cho một tên thương hiệu là cuối một title dài, nơi nó là thứ đầu tiên bị xóa.",
+          "Một lần cắt thứ hai, lặng hơn, cai quản description: Google viết lại đa số title và phần lớn description khi chúng sai kích thước hay trùng lặp, rút câu từ thân trang thay vào. Một description gần 150–160 ký tự là một lời xin, không phải một bảo đảm; viết một description khớp nội dung thật của trang khiến lần viết lại — khi nó xảy ra — bớt tàn phá.",
+        ],
+      },
+      {
+        heading: "robots meta khác robots.txt — tầng khác nhau, việc khác nhau",
+        paragraphs: [
+          "Thẻ meta robots và robots.txt hay bị nhầm vì cả hai đều có chữ “robot” trong tên, nhưng chúng cai quản các tầng khác nhau. robots.txt cai quản việc lấy dữ liệu: một URL bị disallow sẽ không được crawl. Thẻ meta cai quản việc đánh chỉ mục: index/noindex quyết định trang đã lấy có được xuất hiện trong kết quả không, follow/nofollow quyết định các link của nó có chuyển trọng số không. Một trang bị robots.txt chặn vẫn có thể xuất hiện trong kết quả nếu các trang khác link đến nó — chặn không phải noindex.",
+          "Phát hiện audit kinh điển là lỗi ngược: một trang noindex mà robots.txt chặn. Crawler không bao giờ lấy trang, không bao giờ thấy noindex, và chỉ dẫn nằm đó không ai đọc. Nếu một trang phải rời chỉ mục, thẻ meta phải được chạm tới trước đã.",
+          "Bên trong thẻ, các giá trị kết hợp: index,follow là mặc định và thường bị bỏ qua, noindex,follow giữ trang ngoài kết quả trong khi vẫn cho crawl link của nó, và noarchive, nosnippet cùng bạn bè điều chỉnh các tính năng kết quả cụ thể. Một robots meta cho mỗi trang — các bản trùng trong head được giải quyết một cách khó đoán.",
+        ],
+      },
+      {
+        heading: "Bộ sinh nên và không nên phát ra gì",
+        paragraphs: [
+          "Meta keywords là hiện vật cảnh tỉnh: Google bỏ qua nó từ 2009, Bing có thể coi nó là tín hiệu spam, và việc giữ nó sống trong template chủ yếu báo với người audit một trang không được bảo trì. Bộ sinh này vẫn có nó chỉ vì một số engine ngách và nền tảng tìm kiếm nội bộ vẫn đòi — hãy để trống trừ khi có thứ gì tường minh yêu cầu.",
+          "Thẻ viewport, ngược lại, là con ngựa thồ thầm lặng: sự vắng mặt của nó là lỗi khả dụng di động phổ biến nhất, và thiếu một thẻ có thể gắn cờ mọi trang của site trong các phép kiểm thân thiện di động. Author và các thẻ mô tả khác mang rất ít trọng lượng xếp hạng nhưng không tốn gì và làm đầy head.",
+          "Escape thuộc tính quan trọng hơn vẻ ngoài: một description chứa dấu nháy âm thầm làm gãy một template chưa escape, cắt cụt head giữa chừng thuộc tính. Mọi thứ công cụ này phát ra đều đã HTML-escape, và các trường trống bị bỏ qua thay vì phát thành thẻ rỗng — một head chẳng nói gì hai lần là một head giữ được nhất quán. Mọi việc sinh diễn ra cục bộ trong trình duyệt của bạn.",
+        ],
       },
     ],
   },
@@ -3987,6 +4556,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Dùng website cho trang chủ và trang tổng quát, article cho tin tức và bài blog (thêm article:published_time nếu có thể), và product cho trang chi tiết thương mại điện tử. Kiểu này ảnh hưởng cách một số nền tảng phân loại liên kết.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Các nền tảng thực sự tiêu thụ các thẻ này thế nào",
+        paragraphs: [
+          "Không gian tên Open Graph ra đời tại Facebook khoảng 2010 như một cách biến bất kỳ trang nào thành một đối tượng đồ thị giàu có, và phần còn lại của ngành nhận nó làm bộ từ vựng thẻ chia sẻ trên thực tế: X, LinkedIn, WhatsApp, Slack, Discord và iMessage đều đọc og:title, og:description và og:image trước tiên. Twitter giữ không gian tên riêng nhưng fallback về các giá trị og: cho mọi thứ không được cung cấp tường minh.",
+          "Việc tiêu thụ dựa trên crawler, không dựa trên người dùng: khi ai đó dán URL của bạn, bot của nền tảng lấy trang một lần và cache thẻ lại. Đó là lý do sửa thẻ chẳng đổi gì cho tới khi bạn ép làm mới trong bộ debug của nền tảng — Sharing Debugger của Facebook, Card Validator của X, Post Inspector của LinkedIn — và lý do đổi ảnh mà không đổi tên file thường vẫn phục vụ bức ảnh cũ từ cache.",
+          "Thuộc tính og:url làm nhiều hơn vẻ ngoài: nó tuyên bố danh tính canonical của đối tượng được chia sẻ, và đa số nền tảng coi nó là khóa mà các lượt thích và tổng kết chia sẻ được nhóm dưới đó. Giữ nó trùng với rel=canonical của bạn tránh việc chia tách tương tác qua các biến thể URL của cùng một trang.",
+        ],
+      },
+      {
+        heading: "Bức ảnh 1200×630 và các chế độ thất bại của nó",
+        paragraphs: [
+          "Tỷ lệ 1.91:1 tồn tại vì thumbnail link của Facebook thiết lập nó, và mọi thứ khác theo sau; 1200×630 là kích thước cắt gọn sạch trên mọi mặt chính. Ảnh ngoài tỷ lệ bị cắt lấy giữa, và phép cắt là nơi làm mất chữ của bạn — hãy giữ mọi chữ trên ảnh trong vùng an toàn trung tâm thay vì ôm sát mép.",
+          "Trong thực tế, dung lượng quan trọng hơn kích thước: nhiều nền tảng thẳng tay từ chối lấy ảnh trên vài MB, và một ảnh chậm nghĩa là thẻ đi ra với một chỗ trống. URL tuyệt đối là bắt buộc — crawler lấy trang rồi mới lấy ảnh, và một path tương đối phân giải theo sai ngữ cảnh hoặc không phân giải gì cả.",
+          "og:image:alt là thắng lợi bị bỏ qua nhiều nhất và rẻ nhất: đó là thứ trình đọc màn hình đọc khi thẻ được chia sẻ, và một số nền tảng hiển thị nó làm văn bản thay thế nếu ảnh không tải được. Viết nó là một câu; bỏ qua nó nghĩa là mọi người dùng trợ năng của mọi lần chia sẻ nhận một mô tả trống.",
+        ],
+      },
+      {
+        heading: "Vì sao cả hai không gian tên, và bản xem trước không hứa gì",
+        paragraphs: [
+          "Mức tối thiểu trung thực là bộ og: cộng twitter:card, twitter:site và tùy chọn twitter:creator — twitter:title, twitter:description và twitter:image là nhân bản thuần túy trên đa số site. Thẻ twitter: duy nhất mang thông tin không thể thay thế là twitter:card: nó chọn summary_large_image (thẻ ảnh rộng) hay summary (ô vuông nhỏ), điều không có og: tương đương nào quyết định.",
+          "og:type quan trọng cho việc phân loại hơn là hiển thị: article báo hiệu nội dung tin tức/blog (ghép với article:published_time khi có), product đánh dấu trang chi tiết thương mại điện tử, và website là mặc định cho mọi thứ khác. Các nền tảng dùng nó để chọn cách ngữ cảnh hóa link trong feed và ứng dụng nhắn tin.",
+          "Bản xem trước trực tiếp xấp xỉ một thẻ ảnh lớn và một thẻ summary bằng render cục bộ, nhưng mỗi nền tảng cắt, thu và bố trí khác nhau — hãy coi nó là phép kiểm tra thực tế cho độ dài chữ và sự hiện diện của ảnh, rồi xác nhận thứ thật trong bộ debug chính thức của từng nền tảng trước khi trang ra mắt.",
+        ],
+      },
+    ],
   },
   "robots-txt-generator": {
     name: "Trình tạo robots.txt",
@@ -4013,6 +4608,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao trang tôi vẫn được lập chỉ mục sau khi Disallow?",
         a: "Chặn thu thập không phải chặn lập chỉ mục: nếu trang khác liên kết tới URL đó, Google vẫn có thể lập chỉ mục mà không có nội dung. Muốn gỡ trang khỏi kết quả, hãy cho phép thu thập và dùng thẻ meta noindex thay thế.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "robots.txt thực sự được parse thế nào: nhóm và khớp tiền tố",
+        paragraphs: [
+          "Giao thức nhỏ đủ để nằm trong đầu một khi bạn thấy hai quy tắc của nó. Thứ nhất, gom nhóm: một bot chỉ đọc đúng một nhóm cụ thể nhất có các dòng User-agent gồm nó — không phải tất cả các nhóm gộp lại. Nếu GPTBot xuất hiện trong một khối và cả dưới wildcard *, các quy tắc của wildcard biến mất đối với GPTBot. Đó là lý do bộ sinh này gộp các user-agent dùng chung một quy tắc vào một nhóm thay vì phát các khối song song âm thầm hủy nhau.",
+          "Thứ hai, khớp: path khớp tiền tố phân biệt hoa thường, đánh giá theo cái dài trước, với đúng hai ký tự mẫu — * làm wildcard và $ làm neo cuối. Disallow: /search chặn /search, /searching và /search/x alike; Disallow: /search$ chỉ chặn đúng path ấy. Và một Disallow: trần không giá trị nghĩa là cho phép tất cả — điều làm vấp các file viết tay.",
+          "Hai sự thật cấu trúc khép lại bức tranh: chỉ file ở gốc hostname mới áp dụng — các quy tắc trên example.com không bao giờ phủ blog.example.com, vốn cần file riêng — và một file tự xưng là robots.txt ở bất kỳ đâu khác chỉ là văn bản. Cả chỉ thị sitemap lẫn crawl-delay không thuộc tiêu chuẩn gốc: crawl-delay được một số crawler tôn trọng (Bing) và bị cái lớn nhất bỏ qua (Google hướng bạn sang các cài đặt của Search Console).",
+        ],
+      },
+      {
+        heading: "Crawl không phải đánh chỉ mục: cặp bài với noindex",
+        paragraphs: [
+          "Sự hiểu lầm hệ trọng nhất về robots.txt là Disallow gỡ một trang khỏi kết quả tìm kiếm. Nó làm điều ngược lại trong một ca phổ biến: URL không được lấy, nên crawler không bao giờ thấy nội dung — nhưng nếu các trang khác link đến nó, công cụ tìm kiếm vẫn có thể liệt kê URL như một mục không có snippet. Bạn chặn crawl và nhận được một URL đã đánh chỉ mục mà không cách nào gắn noindex.",
+          "Các cặp đúng: muốn crawler tránh hẳn một mục, Disallow nó và chấp nhận rằng các URL có link đến vẫn có thể nổi lên trần trụi. Muốn gỡ trang khỏi kết quả, hãy để chúng crawl được và dùng thẻ meta noindex hay HTTP header X-Robots-Tag. Muốn gỡ nhanh, dùng công cụ gỡ của Search Console, không phải robots.txt.",
+          "Cùng logic ấy giải thích vì sao Disallow cộng noindex là một mâu thuẫn: bot bị chặn không lấy dữ liệu không bao giờ đọc được thẻ xin nó rút khỏi danh sách. Mỗi lần triển khai noindex nên bắt đầu bằng một phép kiểm tra rằng trang thực sự chạm tới được.",
+        ],
+      },
+      {
+        heading: "AI crawler, và những giới hạn trung thực của file",
+        paragraphs: [
+          "Menu chính sách AI-crawler tồn tại vì các user agent còn mới và các đánh đổi thực sự khác nhau: các crawler cạnh tìm kiếm như OAI-SearchBot và PerplexityBot có thể mang khách đến cho bạn, các cái tập trung huấn luyện như GPTBot, ClaudeBot, Google-Extended và CCBot không đóng góp gì cho traffic giới thiệu, còn Bytespider được một số nhà vận hành site quan sát là bỏ qua chỉ dẫn hoàn toàn. Quyết định theo từng bot chính là ca mà khối * duy nhất chưa từng được thiết kế cho.",
+          "Tuân thủ là tự nguyện trên toàn bộ các phương diện. Các nhà vận hành có tài liệu hỗ trợ robots.txt phần lớn tôn trọng nó, nhưng không gì thực thi file này, và danh tính là tự khai — một crawler có thể xưng bất kỳ tên nào. Muốn bảo đảm cứng, điểm thực thi là CDN hay tường lửa của bạn, khớp theo user-agent với hiểu biết rằng header có thể làm giả, hoặc theo mẫu hành vi.",
+          "Cuối cùng, nhớ file này là gì: một quảng cáo công khai. Bất kỳ ai cũng đọc được /robots.txt, và nó liệt kê những path bạn coi là riêng tư — một trợ lý trinh sát kinh điển. Khu vực nhạy cảm cần xác thực; file này giúp với các crawler lịch sự và ngân sách crawl của bạn, không giúp với con người.",
+        ],
       },
     ],
   },
@@ -4043,6 +4664,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Hợp lệ chỉ khiến trang đủ điều kiện cho một tính năng; Google quyết định theo từng truy vấn và từng bề mặt có hiển thị hay không. Đừng bao giờ hứa sao hay breadcrumb trong báo cáo chỉ dựa trên markup.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Đủ điều kiện, không phải quyền hưởng: rich result thực sự vận hành ra sao",
+        paragraphs: [
+          "Quan hệ giữa dữ liệu có cấu trúc và hiển thị tìm kiếm là một cổng hai chặng, và việc nhầm các chặng là gốc của mọi lời hứa quá tay. Chặng một là tính hợp lệ: markup parse được, thuộc tính bắt buộc có mặt, giá trị đúng khuôn dạng mong đợi. Chặng hai là đủ điều kiện, thứ chỉ Google một mình quyết theo từng truy vấn, từng bề mặt, từng site — và nó có thể từ chối cả markup hoàn hảo.",
+          "Dữ liệu có cấu trúc cũng không phải một yếu tố xếp hạng. Điều nó làm là thay đổi cách một trang có thể được trình bày: đủ điều kiện mở cánh cửa cho sao đánh giá, giá, breadcrumb và ô sự kiện, và những cách trình bày đó có thể đổi tỷ lệ nhấp đáng kể. Tác động traffic là gián tiếp, trung gian qua việc Google có chọn hiển thị giàu cho truy vấn đó hay không.",
+          "Chính sách của Google dịch chuyển, và gần đây siết chặt đúng ở những vùng người ta hay sinh markup: kết quả giàu FAQ giờ gần như chỉ hiện cho các site chính phủ và y tế nổi tiếng, còn hiển thị HowTo đã nghỉ hưu trên mobile. Vì vậy hãy viết lời lẽ bảo thủ: báo markup như đã triển khai và đã kiểm, không bao giờ hứa một tính năng cụ thể sẽ xuất hiện. Những công cụ bảo đảm rich snippet đang mô tả một thế giới không còn tồn tại.",
+        ],
+      },
+      {
+        heading: "Vì sao JSON-LD thắng, và từng loại đòi hỏi gì",
+        paragraphs: [
+          "Ba cú pháp diễn đạt schema.org: thuộc tính microdata dệt vào các phần tử HTML, thuộc tính RDFa, và JSON-LD — một khối script dữ liệu thuần đứng riêng. Tài liệu Google ưa JSON-LD, và các lý do thực dụng khớp với sở thích đó: khối này không đụng vào markup của bạn, có thể được sinh và tiêm bởi template hay một công cụ như cái này, và sống sót qua các lần thiết kế lại vì nó sống cạnh nội dung chứ không sống trong đó.",
+          "Mỗi loại mang những thuộc tính bắt buộc mà tính hợp lệ phụ thuộc vào. Một Article cần headline và author; một Product cần name và, khi có offers, price dạng số trần kèm đơn vị tiền; ngày tháng là chuỗi ISO 8601, không phải khuôn in tùy ý của CMS bạn. Một thuộc tính bắt buộc thiếu khiến validation trượt bất kể mọi thứ khác hoàn hảo — vì sao bộ tạo bỏ hẳn trường trống thay vì xuất null mà validator sẽ flag.",
+          "Một script cho mỗi thực thể sẽ ồn trên trang giàu dữ liệu; cấu trúc @graph cho phép nhiều thực thể dùng chung một khối, với tham chiếu giữa chúng diễn đạt bằng @id. Đó là hình dạng được khuyến nghị cho một trang có Article cộng Organization làm publisher cộng một BreadcrumbList.",
+        ],
+      },
+      {
+        heading: "Cái bẫy markup tự mỉa mai, và kỷ luật validation",
+        paragraphs: [
+          "Rủi ro bị phạt không phải lý thuyết: markup parse được nhưng bóp méo trang — sao đánh giá trên trang không có đánh giá thật, Product mang giá khác giá hiển thị, câu trả lời FAQ khách không thấy được — vi phạm nguyên tắc và có thể ăn một manual action dai hơn mọi lợi ích kết quả giàu từng mang lại. Quy tắc ngón đơn giản: markup phải mô tả điều khách truy cập nhìn thấy được, không cần cuộn tới markup.",
+          "Validation có hai tầng đáng tách bạch. Một validator cú pháp cho biết JSON well-formed; Rich Results Test của Google cho biết markup có đủ điều kiện tính năng nào không. Đỗ tầng một là sàn tối thiểu — bộ tạo này lo escape để dấu nháy và dấu & không làm gãy khối script — và chỉ tầng hai mới có ý nghĩa cho hiển thị.",
+          "Kỷ luật triển khai khép vòng: dán khối, chạy test, rồi canh các báo cáo cải tiến của Search Console, nơi bộc lộ lỗi hàng loạt sau khi template đổi. Markup là mã được giao cho một bên tiêu thụ bạn không kiểm soát — hãy đối xử với nó bằng cùng thói quen phiên bản và review như phần còn lại của trang. Mọi thứ ở đây sinh cục bộ trong trình duyệt; không có gì được tải lên.",
+        ],
+      },
+    ],
   },
   "serp-preview": {
     name: "Xem trước SERP",
@@ -4069,6 +4716,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao Google thay title của tôi?",
         a: "Khi nó nghĩ chuỗi khác khớp truy vấn hơn, Google có thể thay bằng H1, anchor text của liên kết nội bộ hay tên trang. Bản xem trước cho thấy kịch bản tốt nhất: các thẻ của chính bạn, không sửa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Pixel, không phải ký tự",
+        paragraphs: [
+          "Trang kết quả của Google bố trí tiêu đề bằng phông tỷ lệ và cắt khi dòng hết pixel — khoảng 580–600 trên desktop — chứ không phải khi chạm một con số ký tự. Vì mỗi chữ khác bề rộng, IIIIIIII và MMMMMMMM đều tám ký tự mà rộng khác nhau một trời một vực; mọi quy tắc diễn đạt bằng ký tự là một phỏng đoán mặc vest.",
+          "Mô tả theo cùng logic với giới hạn mềm hơn: khoảng 155–160 ký tự là trần desktop phổ biến trước dấu ba chấm, nhưng cùng số lượng thì chữ rộng bị cắt sớm hơn chữ hẹp. Mobile lại có ngân sách hơi khác, nên kiểm cả hai bố cục vẫn hơn tin một cái.",
+          "Bản xem trước này đo văn bản bằng số liệu pixel được mô hình theo phông Google dùng và cắt đúng chỗ trang kết quả sẽ cắt — con số bạn canh là con số renderer của Google canh, không phải phép xấp xỉ của nó.",
+        ],
+      },
+      {
+        heading: "Google sẽ viết lại bạn dù sao — hãy tính sẵn",
+        paragraphs: [
+          "Bản xem trước cho thấy trường hợp tốt nhất: thẻ tiêu đề của bạn, nguyên văn. Trong thực tế Google thay thế tiêu đề và mô tả cho một tỷ lệ lớn truy vấn — rút H1, anchor text của liên kết nội bộ, tên site, hay bản viết lại riêng của nó khi thấy một chuỗi khác khớp truy vấn hơn.",
+          "Lính phòng thủ không phải mẹo mà là bằng chứng: những trang có tiêu đề khớp nội dung và truy vấn bị viết lại ít hơn. Một meta description chính xác, cụ thể nâng cơ hội được dùng nguyên văn; một câu marketing mơ hồ mời một bản thay thế được may riêng cho người tìm kiếm.",
+          "Vậy hãy coi bản xem trước là thế thương lượng, không phải kết quả bảo đảm: đặt những từ phải sống sót — thương hiệu, từ khóa chính, ưu đãi — sớm trong tiêu đề, để dù bị cắt hay bị viết lại thì snippet vẫn giữ được chúng.",
+        ],
+      },
+      {
+        heading: "Một quy trình khép lại trước khi trang lên sóng",
+        paragraphs: [
+          "Gõ tiêu đề, mô tả và URL, xem cả hai thanh đo đầy lên, chuyển desktop/mobile, cắt gọn. Những phép chỉnh mua được khoảng trống rất đoán trước: dời thương hiệu xuống cuối, bỏ phó từ đệm, thay cụm dài dòng bằng danh từ trần.",
+          "Plugin CMS xem trước cùng một ý tưởng, nhưng buộc chặt nó vào một phụ thuộc nền tảng; một phép kiểm đứng riêng chạy với mọi template, mọi stack và mọi giai đoạn — kể cả review những trang không bao giờ chạm CMS, như landing page sinh tự động.",
+          "Mọi thứ tính cục bộ trong trình duyệt — tiêu đề nháp cho sản phẩm chưa công bố có thể đi qua mà không bị gửi đi đâu. Khi câu chữ sống sót qua cả hai ngân sách pixel, bộ tạo meta-tag và Open Graph đưa những chuỗi hoàn chỉnh đi nốt quãng còn lại.",
+        ],
       },
     ],
   },
@@ -4099,6 +4772,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "50.000 URL hay 50 MB chưa nén mỗi file. Vượt mức đó, hãy tách thành nhiều sitemap và liệt kê trong một file sitemap index, rồi nộp file index.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Một gợi ý, không phải một lời hứa",
+        paragraphs: [
+          "Sitemap làm đúng một việc: liệt kê URL để crawler phát hiện chúng nhanh hơn. Nó không ép crawl, không bảo đảm đánh chỉ mục và không mang trọng lượng xếp hạng nào — tài liệu của chính Google tường minh cả ba điểm. Hãy nghĩ về nó như đưa cho crawler một bản đồ của site thay vì bắt nó đi bộ tìm mọi hành lang.",
+          "Giao thức nó theo — sitemaps.org 0.9 — khởi đầu là đề xuất của Google năm 2005 và được Yahoo cùng Microsoft chung tay chấp nhận ngay sau đó; Google, Bing và Yandex vẫn nhận nó nguyên trạng. Sự bền bỉ ấy là lý do một file hợp lệ sinh ra hôm nay hành xử như nhau trên mọi engine lớn.",
+          "Việc được phát hiện vẫn có giá trị trên site lớn hay mới ra mắt, nơi liên kết nội bộ chưa kịp đuổi theo kho URL: sitemap trao cho crawler trọn danh sách ngay ngày đầu thay vì chờ các link tích lũy.",
+        ],
+      },
+      {
+        heading: "Thẻ nào thực sự làm được việc",
+        paragraphs: [
+          "Trong ba thẻ nội dung, chỉ lastmod có hiệu lực được ghi chép: Google đọc nó để quyết định khi nào đáng xếp lịch crawl lại — và chỉ khi giá trị chính xác và nhất quán theo thời gian. changefreq và priority được ghi chép là bị bỏ qua; crawler của Google tự xếp lịch.",
+          "Vấn đề trung thực của lastmod mang tính cấu trúc: các pipeline build đóng dấu ngày hôm nay lên mọi URL bất kể nội dung có đổi hay không, và crawler học được rằng tín hiệu là nhiễu — sau đó kể cả giá trị lastmod trung thực cũng bị triệt tiêu. Bản vá nhàm chán: chỉ cập nhật lastmod khi nội dung thực sự đổi, theo định dạng W3C Datetime (YYYY-MM-DD là đủ).",
+          "loc và namespace XML làm phần việc cấu trúc: mọi URL phải tuyệt đối, mọi mục phải chung một tiền tố host, và dấu & trong chuỗi query được escape thành &amp; để XML giữ hợp lệ. Khử trùng lặp cũng quan trọng — cùng một URL liệt kê hai lần là lãng phí ngân sách crawl hai lần.",
+        ],
+      },
+      {
+        heading: "Giới hạn kích thước và quy trình vừa với chúng",
+        paragraphs: [
+          "Giao thức giới hạn một file ở 50.000 URL hay 50 MB chưa nén — cái nào chạm trước thì cái đó. Bộ sinh này nhóm các mục theo đoạn path đầu tiên để một site lớn tách thành các file theo mục một cách sạch sẽ: /blog/*, /products/*, /docs/* mỗi cái thành sitemap riêng, được liệt kê cùng nhau trong một sitemap index.",
+          "Gom nhóm có lời hai lần: Search Console báo lỗi theo từng sitemap, nên một file gãy cho biết mục nào gãy thay vì một file khổng lồ chẳng nói lên điều gì; và việc xử lý lastmod theo từng mục khớp với thực tế — tài liệu đổi hằng ngày, trang giới thiệu thì không bao giờ.",
+          "Nghi thức lưu trữ ngắn thôi: tải sitemap.xml về, upload lên gốc domain, tham chiếu từ robots.txt bằng một dòng Sitemap: hay nộp thẳng trong Search Console, và để lần crawl đầu xác nhận. Như mọi công cụ ở đây, XML được ghép hoàn toàn trong trình duyệt của bạn — kho URL của bạn không được upload đi đâu.",
+        ],
+      },
+    ],
   },
   "utm-builder": {
     name: "Trình tạo liên kết UTM",
@@ -4125,6 +4824,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Chữ hoa trong giá trị UTM có ý nghĩa?",
         a: "Có — utm_campaign=Spring và utm_campaign=spring được tính là hai campaign trong đa số công cụ analytics. Chuẩn hóa chữ thường và báo cáo của bạn sẽ luôn sạch.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Hệ thống tham số, giải mã",
+        paragraphs: [
+          "UTM là viết tắt của Urchin Tracking Module — một hóa thạch của Urchin Software, công ty phân tích web mà Google mua năm 2005 và biến thành Google Analytics. Năm tham số chuẩn sống sót qua mọi lần tái thiết kế kể từ đó: utm_source gọi tên nơi khách truy cập đến từ đâu (google, newsletter, twitter), utm_medium gọi tên kênh (cpc, email, social, referral), utm_campaign gọi tên sáng kiến, và các tham số tùy chọn utm_term cùng utm_content tách riêng từ khóa trả phí và biến thể A/B.",
+          "utm_id đáng được nhắc riêng: GA4 dùng nó để buộc các link khác nhau vào một campaign ID — cách sạch để gộp traffic đến với tên chiến dịch hơi lệch nhau. Nếu tổ chức của bạn đã cấp campaign ID, hãy đặt cùng một giá trị lên mọi link của chiến dịch.",
+          "Các tham số là những mục chuỗi query bình thường — nối sau path, trước #fragment — và bộ dựng này percent-encode từng giá trị, nên dấu cách thành %20 và sống sót qua các mail client, bộ sinh QR và redirect của nền tảng quảng cáo mà không làm gãy URL.",
+        ],
+      },
+      {
+        heading: "Quy ước đặt tên mới là sản phẩm thật",
+        paragraphs: [
+          "Bộ dựng bảo đảm các link đúng khuôn; chỉ kỷ luật bảo đảm các báo cáo hữu ích. Hệ thống phân tích coi giá trị là chuỗi phân biệt hoa thường, nên utm_campaign=Spring_Sale và utm_campaign=spring_sale xé một chiến dịch thành hai — và mọi báo cáo sau này phải ghép lại bằng tay.",
+          "Các quy ước bền theo thời gian đều nhàm chán: toàn chữ thường, gạch ngang hay gạch dưới thay vì dấu cách, không đặt ngày trong tên chiến dịch (chúng xé một sáng kiến thành các bản gần-trùng theo tuần), và một vốn từ vựng ổn định cho source và medium dùng chung bởi mọi ai có thể tạo link. Một số team giữ danh sách ấy trong bảng tính; một số khác hạn chế ai được tạo link.",
+          "Gắn lại thẻ là cái bẫy còn lại: một khi URL mang UTM đã được chia sẻ, đánh chỉ mục hay in ra, lịch sử của nó được hàn chặt tại chỗ. Đổi thẻ sau này không sửa được quá khứ — nó cắt đứt chuỗi thời gian. Hãy quyết định phân loại trước chiến dịch đầu tiên, không phải sau chiến dịch thứ ba.",
+        ],
+      },
+      {
+        heading: "UTM và SEO, hàng xóm chứ không thù",
+        paragraphs: [
+          "URL có thẻ có thể xé nhỏ việc crawl: example.com/page và example.com/page?utm_source=newsletter trông như hai tài liệu với crawler cho tới khi một thẻ canonical nói khác. Canonical tự tham chiếu trên mọi trang là lớp phòng thủ chuẩn — vì vậy bộ sinh canonical trên trang này ghép tự nhiên với bộ này.",
+          "Link nội bộ nhìn chung không nên mang tham số UTM (trong một số cấu hình phân tích, chúng làm bẩn dữ liệu giới thiệu); UTM thuộc về các link bạn kiểm soát ngoài site — quảng cáo, bản tin, bài đăng mạng xã hội, mã QR. Làm cho các link hướng ngoài ấy đúng là việc của bộ dựng; giữ chúng khỏi điều hướng nội bộ của bạn là việc của bạn.",
+          "Như mọi thứ trên trang, URL được ghép không bao giờ rời trình duyệt của bạn — không tài khoản, không ghi log. Dán một đích đến, điền các trường, sao chép kết quả vào nền tảng quảng cáo hay bộ sinh QR, và chuỗi quy kết bắt đầu từ một link decode cùng một cách ở mọi nơi nó đi qua.",
+        ],
       },
     ],
   },
@@ -4159,6 +4884,30 @@ export const vi: Record<string, ToolCopy> = {
         a: "Resolver trả về cả chuỗi đầy đủ: nếu www.example.com là CNAME tới example.com, truy vấn A trả về bí danh cộng record A cuối. Các hàng thừa cho thấy chính xác cách tên được phân giải.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Chuyện gì xảy ra giữa truy vấn của bạn và câu trả lời",
+        paragraphs: [
+          "DNS là một hệ phân cấp, và một lần tra cứu có thể chạm nhiều máy chủ. Khi không có gì trong cache, một resolver hỏi máy chủ gốc trước, thứ trỏ nó tới nameserver của tên miền cấp cao nhất (.com, .org), thứ lại trỏ tới các nameserver có thẩm quyền của chính domain — nơi thực sự giữ câu trả lời. Mỗi tầng trả lời bằng một referral, và resolver đi bộ xuống chuỗi cho tới khi nhận được một bản ghi có thể trao lại.",
+          "Caching rút ngắn chuyến bộ hành ấy. Mọi bản ghi mang một TTL (time to live) tính bằng giây, nói với resolver chúng được tái dùng câu trả lời bao lâu. TTL thấp như 300 nghĩa là thay đổi lan truyền trong vài phút nhưng mỗi lần tra cứu chạm máy chủ có thẩm quyền thường xuyên hơn; TTL cao như 86400 giữ câu trả lời trong cache cả ngày — rẻ và ổn nhưng chậm cập nhật. Khi bạn hạ TTL trước một lần di trú có kế hoạch, bạn đang xếp lịch xem thế giới quên câu trả lời cũ nhanh đến đâu.",
+          "Một điểm tinh tế công cụ này làm lộ ra: trình duyệt hay hệ điều hành của bạn có thể có cache riêng đứng trước resolver công cộng, và một số resolver trả câu trả lời từ cache mà không kiểm tra vùng dữ liệu đã đổi chưa. Nếu một bản ghi có vẻ cũ ở đây, thường là TTL đang còn đếm — không phải lỗi của truy vấn.",
+        ],
+      },
+      {
+        heading: "Chọn đúng loại bản ghi cho việc đang làm",
+        paragraphs: [
+          "Đa số debug bắt đầu bằng sai loại bản ghi. Vấn đề thư gần như không bao giờ là vấn đề bản ghi A: hãy kiểm tra MX trước, rồi các bản ghi TXT cho SPF, DKIM và DMARC. SPF sống như một chuỗi TXT duy nhất ngay trên domain, DKIM trên một subdomain selector như s1._domainkey.example.com, còn DMARC trên _dmarc.example.com. Vì DoH trả câu trả lời thô với các đoạn đã gộp, bạn đọc được trọn chuỗi chính sách ở đây và phát hiện các lỗi cú pháp âm thầm làm gãy việc nhận thư.",
+          "A, AAAA, NS và CNAME trả lời những câu hỏi khác nhau: site có phân giải không, và qua IPv6 không? Ai vận hành DNS? Tên này có phải một bí danh không? Câu trả lời CNAME cho một truy vấn A là bình thường và được mong đợi — resolver kèm cả chuỗi — nhưng một domain không thể có CNAME cạnh các bản ghi khác tại cùng tên, vì vậy domain đỉnh thường dùng ALIAS hay bản ghi làm phẳng ở nhà cung cấp.",
+        ],
+      },
+      {
+        heading: "Vì sao DNS-over-HTTPS, và công cụ này không làm gì",
+        paragraphs: [
+          "Truy vấn DNS truyền thống đi như UDP dạng văn bản thô trên cổng 53, nhìn thấy được bởi bất kỳ ai trên đường truyền — router quán cà phê, ISP, các hộp giữa. DNS-over-HTTPS bọc cùng truy vấn ấy trong một kết nối TLS bình thường, nên việc tra cứu riêng tư khỏi mạng cục bộ và đi qua được các mạng chặn hay chiếm đoạt cổng 53. Đó là lý do công cụ này chạy được ở những môi trường mà dig gãy.",
+          "Đây là công cụ tra cứu, không phải dịch vụ giám sát thời gian thực: nó hiển thị một câu trả lời tại một thời điểm từ một resolver, gồm cả giá trị từ cache, và không truy vấn trực tiếp máy chủ có thẩm quyền hay so sánh câu trả lời giữa các resolver. Với thay đổi bạn kiểm soát, quy trình thực dụng là: hạ TTL trước, thực hiện thay đổi, rồi kiểm tra lại ở đây cho tới khi giá trị mới xuất hiện.",
+        ],
+      },
+    ],
   },
   "email-validator": {
     name: "Kiểm tra Email",
@@ -4186,6 +4935,29 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao địa chỉ hợp lệ lại trượt kiểm tra MX?",
         a: "Vài tên miền không công bố MX mà dựa vào record A (định tuyến ngầm); công cụ nói rõ khi gặp trường hợp đó. Có tên công bố null MX, tức “không nhận thư ở đây”. Tên miền doanh nghiệp hay mới tạo cũng có thể chưa có trong cache resolver công cộng một thời gian ngắn — thử lại sau một phút.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Đúng định dạng không có nghĩa là chạm tới được",
+        paragraphs: [
+          "Các RFC chính thức cho phép những địa chỉ lạ hơn thực đời nhiều: phần cục bộ được bọc quote như \"odd name\"@example.com, domain dạng IP literal, comment ngay giữa địa chỉ. Các máy chủ thư thật từ chối phần lớn những thứ đó, nên một validator cài trọn ngữ pháp RFC sẽ bật đèn xanh cho những địa chỉ chẳng ai dùng được. Công cụ này kiểm tra tập con thực dụng — cú pháp mà Gmail, Outlook và các nhà cung cấp lớn thực sự chấp nhận — đó là thanh ngang đúng cho một form đăng ký.",
+          "Ngay cả một địa chỉ hoàn hảo khuôn dạng cũng chẳng nói gì về hộp thư đứng sau nó. Nó có thể đầy, đã xóa, là catch-all nuốt mọi thứ, hay là bẫy spam đầu độc uy tín người gửi của bạn. Vì vậy chỉ định dạng là tín hiệu yếu: câu hỏi có ý nghĩa là domain có được cấu hình để nhận thư không, và điều đó trả lời được bằng một truy vấn DNS công khai.",
+        ],
+      },
+      {
+        heading: "Phép kiểm MX nói được gì và không nói được gì",
+        paragraphs: [
+          "Một bản ghi MX là một lời hứa công khai: thư cho domain này nên đi tới những máy chủ này, theo thứ tự ưu tiên này. Không có MX thường nghĩa là không có thư, nhưng có hai ngoại lệ trung thực — một số domain nhỏ nhận thư qua bản ghi A bằng định tuyến ngầm định, và một null MX là tuyên bố tường minh “chúng tôi không nhận gì cả”. Công cụ phân biệt những ca này thay vì gộp thành một thất bại duy nhất, vì chúng nói lên những điều khác nhau cho một phễu đăng ký.",
+          "Điều không truy vấn DNS nào cho bạn biết là một hộp thư cụ thể có tồn tại hay không. Máy chủ thư cố tình không quảng cáo điều đó — dò bằng các lệnh RCPT TO chính là cách spammer thu hoạch địa chỉ hoạt động, và nhiều máy chủ nhận mọi người nhận rồi bounce sau để tránh xác nhận điều gì. Xác minh SMTP trọn vẹn thuộc về các dịch vụ số lượng lớn phía máy chủ; một công cụ trình duyệt tự xưng xác minh được hộp thư là nhận quá sức. Định dạng cộng MX cộng phát hiện lỗi gõ là trần trung thực của kiểm tra phía máy khách.",
+        ],
+      },
+      {
+        heading: "Lỗi gõ và tính riêng tư của sự tách biệt",
+        paragraphs: [
+          "Một phần lớn đăng ký thất bại là lỗi gõ một chữ cái: gmial.com, hotmial.com, hitmail.com, hay .cm thay vì .com. Đối chiếu domain với danh sách các nhà cung cấp phổ biến nhất bắt được phần lớn những ca ấy trước khi người dùng kịp nhận một cú bounce — rẻ hơn nhiều so với dọn danh sách sau đó. Bắt lỗi gõ ngay lúc nhập còn tử tế hơn: người dùng sửa một ký tự thay vì không bao giờ nhận được thư xác nhận họ đang đợi.",
+          "Thiết kế riêng tư là có chủ đích: việc kiểm tra phần cục bộ — thường là phần chứa tên hay handle của bạn — chạy hoàn toàn offline, và chỉ domain đi qua mạng, như một truy vấn DNS bình thường. Domain của một địa chỉ hiếm khi xác định một con người; phần cục bộ thì thường có. Hãy nhớ sự tách biệt ấy khi bạn dán những địa chỉ bạn không muốn bị ghi log.",
+        ],
       },
     ],
   },
@@ -4217,6 +4989,30 @@ export const vi: Record<string, ToolCopy> = {
         a: "Chỉ địa chỉ IP bạn muốn tra cứu, trong một request HTTPS tới ipwho.is. Tra IP của chính bạn đương nhiên tiết lộ địa chỉ cho API đó — chẳng khác gì bất kỳ dịch vụ định vị nào sẽ thấy.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Định vị địa lý IP là dữ liệu đăng ký, không phải điểm ghim trên bản đồ",
+        paragraphs: [
+          "Sự hiểu lầm phổ biến nhất về tra cứu IP là nó tìm ra một thiết bị. Nó không làm vậy. Một cơ sở dữ liệu định vị địa lý được dựng từ các hồ sơ về tổ chức nào đăng ký một khối địa chỉ, hạ tầng mạng của tổ chức ấy nằm ở đâu, và các đính chính từ người dùng. Kết quả bạn thấy là nơi phần cứng định tuyến của ISP được đăng ký — một trung tâm dữ liệu, một hub vùng — không phải chiếc điện thoại hay laptop thực sự dùng địa chỉ đó.",
+          "Các chế độ thất bại theo từ đó. Nhà mạng di động định tuyến traffic qua cổng vùng, nên một chiếc điện thoại ở thành phố này có thể hiện thành phố khác. Các tập đoàn lớn đăng ký toàn bộ khối của họ tại trụ sở, nên mọi chi nhánh văn phòng đều được định vị về cùng một tòa nhà. Địa chỉ hosting và VPN phân giải về trung tâm dữ liệu, theo thiết kế. Internet vệ tinh có thể lệch cả một quốc gia. Kết quả cấp thành phố là một ước tính không có bảo đảm độ chính xác.",
+          "Các trường đáng tin là quốc gia, ASN và ISP: chúng đến thẳng từ dữ liệu registry và hiếm khi nói dối. Một thứ tự đọc thực dụng là ASN trước — nó cho biết địa chỉ thuộc một ISP dân dụng, một công ty hosting hay một mạng di động — rồi mới đến các trường vị trí, với trọng số tương ứng.",
+        ],
+      },
+      {
+        heading: "ASN thêm gì vào bức tranh",
+        paragraphs: [
+          "Mọi khối không gian IP được định tuyến đều thuộc về một hệ tự trị: một mạng — hay một nhóm mạng — với một chính sách định tuyến duy nhất, được nhận diện bằng một ASN. Biết ASN đổi câu hỏi từ “địa chỉ này ở đâu” thành “đây là loại mạng gì”, và đó thường mới là câu trả lời bạn thực sự cần.",
+          "Cụ thể: một báo cáo lạm dụng hữu ích hơn khi nhắm vào ASN hosting hơn là ASN dân dụng, vì công ty hosting hành động theo báo cáo còn ISP phải truy về khách hàng. Phân loại log cũng dựa vào nó — một lần đăng nhập từ ISP dân dụng ở một quốc gia bất thường và một lần đăng nhập từ ASN nhà cung cấp đám mây ở cùng quốc gia đó là hai tín hiệu rất khác nhau. Các quyết định chặn dựa trên định vị cấp thành phố thường xuyên gãy; các quyết định dựa trên ASN và loại mạng trụ vững hơn.",
+        ],
+      },
+      {
+        heading: "Các cách dùng hằng ngày và giới hạn trung thực",
+        paragraphs: [
+          "Những ca hằng ngày là soát một mục log thực chất là gì, kiểm tra thực tế các quy tắc tường lửa hay CDN trước khi triển khai, và xác nhận VPN thực sự đổi địa chỉ hiển thị của bạn — tra IP của mình trước và sau khi kết nối, rồi so ASN và quốc gia. Cái cuối là phép thử VPN rẻ nhất từng có.",
+          "Những giới hạn trung thực: đây là thông tin cấp mạng và không thể xác định một con người; bản thân truy vấn bị API định vị địa lý nhìn thấy, kể cả khi bạn tra IP của chính mình; và các sản phẩm thương mại về thông tin tình báo thêm điểm rủi ro gian lận và phát hiện proxy mà cơ sở dữ liệu miễn phí không có. Hãy dùng nó cho thứ nó giỏi — nhận diện mạng và địa lý xấp xỉ — chứ không phải như một điểm dừng điều tra.",
+        ],
+      },
+    ],
   },
   "password-generator": {
     name: "Trình tạo mật khẩu",
@@ -4244,6 +5040,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có thể khôi phục mật khẩu tôi tạo ở đây?",
         a: "Không. Việc tạo diễn ra hoàn toàn trong bộ nhớ trình duyệt. Không có gì được tải lên, ghi log hay lưu — tải lại trang là mật khẩu biến mất mãi mãi, nên hãy lưu ngay vào trình quản lý mật khẩu.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao entropy là thước đo sức mạnh trung thực",
+        paragraphs: [
+          "Entropy đo không gian tìm kiếm kẻ tấn công phải đi qua, tính bằng bit: log2 của kích thước bộ ký tự, nhân số ký tự. Một tấn công vét cạn thử một trăm nghìn tỷ phỏng đoán mỗi giây — năng lực của phần cứng phá mã chuyên dụng hiện nay — sẽ cần hàng thế kỷ để vượt 80 bit. Đó là lý do số đọc ở đây là một con số thật tính từ cài đặt của bạn, chứ không phải một nhãn mơ hồ mạnh/yếu.",
+          "Phép toán còn giải thích vì sao độ dài đánh bại độ phức tạp. Mỗi ký tự thêm vào nhân không gian tìm kiếm với kích thước hồ, còn việc đổi một chữ “a” thành “@” trong một mật khẩu ngắn hầu như không lay chuyển kim. Các quy tắc kết hợp kinh điển — một chữ số, một ký hiệu, một chữ hoa — đẩy người ta về các mẫu đoán trước được như Password1!, thứ từ điển tấn công đã thuộc lòng. Hướng dẫn hiện hành của NIST (SP 800-63B) đã bỏ những quy tắc ấy lấy độ dài và độ ngẫu nhiên thật.",
+          "Một giới hạn trung thực: entropy đo độ ngẫu nhiên của quá trình sinh, không phải khả năng chống mọi tấn công. Một bộ sinh hoàn hảo không bảo vệ một mật khẩu bị tái sử dụng trên site khác vừa bị rò rỉ, cũng không bảo vệ một bí mật gõ lên máy nhiễm mã độc. Tái sử dụng và lừa đảo — không phải vét cạn — chiếm phần lớn việc chiếm đoạt tài khoản trong thực tế.",
+        ],
+      },
+      {
+        heading: "CSPRNG khác Math.random, và vì sao điều đó quan trọng",
+        paragraphs: [
+          "Mọi bộ sinh mật khẩu đáng giá đúng bằng nguồn ngẫu nhiên của nó. Math.random(), công cụ hằng ngày của JavaScript, là một bộ sinh giả ngẫu nhiên được tối ưu cho tốc độ và khả năng tái lập trong mô phỏng: quan sát vài output là bạn đoán được những output tiếp theo. Một mật khẩu dựng bằng nó trông ngẫu nhiên mà không phải — chính là loại lối tắt đã làm gãy các site sinh mật khẩu thật.",
+          "Công cụ này dùng crypto.getRandomValues, nguồn an toàn mật mã của trình duyệt. Nó được hệ điều hành gieo hạt — entropy phần cứng, thời điểm ngắt, thời gian đĩa — và được thiết kế sao cho không người quan sát nào đoán được byte kế tiếp ngay cả sau khi thấy tất cả các byte trước. Những byte ấy sau đó được ánh xạ đều lên các bộ ký tự bạn chọn, nên không ký tự nào xuất hiện thường hơn ký tự khác: một ánh xạ lệch sẽ âm thầm hạ entropy thật xuống dưới con số hiển thị.",
+          "Cùng nguồn ấy chạy chế độ passphrase, nhưng thay vì byte nó chọn các chỉ số vào một danh sách 273 từ ngắn, không gây nhầm lẫn — cỡ 8,1 bit mỗi từ. Năm từ ngẫu nhiên cho ≈40 bit và một cụm từ bạn thực sự gõ nổi được; tám từ trở lên chạm tới vùng của mật khẩu 16 ký tự. Danh sách được lọc riêng để tránh các cặp dễ nhầm khi đọc thành tiếng hay nghe chính tả.",
+        ],
+      },
+      {
+        heading: "Sinh mật khẩu trong trình duyệt đổi gì trên thực tế",
+        paragraphs: [
+          "Các site sinh mật khẩu phía máy chủ nhìn thấy mọi mật khẩu chúng tạo ra — bí mật đi qua mạng và, bất kể chính sách lưu giữ, tồn tại trong một log trên máy của người khác. Sinh trong trình duyệt đảo ngược điều đó: các byte ngẫu nhiên sinh ra trên thiết bị của bạn và mật khẩu không bao giờ rời nó. Tải lại trang xóa sạch mọi thứ; không có tài khoản, lịch sử hay đồng bộ nào để rò rỉ.",
+          "Quy trình được khuyên đi theo từ đó: sinh ở đây, sao chép, dán thẳng vào form đăng ký hay đổi mật khẩu, và lưu vào trình quản lý mật khẩu trong cùng một hơi thở. Trình quản lý ghi nhớ; bộ sinh bảo đảm bí mật sinh ra là ngẫu nhiên và cục bộ. Cùng nhau chúng phủ cả hai điểm gãy — mật khẩu đoán được ngay khi sinh và mật khẩu bị quên lúc lưu.",
+        ],
       },
     ],
   },
@@ -4275,6 +5096,31 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Thư viện và từ điển zxcvbn tải vào trình duyệt của bạn và mọi phép tính chạy cục bộ. Không request mạng nào mang theo đầu vào của bạn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "zxcvbn khác các thanh đếm lớp ký tự thế nào",
+        paragraphs: [
+          "Những thanh sức mạnh xanh-đỏ quen thuộc đếm lớp ký tự: một chữ hoa, một chữ số, một ký hiệu là điểm xanh. Mô hình ấy chưa bao giờ là thước đo sức mạnh — nó là thước đo mức tuân thủ một quy tắc. zxcvbn làm việc khác đi: nó phân rã đầu vào của bạn thành bộ các mẫu đã biết rẻ nhất — từ điển, các đường đi bàn phím như qwerty, lặp lại, dãy, ngày tháng, phép thế l33t — và báo số lần phỏng đoán mà kẻ tấn công đi theo cùng chiến lược sẽ cần.",
+          "Đó là lý do Tr0ub4dor&3 được điểm thấp dù trông phức tạp: các phép thế là những quy tắc đầu tiên mà từ điển phá mã áp dụng, nên chi phí thật để phán đoán nó là chi phí phán đoán “troubador” cộng một chút trang trí. Cùng engine ấy giải thích vì sao bốn từ phổ thông ngẫu nhiên khó phá hơn hẳn một mật khẩu ngắn nhồi đủ mọi loại ký hiệu.",
+          "Một điều zxcvbn tường minh là không làm: phán quyết mật khẩu của bạn có nằm trong một vụ rò rỉ cụ thể hay không. Nói xấp xỉ bằng việc khớp các danh sách mật khẩu đã lộ, nhưng phép kiểm duy nhất có thẩm quyền là truy vấn một cơ sở dữ liệu rò rỉ. Hãy coi điểm số là một mô hình về chi phí kẻ tấn công, không phải một chứng nhận.",
+        ],
+      },
+      {
+        heading: "Đọc ba kịch bản tấn công một cách trung thực",
+        paragraphs: [
+          "Thời gian phá mã vô nghĩa nếu không có một mô hình tấn công. Tấn công trực tuyến bị thắt cổ chai (cỡ một trăm phỏng đoán mỗi giờ) là những gì một form đăng nhập ngoan ngoãn cho phép; tấn công offline vào một hash chậm như bcrypt (cỡ mười nghìn phỏng đoán mỗi giây) là những gì xảy ra khi một cơ sở dữ liệu được băm đàng hoàng bị lộ; tấn công offline vào hash nhanh hay không salt (hàng tỷ phỏng đoán mỗi giây trên GPU) là ca xấu nhất, và nó phổ biến hơn mức nên có.",
+          "Thói quen hữu ích là phán một mật khẩu theo kịch bản xấu nhất, không phải tốt nhất. Một mật khẩu sống sót một tuần dưới cột fast-hash thì ổn cho một site vận hành tốt và mỏng nguy hiểm cho site bị lộ và cẩu thả. Vì bạn không kiểm soát được site nào băm đàng hoàng, cách đọc bảo thủ là cột fast-hash — nhất là với thứ gì bạn tái sử dụng.",
+          "Cũng nhớ những gì ước lượng giả định: kẻ tấn công biết sơ đồ sinh mật khẩu của bạn. Đó là giả định đúng — các tấn công từ điển được dựng chính xác quanh các mẫu con người phổ thông — nhưng nó nghĩa là các con số là một sàn chi phí kẻ tấn công cho mật khẩu do con người tạo, không phải một trần.",
+        ],
+      },
+      {
+        heading: "Sức mạnh không phải an toàn, và việc kiểm tra là cục bộ",
+        paragraphs: [
+          "Sự thật khó chịu từ các phân tích rò rỉ: đa số việc chiếm đoạt tài khoản không phải do phá gì cả. Chúng liên quan đến mật khẩu tái sử dụng từ một vụ lộ cũ, hay thông tin xác thực trao cho một trang lừa đảo. Điểm 4/4 hoàn hảo không bảo vệ một mật khẩu bạn dùng lại khắp các site — không phép đo nào làm được. Các lớp phòng thủ thực tế là mật khẩu duy nhất cho mỗi site và một trình quản lý mật khẩu, với kiểm tra sức mạnh làm chân thứ ba.",
+          "Bản thân việc kiểm tra an toàn ở đây: thư viện zxcvbn và các từ điển của nó nạp vào trình duyệt của bạn và mọi phép tính chạy trên thiết bị của bạn. Không yêu cầu mạng nào mang theo thứ bạn gõ, nên việc thử cả mật khẩu thật là hợp lý — dù gõ bất kỳ bí mật nào trên một máy bạn không tin tưởng là rủi ro không công cụ trình duyệt nào xóa nổi.",
+        ],
+      },
+    ],
   },
   "random-number": {
     name: "Trình tạo số ngẫu nhiên",
@@ -4302,6 +5148,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Các số có được lưu ở đâu không?",
         a: "Không. Mọi thứ được tính trong bộ nhớ trình duyệt từ crypto.getRandomValues; tải lại trang là kết quả biến mất, và không bao giờ có gì được tải lên.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lệch modulo: cái bug mà đa số trang số ngẫu nhiên đều có",
+        paragraphs: [
+          "Máy tính sinh số nguyên ngẫu nhiên dưới dạng giá trị 32-bit, nhưng hầu như không khoảng hữu dụng nào chia hết 2^32. Cách ngây thơ — lấy một số 32-bit ngẫu nhiên rồi lấy modulo kích thước khoảng — chất phần dư lên đầu thấp của khoảng: với khoảng 10, một số số trở nên nhiều khả đoán được hơn hẳn. Với một trò chơi thì vô hình; với một bốc thăm có giải thưởng thì đó là bug công bằng.",
+          "Bản vá là lấy mẫu loại từ chối: rút một giá trị 32-bit, và nếu nó rơi vào phần dư còn lại ở đỉnh không gian, bỏ nó và rút lại. Các giá trị được nhận khi đó phủ khoảng trong một cửa sổ đồng đều tuyệt đối, nên mỗi số nguyên từ min tới max mang đúng xác suất 1/(max−min+1). Nó tốn vài lần rút thêm tính trung bình và mua công bằng toán học.",
+          "Công cụ này áp bước đó và nói rõ điều đó, vì “độ ngẫu nhiên mật mã” một mình không bảo đảm tính đồng đều — phép ánh xạ từ byte thô sang khoảng của bạn mới là chỗ độ lệch chui vào. Khi bạn công bố kết quả bốc thăm, số đọc entropy (log2 của kích thước khoảng, cộng qua các lần rút) ghi lại bao nhiêu độ ngẫu nhiên thật đã quyết định kết quả.",
+        ],
+      },
+      {
+        heading: "CSPRNG khác Math.random và đồng hồ",
+        paragraphs: [
+          "Math.random() là một bộ sinh giả ngẫu nhiên tinh chỉnh cho tốc độ: trạng thái nội tại của nó hữu hạn, và quan sát đủ output sẽ lộ trạng thái ấy, sau đó mọi số “tương lai” đều tính được. Gieo hạt từ đồng hồ hệ thống còn tệ hơn — đồng hồ chạy đoán trước được, nên kẻ tấn công biết cỡ khi bạn bấm có thể tái lập lần rút của bạn. Cả hai thất bại không phải giả định; chúng là những lý do chuẩn khiến các lần rút trực tuyến bị thách thức.",
+          "crypto.getRandomValues là nguồn an toàn mật mã của trình duyệt: output của nó được thiết kế để không thể đoán trước ngay cả với kẻ tấn công đã thấy mọi output trước đó, và nó được hệ điều hành gieo hạt từ entropy phần cứng. Công cụ này chỉ dùng nó — cùng nguồn mà việc sinh mật khẩu và khóa dựa vào.",
+          "Một hệ quả thực dụng: kết quả ở đây không ai tái lập được, kể cả bạn. Nếu cần các lần rút có thể kiểm toán, quy trình trung thực là công bố biên và số lượng trước khi rút, sinh trước nhân chứng hay trên stream, và sao chép output ngay lập tức — trang không giữ bản ghi nào, đó là một tính chất riêng tư, không phải một giới hạn cần lách.",
+        ],
+      },
+      {
+        heading: "Có hay không hoàn lại, và mỗi loại vừa chỗ nào",
+        paragraphs: [
+          "Hai chế độ lấy mẫu khớp hai câu hỏi khác nhau. Có hoàn lại — mỗi lần rút độc lập, cho phép trùng — trả lời “cho tôi N số ngẫu nhiên”: dữ liệu test, lấy mẫu kiểu Monte-Carlo, xúc xắc. Không hoàn lại — như rút các quả bóng số từ một cái tô — trả lời “chọn N người trúng từ M mục”: bốc thăm trúng thưởng, tặng quà, xếp thứ tự ngẫu nhiên một danh sách.",
+          "Không hoàn lại có một quy tắc cứng: bạn không thể rút nhiều số duy nhất hơn số lượng khoảng chứa. Một công cụ âm thầm lặp hay lệch trong ca đó là hỏng; cái này từ chối và giải thích thay thế. Sắp thứ tự output sau một lần rút duy nhất chỉ đổi cách trình bày — tập người trúng là như nhau — nhưng với một bốc thăm nhiều giải nơi thứ hạng có ý nghĩa, hãy giữ thứ tự rút và coi số đầu là giải nhất.",
+        ],
       },
     ],
   },
@@ -4333,6 +5204,31 @@ export const vi: Record<string, ToolCopy> = {
         a: "Các nguyên nhân phổ biến nhất: sai thuật toán (đa số dịch vụ dùng SHA-1), sai chu kỳ, hay đồng hồ thiết bị lệch quá vài giây. So ba ô chọn này với trang thiết lập của dịch vụ, và đồng bộ lại đồng hồ hệ thống.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Cửa sổ 30 giây hoạt động thế nào, và vì sao nó tha thứ cho đồng hồ",
+        paragraphs: [
+          "TOTP (RFC 6238) biến một bí mật dùng chung cộng thời điểm hiện tại thành một mã. Thời gian không được dùng thô: cả hai phía tính một bộ đếm — thời gian Unix chia cho chu kỳ, mặc định 30 giây — rồi HMAC nó với bí mật. Máy chủ nhận một mã từ cửa sổ hiện tại và thường một hay hai cửa sổ hai bên, nên vài giây lệch đồng hồ giữa thiết bị của bạn và máy chủ không khóa bạn ngoài cửa.",
+          "Sự khoan dung ấy cũng là ngân sách an ninh. Một mã có giá trị cỡ 30 đến 90 giây, chặt đủ để chặn một mã gần như vô dụng nhưng rộng đủ cho con người gõ chậm. Sáu chữ số cho một triệu khả năng mỗi cửa sổ; với việc giới hạn tần suất điển hình chỉ vài lần đoán mỗi cửa sổ, vét cạn một mã đang sống là vô vọng — bề mặt tấn công là bản thân bí mật, không phải các chữ số.",
+          "Khi mã của bạn không khớp, nguyên nhân gần như luôn là một trong ba cài đặt, không phải thuật toán gãy: sai hàm băm (gần như mọi thứ dùng SHA-1 dù cái tên nghe lỗi thời), sai chu kỳ (30 hay 60 giây), hay đồng hồ lệch ngoài các cửa sổ chấp nhận. Đồng bộ đồng hồ hệ thống trước; nó sửa đa số các ca không khớp.",
+        ],
+      },
+      {
+        heading: "Bí mật là một bí mật dùng chung — hãy coi nó như mật khẩu",
+        paragraphs: [
+          "Chuỗi base32 bạn dán là toàn bộ vật liệu mật mã của nhân tố thứ hai của bạn: bất kỳ ai giữ nó đều sinh mã hợp lệ vĩnh viễn, trên mọi thiết bị, mà không cần điện thoại của bạn. Nó được gọi là bí mật “dùng chung” vì cả authenticator của bạn lẫn dịch vụ đều giữ cùng một giá trị. Đó là lý do dán nó vào một trang TOTP trực tuyến ngẫu nhiên tương đương trao nộp 2FA của bạn.",
+          "Công cụ này tính mọi thứ bằng WebCrypto ngay trong trình duyệt của bạn: không gọi mạng, không lưu trong localStorage hay cookie, không ghi gì lên đĩa. Đóng tab và bí mật biến mất khỏi bộ nhớ. Điều đó biến trang này thành một lối phục hồi chính đáng — cùng phép tính app điện thoại của bạn làm, chỉ ở một nơi điện thoại của bạn không có mặt.",
+          "Vệ sinh thói quen vẫn nguyên: lưu bí mật chỉ trong một trình quản lý mật khẩu hay các mã phục hồi của dịch vụ, không bao giờ trong ảnh chụp hay log chat. Một link otpauth:// tiện để dán vào đây chính vì nó gói bí mật cùng các tham số của nó — hãy coi một link dán vào như một mật khẩu dán vào và dọn clipboard sau đó.",
+        ],
+      },
+      {
+        heading: "TOTP khác SMS, và chỗ một mã trình duyệt vừa vào",
+        paragraphs: [
+          "Mã SMS đi qua mạng điện thoại và bị nhà mạng lưu giữ, khiến chúng có thể bị chặn — tấn công SIM-swap tồn tại chính vì kênh là nhà mạng, không phải vì các chữ số yếu. Mã TOTP không bao giờ rời thiết bị tính ra chúng, nên góc chặn tiêu biến hoàn toàn. Điều đó, cộng khả năng chạy offline và độc lập với số điện thoại, là lý do mọi hướng dẫn an ninh nghiêm túc ưu tiên ứng dụng authenticator hơn SMS.",
+          "Một trang trình duyệt sinh mã không phải người thay thế cho app trên điện thoại của bạn — nó là cùng thuật toán ở một nơi thứ hai. Ngách trung thực của nó: phục hồi khi điện thoại hỏng hay bị thay, đăng nhập trên một máy chưa cài app, và kiểm chứng các tham số của một link cài đặt. Giữ bí mật khỏi các máy dùng chung; trên thiết bị riêng của bạn, trang này an toàn bằng đúng phép tính nó thực hiện — mà phép tính đó chẳng phải việc của ai.",
+        ],
+      },
+    ],
   },
   "whois-lookup": {
     name: "WHOIS Lookup",
@@ -4360,6 +5256,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Những gì được gửi qua mạng?",
         a: "Chỉ tên miền, trong một request HTTPS tới rdap.org, có thể chuyển hướng tới điểm cuối RDAP chính thức của registry. Dữ liệu đăng ký vốn công khai; không có thông tin cá nhân nào về bạn được truyền.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bảo vệ riêng tư và RDAP thực sự hiện ra gì",
+        paragraphs: [
+          "Thông tin liên hệ người đăng ký mà WHOIS cổ điển từng in nguyên vẹn — tên, đường phố, email — đã bị che trên đa số TLD chung suốt nhiều năm, do thực thi GDPR và các dịch vụ riêng tư của nhà đăng ký. Thứ bạn thấy hôm nay thường là tầng trừu tượng của nhà đăng ký, đôi khi là địa chỉ của một dịch vụ riêng tư, đôi khi đơn giản là “REDACTED FOR PRIVACY”. Mong một tên cá nhân từ một lần tra .com hiện đại là sai lầm còn vướng từ thập niên 2000.",
+          "Thứ vẫn thực sự hữu ích là mọi thứ registry tự ghi: ngày tạo và hết hạn, nhà đăng ký ghi nhận, các mã trạng thái EPP và nameserver. Sự che giấu đổi các trường con người; các trường vận hành ở nguyên. Vẫn đủ cho các việc phổ biến — kiểm tra tuổi một domain trước khi tin nó, xem domain chiếm chỗ hết hạn khi nào, xác nhận khóa chuyển nhượng.",
+          "Các registry mã quốc gia tự đặt quy tắc tiết lộ của mình, nên độ phủ và độ dài thay đổi rất nhiều theo TLD: một số công bố chi tiết liên hệ nhiều hơn bất kỳ .com nào, số khác ít hơn. RDAP còn chuẩn hóa JSON, đó là lý do công cụ này trình bày kết quả .com, .app và .dev trong cùng các trường dù registry của chúng chẳng liên quan.",
+        ],
+      },
+      {
+        heading: "Đọc ngày và mã trạng thái như một nhà phân tích",
+        paragraphs: [
+          "Ngày tháng kể chuyện. Một domain tạo ba tuần trước lại quảng cáo “thành lập từ 1995” là một cờ đỏ; một domain hết hạn tuần sau do một doanh nghiệp thật giữ nhiều khả năng là sơ suất, và nên gửi email trước khi nó rơi. Thói quen đăng ký cũng đáng kể — một domain tự gia hạn theo khối nhiều năm báo hiệu một tài sản được chăm sóc, trong khi lịch sử hết hạn rồi đăng ký lại gợi các domain hết hạn bị dân bán lại lượm.",
+          "Các mã trạng thái xứng đáng một vốn từ nhỏ. clientTransferProhibited và clientHold là khóa do nhà đăng ký đặt; serverHold nghĩa là registry rút domain khỏi vùng dữ liệu (thường là một hành động tuân thủ); redemptionPeriod và pendingDelete là các giai đoạn ân hạn 30 ngày và 5 ngày sau khi xóa, sau đó domain có thể được bất kỳ ai đăng ký lại. Một lần tra hiện pendingDelete thực chất là một bộ đếm ngược.",
+          "Một thói quen đáng hình thành: đối chiếu nameserver ở đây với công cụ DNS. Một domain có WHOIS nói nhà đăng ký X nhưng NS lại trỏ tới một nhà cung cấp hosting không liên quan là chuyện phổ biến và lành tính — nhưng khi đăng ký còn mới và NS là một hosting trọc, tổ hợp ấy là mẫu kinh điển của một domain dùng bỏ.",
+        ],
+      },
+      {
+        heading: "Vì sao RDAP thay WHOIS cổng 43",
+        paragraphs: [
+          "WHOIS cổ điển là một giao thức thập niên 80: văn bản tự do không cấu trúc qua TCP cổng 43 dạng thô, với định dạng khác nhau theo từng registry, không xác thực và không hợp đồng giới hạn tần suất. RDAP — do IETF định nghĩa là người kế nhiệm — trả lời cả ba: phản hồi JSON qua HTTPS, một mô hình dữ liệu thống nhất giữa các registry, và hỗ trợ kiểm soát truy cập, giới hạn tần suất cùng tên miền quốc tế hóa. ICANN bắt buộc với mọi registry TLD chung.",
+          "Với một công cụ trình duyệt, khác biệt mang tính cấu trúc: phản hồi RDAP là JSON được lấy như bất kỳ lời gọi API nào, nên kết quả có thể được chuẩn hóa thay vì parse regex từ một chùm văn bản. Công cụ này hỏi rdap.org, thứ điều hướng từng truy vấn tới máy chủ RDAP có thẩm quyền của TLD domain và đi theo redirect thay bạn.",
+          "Ghi chú độ phủ trung thực: vận hành một máy chủ RDAP công khai là quyết định của từng registry, nên TLD chung gần như được phủ toàn bộ trong khi nhiều mã quốc gia thì không. Với những TLD đó, tra WHOIS kiểu cũ vẫn khả thi ở nơi khác — nhưng hãy đợi văn bản tự do và một truy vấn không mã hóa, đúng những vấn đề RDAP được dựng để cho nghỉ hưu.",
+        ],
       },
     ],
   },
@@ -4394,6 +5316,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Mọi hệ số trên trang này đều là một định nghĩa",
+        paragraphs: [
+          "Phép đổi inch-sang-centimet không mang lỗi đo đạc vì nó không phải một phép đo: 1 in = 2.54 cm chính xác tuyệt đối, cố định bởi hiệp định quốc tế về yard và pound năm 1959, thứ hòa giải những khác biệt nhỏ đã chui vào giữa bản của Mỹ và bản của Anh về yard. Cùng hiệp định ấy ghim yard tại 0.9144 m và pound tại 0.45359237 kg, nên cả thang độ dài imperial treo trên một tỷ lệ chính xác duy nhất.",
+          "Phía metric cũng chính xác ngang hàng. Mét từng là một thanh kim loại trong một hầm ở Paris, nhưng từ 1983 nó được định nghĩa qua tốc độ ánh sáng: quãng đường ánh sáng đi trong 1/299.792.458 giây, với bản thân giây được khóa vào bước chuyển nguyên tử cesium. Điều đó biến tốc độ ánh sáng thành một con số chính xác theo định nghĩa, và mọi hệ số độ dài metric chính xác theo nó.",
+          "Vì cả hai phía đều là định nghĩa, các phép đổi nối chuỗi không tích lũy làm tròn: inch sang foot sang mét không mất gì bất kể chuỗi dài bao nhiêu. Làm tròn chỉ xuất hiện ở hiển thị, nơi kết quả được định dạng thành sáu chữ số có nghĩa — đủ cho việc kỹ thuật mà không in những chữ số thuần túy là nhiễu.",
+        ],
+      },
+      {
+        heading: "Sáu chữ số, và dặm này không phải dặm kia",
+        paragraphs: [
+          "Dừng ở sáu chữ số có nghĩa là có chủ đích. 1 mi chính xác là 1.609,344 m, nên in nhiều hơn sẽ trung thực nhưng vô dụng — thước dây, máy GPS và biển báo đường không bao giờ đạt độ chính xác ấy. Các phép đổi hằng ngày cần ba hay bốn chữ số; sáu để lại quỹ cho xây dựng và gia công cơ khí, nơi chữ số cuối vẫn có nghĩa.",
+          "Cái bẫy kinh điển là hai cây dặm. Dặm statute là 1.609,344 m; dặm hải lý là 1.852 m — dài hơn cỡ 8%. Hàng không và hàng hải dùng riêng dặm hải lý, nên một lộ trình tính bằng dặm statute đánh thấp khoảng cách và nhiên liệu theo đúng biên ấy. Công cụ này liệt kê nmi riêng vì chính lý do đó.",
+          "Giá trị của dặm hải lý không phải tùy hứng: nó xấp xỉ một phút cung vĩ độ dọc một kinh tuyến, cách nó sống sót qua hàng thế kỷ thực hành hàng hải. Hội nghị Thủy văn Quốc tế 1929 ghim nó đúng 1.852 m, và knot — một dặm hải lý mỗi giờ — kế thừa độ chính xác ấy.",
+        ],
+      },
+      {
+        heading: "Những chỗ phép đổi thực sự cắn",
+        paragraphs: [
+          "Form hành lý hãng bay hỏi bằng centimet trong khi vali được bán theo inch; thông số nội thất, khoảng trống cửa và ô để thiết bị trộn hệ trong cùng một dự án; bản vẽ mộc đến từ Mỹ theo foot và phân số trong khi gỗ được bán theo milimet. Trong tất cả những ca này, nhìn cả bảng đơn vị cùng lúc hơn là gõ từng cặp vào ô tìm kiếm.",
+          "Các bộ chuyển đổi của công cụ tìm kiếm xử lý một cặp mỗi lần và thường làm tròn hai ba chữ số — ổn cho một quãng đường đi bộ, quá thô cho các kiểm tra lặp lại. Ở đây một đầu vào cập nhật mọi đơn vị cùng lúc, và dòng hệ số hiển thị tỷ lệ chính xác được dùng, nên kết quả có thể được kiểm chứng chứ không chỉ được tin mù.",
+          "Từ 1959 inch đã đồng nhất ở Mỹ và Anh, nhưng các tài liệu cũ — hồ sơ đất đai nhất là — có thể mang giá trị đo đạc trước hiệp định chênh nhau ở chữ số có nghĩa thứ sáu. Mọi thứ tính cục bộ trong trình duyệt của bạn; diện tích và thể tích dựng trên các độ dài này được các bộ chuyển đổi diện tích và thể tích phủ theo cùng chính sách hệ số chính xác.",
+        ],
+      },
+    ],
   },
   "weight-converter": {
     name: "Chuyển đổi trọng lượng",
@@ -4421,6 +5369,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Công cụ chuyển đổi này có miễn phí?",
         a: "Có — nó chạy hoàn toàn trong trình duyệt của bạn. Không giới hạn, không quảng cáo trên kết quả, không đăng ký.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Cái pound ngừng di chuyển",
+        paragraphs: [
+          "Trước 1959, pound của Mỹ và của Anh chênh nhau quanh chữ số thập phân thứ sáu — bé, nhưng thật khi bạn cân một tàu hàng. Hiệp định quốc tế về yard và pound ghim pound avoirdupois đúng 0.45359237 kg, chấm dứt sự trôi dạt. Mọi phép đổi pound-sang-ki-lô-gam kể từ đó chạy trên một con số bị đóng băng.",
+          "Ki-lô-gam đổi theo một con đường khác: từ 1889 nó được định nghĩa bằng một trụ platinum-iridium trong một hầm ở Sèvres (le Grand K), đơn vị cơ bản SI cuối cùng được định nghĩa bằng một hiện vật. Năm 2019 nó được định nghĩa lại qua hằng số Planck — một giá trị chính xác do tự nhiên cố định, thay cho một đồ vật có thể được hay mất nguyên tử.",
+          "Khoản lợi thực dụng như nhau theo cả hai đường: không làm tròn giữa các hệ thống, không bao giờ. Stone (chính xác 14 lb), ounce (1/16 lb) và tấn đều quy về các phân số chính xác, nên cả bảng của bộ chuyển đổi này treo trên hai hằng số đóng băng — 0.45359237 và định nghĩa của ki-lô-gam — chứ không treo trên các giá trị trung bình đo đạc.",
+        ],
+      },
+      {
+        heading: "Troy, avoirdupois, và ounce này không phải ounce kia",
+        paragraphs: [
+          "Ounce thường là avoirdupois: 28,349523125 g. Ounce troy — cái mà thị trường vàng, bạc và đá quý báo giá — là 31,1034768 g, nặng hơn cỡ 10%. Vàng được định giá theo ounce troy, luôn luôn; thực phẩm và bưu phí là avoirdupois. Trộn chúng làm lệch giá kim loại mười phần trăm.",
+          "Stone là một kẻ sống sót: chính xác 14 pound, và vẫn là đơn vị cân nặng cơ thể hằng ngày ở Anh và Ireland — một người nặng 11 stone là 69,85 kg. Phần lớn thế giới không bao giờ gặp nó, đó chính là lý do nó được liệt kê ở đây thay vì bị lặng lẽ bỏ quên.",
+          "Carat thuộc về đá quý, chính xác 200 mg theo quy ước quốc tế — và nó đo khối lượng, không đo độ tinh khiết. Độ tinh khiết là karat với chữ k (vàng 24 karat). Hai từ là anh em họ, và nhầm chúng đã khiến người mua mất tiền thật tại quầy trang sức.",
+        ],
+      },
+      {
+        heading: "Khối lượng, trọng lượng, và cái cân nói dối một cách lịch sự",
+        paragraphs: [
+          "Vật lý phân biệt khối lượng (bao nhiêu vật chất, tính bằng ki-lô-gam) với trọng lượng (lực mà trọng trường áp lên, tính bằng niutơn). Cân hằng ngày đo lực và hiển thị một số khối lượng — ổn dưới một trọng trường, gãy trong quỹ đạo. Sự không trọng lượng của phi hành gia là mất trọng lượng biểu kiến, không mất khối lượng.",
+          "Trang này chỉ kinh doanh khối lượng: kg, g, lb, oz, stone và carat đều là đơn vị khối lượng, và không có đơn vị lực nào bị trộn vào. Đó là lý do cùng phép đổi ấy chạy cho một công thức nấu ăn ở São Paulo lẫn một thông số tải trọng, trong khi số đọc của một cân lò xo sẽ cần trọng trường địa phương đồng ý.",
+          "Hạn mức hành lý, hạng cân thể thao và giá cước bưu kiện đều sống trong các đơn vị này, và mọi thứ tính trong trình duyệt của bạn — con số trên cân nhà tắm vẫn là của bạn. Sáu chữ số có nghĩa phủ từ gắn đá (carat) đến hàng hóa (tấn) mà không phải đổi công cụ.",
+        ],
       },
     ],
   },
@@ -4452,6 +5426,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Acre từ đâu đến",
+        paragraphs: [
+          "Acre không phải một phát minh metric gọn gàng — nó là phép tính nông nghiệp trung cổ. Một acre là diện tích một đội bò kéo có thể cày trong một ngày: một dải dài một furrow (một furlong, cỡ 220 yard) rộng một chain (22 yard), cho ra 43.560 feet vuông sống sót đến hôm nay. Các đơn vị sinh ra từ lao động hằng ngày giải thích vì sao nhiều phép đo đất đai kỳ lạ cụ thể đến vậy — chúng mã hóa những gì một ngày làm việc đạt nổi, chứ không phải điều phép toán thập phân sẽ chọn.",
+          "Hectare là câu trả lời metric cho cùng câu hỏi: 100 mét nhân 100 mét, đúng 10.000 m², được nhận cùng hệ metric sau Cách mạng Pháp như một phần cuộc cải cách đo lường hợp lý hóa. Một hectare là 2,471 acre — hệ số gồ ghề ấy là cặn lịch sử của hai hệ thống trả lời một nhu cầu.",
+          "Công cụ này dẫn mọi đơn vị qua các hệ số SI chính xác thay vì các xấp xỉ từng cặp: foot quốc tế được định nghĩa đúng 0,3048 m bởi hiệp định 1959 giữa các nước nói tiếng Anh, nên feet vuông chính xác là 0,09290304 m². Foot đo đạc của Mỹ cũ hơn chênh cỡ 2 phần triệu — thấp xa dưới mức danh sách bất động sản cần, nhưng là lý do tài liệu trắc địa đôi khi hiện một chữ số thập phân thứ năm khác nhau.",
+        ],
+      },
+      {
+        heading: "Đọc diện tích đất qua các hệ thống",
+        paragraphs: [
+          "Các điểm neo hằng ngày đáng nhớ: một hectare cỡ hai phẩy rưỡi acre; một sân bóng đá cỡ 0,7 hectare (gần 1,8 acre); một lô đất ở thành phố điển hình dao động vài trăm đến vài nghìn mét vuông. Danh sách bất động sản ở Mỹ báo feet vuông, ở phần lớn thế giới mét vuông, còn thửa đất thì acre hay hectare — cùng căn hộ ấy đọc rất khác nhau qua các đơn vị, và đó chính là chỗ các sai sót đổi đơn vị trong quyết định mua xảy ra.",
+          "Cẩn thận sự nhầm vuông-với-tuyến: tăng gấp đôi độ dài cạnh là tăng gấp bốn diện tích. Một lô 20 m × 20 m là 400 m², không phải 200 — một cú trượt đã gây ra không ít tranh chấp bất động sản. Tương tự, giá mỗi mét vuông và giá mỗi feet vuông chênh nhau hệ số cỡ 10,76, không phải 3,28.",
+          "Với sàn nhà và sơn, phép đổi là nửa dễ; nửa khó là hao hụt — dân chuyên nghiệp cộng 5–10% cho cắt và lỗi. Bộ chuyển đổi cho bạn diện tích thật; số lượng đặt hàng là một phán quyết đắp lên trên.",
+        ],
+      },
+      {
+        heading: "Hệ số chính xác, tất cả tính cục bộ",
+        paragraphs: [
+          "Mỗi phép đổi nhân với hệ số chính thức chính xác ngay trong trình duyệt của bạn và hiển thị sáu chữ số có nghĩa, nên 1 acre hiện là 4.046,86 m² — không phải một 4.000 được làm tròn. Mọi đơn vị cập nhật trực tiếp từ một đầu vào duy nhất, biến công cụ thành một bảng so sánh mà không cần chọn lại thứ gì.",
+          "Độ chính xác kép đầy đủ được dùng bên trong; làm tròn chỉ xảy ra ở hiển thị. Các phép đổi nối chuỗi — acre sang hectare sang mét vuông — do đó không tích lũy lỗi, vì không giá trị làm tròn trung gian nào được tái sử dụng.",
+          "Không gì được gửi đi đâu cả: diện tích đất và kích thước tài sản ở lại trên thiết bị của bạn. Với người mua nhà so sánh các tin đăng hay một nông dân đàm phán hợp đồng thuê, mô hình cục bộ ấy còn có nghĩa là công cụ chạy ngoài đồng, offline, không cần kết nối.",
+        ],
+      },
+    ],
   },
   "volume-converter": {
     name: "Chuyển đổi thể tích",
@@ -4479,6 +5479,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Kết quả chuyển đổi có chính xác?",
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Hai gallon, một cái tên",
+        paragraphs: [
+          "Gallon chia đôi khi các đế chế chia đôi. Mỹ giữ gallon rượu vang Anh cổ 231 inch khối (chuẩn hóa bởi một đạo luật Anh đầu thập niên 1700), thứ giờ quy ra đúng 3,785411784 lít khi inch đã có định nghĩa metric 1959 của nó. Đạo luật Trọng lượng và Đo lường 1824 của Anh thay nó bằng một gallon imperial định nghĩa là thể tích của mười pound nước: đúng 4,54609 lít. Cùng một từ, cách nhau cỡ 20%.",
+          "Sự lệch nhau trải xuống: một quart Mỹ là 0,946 L, quart imperial 1,137 L; một pint Mỹ là 473 mL trong khi pint imperial — cái trong pub Anh — là 568 mL. Công thức nấu, số liệu nhiên liệu và hóa chất hồ bơi đều đi sai khi vượt Đại Tây Dương nếu tin cái tên đơn vị thay vì tin hệ thống.",
+          "Công cụ này gắn nhãn hệ thống cho mọi đơn vị — gal (US), gal (UK), qt (US), pt (US) — chính vì các cái tên một mình nói dối. Nếu một nguồn chỉ nói gallon, hãy tìm xem nó được viết ở bờ nào của Đại Tây Dương trước khi đổi.",
+        ],
+      },
+      {
+        heading: "Các đơn vị bếp cũng là định nghĩa pháp lý",
+        paragraphs: [
+          "Cup ở đây là cup hợp pháp của Mỹ, đúng 236,5882365 mL, và fluid ounce đúng 29,5735295625 mL — cả hai đều là phân số cố định của gallon Mỹ (một gallon là 16 cup), không phải các quy ước tiện tay.",
+          "Công thức nấu là cái bẫy số một: cup trong một sách Anh và pint trong một sách Mỹ mỗi cái chỉ một thể tích hợp pháp khác nhau. Đổi đơn vị trước khi tính tỷ lệ, nếu không tỷ lệ bột-nước gãy. Chất lỏng đặc biệt không bao giờ nói dối — một cup Mỹ nước là 236,6 g, nên lỗi chỉ có thể đến từ sai đơn vị.",
+          "Các đơn vị khối phục vụ thế giới khác: dung tích động cơ theo inch khối và lít, bể cá và bể chứa theo feet khối, ống HVAC theo mét khối. 1 ft³ chính xác là 28,316846592 L, và phía metric xếp thành các luỹ thừa của mười sạch sẽ.",
+        ],
+      },
+      {
+        heading: "Đọc bảng, và chỗ nó thể hiện giá trị",
+        paragraphs: [
+          "Tiêu hao nhiên liệu tự nó chia theo quốc gia: mpg Mỹ và mpg Anh mang cùng khe 20% của gallon, đó là lý do một thông số 50 mpg của Anh trông bất khả cạnh các con số Mỹ. Bất kỳ con số nào dựa trên gallon đều kế thừa vết nứt ấy.",
+          "Liều lượng bể cá và clo hồ bơi là ca nghiêm túc: liều tỷ lệ với thể tích thật, và một lỗi 20% là một lần quá liều. Đổi một lần ra lít và bơm liều từ con số đó — riêng điều đó đã ngăn được nó.",
+          "Như khắp nơi trên trang, phép tính chạy trong trình duyệt của bạn và không con số nào được upload. Sáu chữ số có nghĩa đọc rõ cho công thức nấu lẫn thông số mà không xếp chồng những chữ số không ai đọc. Khi thể tích vượt hệ thống, hãy đọc tên hệ thống như một phần tên đơn vị — đó là thói quen trang này muốn để lại.",
+        ],
       },
     ],
   },
@@ -4510,6 +5536,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Knot: đơn vị sinh ra từ một sợi dây",
+        paragraphs: [
+          "Trước các thiết bị đo tốc độ cơ khí, thủy thủ ném một tấm gỗ buộc vào dây có nút ra khỏi mạn, đếm một khoảng cố định bằng đồng hồ cát, và đo tốc độ bằng bao nhiêu nút chạy qua tay — đơn vị giữ nguyên cái tên. Định nghĩa hôm nay: một knot là một dặm hải lý mỗi giờ, và vì dặm hải lý chính xác là 1.852 m (ghim bởi Hội nghị Thủy văn Quốc tế 1929), 1 kn chính xác là 1,852 km/h.",
+          "Thời tiết hàng không và hàng hải, kế hoạch bay và tuyến vận tải đều báo bằng knot, trong khi biển báo đường bộ chuyển sang km/h hay mph — đó là lý do phi công đổi tốc độ tiếp cận và thủy thủ đọc cảnh báo gió mạnh dùng đúng phép đổi này nhiều hơn bất kỳ phép đổi nào khác.",
+          "Vì 1 kn = 1,852 km/h là chính xác, các phép đổi vào ra knot không mang lỗi làm tròn cho tới bước hiển thị. Sáu chữ số có nghĩa giữ con số trung thực: 100 km/h là 62,1371 mph, không phải một con 62 được làm tròn.",
+        ],
+      },
+      {
+        heading: "Mach không phải một đơn vị bạn có thể ghim xuống",
+        paragraphs: [
+          "Tốc độ âm thanh không hằng định: nó phụ thuộc nhiệt độ không khí, rơi từ cỡ 340 m/s tại mực nước biển xuống khoảng 295 m/s ở độ cao hành trình, nơi không khí nằm ở −50 °C hay lạnh hơn. Bất kỳ hệ số Mach đơn lẻ nào do đó đều là một xấp xỉ. Trang dùng giá trị mực nước biển (1 Mach = 340,29 m/s) và nói rõ ngay trong tên đơn vị.",
+          "Việc gắn nhãn ấy quan trọng: một máy bay hành trình ở Mach 0,8 tại 11 km thực ra di chuyển cỡ 236 m/s (khoảng 850 km/h), không phải 272 m/s — áp hệ số mực nước biển phóng đại tốc độ trên mặt đất của nó cỡ 15%. Hãy dùng hàng Mach chỉ cho so sánh thô ở mực nước biển, và đọc tốc độ máy bay bằng knot hay km/h khi độ chính xác có ý nghĩa.",
+          "Cột m/s là điểm neo: mét mỗi giây là đơn vị kết hợp SI, và km/h, mph, ft/s với knot đều quy về nó qua các định nghĩa độ dài chính xác. Đó là lý do một chuỗi như knot → m/s → mph không bao giờ trôi dạt.",
+        ],
+      },
+      {
+        heading: "Nhịp chạy là tốc độ lộn ngược",
+        paragraphs: [
+          "Runner nghĩ bằng phút mỗi kilômét, thứ không phải một đơn vị tốc độ mà là nghịch đảo của nó: 5:00 phút/km là 12 km/h, và 6:00 phút/km là 10 km/h. Sự đảo ngược ấy là lý do nhịp không thể đổi bằng cách nhân — bạn chia 60 cho tốc độ thay vào đó. Bộ chuyển đổi này chỉ liệt kê các đơn vị tốc độ; để ra nhịp, hãy đổi sang km/h rồi lấy 60 chia cho nó (máy chạy bộ ở 12 km/h là 5:00 phút/km).",
+          "Cách dùng hằng ngày khác là lái xe qua biên giới: 120 km/h đối đầu một giới hạn 65 mph, hay 70 mph cao tốc Mỹ đọc thành 113 km/h. Vì 1 mph = 1,609344 km/h chính xác (bản thân dặm là chính xác), phép so sánh đáng tin tới từng chữ số hiển thị.",
+          "Tốc độ gió bắc cùng cây cầu ấy: các cơ quan khí tượng quốc gia báo km/h hay m/s trong khi dự báo hàng hải dùng knot — một cơn gió 10 m/s là 19,4 kn, đúng loại phép kiểm liếc-một-cái mà trang này được dựng cho. Mọi phép tính chạy trong trình duyệt của bạn, nên trang vẫn hoạt động offline, giữa chuyến bay hay ngoài biển, khi mobile data đã biến mất.",
+        ],
+      },
+    ],
   },
   "data-converter": {
     name: "Chuyển đổi dung lượng",
@@ -4537,6 +5589,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Kết quả chuyển đổi có chính xác?",
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tranh chấp 1000 với 1024, được tiêu chuẩn dàn xếp",
+        paragraphs: [
+          "Hai truyền thống va nhau trong các đơn vị dữ liệu. Phần cứng và viễn thông dùng tiền tố thập phân: 1 KB = 1.000 byte, vì dung lượng đĩa và tốc độ mạng được thiết kế theo luỹ thừa của mười. Bộ nhớ và hệ điều hành theo lịch sử dùng nhị phân: 1 K = 1.024 byte, vì bộ nhớ được đánh địa chỉ theo luỹ thừa của hai. Sự va chạm sinh ra khoảng cách nổi tiếng — một ổ “500 GB” hiện khoảng 465 “GB” trong hệ điều hành, vì ổ đĩa nghĩa là 500 × 10⁹ byte còn hệ điều hành chia cho 1024³.",
+          "Tiêu chuẩn IEC 1998 dàn xếp việc đặt tên: các tiền tố nhị phân là KiB, MiB, GiB (1 KiB = 1.024 byte), còn KB, MB, GB thuộc hệ thập phân (1 MB = 1.000.000 byte). Windows vẫn báo kiểu nhị phân nhưng gắn nhãn GB, kéo dài sự lẫn lộn; macOS chuyển sang đếm thập phân nhiều năm trước — đó là lý do cùng file ấy “hụt” đi khi di chuyển giữa các nền tảng.",
+          "Công cụ này hiện cả hai cách diễn giải cạnh nhau để bạn đối chiếu với hệ thống đích đang dùng: báo giá băng thông, dung lượng ổ và thông số RAM đều theo các quy ước khác nhau, và cùng một con số thực sự là hai kích thước khác nhau tùy cái nào được muốn.",
+        ],
+      },
+      {
+        heading: "Dùng đơn vị nào khi nào",
+        paragraphs: [
+          "Băng thông mạng là thập phân, luôn luôn: một kết nối “100 Mbps” di chuyển 100 × 10⁶ bit mỗi giây — cỡ 12,5 MB thập phân mỗi giây, không phải 12,5 MiB. Các ước lượng thời gian tải bỏ qua điều này lạc quan cỡ 5% ở thang megabyte và tệ hơn ở thang cao hơn.",
+          "Kích thước file trong đa số hệ điều hành hiện đại và giao diện đám mây là thập phân (hay hỗn hợp); RAM là nhị phân không ngoại lệ, vì chip nhớ được dựng theo luỹ thừa của hai. Khi một thông số hệ thống nói “16 GB RAM”, đó là 16 × 2³⁰ byte — loại chi tiết có ý nghĩa khi đang lập kế hoạch máy ảo hay giới hạn bộ nhớ.",
+          "Lập kế hoạch lưu trữ là nơi tiền thật chạm khoảng cách: một trung tâm dữ liệu cung cấp “1 PB” đĩa thô nhận được khoảng 10–12% dung lượng nhị phân dùng được ít hơn phép tính ngây thơ gợi ý, trước cả overhead của hệ tập tin. Hạn mức và trần truyền trong hợp đồng nên được đọc với quy ước đơn vị trong đầu — “1 TB traffic mỗi tháng” theo thập phân ít hơn khoảng 7,4% so với 1 TiB.",
+        ],
+      },
+      {
+        heading: "Chính xác, hai quy ước, cục bộ",
+        paragraphs: [
+          "Mỗi đầu vào được đổi qua các hệ số luỹ thừa của mười và của hai chính xác — 1 KiB đúng 1.024 byte, 1 KB đúng 1.000 — và kết quả hiển thị đủ chữ số có nghĩa để hai quy ước không bao giờ hòa vào một con số.",
+          "Công cụ phủ cả bit lẫn byte, vì băng thông được báo theo bit: quan hệ 8 lần giữa byte và bit là cái trượt kinh điển thứ hai (một đường “25 Mbps” không bao giờ tải 25 MB trong một giây — chỉ một phần tám của nó).",
+          "Mọi phép tính chạy trong trình duyệt của bạn; không file hay byte đếm nào được truyền đi. Với các bảng lập kế hoạch dung lượng và soát hợp đồng, hiển thị kép nghĩa là bạn không bao giờ phải nhớ nhà cung cấp nào đếm theo cách nào.",
+        ],
       },
     ],
   },
@@ -4568,6 +5646,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Giây: chiếc đồng hồ duy nhất vật lý chứng nhận",
+        paragraphs: [
+          "Mọi thứ trên giây ở trang này là số học chính xác: một phút là 60 s theo định nghĩa, một giờ 3.600, một ngày 86.400. Bản thân giây không còn gắn với chuyển động quay của Trái Đất mà gắn với vật lý nguyên tử — 9.192.631.770 chu kỳ bức xạ của một nguyên tử cesium-133, định nghĩa được nhận năm 1967 giữ các đồng hồ trung thực ngay cả khi vòng quay hành tinh chao đảo.",
+          "Sự chính xác ấy là lý do các phép đổi theo thang không bao giờ trôi: nanosecond → millisecond → giờ là nhân thuần với các số nguyên được định nghĩa. Làm tròn chỉ vào ở hiển thị, chặn ở sáu chữ số có nghĩa bởi bộ định dạng số của trang.",
+          "Chuyển động quay của Trái Đất là lý do thời gian nguyên tử và thời gian mặt trời từ từ bất đồng — giây nhuận tồn tại để vá khoảng hở, và “một ngày đúng bằng 86.400 giây” là một quy ước của số học khoảng thời gian, không phải một bảo đảm thiên văn. Những câu hỏi chạm đến ngày thật thuộc về máy tính ngày; trang này xử lý khoảng thời gian thuần túy.",
+        ],
+      },
+      {
+        heading: "Tháng và năm là các giá trị trung bình, có chủ đích",
+        paragraphs: [
+          "Tháng lịch chạy từ 28 đến 31 ngày, nên số học khoảng thời gian cần một quy ước. Công cụ này dùng giá trị Gregory trung bình: 30,436875 ngày mỗi tháng (365,2425 ÷ 12) và 365,2425 ngày mỗi năm — trung bình trên trọn chu kỳ Gregory 400 năm, với 97 năm nhuận chính là lý do năm trung bình không phải 365,25.",
+          "Lối tắt 365,25 (“năm Julian”) khác trung bình Gregory cỡ một ngày mỗi 2.800 năm — không đáng kể cho một kế hoạch dự án, nhưng đáng kể cho cơ học quỹ đạo hay lập lịch dài hạn. Dù cách nào nó cũng là trung bình: đổi “3 tháng” ở đây cho 91,31 ngày, trong khi ba tháng lịch thật có thể trải từ 89 đến 92.",
+          "Quy tắc thực dụng: khi đầu vào là một khoảng thời gian (một kỳ đăng ký, thời gian build, chu kỳ bán rã), các trung bình là câu trả lời đúng; khi đầu vào chạm ngày thật (hạn hợp đồng, sinh nhật), hãy dùng máy tính ngày thay vào — lịch cộng nguyên ngày một cách bất quy tắc, và không hệ số đơn lẻ nào sống sót qua điều đó.",
+        ],
+      },
+      {
+        heading: "Những chỗ số học khoảng thời gian thể hiện giá trị",
+        paragraphs: [
+          "Lập trình viên sống ở đây: timeout tính bằng mili giây, khoảng cron, cửa sổ giới hạn tần suất — 1.500 ms là 1,5 s là 0,000417 h, và nhìn thấy cả thang cùng lúc hơn là lặp lại một phép chia trong đầu. Công việc âm thanh và video chạy trên cùng phản xạ: 90 phút là 5.400 giây, không phải một tai nạn làm tròn.",
+          "Lập kế hoạch kinh doanh chạm các trung bình ngay lập tức: một “dùng thử 90 ngày” là 0,247 năm, billing hàng tháng × 12 không trùng khít một năm, và một tháng 30 ngày trong hợp đồng khác tháng Hai cỡ 7%. Viết khoảng thời gian bằng ngày khi điều đó có ý nghĩa né được toàn bộ câu hỏi — và bộ chuyển đổi này hiện đương lượng ngày của mọi đơn vị cạnh nhau.",
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn, nên trang phản hồi tức thì và chạy offline. Thứ nó hiện là các quy ước khoảng thời gian được nói to thay vì bị đưa vào lén. Dấu thời gian và bộ đếm ngược dựng trên ngày thật là việc của các công cụ timestamp và date liên quan.",
+        ],
+      },
+    ],
   },
   "pressure-converter": {
     name: "Chuyển đổi áp suất",
@@ -4595,6 +5699,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Kết quả chuyển đổi có chính xác?",
         a: "Hệ số chuyển đổi theo định nghĩa chuẩn quốc tế (SI và NIST). Kết quả hiển thị tới 8 chữ số có nghĩa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Một đại lượng, chục hội đồng nghề",
+        paragraphs: [
+          "Áp suất có nhiều đơn vị đến thế vì mỗi ngành đóng băng đơn vị riêng trước khi các tổ chức tiêu chuẩn kịp phân xử: kỹ thuật Mỹ giữ psi, công nghiệp châu Âu chuẩn hóa bar, y học giữ milimet thuỷ ngân đến từ áp kế thuỷ ngân, còn khí tượng giữ millibar — đổi tên thành hectopascal, đồng nhất về số. Pascal, một niutơn trên mét vuông, là trọng tài SI mà tất cả quy qua.",
+          "Các điểm neo chính xác ở chỗ tiêu chuẩn bảo đảm: một khí quyển chuẩn đúng 101.325 Pa, bar đúng 100.000 Pa (từ baros tiếng Hy Lạp, sức nặng), và psi quy về qua các định nghĩa inch và pound chính xác. mmHg là cái kỳ lạ — một giá trị quy ước (cỡ 133,322 Pa) gắn với khối lượng riêng của thuỷ ngân và trọng trường chuẩn.",
+          "Với các hệ số được ghim, các phép đổi nối chuỗi không rung: bar → psi → kPa → mmHg đáp xuống cùng một con số bất kể đường đi, hiển thị sáu chữ số có nghĩa. Thứ rung là quy ước mà mỗi con số được viết theo — đó là bài toán của phần tiếp theo.",
+        ],
+      },
+      {
+        heading: "Đồng hồ đo tương đối và tuyệt đối: sai lầm áp suất kinh điển",
+        paragraphs: [
+          "Đa số đồng hồ đo đọc 0 tại áp suất khí quyển — chúng báo áp suất tương đối, phần vượt trên môi trường xung quanh. Áp suất tuyệt đối đếm từ số 0 thật (chân không). Ở mực nước biển, một lốp xe ở 32 psi tương đối là cỡ 47 psi tuyệt đối; một thông số không nói nó dùng quy ước nào là một thông số đáng ngờ.",
+          "Tai nạn thật xảy ra ở đây: một bình chịu áp 150 psi (tương đối) được nạp qua đồng hồ của quy ước kia, hay một bình lặn bị đọc như tuyệt đối, sinh ra một lỗi đúng bằng một khí quyển — một biên chí mạng ở độ sâu. Bảng lặn, quy chuẩn nồi hơi và thông số quy trình đều tuyên bố quy ước của mình; hãy mang quy ước theo con số.",
+          "Bộ chuyển đổi chỉ hiện phép đổi đơn vị thô, nên phán quyết thuộc về bạn: xác định mỗi con số bạn gặp là tương đối hay tuyệt đối trước khi so sánh bất cứ thứ gì. Biểu đồ thời tiết dùng một ca đặc biệt của tuyệt đối — áp suất mặt đất cỡ 1013 hPa tự nó là sức nặng của một khí quyển.",
+        ],
+      },
+      {
+        heading: "Các con số đứng sau áp suất hằng ngày",
+        paragraphs: [
+          "Một lốp xe ở 32 psi là cỡ 2,21 bar — đúng những gì một cây bơ châu Âu hiển thị, trừ phần làm tròn của nó. Huyết áp 120/80 mmHg là cỡ 16/10,7 kPa, và y học chưa bao giờ đổi vì các con số mmHg ngắn và phổ quát tại giường bệnh.",
+          "Thợ lặn sống trong bar hay psi: một bình đầy ở 200 bar là cỡ 2.900 psi, và nước biển cộng thêm một khí quyển cho mỗi 10 mét độ sâu — ở đó, đổi áp suất là số học an toàn, không phải chuyện tầm phào.",
+          "Như khắp nơi trên trang, phép tính chạy trong trình duyệt của bạn và không gì bạn nhập được lưu lại. Sáu chữ số có nghĩa giữ các khác biệt nhỏ nhìn thấy: giữa 2,0 và 2,2 bar trong một lốp nằm cỡ 3 psi — ít đến mức lỡ trong trò chuyện, đủ để có ý nghĩa với nhiên liệu và mài mòn.",
+        ],
       },
     ],
   },
@@ -4626,6 +5756,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có — nó chạy hoàn toàn trong trình duyệt của bạn. Không giới hạn, không quảng cáo trên kết quả, không đăng ký.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Joule và hóa đơn trong hộp thư của bạn",
+        paragraphs: [
+          "Joule là đơn vị SI: một niutơn lực trên một mét, hay một watt duy trì trong một giây. Nó bé ở thang hộ gia đình, đó là lý do hóa đơn điện nói ki-lô-oát-giờ — và ki-lô-oát-giờ là một gói joule với định nghĩa chính xác: 1 kWh = 3,6 MJ, luôn luôn, vì oát-giờ chỉ là joule nhân 3.600.",
+          "Sự chính xác ấy làm số học năng lượng hơi đặc biệt: cột điện không chứa bất kỳ hằng số đo đạc nào. Một máy sưởi 2.000 W chạy một giờ tiêu thụ 2 kWh = 7,2 MJ, và phép đổi không thể trôi vì cả hai phía đều là đại lượng được định nghĩa.",
+          "Đọc hóa đơn qua các quốc gia là khoản lời hằng ngày: châu Âu báo kWh, khí đốt thỉnh thoảng MJ, và so sánh một máy sưởi theo BTU với một điều hòa theo watt cần đúng cây cầu này. Sáu chữ số có nghĩa vượt xa nhu cầu của một hóa đơn, nhưng chúng giữ các phép cộng cấp audit trung thực.",
+        ],
+      },
+      {
+        heading: "Nghiệp kinh đôi của calorie",
+        paragraphs: [
+          "Calorie được định nghĩa theo kiểu thế kỷ 19: nhiệt nâng một gam nước lên một độ C. Nhiệt dung của nước trôi nhẹ theo nhiệt độ, nên định nghĩa mơ hồ tách thành mấy thứ calorie — công cụ này dùng calorie nhiệt hóa, nay ghim đúng 4,184 J, quy ước đứng sau đa số bảng hóa học và thực phẩm.",
+          "Calorie thực phẩm viết hoa C là một kilocalorie: 1.000 calorie nhỏ, 4.184 J. Nhãn EU hiện kJ và kcal cạnh nhau; nhãn Mỹ nói Calories với nghĩa kcal. Cú trượt hệ số 1.000 là lỗi kinh điển của app ăn kiêng — nhập 1 kcal → cal ở trên và nhìn khoảng hở.",
+          "Vật lý cho calorie nghỉ hưu vì lý do chính đáng, nhưng bếp và phòng gym sẽ không bao giờ: đơn vị sống sót vì bao nhiêu nhiệt làm ấm một gam nước là bức tranh năng lượng trực giác nhất từng có người phát minh. Chỉ cần mang theo tỷ lệ 1:1.000 cùng nó.",
+        ],
+      },
+      {
+        heading: "BTU và đơn vị vật lý mà chẳng ai viết hóa đơn theo",
+        paragraphs: [
+          "BTU — British thermal unit — là calorie của thế giới dùng pound: nhiệt nâng một pound nước lên một độ Fahrenheit, cỡ 1.055 J với giá trị ISO chuẩn. Công suất HVAC được báo theo BTU mỗi giờ, nên một điều hòa 10.000 BTU giao cỡ 2,93 kWh làm mát mỗi giờ — và tiêu thụ một chút điện nhiều hơn thế để làm điều đó.",
+          "Vật lý giữ sổ sách bằng electronvolt: 1 eV chính xác là 1,602176634 × 10⁻¹⁹ J, độ chính xác được bảo đảm bởi định nghĩa lại SI 2019. Máy gia tốc hạt và hóa học pin nói eV; cửa hàng tạp hóa và hóa đơn xăng thì không bao giờ.",
+          "Bộ chuyển đổi này xếp các thế giới cạnh nhau — joule, calorie, kWh, BTU và eV từ một đầu vào, tất cả tính cục bộ trong trình duyệt của bạn. Sáu chữ số có nghĩa có ý nghĩa nhất nơi các độ lớn va nhau: một món ăn nhẹ 200 kcal là 836.800 J, và nhìn con số ấy cạnh các megajoule của một máy sưởi là cách nhanh nhất để cảm nhận năng lượng thực phẩm nghĩa là gì.",
+        ],
+      },
+    ],
   },
   "temperature-converter": {
     name: "Chuyển đổi nhiệt độ",
@@ -4653,6 +5809,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Công cụ chuyển đổi này có miễn phí?",
         a: "Có — nó chạy hoàn toàn trong trình duyệt của bạn. Không giới hạn, không quảng cáo trên kết quả, không đăng ký.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ba thang, ba điểm số 0",
+        paragraphs: [
+          "Nhiệt độ là kẻ khác thường trong các đơn vị: các thang không chia sẻ một điểm 0, nên mọi phép đổi là một công thức dịch chuyển, không phải một phép nhân. Celsius neo vào nước — 0 °C đóng băng, 100 °C sôi ở áp suất chuẩn. Fahrenheit neo khác đi — 32 °F đóng băng, 212 °F sôi. Kelvin neo vào chính vật lý: 0 K là số không tuyệt đối, −273,15 °C, nơi chuyển động phân tử chạm mức tối thiểu.",
+          "Vì các điểm 0 khác nhau, các công thức mang cả một tỷ lệ lẫn một offset: °F = °C × 9/5 + 32 và K = °C + 273,15. Kích thước độ liên hệ 9/5, nhưng offset là lý do 0 °C không phải 0 °F — và lý do lối tắt nhân-1,8 ngây thơ cho câu trả lời sai với mọi đầu vào trừ −40.",
+          "−40 là điểm duy nhất các thang gặp nhau: −40 °C = −40 °F chính xác. Sự tò mò ấy rơi thẳng ra khỏi các công thức và kiêm luôn phép kiểm thực tế nhanh — nếu phép tính trong đầu của bạn đặt giao điểm ở chỗ khác, offset đã bị đánh rơi trên đường.",
+        ],
+      },
+      {
+        heading: "Các thang đến từ đâu",
+        paragraphs: [
+          "Fahrenheit, đầu thế kỷ 18, ghim số 0 của ông tại một mốc lạnh ông tái lập được — một hỗn hợp đá, nước và muối — và đặt nhiệt độ cơ thể gần đỉnh thang gốc của ông (96 độ trong bản đầu, được hiệu chuẩn lại sau). Các neo kỳ lạ 32 và 212 là cặn của những lựa chọn ấy, không phải sự thanh lịch có chủ đích.",
+          "Đề xuất 1742 của Celsius thực ra chạy ngược với hôm nay: 0 tại điểm sôi, 100 tại điểm đóng băng. Dạng đảo mà ta dùng được nhận ngay sau khi ông qua đời, và định nghĩa sau đó được neo lại vào số không tuyệt đối và điểm ba trạng thái của nước thay vì điểm sôi, vì điểm sôi trôi theo áp suất.",
+          "Kelvin, đề xuất thế kỷ 19, vứt bỏ hoàn toàn các neo tùy hứng: số không là chỗ lạnh nhất mọi thứ có thể đạt. Điều đó biến Kelvin thành đơn vị SI và ngôn ngữ của vật lý — các định luật khí, nhiệt động lực học và nhiệt độ màu đều nói nó — trong khi Celsius sống sót như Kelvin dịch 273,15 cho thời tiết hằng ngày.",
+        ],
+      },
+      {
+        heading: "Đọc nhiệt độ ngoài tự nhiên",
+        paragraphs: [
+          "Cùng một con số mang mức dễ chịu khác nhau theo lĩnh vực: một lò nướng 180 °C là 356 °F trong khi núm Mỹ đánh dấu 350 °F, nên các phép đổi trong dải ấy không bao giờ đáp đúng khít; nhiệt độ cơ thể xoay quanh 37 °C / 98,6 °F, và một độ sốt là 1,8 độ Fahrenheit; thời tiết từ −10 đến 40 °C ánh xạ sang 14–104 °F.",
+          "Canh cái bẫy hiệu số: một thay đổi 1 độ Celsius bằng một thay đổi 1,8 độ Fahrenheit, nên các hiệu nhiệt độ được đổi chỉ bằng tỷ lệ, không có offset. “Trời ấm lên 10 °C” nghĩa là ấm hơn 18 °F, không phải 50 °F. Công cụ này đổi các số đọc tuyệt đối; các hiệu số cần trần tỷ lệ.",
+          "Các công thức offset chính xác, nên kết quả chỉ bị chặn bởi hiển thị sáu chữ số. Mọi thứ tính trong trình duyệt của bạn — hiển nhiên với số học nhẹ thế này, nhưng nó mang thêm phần thưởng: trang chạy offline, trong một căn bếp không sóng, đổi cài đặt lò nướng từ một chiếc điện thoại.",
+        ],
       },
     ],
   },
@@ -4686,6 +5868,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Tổng ngày sống là con số dùng cho cột mốc kiểu “số ngày trên đời” và cho các hệ thống lưu tuổi theo ngày. Nó tính từ ngày lịch theo UTC nên giờ chuyển mùa không thể khiến lệch một ngày.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao “tuổi” không phải một con số duy nhất",
+        paragraphs: [
+          "Hỏi ba hệ thống về tuổi của một người và bạn có thể nhận ba câu trả lời, vì tuổi là một quy ước trước khi là một phép tính. Quy ước phổ biến nhất — cái mà máy tính này dùng — là tuổi tròn: bao nhiêu năm, tháng và ngày trọn vẹn thực sự đã trôi qua kể từ khi sinh. Tài liệu chính thức ở đa số quốc gia dùng cách cắt “chỉ tính năm” của cùng con số ấy, đó là lý do một người sinh nhật vào ngày mai vẫn còn trẻ hơn một tuổi về mặt pháp lý so với hôm nay.",
+          "Các quy ước khác tồn tại vì lý do lịch sử và văn hóa. Vài hệ thống Đông Á truyền thống coi người sinh ra đã một tuổi và cả thế hệ cùng thêm tuổi vào dịp năm mới, cộng thêm một hay hai năm so với con số kiểu phương Tây; Hàn Quốc chính thức áp dụng tiêu chuẩn quốc tế cho đa số mục đích pháp lý năm 2023, chấm dứt phần lớn sự mơ hồ ấy. Một số bối cảnh y tế và bảo hiểm lại dùng tuổi đã điều chỉnh hay làm tròn.",
+          "Còn một điểm tinh tế về giờ trong ngày mà công cụ này cố ý bỏ qua: người sinh lúc 23:50, nói nghiêm ngặt, trẻ hơn vài giờ ở bất kỳ ngày nào so với người sinh lúc 00:10 cùng ngày. Vì máy tính làm việc trên toàn bộ ngày lịch mà không có giờ sinh, cả hai nhận cùng một tuổi — quy ước mà gần như mọi form và sổ đăng ký đều theo.",
+        ],
+      },
+      {
+        heading: "Ngày nhuận, độ dài tháng và múi giờ",
+        paragraphs: [
+          "Bảng phân rã năm/tháng/ngày là số học lịch thật, không phải chia cho một giá trị trung bình. Các tháng được tiêu trọn từ ngày sinh trở đi, và số ngày dư được đo theo độ dài thật của tháng còn lại — nên một khoảng đi qua một tháng 31 ngày, một tháng Hai 28 ngày hay năm nhuận 2024 đều ra chính xác. Ngày sinh 29 tháng Hai được coi là thêm tuổi vào 1 tháng Ba ở năm thường, khớp quy ước đa số các khu vực pháp lý dùng.",
+          "Tổng số ngày né hoàn toàn cuốn lịch: nó trừ các số ngày UTC, vốn chỉ là một phép đếm ngày tuyệt đối. Điều đó làm con số miễn nhiễm với các lần chuyển giờ mùa hè, thứ nếu không có thể khiến hiệu giờ địa phương lệch một ngày thiếu hay thừa. Dù bạn chạy trang ở đâu trên Trái Đất, “số ngày đã sống” là cùng một con số.",
+          "Bộ đếm ngày sinh nhật tới đi tới từ ngày tính tuổi tới lần xuất hiện kế tiếp của tháng và ngày sinh, và báo cả thứ trong ngày nó rơi vào — tiện để lên kế hoạch bữa tiệc trước khi tính toán gì. Ở năm không nhuận, sinh nhật 29 tháng Hai được nhắm vào 1 tháng Ba vì cùng lý do trên.",
+        ],
+      },
+      {
+        heading: "So với bảng tính, và riêng tư",
+        paragraphs: [
+          "Bảng tính có thể tính chênh tuổi bằng các hàm hiệu ngày, nhưng số học tháng của chúng là nguồn lỗi quen thuộc — các hàm được tài liệu hóa không nhất quán giữa các sản phẩm, và việc lấy nhầm biên bao-gồm/loại-trừ rất dễ xảy ra mà không hay biết. Công cụ này hiện bảng phân rã, tổng số và bộ đếm cùng nhau để bạn soát chéo từng cái bằng một cái nhìn.",
+          "Cho mục đích chính thức — visa, nhập học, quy tắc hưu — tài liệu và quy ước của khu vực pháp lý áp dụng mới là thẩm quyền, không phải bất kỳ máy tính nào. Các quy tắc như “tính tuổi vào 1 tháng Giêng theo khóa học” overrides thời gian trôi thuần túy, và công cụ này không mô hình hóa chúng.",
+          "Riêng tư ở đây mang tính cấu trúc: ngày sinh chỉ được nhập vào trình duyệt của bạn, phép tính chạy bằng JavaScript cục bộ, và không gì được upload, ghi log hay lưu. Điều đó quan trọng vì một ngày sinh đầy đủ cộng một bối cảnh là đủ để xác định một con người, nên một máy tính giữ đầu vào cục bộ là kiểu duy nhất bạn nên dán ngày sinh thật vào.",
+        ],
+      },
+    ],
   },
   "aspect-ratio-calculator": {
     name: "Máy tính tỉ lệ khung hình",
@@ -4712,6 +5920,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Dùng được tỉ lệ thập phân hay tỉ lệ lạ?",
         a: "Có. Cả hai ô tỉ lệ nhận mọi số dương nên 2.39:1 scope điện ảnh, 1.85:1, cắt dọc 4:5 cho mạng xã hội hay kích thước cảm biến 1.5:1 đều chạy — phép tính tỉ lệ giống hệt.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Các tỷ lệ điện ảnh: 1.85:1 với 2.39:1",
+        paragraphs: [
+          "Hollywood dừng ở hai chuẩn màn rộng sau hàng thập kỷ các định dạng cạnh nhau. Tỷ lệ “flat” 1.85:1 lấp đầy màn hình rạp chuẩn và được dùng cho đa số phim chính thống và tác phẩm gần với truyền hình; tỷ lệ “scope” 2.39:1 là dáng vẻ rộng, có dải đen của các bộ phim sử thi và hành động. Khi một phim scope chiếu trên TV 16:9, các dải đen bạn thấy không phải lỗi — chúng là hình học trung thực của khác biệt giữa 2.39:1 và 1.78:1.",
+          "Hệ quả thực dụng cho người sáng tạo: quay hay cắt ở 2.39:1 và mọi nền tảng sẽ thêm dải đen; cắt ở 1.85:1 hay 16:9 và bạn giữ nhiều ảnh theo chiều dọc hơn nhưng mất khung điện ảnh. Hãy dùng máy tính này trước khi chốt — nhập 3840 làm bề rộng cho 2.39:1 và bạn thấy khung cần cỡ 1607 pixel chiều cao, cho biết ngay lập tức một lần cắt scope bỏ đi bao nhiêu độ phân giải dọc.",
+          "Các định dạng cũ vẫn nổi lên trong quy trình hiện đại: 4:3 đến từ truyền hình và nhiếp ảnh phim 35mm, 3:2 từ khung phim 35mm, và 1:1 từ các định dạng in vuông lâu trước Instagram. Biết dòng dõi giúp khi phục dựng tư liệu cũ hay khớp một phong cách cổ, vì bản thân tỷ lệ mang theo cả thời đại của nó.",
+        ],
+      },
+      {
+        heading: "16:9 từ đâu ra và vì sao nó trụ lại",
+        paragraphs: [
+          "16:9 không được chọn vì thẩm mỹ. Đó là một thỏa hiệp suy ra trong thập niên 1980 để một màn hình duy nhất hiển thị cả truyền hình 4:3 đang có lẫn nội dung màn rộng điện ảnh với ít lãng phí nhất: 16:9 là trung bình hình học chia khác biệt giữa 4:3 (1,33) và các tỷ lệ phim phổ thông cỡ 2,35, tối thiểu hóa dải đen theo cả hai hướng. Khi truyền hình HD được chuẩn hóa, 16:9 đi kèm, và 1920×1080, 1280×720 cùng 3840×2160 đều kế thừa cùng hình dáng.",
+          "Sự kế thừa ấy là lý do 16:9 là mặc định an toàn cho video trên mọi nền tảng lớn hôm nay, trong khi 16:10 (1920×1200) sống sót chủ yếu trên laptop và màn hình nhắm tới việc làm tài liệu và code — phần một-phần-mười màn hình dọc thêm được giữ một dòng chữ hay một thanh công cụ nữa mà không phải cuộn.",
+          "Số học là chính xác, không phải trùng hợp: 1920÷16 = 120 và 1080÷9 = 120, nên mọi độ phân giải 16:9 là một bội sạch. Đó cũng là lý do máy tính này rút gọn 1920×1080 thành đúng 16:9 qua ước số chung lớn nhất thay vì xấp xỉ — GCD của 1920 và 1080 là 120, và chia cả hai bên cho ra tỷ lệ chuẩn tắc.",
+        ],
+      },
+      {
+        heading: "Các sai lầm phổ biến khi thay đổi kích thước",
+        paragraphs: [
+          "Lỗi phổ biến nhất là nhập tỷ lệ dạng thập phân ở một trường và số nguyên ở trường kia — 1.7778:1 không phải cùng một cam kết với 16:9 cho công việc chính xác từng pixel, vì làm tròn tích lũy. Hãy gõ tỷ lệ số nguyên khi bạn có và để công cụ hiện phần thập phân tham khảo, chứ không phải ngược lại.",
+          "Lỗi thứ hai là làm tròn kích thước output thành một số “đẹp”. Nếu 2.39:1 với bề rộng 1920 tính ra chiều cao cỡ 803, bấm sang 800 đổi tỷ lệ gần nửa phần trăm — vô hình trên bản xem trước thô, thấy rõ thành trôi trong một bản dựng nhiều clip. Khi pixel chính xác là phân số, hãy quyết định có chủ đích: làm tròn để hiển thị, hay giữ giá trị chính xác cho file gốc.",
+          "Cuối cùng, nhớ rằng object-fit: cover trong CSS cắt chứ không co giãn — một ảnh 4:3 trong hộp chứa 16:9 mất phần trên và dưới, không bị bóp. Định kích thước ảnh nguồn bằng máy tính này cho khớp tỷ lệ hộp chứa trước giúp tránh loại bỏ nội dung một cách lặng lẽ.",
+        ],
       },
     ],
   },
@@ -4742,6 +5976,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Bản tải về là SVG vector nên co giãn tới mọi DPI không mờ. Giữ nguyên vùng lặng (khoảng trống hai bên) khi đặt vào bản in — cắt bớt chúng là nguyên nhân phổ biến nhất khiến mã không quét được.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Code128 với EAN-13: hai công việc, hai hệ ký hiệu",
+        paragraphs: [
+          "Các định dạng này tồn tại cho những công việc khác nhau và không thể hoán đổi. EAN-13 và UPC-A là các hệ ký hiệu bán lẻ GS1: độ dài cố định, chỉ số, gắn với tiền tố công ty bạn cấp phép từ một tổ chức thành viên GS1, và được mọi máy quét thanh toán trên thế giới hiểu. CODE128 là hệ ký hiệu hậu cần: độ dài thay đổi, full ASCII, tự do dùng cho mọi thứ nội bộ — ô kho, nhãn tài sản, số serial, mã tham chiếu vận chuyển.",
+          "Khác biệt hiện ra ở mật độ và dung sai. CODE128 tự chuyển giữa các tập con A (chữ hoa + điều khiển), B (toàn bộ chữ-số) và C (cặp chữ số), nên một dãy dài chữ số được đóng gói hai chữ mỗi từ mã — đó là lý do một nhãn CODE128 chứa cùng số với một EAN-13 ra hẹp hơn hẳn. EAN-13, ngược lại, ghim độ rộng module bằng tiêu chuẩn để bất kỳ máy quét thanh toán nào cũng decode nhanh bất kể ai in nó.",
+          "Một quy tắc thực dụng: nếu một nhà bán lẻ hay sàn thương mại sẽ cấp cho bạn mã sản phẩm, hãy in nó thành EAN-13/UPC-A và không bao giờ mã hóa lại thành định dạng khác, vì hệ thống của họ khớp theo số GS1. Với mọi thứ không bao giờ rời hoạt động của bạn, CODE128 đơn giản và linh hoạt hơn.",
+        ],
+      },
+      {
+        heading: "Chữ số kiểm tra và vì sao đầu vào bị soát",
+        paragraphs: [
+          "Các hệ ký hiệu bán lẻ kết thúc bằng một ký tự kiểm modulo-10 tính từ tổng có trọng số của các chữ số còn lại. Với EAN-13, các chữ số được gán trọng số 1 và 3 đan xen từ bên phải; chữ số kiểm là thứ đưa tổng chạm bội kế tiếp của 10. Nó bắt hai kiểu thất bại thật phổ biến nhất: một chữ số gõ sai và hai chữ số kề nhau bị đảo (các chữ số đảo nhau khác trọng số 3−1=2, nên nhiều nhưng không phải mọi cú hoán đều bị bắt).",
+          "Bộ sinh này nhận hoặc 12 chữ số và tự tính chữ thứ 13, hoặc đủ 13 kèm kiểm chứng — nên đầu vào có chữ số cuối sai bị từ chối thay vì được in lại một cách lặng lẽ. Nếu bạn đang chép một số từ giấy tờ, nhập 12 chữ số và để công cụ tính chữ kiểm là quy trình an toàn hơn: nó sẽ không xác nhận, nhưng nó sẽ phơi ra sự lệch.",
+          "Cùng họ modulo-10 trải rộng trên các mã hậu cần GS1, đó là lý do thói quen kiểm chữ số cuối chuyển giao được: nếu một mã quét liên tục thất bại tại quầy hay trong app tồn kho của bạn trong khi nhãn trông ổn, một chữ kiểm bị hỏng là một trong những thứ đầu tiên đáng nghi.",
+        ],
+      },
+      {
+        heading: "Vùng trống, độ rộng vạch và kích thước in",
+        paragraphs: [
+          "Mọi hệ ký hiệu dành riêng các vùng trống (quiet zone) — lề trống hai bên dạch vạch mà máy quét dùng để tìm điểm bắt đầu ký hiệu. GS1 quy định bề rộng tối thiểu theo kích thước tuyệt đối, không phải pixel; khi bạn cắt hay đặt một mã sát chữ hay sát mép hộp, mã có thể trở nên không đọc được dù mọi vạch trông hoàn hảo. Chừa lề nhiều hơn cảm giác cần, nhất là trên nhãn nhỏ.",
+          "Độ rộng và chiều cao vạch đánh đổi với năng lực máy quét. Vạch hẹp đòi cao hơn từ độ phân giải in và quang học máy quét; vạch cao cho máy quét một dải dọc dài hơn để trúng khi quét chéo. Với quét cầm tay và thanh toán, hãy theo hướng dẫn kích thước in của tiêu chuẩn của bạn thay vì co nhãn cho vừa bố cục — một mã được quét 200 lần mỗi ngày tự trả tiền cho diện tích nhãn nó chiếm.",
+          "Vì output là SVG vector, cùng file sắc ở mọi kích thước; thứ không phóng được là vật lý. Hãy quét thử từng định dạng mới bằng máy quét thật và giấy in thật của bạn trước khi cam kết một lô lớn, và không gì cần rời trình duyệt của bạn trong lúc lặp — việc render diễn ra cục bộ.",
+        ],
+      },
+    ],
   },
   "binary-converter": {
     name: "Chuyển đổi nhị phân",
@@ -4768,6 +6028,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có hỗ trợ số âm hay phân số?",
         a: "Không — bảng này chuyển giá trị nguyên không âm, đúng như chuỗi bit, hash và địa chỉ bộ nhớ. Định dạng có dấu và phân số phụ thuộc lựa chọn mã hóa (bù hai, IEEE 754) sẽ làm ánh xạ mơ hồ.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao hex và binary là cùng một ngôn ngữ",
+        paragraphs: [
+          "Một chữ số thập lục phân mã hóa đúng bốn bit: 0–9 cộng a–f phủ mười sáu giá trị của một nhóm 4-bit. Đó không phải một tiện lợi ai đó chọn — đó là lý do mọi chữ hex ánh xạ tới một mẫu nhị phân bốn bit cố định (F = 1111, 8 = 1000) không mơ hồ theo chiều nào. Điều tương tự với bát phân ở ba bit mỗi chữ, đó là lý do các hệ cũ (quyền file, máy tính thời PDP) nhóm theo ba.",
+          "Đó là lý do phần hiển thị nhóm nhị phân theo 4 và hex theo 2: mỗi nhóm đúng một byte, nên một giá trị 32-bit hiện thành tám chữ hex hay bốn nibble nhị phân và bạn đọc trực tiếp các biên byte trên màn hình. Khi đang soát một mặt nạ bit hay một header giao thức, sự thẳng hàng ấy biến “đếm bit cẩn thận” thành “liếc các nhóm”.",
+          "Bản thân phép chuyển đổi là theo vị trí: một số ở cơ số b là tổng mỗi chữ số nhân b lũy thừa vị trí của nó. Hex chỉ là cách đóng gói lại nhị phân — 0xFF là 11111111 — nên đổi giữa hex và nhị phân là cơ học, còn đổi thập phân cần phép chia thật. Cả bốn ô giữ đồng bộ khi bạn gõ, với BigInt mang giá trị chính xác ở mọi kích thước.",
+        ],
+      },
+      {
+        heading: "Bù hai: thế giới có dấu mà lưới này cố ý bỏ ngoài",
+        paragraphs: [
+          "Phần cứng không lưu dấu trừ. Số nguyên có dấu dùng bù hai, nơi bit cao nhất kiêm nhiệm dấu và số âm được tạo bằng cách đảo mọi bit rồi cộng một — đó là lý do −1 trong 8 bit là 11111111 và lý do đọc không dấu cùng mẫu ấy cho 255. Một mẫu bit, hai giá trị: ánh xạ từ bit tới ý nghĩa phụ thuộc cách diễn giải, và đó chính là lý do công cụ này chỉ đổi giá trị không dấu.",
+          "Quy tắc chỉ-không-dấu còn né luôn sự mơ hồ kia: phân số. Số dấu phẩy động theo IEEE 754, nơi các bit chia thành trường dấu, số mũ và định trị — đổi mẫu bit ấy như một số nguyên thường cho một con số khổng lồ không liên quan gì đến giá trị thập phân. Bản dump hex của float chỉ có nghĩa khi bạn cầm encoding trong tay.",
+          "Vậy hãy giữ bộ chuyển đổi này cho đúng việc của nó: mẫu bit, hash, màu gói trong số nguyên, địa chỉ bộ nhớ và cờ. Khi đưa một giá trị ra khỏi C, Rust hay assembly, hãy kiểm tra biến nguồn có dấu trước — nếu có, tự diễn giải bit cao trước khi tin phần thập phân ở đây.",
+        ],
+      },
+      {
+        heading: "Giới hạn 2^53 từ đâu ra và vì sao BigInt quan trọng",
+        paragraphs: [
+          "Số thường của JavaScript là float 64-bit, và IEEE 754 dành 53 trong số bit ấy cho định trị. Nghĩa là mọi số nguyên tới 2^53 — cỡ 9 nghìn tỷ tỷ — là chính xác, và vượt qua đó, các số bắt đầu bị làm tròn về float có thể biểu diễn gần nhất: cộng 1 vào 2^53 bằng JavaScript thường và chẳng gì đổi. ID, hash và giá trị mật mã thường xuyên vượt vạch ấy, đó là lý do các chuỗi hex 64-bit dán vào từng hay quay về sai từ các bộ chuyển đổi ngây thơ.",
+          "BigInt né vấn đề bằng cách biểu diễn số như số nguyên độ chính xác tùy ý thay vì float, nên một hash 256-bit hay một số thập phân 40 chữ được đổi chính xác ở mọi kích thước. Chi phí không đáng kể cho khối lượng này — phép đổi vẫn tức thì — và kết quả là cả bốn trường đồng ý với nhau thay vì mỗi cái tự làm tròn riêng.",
+          "Một phép kiểm thực tế nhanh khi bạn nghi có vấn đề độ chính xác ở nơi khác: đổi giá trị ở đây và so với những gì công cụ khác báo. Nếu các chữ thấp khác nhau, công cụ kia đã làm tròn qua float — lưới này hiện giá trị thật.",
+        ],
       },
     ],
   },
@@ -4798,6 +6084,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Cơ đặc hơn mỡ nên người nhiều cơ có thể bị chấm “thừa cân” dù mỡ dư rất ít. Hãy coi BMI là phép sàng lọc nhanh ở mức dân số và kết hợp vòng bụng hay thành phần cơ thể cho bức tranh đầy đủ.",
       },
     ],
+    deepDive: [
+      {
+        heading: "BMI nói được gì và không nói được gì",
+        paragraphs: [
+          "BMI giành được chỗ đứng trong y học vì nó rẻ, nhất quán và — trên quần thể lớn — tương quan khá tốt với mỡ cơ thể. Nó làm tốt nhất vai trò bước sàng lọc: gắn cờ ai nên được nhìn kỹ hơn, chứ không nói phép nhìn kỹ tìm ra gì. Một vận động viên cơ bắp với 6% mỡ và một người ít vận động với 35% mỡ có thể cùng BMI 27; con số đồng nhất, bức tranh sức khỏe thì không.",
+          "Nó còn trôi ở hai mép của chiều cao. Người rất cao bị đọc hơi cao và người rất thấp hơi thấp, vì BMI co giãn cân nặng theo bình phương chiều cao trong khi thể tích cơ thể không co giãn gọn gàng thế. Vì vậy một số nhà nghiên cứu ưu tiên các phương án mới hơn cho cá nhân — nhưng mọi tổ chức y tế lớn vẫn công bố ngưỡng theo thuật ngữ BMI, giữ nó làm ngôn ngữ chung của sàng lọc cân nặng.",
+          "Hãy coi nhóm phân loại là điểm khởi đầu của một cuộc trò chuyện, không phải một bản án. Xu hướng quan trọng hơn số đọc đơn lẻ: cùng phương pháp, cùng cân, cùng thời điểm trong ngày, theo dõi qua các tháng nói với bạn nhiều hơn bất kỳ một con số nào.",
+        ],
+      },
+      {
+        heading: "Các ngưỡng đến từ đâu",
+        paragraphs: [
+          "Các mốc cắt 18,5 / 25 / 30 không phải hằng số tự nhiên — chúng là quyết định của các ủy ban với lịch sử của riêng mình. Adolphe Quetelet suy ra chỉ số này trong thập niên 1830 từ trung bình quần thể; Ancel Keys đặt tên “body mass index” năm 1972; và các dải hiện nay được WHO chuẩn hóa trong thập niên 1990, phần lớn từ các nghiên cứu nối đường cong tử vong với chỉ số. Các đường cong hình chữ U: rủi ro tăng ở cả hai đầu, đó là lý do mốc cắt thấp cũng tồn tại.",
+          "Các quần thể châu Á cho thấy rủi ro tim-chuyển hóa tăng ở BMI thấp hơn so với quần thể châu Âu, nên vài hướng dẫn quốc gia dùng ngưỡng thừa cân thấp hơn — 23 thay vì 25 là phổ biến. Nếu bạn so kết quả của mình với một biểu đồ từ quốc gia khác, hãy kiểm tra nó dùng tiêu chuẩn nào; công thức đồng nhất, các dải diễn giải thì không.",
+          "Trẻ em và thanh thiếu niên là một ca hoàn toàn riêng: BMI đổi theo tuổi và giới qua tăng trưởng, nên biểu đồ nhi khoa dùng phần trăm theo tuổi-và-giới, không phải con số cố định. Máy tính này theo tiêu chuẩn người lớn và không phù hợp cho bất kỳ ai dưới 18.",
+        ],
+      },
+      {
+        heading: "Dùng BMI cạnh các con số khác",
+        paragraphs: [
+          "Người bạn đồng hành hữu ích nhất là vòng bụng, vì nó nắm được béo trung tâm — mẫu phân bố mỡ gắn nhiều nhất với rủi ro chuyển hóa. Cặp bài phổ biến là BMI cho khối lượng tổng thể và vòng bụng cho phân bố: một người BMI 27 với vòng bụng nhỏ đọc rất khác một người 27 mang mỡ tập trung giữa người.",
+          "Tỷ lệ mỡ cơ thể, đo bằng kẹp mỡ, cân trở kháng sinh học hay DEXA, trả lời trực tiếp điều BMI không trả lời được: bao nhiêu trong cân nặng của bạn là mỡ. Nó khó đo nhất quán hơn, đó là điểm yếu — cùng một cơ thể có thể ghi 22% trên một cân trở kháng và 26% trên cân khác tùy thủy hóa và thời điểm trong ngày.",
+          "Một thói quen thực dụng: cân mình trong điều kiện nhất quán, ghi BMI ở đây, và để chuyên gia đo vòng bụng cùng tỷ lệ mỡ định kỳ. Tổ hợp ấy cho bạn xu hướng, thành phần và bối cảnh lâm sàng mà không quá tin bất kỳ con số đơn lẻ nào.",
+        ],
+      },
+    ],
   },
   "color-converter": {
     name: "Chuyển đổi màu",
@@ -4826,6 +6138,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Tints (trộn trắng) tạo nền hover, badge và thẻ; shades (trộn đen) tạo trạng thái nhấn, viền và bề mặt dark-mode. Dẫn xuất cả hai từ một màu thương hiệu giúp mọi trạng thái UI nhất quán thị giác.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao chuyển đổi RGB-sang-HSL mất thông tin",
+        paragraphs: [
+          "Hex và RGB mô tả cùng một thứ — ba giá trị kênh — nên đổi giữa chúng chỉ là sổ sách cơ số 16, không mất theo cả hai hướng. HSL khác: nó là một cách mô tả lại màu trong tọa độ trụ (hue là góc, độ bão hòa và độ sáng là phần trăm). Chuyến khứ hồi hex → HSL → hex vẫn trả về cùng màu, nhưng bộ ba HSL đọc-được đã bị lượng tử hóa, đó là lý do hai màu chênh nhau tinh tế có thể chia sẻ cùng một hue HSL.",
+          "Vấn đề sâu hơn là nhận thức. Độ sáng của HSL không phải độ sáng nhận thức: hsl(60, 100%, 50%) — vàng thuần — nhìn sáng hơn hẳn hsl(240, 100%, 50%) — xanh dương thuần — dù cả hai tự xưng 50% độ sáng. Nhà thiết kế sinh bảng màu bằng cách xoay hue ở độ sáng HSL cố định nhận được các bảng mà mỗi màu cảm nhận nặng nhẹ khác nhau. Bộ chuyển đổi này báo phép toán trung thực thay vì giả vờ độ sáng HSL là thứ mắt bạn thấy.",
+          "Kết luận thực dụng: dùng HSL cho thứ nó giỏi — nudge một hue, dựng một thang nhạt nhòe đoán trước được quanh một màu — và kiểm chứng tỷ lệ tương phản bằng giá trị luminance thật thay vì tin con số L. Hàng tint-and-shade ở đây trộn với trắng và đen trong không gian RGB, giữ thang nhất quán với cách trình duyệt tổng hợp màu.",
+        ],
+      },
+      {
+        heading: "OKLCH và các không gian đồng nhất nhận thức: bộ này không phải cái đó",
+        paragraphs: [
+          "CSS hiện đại hỗ trợ OKLCH, một không gian đồng nhất nhận thức nơi di chuyển một khoảng cố định trong không gian tọa độ đổi màu cảm nhận cỡ như nhau ở mọi nơi — vàng và xanh dương ở cùng giá trị L thực sự nhìn sáng ngang nhau. Bộ chuyển đổi này cố ý ở lại bộ ba sRGB cổ điển gồm hex, RGB và HSL, vì đó là những gì các hệ thiết kế cũ, hướng dẫn thương hiệu và token phong cách vẫn chỉ định.",
+          "Khác biệt có ý nghĩa nhất ở sinh bảng màu. Trong HSL, bước hue quanh vòng tròn ở L không đổi cho các màu cường độ cảm nhận thất thường; trong OKLCH cùng chuyến đi cho một dốc đều. Tương tự, “saturation 50%” của HSL không nghĩa là một nửa chroma cảm nhận. Nếu bạn dựng một thang token thiết kế mới từ đầu, đáng để sinh trong một không gian đồng nhất — nhưng dịch các giá trị hex thương hiệu đang có sang nó sẽ đổi những con số nhóm bạn đã thuộc lòng.",
+          "Còn ngoài mô hình này: màu dải rộng (wide-gamut). Các giá trị ở đây là sRGB, không gian mà mọi trình duyệt và đa số màn hình nhắm tới; màn hình Display-P3 có thể hiện xanh lá và đỏ bão hòa hơn sRGB diễn tả nổi. Một màu chọn ở đây sẽ render đúng ở khắp nơi nhưng bỏ không phần dải mở rộng — một mặc định an toàn, tương thích cho công việc UI.",
+        ],
+      },
+      {
+        heading: "Tint và shade thực sự được dựng thế nào",
+        paragraphs: [
+          "Tint là màu trộn với trắng, shade là trộn với đen, mỗi cái ở một phân số cố định. Theo thuật ngữ RGB đó là nội suy tuyến tính theo từng kênh: tint 40% của rgb(0, 113, 227) nâng mọi kênh 40% đường về phía 255, và shade 40% hạ mỗi kênh 40% về 0. Các bước ở đây là 20/40/60/80%, cho năm mức dùng được phía trên và dưới màu gốc.",
+          "Cách trộn đơn giản này cố ý không giống trộn quản lý màu trong các không gian dựa Lab, vốn cố giữ hue cảm nhận không đổi trong khi độ sáng đổi. Trộn RGB đơn giản làm tối các màu bão hòa hơi không đều — một hành vi đã biết, được chấp nhận trong đa số hệ thiết kế, nơi thang được sinh một lần và soát bằng mắt.",
+          "Về quy trình, sinh thang từ cùng giá trị nguồn mỗi lần thắng việc chọn tay từng biến thể: trạng thái hover, nút bị vô hiệu và bề mặt dark mode giữ tái lập được, và mọi người trong nhóm có thể sinh lại đúng bộ ấy từ một hex duy nhất họ thuộc lòng. Mọi thứ tính cục bộ trong trình duyệt — màu không bao giờ rời trang.",
+        ],
+      },
+    ],
   },
   "color-picker": {
     name: "Chọn màu",
@@ -4852,6 +6190,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Việc lấy mẫu màn hình có riêng tư?",
         a: "Có. EyeDropper API hiển thị bộ chọn hệ thống và chỉ trả về đúng điểm ảnh bạn bấm; việc đọc diễn ra trong trình duyệt và không ảnh chụp, lịch sử hay giá trị nào được truyền hay lưu.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "API EyeDropper: làm được gì và không làm được gì",
+        paragraphs: [
+          "EyeDropper là một sự đối lập có chủ đích với các API chụp màn hình cũ. Nó không đòi camera, không đòi quyền ghi màn hình và không đòi quyền truy cập bền vững: trình duyệt hiện kính lúp hệ thống, bạn bấm một pixel, và API trả về đúng một chuỗi hex. Không có gì phải thu hồi sau này vì không có gì được giữ — không stream nào mở giữa các lần gọi, nên trang không thể nhìn trộm màn hình của bạn trong khi bạn làm việc.",
+          "Các giới hạn của nó đi theo từ thiết kế ấy. Nó chỉ đọc thứ đang được tổng hợp trên màn hình của bạn, ở độ phân giải màn hình của bạn — phóng to ảnh trước nếu bạn cần một pixel chính xác từ một vùng lớn. Và nó chỉ bấm-được: không xem trước giá trị khi rê chuột trước khi chốt, và không cách nào lấy mẫu một vùng bằng chương trình. Với công việc chính xác pixel trên một mockup, nhà thiết kế vẫn mở file trong trình soạn thảo; với việc lấy một màu thương hiệu từ một trang sống, một cú bấm thắng quy trình chụp-màn- soi mỗi lần.",
+          "Khả năng hỗ trợ là biên thực dụng còn lại: các trình duyệt Chromium phát hành nó từ 2022; Firefox và Safari chưa phơi nó. Công cụ này phát hiện tính năng và đơn giản ẩn tùy chọn màn hình ở nơi nó vắng mặt, nên bộ chọn thoái hóa về chỉ-swatch mà không gãy gì.",
+        ],
+      },
+      {
+        heading: "Vì sao màu lấy mẫu thỉnh thoảng lệch nhẹ",
+        paragraphs: [
+          "Một màu lấy mẫu đi qua nhiều bước hơn vẻ ngoài: nguồn được viết trong một không gian màu nào đó, render theo profile màn hình của bạn, tổng hợp, rồi trao ngược về JavaScript như một bộ ba hex sRGB. Nếu bản gốc sống trong một dải rộng hơn sRGB — một màu Display-P3 trên Mac chẳng hạn — chuyến khứ hồi cắt nó về giá trị sRGB gần nhất, và hex bạn nhận là xấp xỉ sRGB tốt nhất, không phải bản gốc.",
+          "Quản lý màu giải thích phần còn lại. Hệ điều hành ánh xạ giá trị sRGB tới profile màn hình, và các màn hình ở chế độ rực hay điều chỉnh kiểu night-shift có thể đổi thứ được hiện vật lý mà không đổi giá trị lưu. Việc lấy mẫu do đó báo thứ trên kính theo không gian chuẩn; hai màn hình có thể hiện cùng hex khác nhau trong khi giá trị nền là đồng nhất.",
+          "Với công việc thương hiệu, lớp bảo vệ đơn giản: coi một mẫu màn hình là điểm khởi đầu, rồi xác nhận với giá trị nguồn chính thức nếu có. Ba định dạng ở đây — hex, rgb(), hsl() — vẫn nhất quán toán học với nhau bất chấp, vì phép chuyển đổi diễn ra cục bộ từ đúng một giá trị đã lấy mẫu.",
+        ],
+      },
+      {
+        heading: "Một quy trình lấy màu sống sót qua hệ thiết kế",
+        paragraphs: [
+          "Lấy được màu là phần dễ; giữ nó dùng được mới là kỷ luật. Sau khi lấy mẫu, ghim định dạng chuẩn tắc trước — đa số hệ thiết kế dùng hex làm token, với rgb()/hsl() là các góc nhìn suy ra — và lưu một giá trị, không phải ba giá trị có thể trôi rời nhau. Công cụ này sao chép cả ba, nhưng cái bạn dán vào file token mới là cái trở thành sự thật.",
+          "Rồi dựng các trạng thái từ nguồn duy nhất ấy: hover sáng hơn một chút, nhấn tối hơn một chút, vô hiệu một độ mờ cố định. Suy ra chúng bằng số học từ nền đã lấy mẫu (như bộ chuyển màu liên quan làm với hàng tint-and-shade) giữ mọi trạng thái tái sinh được, thay vì chất đống các hex một-điều-nợ chẳng ai giải thích nổi.",
+          "Cuối cùng, nhớ màu sẽ xuất hiện ở đâu. Một nền tối lấy mẫu với chữ trắng nên được kiểm lại tương phản trước khi ra mắt; lấy mẫu và chuyển đổi chưa bao giờ kiểm chứng khả năng tiếp cận, chúng chỉ tái hiện thứ bạn đã thấy. Mọi thứ chạy cục bộ trong trình duyệt — các giá trị lấy mẫu không được ghi lại ở đâu cả.",
+        ],
       },
     ],
   },
@@ -4883,6 +6247,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — kết quả là tăng trưởng danh nghĩa ở lãi suất bạn nhập. Thuế lãi, phí tài khoản và lạm phát đều làm giảm lợi nhuận thực, nên hãy coi số dư cuối là trần của những gì bạn thật sự giữ được.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao tần suất ghép lãi đổi câu trả lời",
+        paragraphs: [
+          "Tần suất ghép lãi quyết định lãi kiếm được nhập vào gốc bao lâu một lần và bắt đầu tự sinh lãi. Lãi suất kỳ là lãi năm chia số kỳ, nên ghép hàng tháng ở 8% dùng 0,667% mỗi tháng — và vì lãi ấy được ghi mười hai lần một năm thay vì một lần, hiệu suất năm hiệu dụng bò lên trên 8%. Ngày thắng tháng, tháng thắng quý, quý thắng năm, luôn theo thứ tự đó cho cùng lãi suất danh nghĩa.",
+          "Điều làm người ta ngạc nhiên là khoảng hở nhỏ thế nào ở lãi suất tiêu dùng. Ở 5% danh nghĩa, ghép năm cho 5,00% và ghép tháng cỡ 5,12% — một phần mười điểm chỉ trở thành tiền thật qua hàng thập kỷ hay trên số dư lớn. Marketing khai thác điều này: một ngân hàng có thể báo lãi danh nghĩa trông y hệt đối thủ trong khi tần suất ghép lãi lặng lẽ làm phần khác biệt.",
+          "Tần suất chỉ đổi câu trả lời nếu lãi danh nghĩa là thứ bạn so sánh. Khi mọi thứ đã đổi thành hiệu suất năm hiệu dụng, tần suất đã được gộp sẵn và hai tài khoản cùng APY thực sự tương đương — đó chính là lý do máy tính APY trên trang này tồn tại cạnh cái này.",
+        ],
+      },
+      {
+        heading: "Điểm giao nhau, và vì sao thời gian áp đảo lãi suất",
+        paragraphs: [
+          "Bảng theo từng năm tồn tại để hiện một thời điểm cụ thể: điểm giao nhau, nơi lãi kiếm được trong một năm vượt qua phần đóng góp của chính bạn. Ở lãi suất vừa phải điều đó mất hàng thập kỷ, đó là lý do ghép lãi cảm thấy không ấn tượng trong mười năm đầu và phi lý sau ba mươi. Đường cong phẳng rồi uốn — và gần như ai cũng đánh giá thấp việc khúc uốn đến muộn thế nào.",
+          "Đó cũng là lý do số vốn ban đầu quan trọng hơn trực giác của người tối ưu hóa gợi ý. Một điểm lãi suất thêm vào là tuyến tính; một thập kỷ ghép lãi thêm vào là cấp số nhân. Giữa bắt đầu sớm mười năm với lãi khiêm tốn và bắt đầu hôm nay với lãi cao hơn một điểm, khởi đầu sớm thường thắng với một biên khó chịu — bảng cho bạn kiểm chứng tuyên bố ấy trên chính con số của mình thay vì tin mù.",
+          "Hai lưu ý trung thực: công cụ ghi nhận phần đóng góp ở đầu mỗi kỳ, là quy ước lạc quan, và nó giả định lãi suất không bao giờ đổi, điều không khoản đầu tư thật nào giữ. Kết quả là một kịch bản, không phải một dự báo — riêng năm giao nhau nên được đọc là “khoảng khi nào”, không phải một ngày để khoanh tròn.",
+        ],
+      },
+      {
+        heading: "Tăng trưởng danh nghĩa, sức mua thật",
+        paragraphs: [
+          "Mọi thứ máy tính hiển thị đều là danh nghĩa: lãi suất bạn gõ áp lên số dư bạn gõ, không thuế, không phí, không lạm phát. Mỗi lực ấy cắt từ một phía khác — thuế trên lãi hạ lãi được ghi, phí tài khoản trừ khoản cố định, và lạm phát lặng lẽ co thứ số dư cuối mua nổi. Con số trên màn hình là một trần trên thứ bạn thực sự giữ được.",
+          "Một bài kiểm thực dụng hữu ích: trừ lạm phát năm mong đợi khỏi lãi suất trước khi nhập. Một lợi suất 5% danh nghĩa với lạm phát 2,5% ghép lãi cùng một cách nhưng kể một câu chuyện trung thực hơn nhiều về sức mua tương lai của số dư. Phép toán đồng nhất; chỉ cách diễn giải đổi.",
+          "Và như mọi công cụ ở đây, phép chiếu chạy hoàn toàn trong trình duyệt của bạn: số dư, lãi suất và số tiền đóng góp không bao giờ rời thiết bị, nên an toàn để mô hình những con số bạn chẳng muốn dán vào một form gửi dữ liệu lên máy chủ.",
+        ],
+      },
+    ],
   },
   "currency-converter": {
     name: "Chuyển đổi tiền tệ",
@@ -4909,6 +6299,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Đây có phải tỷ giá ngân hàng sẽ cho tôi?",
         a: "Đây là tỷ giá tham chiếu mid-market — điểm giữa giá mua và bán mà các ngân hàng giao dịch. Các mạng thẻ và ngân hàng thường cộng thêm 1–3% chênh lệch hay phí trên con số này.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tỷ lệ giữa thị trường: con số công bằng mà ngân hàng không báo giá cho bạn",
+        paragraphs: [
+          "Mọi đồng tiền có hai giá sống: giá đại lý mua vào và giá bán ra, và tỷ lệ giữa thị trường (mid-market) là điểm giữa của chúng. Điểm giữa ấy là con số bạn thấy trên các tiêu đề và công cụ tìm kiếm — nó cũng là tỷ lệ tốt nhất mà một khách hàng ngân hàng không bao giờ chạm trọn. Các phép đổi bán lẻ chất một spread lên trên: 1–3% là điển hình cho thẻ, nhiều hơn ở quầy sân bay.",
+          "Cấu trúc ấy giải thích cách đọc output của công cụ này: con số hiển thị là một tham chiếu công bằng, và tỷ lệ thẻ của bạn thực sự tính sẽ rơi hơi tệ hơn. Với một giao dịch 1.000 đơn vị, spread 2% là 20 đơn vị — nhỏ đủ để bỏ qua một lần, đắt đỏ như một thói quen với đi lại thường xuyên hay thanh toán doanh nghiệp.",
+          "Tỷ lệ đến từ dịch vụ open.er-api.com, thứ công bố các giá trị tham chiếu giữa thị trường, và công cụ này cache bảng trên thiết bị của bạn trong một giờ trước khi lấy lại. Nói thẳng ý nghĩa: đây là một tham chiếu để quyết định, không phải một giá thực thi được bảo đảm. Hãy kiểm tra tỷ lệ thật của nhà phát hành thẻ khi một giao dịch lớn nằm trên khác biệt ấy.",
+        ],
+      },
+      {
+        heading: "Tỷ lệ chéo được tính thế nào",
+        paragraphs: [
+          "Không có bảng tỷ giá công bố cho mọi cặp trên đời — với hơn 160 đồng tiền thì sẽ phải là hàng chục nghìn báo giá. Thay vào đó, các dịch vụ công bố một bảng gốc (ở đây dựa USD: một đô la mua được bao nhiêu mỗi đồng tiền) và mọi cặp khác được suy ra: JPY sang GBP nghĩa là lấy yen-trên-đô chia cho pound-trên-đô. Hình tam giác ấy cũng là cách các mạng thẻ và màn hình forex hoạt động.",
+          "Tỷ lệ suy ra chính xác đúng bằng bảng gốc, không hơn không kém: cả hai chân chuyển theo thị trường, nên trong một cú biến động mạnh của yen, tỷ lệ chéo JPY/GBP ở đây chuyển đồng bộ với bất kỳ đầu cuối chuyên nghiệp nào dùng cùng quy ước. Khác biệt nhỏ giữa các nhà cung cấp đến từ thời điểm chụp, không phải phương pháp.",
+          "Cache một giờ có ý nghĩa ở cả lúc vắng lẫn lúc nhộn nhịp. Trong đêm đối với đa số cặp, tỷ lệ hầu như không nhúc nhích và cache không thể phân biệt với mới; trong biến động cao, nút làm mới cho bạn một bản chụp mới hơn. Dù cách nào, phép tính không bao giờ làm tròn theo hướng có lợi cho bạn — phép nhân diễn ra cục bộ trên bảng đầy độ chính xác.",
+        ],
+      },
+      {
+        heading: "Thứ gì không bao giờ rời thiết bị của bạn",
+        paragraphs: [
+          "Một phép đổi tiền tệ cảm giác như một câu hỏi về tài chính của bạn, đó là lý do nhiều bộ chuyển đổi trực tuyến ghi log số tiền và cặp tiền. Công cụ này vẽ một vạch cứng: lưu lượng mạng duy nhất là việc tải bảng tỷ lệ công cộng ẩn danh. Số tiền bạn gõ, các cặp bạn soát và kết quả không bao giờ chạm máy chủ — phép nhân chạy trong trình duyệt, và bảng cache vẫn làm việc offline.",
+          "Thiết kế riêng tư ấy cũng giải thích hồ sơ tốc độ của công cụ: sau lần tải đầu không có gì phải chờ, không vòng đi về mỗi truy vấn, không quảng cáo chặn mỗi lần đổi. Các lần đổi lặp lại tốn đúng bằng không yêu cầu.",
+          "Quy trình thực dụng: kiểm tra tỷ lệ trước một chuyến đi, làm mới trước khi chốt một lần đổi lớn, và nhớ spread khi so với những gì ngân hàng báo giá. Con số ở đây là nền công bằng; những gì bạn đàm phán quanh nó mới là biên.",
+        ],
       },
     ],
   },
@@ -4939,6 +6355,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Cả hai chế độ chạy hoàn toàn trong trình duyệt bằng phép tính ngày của JavaScript; không có gì được tải lên hay lưu lại.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao “số ngày giữa” khó hơn vẻ ngoài",
+        paragraphs: [
+          "Đếm ngày giữa hai ngày là chuyện tầm thường với máy tính và mơ hồ đáng ngạc nhiên với con người. Công cụ này cố ý cho ba cách đọc: bảng phân rã lịch (năm, tháng, ngày), tổng ngày thô, và tuần cộng ngày dư — vì hợp đồng, ngày kỷ niệm và điều khoản thuê mỗi cái trích một cách khác nhau. Một hợp đồng thuê “1 năm 6 tháng” và một hợp đồng thuê “547 ngày” có thể mô tả các khoảng khác nhau tùy quy ước điều khoản dùng.",
+          "Số học tháng theo cùng quy ước mọi người dùng cho ngày kỷ niệm: năm trọn và tháng trọn được đếm trước, phần dư được đo theo độ dài thật của các tháng liên quan. Đó là lý do “một tháng sau 31 tháng Giêng” đáp vào 28 tháng Hai ở năm thường — một ca biên thật đã làm vấp nhiều thư viện ngày đời đầu.",
+          "Chế độ cộng và trừ đi bộ theo nguyên ngày thay vào đó, né hoàn toàn các câu hỏi biên tháng: cộng 90 ngày lịch vào 31 tháng Giêng luôn cho cùng câu trả lời bất kể thư viện của bạn xử lý cuối tháng thế nào. Khi một hạn chót nói “ngày”, nó hầu như luôn nghĩa là những ngày lịch này — câu hỏi ngày làm việc được phủ trong phần FAQ phía trên.",
+        ],
+      },
+      {
+        heading: "Năm nhuận và quy tắc Gregory",
+        paragraphs: [
+          "Năm nhuận theo trọn quy tắc Gregory, không phải bài học “cứ bốn năm một lần”: một năm nhuận khi chia hết cho 4, trừ các thế kỷ, vốn phải chia hết cho 400. Đó là lý do 2000 là năm nhuận còn 1900 không, và 2100 cũng sẽ không. Bất kỳ khoảng nào vượt một trong các mép thế kỷ ấy đều được tính đúng mà không cần bạn xử lý gì đặc biệt.",
+          "Bản thân 29 tháng Hai được coi là ngày cuối cùng của tháng Hai, nên một khoảng đi qua một ngày nhuận không bị phình thêm một ngày, và một ngày không tồn tại ở năm đích (29 tháng Hai ở năm thường) phân giải thành 28 tháng Hai thay vì trượt vào tháng Ba. Hai quyết định này giữ kết quả ổn định qua các phần mềm bất đồng về chi tiết.",
+          "Mọi phép tính chạy trên số ngày UTC, nên các lần chuyển giờ mùa hè không thể lệch kết quả một ngày. Điều này có ý nghĩa quanh các lần đổi giờ tháng Ba và tháng Mười Một: số học ngày làm theo giờ địa phương có thể đáp thiếu hay thừa một ngày trong vài môi trường, trong khi đếm nguyên ngày UTC cho cùng câu trả lời ở mọi nơi trên Trái Đất.",
+        ],
+      },
+      {
+        heading: "Các quy trình thực dụng và riêng tư",
+        paragraphs: [
+          "Điều khoản hạn chót, cửa sổ hiệu lực visa, kỳ dùng thử và điều khoản bảo hành là những người dùng hằng ngày của trang này. Một thói quen tốt: tính khoảng theo cả hai cách đọc — bảng phân rã lịch và tổng ngày thô — và trích dẫn ngày thô trong hợp đồng cạnh lời văn. Con số khó cãi hơn tên tháng.",
+          "Với ngày kỷ niệm và ngày tưởng niệm, thứ trong tuần của kết quả thường mới là câu trả lời thật được tìm — “ngày kỷ niệm thứ 10 của chúng tôi rơi vào thứ mấy?” — đó là lý do nó được hiển thị cùng ngày thay vì bị giấu. Với các khoảng dài, nhớ quy tắc thế kỷ: một hợp đồng chạy quá 2100 sẽ vượt một năm thế kỷ không nhuận, và công cụ này đã tính sẵn.",
+          "Mọi thứ được tính cục bộ: các ngày không bao giờ rời trình duyệt của bạn, không gì được upload hay ghi log, và trang chạy offline. Ngày hợp đồng, ngày y tế và cột mốc cá nhân nhạy cảm chính vì chúng cho phép nhận diện khi ghép với bất cứ thứ khác — một máy tính giữ đầu vào cục bộ là kiểu đúng để dán chúng vào.",
+        ],
+      },
+    ],
   },
   "discount-calculator": {
     name: "Máy tính giảm giá",
@@ -4965,6 +6407,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có tính VAT hay thuế bán hàng?",
         a: "Không — nó tính trên các giá bạn nhập. Nếu niêm yết đã gồm thuế thì kết quả giảm giá cũng gồm thuế. Muốn kết hợp thuế, hãy chạy giá đã giảm qua máy tính VAT hay GST.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Các loại giảm giá, và vì sao nhãn hiếm khi khớp phép toán",
+        paragraphs: [
+          "Giảm giá bán lẻ đến trong vài hình dạng hành xử khác nhau: phần trăm giảm (“giảm 30%”), số tiền cố định giảm (“giảm 20$”), ưu đãi chồng (“thêm 15% cho thành viên”), và deal ngưỡng (“giảm 50$ cho đơn từ 300$”). Một phần trăm và một khoản cố định chỉ gặp nhau ở đúng một mức giá — trên mức đó khoản cố định yếu hơn, dưới mức đó mạnh hơn — nên cùng một chiến dịch có thể ưu ái các giỏ hàng khác nhau.",
+          "Phần trăm chồng nhau là cái bẫy kinh điển, và trường thứ hai của công cụ này tồn tại đúng cho ca ấy. Vì mức giảm thứ hai áp lên giá đã giảm, tỷ lệ hiệu dụng là một trừ tích các phần còn lại: 20% rồi 10% còn lại 0,8 × 0,9 = 0,72, tức hiệu dụng 28%. Nhà bán lẻ biết khách mua làm tròn lên thành 30%, chính là lý do ưu đãi được diễn đạt thành hai mức giảm thay vì một.",
+          "Thứ tự không bao giờ đổi kết quả cho các chồng thuần phần trăm — phép nhân giao hoán — nhưng có thể có ý nghĩa khi một khoản giảm cố định được trộn vào: trừ 20$ trước rồi 30% cho một giá khác với chiều ngược lại. Khi một trang thanh toán cho bạn chọn thứ tự, áp phần trăm trước và khoản cố định sau nếu quy tắc cho phép; chạy cả hai thứ tự ở đây nếu chưa chắc.",
+        ],
+      },
+      {
+        heading: "Câu hỏi giá niêm yết đứng sau mọi mức giảm",
+        paragraphs: [
+          "Mọi phần trăm ở đây được tính trên giá bạn nhập, thứ âm thầm giả định giá đó là một tham chiếu trung thực. Nước phản công phổ biến là thổi phồng giá tham chiếu: nâng giá “gốc” trước một đợt sale để mức giảm trông lớn hơn. Quy định ở nhiều thị trường đòi một giá trước đó thực sự được bán trong một khoảng thời gian hợp lý, nhưng thực thi khác nhau và các shop xuyên biên giới chơi theo luật khác nhau.",
+          "Một lớp phòng thủ thực dụng không cần chút tin tưởng nào: theo dõi giá theo thời gian. Nếu giá “từng là” chưa từng xuất hiện trong các tháng trước chiến dịch, phần trăm giảm là số học trên một hư cấu. Các công cụ lịch sử giá và vài tấm ảnh chụp đơn giản đủ làm việc đó; vai trò của máy tính này là nửa trung thực — cho một giá gốc thật, tính chính xác deal đáng giá bao nhiêu.",
+          "Phép tính ngược là cách dùng hằng ngày thứ hai: chia giá bán cho (1 − giảm ÷ 100) khôi phục giá gốc ngầm định, cho phép bạn kiểm tra hai ưu đãi giảm khác nhau có thực sự là cùng một deal khoác hai bộ số hay không.",
+        ],
+      },
+      {
+        heading: "Thuế, và vì sao tổng vẫn khiến bạn bất ngờ",
+        paragraphs: [
+          "Mức giảm được tính trên giá bạn gõ, nên cách xử lý thuế theo giá ấy: ở các thị trường đã gồm thuế, kết quả đã chứa thuế sẵn; ở các thị trường chưa gồm thuế, thuế được cộng sau. Cái bẫy hằng ngày là trộn hai kiểu — một giá trước thuế đã giảm rồi cộng thuế bán hàng có thể kết thúc cao hơn một mức giảm tiêu đề nhỏ hơn trên tem đã gồm thuế.",
+          "Mã voucher thêm một tầng bất ngờ nữa: ngưỡng chi tiêu tối thiểu, loại trừ các mặt hàng đã giảm, và trần giảm tối đa thường áp trước các phần trăm bạn thấy quảng cáo. Nếu một mã giao thiếu ở bước thanh toán, hãy so kết quả hiệu dụng của nó ở đây với phương án chỉ mua theo mức giảm kệ hàng.",
+          "Như mọi công cụ trên trang này, phép tính chạy hoàn toàn trong trình duyệt của bạn — giá, phần trăm và các phép so sánh ở lại trên thiết bị, và không dữ liệu mua sắm nào được truyền đi đâu.",
+        ],
       },
     ],
   },
@@ -4995,6 +6463,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Phí thủ tục, bảo hiểm và thay đổi lãi suất thả nổi bị loại — kết quả là EMI khấu trừ thuần cho lãi suất bạn nhập. Thư chấp thuận của ngân hàng mới hiển thị số tiền cuối phải trả.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Phương pháp dư nợ giảm dần, và kẻ giả mặt lãi suất phẳng",
+        paragraphs: [
+          "Công thức ở đây là chuẩn dư nợ giảm dần: lãi mỗi tháng tính trên số dư còn lại, đó là lý do tổng lãi rơi gắt thế nào khi kỳ hạn rút ngắn. Kẻ giả mặt của nó là báo giá lãi phẳng, phổ biến trong quảng cáo tài chính tiêu dùng: lãi cho toàn bộ thời hạn được tính một lần trên gốc vay ban đầu rồi chia đều các tháng.",
+          "Hai cái không gần nhau. Một lãi phẳng được báo bằng con số tương tự lãi dư nợ giảm dần thực ra tốn cỡ gấp đôi, vì gốc vay trong phép tính phẳng chưa bao giờ thực sự co lại. Khi một quảng cáo khoe một lãi suất trông nhỏ, câu hỏi đầu tiên luôn là: cái này tính trên dư nợ giảm dần hay phẳng? Nếu giấy tờ chỉ báo lãi phẳng, hãy chuyển đổi trước khi so bất cứ thứ gì.",
+          "Công cụ này chỉ tính EMI dư nợ giảm dần — cùng phương trình các ngân hàng dùng cho vay nhà, xe và tiêu dùng. Nó không mô hình phí xử lý, bảo hiểm hay reset lãi suất — không phải vì chúng nhỏ, mà vì chúng theo từng sản phẩm, và gộp chúng vào sẽ lặng lẽ thay đổi đầu vào của bạn thay vì hiện chúng ra cho bạn.",
+        ],
+      },
+      {
+        heading: "Kỳ hạn, lãi suất, và cuộc đánh đổi lãi/thời gian",
+        paragraphs: [
+          "Tổng lãi tăng cỡ theo thời gian số dư còn sống, nên một khoản vay 20 năm cùng lãi suất trả nhiều hơn gấp xa hai lần lãi của khoản 10 năm cùng gốc — khoản trả tháng giảm, nhưng các năm nhân lên. Khi so các kỳ hạn ở đây, hãy nhìn dòng tổng-lãi thay vì dòng EMI: EMI là thứ bạn chi trả nổi, tổng lãi là thứ nó tốn.",
+          "Di chuyển lãi suất ít ý nghĩa hơn kỳ hạn ở tầm ngắn nhưng cộng dồn ở tầm dài: trên một khoản vay dài, nửa điểm phần trăm cũng tích thành khác biệt năm chữ số. Đó là lý do quyết định tái tài trợ nên dùng máy tính này hai lần — một lần với số dư còn lại và kỳ hạn còn lại của khoản vay hiện tại, không phải các con số gốc — và khác biệt tổng lãi là trần thực tế cho việc phí tái tài trợ đáng trả bao nhiêu.",
+          "Trả trước tác động lên cả hai đòn bẩy cùng lúc. Gốc trả thêm rút ngắn kỳ hạn hiệu dụng mà không chạm kỳ hạn hợp đồng, nên cách trung thực để đánh giá một ưu đãi có phạt trả trước là tính lãi tiết kiệm được so với khoản phạt, cả hai từ các lịch như cái công thức này sinh ra.",
+        ],
+      },
+      {
+        heading: "Con số EMI không gồm những gì",
+        paragraphs: [
+          "EMI là gốc cộng lãi và chẳng gì khác. Khoản vay thật cộng phí xử lý thu trước, bảo hiểm bắt buộc ở một số sản phẩm, phí hồ sơ và — với khoản vay lãi thả nổi — các lần reset định kỳ đổi EMI giữa chừng. Không thứ nào trong số đó xuất hiện trong một phép tính khấu hao thuần túy, nên hãy coi output là nền sạch mà lịch của bên cho vay sẽ sửa tiếp.",
+          "Quy ước EMI còn là một hiện tượng văn hóa: nó thống trị các thị trường nơi khoản trả đều là chuẩn, nhưng cấu trúc gốc-đều thay thế, với khoản trả giảm dần, tính ít tổng lãi hơn với cái giá là các khoản trả đầu cao hơn. Nếu bên cho vay đưa cả hai, hãy chạy cả hai ở đây với cùng đầu vào và so tổng lãi với ngân sách năm đầu của bạn.",
+          "Và như khắp nơi trên trang này, các con số không bao giờ rời trình duyệt của bạn. Mức vay, bối cảnh lương và lãi suất ở lại trên thiết bị của bạn — tiện khi bạn đang so các ưu đãi chưa chấp nhận.",
+        ],
+      },
+    ],
   },
   "fuel-cost-calculator": {
     name: "Máy tính chi phí xăng",
@@ -5021,6 +6515,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Máy tính có gồm phí cầu đường hay bảo dưỡng?",
         a: "Không — nó chỉ tính tiền xăng. Để có chi phí thật mỗi kilômét, cộng phí cầu và chia riêng các khoản hao mòn (lốp, bảo dưỡng, khấu hao); nhiều tài xế dự trù thêm 5–10 xu mỗi km ngoài xăng.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Hai ngôn ngữ hiệu suất, một quan hệ nghịch đảo",
+        paragraphs: [
+          "Thế giới đo mức tiêu hao nhiên liệu theo hai hướng ngược nhau. Lít trên 100 km trả lời “đi hết một khoảng cách cố định tốn bao nhiêu nhiên liệu?”, nên càng thấp càng tốt. Dặm trên gallon trả lời “một lượng nhiên liệu cố định đưa bạn đi được bao xa?”, nên càng cao càng tốt. Vì một cái là tỷ lệ và cái kia là nghịch đảo của nó, đổi giữa chúng là một phép chia, không phải một dịch chuyển tuyến tính.",
+          "Hằng số chuyển đổi cho gallon Mỹ là 235,2: chia nó cho con số MPG và bạn có L/100 km — 30 MPG là cỡ 7,8 L/100 km, và một mức tiết kiệm 6 L/100 km là cỡ 39,2 MPG. (Với gallon Anh imperial hằng số khác đi.) Một cái bẫy tinh tế đi theo từ thang nghịch đảo: đi từ 10 lên 20 MPG tiết kiệm nhiều nhiên liệu hơn hẳn mỗi dặm so với đi từ 30 lên 40 MPG, dù cả hai đều “+10 MPG”.",
+          "Công cụ này nhận con số nào mà đồng hồ hay bảng thông số của bạn hiện, nên không có phép đổi thủ công nào đứng giữa bạn và ước lượng — còn việc trộn khoảng cách metric với MPG hay dặm với L/100 km sẽ âm thầm cho câu trả lời sai, đó là lý do lựa chọn đơn vị áp cho khoảng cách, hiệu suất và giá cùng lúc.",
+        ],
+      },
+      {
+        heading: "Vì sao ước lượng và hóa đơn không khớp nhau",
+        paragraphs: [
+          "Các con số tiêu hao chính thức và trên đồng hồ được đo trong điều kiện lý tưởng hóa — tốc độ đều, nhiệt độ ôn hòa, không tải trọng. Lái thật đẩy con số lên: giao thông dừng-đi, đề nguội (động cơ ấm chậm, đốt thêm nhiên liệu trong vài km đầu), giá nóc và thùng hàng, tăng tốc gấp, và điều hòa đều cộng thêm tiêu hao, còn một chiếc xe chở đầy leo đường núi cộng thêm nữa.",
+          "Một thói quen hiệu chuẩn thực dụng: đổ đầy bình, reset bộ đếm hành trình, lái bình thường, rồi chia số lít cho khoảng cách thật ở lần đổ kế tiếp. Một hai chu kỳ như thế cho một con số tiêu hao cá nhân trung thực hơn hẳn mọi bảng thông số — cắm con số đó vào máy tính và các ước lượng chi phí bắt đầu khớp những gì vòi xăng tính cho bạn.",
+          "Hãy coi tổng của công cụ là một ước lượng trung tâm cho lái cao tốc và hỗn hợp, và như một mức sàn cho các chuyến nghiêng về phố. Phí cầu đường, gửi xe và các chi phí chạy khác không phải nhiên liệu (lốp, bảo dưỡng, khấu hao) được cố ý để ngoài phép toán; hãy ngân sách chúng riêng để có một chi-tiếng-kilômét thật.",
+        ],
+      },
+      {
+        heading: "Dựng cho các quyết định trước chuyến đi",
+        paragraphs: [
+          "Những khoảnh khắc hữu ích đều trước giờ khởi hành: lập ngân sách một tuần đi làm, chia xăng của một chuyến đường dài cho các hành khách (tổng chi phí chia số người), hay định giá một vòng tránh — siêu thị rẻ hơn cách 15 km có thực sự rẻ hơn khi chính chuyến đi đó tốn xăng? Công tắc khứ hồi tồn tại vì quên nhân đôi khoảng cách là lỗi nhập phổ biến nhất.",
+          "Chi phí mỗi kilômét (hay dặm) được hiện cạnh tổng vì nó là con số so sánh: các tuyến, xe và thói quen khác nhau về tổng khoảng cách, nên chi phí theo đơn vị mới khiến phép so sánh có ý nghĩa.",
+          "Phép tính chạy cục bộ trong trình duyệt — hữu ích ở các vòi xăng nông thôn không sóng, và nó có nghĩa là giá nhiên liệu, các tuyến và mẫu lái xe bạn nhập không bao giờ rời thiết bị của bạn.",
+        ],
       },
     ],
   },
@@ -5051,6 +6571,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Cả hai đều là thuế giá trị gia tăng tính ở từng khâu, nhưng GST ở Ấn Độ là một thuế thống nhất gộp thuế tiêu thụ đặc biệt trung ương, thuế dịch vụ và VAT bang, chia thành CGST + SGST (cùng bang) hay IGST (khác bang). Các nước khác gọi tương đương của họ đơn giản là VAT.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Các bậc thuế suất và cái bẫy phép trừ",
+        paragraphs: [
+          "GST của Ấn Độ được tổ chức thành cấu trúc bậc — hiện các mức vận hành là 0–5% cho hàng thiết yếu, 12% và 18% cho đa số hàng hóa dịch vụ, và 28% cho hàng xa xỉ hay hàng gây hại, thỉnh thoảng cộng thêm một khoản cess lên trên. Công cụ phơi bày bốn bậc chuẩn thành các lựa chọn một-cú-bấm, khớp với cách hóa đơn thực sự được viết: mức thuế là một tập nhỏ, không phải một số thập phân tự do.",
+          "Hướng trích xuất là cái bẫy kinh điển. GST bên trong một giá đã gồm thuế là tổng × thuế suất ÷ (100 + thuế suất), không phải tổng × thuế suất ÷ 100. Ở 18%, một giá tổng 1.180 chứa 180 thuế — chia 1.180 cho 1,18 — trong khi cách ngây thơ 18% của 1.180 cho 212,40, phóng đại thuế một cách lặng lẽ.",
+          "Một phép kiểm thực tế nhanh cho bất kỳ con số GST nào: thuần + thuế phải bằng tổng chính xác. Nếu ba con số của bạn không khép, một trong số chúng đến từ sai gốc — thường là một phần trăm áp lên tổng thay vì công thức chia.",
+        ],
+      },
+      {
+        heading: "Một loại thuế, chia giữa hai cấp chính quyền",
+        paragraphs: [
+          "GST hợp nhất một mảng vá của tiêu thụ đặc biệt trung ương, thuế dịch vụ và VAT từng bang thành một loại thuế duy nhất, đó là lý do một hóa đơn có thể hiện cùng số tiền thành hai thành phần: CGST cộng SGST cho bán nội bang, hay IGST cho bán liên bang. Mức thuế số học bạn chọn ở đây như nhau theo cả hai hướng — sự chia tách là chuyện thuế được nộp về đâu, không phải chuyện nó được tính thế nào.",
+          "Đó cũng là khác biệt thực dụng với VAT như đa số quốc gia khác dùng: về cơ chế cả hai đều đánh giá trị gia tăng ở mỗi tầng và cuối cùng đổ lên người tiêu dùng, nhưng phiên bản Ấn Độ dẫn doanh thu giữa chính quyền trung ương và các bang thay vì về một cơ quan duy nhất.",
+          "Công cụ cố ý dừng ở phép số học. Phân loại HSN của một sản phẩm có kéo nó sang bậc khác hay không, cess có áp lên trên không, hay reverse charge được ghi sổ thế nào là các câu hỏi phân loại và kê khai — hãy xác nhận với các thông báo hiện hành của Hội đồng GST cho mặt hàng của bạn.",
+        ],
+      },
+      {
+        heading: "Nó vừa vào quy trình ở đâu",
+        paragraphs: [
+          "Cách dùng hằng ngày phổ biến nhất là đọc các giá kiểu MRP: một giá niêm yết đã gồm thuế, nên “Remove tax” trả lời bao nhiêu trong số bạn trả thực ra là thuế — hữu ích khi so sản phẩm qua các nhóm với bậc khác nhau, vì một giá niêm yết cao hơn có thể che một giá thuần thấp hơn.",
+          "Với người bán, hướng cộng dựng một hóa đơn từ giá thuần: chọn bậc, đọc tổng và thuế, và ba con số khớp bố cục hóa đơn thay vì cần một bảng tính riêng. Nháp giá và hợp đồng năm hưởng lợi từ việc chạy cục bộ trong trình duyệt, không dữ liệu nào rời thiết bị.",
+          "Ghép nó với máy tính VAT khi làm việc xuyên quốc gia, và máy tính lợi nhuận khi con số thuần cần một biên gá lên trên trước khi thuế được cộng.",
+        ],
+      },
+    ],
   },
   "loan-calculator": {
     name: "Máy tính khoản vay",
@@ -5077,6 +6623,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Lịch có giả định lãi suất không đổi?",
         a: "Có. Nó mô hình hóa khoản vay lãi cố định cho lãi suất bạn nhập. Với sản phẩm lãi thả nổi, hãy tính lại mỗi khi mốc chuẩn điều chỉnh — mỗi lần điều chỉnh đổi cả khoản trả lẫn lịch.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Trả đều tổng so với gốc đều",
+        paragraphs: [
+          "Khoản vay tiêu dùng gần như luôn dùng phương thức niên kim mà công cụ này cài: một khoản trả cố định cho toàn bộ kỳ hạn, với phần lãi co lại và phần gốc phình lên khi số dư hạ. Phương án chính thay thế, khấu hao gốc đều, giữ phần gốc cố định và cho khoản trả giảm mỗi tháng. Cùng lãi suất và kỳ hạn, gốc đều tính ít tổng lãi hơn, vì số dư được trả xong nhanh hơn ngay từ ngày đầu.",
+          "Ít lãi hơn không làm gốc đều “tốt hơn”. Các khoản trả đầu của nó cao hẳn, chính là thứ đa số ngân sách hộ gia đình không gánh nổi, và đó là lý do bên cho vay mặc định cấu trúc niên kim. Hãy phán hai phương thức theo khả năng chi trả của những năm đầu và theo tổng lãi — đừng bao giờ so khoản trả tháng đầu của một phương thức với khoản trả tháng sau của phương thức kia.",
+          "Một cái bẫy so sánh đáng cảnh báo: một số thị trường báo “lãi phẳng”, nơi lãi cho cả kỳ hạn được tính trên gốc vay ban đầu thay vì số dư giảm dần. Lãi phẳng tốn cỡ gấp đôi lãi suất dư nợ giảm dần tương đương. Trước khi so bất kỳ hai ưu đãi nào, hãy xác nhận cả hai là báo giá dư nợ giảm dần; nếu không, các con số không thể so sánh nổi.",
+        ],
+      },
+      {
+        heading: "Chỗ trả trước thực sự có lời",
+        paragraphs: [
+          "Lãi của mỗi kỳ bằng số dư chưa trả nhân lãi tháng, nên trả gốc sớm xóa lãi đúng theo lãi suất khoản vay của bạn — một “lợi suất” không rủi ro theo mức ấy. Vì số dư lớn nhất trong các năm đầu, cùng một khoản trả thêm tiết kiệm lãi nhiều nhất ở đó, và thấy rõ ít hơn sau một thập kỷ. Bảng theo năm làm khác biệt thành cụ thể thay vì để nó cho một quy tắc ngón tay.",
+          "Hai phép kiểm thực dụng trước khi trả trước: xác nhận khoản thêm được áp vào gốc thay vì được ghi như một khoản trả trước cho các kỳ tương lai, và hỏi hợp đồng có phí trả trước không — một số sản phẩm lãi cố định có. Một khoản phí nuốt phần lớn lãi tiết kiệm biến một nước đi tốt thành một nước đi trung tính.",
+          "Phương án thay thế trung thực: nếu bạn có thể tin cậy kiếm được nhiều hơn, sau thuế và rủi ro, so với lãi suất khoản vay của bạn ở nơi khác, đầu tư phần dư thắng trả trước; nếu không, trả trước là phiên bản bảo đảm của lợi suất ấy. Công cụ này không dự báo thị trường — nó hiện chính xác mỗi kịch bản để lại bao nhiêu lãi trên bàn.",
+        ],
+      },
+      {
+        heading: "Đọc lịch trả nợ mà không đọc sai nó",
+        paragraphs: [
+          "Bảng nhóm mười hai tháng vào mỗi hàng, nên hai cột gốc và lãi là tổng theo năm và cột số dư là con số cuối năm. Đừng so một hàng năm với một dòng sao kê tháng — thang khác nhau bởi thiết kế. Điểm giao nhau, nơi gốc năm cuối cùng vượt lãi năm, thường chỉ xuất hiện ở nửa sau của một khoản vay dài.",
+          "Lịch mô hình lãi cố định, trả đúng hạn và không phí. Reset lãi suất, các lần bỏ trả, bảo hiểm gộp vào khoản vay hay điều chỉnh lại điều khoản đều đổi đường thật, nên hãy coi bảng là kịch bản nền và tính lại sau bất kỳ thay đổi nào của đầu vào.",
+          "Như mọi thứ trên trang này, phép tính chạy hoàn toàn trong trình duyệt của bạn: không số tiền vay, lãi suất hay kỳ hạn nào được truyền đi đâu, nên an toàn để khám phá các báo giá thật từ các ngân hàng thật.",
+        ],
       },
     ],
   },
@@ -5107,6 +6679,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có. Cả hai ô nhận số âm và thập phân nên “−5% của 80” hay điểm phần trăm trên biến đổi nhiệt độ đều chạy ổn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Gốc của ai? Câu hỏi ẩn sau mọi phần trăm",
+        paragraphs: [
+          "Một phần trăm không bao giờ tuyệt đối — nó luôn là một tỷ lệ so với một gốc nào đó, và đa số sự lẫn lộn phần trăm đến từ chọn sai gốc. Trong “X% của Y”, Y là gốc và kết quả là (X ÷ 100) × Y. Trong “A là bao nhiêu phần trăm của B”, thứ tự câu định sẵn vai trò: A là tử số và B là mẫu số, nên “30 là bao nhiêu phần trăm của 150” cho 20% trong khi “150 là bao nhiêu phần trăm của 30” cho 500% — cùng hai con số, hai câu trả lời ngược nhau.",
+          "Phần trăm thay đổi có quy tắc gốc riêng: giá trị cũ ngồi ở mẫu số, và giá trị tuyệt đối của nó được dùng để dấu giữ được ý nghĩa. Một cú tăng từ 480 lên 610 là +27,08% (130 ÷ 480); cú rơi ngược từ 610 về 480 là −21,31% (−130 ÷ 610). Cả hai mô tả cùng một cú dịch 130 đơn vị, và không cái nào sai — chúng đo so với các điểm khởi đầu khác nhau.",
+          "Phần trăm và điểm phần trăm cũng là hai loài khác nhau. Nếu một tỷ lệ tiết kiệm đi từ 3% lên 4%, đó là một điểm phần trăm nhưng là một mức tăng tương đối 33% — các tiêu đề và tờ quỹ thường chọn cái nào nghe to hơn. Khi một phép so sánh có ý nghĩa, hãy nêu gốc tường minh: “từ 3% lên 4%” thắng “tăng 33%”.",
+        ],
+      },
+      {
+        heading: "Vì sao các phần trăm không cộng lại được",
+        paragraphs: [
+          "Các thay đổi phần trăm nhân thay vì cộng, vì mỗi cái tác động lên kết quả của cái trước. Tăng 20% và bạn cầm ×1,2; mất 20% và bạn cầm ×0,8; gộp lại, ×0,96 — một lỗ thuần 4% dù +20 và −20 trông như lẽ ra triệt tiêu nhau. Nghĩ bằng các hệ số nhân hòa tan nghịch lý ngay lập tức.",
+          "Sự bất đối xứng lớn theo kích thước: +50% rồi −50% để bạn ở 75% điểm xuất phát (×1,5 × 0,5 = 0,75). Đó là lý do “thị trường rơi 10% nên cần tăng 10% để hồi phục” là sai — nó cần +11,1%. Dân trade và quản lý quỹ sống với phép số học này hằng ngày.",
+          "Chồng giảm giá hành xử cùng kiểu. Một giảm 20% theo sau một giảm 10% nữa là ×0,8 × 0,9 = ×0,72 — giảm 28%, không phải 30%. Ở bất kỳ đâu các phần trăm chuỗi lại với nhau (biến động giá, lãi, lãi gá và giảm giá), hãy đổi từng cái thành một hệ số rồi nhân; cộng các số thô luôn cho câu trả lời sai.",
+        ],
+      },
+      {
+        heading: "Chỗ một máy tính chuyên thắng bảng tính",
+        paragraphs: [
+          "Ba câu hỏi — X% của Y, A chiếm bao nhiêu của B, và thay đổi giữa hai giá trị — phủ các ca hằng ngày: kiểm tiền tip và giảm giá, chấm điểm, VAT hóa đơn, tăng trưởng bán hàng, điểm thi. Bảng tính xử lý được cả ba nhưng mỗi cái cần một công thức riêng gõ đúng; ở đây đổi cách hỏi là một cú bấm và công thức tự thích ứng.",
+          "Output thay đổi có dấu kèm nhãn là khác biệt có chủ đích: một cú rơi từ 500 về 400 in −20% (giảm 20%) thay vì một con số không nhãn bạn phải tự diễn giải — chỗ mà các ô bảng tính và phép tính trong đầu sai nhiều nhất.",
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn — không đầu vào nào được truyền đi, nên các nháp định giá, bảng điểm hay con số lương có thể được kiểm mà không cần tài khoản. Ghép với máy tính lợi nhuận cho biên và lãi gá, hay máy tính VAT khi phần trăm sống trong một giá đã gồm thuế.",
+        ],
+      },
+    ],
   },
   "profit-calculator": {
     name: "Máy tính lợi nhuận",
@@ -5135,6 +6733,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Nó tính trên hai số bạn nhập, nên phí thanh toán, vận chuyển và thuế chỉ hiện nếu bạn gộp chúng vào vốn hay giá trước. Với giá gồm thuế, hãy chạy con số qua máy tính VAT hay GST.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Biên với lãi gá: cùng một lợi nhuận, hai mẫu số",
+        paragraphs: [
+          "Cả hai tỷ lệ mô tả cùng một lợi nhuận, nhưng chia cho hai thứ khác nhau. Biên chia lợi nhuận cho giá bán — nó trả lời “bao nhiêu phần của mỗi đô doanh thu là lợi nhuận?” và là con số kế toán cùng nhà đầu tư sống với nó. Lãi gá chia lợi nhuận cho giá vốn — nó trả lời “tôi đã cộng bao nhiêu lên trên những gì tôi trả?” và là con số người mua cùng người viết bảng giá làm việc với.",
+          "Vì mẫu số khác nhau, hai cái không bao giờ khớp, và càng chênh nhau khi biên lớn. Biên 20% là lãi gá 25%; biên 33,3% là lãi gá 50%; ở biên 100% lãi gá là vô hạn — bạn bán gấp đôi giá vốn, nhưng lợi nhuận là toàn bộ giá bán, nên lãi gá theo phía vốn không còn gì để chia. Phép đổi là biên = lãi gá ÷ (1 + lãi gá) và lãi gá = biên ÷ (1 − biên).",
+          "Thất bại kinh điển là khán giả lẫn lộn: người mua yêu cầu “25% trên vốn”, chủ giá theo, rồi báo kết quả cho ngân hàng như một “biên 25%” — điều nó không phải. Định giá cho một biên 25% cần vốn ÷ 0,75, không phải vốn × 1,25; cách sau chỉ giao được biên 20%. Luôn kiểm tra người bạn đang nói chuyện nghĩa mẫu số nào.",
+        ],
+      },
+      {
+        heading: "Những gì công thức trần trụi cố ý bỏ ngoài",
+        paragraphs: [
+          "Lợi nhuận = doanh thu − giá vốn trông hiển nhiên, nhưng cả hai từ đều giấu các quyết định. “Giá vốn” với một doanh nghiệp thật nhiều hơn giá mua: cước vận chuyển mỗi lô, phí xử lý thanh toán vài phần trăm, bao bì, các lô trả hàng bạn hoàn tiền, và thời gian của chính bạn. Nếu chỉ nhập giá trên hóa đơn, biên được hiện tâng bốc thực tế; hãy gộp phí vào vốn và trừ chiết khấu khỏi giá trước khi phán một dòng sản phẩm có đáng không.",
+          "Thuế là một biên khác. Công cụ tính số học trước thuế trên hai con số được đưa; thuế bán hàng, VAT và thuế thu nhập đổi hai phía theo cách khác nhau, nên định giá gồm-thuế thuộc về một máy tính VAT/GST chuyên dụng. Giữ mô hình đơn giản là một tính năng — nó làm rõ con số nào bạn đã cung cấp và con số nào chưa.",
+          "Một con số máy tính này không cho bạn được là điểm hòa vốn: các chi phí cố định như tiền thuê được chia cho mọi đơn bán, nên lợi nhuận theo từng mặt hàng chỉ có nghĩa sau khi chi phí cố định được che phủ. Hãy dùng các biên này để so sản phẩm với nhau, rồi dùng một phân tích hòa vốn hay biên lợi nhuận đàng hoàng khi câu hỏi là cả doanh nghiệp có sống sót không.",
+        ],
+      },
+      {
+        heading: "Nó vừa vào quy trình định giá ở đâu",
+        paragraphs: [
+          "Template bảng tính xử lý ổn cho một mặt hàng nhưng vụng về cho các what-if nhanh tại quầy: “nhà cung cấp tăng giá 8%, điều đó làm gì với biên của tôi ở cùng giá kệ?”. Công cụ này trả lời ngay lập tức không cần bảo trì công thức nào, và hiển thị song song nghĩa là con số bạn báo khách và con số trong sổ không thể lặng lẽ bất đồng.",
+          "So với các công cụ định giá theo biên-mục-tiêu, cái này hiện cả hai tỷ lệ trên mọi kết quả, và đó chính là điểm: sai lầm không phải tính sai tỷ lệ nào — mà là tính một cái rồi gọi nó là cái kia. Như một phép kiểm nhanh trước khi gửi báo giá, thấy 25% và 33,3% cạnh nhau làm quy ước tường minh.",
+          "Như khắp nơi trên trang này, mọi phép tính diễn ra cục bộ trong trình duyệt của bạn. Giá vốn, giá bán và biên là những con số nhạy cảm nhất một doanh nghiệp nhỏ có; chúng không bao giờ được truyền hay lưu, nên máy tính an toàn để dùng giữa chừng đàm phán trên một máy dùng chung hay công cộng.",
+        ],
+      },
+    ],
   },
   "qr-generator": {
     name: "Trình tạo mã QR",
@@ -5161,6 +6785,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Văn bản hay URL của tôi có bị tải lên đâu không?",
         a: "Không. Thư viện qrcode chạy trong trình duyệt của bạn và vẽ lên canvas cục bộ; cả văn bản lẫn ảnh sinh ra đều không bao giờ rời khỏi thiết bị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Các mức sửa lỗi và cuộc đánh đổi đè logo",
+        paragraphs: [
+          "Mã QR sống sót qua hư hỏng nhờ sửa lỗi Reed–Solomon: dữ liệu được mã hóa được bồi thêm các từ mã dư, và máy quét có thể dựng lại thông điệp từ bất kỳ phần nào sống sót. Tiêu chuẩn định nghĩa bốn mức — L phục hồi 7% từ mã, M 15%, Q 25%, H 30% — và mỗi điểm phần trăm bền thêm trả giá bằng không gian ký hiệu, nên cùng một URL ở mức H cho ra lưới dày hơn ở mức L.",
+          "Mẹo đè logo khai thác đúng ngân sách ấy: in một logo giữa tâm một mã mức H và vùng bị hỏng rơi vào phần 30% mà sửa lỗi dựng lại được. Cùng lần đè ấy trên một mã mức M thường xuyên giết chết nó. Quy tắc ngón tay: chỉ che giữa khi mức là H, giữ vùng che khiêm tốn, và không bao giờ che ba mẫu định vị ở góc — máy quét định vị ký hiệu bằng chúng, và không lượng sửa lỗi nào giúp nổi khi các góc đã mất.",
+          "Cho dùng trên màn hình thường, mức cao hơn không phải chất lượng miễn phí: lưới dày hơn cần nhiều pixel hơn mỗi module và quét tệ hơn ở cùng kích thước ảnh. Chọn L hay M cho một URL trên website, chỉ nâng lên Q hay H khi môi trường vật lý thô ráp, nhỏ hay có thể bị che một phần.",
+        ],
+      },
+      {
+        heading: "Mã tĩnh, tracking và “hết hạn” thậm chí nghĩa là gì",
+        paragraphs: [
+          "Một mã QR chỉ là bức ảnh của dữ liệu: URL hay văn bản được mã hóa ngay trong mẫu module, và bất kỳ điện thoại nào cũng decode trực tiếp mà không có máy chủ nào tham gia. Đó là lý do các mã này không bao giờ hết hạn và không có tracking — không có dịch vụ nào đứng sau bức ảnh, nên chẳng có gì để đếm lượt quét hay tắt đi. Các dịch vụ QR “động”, ngược lại, mã hóa một URL redirect ngắn và giữ phép ánh xạ trên máy chủ của họ; khi gói đăng ký hết hạn, mọi mã đã in chết cùng lúc.",
+          "Tĩnh là lựa chọn đúng cho bất cứ thứ gì khắc vào thế giới vật chất: menu nhà hàng, thẻ hội nghị, nhãn thiết bị. Động chỉ chính đáng khi bạn cần đổi đích sau khi in hay thực sự muốn phân tích quét — và khi đó hãy cân nhắc bạn đang ký vào cái gì.",
+          "Một lưu ý cắt cả hai chiều: vì không gì đứng sau một mã tĩnh, một kẻ ác ý có thể in mã tĩnh của riêng mình trỏ tới một trang thù địch và dán đè lên một mã chính đáng. Máy quét hiển thị URL thô là có lý do; hãy kiểm tra một mã tự xưng đi đâu trước khi mở, và khi bạn phát hành mã, cân nhắc mã hóa đầy đủ domain nhìn thấy được thay vì một shortener.",
+        ],
+      },
+      {
+        heading: "Màu sắc, tương phản và thực tế in ấn",
+        paragraphs: [
+          "Máy quét đọc tương phản giữa module và nền, không phải màu sắc tự thân. Module tối trên nền sáng với tương phản mạnh là bố cục đáng tin; mã đảo (module sáng trên nền tối) gãy trên nhiều máy đọc, và các cặp tương phản thấp như xanh nhạt trên trắng rơi mất hoàn toàn dưới ánh sáng môi trường. Giữ màu module gần đen trừ khi ràng buộc thương hiệu bắt buộc khác, và luôn thử bằng một camera điện thoại thật.",
+          "Vùng trống (quiet zone) — viền trống quanh ký hiệu — là một phần của tiêu chuẩn vì một lý do: máy quét dùng nó để tìm mép ký hiệu. Cắt một mã QR sát mép tờ rơi hay đè nó lên một bức ảnh rối xóa vùng đó và làm suy giảm việc quét ngay cả khi mọi module còn nguyên.",
+          "Về định dạng output, SVG thắng cho in vì nó phóng không răng cưa ở mọi kích thước; PNG 768 px dư dả cho màn hình và bản in nhỏ. Và toàn bộ quy trình chạy cục bộ trong trình duyệt của bạn — văn bản bạn mã hóa, dù một mật khẩu Wi-Fi hay một URL nội bộ, không bao giờ được upload đi đâu.",
+        ],
       },
     ],
   },
@@ -5192,6 +6842,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Mọi mã QR chuẩn: URL, văn bản thuần, số điện thoại, chuỗi kết nối Wi-Fi, liên hệ vCard, chuỗi thanh toán UPI hay PIX và hơn nữa. Công cụ hiển thị nội dung thô đã giải mã — với mã Wi-Fi hay thanh toán, hãy sao chép văn bản vào app đọc định dạng đó.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Quyền camera: vì sao trình duyệt hỏi và điều đó nghĩa là gì",
+        paragraphs: [
+          "API getUserMedia đứng sau chế độ camera được canh bởi hai cánh cổng mà trình duyệt thực thi, không phải trang. Thứ nhất, một lời nhắc quyền: trang chỉ có thể xin, và bạn có thể cho hay từ chối — một lời từ chối được ghi nhớ và có thể đổi từ biểu tượng trên thanh địa chỉ. Thứ hai, quy tắc ngữ-cảnh-an-toàn: truy cập camera chỉ được phép trên các trang https, nên một bản sao không an toàn của công cụ này thậm chí không thể hỏi.",
+          "Điều quyền hạn KHÔNG cấp cũng quan trọng ngang: không có truy cập nền. Một trang chỉ đọc được các khung hình khi một luồng video đang sống, trình duyệt hiển thị rõ camera đang hoạt động bằng một chỉ báo, và dừng luồng (điều công cụ này làm tự động khi decode thành công) chấm dứt mọi truy cập. Không khung hình nào có thể bị chụp lặng lẽ dưới nền.",
+          "Đó là lý do chế độ thất bại cụ thể đến vậy: một camera không khởi động được gần như luôn là một quyền bị chặn, một vấn đề ngữ cảnh https, hay thực sự không có camera trên thiết bị. Công cụ phân biệt các ca này thay vì hiện một lỗi chung chung, vì mỗi ca có một bản vá khác nhau.",
+        ],
+      },
+      {
+        heading: "Decode QR thực sự tìm ra mã thế nào",
+        paragraphs: [
+          "Một ký tự QR tự neo bằng ba mẫu định vị lớn — các ô vuông ở góc trên-trái, trên-phải và dưới-trái. Bộ decode quét lưới pixel tìm đúng các hình ấy, dùng vị trí của chúng để lập góc xoay và phối cảnh của ký hiệu, và chỉ sau đó đọc các module dữ liệu cùng chạy sửa lỗi. Đó là lý do một mã được chụp nghiêng vẫn decode được: các mẫu định vị cung cấp hình học.",
+          "Chất lượng ảnh điều khiển kết quả hơn bất cứ thứ gì. Các thất bại kinh điển là ánh chói đè lên một mẫu định vị, một mã chiếm quá ít pixel sau khi thu nhỏ, và tương phản thấp giữa module với nền. Một ảnh sắc hơn, khung gần hơn hay góc thẳng hơn sửa đa số các lần đọc nhầm — bộ decode là tất định, không phải xác suất.",
+          "Payload được decode được hiện như văn bản thô một cách có chủ đích. Mã QR có thể mã hóa chuỗi vào Wi-Fi, vCard và các định dạng thanh toán, nhưng bản thân mã không tự báo loại của nó; hiện chuỗi thô cho phép bạn kiểm chứng một mã thực sự chứa gì trước khi bất kỳ app nào tiêu thụ nó — đó chính là toàn bộ điểm của việc soi một mã từ poster hay bao bì trước khi mở link của nó.",
+        ],
+      },
+      {
+        heading: "Soi mã trước khi tin chúng",
+        paragraphs: [
+          "Các app camera điện thoại ngày càng mở link QR ngay lập tức, tiện và cũng chính xác là điều mà chiêu dán sticker ác ý dựa vào. Một mã QR là dữ liệu không được xác thực: bất kỳ ai cũng in được một cái trỏ đi đâu cũng được. Đọc văn bản đã decode trước — như công cụ này làm trước khi đưa nút mở — chèn một khoảng dừng có chủ đích giữa việc thấy một mã và hành động theo nó.",
+          "Các thói quen thực dụng: kiểm tra domain của URL khớp những gì bối cảnh hứa hẹn (một máy đỗ xe, một menu nhà hàng), nghi ngờ các shortener giấu đích đến, và không bao giờ nhập thông tin xác thực trên một trang bạn đến từ một mã chưa kiểm chứng. Với mã thanh toán, hãy kiểm chứng chuỗi người nhận từng ký tự thay vì tin nhãn.",
+          "Riêng tư giữ cho cả hai lối: decode ảnh chỉ đọc các pixel cục bộ của file bạn thả vào, và các khung camera được phân tích trong bộ nhớ rồi bị vứt. Không gì được upload, ghi log hay lưu — việc soi mã ở lại hoàn toàn trên thiết bị của bạn.",
+        ],
+      },
+    ],
   },
   "random-name-picker": {
     name: "Vòng quay chọn tên",
@@ -5219,6 +6895,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Bốc nhiều người trúng liên tiếp được không?",
         a: "Được. Bật “Xóa người trúng sau mỗi lượt” và mỗi lượt rút sẽ tự loại người đó khỏi danh sách, nên không ai bị chọn hai lần. Bảng lịch sử bên dưới ghi lại mọi lượt bốc trong phiên này, đúng thứ tự, kèm dấu thời gian.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Điều gì khiến một lần rút công bằng một cách chứng minh được",
+        paragraphs: [
+          "Chế độ thất bại tinh tế của các bộ chọn ngẫu nhiên là lệch modulo. Một script ngây thơ làm Math.floor(Math.random() * n) — nhưng Math.random() sinh một giá trị dấu phẩy động trong một khoảng cố định, và khi khoảng ấy không chia hết cho số mục, vài tên đầu bị chọn nhiều hơn một cách đo đạc được. Với 100 tên, một số mục có thể kết thúc khả năng cao hơn một hai phần trăm: vô hình trong một lượt quay, quyết định qua cả một học kỳ các lần rút.",
+          "Công cụ này tránh vấn đề hai lần. Nó dùng crypto.getRandomValues — nguồn ngẫu nhiên mật mã của trình duyệt, cùng bộ sinh đứng sau các khóa an ninh — và áp lấy mẫu loại từ chối: các giá trị sẽ làm lệch phân bố bị vứt và rút lại, nên mỗi trong n mục nhận đúng xác suất 1/n. Lần rút chí mạng xảy ra trước khi animation bắt đầu, nghĩa là vòng quay không thể tác động kết quả theo bất kỳ cách nào.",
+          "Sự tách biệt giữa rút và hiển thị ấy là thứ cho phép bạn chứng minh công bằng trước một khán phòng: kết quả tồn tại ngay khoảnh khắc bạn bấm nút, animation chỉ phơi nó ra. Không gì về màu các ô, tốc độ vòng hay điểm bắt đầu của kim ảnh hưởng ai thắng — và vì lần rút là mật mã chứ không được gieo hạt theo thời gian, ngay cả người vận hành công cụ cũng không thể đoán hay lái kết quả.",
+        ],
+      },
+      {
+        heading: "Luân phiên, loại dần và bảng lịch sử",
+        paragraphs: [
+          "Hai tùy chọn làm phần lớn việc thực dụng. Khử trùng lặp quan trọng hơn vẻ ngoài: một danh sách dán từ bảng tính thường mang các bản lặp ẩn — dấu cách cuối, đảo thứ tự tên, hàng đôi vô ý — và mỗi bản trùng nhân đôi cơ hội của người đó. Hãy khử trùng lặp trước lần rút trừ khi các bản lặp là có chủ đích.",
+          "Loại người thắng sau mỗi lần rút biến vòng quay thành một hàng đợi loại dần sạch sẽ. Đây là cách bạn duyệt cả lớp để mỗi học sinh thuyết trình đúng một lần, hay phát giải thưởng theo thứ tự không cần theo dõi giấy tờ. Bảng lịch sử bên dưới ghi từng lần chọn cùng dấu thời gian của nó, theo thứ tự, nên các tranh cãi kiểu “bạn chọn họ hai lần rồi” được giải bằng cách cuộn chứ không phải bằng trí nhớ.",
+          "Một giới hạn trung thực: lịch sử chỉ sống trong phiên trình duyệt này. Tải lại trang là mất. Nếu bạn cần một bản ghi có thể kiểm toán — một giveaway có giải thật chẳng hạn — hãy sao chép người thắng ra ngay khi đi qua thay vì tin phiên sống sót.",
+        ],
+      },
+      {
+        heading: "Danh sách sống ở đâu — và không sống ở đâu",
+        paragraphs: [
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn. Danh sách bạn dán không bao giờ được truyền, lưu hay ghi log ở đâu cả; không có máy chủ nào tham gia lần rút. Điều đó biến công cụ an toàn cho những danh sách bạn chẳng muốn dán vào một trang web ngẫu nhiên — tên nhân viên cho một xổ số ca làm việc, tên viết tắt bệnh nhân trong một bài tập huấn luyện, tên thành viên nhóm riêng tư.",
+          "Nó còn có nghĩa là công cụ vẫn làm việc không cần mạng: một lớp học Wi-Fi tệ vẫn chạy được lần rút, và cùng trang tiếp tục hoạt động offline khi đã tải. Dữ liệu duy nhất từng rời một tab là thứ bạn cố ý sao chép ra qua nút copy.",
+          "Với các lần rút có trọng số hay gieo hạt — các bốc thăm nơi số vé nên đổi xác suất, hay các lần chọn tái lập được cho testing — công cụ này cố ý là cái sai: một tên, một cơ hội, không trọng số. Ràng buộc ấy là một tính năng khi công bằng là điểm đến; khi các xác suất nên không đều, hãy dùng một công cụ bốc thăm chuyên dụng thay vì bẻ cong cái này.",
+        ],
       },
     ],
   },
@@ -5249,6 +6951,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có — đầu vào như mcmxciv được tự viết hoa và chuyển thành 1994. Kết quả luôn hiển thị chữ hoa, như truyền thống khắc bia.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Một hệ thống không có số không — và vì sao điều đó định hình mọi thứ",
+        paragraphs: [
+          "Chữ số La Mã là một ký pháp cộng-trừ, không phải theo vị trí: mỗi ký tự có một giá trị cố định bất kể đứng đâu, và không có số không cũng như giá trị theo vị trí. Một sự thật duy nhất ấy giải thích cả sức mạnh lẫn giới hạn của hệ thống. Phép cộng tầm thường — chỉ cần gom các ký tự lại — nhưng nhân và chia là mệt mỏi, đó là lý do thương gia La Mã tính trên bàn tính rồi ghi kết quả bằng chữ số.",
+          "Sự vắng mặt của số không còn chặn trần khoảng giá trị. Ký tự lớn nhất của ký pháp cổ điển là M (1000), và quy ước cấm viết một chữ quá ba lần nghĩa là số lớn nhất đúng khuôn hoàn toàn là MMMCMXCIX — 3999. Các tác giả thời Trung cổ sau đó phát minh vinculum, một vạch trên nhân chữ số với 1.000, để chạm giá trị lớn hơn, nhưng nó chưa bao giờ trở thành một phần của kinh điển cổ điển, nên các bộ chuyển đổi giữ cổ điển dừng đúng chỗ cái này dừng.",
+          "Các quy tắc nghiêm ngặt vừa là sự gọn gàng hiện đại vừa là thực hành cổ. Các cặp trừ (IV, IX, XL, XC, CD, CM) từng được dùng không nhất quán trên các bia đá La Mã thật — IIII xuất hiện cạnh IV trên các cổng đấu trường — và regex chuẩn tắc mà công cụ này kiểm chứng phản ánh dạng cổ điển được chuẩn hóa mà các nhà in và thiết kế chữ sau đó dừng chân.",
+        ],
+      },
+      {
+        heading: "Truyền thống IIII trên mặt đồng hồ",
+        paragraphs: [
+          "Nhìn gần như bất kỳ mặt đồng hồ truyền thống nào và bạn sẽ thấy IIII ở chỗ quy tắc cổ điển nói IV. Đây là một trong những quy ước biến thể lâu đời và bền nhất, và các thợ làm đồng hồ dùng dạng cộng suốt hàng thế kỷ — trên đồng hồ mặt trời, đồng hồ nhà thờ lẫn mặt đồng hồ đeo tay.",
+          "Không một lý do đơn lẻ nào được ghi chép chắc chắn, và các lời giải khả tín chồng lên nhau thay vì loại nhau. Cân bằng thị giác: IIII ngồi đối diện VIII trên mặt số và các nét của chúng hòa hợp; với IV thì nửa trái mặt số trông nặng hơn. Sản xuất: đúc bốn con dấu I giống hệt rẻ hơn cắt một khuôn IV riêng. Truyền thuyết hoàng gia: các giai thoại kể một vị vua phản đối IV vì quá gần vị thần Jupiter (viết IVPITER trong Latin), dù câu chuyện đó là truyền thống hơn là lịch sử đã kiểm chứng.",
+          "Bất kể nguồn gốc, điều người dùng bộ chuyển đổi nên nhớ là IIII là một dạng lịch sử chính đáng mà kiểm chứng cổ điển nghiêm ngặt từ chối. Công cụ này thực thi hệ chuẩn tắc — IV, không bao giờ IIII — vì việc của một bộ chuyển đổi là một câu trả lời nhất quán, không phải một bách khoa toàn thư về các biến thể. Khi gặp IIII trên mặt số, hãy đọc là 4; khi viết chữ số, hãy viết dạng chuẩn tắc.",
+        ],
+      },
+      {
+        heading: "Kiểm chứng nghiêm ngặt và các biến thể nó từ chối",
+        paragraphs: [
+          "Bộ phân tích nhận đúng một chính tả chuẩn tắc cho mỗi số và từ chối phần còn lại, kèm giải thích quy tắc. Nghĩa là VIIII (9 dạng cộng), IIM (trừ vượt một bậc xuống), IC (trừ xuyên hai bậc) và VX đều bị gắn cờ thay vì được đoán. Sự nghiêm ngặt là có chủ đích: đầu vào mơ hồ là nơi các lỗi im lặng sống, và một bộ chuyển đổi biết đoán không dạy được gì.",
+          "Cách dùng lịch sử lỏng lẻo hơn kinh điển. Các bia cũ và bản thảo cho thấy các dạng cộng, các phép trừ bất quy tắc và thậm chí các chữ có giá trị đổi theo thời gian — chữ số Trung cổ thỉnh thoảng chạy hoàn toàn các hình dáng không chuẩn. Nếu bạn đang chép một nguồn gốc, hãy đợi gặp các dạng công cụ này từ chối; bộ kiểm chứng vẫn giúp ở đó, bằng cách nói chính xác mỗi biến thể phá quy tắc cổ điển nào.",
+          "Đầu vào chữ thường được nhận và chuẩn hóa thành chữ hoa, khớp cách các bia được khắc theo truyền thống. Mọi thứ chạy cục bộ trong trình duyệt — dãy năm phim, số chương hay bia khắc tự do dán vào; không gì được gửi đi đâu, và cả hai chiều giữ trực tiếp để bạn soát từng bên với bên kia.",
+        ],
+      },
+    ],
   },
   "scientific-calculator": {
     name: "Máy tính khoa học",
@@ -5275,6 +7003,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao kết quả của tôi có số chữ số giới hạn?",
         a: "Kết quả được làm tròn tới 12 chữ số có nghĩa để giấu nhiễu dấu phẩy động như 0,30000000000000004. Độ chính xác vượt 12 chữ số vốn hiếm khi có nghĩa trên phần cứng dấu phẩy động nhị phân.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Thứ tự ưu tiên toán tử và vì sao −2² bằng −4",
+        paragraphs: [
+          "Việc của một máy tính không phải số học — mà là quyết định một biểu thức nghĩa là gì. Bộ đánh giá này theo quy ước toán học bạn học trong trường: ngoặc trước, rồi dấu trừ một ngôi, rồi các thao tác hậu tố như % và x², rồi luỹ thừa, rồi nhân chia, rồi cộng trừ. Lấy đúng thứ tự ấy chính là ranh giới giữa một máy tính và một món đồ chơi.",
+          "Một quy ước gây bất ngờ: 2^3^2 nghĩa là 2^(3^2) = 512, không phải (2^3)^2 = 64. Luỹ thừa kết bên phải, theo thực hành toán học chuẩn — các luỹ thừa xếp chồng được đọc từ trên xuống. Liên quan, −2² là −4, không phải 4, vì bình phương áp lên 2 trước khi dấu trừ một ngôi kịp làm.",
+          "Phép nhân ngầm hoạt động giữa các giá trị kề nhau — 2π, 3(4+1), (1+2)(3+4) đều nhân không cần dấu × tường minh. Một điểm tinh tế có chủ đích: phép nhân ngầm kết chặt hơn phép chia trong cùng một đoạn, nên 1/2π được đọc là 1/(2π) thay vì (1/2)×π — cách đọc các nhà vật lý và kỹ sư muốn khi viết nó inline.",
+        ],
+      },
+      {
+        heading: "Vì sao không có eval, và sự trung thực dấu phẩy động",
+        paragraphs: [
+          "Đa số máy tính web đẩy biểu thức của bạn vào eval hay Function constructor của JavaScript — trình duyệt parse chuỗi thành code và thực thi nó. Dựng nhanh, nhưng nghĩa là một chuỗi được chế tác có thể chạy mã tùy ý, và hành vi của công cụ phụ thuộc vào các quirk của JavaScript thay vì các quy tắc máy tính. Bộ đánh giá này là một tokenizer nhỏ cộng một parser hạ-giảm-đệ-quy viết riêng cho trang: đầu vào không hợp lệ cho một thông báo lỗi, không bao giờ một lần thực thi.",
+          "Các số là float độ chính xác kép IEEE 754, mô tả trung thực nhất về điều mọi engine máy tính chủ lưu làm dưới tầng hiển thị. Điều đó sinh ra các hiện tượng như 0.1 + 0.2 = 0.30000000000000004 — số thập phân 0,1 không có biểu diễn nhị phân chính xác, nên tổng mang nhiễu biểu diễn. Kết quả ở đây được làm tròn 12 chữ số có nghĩa để đè nhiễu, và đó cũng là lý do các phép toán lặp không tích thành rác nhìn thấy được.",
+          "Hai giới hạn trung thực: làm tròn quá 12 chữ số vô nghĩa trên phần cứng nhị phân, nên đòi thêm độ chính xác chẳng mua được gì; và các kết quả lượng giác kế thừa vài đơn vị ở hàng cuối ngay cả với góc chính xác, nên tan của một góc gần vuông nổ theo bản chất — máy tính báo hành vi dấu phẩy động thật thay vì trát vữa lên nó.",
+        ],
+      },
+      {
+        heading: "Độ, radian và quy trình nối chuỗi",
+        paragraphs: [
+          "Công tắc DEG/RAD là nguồn trả lời lượng giác sai lớn nhất mọi nơi, nên nó xứng đáng một quy tắc: DEG là mặc định vì đa số người với tới máy tính đang làm việc theo độ; RAD dành cho toán kiểu giải tích và mọi thứ diễn đạt bằng π. tan(π/4) ở chế độ DEG cho một câu trả lời sai với đầy tự tin — máy tính không thể biết bạn muốn nói gì, nên kiểm công tắc trước khi đổ lỗi cho kết quả.",
+          "Xem trước trực tiếp nghĩa là biểu thức luôn sửa được: sửa một hạng giữa và toàn bộ kết quả tính lại, thay vì gõ lại vào một máy tính kiểu stack. Bấm = gấp kết quả về lại dòng biểu thức, nên nối chuỗi — lấy một kết quả, nhân, rồi lấy log — diễn ra trên một dòng sửa được thay vì qua các thanh ghi bộ nhớ.",
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn: không biểu thức hay kết quả nào được truyền đi, và trang chạy offline khi đã tải. Với các phép tính chạm bất cứ thứ gì riêng tư — định giá, bảng lương, đề thi — nghĩa là phép tính chỉ thuộc về bạn. Máy tính phần trăm và bộ chuyển nhị phân liên quan xử lý hai việc (số học phần trăm và đổi cơ số) mà một bàn phím khoa học làm một cách vụng về.",
+        ],
       },
     ],
   },
@@ -5305,6 +7059,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Số thô không bao giờ đổi — nó mã hóa một khoảnh khắc tuyệt đối. Chỉ cách hiển thị cho người đọc khác nhau, vì thế công cụ hiển thị giờ máy và UTC cạnh nhau.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao Unix time không thèm biết đồng hồ và lịch",
+        paragraphs: [
+          "Unix time là một số nguyên duy nhất đếm giây kể từ 1970-01-01 00:00:00 UTC — Unix epoch. Không múi giờ, không giờ mùa hè, không độ dài tháng bên trong con số; tất cả những thứ đó là phần trình bày, chỉ áp khi một bộ render biến số nguyên thành ngày cho con người. Đó chính là lý do mọi API, cơ sở dữ liệu và hệ log lưu thời gian kiểu này: so hai khoảnh khắc là trừ số nguyên, và sắp xếp là sắp số nguyên.",
+          "Các giây nhuận bị cố ý loại trừ. Con số 1.700.000.000 không đánh dấu 1,7 tỷ giây vật lý — nó đánh dấu 1,7 tỷ giây SI kể từ epoch cộng số giây nhuận hệ thống đã hấp thụ trong lúc đó. Với lập lịch và ghi log, sự đơn giản hóa ấy là một tính năng; với độ chính xác thiên văn thì không, đó là lý do các hệ khoa học giữ thang đo riêng (TAI, UTC) thay vào.",
+          "Dấu thời gian âm là hợp pháp: chúng đếm ngược trước 1970, nên 1969-07-20 (con người đổ bộ lên Mặt Trăng) nằm cỡ −14182940 giây. Một số hệ 32-bit cũ từ chối số âm, đó là lý do vài thư viện đời đầu xử lý sai các ngày trước 1970 dù tiêu chuẩn chưa bao giờ nói vậy.",
+        ],
+      },
+      {
+        heading: "Giây, mili giây và bài toán 2038",
+        paragraphs: [
+          "Số chữ số tiết lộ đơn vị. Mười chữ số phủ 1973 tới 2286 theo giây; mười ba chữ số phủ kỷ nguyên hiện đại theo mili giây. Công cụ đọc theo độ lớn và cho bạn biết nó áp cách diễn giải nào, vì một giả định sai đơn vị cho ra các ngày trông hợp lý — một giá trị 13 chữ số đọc theo giây đáp vào năm 55.000, thứ khó lỡ, nhưng hai thư viện bất đồng đơn vị trong một codebase thì sinh ra các bug lệch-cả-nghìn tinh vi.",
+          "Số nguyên có dấu 32-bit mà các hệ Unix đầu dùng để lưu giây tràn vào tháng Giêng 2038, khi bộ đếm chạm 2.147.483.647. Các hệ 64-bit hiện đại an toàn cho khoảng 290 tỷ năm tới, nhưng các thiết bị nhúng, định dạng file cũ và một số cơ sở dữ liệu vẫn mang các trường timestamp 32-bit. Bài học thực dụng không phải hoảng loạn về 2038 hôm nay, mà là để ý một hệ thống dùng kiểu dữ liệu nào khi tích hợp với nó.",
+          "Cái bẫy tinh tế hơn không phải đơn vị mà là phía sinh: một số hệ phát giây-kèm-phân-thập như 1700000000.123, và các parser ngây thơ cắt cụt hay làm tròn khác nhau. Khi debug một lệch timestamp, trước hết xác nhận hai bên đồng ý về đơn vị, rồi về độ chính xác, rồi về cách render múi giờ — theo đúng thứ tự ấy.",
+        ],
+      },
+      {
+        heading: "Làm việc với timestamp hằng ngày",
+        paragraphs: [
+          "Bộ đếm trực tiếp là một dụng cụ debug ngang hàng một tiện nghi: trước khi săn một bug lập lịch, liếc nó để xác nhận đồng hồ thiết bị của bạn cỡ đúng — một máy lệch đồng hồ sinh ra các timestamp đầu độc log lẫn các phép kiểm hết hạn token. Sao chép một cú bấm nghĩa là bạn có thể dán một timestamp hiện tại vào một curl hay một fixture test mà không phải gõ chữ số.",
+          "Nhớ rằng con số thô không có múi giờ theo định nghĩa. Lỗi production kinh điển là lưu timestamp đúng nhưng render bằng một máy chủ đặt UTC trong khi người dùng sống ở nơi khác — mọi thứ nhìn lệch tám tiếng. Luôn ghép timestamp với một múi giờ tường minh ở tầng render; cặp số đọc cục-bộ-và-UTC cạnh nhau ở đây tồn tại để làm phép ghép ấy nhìn thấy được.",
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn: timestamp dán vào, ngày chọn và đồng hồ trực tiếp không bao giờ rời thiết bị — điều có ý nghĩa khi decode timestamp từ log, dữ liệu sự cố hay bất cứ thứ gì nhạy cảm. Không giới hạn tần suất và không lịch sử — decode bao nhiêu giá trị tùy cần trong khi chia đôi tìm chỗ bug đầu tiên xuất hiện.",
+        ],
+      },
+    ],
   },
   "tip-calculator": {
     name: "Máy tính tiền tip",
@@ -5331,6 +7111,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Phần mỗi người có giả định chia đều?",
         a: "Có — hóa đơn cộng tip được chia đều theo số người. Với phần không đều (ai đó chỉ gọi salad), hãy tính phần dùng chung như một subtotal trước rồi cộng món riêng lên trên.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Văn hóa tiền tip thay đổi nhiều hơn phép toán",
+        paragraphs: [
+          "Số học là chuyện tầm thường; văn hóa thì không. Ở Hoa Kỳ, nhân viên dịch vụ nhận tip thường được trả một lương nền đã giả định tip chiếm phần lớn thu nhập của họ, nên 15–20% ở nhà hàng là một kỳ vọng xã hội chứ không phải phần thưởng. Ở phần lớn châu Âu và Mỹ Latin, một khoản phí dịch vụ thường đã nằm trên hóa đơn, và 10% hay làm tròn lên là một cử chỉ thân thiện chứ không phải nghĩa vụ.",
+          "Ở nơi khác mặc định lật ngược: ở Nhật, tip thực sự có thể làm nhân viên bối rối, và ở Trung Quốc nó gần như vắng bóng — để tiền mặt trên bàn có thể nghĩa là một nhân viên chạy theo trả lại cho bạn. Các cẩm nang du lịch và người bản địa là nguồn tốt nhất cho chuẩn mực hiện tại của từng nơi; phong tục còn trôi theo thời gian, nên công cụ này giữ các preset sửa được thay vì đóng cứng quy tắc của quốc gia nào.",
+          "Một chiến lược thực dụng ở nước ngoài: kiểm tra xem dòng “đã gồm dịch vụ” đã có trên hóa đơn chưa, và coi các phần trăm của máy tính này như một vốn từ vựng — biết 10%, 15% và 20% nghĩa là bao nhiêu theo tiền địa phương cho phép bạn phản ứng đúng chỗ ở bất cứ đâu.",
+        ],
+      },
+      {
+        heading: "Preset, gốc trước thuế và phép chia",
+        paragraphs: [
+          "Các preset bao quanh các câu trả lời phổ biến — 10% cho dịch vụ khiêm tốn hay quầy, 15% làm mức giữa truyền thống, 18–20% cho dịch vụ trọn bàn tốt, 25% cho xuất sắc — và trường tùy chỉnh phủ mọi quy ước địa phương. Một phép kiểm trong đầu nhanh: 10% là dấu thập phân dịch một ô sang trái, 20% là gấp đôi cái đó, và 15% là chính giữa.",
+          "Câu trả lời lễ nghi truyền thống nói tip trên khoản trước thuế, vì thuế không phải một dịch vụ bạn nhận được; trên thực tế đa số tip trên tổng của bill thẻ, cách này tip hơi quá một chút và hiếm khi bị phản đối. Nếu khác biệt ấy có ý nghĩa với bạn, hãy nhập số trước thuế làm hóa đơn.",
+          "Phép chia lấy tổng đã tip chia đều theo số người, khớp cách các nhóm thường tính sổ nhưng che giấu khác biệt tiêu thụ. Với các order không đều, hãy tính phụ các món dùng chung, tip khoản phụ ấy, rồi cộng phần riêng của từng người — hai bước mà máy tính hỗ trợ bằng cách chạy hai lần.",
+        ],
+      },
+      {
+        heading: "Dựng cho chiếc bàn, không phải bảng tính",
+        paragraphs: [
+          "Cuối bữa ăn, các câu hỏi hữu ích đúng bằng ba: tip bao nhiêu, tổng bao nhiêu, mỗi người bao nhiêu. Một máy tính phần trăm chung trả lời được chúng, nhưng mỗi lần một câu và phải gõ lại; ở đây hóa đơn, mức tip và số người đều sửa được cùng lúc và mọi con số tính lại trực tiếp khi bạn chỉnh bất kỳ cái nào.",
+          "Nó còn chạy hoàn toàn trên thiết bị của bạn không phụ thuộc mạng — không phải một câu chữ marketing: tầng hầm nhà hàng, vùng mất sóng roaming và SIM nước ngoài chính là những lúc bạn cần nó, và không gì về hóa đơn rời điện thoại của bạn.",
+          "Nó làm việc với mọi đồng tiền vì phép toán không bao giờ giả định một loại nào: gõ số tiền như trên hóa đơn và đọc output theo cùng đơn vị. Với các giá đã gồm thuế hay kiểm giảm giá trước khi gọi món, máy tính phần trăm và máy tính VAT phủ các ca lân cận.",
+        ],
       },
     ],
   },
@@ -5362,6 +7168,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Giờ thành phố đến từ cơ sở dữ liệu múi giờ dựng sẵn trong trình duyệt và đồng hồ thiết bị của bạn — không tải gì về và không chia sẻ vị trí nào.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao cơ sở dữ liệu IANA quan trọng",
+        paragraphs: [
+          "Múi giờ không phải các offset tĩnh; chúng là các bộ quy tắc đổi theo lịch sử. Offset của một thành phố đã dịch theo luật giờ mùa hè, chính sách thời chiến và sắc lệnh chính phủ — thỉnh thoảng hồi tố. Cơ sở dữ liệu múi giờ IANA (tz database) là bản ghi do cộng đồng duy trì cho các quy tắc ấy, với một định danh vùng như America/New_York mã hóa không chỉ một offset mà toàn bộ lịch sử khi nào và đổi thế nào.",
+          "Trình duyệt của bạn mang theo một bản sao của cơ sở dữ liệu này và phơi nó qua API Intl chuẩn, thứ công cụ này dùng. Lựa chọn ấy có hai hệ quả: chuyển đổi không cần gọi mạng — trang chạy trong chế độ máy bay — và các quy tắc chỉ mới cỡ trình duyệt của bạn. Các thay đổi chính phủ gần đây xuất hiện khi trình duyệt cập nhật tzdata, không phải ngay lập tức.",
+          "Dùng vùng có tên thay vì offset cố định còn tránh cả một loại bug: “+5:30” mô tả Ấn Độ hôm nay, nhưng “Asia/Kolkata” mô tả Ấn Độ qua các thập kỷ không DST với các lần dịch lịch sử một lần còn nguyên. Các bảng offset cố định lan truyền như cheat sheet trôi khỏi thời; một vùng có tên thì không.",
+        ],
+      },
+      {
+        heading: "DST: các lần chuyển cắt gãy phép toán ngây thơ",
+        paragraphs: [
+          "Giờ mùa hè là lý do bạn không thể đơn thuần trừ hai offset rồi tin kết quả. Offset của hai thành phố có thể chênh 7 tiếng hôm nay và 6 hay 8 tiếng tuần sau, vì DST bật ở các ngày khác nhau ở các nơi khác nhau — Mỹ đổi trong tháng Ba, châu Âu muộn hơn trong tháng Ba, vài nước bán cầu nam đổi quanh tháng Mười. Ngay trong một quốc gia, một vùng có thể theo DST trong khi vùng khác thì không.",
+          "Bản thân các lần chuyển có cạnh sắc: bật-lên nhảy đồng hồ tường cả một tiếng — các lịch 2:30 sáng đơn giản không tồn tại ngày đó — và bật-xuống khiến một tiếng xảy ra hai lần, nên “1:30 sáng” là mơ hồ nếu không có múi giờ. Các quốc gia còn bãi bỏ DST hoàn toàn, như Mexico với phần lớn đất nước năm 2022, đó là lý do các quy tắc theo năm chứ không phải offset hằng là cách mã hóa an toàn duy nhất.",
+          "Với các cuộc họp lặp lại, bảng giờ thể hiện giá trị quanh những ngày chuyển ấy: soát cùng một ngày trong tuần xuyên suốt tuần diễn ra phép chuyển và bạn sẽ thấy giờ họp thực tế nhảy một tiếng chỉ ở một phía. Một cái liếc ấy ngăn đúng kiểu trôi lịch-lặp-kinh điển đang bò một cuộc gọi từ buổi sáng sang buổi tối.",
+        ],
+      },
+      {
+        heading: "Đọc bảng và giữ riêng tư",
+        paragraphs: [
+          "Bảng 24 hàng được sinh cho ngày bạn chọn, không chỉ hôm nay — điều đó có ý nghĩa vì cuộc họp bạn đang xếp xảy ra tháng sau, có thể sau một lần chuyển DST. Các hàng nơi ngày đích khác ngày gốc được gắn nhãn tường minh: 9:00 sáng thứ Hai ở Thượng Hải là 21:00 chủ nhật ở New York đúng loại chi tiết mà một phép chuyển tay đánh rơi.",
+          "Offset nửa tiếng và 45 phút tồn tại ngoài đời — Ấn Độ ở +5:30, một phần Úc ở +9:30, Nepal ở +5:45 — nên đừng giả định chênh lệch giữa hai thành phố là một số nguyên. Bảng đọc các quy tắc thật, nên các offset lạ đơn giản xuất hiện trong phép tính.",
+          "Mọi thứ được tính cục bộ: API Intl của trình duyệt và đồng hồ thiết bị của bạn, không yêu cầu mạng, không chia sẻ vị trí, không lịch sử lưu. Công cụ chỉ-đọc theo bản chất — nó chưa bao giờ đổi múi giờ thiết bị của bạn — nên an toàn để khám phá các giờ họp giả định cho một chuyến đi trước khi bạn thực sự đổi gì đó.",
+        ],
+      },
+    ],
   },
   "vat-calculator": {
     name: "Máy tính VAT",
@@ -5388,6 +7220,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Nên dùng mức VAT nào?",
         a: "Mức áp dụng cho hàng hóa hay dịch vụ và khu vực pháp lý của bạn: mức chuẩn dao động 0% tới 27% trên thế giới, và đa số quốc gia còn có mức giảm cho thực phẩm, sách hay thuốc. Phân vân thì xem bảng hiện hành của cơ quan thuế.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Hai hướng, và vì sao 120 không phải 100 cộng 24",
+        paragraphs: [
+          "Cộng VAT dễ: thuần × (1 + thuế suất) — ở 20%, một giá thuần 100 thành tổng 120. Trích VAT là nơi lỗi sống. Bạn không thể nhân tổng với 20% để tìm thuế, vì 20% áp lên gốc thuần, không phải tổng. Bước đúng là chia: thuần = tổng ÷ (1 + thuế suất).",
+          "Vậy một giá tổng 120 ở 20% chứa đúng 20 VAT, không phải 24 — cách ngây thơ 120 × 20% phóng đại thuế một phần năm. Ở 25%, khoảng hở còn lớn hơn: một giá tổng 125 chứa 25, không phải 31,25. Chế độ “Remove tax” thực hiện phép chia và hiện thuần, VAT và tổng cạnh nhau để sai lầm không thể trốn.",
+          "Mẹo-chia này là công thức được dùng nhiều nhất trong kế toán EU và Anh cho các khoản mua ghi theo giá gồm-thuế: hóa đơn cho một con số, và sổ cái cần ba. Cùng phép toán trả lời câu hỏi gương của định giá — nếu bạn muốn nhận về 100 thuần, hãy báo giá 120 tổng, không phải 125.",
+        ],
+      },
+      {
+        heading: "Một loại thuế, nhiều tên và nhiều mức",
+        paragraphs: [
+          "VAT là giá trị gia tăng ở mỗi tầng: nhà sản xuất tính nó trên doanh số và ghi có những gì họ đã trả khi mua, chỉ nộp phần khác biệt, nên người tiêu dùng cuối cùng gánh trọn số tiền. Các mức chuẩn trên thế giới dao động cỡ 0% đến giữa hai mươi phần trăm, và đa số hệ thống cộng các mức giảm cho thực phẩm, sách hay thuốc — đó là lý do công cụ này nhận mọi mức thập phân thay vì một danh sách cố định sẽ nhanh già.",
+          "Cái tên đổi nhiều hơn cơ chế: phần lớn châu Âu, Anh cùng nhiều nơi ở châu Phi và châu Á nói VAT; Ấn Độ gọi phiên bản hợp nhất của họ là GST; các khu vực pháp lý khác dùng nhãn riêng. Về mặt tính toán, chúng là cùng thiết kế giá trị gia tăng, nên cùng công thức đi xuyên biên giới.",
+          "Điều phép số học không quyết định được là một khoản cung chịu mức nào, reverse charge có áp không, hay ngưỡng đăng ký nằm đâu — những câu hỏi pháp lý đổi theo luật. Hãy coi công cụ là một trợ giúp số học và xác nhận cách xử lý với cơ quan thuế hay kế toán của bạn trước khi kê khai.",
+        ],
+      },
+      {
+        heading: "Dựng cho báo giá, hóa đơn và riêng tư",
+        paragraphs: [
+          "Doanh nghiệp và người tiêu dùng báo giá theo hai hướng ngược nhau: người tiêu dùng thấy giá gồm-thuế, hóa đơn hiện thuần cộng VAT. Một công cụ khóa vào bảng thuế của một quốc gia chỉ xử lý được một nửa; một ô nhập thuế suất tự do phủ cả hai hướng cho mọi khu vực pháp lý mà bạn biết mức thuế.",
+          "Mọi thứ tính cục bộ trong trình duyệt của bạn — không upload, không tài khoản — nên các nháp hóa đơn chưa công bố, báo giá khách và định giá nội bộ có thể được tính mà các con số chưa bao giờ rời thiết bị.",
+          "Nó ghép tự nhiên với máy tính GST cho hệ thống bậc của Ấn Độ, máy tính lợi nhuận khi định giá cần một biên trên con số thuần, và máy tính phần trăm cho các phép kiểm nhỏ hơn xen giữa.",
+        ],
       },
     ],
   },
@@ -5418,6 +7276,31 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Dấu phân cách được nhận diện bằng cách đếm các ứng viên ngoài ngoặc kép; bạn cũng có thể tự chọn. Dấu phẩy trong ô, ngoặc kép nhân đôi và xuống dòng đều được bảo toàn sau chuyển đổi.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao một .xlsx thật thắng việc đổi tên một .txt",
+        paragraphs: [
+          "Một mẹo phổ biến để “chuyển đổi” CSV sang Excel là đổi tên file và hy vọng app bảng tính đoán đúng. Thỉnh thoảng ổn; thường hơn là một cột khổng lồ, chữ lỗi mojibake trên văn bản có dấu, hay các số 0 đầu bị cắt khỏi mã ZIP và số điện thoại. Một .xlsx thật là một kho ZIP chứa các phần XML với kiểu ô tường minh — chuỗi dùng chung cho văn bản, ô số cho số, kiểu cho ngày — và viết nó nghĩa là các quyết định kiểu xảy ra một lần, tại thời điểm chuyển đổi, thay vì bị đoán lại bởi mọi chương trình mở file.",
+          "Quyết định kiểu là chỗ sự trung thực sống. Một ô đọc 9,5 được viết thành ô số nên SUM và biểu đồ làm việc ngay trên nó; một ô đọc 007 được cố ý giữ làm văn bản, vì đổi nó thành 7 là phá thông tin. Các hình dạng mơ hồ như 1e3 hay 0.500 cũng giữ làm văn bản — chúng parse thành số được, nhưng phép chuyển đổi sẽ lặng lẽ đổi thứ ô hiển thị. Chính sách này theo một quy tắc đơn giản: không bao giờ để bộ chuyển đổi đoán theo cách mất dữ liệu.",
+          "Ký tự phân tách là trò đoán khác. Công cụ đếm các ký tự phân tách ứng viên (phẩy, chấm phẩy, tab) ngoài các trường được bọc quote và chọn kẻ thắng, xử lý được cả mặc định phẩy kiểu Mỹ lẫn quy ước chấm phẩy kiểu châu Âu mà chính Excel sinh ra ở nhiều locale. Các trường có quote chèn phẩy, quote nhân đôi và xuống dòng được parse theo RFC 4180, nên một ô địa chỉ nhiều dòng đến Excel như một ô, không phải năm dòng.",
+        ],
+      },
+      {
+        heading: "CSV không mang được gì, và phép chuyển đổi xử lý thế nào",
+        paragraphs: [
+          "CSV không có kiểu, không có style và không có cấu trúc ngoài các dòng văn bản, nên bộ chuyển đổi phải đưa ra các quyết định mà định dạng chưa bao giờ ghi lại. Dòng đầu được coi là header theo mặc định — đa số CSV được xuất kèm header, nhưng không phải tất cả, đó là lý do có công tắc. Công thức, biểu đồ và định dạng ô đơn giản không tồn tại trong nguồn; nếu quy trình của bạn đợi một báo cáo có style, CSV chỉ là tầng dữ liệu và ai đó phải áp phần trình bày sau.",
+          "Encoding là thất bại im lặng kinh điển. Các byte CSV không mang nhãn encoding; Excel trên Windows nổi tiếng đọc sai file UTF-8 không BOM, biến tên và địa chỉ thành rác. Dữ liệu do pipeline ở đây sinh được viết UTF-8 nội bộ, và bản thân định dạng xlsx lưu văn bản như XML với encoding tường minh, nên thứ bạn dán là thứ đáp vào các ô — ký tự có dấu, văn bản CJK và emoji gồm cả.",
+          "Một biên nữa đáng biết: các CSV cực lớn bị chặn bởi bộ nhớ trình duyệt trong lúc chuyển đổi, không phải bởi bất kỳ giới hạn máy chủ nào. File hàng trăm nghìn dòng chuyển đổi ổn trên máy bình thường; các bản xuất nhiều gigabyte thuộc về một script hay một bộ nhập cơ sở dữ liệu, không phải một tab trình duyệt.",
+        ],
+      },
+      {
+        heading: "Các dòng nhạy cảm xứng đáng một bộ chuyển đổi cục bộ",
+        paragraphs: [
+          "Các CSV mà mọi người cần ở dạng bảng tính hiếm khi vô danh: danh sách khách hàng, bản xuất bảng lương, phản hồi khảo sát có trường liên hệ, các khoản mục tài chính. Upload một cái lên một trang chuyển đổi nghĩa là mọi dòng đi qua và thường nằm lại trên bộ nhớ của người khác — với dữ liệu dưới NDA, một chính sách công ty hay một quy định riêng tư, đó không phải một cuộc đánh đổi đáng làm vì một tiện định dạng.",
+          "Công cụ này parse CSV và dựng workbook hoàn toàn trong trình duyệt của bạn bằng SheetJS, một thư viện bảng tính JavaScript được dùng rộng rãi. File bạn thả được đọc từ đĩa cục bộ, .xlsx được ghép trong bộ nhớ và trao thẳng cho link tải; không có bước upload nào trong kiến trúc, chứ không chỉ là một lời hứa không ghi log. Khi trang đã tải thì nó chạy offline, và không hạn mức số dòng nào ngoài bộ nhớ máy của bạn.",
+        ],
+      },
+    ],
   },
   "excel-to-csv": {
     name: "Excel sang CSV",
@@ -5441,6 +7324,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Công thức và định dạng thì sao?",
         a: "Bạn nhận được giá trị tính cuối cùng đúng như ô hiển thị — không phải công thức. Ô đang hiển thị 1.234,50 sẽ xuất với giá trị đó, còn định dạng như ký hiệu tiền tệ giữ nguyên theo hiển thị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "RFC 4180: vì sao các quy tắc quote của CSV tồn tại",
+        paragraphs: [
+          "CSV trông tầm thường và nổi tiếng là không. Định dạng mà các cơ sở dữ liệu và chương trình bảng tính thực sự tương tác trên đó được mô tả trong RFC 4180, và ba quy tắc của nó phủ gần như mọi bug bạn từng gặp khi nhập CSV. Quy tắc một: một trường chứa ký tự phân tách, dấu quote hay xuống dòng phải được bọc trong nháy kép. Quy tắc hai: một dấu quote trong trường đã bọc được escape bằng cách nhân đôi. Quy tắc ba: xuống dòng trong một trường đã bọc là dữ liệu, không phải dấu tách bản ghi.",
+          "Các bug đều đến từ các công cụ bỏ qua một trong những quy tắc ấy. Một bộ viết ngây thơ nối các ô bằng phẩy và cho ra một file nổ thành các cột thừa ngay khi một trường địa chỉ chứa phẩy. Một bộ đọc ngây thơ tách tại mọi xuống dòng và biến một ô nhiều dòng thành năm bản ghi. Công cụ này viết nghiêm theo quy tắc: chỉ quote khi cần, nhân đôi quote chèn, bảo toàn xuống dòng bên trong — nên các parser phía sau theo cùng quy tắc (đa số hiện đại đều vậy) dựng lại chính xác bảng.",
+          "Một quyết định lặng lẽ nữa: dòng header. CSV không có khái niệm header chính thức — RFC 4180 đối xử mọi dòng như nhau — nhưng trên thực tế mọi bên tiêu dùng giả định dòng đầu là tên. Xuất không chỉnh gì thường là đúng; cái thỉnh thoảng cần tắt là ngoại lệ, không phải quy tắc.",
+        ],
+      },
+      {
+        heading: "Thứ gì mất đi trong chuyển đổi: công thức, kiểu và sheet",
+        paragraphs: [
+          "CSV lưu văn bản và chẳng gì khác, nên phép chuyển đổi vốn mất dữ liệu theo ba cách cụ thể. Công thức thành giá trị tính cuối của chúng — một ô có =SUM(A1:A5) xuất thành con số nó hiện đánh giá ra, và các cập nhật trong Excel sẽ không bao giờ chảy ngược vào CSV. Định dạng hiển thị cũng được nướng vào: một ô định dạng tiền tệ xuất kèm ký hiệu hay dấu tách tiền tệ đúng như hiện, thỉnh thoảng cho các giá trị như $1,234.50 mà parser phía sau rồi coi như văn bản.",
+          "Kiểu dữ liệu biến mất: ngày xuất ra như các chuỗi theo định dạng sheet hiện (03/04/2024 mơ hồ xuyên locale), các số 0 đầu trong mã chỉ được giữ nếu ô được lưu làm văn bản, và mọi thứ thành chuỗi khi nhập lại. Các cơ sở dữ liệu muốn cột có kiểu cần một bước nhập tự đoán hay được bảo kiểu. Nếu sự trung thực tuyệt đối có ý nghĩa, hãy giữ bảng tính làm nguồn sự thật và coi CSV là một bản xuất một chiều.",
+          "Sheet, biểu đồ, ô gộp và màu không có biểu diễn CSV nào cả. Một workbook nhiều sheet cần một CSV cho mỗi sheet — đó không phải giới hạn của công cụ này mà của định dạng, vốn không có cách lưu nhiều hơn một bảng. Ô gộp xuất với giá trị ở ô trên-trái và chuỗi rỗng ở chỗ khác; nếu bạn dựa vào gộp cho ngữ nghĩa, hãy làm phẳng trước khi xuất.",
+        ],
+      },
+      {
+        heading: "Encoding, BOM và xử lý file cục bộ",
+        paragraphs: [
+          "Cái mojibake khét tiếng khi nhấp đúp là một câu chuyện encoding. CSV là byte, không phải văn bản, và Excel trên Windows đoán encoding của một file không BOM — thường đáp xuống một trang mã cũ và biến 中文 hay café thành rác. File tải về ở đây bắt đầu bằng một UTF-8 BOM, ba byte Excel dùng để nhận diện UTF-8 khi mở. Các chương trình tiêu thụ file bằng chương trình (script, cơ sở dữ liệu) thường ưu tiên UTF-8 không BOM, đó là lý do nút copy cung cấp đúng thứ đó.",
+          "Bảng tính là một trong những file nhạy cảm nhất bị kéo vào các bộ chuyển đổi trực tuyến: danh sách khách hàng, bảng lương, dự toán tài chính, dữ liệu nhân viên. Upload một cái lên một máy chủ chuyển đổi nghĩa là các dòng đáp xuống hạ tầng của người khác, có khi bị ghi log hay cache. Công cụ này parse workbook hoàn toàn trong trình duyệt của bạn bằng một thư viện JavaScript — file được đọc từ đĩa cục bộ, đổi trong bộ nhớ, và không bao giờ được truyền đi đâu; không có bước xử lý phía máy chủ nào cả.",
+          "Điều đó còn có nghĩa là không giới hạn kích thước nào áp từ bên ngoài — trần là bộ nhớ trình duyệt của bạn, thứ xử lý thoải mái các sheet hàng trăm nghìn dòng. Nếu bạn làm việc với dữ liệu bị quy định hay dữ liệu cá nhân, thiết kế chỉ-cục bộ không phải một tính năng tiện lợi mà là điều kiện khiến quy trình ấy được phép tồn tại.",
+        ],
       },
     ],
   },
@@ -5468,6 +7377,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Mỗi màu được tuyến tính hóa từ sRGB rồi gộp thành độ sáng tương đối L = 0.2126·R + 0.7152·G + 0.0722·B; tỷ lệ bằng (L sáng + 0.05) / (L tối + 0.05) — đúng công thức trong đặc tả WCAG 2.x. Alpha của rgba() nhỏ hơn 1 được dẹt lên nền trắng trước khi tính.",
       },
     ],
+    deepDive: [
+      {
+        heading: "4.5:1 và 3:1 thực sự nghĩa là gì",
+        paragraphs: [
+          "Tỷ lệ tương phản là một so sánh độ sáng (luminance) do WCAG định nghĩa: đo độ sáng tương đối của chữ và nền, cộng một offset nhỏ cho mỗi cái, rồi chia bên sáng cho bên tối. Kết quả dao động từ 1:1 (hai màu giống nhau) đến 21:1 (đen trên trắng). Công thức đến từ cách mắt người cảm nhận độ sáng phi tuyến, đó là lý do phép tính đổi màu sang độ sáng tuyến tính thay vì so giá trị kênh thô — hai xám “nhìn gần nhau” trong bộ chọn có thể chênh nhau đo đạc được về độ sáng.",
+          "WCAG 2.x đặt hai ngưỡng. Mức AA: 4.5:1 cho văn bản thường, 3:1 cho văn bản lớn — định nghĩa là 18pt (24px) thường hay 14pt (cỡ 18,5px) đậm trở lên. Mức AAA nâng lên 7:1 cho văn bản thường và 4.5:1 cho văn bản lớn. Các đối tượng đồ họa và biên thành phần UI (biểu tượng, viền ô nhập) cũng rơi vào yêu cầu 3:1 trong WCAG 2.1.",
+          "Các ngưỡng là mức sàn, không phải đích thiết kế. Một site có thể vượt ở 4.5:1 mà vẫn khó đọc dưới nắng hay trên màn hình rẻ; đa số nghiên cứu về độ dễ đọc ủng hộ việc nhắm cao hơn hẳn mức tối thiểu cho văn bản thân bài.",
+        ],
+      },
+      {
+        heading: "Các cách nhà thiết kế hay đánh sai tương phản",
+        paragraphs: [
+          "Thất bại kinh điển là chữ màu trên nền phớt màu: một xám vừa trên một màu pastel có thể đo dưới 4.5:1 dù cả hai màu đều cảm giác “mềm”. Mắt bù trừ; phép toán thì không. Thứ hai là giả định dark mode giải quyết tương phản — chữ xám đậm trên nền xám đậm gãy theo đúng cùng công thức, chỉ đảo chiều.",
+          "Chữ đè lên ảnh là cái bẫy lặp lại: tương phản với một pixel của bức ảnh có thể vượt trong khi một pixel khác gãy. Giải pháp thực dụng là một lớp che (scrim) hay một pill đặc sau chữ, rồi kiểm lại màu nền hiệu dụng — công cụ nhận mọi cặp màu, nên hãy thử pixel nền tệ nhất.",
+          "Độ mờ là phép toán vô hình: một chữ đen ở 60% mờ trên nền trắng không phải “đen-hơi-xám”, nó là một hỗn hợp được tính — cỡ một xám vừa — và tỷ lệ nên được kiểm trên kết quả đã trộn, không phải màu nguồn.",
+        ],
+      },
+      {
+        heading: "Tính cục bộ, lặp tức thì",
+        paragraphs: [
+          "Tỷ lệ được tính trong trình duyệt của bạn tại mọi thay đổi màu — không API, không vòng đi về. Dán các giá trị hex từ hệ thiết kế của bạn, hay chỉnh trực tiếp, và các huy chương vượt/trượt cập nhật theo từng phím gõ.",
+          "Mọi thứ cục bộ, điều có ý nghĩa vì các màu thiết kế thường là mật trước khi ra mắt: các bảng màu chưa phát hành và các khám phá thương hiệu không bao giờ rời trang. Tải lại và các ô nhập trống.",
+          "Ghép với bộ sinh gradient khi kiểm chữ đặt trên gradient — hãy lấy mẫu điểm sáng nhất của gradient làm nền và thử với nó, vì các bảo đảm tương phản chỉ áp cho ca tệ nhất, không phải trung bình.",
+        ],
+      },
+    ],
   },
   "grade-calculator": {
     name: "Máy tính điểm",
@@ -5491,6 +7426,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Trọng số của tôi không cộng đủ 100% thì sao?",
         a: "Không sao. Điểm hiện tại được chuẩn hóa theo đúng trọng số bạn đã nhập, nên môn mới chấm được một nửa vẫn hiện con số công bằng. Phần tính bài thi cuối xếp trọng số của kỳ thi lên trên trọng số đã chấm, đúng như đề cương quy định. Kết quả trên 100% nghĩa là mục tiêu ngoài tầm với; số âm nghĩa là đã chắc chắn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Trung bình có trọng số: phép toán đứng sau kết quả",
+        paragraphs: [
+          "Điểm một khóa học gần như không bao giờ là trung bình trần trụi của các phần: bài tập, giữa kỳ và thi cuối đóng góp với các trọng số khác nhau, thường do đề cương quy định. Trung bình có trọng số nhân mỗi điểm với trọng số của nó rồi chia tổng trọng số — toán học đồng nhất với cách GPA ghi có các khóa theo số tín chỉ, chỉ thấp hơn một bậc.",
+          "Tổng trọng số nên bằng 100%. Khi còn các phần chưa chấm, con số có ý nghĩa là vị trí hiện tại: trung bình có trọng số của bạn trên các phần đã chấm tới giờ, cộng với điểm bạn cần trên phần việc còn lại để chạm một điểm mục tiêu. Công thức điểm-cần là (mục tiêu × tổng trọng số − tổng có trọng số hiện tại) ÷ trọng số còn lại — đây là phép “thi cuối cần bao nhiêu” mà mọi sinh viên chạy vào tháng Mười Hai.",
+          "Cẩn thận cái bẫy mẫu số: lấy trung bình các phần đã chấm mà không gán trọng số thật của chúng cho một con số khác bất cứ khi nào các trọng số khác nhau — và nó gần như luôn là con số sai. Một 100% trên bài tập 10% không bù nổi một 60% trên bài thi 50%.",
+        ],
+      },
+      {
+        heading: "Các quy ước thang khác nhau — hãy kiểm đề cương của bạn",
+        paragraphs: [
+          "Đa số cơ sở Mỹ ánh xạ chữ trên thang 4.0 (A = 4.0, B = 3.0), nhưng cách xử lý cộng/trừ thay đổi: vài trường cho A− = 3.7, vài nơi 3.67, ít nơi làm tròn A− xuống 3.0. Các mốc cắt phần-trăm-sang-chữ cũng trôi giữa các khóa — 89,5% có thể là A hay A− tùy giáo sư. Máy tính áp một ánh xạ quy ước; bảng của phòng đào tạo mới là thẩm quyền.",
+          "Các chi tiết trọng số cần kiểm: điểm bài tập thấp nhất có bị bỏ không, chuyên cần hay tham gia có mang trọng số không, và bài thi cuối có thể thay các điểm trước không. Các chính sách ấy đổi phép toán một cách có ý nghĩa và sống trong đề cương, không trong bất kỳ máy tính nào.",
+          "Khi mô phỏng kết quả, hãy nhập các điểm tương lai khả tín, không phải lạc quan — điểm của phép tính này là biết bạn cần bao nhiêu, và lên kế hoạch cho kịch bản đậu thấp nhất hữu dụng hơn lên kế hoạch cho một phép màu.",
+        ],
+      },
+      {
+        heading: "Số học điểm cục bộ, riêng tư",
+        paragraphs: [
+          "Mọi thứ tính trong trình duyệt của bạn khi bạn gõ. Điểm số là một trong những dữ liệu cá nhân nhạy cảm nhất — một công cụ upload chúng là công cụ sai. Không gì được lưu, ghi log hay truyền; tải lại và bảng về trắng.",
+          "Máy tính xử lý các hàng dở dang một cách an toàn: một khóa thiếu điểm không đóng góp gì thay vì bị đếm là 0, thứ sẽ lặng lẽ trừng phạt công việc chưa làm.",
+          "Với GPA tích lũy qua các học kỳ, ghép với máy tính GPA — hai công cụ phủ lần lượt các câu hỏi cấp khóa và cấp bảng điểm, và cả hai chạy hoàn toàn trên thiết bị của bạn.",
+        ],
       },
     ],
   },
@@ -5525,6 +7486,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "JPG không lưu được độ trong suốt — lưu thì khung sẽ thành màu trắng. Công cụ tự chuyển sang PNG bất cứ khi nào đệm trong suốt được chọn; muốn JPG thì chọn tùy chọn Màu.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Đệm với thu phóng: vì sao canvas phình ra ngoài",
+        paragraphs: [
+          "Sự lẫn lộn phổ biến nhất với viền ảnh là chuyện gì xảy ra với các pixel bên dưới. Một số trình soạn thảo áp viền như một lớp đè ăn vào ảnh, thực chất thu nhỏ phần nhìn thấy được. Công cụ này làm điều ngược lại: nó mở rộng canvas ra ngoài, nên viền 20 px trên một ảnh 1000×800 cho ra kết quả 1040×840 với các pixel gốc nguyên vẹn ở giữa.",
+          "Không tái lấy mẫu là lợi ích thực dụng. Không gì bị kéo giãn, thu phóng hay mã hóa lại ở kích thước mới, nên viền chưa bao giờ làm mềm ảnh theo cách một cú phóng mạnh có thể. Các pixel bạn có là các pixel bạn giữ; viền thuần túy là không gian mới quanh chúng.",
+          "Vì bề rộng viền áp trên cả bốn cạnh, tổng kích thước tăng gấp đôi giá trị thanh trượt theo mỗi hướng. Nhìn bản xem trước trực tiếp khi kéo thanh trượt làm sự đánh đổi rõ ràng: viền rộng ăn vào không gian bố cục quanh, điều có ý nghĩa khi bạn đang nhét một ảnh chụp màn hình vào một cột blog bề rộng cố định.",
+        ],
+      },
+      {
+        heading: "Đệm trong suốt, kênh alpha PNG và ngoại lệ JPG",
+        paragraphs: [
+          "Độ trong suốt trong viền nghe xa lạ nhưng giải quyết một bài toán thật: sticker, hình cắt và các tài sản đè phải đặt trên bất kỳ nền nào mà không có một hình chữ nhật trắng hay đen nhìn thấy quanh chúng. PNG lưu một kênh alpha, nên viền trong suốt giữ thật sự nhìn xuyên qua sau khi lưu.",
+          "JPG đơn giản không có kênh alpha — nó được thiết kế cho ảnh chụp, nơi mọi pixel đều có màu. Lưu một viền trong suốt thành JPG buộc nó thành một màu phẳng, thường là trắng. Đó là lý do công cụ tự chuyển sang PNG khi đệm trong suốt được chọn, và lý do tùy chọn JPG chỉ còn khi bạn chọn một màu đặc.",
+          "Một mẹo liên quan cho bài đăng xã hội: thay vì trong suốt, hãy chọn viền đặc theo màu nền của trang hay feed bạn đăng. Một viền khớp nền đích đọc như khoảng trắng hào phóng hơn là một khung, và nó giữ nguyên quy trình JPG.",
+        ],
+      },
+      {
+        heading: "Quy trình hàng loạt, khung nướng sẵn và riêng tư",
+        paragraphs: [
+          "Đóng khung ảnh chụp màn hình cho tài liệu hay một thư viện sản phẩm là việc lặp lại: mọi ảnh cần cùng một bề rộng, cùng một màu. Chế độ hàng loạt áp một giá trị thanh trượt cho mọi file đã nạp và trả lại từng kết quả cộng một ZIP tùy chọn, biến một công việc trình soạn thảo theo-từng-ảnh thành một cú bấm.",
+          "Khung nướng sẵn còn sống sót qua những nơi viền CSS không sống nổi. Các nền tảng render lại ảnh tải lên, các app chat cắt style, và các bộ render markdown đều giữ các pixel của chính file — nên khung đi theo ảnh đến đâu nó được đăng.",
+          "Như mọi thứ trên trang này, xử lý diễn ra hoàn toàn trong trình duyệt của bạn. Không ảnh nào được upload lên máy chủ: các file được decode và mã hóa lại cục bộ, điều có ý nghĩa với ảnh sản phẩm dưới NDA, việc làm khách hay bất cứ thứ gì bạn đơn giản không muốn rời thiết bị.",
+        ],
+      },
+    ],
   },
   "image-splitter": {
     name: "Chia ảnh",
@@ -5554,6 +7541,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "PNG không mất dữ liệu nên ô giữ nguyên điểm ảnh của nguồn. Điều đó quan trọng khi các mảnh sẽ được ghép lại hay dùng làm sprite.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Một lần tách sạch hoạt động thế nào — và vì sao số học pixel quan trọng",
+        paragraphs: [
+          "Tách một ảnh chỉ không mất dữ liệu khi lưới chia hết các chiều đều. Một ảnh 1600×1200 tách thành ô 2×2 cho bốn mảnh 800×600 sạch; cùng ảnh đó tách 3 cột để lại một phần dư 4 pixel mà ai đó phải quyết định — đệm, kéo giãn hay thu. Công cụ này làm tròn kích thước ô xuống và giữ mọi đường cắt trên biên pixel chính xác, nên không ô nào bị tái lấy mẫu.",
+          "Quy tắc biên pixel ấy là lý do chế độ lưới hỏi số hàng và cột thay vì kích thước ô đích theo centimet hay inch: tọa độ ảnh sống bằng pixel, và mọi phép đổi qua đơn vị vật lý đưa vào các tọa độ phân số ép nội suy và làm mềm cạnh.",
+          "Chế độ dải là cùng ý tưởng trong một chiều: cắt ảnh thành các dải ngang bằng nhau về chiều cao pixel. Đó là quy trình chuẩn để biến một ảnh chụp toàn trang dài thành các slide carousel hay ảnh tài liệu từng-bước đọc theo thứ tự.",
+        ],
+      },
+      {
+        heading: "Chọn bố cục: lưới, dải và preset mạng xã hội",
+        paragraphs: [
+          "Chế độ lưới (hàng × cột) hợp với các collage và bài đăng kiểu ghép hình nơi các m ráp lại bằng mắt. Chế độ dải hợp với nội dung có thứ tự đọc — hướng dẫn, hóa đơn dài, log chat — nơi mỗi dải nối tiếp dải trước. Chọn sai chế độ là lỗi phổ biến nhất: một ảnh chụp chat cắt thành lưới 3×3 đọc sai thứ tự trên carousel.",
+          "Với carousel mạng xã hội, hãy nghĩ theo tỷ lệ khung của nền tảng trước: một canvas vuông 1080×1080 nghĩa là một ảnh chụp rộng nên thường được cắt thành các dải theo chiều cao ấy, chứ không nhét vào lưới. Vài nền tảng cắt lại các bản tải lệch tỷ lệ, nên giữ các ô theo tỷ lệ gốc tránh các lỗi bị-cắt-hai-lần.",
+          "Các cắt chồng lấn đáng cân nhắc cho khả năng đọc: khi một dòng chữ nằm đúng trên một đường cắt nó bị xẻ đôi. Cắt ô cao hơn một chút, hay cắt lại nguồn cho các dòng rơi giữa các đường cắt, sửa được thứ không thuật toán tách nào sửa nổi.",
+        ],
+      },
+      {
+        heading: "Định dạng output và xử lý cục bộ",
+        paragraphs: [
+          "Output PNG giữ chữ và cạnh cứng sắc — ảnh chụp màn hình và tài liệu gần như luôn nên giữ PNG, vì nén có mất dữ liệu của JPG thêm các hiện tượng rung quanh chữ mỗi lần lưu lại. Output JPG hợp với các ô nhiếp ảnh nơi dung lượng quan trọng hơn cạnh chính xác từng pixel.",
+          "Đặt tên có ý nghĩa khi các ô phải ráp lại: tên file đánh số nhất quán (theo thứ tự hàng-chính) cho phép bạn và khán giả dựng lại bản gốc. Một lần tách 3×2 của một sơ đồ không tên có thứ tự là một thư mục các mảnh bí ẩn.",
+          "Mọi đường cắt xảy ra trong trình duyệt của bạn: ảnh được decode lên một canvas, thái và mã hóa lại cục bộ. Không gì được upload — tiện khi tách các dashboard nội bộ, ảnh chụp của khách hay bất kỳ tài liệu nào bạn không trao cho một dịch vụ bên thứ ba.",
+        ],
+      },
+    ],
   },
   "crop-circle-image": {
     name: "Cắt ảnh tròn",
@@ -5581,6 +7594,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Ảnh của tôi có bị mã hóa lại và giảm chất lượng không?",
         a: "Các điểm ảnh trong hình tròn được sao chép nguyên vẹn vào PNG không mất dữ liệu. Chỉ phần ngoài biến mất; bên trong không bị đổi tỉ lệ hay nén lại.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Cắt tròn khác cắt chữ nhật thế nào",
+        paragraphs: [
+          "Một lần cắt chữ nhật chỉ cần đẩy một cửa sổ qua các pixel và giữ phần bên trong. Cắt tròn không thể làm riêng điều đó, vì ảnh là các lưới chữ nhật: hình tròn phải được vẽ bằng cách thêm độ trong suốt ngoài mép của nó. Đó là lý do một avatar tròn luôn được lưu thành PNG — JPG không có kênh alpha và sẽ biến phần ngoài hình tròn thành một ô vuông màu đặc.",
+          "Hình tròn nội tiếp trong ảnh chạm giữa mỗi cạnh, nên đường kính bằng chiều nhỏ hơn giữa rộng và cao. Các vùng góc đơn giản bị bỏ. Nếu chủ thể của bạn không ở giữa, hãy dời hay cắt nguồn trước — không công cụ tròn nào phục hồi nổi các pixel rơi ngoài bán kính của nó.",
+          "Mép cũng quan trọng: một hình tròn cắt không khử răng cưa nhìn gai trên màn hình. Làm mượt mép bằng độ trong suốt một phần qua vài pixel là thứ tách một kết quả sạch khỏi một kết quả rõ ràng tự chế, và nó chỉ hoạt động trong PNG.",
+        ],
+      },
+      {
+        heading: "Những nơi cắt tròn được mong đợi",
+        paragraphs: [
+          "Avatar và ảnh đại diện là ca dùng lớn: đa số nền tảng xã hội, diễn đàn và app nhắn tin hiện ảnh đại diện thành hình tròn, và nhiều nơi tự cắt tròn nếu bạn tải một ô vuông. Cắt tròn trước khi tải nghĩa là thứ bạn thấy là thứ được hiện — không có một lần cắt lại bất ngờ từ phía nền tảng cắt mất đỉnh đầu bạn.",
+          "Logo và huy hiệu hưởng lợi cùng lý do. Một ký hiệu logo tròn đặt trên một trang màu nhìn có chủ đích; một logo vuông với nền lệch trông như một sticker dán ẩu. Các hệ thiết kế ngày càng chỉ định ô avatar tròn chính vì hình tròn đọc trung tính trên mọi nền.",
+          "In ấn và hàng lưu niệm dùng nó khác đi: các template sticker tròn, cài áo và miếng lót ly đều cần thiết kế bị chặn bởi một hình tròn. Sinh PNG có độ trong suốt ở đúng đường kính tiết kiệm một vòng che tay sau này.",
+        ],
+      },
+      {
+        heading: "Riêng tư và xử lý cục bộ",
+        paragraphs: [
+          "Ảnh đại diện vốn cá nhân — thường là khuôn mặt của bạn, gia đình hay đồng nghiệp. Chạy phép cắt cục bộ trong trình duyệt của bạn nghĩa là những pixel ấy không bao giờ rời thiết bị; không có bước upload nào có thể ghi log, cache hay giữ lại ảnh.",
+          "Mô hình xử lý đơn giản và soi được: ảnh được decode lên một canvas, một mặt nạ tròn áp với kênh alpha, và kết quả được mã hóa ngược thành PNG trong cùng phiên. Không gì được lưu giữa các lần truy cập.",
+          "Một mẹo quy trình nhỏ: giữ bức ảnh vuông gốc được lưu ở đâu đó trước khi cắt. Hình tròn vĩnh viễn bỏ các góc, và cách duy nhất để đổi khung sau này là bắt đầu lại từ nguồn chưa cắt.",
+        ],
       },
     ],
   },
@@ -5614,6 +7653,31 @@ export const vi: Record<string, ToolCopy> = {
         a: "Bất cứ gì trình duyệt của bạn vẽ được như ảnh: PNG, JPEG, GIF, WebP, SVG, BMP, AVIF và hơn nữa. Công cụ xác minh payload là base64 hợp lệ, MIME khai báo là kiểu ảnh, và cảnh báo khi magic byte của tệp không khớp kiểu đã khai báo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao base64 phình ảnh cỡ 33%",
+        paragraphs: [
+          "Base64 đóng gói mỗi 3 byte thành 4 ký tự văn bản, nên payload luôn lớn hơn file nhị phân một phần ba — 4/3 là tỷ lệ cố định, không phụ thuộc định dạng hay nội dung. Cộng tiền tố data:image/…;base64, và bất kỳ xuống dòng nào bên tiêu dùng áp, và overhead hiệu dụng bò cao hơn một chút. Không gì được nén hay bỏ đi; cùng các byte chỉ đơn giản được diễn đạt lại trong một bảng chữ an toàn-văn bản để chúng đi được trong CSS, HTML hay JSON.",
+          "Sự phình ấy là lý do phép so kích thước trong công cụ này quan trọng hơn chính phép chuyển đổi. Quyết định kinh điển: nhúng inline tiết kiệm một yêu cầu HTTP, nhưng trả giá bằng băng thông và chặn cache. Một biểu tượng 1 KB nhúng trong CSS thường là lời; một ảnh 100 KB thành data URL hầu như không bao giờ — nó phình stylesheet cỡ ~133 KB, bị tải lại với mọi trang tham chiếu nó, và không thể được cache độc lập. Ảnh JPEG và WebP đặc biệt nén dữ liệu nhị phân hiệu quả đến mức văn bản base64 xóa bỏ phần lớn nén đó.",
+          "Một điểm tinh tế mọi người bỏ sót: SVG vốn là văn bản, nên mã hóa SVG thành base64 thường lãng phí so với URL-encode hay SVG inline thô. Mặt khác, gzip nén văn bản base64 khá tốt, nên khi máy chủ phục vụ payload đã nén, chi phí truyền hiệu dụng gần với kích thước gốc hơn con số +33% thô gợi ý.",
+        ],
+      },
+      {
+        heading: "Decode an toàn: MIME, magic byte và niềm tin",
+        paragraphs: [
+          "Một data URL tự mô tả về mặt hình thức — data:image/png;base64, tự xưng là PNG — nhưng lời xưng chỉ là một chuỗi. Bộ decode này kiểm tra các byte thật: file PNG bắt đầu bằng một chữ ký 8-byte đặc trưng, JPEG bắt đầu bằng FF D8, GIF bằng GIF8, v.v. Khi MIME được khai báo và magic byte bất đồng, bạn nhận một cảnh báo thay vì một ảnh gãy lặng lẽ — hữu ích khi soi payload từ các nguồn lạ hay debug lý do một <img> từ chối render.",
+          "Decode còn gãy to trên đầu vào sai khuôn: ký tự base64 không hợp lệ, padding sai, hay một kiểu khai báo chẳng phải ảnh chút nào. Điều đó có ý nghĩa cho an ninh. Một data: URL tự xưng text/html có thể chạy script trong vài bối cảnh, đó là lý do các trình duyệt hạn chế data URL trong điều hướng cấp cao nhất. Coi một data URL dán vào như đầu vào không đáng tin — kiểm chứng trước khi render — là mặc định an toàn, và chính xác là điều công cụ này làm thay bạn.",
+          "Chú ý những gì bản xem trước không nói được cho bạn: ảnh có well-formed ngoài các byte header hay không, hay nó mô tả gì. Nó render trong trình duyệt, nên bất cứ thứ gì trình duyệt của bạn hiển thị được (PNG, JPEG, GIF, WebP, SVG, AVIF và hơn nữa) đều chạy, còn thứ nào không thì hiện y như trong một trang.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi cục bộ làm nền riêng tư",
+        paragraphs: [
+          "Ảnh đúng là loại tài sản bạn không muốn upload chỉ để soi: ảnh chụp màn hình có dữ liệu cá nhân, bản thiết kế dưới NDA, tài liệu đã scan, ảnh sản phẩm nội bộ. Nhiều bộ chuyển đổi base64 trực tuyến POST file lên máy chủ của họ, nghĩa là ảnh của bạn di chuyển, được hạ tầng của người khác lưu, và có thể bị cache hay ghi log. Công cụ này chuyển đổi trong trình duyệt của bạn bằng JavaScript — file không bao giờ rời thiết bị, không hạn mức kích thước nào do máy chủ đặt, và trang chạy offline.",
+          "Quy trình nó thay thế là chuyến khứ hồi qua terminal: base64 -i image.png để mã hóa, dán bức tường văn bản vào một file, ghép tiền tố data URI bằng tay. Ở đây bạn thả file, sao chép URL hoàn chỉnh, và chiều ngược cũng nhanh y vậy — dán một data URL từ một stylesheet hay phản hồi API và nhận lại ảnh, đã kiểm chứng và tải được.",
+        ],
+      },
+    ],
   },
   "html-to-markdown": {
     name: "HTML sang Markdown",
@@ -5640,6 +7704,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "HTML của tôi có rời trình duyệt không?",
         a: "Không. Việc chuyển đổi chạy cục bộ bằng turndown trong trình duyệt — không có gì được tải lên, kể cả khi bạn tải tệp .md.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Các phương ngữ Markdown: vì sao các tùy chọn tồn tại",
+        paragraphs: [
+          "Markdown không phải một định dạng mà là một họ. Mô tả cú pháp gốc 2004 của John Gruber bỏ ngỏ nhiều hành vi, nên các bản cài rẽ nhánh: CommonMark nay cung cấp một đặc tả nghiêm ngặt mà đa số renderer hiện đại (GitHub chẳng hạn) theo, GFM cộng bảng và gạch ngang lên trên, và các flavor cũ khác nhau trong cách xử lý ngắt dòng, nhấn mạnh bằng gạch dưới và danh sách lồng. Đó là lý do chuyển HTML sang Markdown là một quyết định phong cách, không phải một ánh xạ cơ học.",
+          "Hai tùy chọn trong công cụ này chạm vào ranh giới nhìn thấy nhất. Kiểu tiêu đề: ATX (# Tiêu đề) chạy khắp nơi và hỗ trợ cả sáu cấp, trong khi Setext (một dòng = hay - dưới văn bản) chỉ tới cấp hai và đọc tốt hơn với vài trình soạn thảo. Ký hiệu danh sách: -, * và + đều là bullet CommonMark hợp lệ, nhưng hướng dẫn phong cách (và độ đọc của diff) thường ưu tiên một. Chọn đúng tổ hợp ngay đầu thắng một lượt tìm-và-thay sau này.",
+          "Thứ không có tương đương Markdown bị làm phẳng thay vì bịa: bảng, form và widget tương tác rút về nội dung văn bản của chúng. Bảng kiểu GFM cần một bộ chuyển đổi hiểu phương ngữ; phát bảng cú-pipe từ HTML tùy ý sẽ cho ra output nhiều renderer không parse nổi. Sự trung thực về giới hạn thắng thứ rác trông-hợp-lý.",
+        ],
+      },
+      {
+        heading: "Các ca khó: escape, markup nội tuyến và output sạch",
+        paragraphs: [
+          "Phần khó của bất kỳ phép chuyển HTML-sang-Markdown nào không phải ánh xạ thẻ — mà là escape các ký tự Markdown đối xử đặc biệt. Văn bản chứa dấu sao, gạch dưới, dấu thăng hay ngoặc vuông nguyên văn cần các escape backslash, nếu không chúng sẽ render thành nhấn mạnh, tiêu đề hay liên kết khi Markdown được tiêu thụ. Một bộ chuyển đổi bỏ qua escape cho ra văn bản trông ổn cho tới khi ai đó dán vào trình soạn thảo và định dạng đột biến.",
+          "Cấu trúc nội tuyến cũng cần các phán quyết. Emphasis và strong ánh xạ thành dấu sao (hay gạch dưới, tùy cấu hình); khoảng trắng quanh chúng có ý nghĩa vì Markdown bỏ qua nhấn mạnh áp sát ký tự từ ở vài flavor. Ngắt dòng cứng từ <br> thành hai dấu cách cuối hay một backslash tùy flavor — một trong những chi tiết CommonMark và các bản cài cũ thật sự bất đồng.",
+          "Mã là cái bẫy kinh điển khác: mã nội tuyến chứa backtick bên trong cần một hàng rào dài hơn, và các khối mã bảo toàn nội dung nguyên văn nên không escape thêm nào áp bên trong. Kết quả bạn nhận ở đây theo các quy tắc ấy qua turndown, đó là lý do các tài liệu dán vào — bài blog, README, bản xuất CMS — thường ra sẵn để commit thay vì cần một lượt dọn dẹp.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi cục bộ cho các tài liệu riêng tư",
+        paragraphs: [
+          "Các tài liệu mọi người chuyển đổi thường riêng tư: trang wiki nội bộ, tài liệu chưa công bố, phản hồi hỗ trợ chứa chi tiết khách hàng, một bài blog công ty đang nháp. Upload bất kỳ cái nào trong số đó tới một endpoint chuyển đổi là gửi toàn bộ văn bản tới hạ tầng bạn không kiểm soát, nơi nó có thể bị cache hay ghi log. Công cụ này chạy turndown hoàn toàn trong trình duyệt của bạn — HTML không bao giờ rời thiết bị, không bước upload nào, và việc tải file .md diễn ra từ bộ nhớ cục bộ.",
+          "Lựa chọn thư viện quan trọng ngang kiến trúc: turndown là chuẩn trên thực tế cho HTML-sang-Markdown trong JavaScript, với nhiều năm xử lý ca biên tích lũy qua các dự án, nên output khớp những gì hệ sinh thái rộng mong đợi. Ghép một bộ chuyển đổi được kiểm thử kỹ với thực thi cục bộ cho cùng chất lượng bạn nhận từ một dịch vụ có máy chủ, trừ phần phơi dữ liệu.",
+          "Với chuyển đổi hàng loạt hay tự động, cùng thư viện cài được trong một script Node; trang này là giao diện tương tác cho cùng công việc. Dù chiều nào, quy trình ở lại trên máy của bạn — phù hợp bất kể nguồn là một changelog công khai hay một tài liệu không ai khác nên thấy.",
+        ],
       },
     ],
   },
@@ -5670,6 +7760,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không. Việc phân tích diễn ra cục bộ trong trình duyệt bằng fast-xml-parser — không gì rời khỏi thiết bị của bạn.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Các tính năng XML ánh xạ lên khóa JSON thế nào",
+        paragraphs: [
+          "Chuyển XML sang JSON nghĩa là làm phẳng một định dạng giàu hơn thành một cái đơn giản hơn, và mọi lựa chọn đều là một quy ước. Cái hệ trọng nhất là thuộc tính: <book id=\"7\" lang=\"en\"> giữ id và lang cạnh phần tử, và việc mất sự phân biệt ấy sẽ lặng lẽ đổi dữ liệu của bạn. Bộ chuyển đổi này bảo toàn nó bằng cách thêm tiền tố @ cho mọi thuộc tính — {\"@id\":\"7\",\"@lang\":\"en\"} — một quy ước dùng chung với công cụ JSON to XML của trang, nên dữ liệu đi được cả hai hướng và quay về như cũ.",
+          "Sự lặp lại là quy ước thứ hai. XML cho phép bao nhiêu phần tử anh em cùng tên cũng được — một feed với một <item> hay năm mươi parse giống nhau — trong khi JSON cần một quyết định: <item> là một giá trị hay một mảng? Quy tắc ở đây là các anh em lặp lại thành một mảng JSON và một phần tử đơn giữ giá trị thường. Đó là cách đọc tự nhiên, nhưng nó có cạnh sắc: một feed thường nhiều mục nhưng tình cờ có một sẽ chuyển thành vô hướng, và bên tiêu dùng mong một danh sách sẽ gãy. Luôn kiểm tính-mảng ở phía hạ nguồn.",
+          "Khi một phần tử có cả thuộc tính lẫn văn bản, văn bản không thể đứng trần — nó dời xuống dưới “#text”, nên <price currency=\"usd\">19.99</price> thành {\"@currency\":\"usd\",\"#text\":19.99}. Các phần tử thuần văn bản giữ giá trị trực tiếp, giữ output đọc được thay vì bọc mọi lá trong một đối tượng #text.",
+        ],
+      },
+      {
+        heading: "Ép kiểu và giới hạn của phép ánh xạ",
+        paragraphs: [
+          "XML không có kiểu — mọi giá trị là văn bản cho tới khi bạn quyết khác. Bộ chuyển đổi áp ép kiểu nhẹ: văn bản trông như số thành số JSON, true/false thành boolean, và mọi thứ khác giữ là chuỗi. Giá trị thuộc tính cố ý giữ là chuỗi, vì thuộc tính gần như luôn mang định danh, mã và ngày nơi “07” và 7 là hai thứ khác nhau. Nếu bên tiêu dùng của bạn cần một số ở đó, hãy đổi tường minh thay vì tin phép đoán.",
+          "Vài cấu trúc XML đơn giản không có nhà trong JSON. Namespace sống sót như tiền tố trên tên thẻ nhưng các gắn kết URI của chúng mất, nên hai tài liệu dùng tiền tố khác nhau cho cùng namespace sẽ không khứ hồi giống nhau. Comment, chỉ thị xử lý và DOCTYPE bị bỏ — chẳng cái nào mang dữ liệu. CDATA được gộp với văn bản thường, chỉ có ý nghĩa nếu bên tiêu dùng của bạn dựa vào sự phân biệt, điều các bên ngoan không nên làm.",
+          "Các giới hạn này vốn có của khe hở định dạng, không phải của công cụ này: bất kỳ bộ chuyển XML-sang-JSON nào cũng phải đưa cùng loại quyết định, và đa số đưa ra những quyết định tệ hơn. Quy trình đáng tin là thử chuyến khứ hồi trên một mẫu đại diện các tài liệu thật của bạn — đổi sang JSON, về XML, rồi so — trước khi cam kết một pipeline vào phép ánh xạ.",
+        ],
+      },
+      {
+        heading: "Validate trước, chuyển cục bộ",
+        paragraphs: [
+          "XML sai khuôn là thất bại phổ biến nhất, và nó xứng đáng một lỗi tốt hơn một stack trace. Bộ chuyển đổi kiểm chứng tài liệu trước khi chạm và báo vấn đề với một con trỏ tại dòng phạm lỗi, nên một thẻ thiếu đóng là một sửa-một-dòng thay vì một buổi chiều. Khi đầu vào đến từ một nguồn sửa tay, hãy đẩy nó qua bộ XML validator trước — báo cáo của nó nghiêm ngặt hơn và bắt thuộc tính trùng cùng thực thể bất hợp pháp mà phép chuyển đổi có thể lướt qua.",
+          "Phép chuyển đổi chạy hoàn toàn trong trình duyệt của bạn bằng fast-xml-parser, một thư viện parse được nhiều build tool tin dùng. XML của bạn không bao giờ được upload: các feed có dữ liệu người đăng ký, phản hồi SOAP chứa session token, bản xuất cấu hình nội bộ — tất cả ở lại trên thiết bị của bạn. Cho chính xác các payload này, chuyển đổi trong trình duyệt không phải một tiện lợi mà là điểm đến.",
+          "Cục bộ còn khiến công cụ vừa với việc lặp: dán một mẫu, soi hình dạng, chỉnh kỳ vọng của bên tiêu dùng, dán lại. Không vòng upload nào trong vòng lặp, nên mỗi lần lặp tốn vài giây, và tất cả chạy offline — tiện khi bạn đang debug một feed trên một máy không chạm nổi mạng.",
+        ],
+      },
+    ],
   },
   "json-to-xml": {
     name: "JSON sang XML",
@@ -5698,6 +7814,32 @@ export const vi: Record<string, ToolCopy> = {
         a: 'Chúng được ép lại: ký tự bất hợp pháp thành dấu gạch dưới và khóa bắt đầu bằng chữ số được thêm gạch dưới phía trước ("2fa" → <_2fa>). Chữ CJK và có dấu vốn là tên XML hợp lệ nên được giữ nguyên.',
       },
     ],
+    deepDive: [
+      {
+        heading: "Thuộc tính với phần tử — quyết định thiết kế",
+        paragraphs: [
+          "XML cho bạn diễn đạt cùng dữ liệu theo hai cách: <book id=\"1\"/> (thuộc tính) hay <book><id>1</id></book> (phần tử con). Ngữ nghĩa khác nhau nhiều hơn cú pháp gợi ý. Thuộc tính không có thứ tự, duy nhất mỗi phần tử và không thể lặp hay lồng; phần tử con có thể lặp, mang thuộc tính riêng của chúng và xuất hiện theo thứ tự. Metadata — định danh, ngôn ngữ, dấu thời gian — theo truyền thống nằm ở thuộc tính; payload nằm ở phần tử.",
+          "JSON không có sự nhị nguyên ấy, đó là lý do các bộ chuyển đổi cần một quy ước. Công cụ này theo quy ước tiền-tố-@ được dùng rộng rãi: một thành viên tên @id thành một thuộc tính, một thành viên tên #text thành nội dung văn bản của chính phần tử. Cùng quy ước đó là thứ công cụ XML to JSON của trang phát ra khi parse, nên một tài liệu có thể đi JSON → XML → JSON và quay về nhận ra được.",
+          "Sự lựa chọn không chỉ là thẩm mỹ. Một số bên tiêu dùng XML (vài stack SOAP, validator XSD) bắt dữ liệu phải nằm theo cách này hay cách kia; các tài liệu giàu thuộc tính gọn hơn một chút nhưng khó mở rộng về sau, vì thêm cấu trúc vào một thuộc tính nghĩa là đổi nó thành phần tử và chạm vào mọi bên tiêu dùng. Nếu bạn đang thiết kế một định dạng XML mới thay vì khớp một cái cũ, hãy ưu tiên phần tử cho bất cứ thứ gì có thể lớn lên.",
+        ],
+      },
+      {
+        heading: "Escape và ép tên: vì sao output luôn well-formed",
+        paragraphs: [
+          "XML khắt khe hơn JSON về ký tự. Năm ký tự là đặc biệt — & < > \" ' — và hai cái đầu sẽ làm hỏng tài liệu nếu phát thô. Mọi giá trị văn bản và thuộc tính ở đây được escape bằng các thực thể chuẩn, nên một chuỗi JSON chứa <script> thành một &lt;script&gt; vô hại trong output. Cái bẫy ngược cũng tồn tại: các dãy như &#xHHHH; (tham chiếu ký tự số) là XML hợp lệ nhưng không thể sinh từ các chuyến khứ hồi JSON tùy ý.",
+          "Tên phần tử còn khắt khe hơn: chúng phải bắt đầu bằng chữ cái hay gạch dưới và không thể chứa dấu cách hay nhiều ký tự dấu. Khóa JSON, ngược lại, là các chuỗi tùy ý. Công cụ ép chúng — ký tự bất hợp pháp thành gạch dưới, chữ số đầu được thêm tiền tố gạch dưới — nên tài liệu luôn parse được. Các ký tự CJK và chữ Latin có dấu là tên XML hợp lệ và sống sót nguyên vẹn.",
+          "Các phép ép ấy nghĩa là ánh xạ không đơn ánh: hai khóa JSON khác nhau có thể trôi về cùng một tên XML, và khi điều đó xảy ra, chuyển ngược không thể phục hồi bản gốc. Nếu các khóa của bạn chứa dấu cách, dấu gạch hay bắt đầu bằng chữ số, hãy coi phía XML như một chiếu có-mất và giữ JSON làm nguồn sự thật.",
+        ],
+      },
+      {
+        heading: "Chuyển đổi cục bộ cho các payload nhạy cảm",
+        paragraphs: [
+          "Các payload JSON trên đường đến XML thường là dữ liệu nghiệp vụ: hóa đơn, hồ sơ người dùng, các yêu cầu API có định danh khách hàng. Đưa chúng cho một bộ chuyển đổi dựa-máy-chủ là gửi dữ liệu đó cho một bên thứ ba với chính sách lưu giữ bạn không biết. Bộ chuyển đổi này chạy hoàn toàn trong trình duyệt của bạn — phép chuyển đổi diễn ra khi bạn gõ, không yêu cầu nào được gửi, và trang chạy offline khi đã tải.",
+          "Quy trình hai chiều có ý nghĩa cho công việc di trú: đổi JSON của bạn thành XML bằng công cụ này, dán XML vào công cụ XML to JSON, rồi so — nếu kết quả khớp đầu vào của bạn về cấu trúc, các quy ước ánh xạ (@ thuộc tính, #text) tương thích với các bên tiêu dùng của bạn. Phát hiện lệch locally thắng việc phát hiện nó sau khi endpoint SOAP từ chối yêu cầu đầu tiên của bạn.",
+          "Ghép với bộ định dạng XML khi bên tiêu dùng cần một thụt lề khác hay khi bạn muốn nhìn bằng mắt output — và nhớ các giới hạn được ghi: null và mảng rỗng gộp thành phần tử rỗng, nên một schema đợi xsi:nil sẽ cần một bước hậu xử lý.",
+        ],
+      },
+    ],
   },
   "cron-explainer": {
     name: "Giải mã biểu thức cron",
@@ -5721,6 +7863,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Tôi ghi cả ngày trong tháng lẫn ngày trong tuần — sao nó chạy nhiều hơn dự tính?",
         a: "cron cổ điển ghép hai trường bằng HOẶC: khi cả hai đều bị giới hạn (không trường nào là *), ngày khớp một trong hai đã kích hoạt công việc. «0 0 1 * MON» chạy vào ngày 1 hằng tháng và mỗi thứ Hai. Muốn cả hai điều kiện cùng thỏa thì phải viết biểu thức khác đi — nhìn năm lần chạy kế tiếp ở đây khiến hành vi hiện ra ngay lập tức.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Năm trường và quy tắc OR mà chẳng ai nhớ",
+        paragraphs: [
+          "Cron chuẩn đánh giá năm trường từ trái sang phải: phút (0-59), giờ (0-23), ngày trong tháng (1-31), tháng (1-12) và ngày trong tuần (0-7, nơi cả 0 và 7 là chủ nhật). Mỗi trường có thể là một giá trị, một khoảng (9-17), một danh sách (0,15,30), hay một bước (*/5, nghĩa là mỗi giá trị thứ 5 tính từ sàn của trường). Một job nổ khi mọi trường khớp — với một ngoại lệ nổi tiếng: khi cả ngày-trong-tháng lẫn ngày-trong-tuần bị ràng buộc, job chạy vào ngày khớp MỘT TRONG HAI.",
+          "Quy tắc OR ấy truy về bản cài cron Unix gốc, và nó tồn tại để các tổ hợp như “mồng 1 mỗi tháng cộng mỗi thứ Hai” vẫn diễn đạt được trong năm trường. Cái bẫy là đa số người viết “0 0 1 * 1” định “thứ Hai đầu tiên của tháng” — thứ họ nhận là mồng 1 VÀ mọi thứ Hai, gấp đôi tần suất. Nếu cần ngữ nghĩa AND, cách lách quen là một phép kiểm bên trong job (so date +%d với đích) hay chuyển sang một scheduler có trigger giàu hơn.",
+          "Cái bất ngờ khác là 0 0 * * 7 với 6: đánh số ngày trong tuần bắt đầu từ chủ nhật (0), không phải thứ Hai, và vài phương ngữ cron nhận 7 làm tên thứ hai của chủ nhật trong khi số khác từ chối. Viết tên — MON, SUN — thay vì số xóa sạch sự mơ hồ, không tốn gì trong cron chuẩn.",
+        ],
+      },
+      {
+        heading: "Múi giờ và giờ mùa hè: chỗ các lịch lặng lẽ gãy",
+        paragraphs: [
+          "Cron không có múi giờ riêng — nó nổ theo bất kỳ vùng nào đồng hồ máy chủ được đặt. Một job định nghĩa “0 3 * * *” chạy lúc 3 giờ sáng theo giờ máy chủ, tức 11 giờ sáng ở UTC+8 nếu máy chủ nằm trên UTC. Các team triển khai lên VM đám mây thường quên mặc định của nền tảng: đa số VM khởi động theo UTC bất kể công ty ngồi đâu, và dấu hiệu đầu tiên là một job nổ vào đúng giữa giờ làm việc theo giờ địa phương. Kiểm bằng date hay timedatectl trên host, hay đọc dòng TZ của /etc/default/cron nơi nó được đặt.",
+          "Giờ mùa hè làm vấn đề tệ hơn hai lần mỗi năm. Ở các vùng theo DST, một job 2:30 sáng có thể không nổ duỗi trong đêm bật-lên (2:30 không tồn tại), và đêm bật-xuống nổ nó hai lần — cách nhau một tiếng. Các job ghim UTC không có vấn đề này nhưng phải viết theo UTC: “0 3 * * *” trong một crontab UTC nghĩa là 3 sáng UTC, không phải 3 sáng địa phương. Bản xem trước lần-chạy-kế-tiếp của công cụ này hiểu múi giờ chính xác để bạn thấy máy chủ của bạn sẽ làm cái nào trong hai cái.",
+          "Lớp phòng thủ thực dụng là kiểm chứng, không giả định: dán biểu thức vào đây, đổi hiển thị sang vùng của máy chủ, và soát năm lần nổ kế tiếp với kỳ vọng. Một lịch sống sót qua phép kiểm ấy cũng đáng được chú thích trong comment crontab — người debug nó hai năm nữa sẽ là bạn.",
+        ],
+      },
+      {
+        heading: "Các ca biên: tháng ngắn, bước và các cạm gần-DST",
+        paragraphs: [
+          "Hai giá trị ngày-trong-tháng phải chịu trách nhiệm cho phần lớn các lần chạy bị lỡ: 31 và 30 kết hợp với bước. “0 0 */31 * *” không chạy vào ngày cuối mỗi tháng — nó chỉ chạy trong các tháng có ngày 31 (tháng Giêng, Ba, Năm...), lặng lẽ bỏ qua tháng Tư và Sáu. Tương tự “0 0 30 2 *” là một no-op vĩnh viễn vì tháng Hai chưa bao giờ có 30 ngày. Cron không cảnh báo; nó chỉ đánh giá rồi thấy không khớp gì. Thấy năm lần chạy kế tiếp trống hay lỗ hổng là cách nhanh nhất bắt được điều này.",
+          "Phép số học bước bắt đầu từ sàn của trường, không phải từ một offset bạn chọn: */10 trong trường phút là 0,10,20,30,40,50, không phải 5,15,25. Để neo khác đi, bạn viết khoảng tường minh — 5-59/10. Việc quote cũng quan trọng trong file crontab: các dấu phần trăm (%) bị cron cổ điển coi là xuống dòng, nên một lệnh như date +“%Y” phải escape phần trăm thành \\% nếu không dòng gãy giữa chừng lệnh.",
+          "Xem trước các thời điểm nổ thật thắng việc đọc biểu thức, vì các quy tắc này tương tác: một bước trên một tháng 30 ngày cộng một ràng buộc thứ trong tuần có thể cho một khoảng trống hàng tuần. Các công cụ chỉ dịch các trường (giải thích */31 nghĩa là gì) không phơi nổi điều đó; chỉ có việc lặp lịch về phía trước mới cho biết job thực sự chạy khi nào. Chính phép lặp ấy là thứ công cụ này làm, trong trình duyệt của bạn, không gửi dữ liệu lịch đi đâu.",
+        ],
       },
     ],
   },
@@ -5747,6 +7915,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Đó là hướng đi của gradient, đo theo chiều kim đồng hồ tính từ hướng lên trên: 0deg chạy từ dưới lên, 90deg từ trái sang phải, 180deg từ trên xuống. Công cụ chuẩn hóa mọi góc bạn nhập (−45 thành 315) và quy ước ngược chiều của cú pháp cũ đã được xử lý sẵn trong dòng -webkit-.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Góc, hướng và trục của một gradient",
+        paragraphs: [
+          "Trong CSS, góc của một linear gradient mô tả hướng các màu di chuyển tới, đo từ một đường hướng lên: 0deg đi từ dưới lên, 90deg đi từ trái sang phải, 180deg đi từ trên xuống. Hướng ngược cần góc cộng 180 — số slip trong đầu số một của công việc gradient — một hoàng hôn lẽ ra mờ dần lên trên nhưng lại mờ ngang thường là lệch góc 90 độ.",
+          "Các điểm dừng màu là các vị trí dọc trục ấy, theo phần trăm hay độ dài. Phân bố đều mặc định thường sai cho mục đích thiết kế: đặt một điểm dừng sớm (ví dụ màu ở 20%) giữ màu đó lâu hơn, trong khi vị trí của điểm dừng đánh dấu chỗ màu được chạm trọn. Một “hard stop” — hai điểm dừng cùng vị trí — cho một cạnh sắc thay vì một sự pha trộn, kỹ thuật đứng sau các sọc gọn và thanh phân đoạn dựng hoàn toàn từ gradient.",
+          "Gradient hai điểm dừng nội suy trong sRGB theo mặc định, thứ có thể cho một giữa bùn lầy: trộn vàng sang xanh dương đi qua một xám mất bão hòa thay vì đi qua xanh lá. Các nhà thiết kế quan tâm đi vòng bằng một điểm dừng giữa thứ ba theo hue họ muốn, hay bằng cách chọn các điểm cuối gần nhau về hue.",
+        ],
+      },
+      {
+        heading: "Đọc và viết cú pháp gradient",
+        paragraphs: [
+          "CSS output ánh xạ thẳng vào một khai báo linear-gradient: linear-gradient(90deg, #ff0000 0%, #0000ff 100%). Gradient radial thay góc bằng một hình dáng và vị trí — hình tròn hay elip, giữa hay neo tại một góc — hữu ích cho đèn rọi, vignette và quầng sáng mềm.",
+          "Các thất bại debug phổ thông: quên đơn vị deg (số trần không hợp lệ), dùng dấu phẩy ở chỗ trình duyệt đợi dấu cách bên trong các hàm màu, và lồng gradient vào background-image trong khi background-color nằm sau — màu chỉ lộ qua chỗ gradient có độ trong suốt.",
+          "Một ghi chú hiệu năng hiếm khi quan trọng nhưng thỉnh thoảng có: gradient render trên GPU và rẻ, nhưng animate các vị trí điểm dừng buộc repaint. Animate opacity hay transform của một phần tử đè là con đường mượt.",
+        ],
+      },
+      {
+        heading: "Phản hồi trực quan, không upload gì",
+        paragraphs: [
+          "Bản xem trước render trực tiếp khi bạn di các điểm dừng và đổi màu, và CSS sẵn-sàng-sao-chép — dán vào bất kỳ stylesheet nào không cần dọn dẹp. Mọi thứ tính và render trong trình duyệt của bạn; công cụ chạy offline và không lưu gì.",
+          "Kỷ luật tương phản áp ở đây: chữ trên một gradient phải được kiểm với điểm dừng sáng nhất của gradient, không phải trung bình của nó, bằng bộ kiểm tương phản. Một gradient trông tuyệt khi chưa có chữ có thể gãy khả năng đọc ngay khi một tiêu đề đáp xuống đầu sáng của nó.",
+          "Khám phá nhanh: bắt đầu từ hai điểm cuối gần nhau về hue và tăng khoảng cách dần — đa số các phàn nàn “gradient bùn lầy” là các điểm cuối từ hai phía đối diện của bánh xe màu, không phải một bộ sinh hỏng.",
+        ],
+      },
+    ],
   },
   "compress-image-to-size": {
     name: "Nén ảnh về kích thước chỉ định",
@@ -5770,6 +7964,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Nên chọn JPEG hay WebP?",
         a: "Ở cùng chất lượng nhìn thấy, WebP thường nhỏ hơn JPEG từ 20–30%, nên với ngân sách khắt khe nó thường lọt qua với ít hao hụt hơn. JPEG là lựa chọn an toàn khi tệp phải mở được ở mọi nơi, kể cả phần mềm cũ chưa hỗ trợ WebP.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao chạm một kích thước file chính xác cần lặp",
+        paragraphs: [
+          "Không có công thức nào ánh xạ một giá trị chất lượng thẳng sang kích thước file kết quả: kích thước output JPEG phụ thuộc độ phức tạp riêng của ảnh — chi tiết, nhiễu, kết cấu — nên cùng một cài chất lượng có thể cho 200 KB trên một sơ đồ phẳng và 2 MB trên một ảnh nhiễu hạt. Cách đáng tin duy nhất để đáp dưới một giới hạn là nén, đo, chỉnh và lặp.",
+          "Công cụ này tự động hóa vòng lặp ấy. Bạn tuyên bố một kích thước đích, nó mã hóa ở một chất lượng khởi đầu, kiểm số byte thật và lặp — chỉnh chất lượng cho tới khi file vừa hay chạm sàn chất lượng. Kết quả là một file thực sự vượt qua phép kiểm upload, không phải một file “chắc cỡ ổn”.",
+          "Một sàn chất lượng tồn tại vì một lý do: săn một đích 20 KB hung hãn trên một ảnh chi tiết có thể đẩy chất lượng thấp đến mức các khối lỗi xuất hiện. Nếu vòng lặp dừng trên đích của bạn, cách đọc trung thực là ảnh cần nhỏ hơn về pixel, không chỉ bị bóp thêm.",
+        ],
+      },
+      {
+        heading: "Đọc sự đánh đổi: chất lượng, kích thước và định dạng",
+        paragraphs: [
+          "Bạn cầm hai đòn bẩy và một ràng buộc. Các đòn bẩy là chất lượng (bóp vắt pixel hung hãn đến đâu khi mã hóa) và kích thước (có bao nhiêu pixel để mã hóa). Khi một đích kích thước không đạt, thu nhỏ kích thước thường giữ chất lượng cảm nhận tốt hơn đè bẹp chất lượng — một ảnh rộng 1200 px ở chất lượng 70 thường nhìn tốt hơn một ảnh 2000 px ở chất lượng 25.",
+          "Thứ tự thao tác quan trọng: resize trước, rồi để chất lượng tìm vài phần trăm cuối. Làm nửa cả hai chiều cắt số pixel cỡ bốn lần, vượt xa bất cứ thứ gì thanh trượt chất lượng đạt nổi.",
+          "Định dạng cũng quan trọng: nếu đích đến nhận WebP, cùng chất lượng cảm nhận thường đáp ở một số byte nhỏ hơn hẳn so với JPEG. Hãy giữ file gốc an toàn trước khi nén — nén ở đây là một chiều, và không cài chất lượng nào khôi phục nổi thông tin đã bị bỏ.",
+        ],
+      },
+      {
+        heading: "Các giới hạn kích thước cứng từ đâu đến — và riêng tư",
+        paragraphs: [
+          "Các giới hạn cứng bao quanh bạn trong các quy trình thật: các cổng nộp hồ sơ chính phủ và visa, hệ thống tuyển sinh đại học, tin đăng chợ và file đính kèm email đều thực thi các mức tối đa chính xác (thường 100 KB, 200 KB, 500 KB hay 1 MB), và các form upload của chúng từ chối mọi thứ lớn hơn mà không thương lượng.",
+          "Mẹo vượt các phép kiểm ấy không đau là nhắm hơi dưới giới hạn thay vì đúng tại nó: vài máy chủ đo kích thước sau lần xử lý lại của chính họ, hay làm tròn khác đi, và một file đáp 5% dưới trần sống sót qua các quirk đó.",
+          "Mọi thứ ở đây chạy cục bộ trong trình duyệt của bạn — ảnh được decode, resize, mã hóa và đo trên thiết bị của bạn, và không bao giờ được upload. Điều đó có ý nghĩa với bản scan hộ chiếu, giấy tờ tùy thân và ảnh hồ sơ, chính là các loại file mà những cổng khắt khe này thường đòi.",
+        ],
       },
     ],
   },
@@ -5804,6 +8024,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Lãi mỗi tháng tính trên dư nợ còn lại, lớn nhất lúc đầu. Bảng trả góp cho thấy điểm lật: các kỳ đầu gần như toàn lãi, những năm cuối gần như toàn gốc. Vì vậy trả thêm gốc sớm sẽ tiết kiệm lãi nhiều nhất.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Những gì lãi suất trên quảng cáo không gồm",
+        paragraphs: [
+          "Lãi suất bạn gõ vào bất kỳ máy tính vay thế chấp nào là note rate — nó điều khiển gốc và lãi và chẳng gì khác. Chi phí thật của một khoản vay thế chấp còn giấu phí khởi tạo, điểm, thẩm định và chi phí chốt hợp đồng, mà các bên cho vay tóm trong một con số riêng thường gọi là APR. Vì APR gộp phí vào một con số năm hóa, hai ưu đãi cùng note rate có thể khác nhau đáng kể về APR, và khác biệt ấy là tiếng nói của các loại phí.",
+          "Công cụ này cố ý chỉ mô hình thứ mà lãi suất điều khiển: P&I từ công thức khấu hao, cộng các dòng PITI bạn tự nhập cho thuế, bảo hiểm và HOA. Sự tách biệt ấy là trung thực — thuế và bảo hiểm không phải lãi, và việc gói chúng thành một con “chi phí” duy nhất khiến không thể thấy đòn bẩy nào đã nhúc nhích. Khi so các bên cho vay, hãy so bảng phí của họ cạnh lãi suất của họ.",
+          "Escrow là biến số lặng lẽ còn lại. Ở nhiều thị trường, bên cho vay thu mỗi tháng một phần mười hai của thuế tài sản và bảo hiểm rồi trả thay bạn; ở nơi khác bạn tự trả các hóa đơn đó. PITI hàng tháng ở đây như nhau theo cả hai cách, nhưng nhịp dòng tiền của bạn thì không — và vài bên cho vay đòi escrow đúng vào lúc khoản trả trước nhỏ.",
+        ],
+      },
+      {
+        heading: "Khoản trả trước, kỳ hạn, và cuộc đánh đổi 15/30",
+        paragraphs: [
+          "Khoản trả trước lớn hơn thu nhỏ khoản vay, lãi và thường cả lãi suất, vì bên cho vay định giá rủi ro một phần trên tỷ lệ vay/trị-giá. Ở vài thị trường, trả trước dưới 20% còn kích hoạt bảo hiểm thế chấp, một dòng hàng tháng thêm mà công cụ cho bạn xấp xỉ bằng cách cộng vào ô bảo hiểm. Con số 20% không phải ma thuật — nó là ngưỡng lịch sử nơi loại bảo hiểm đó thường ngừng bị đòi.",
+          "Lựa chọn 15 so với 30 năm trông như một câu hỏi lãi suất nhưng chủ yếu là câu hỏi kỳ hạn: kỳ hạn ngắn mang lãi suất thấp hơn và tổng lãi ít hơn hẳn, vì số dư được trả xong trong nửa thời gian. Bảng khấu hao theo năm hiện cơ chế — trên khoản 30 năm, lãi vẫn thống trị các khoản trả sâu vào thập kỷ thứ hai, trong khi lịch 15 năm lật sang nặng-gốc trong vài năm.",
+          "Điều phép so sánh không nói cho bạn là chi phí cơ hội. Khoản trả thấp hơn của kỳ hạn 30 năm để tiền mặt hàng tháng rảnh cho khẩn cấp, hưu hay trả trước tùy ý — sự linh hoạt mà một hợp đồng 15 năm lấy đi bằng vũ lực. Chạy cả hai kịch bản ở đây, nhìn khoảng hở tổng-lãi, rồi quyết định việc mua sự linh hoạt ấy có đáng với bạn không.",
+        ],
+      },
+      {
+        heading: "Đọc PITI như một bên cho vay",
+        paragraphs: [
+          "Các bên cho vay phán khả năng chi trả bằng các tỷ lệ, không phải cảm tính: chi phí chỗ ở (PITI bạn thấy ở đây) so với thu nhập gộp, và tổng nợ hàng tháng so với thu nhập gộp — phép đo nợ-trên-thu-nhập. Hướng dẫn phổ thông giữ chỗ ở dưới cỡ 28% thu nhập gộp và tổng nợ dưới giữa ba-mươi về phần trăm, dù các chương trình khác nhau; đây là các heuristic lập kế hoạch, không phải quy tắc nào một cơ quan quản lý duy nhất áp khắp nơi.",
+          "Bảng theo năm còn là một bản đồ trả trước. Vì lãi được tính trên số dư còn lại, một khoản trả thêm mỗi năm nhắm vào gốc có thể cạo vài năm khỏi khoản 30 năm — nhưng chỉ khi bên cho vay áp nó vào gốc, nên hãy ghi rõ bằng văn bản khi bạn trả. Bảng cho bạn phác thảo hiệu ứng bằng cách rút ngắn kỳ hạn và so số dư từng năm.",
+          "Mọi con số ở đây là ước tính: lãi suất là thứ bạn gõ, không phải một ưu đãi, và số escrow thật, phí bảo hiểm và thuế đổi qua các năm. Phép tính chạy cục bộ trong trình duyệt của bạn — giá nhà, các con số thu nhập và lãi suất không bao giờ rời thiết bị.",
+        ],
+      },
+    ],
   },
   "salary-to-hourly": {
     name: "Máy tính lương năm sang lương giờ",
@@ -5833,6 +8079,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — mọi con số là tổng (gross) trước thuế thu nhập, đóng góp xã hội và khấu trừ khác. Lương thực lãnh phụ thuộc bậc thuế và nơi ở của bạn, nên coi các kết quả này là số tổng để so sánh.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Nền 2.080 giờ và những gì nó giả định",
+        paragraphs: [
+          "Chia cho 40 × 52 = 2.080 giờ là quy ước chuẩn đứng sau đa số lời mời làm việc, và nó nhúng hai giả định đáng được gọi tên: rằng bạn được trả cho cả 52 tuần (gồm nghỉ phép có lương) và rằng lịch tuần danh nghĩa phản ánh giờ thực sự làm. Với một vị trí lương cứng có nghỉ có lương và làm thêm khiêm tốn, 2.080 là một mẫu số công bằng.",
+          "Mẫu số đổi câu trả lời kịch dữ. Cùng một mức lương 65.000 là 31,25 mỗi giờ trên một năm 2.080 giờ, 35,75 nếu bạn thực sự làm tuần 45 giờ, và trên 40 nếu nghỉ không lương co năm có lương lại. Đó là lý do các ô lịch quan trọng hơn vẻ ngoài — mức giờ không phải một thuộc tính của lương, mà là một thuộc tính của lương chia giờ.",
+          "Quy ước 2.080 còn có một tiếng vọng pháp lý ở Mỹ: các phép thử miễn trừ cho quy tắc làm thêm theo lịch sử tham chiếu các mức lương hơn là các mức giờ, một lý do các vị trí lương cứng được báo theo năm ngay cả khi công việc nền được đo bằng giờ. Chuyển ngược về giờ khôi phục đơn vị mà các phép so sánh thực sự cần.",
+        ],
+      },
+      {
+        heading: "Mức giờ đã điều chỉnh phơi ra gì",
+        paragraphs: [
+          "Mức giờ trên tiêu đề và mức đã điều chỉnh có thể khác nhau đáng kể, và khoảng hở là giá của thời gian nghỉ không lương. Mỗi ngày không lương lấy đi một phần năm tuần làm việc khỏi mẫu số, nên mười ngày không lương co năm xuống cỡ 50 tuần và đẩy mức giờ hiệu dụng lên cỡ 4%. Lương giữ cố định; chỉ số giờ làm của bạn đổi.",
+          "Con số đã điều chỉnh ấy là nền trung thực để so một việc lương cứng với một việc theo giờ. Một vị trí lương cứng nhìn tương đương ở mức tiêu đề thường thua khi làm thêm không lương nặng hay một hợp đồng không có nghỉ có lương bước vào bức tranh — góc nhìn theo-giờ-thật phơi ra điều con số năm giấu.",
+          "Chú ý những gì mức đã điều chỉnh KHÔNG làm: nó không định giá bản thân kỳ nghỉ. Thời gian nghỉ có lương có giá trị vượt số học — đó là thu nhập trong những ngày bạn không làm. Mức đã điều chỉnh thu hẹp phép so sánh về giờ thực sự làm, chính xác điều bạn muốn cho so sánh công sức, và chính xác điều bạn không nên dùng một mình cho các quyết định chất-lượng-cuộc-sống.",
+        ],
+      },
+      {
+        heading: "Các cách đọc sai phổ thông và cách dùng",
+        paragraphs: [
+          "Cách đọc sai phổ biến nhất là coi con số giờ như một ưu đãi bạn thực sự nhận được. Một lương 52.000 “bằng” 25,00 mỗi giờ trên giấy, nhưng ít nhà tuyển dụng nào thuê đúng những giờ ấy với 25,00 mỗi giờ — đãi ngộ lương cứng gói nghỉ có lương, ngày ốm và thu nhập đoán trước được. Hãy dùng con số giờ để so sánh, không phải để đàm phán lại.",
+          "Thứ hai là quên rằng bảng lương hàng tháng chia đều. Năm ÷ 12 trả như nhau trong tháng Hai và tháng Bất kể ngày làm; chu kỳ tuần hay hai-tuần thì không. Nếu ngân sách của bạn theo tuần, hãy dùng con số tuần, không phải một phần mười hai của năm.",
+          "Mọi thứ tính cục bộ trong trình duyệt của bạn — lương của bạn không bao giờ rời thiết bị, điều có ý nghĩa khi đang thử các con số cho một ưu đãi đang bàn. Một quy trình tốt: chạy lương hiện tại, rồi một ưu đãi cạnh tranh với lịch thật của nó (gồm ngày không lương), và so các mức giờ đã điều chỉnh thay vì các con số năm trên tiêu đề.",
+        ],
+      },
+    ],
   },
   "hourly-to-salary": {
     name: "Máy tính lương giờ sang lương năm",
@@ -5859,6 +8131,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao phiếu lương thật khác?",
         a: "Các con số là tổng. Thuế thu nhập, an sinh xã hội và khấu trừ phúc lợi làm giảm thực lãnh, và nhiều việc lương tháng trải khoản trả qua 12 tháng dù bạn làm ít tuần hơn. Hãy dùng kết quả năm để so lời mời, không phải để ước thu nhập ròng.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao 52 tuần — và khi nào nó nói dối",
+        paragraphs: [
+          "Mặc định 40 × 52 = 2.080 giờ có lương là một quy ước kế toán, không phải mô tả của bất kỳ công việc thật nào. Nó giả định bạn được trả cho mọi tuần trong năm, kể cả những tuần bạn nghỉ. Với một nhân viên lương cứng có nghỉ phép có lương, điều đó cỡ đúng — lương phủ cả năm, nên chia cho 2.080 giờ cho đương lượng giờ trung thực.",
+          "Với một công nhân theo giờ, giả định gãy. Không làm, không trả: một kỳ nghỉ không lương hai tuần làm năm thật thành 50 tuần, và 2.080 giờ lặng lẽ phóng đại thu nhập của bạn 4%. Đó là lý do ô số-tuần-mỗi-năm sửa được — hãy đặt nó thành các tuần bạn thực sự được trả, và con số năm thành thứ bạn thực sự thấy.",
+          "Công việc theo mùa là ca cực đoan: một việc chỉ mùa hè có thể phủ 14–18 tuần. Nhập 40 giờ và 52 tuần cho một vị trí như vậy phình kết quả gần bốn lần. Quy tắc ngón tay đơn giản — ô tuần nên trả lời “bao nhiêu tuần tiền thực sự đến”, không phải “một năm dài bao lâu”.",
+        ],
+      },
+      {
+        heading: "Đọc năm output cùng nhau",
+        paragraphs: [
+          "Cả năm con số là cùng một số năm được thái khác nhau, và biết lát nào so với cái gì quan trọng hơn phép toán. Năm là con số các lời mời và hồ sơ vay dùng. Tháng — năm ÷ 12 — là thứ các hồ sơ thuê nhà và ngân sách đăng ký quan tâm, nhưng chú ý đa số bảng lương hàng tháng chia đều ngay cả trong các tháng ít ngày làm hơn.",
+          "Tuần (năm ÷ 52 theo mặc định) là đơn vị công nhân theo giờ thực sự sống với nó, hai-tuần nhân đôi nó và khớp chu kỳ trả lương phổ biến nhất của Mỹ, còn ngày giả định một tuần 5 ngày. Khi so một việc theo giờ với một ưu đãi lương cứng, hãy đổi cả hai về cùng chu kỳ trước — một lương hàng tháng “cao hơn” có thể giấu ít tuần có lương hơn.",
+          "Mọi con số ở đây là gộp (gross). Thuế, đóng góp xã hội và các khoản khấu trừ phúc lợi ra sau, với các mức phụ thuộc quốc gia và bậc thuế của bạn, nên một con số 60.000/năm không bao giờ nghĩa là 5.000 đến mỗi tháng. Hãy coi chúng như tầng so sánh trước thuế; thu nhập ròng là một phép tính riêng.",
+        ],
+      },
+      {
+        heading: "Các cách dùng thực dụng và lỗi phổ thông",
+        paragraphs: [
+          "Cách dùng phổ biến nhất là so các ưu đãi với cấu trúc trả khác nhau: một mức 30,00/giờ với một mức lương 60.000 ngừng là một phỏng đoán khi cả hai diễn đạt thành năm. Các hồ sơ vay và thuê nhà là thứ hai — chúng gần như luôn hỏi số năm hay tháng, không phải số giờ, và bộ chuyển đổi này sinh chúng đúng hình dạng các form mong đợi.",
+          "Lỗi phổ biến nhất là quên rằng làm thêm bị loại trừ. Phép nhân trần định giá mọi giờ theo mức gốc của bạn; nếu hợp đồng trả 1,5× quá 40 giờ và bạn thường xuyên làm những giờ đó, con số năm thật của bạn sẽ vượt ước lượng này — cố ý cộng các giờ làm thêm điển hình vào ô giờ nếu bạn muốn chúng được định giá.",
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn: mức lương và lịch không bao giờ rời thiết bị, điều có ý nghĩa khi bạn đang đánh giá một ưu đãi chưa chấp nhận. Đổi một đầu vào mỗi lần và xem con số năm nhạy đến đâu — nó làm cuộc đánh đổi giữa một cú tăng mức nhỏ và một tuần có lương thêm mỗi năm hiện ra ngay lập tức.",
+        ],
       },
     ],
   },
@@ -5890,6 +8188,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Nó mô hình một sản phẩm với kinh tế đơn vị không đổi — tình huống sách giáo khoa kinh điển. Với danh mục sản phẩm, dùng trung bình trộn của giá trừ chi phí biến đổi; với chiết khấu theo sản lượng hay chi phí cố định bậc thang, tính lại từng kịch bản.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Chi phí cố định với biến đổi: phép tách quyết định tất cả",
+        paragraphs: [
+          "Toàn bộ phân tích nghỉ trên một quyết định phân loại: chi phí nào cố định và chi phí nào biến đổi. Chi phí cố định — tiền thuê, nhân viên lương cứng, bảo hiểm, đăng ký phần mềm — không di theo sản lượng trong khoảng bạn đang phân tích. Chi phí biến đổi — vật liệu, đóng gói mỗi đơn vị, phí xử lý thanh toán, vận chuyển mỗi đơn — co giãn thẳng với mỗi đơn vị bán. Biên đóng góp, giá trừ chi phí biến đổi, chỉ trung thực bằng chính phép tách ấy.",
+          "Các chi phí thật hiếm khi rơi gọn vào một giỏ. Điện có một nền cố định cộng một phần biến đổi theo máy; một nhân viên bán theo hoa hồng trộn cả hai. Quy ước thực dụng là phân loại theo thứ gì đổi khi bạn bán thêm một đơn vị: nếu một chi phí sẽ tăng với lần bán kế tiếp, nó thuộc V; nếu không, nó thuộc F. Khi phân vân, hãy xếp vào chi phí biến đổi — điều đó làm ước lượng hòa vốn của bạn bảo thủ thay vì lạc quan.",
+          "Phép tách ấy cũng là lý do công thức hoạt động nổi: chi phí cố định phải được hoàn trả trọn vẹn bất kể gì, trong khi mỗi lần bán đóng góp biên của nó vào đống ấy. Khi 500 lần bán mỗi cái đã đóng góp 20, khoản 10.000 chi phí cố định được che phủ và mọi đơn vị sau đó đóng góp lợi nhuận thuần. Đó là mô hình tinh thần đứng sau bảng lợi nhuận dưới con số.",
+        ],
+      },
+      {
+        heading: "Đọc biên và bảng lợi nhuận",
+        paragraphs: [
+          "Tỷ lệ biên — biên đóng góp chia giá — cho biết bao nhiêu của mỗi đô bán hàng sẵn sàng để chiến đấu với chi phí cố định. Một biên 40% nghĩa là 60 xu của mỗi lần bán bị chi phí biến đổi tiêu. Các doanh nghiệp biên thấp cần sản lượng cao để hòa vốn; những cái biên cao có thể sống bằng ít lần bán hơn nhưng thường mang chi phí cố định nặng hơn (phần mềm, R&D), đẩy điểm hòa vốn của chúng lại lên. Tỷ lệ làm cuộc đánh đổi ấy nhìn thấy được.",
+          "Bảng lợi nhuận tại 0,5×, 1,5× và 2× hòa vốn hiện hình dáng của phần thưởng. Dưới điểm, lỗ tích lũy tuyến tính — ở nửa hòa vốn bạn đang lỗ đúng một nửa chi phí cố định. Trên nó, lợi nhuận tích lũy cùng độ dốc hằng. Sự đối xứng chính là điểm: nó cho thấy một khi kinh tế theo đơn vị đã ghim, đòn bẩy duy nhất đến điểm hòa vốn là sản lượng, và vượt qua nó, mỗi đơn vị kiếm cùng một biên.",
+          "Dùng bảng để soát các đích: nếu 2× hòa vốn là mặt trên thực tế của năm đầu, mặt dưới ở 0,5× cho biết doanh nghiệp có thể đốt bao nhiêu tiền trước khi phải định giá lại hay cắt chi phí. Khoảng hở giữa hai hàng ấy là phong bì lập kế hoạch của bạn.",
+        ],
+      },
+      {
+        heading: "Chỗ mô hình giáo trình bị bẻ cong",
+        paragraphs: [
+          "Công thức giả định giá và chi phí biến đổi là các đường thẳng, và thực tế thì cong. Các chiết khấu số lượng trên vật liệu hạ V khi sản lượng lớn; lương làm thêm, giới hạn công suất và vận chuyển gấp nâng nó lên. Bản thân giá thường rơi khi co giãn khi bạn đẩy vào các phân khúc bớt hào hứng. Mỗi cái ấy bẻ các đường thẳng thành cong, và con số hòa vốn duy nhất trở thành một khoảng. Hãy chạy lại phép tính theo từng kịch bản thay vì ngoại suy một câu trả lời.",
+          "Các doanh nghiệp đa sản phẩm chạm cùng vấn đề: công thức phủ một sản phẩm, nên một hỗn hợp sản phẩm cần một biên đóng góp trộn có trọng số theo tỷ lệ bán mong đợi — và chính hỗn hợp ấy lại dịch khi sản lượng lớn. Chi phí cố định còn có hình bậc: kho thứ hai hay người thuê thứ mười nhảy F, không lớn mượt.",
+          "Chẳng điều nào làm mô hình vô dụng — nó vẫn là phép kiểm khả thi vòng-đầu nhanh nhất cho một sản phẩm, một thay đổi giá hay một gian hàng ở chợ. Chỉ cần coi output là một nền lập kế hoạch, chạy lại với các đầu vào bi quan và lạc quan, và nhớ lời cảnh báo của mẫu số: nếu biên gần 0, một cú trượt chi phí nhỏ có thể chuyển hòa vốn từ chạm-nổi thành bất khả.",
+        ],
+      },
+    ],
   },
   "bmr-calculator": {
     name: "Máy tính BMR",
@@ -5917,6 +8241,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có phải lời khuyên y khoa không?",
         a: "Không — đây là ước lượng, không phải lời khuyên y khoa. Bệnh tật, thuốc, thai kỳ và cơ thể thành phần khác thường đều làm dịch chi tiêu năng lượng thật; mọi thay đổi ăn uống nên bàn với chuyên gia y tế.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mifflin-St Jeor với các phương trình cũ hơn",
+        paragraphs: [
+          "Công cụ này dùng phương trình Mifflin-St Jeor, công bố năm 1990: với nam, 10 × cân nặng (kg) + 6,25 × chiều cao (cm) − 5 × tuổi + 5, và với nữ cùng biểu thức trừ 161 thay vì cộng 5. Nó được khớp với năng suất năng lượng nghỉ đo thực tế và được kiểm chứng đối với calorimetry gián tiếp, tiêu chuẩn vàng phòng lab đo trực tiếp lượng oxy tiêu thụ.",
+          "Phương án thay thế bạn gặp nhiều nhất là Harris-Benedict, công bố gốc năm 1919 và sửa năm 1984. Một so sánh năm 2005 của Hiệp hội Ăn kiêng Mỹ được trích rộng rãi thấy Mifflin-St Jeor chính xác hơn cho các quần thể hiện đại, đó là lý do máy tính này chuẩn hóa trên nó. Một lựa chọn thứ ba, Katch-McArdle, dùng khối cơ nạc thay vì cân nặng và có thể sắc hơn với những người biết tỷ lệ mỡ cơ thể — nhưng nó đòi một con số đa số người không có.",
+          "Kết luận thực dụng: khác biệt giữa các phương trình này thường vài chục kilocalorie, nhỏ hơn biến động ngày-hqua-ngày-nay trong chi tiêu của chính bạn. Nếu hai máy tính lệch nhau nhẹ, lựa chọn công thức thường là nguyên nhân, và không cái nào sai.",
+        ],
+      },
+      {
+        heading: "Đọc con số: BMR không phải mức đốt hằng ngày của bạn",
+        paragraphs: [
+          "BMR là mức sàn, không phải ngân sách. Nó phủ thở, tuần hoàn, sửa chữa tế bào và điều nhiệt ở trạng thái nghỉ hoàn toàn — cỡ 60–70% thứ đa số người lớn ít vận động đốt trong một ngày. Tổng chi tiêu năng lượng hằng ngày thật (TDEE) của bạn là BMR nhân với một hệ số hoạt động, từ cỡ 1,2 cho một ngày dính bàn làm việc đến cỡ 1,9 cho lao động thể lực nặng hay tập nặng hằng ngày.",
+          "Phép nhân ấy quan trọng hơn chính công thức. Hai người cùng BMR có thể đốt lệch nhau hơn 800 kcal mỗi ngày thuần túy từ lối sống. Máy tính này cố ý chỉ báo BMR; máy tính calo trên trang này bước tiếp và áp hệ số hoạt động cùng một mục tiêu thay bạn.",
+          "Một phép kiểm thực tế hữu ích: BMR co giãn chủ yếu theo cân nặng, chiều cao và tuổi, nên nếu kết quả dịch mạnh sau một thay đổi đầu vào nhỏ, hãy kiểm lại đơn vị — kg với lb là cú nhầm kinh điển.",
+        ],
+      },
+      {
+        heading: "Các lỗi phổ thông và giới hạn trung thực",
+        paragraphs: [
+          "Mọi phương trình dự báo mang lỗi cá nhân. Mifflin-St Jeor đáp trong cỡ ±10% của phép đo lab với đa số người lớn, nhưng các cá nhân có khối cơ rất cao hay thấp, rối loạn tuyến giáp, hay một số thuốc có thể nằm xa ngoài dải ấy. Hãy coi output là một điểm khởi đầu lập kế hoạch, không phải một sự thật sinh lý.",
+          "Đừng dùng BMR để biện minh cho việc ăn dưới nó. Chuyển hóa nghỉ đã được các mô nạc giữ bạn sống che phủ; các thâm hụt hung hãn dưới BMR là một quyết định cho nhân viên y tế, không phải cho một máy tính. Tương tự, thích nghi chuyển hóa nghĩa là con số bạn tính ở 90 kg ngừng chính xác ở 80 kg — hãy tính lại khi cân nặng đổi.",
+          "Như mọi thứ trên trang này, phép tính chạy hoàn toàn trong trình duyệt của bạn: không đầu vào nào được gửi đi đâu, nên chẳng có lý do gì ngại nhập các số thật.",
+        ],
       },
     ],
   },
@@ -5948,6 +8298,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — đây là ước lượng, không phải lời khuyên y khoa. Nếu bạn mang thai, quản bệnh mãn tính, đang uống thuốc hay từng rối loạn ăn uống, hãy đặt mục tiêu cùng chuyên gia y tế.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Con số duy trì được dựng thế nào",
+        paragraphs: [
+          "Phép tính là một chuỗi hai bước. Trước, BMR đến từ phương trình Mifflin-St Jeor (1990): nam 10 × cân nặng (kg) + 6,25 × chiều cao (cm) − 5 × tuổi + 5, nữ cùng biểu thức trừ 161. Sau, BMR ấy được nhân với một trong năm hệ số hoạt động chuẩn: 1,2 ít vận động, 1,375 hoạt động nhẹ, 1,55 vừa phải, 1,725 rất hoạt động, 1,9 cực hoạt động.",
+          "Năm hệ số ấy truy về truyền thống Harris-Benedict và sống sót vì chúng ánh xạ sạch lên cách mọi người thực sự sống: riêng các buổi tập không định nghĩa hoạt động — một công nhân xây dựng không vào phòng gym vẫn nằm cao hơn một nhân viên văn phòng có ba buổi mỗi tuần.",
+          "Các điều chỉnh mục tiêu sau đó áp heuristic kinh điển: 1 kg mỡ cơ thể chứa cỡ 7.700 kcal, nên cỡ ±500 kcal mỗi ngày tương ứng khoảng 0,5 kg thay đổi mỗi tuần. Máy tính trừ 500 để giảm, cộng 500 để tăng, và để nguyên phần duy trì.",
+        ],
+      },
+      {
+        heading: "Diễn giải mục tiêu: đợi một đường cong, không phải một đường thẳng",
+        paragraphs: [
+          "Giảm cân đầu luôn vượt phép toán: một hai tuần đầu rơi chủ yếu là nước và glycogen, không phải mỡ. Sau đó kết quả chậm lại vì chi tiêu của bạn giảm khi bạn nhẹ đi — một người từng nặng 90 kg đốt ít hơn ở 82 kg, nên thâm hụt từng cho nửa ký mỗi tuần trong tháng đầu thường chỉ còn một phần ba vào tháng ba.",
+          "Quy trình thực dụng là coi mục tiêu như một giả thuyết: cân dưới các điều kiện nhất quán, so với một trung bình động hai tuần thay vì nhiễu hằng ngày, và chỉnh 100–200 kcal khi xu hướng ngập ngừng vài tuần.",
+          "Tính lại sau mỗi vài ký thay đổi, và nhớ cùng một con số duy trì hỗ trợ các kết quả rất khác nhau tùy bạn ăn gì — protein, chất xơ và thời điểm ăn không đổi phép toán calo, nhưng đổi cảm giác sống được bao lâu với thâm hụt.",
+        ],
+      },
+      {
+        heading: "Các lỗi phổ thông",
+        paragraphs: [
+          "Lỗi thường gặp nhất là thổi phồng mức hoạt động. Mọi người đếm một buổi tập là “hoạt động vừa” rồi lại ngồi mười tiếng mỗi ngày; nếu bạn tập 3–5 lần mỗi tuần nhưng làm việc văn phòng, 1,55 thường đã là hào phóng. Khi phân vân, hãy chọn hệ số thấp hơn và chỉnh từ kết quả đo được.",
+          "Đừng chồng điều chỉnh ±500 quá mức. Các thâm hụt xa dưới BMR hay các lần tăng +1.000 kcal mỗi ngày phần lớn cho mệt mỏi và tăng mỡ tương ứng; các mức bền cho đa số người lớn là 0,25–0,75 kg mỗi tuần theo cả hai hướng. Bất kỳ ai đang mang thai, quản lý một bệnh mạn tính, hay có tiền sử rối loạn ăn uống nên đặt mục tiêu cùng một bác sĩ lâm sàng thay vào.",
+          "Cuối cùng, hãy coi mọi output ở đây như một ước lượng trung bình quần thể: chuyển hóa thật dao động cỡ ±10% giữa các cá nhân, và chỉ xu hướng đo được của chính bạn qua các tuần mới kết thúc cuộc tranh luận.",
+        ],
+      },
+    ],
   },
   "body-fat-calculator": {
     name: "Máy tính tỷ lệ mỡ",
@@ -5975,6 +8351,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao kết quả ra âm hay vô lý?",
         a: "Công thức in ra không kẹp giới hạn, nên đầu vào vô lý — ví dụ vòng bụng chưa lớn hơn cổ — cho đầu ra vô lý. Hãy coi mọi giá trị dưới mức mỡ thiết yếu hay trên khoảng 60% là sai sót đo và đo lại. Và như thường lệ, ước lượng này không phải lời khuyên y khoa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bên trong phương pháp đo chu vi Navy",
+        paragraphs: [
+          "Công thức ước lượng mỡ cơ thể từ các tỷ số chu vi. Với nam nó dùng 495 / (1.0324 − 0.19077·log10(vòng bụng − vòng cổ) + 0.15456·log10(chiều cao)), mọi phép đo bằng centimet; với nữ hạng chu vi thành log10(vòng bụng + vòng hông − vòng cổ) với các hệ số nữ từ cùng bài báo. Các hạng log là lý do vài centimet quanh bụng di chuyển ước lượng nhiều hơn hẳn vài centimet chiều cao.",
+          "Phương pháp được James Hodgdon và Jack Beckett phát triển năm 1984 cho Hải quân Mỹ, nơi cần một màn sàng thành phần cơ thể hằng năm cho hàng chục nghìn thủy thủ không có thiết bị phòng lab. Nó được kiểm chứng đối với cân dưới nước (đo khối lượng riêng tĩnh thủy), khi đó là tiêu chuẩn tham chiếu — và Hải quân vẫn dùng nó hôm nay, một phép thử hiện trường mạnh ngang bất kỳ công thức nào.",
+          "Logic nền là mỡ tích tụ đoán trước được tại các vị trí cụ thể (bụng cho nam, hông và đùi cho nữ) trong khi cổ giữ gọn, nên hiệu vòng-bụng-với-vòng-cổ mang thông tin thật về khối mỡ mà một cái cân một mình không nhìn thấy.",
+        ],
+      },
+      {
+        heading: "Đọc các nhóm phân loại — và xu hướng",
+        paragraphs: [
+          "Máy tính xếp kết quả của bạn vào các dải chuẩn do American Council on Exercise trích dẫn: với nam, 2–5% mỡ thiết yếu, 6–13% vận động viên, 14–17% thể hình, 18–24% trung bình, 25%+ béo phì; với nữ, 10–13% thiết yếu, 14–20% vận động viên, 21–24% thể hình, 25–31% trung bình, 32%+ béo phì. Nữ mang nhiều mỡ thiết yếu hơn vì chức năng hormone và sinh sản phụ thuộc vào nó.",
+          "Hãy đợi độ chính xác tuyệt đối cỡ ±3–4% so với một bản scan DXA. Nghe nhiều đấy cho tới khi bạn thấy phương pháp này thực sự giỏi điều gì: tính nhất quán. Đo tại cùng các vị trí, cùng thời điểm trong ngày, bởi cùng một người, ước lượng bằng thước dây theo dõi các thay đổi thật trong thành phần cơ thể một cách đáng nể.",
+          "Vậy cách dùng thực dụng là theo hướng: một tháng tập đưa bạn từ 24% xuống 22% là một kết quả thật ngay cả khi cả hai số đọc mang lỗi ±3%, vì lỗi phần lớn mang tính hệ thống và triệt tiêu khi so hai phép đo trên cùng một cơ thể.",
+        ],
+      },
+      {
+        heading: "Chỗ ước lượng bằng thước dây sai",
+        paragraphs: [
+          "Kỹ thuật đo thống trị ngân sách lỗi. Vòng cổ đo dưới thanh quản với thước dốc nhẹ xuống phía trước; vòng bụng đặt tại rốn với nam và tại điểm thon nhất với nữ; vòng hông tại phần đầy nhất. Kéo thước ôm khít nhưng không bao giờ bóp da, thở ra bình thường, và không bao giờ đo ngay sau một bữa ăn lớn hay một buổi tập nặng.",
+          "Các output bất khả gắn cờ các đầu vào bất khả: vì công thức được in không kẹp, một vòng bụng đo nhỏ hơn vòng cổ có thể cho một tỷ lệ mỡ âm. Bất cứ thứ gì dưới mức mỡ thiết yếu hay trên cỡ 60% nghĩa là đo lại, không phải ăn mừng hay hoảng loạn.",
+          "Các cá nhân cơ bắp và gọn có thể đẩy các phương pháp hiện trường tới giới hạn, và những người có sự phân bố mỡ khác thường (ví dụ nội tạng-trội) có thể bị một mô hình dựa-chu-vi đọc sai. Cho mục đích y tế, bảo hiểm hay thi đấu, một bản scan lâm sàng vẫn là tham chiếu — công cụ này để theo dõi xu hướng của chính bạn.",
+        ],
       },
     ],
   },
@@ -6006,6 +8408,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — đây là ước lượng, không phải lời khuyên y khoa. Vận động viên và người nhiều cơ nằm trên dải mà vẫn khoẻ mạnh hoàn toàn, và một số tình trạng dịch vùng khoẻ. Cân nặng mục tiêu nên bàn với chuyên gia y tế.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Công thức Devine từ đâu đến",
+        paragraphs: [
+          "Công thức Devine do tiến sĩ B. J. Devine công bố năm 1975 — nhưng không phải như một đích thể hình. Nó nổi lên từ công việc về liều thuốc, đầu là digoxin rồi các thuốc khác mà liều an toàn phụ thuộc kích thước cơ thể: 50 kg cho 5 feet chiều cao đầu cộng 2,3 kg mỗi inch thêm cho nam, 45,5 kg cho nữ.",
+          "Các bác sĩ lâm sàng cần một ước lượng nhanh theo chiều cao của một “cân-nặng-liều”, và phương trình của Devine trở thành phương trình cân nặng lý tưởng được trích nhiều nhất trong y văn — được in lại rộng đến mức các thế hệ người đọc tưởng nó định nghĩa một người nên nặng bao nhiêu. Nó chưa bao giờ làm vậy.",
+          "Con số thứ hai máy tính này hiện là dải BMI khỏe mạnh: chiều cao của bạn theo mét bình phương nhân với 18,5 và với 24,9, các giới hạn dải bình thường trong phân loại WHO. Điều này neo câu trả lời vào dữ liệu sức khỏe quần thể thay vì một lối tắt liều thuốc.",
+        ],
+      },
+      {
+        heading: "Vì sao câu trả lời là một khoảng, không phải một số",
+        paragraphs: [
+          "Hai phương pháp thường lệch nhau vài ki-lô-gam, và sự lệch nhau chính là thông điệp: không tồn tại một cân nặng lý tưởng duy nhất. Khung xương, khối cơ, tuổi và các khác biệt dân tộc trong thành phần cơ thể đều dịch thứ gì là khỏe mạnh cho một chiều cao cho trước, chính là lý do WHO định nghĩa một dải thay vì một đích.",
+          "Hãy đọc hai output cùng nhau như một cái kẹp: đa số người lớn có cân nặng nằm giữa con số Devine và các mép dải BMI là trong khoảng mà các bác sĩ sẽ coi là hợp lý. Nếu cân nặng hiện tại của bạn nằm ngoài cả hai, khoảng hở cho bạn hướng thay đổi, không phải tốc độ nên theo đuổi.",
+          "Cũng chú ý những gì con số không nắm được: ở cùng BMI, một người tập luyện mang nhiều mô nạc hơn một người không, và nghiên cứu về người lớn tuổi gợi ý một cân nặng hơi cao hơn thậm chí có thể mang tính bảo vệ. Cân nặng khỏe mạnh cá nhân đến mức một cuộc trò chuyện với chuyên gia thắng bất kỳ công thức nào.",
+        ],
+      },
+      {
+        heading: "Các cách dùng sai phổ thông",
+        paragraphs: [
+          "Cách dùng sai lâu đời nhất là coi Devine như một tiêu chuẩn thẩm mỹ — một con số để ăn kiêng tới. Nó được thiết kế để tính liều thuốc; dùng nó như một đích cơ thể nhập một tiện liều-thuốc vào một quyết định nó chưa bao giờ được thiết kế để thông tin.",
+          "Vận động viên và những người rất cơ bắp nằm xa trên dải BMI trong khi hoàn toàn khỏe mạnh, vì dải giả định thành phần cơ thể trung bình. Nếu bạn tập nghiêm túc, hãy bỏ qua cả hai con số làm đích và phán theo xu hướng tỷ lệ mỡ cùng hiệu suất thay vào.",
+          "Cuối cùng, các biểu đồ chiều cao-cân nặng nhanh lưu hành trên mạng thường truy về các bảng công ty bảo hiểm giữa thế kỷ hai mươi, dựng từ dữ liệu tự khai của người nộp đơn — một nền yếu hơn cả hai phương pháp hiển thị ở đây. Máy tính này chạy cục bộ trong trình duyệt của bạn và không lưu gì; hãy dùng nó để định hướng, không để chẩn đoán.",
+        ],
+      },
+    ],
   },
   "water-intake-calculator": {
     name: "Máy tính nước cần uống",
@@ -6033,6 +8461,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có phải lời khuyên y khoa không?",
         a: "Không — đây là ước lượng chung. Người bệnh tim, thận hay gan, và người được dặn hạn chế dịch, thường cần ít hơn mức đã tính: hãy theo chỉ dẫn của bác sĩ điều trị.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Các con số từ đâu đến",
+        paragraphs: [
+          "Nền dùng heuristic lượng dịch duy trì được dạy khắp thực hành lâm sàng: 35 ml nước mỗi ki-lô-gam cân nặng mỗi ngày (hướng dẫn người lớn thường được trích là khoảng 30–35 ml/kg). Nó khởi nguồn từ quản lý dịch nhi khoa, nơi định liều dịch theo cân là việc thường ngày, và được chuyển sang người lớn như một quy tắc ngón tay cái nhanh.",
+          "Phần cộng tập luyện cỡ 350 ml mỗi 30 phút phản ánh tốc độ đổ mồ hôi điển hình 0,5–1 lít mỗi giờ hoạt động vừa; gắng sức nặng trong nóng có thể vượt một lít mỗi giờ. Máy tính hiện nền và phần thưởng tập luyện riêng để bạn thấy con số thứ hai mới là con số bất định — lượng mồ hôi dao động khủng khiếp giữa các người và các điều kiện.",
+          "Cho có bối cảnh, Cơ quan An toàn Thực phẩm châu Âu đặt tổng lượng nước đủ ở 2,0 L/ngày cho nữ và 2,5 L/ngày cho nam — các con số gồm cả nước từ thức ăn, thứ bình thường cung cấp 20–30% tổng lượng nạp.",
+        ],
+      },
+      {
+        heading: "Bao nhiêu trong tổng nên là nước lọc?",
+        paragraphs: [
+          "Ít hơn con số trên tiêu đề. Thức ăn, cà phê, trà, sữa và nước ép đều đóng góp — các thức uống có caffein vừa phải cấp nước chứ không làm mất nước, một hiểu lầm sống sót qua hàng thập kỷ. Con số tính ra là hướng dẫn cho tổng dịch trên nền một chế độ ăn bình thường, nên một người điển hình có thể uống cỡ hai phần ba dưới dạng nước lọc.",
+          "Cơ thể bạn còn cung cấp phản hồi thời gian thực vượt bất kỳ công thức nào: cảm giác khát, và màu nước tiểu. Vàng rơm nhạt nghĩa là bạn ổn; hổ phách sẫm nghĩa là uống ngay. Các tín hiệu ấy theo dõi trạng thái thật của bạn, trong khi máy tính theo dõi đầu vào của bạn.",
+          "Hãy đợi nhu cầu dịch chuyển qua từng ngày. Nóng, ẩm, độ cao, bệnh kèm sốt, và rượu đều nâng lượng mất; một ngày nghỉ trong điều hòa hạ chúng xuống. Con số tính ra là một tham chiếu ngày-êm, không phải một hạn mức phải chạm bất kể hoàn cảnh.",
+        ],
+      },
+      {
+        heading: "Biến động cá nhân và ai không nên theo một máy tính",
+        paragraphs: [
+          "Cân nặng là một đại diện thô. Tốc độ đổ mồ hôi có thể huấn luyện một phần và mang đậm tính cá nhân — hai người cùng cân nặng có thể mất hẳn khác nhau về natri và dịch trong cùng một buổi. Các vận động viên sức bền nghiêm túc cuối cùng cũng tự cân trước và sau các buổi: khối lượng mất đi (đa phần là mồ hôi) là con số nước cá nhân nhất từng tồn tại.",
+          "Uống quá nhiều là một rủi ro thật, không phải chỉ trên lý thuyết: ép vài lít vượt cảm giác khát có thể pha loãng natri máu (hạ natri máu gắn tập luyện), thứ đã gây tổn thương thật cho các người về đích marathon chậm mà uống tại mọi trạm. Nhiều hơn không phải tốt hơn; khớp với lượng mất mới là mục tiêu.",
+          "Bất kỳ ai bị suy tim, bệnh thận hay bệnh gan thường bị đặt vào chế độ hạn chế dịch, và một số thuốc ảnh hưởng cân bằng dịch. Nếu bạn đã được bảo hạn chế dịch, con số của bác sĩ ghi đè máy tính này — không công thức chung nào tính nổi một ràng buộc y tế.",
+        ],
       },
     ],
   },
@@ -6063,6 +8517,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có. Cự ly riêng nhận cả hai đơn vị, và kết quả luôn hiện theo cả hai kiểu: pace mỗi km và mỗi dặm, tốc độ km/h và mph. Phép chuyển dùng dặm quốc tế chính xác 1,609344 km.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Số học của pace — và 1.06 của Riegel",
+        paragraphs: [
+          "Bản thân pace là phép chia đơn giản: thời gian trên khoảng cách, hiển thị mỗi kilômét và mỗi dặm từ cùng đầu vào, với các phép đổi tính chính xác (một dặm quốc tế = 1,609344 km). Một 10K 45:00 là 4:30/km và 7:14/dặm — không trò làm tròn, không số học trong đầu trên đường chạy.",
+          "Bộ dự đoán thi đấu là nửa thú vị. Peter Riegel, một kỹ sư nghiên cứu, công bố T₂ = T₁ × (D₂/D₁)^1.06 trên Runner's World năm 1977 sau khi phân tích hàng trăm kết quả thi được ghi lại. Số mũ 1.06 nắm lấy sự phai của pace theo khoảng cách: nhân đôi khoảng cách thi mất cỡ 9% lâu hơn gấp đôi thời gian gợi ý.",
+          "Số mũ ấy là một trung bình quần thể khớp với các người về đích thật, không phải sinh lý. Nó giả định huấn luyện đàng hoàng cho khoảng cách đích — nó ngoại suy những gì các runner được huấn luyện đã làm, và nó sẽ hân hoan ngoại suy ngôn vô nghĩa cho một người chưa bao giờ chạy dài.",
+        ],
+      },
+      {
+        heading: "Diễn giải các dự đoán",
+        paragraphs: [
+          "Các dự đoán thoái hóa theo khoảng cách so với giải bạn nhập. Chiếu một 10K từ nửa marathon thường gần; chiếu một marathon từ 5K là một giấc mộng trừ khi các buổi chạy dài tồn tại trong huấn luyện. Khoảng cách càng xa, phép chiếu càng giả định nhiều về nền sức bền của bạn.",
+          "Hãy dùng các dự đoán cho kế hoạch pace thay vì lời hứa: một nửa marathon dưới 2:00 cần cỡ 5:41/km, và thấy điều đó ngầm định gì cho một full marathon cho biết mục tiêu có thực tế trong mùa này hay cần thêm một chu kỳ huấn luyện.",
+          "Một phép kiểm thực dụng: nếu bạn gần đây đã thi hai khoảng cách, bạn có thể kiểm chứng công thức với chính mình — khi tỷ số của bạn lệch khỏi 1.06, điểm mạnh hay điểm yếu của bạn ở khoảng cách ấy đang lộ, và đó là thông tin huấn luyện hữu ích.",
+        ],
+      },
+      {
+        heading: "Chỗ dữ liệu đời thật nói dối",
+        paragraphs: [
+          "Đồng hồ GPS tích trục trôi: tán cây, các tòa cao và những khúc cua gắt có thể bóp méo một lộ trình được ghi một phần trăm hay hơn, đủ dịch pace hiển thị vài giây mỗi ki-lômét. Máy chạy bộ còn tệ hơn — đa số lạc quan trừ khi hiệu chuẩn, và ngay cả đã hiệu chuẩn chúng vẫn khác chạy ngoài trời về cơ sinh học.",
+          "Các lộ trình thi tự chúng cũng khác nhau: hồ sơ độ cao, khúc cua, thời tiết và chen chúc tại vạch xuất phát đều di chuyển thời gian về đích vài phút. So một 10K đường đồi với một 10K đường phẳng như thể chúng là cùng con số sẽ đầu độc mọi dự đoán.",
+          "Vậy quy trình là: nhập kết quả thi, không phải buổi tập; ưu tiên lộ trình phẳng, được chứng nhận; và coi kết quả gần nhất làm điểm neo. Trang này chạy hoàn toàn trong trình duyệt của bạn — các thời gian của bạn không bao giờ rời thiết bị.",
+        ],
+      },
+    ],
   },
   "one-rep-max-calculator": {
     name: "Máy tính 1RM",
@@ -6091,6 +8571,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Vì ở đó công thức hết nghĩa. Qua khoảng 12 lần, kết quả bị sức bền cục bộ chi phối hơn là sức mạnh, và mẫu số của Brzycki (37 − reps) sụp về không. Bộ nhiều lần đo thể trạng; muốn ước mức tối đa từ chúng thì dùng công thức thiết kế cho bài bền.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Epley với Brzycki: hai công thức, một cái kẹp",
+        paragraphs: [
+          "Cả hai công thức ước lượng khối lượng bạn có thể nâng đúng một lần từ một set bạn thực sự đã hoàn thành. Epley, công bố 1985, tính w × (1 + reps/30); Brzycki, từ 1993, tính w × 36/(37 − reps). Hai cái khớp chặt tới cỡ 10 reps rồi chia đường — Epley chạy hơi lạc quan ở số rep cao, Brzycky hơi bảo thủ.",
+          "Sự chia đường ấy là lý do máy tính này hiện cả hai thay vì chọn một kẻ thắng. Khi hai ước lượng đáp trong vài ki-lô-gam, bạn có một con số đáng tin; khi chúng dang ra, set của bạn nằm ở vùng mà dự báo dưới-tối-đa run rẩy và một set thử nặng hơn, ngắn hơn sẽ làm sắc ước lượng.",
+          "Độ chính xác tốt nhất từ các set cỡ 1–6 reps sạch. Quá một chục, cú nâng thành một phép thử sức bền cục bộ thay vì sức mạnh, và không công thức sức mạnh nào cứu nổi — đó là lý do đầu vào chặn ở 20 reps.",
+        ],
+      },
+      {
+        heading: "Dùng bảng phần trăm",
+        paragraphs: [
+          "Bảng huấn luyện đảo phương trình của Epley: mức tối đa bạn nâng nổi cho n reps là cỡ 1RM × 30/(30 + n). Mười reps ra 75% 1RM, năm ra cỡ 86%, ba ra cỡ 91%. Các huấn luyện viên sức mạnh lập kế hoạch từ đúng các phần trăm này — các khối sức nặng cỡ 85–95% cho rep thấp, công việc phì đại cỡ 65–80% cho 6–12 reps, sức bền cao hơn nữa.",
+          "Các phần trăm là phần chuyển giao được của ước lượng: một khi bạn biết 1RM của mình, bạn không bao giờ cần thử lại để đặt các khối lượng huấn luyện. Hãy đổi chương trình, không đổi max — và chỉ tính lại bản thân max mỗi vài tháng khi các số huấn luyện của bạn trôi lên.",
+          "Biết rằng hiệu suất thật trôi theo từng bài: squat chịu nhiều reps hơn ở cùng một phần trăm so với các cú đẩy hay deadlift, vì phản xạ giãn và thời gian setup khác nhau. Hãy coi bảng là một liều khởi đầu và chỉnh theo các rep cuối thực sự cảm thấy thế nào.",
+        ],
+      },
+      {
+        heading: "Vì sao bạn không nên thử một 1RM thật",
+        paragraphs: [
+          "Một max ước lượng tồn tại chính xác để bạn không bao giờ phải thử cái thật. Một lần thử 1RM thật đòi người hỗ trợ, kỹ thuật tươi dưới tải tối đa và một lần khởi động được tiến đúng; rủi ro chấn thương là thật, và thông tin kiếm được so với một set 3 rep thực hiện tốt là cận biên.",
+          "Ước lượng mất ít: một set nặng 3–5 reps dự báo 1RM trong vài phần trăm của một lần thật cho đa số người tập có huấn luyện. Các vận động viên thi đấu đang tới đỉnh cho một giải là ngoại lệ, và họ làm việc cùng huấn luyện viên cùng các thiết lập an toàn đàng hoàng.",
+          "Một cái bẫy nữa: nhập các rep ẩu. Các công thức giả định các lần lặp sạch, đủ biên độ — nặn rep cuối bằng form xấu phình ước lượng. Cũng nhớ max là theo-từng-bài: một squat 1RM chẳng nói gì về bench của bạn.",
+        ],
+      },
+    ],
   },
   "sleep-calculator": {
     name: "Máy tính giấc ngủ",
@@ -6117,6 +8623,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Tôi cần bao nhiêu chu kỳ?",
         a: "Phần lớn người lớn ổn với 5 chu kỳ (7,5 giờ) và nhiều người cần 6 (9 giờ); 4 chu kỳ (6 giờ) cho một số người đỡ ngắn hạn nhưng hiếm khi về lâu. Thói quen đều đặn quan trọng như tổng số — cùng 6 chu kỳ mà giờ ngủ thất thường làm bạn tệ hơn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Lý thuyết chu kỳ 90 phút vững đến đâu, thật ra",
+        paragraphs: [
+          "Giấc ngủ xen kẽ giữa ngủ nhẹ, ngủ sâu và REM, và kiến trúc rộng ấy là một phát hiện chắc chắn của nghiên cứu giấc ngủ — đa ký giấc ngủ (PSG) có thể quan sát trực tiếp các chữ ký điện của từng giai đoạn. Rằng một đêm chứa vài chu kỳ như vậy, lặp theo trình tự, cũng không ai tranh cãi.",
+          "Điều bị tranh cãi là con số tròn “90 phút”. Nó đến từ các trung bình quần thể trong các nghiên cứu lab cũ, nhưng các phép đo sau đặt độ dài chu kỳ vào bất kỳ đâu cỡ 80 đến 110 phút, và các chu kỳ của cùng một người biến động trong một đêm: nửa đầu nặng về ngủ sâu với các chu kỳ dài hơn, nửa sau dịch về REM và một cấu trúc khác. Đặt báo thức lên một biên được tính chỉ nghiêng xác suất về giấc ngủ nhẹ hơn — nó không phải một công tắc sinh học chính xác.",
+          "Vậy hãy coi công cụ này là một trợ giúp lập kế hoạch, không phải lời khuyên y khoa: căn giờ dậy với biên mà mô hình trung bình sinh ra, quan sát cảm giác buổi sáng trong một hai tuần, rồi nhích giờ ngủ 15 phút để tìm nhịp của riêng bạn. Mất ngủ kéo dài, giật mình giữa đêm thường xuyên hay buồn ngủ ban ngày nghiêm trọng là các triệu chứng cho bác sĩ đánh giá, không phải thứ để giải bằng cách đặt báo thức.",
+        ],
+      },
+      {
+        heading: "Ngân sách 15 phút nhập giấc và đọc kết quả",
+        paragraphs: [
+          "Cột giờ ngủ đầu mang nhiều hơn 15 phút so với trừ N chu kỳ sẽ cho: một bộ đệm nhập giấc. Chu kỳ đầu chỉ bắt đầu khi bạn thực sự ngủ được, và đa số mất 10–20 phút sau khi nằm xuống. Công cụ dùng 15 làm giá trị giữa; hãy hiệu chuẩn theo trải nghiệm của bạn — nếu bạn ngủ gục được trong lúc lướt điện thoại, trừ 10; nếu đầu óc quay cuồng trên giường, cộng vài phút.",
+          "Ở chế độ ngược, các kết quả được sắp theo “giờ ngủ + 15 phút + các chu kỳ trọn”, nên nằm xuống lúc 23:30 khiến 01:15 là ứng viên đầu tiên. Cách đọc sai phổ biến là coi những thời điểm ấy như một bảo đảm bạn sẽ tỉnh; chúng là các điểm nơi thức dậy sẽ nhẹ nhất nếu một chu kỳ hoàn tất. Trên thực tế, đặt một báo thức muộn hơn một chút làm lớp chặn và để thức dậy tự nhiên gần một biên.",
+          "Cả hai chế độ liệt kê xuống 3 chu kỳ (4,5 giờ), và việc xuất hiện trong danh sách không phải một khuyến nghị. Dưới 4 chu kỳ là thiếu ngủ cấp tính, với phán đoán và thời gian phản ứng thoái hóa rõ rệt; hàng ấy tồn tại để một chuyến bay đêm hay một cú thức trắng mang theo một cái giá trung thực.",
+        ],
+      },
+      {
+        heading: "Báo thức theo chu kỳ không trả nổi nợ ngủ",
+        paragraphs: [
+          "Căn chu kỳ cải thiện cảm giác của khoảnh khắc thức dậy; nó chẳng làm gì với tổng số giờ. Khoản nợ tích bởi các tuần đêm 5 tiếng không được trả bằng việc ngủ bù cuối tuần. Tính đều đặn của lịch — một giờ dậy cố định trên hết — đóng góp nhiều hơn cho năng lượng hằng ngày so với căn chu kỳ từng đêm, một điểm mà văn chương y học giấc ngủ nhắc đi nhắc lại.",
+          "So với các thiết bị đeo và nệm thông minh, công cụ này chẳng thu thập dữ liệu nào. Theo dõi giai đoạn ngủ tiêu dùng vốn không chính xác lắm để bắt đầu, và mọi thứ ở đây tính cục bộ trong trình duyệt của bạn — không thời gian nào được gửi hay lưu. Nó làm tốt vai trò điểm khởi đầu miễn phí; các người đam mê muốn đo độ dài chu kỳ thật có thể cân nhắc một thiết bị sau đó.",
+        ],
       },
     ],
   },
@@ -6148,6 +8679,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Số học ngày theo giờ địa phương có thể trôi một ngày quanh các lượt chuyển giờ mùa hè — khoảng thời gian vượt qua lượt đổi tháng Mười Một hay tháng Ba có thể ra thiếu hoặc thừa một ngày ở vài trình duyệt. Đếm theo ngày UTC trọn vẹn né hẳn vấn đề: từ thứ Sáu sang thứ Hai là 2 ngày làm ở bất cứ đâu trên trái đất.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Thứ gì được tính là “ngày làm việc” — và thứ gì không",
+        paragraphs: [
+          "Câu trả lời trung thực là ngày làm việc là một quy ước, và các quy ước khác nhau. Công cụ này đếm thứ Hai đến thứ Sáu (hay thứ Sáu đến thứ Bảy nếu bạn đổi cài cuối tuần) và chẳng gì khác theo mặc định: nó không mang theo lịch ngày nghỉ lễ dựng sẵn nào, vì ngày nghỉ do quốc gia, do vùng và thỉnh thoảng theo năm quy định theo cách không danh sách tĩnh nào khớp hết. Thay vào đó bạn dán các dòng ngày nghỉ của riêng mình, nên phép đếm đúng là cái công ty hay hợp đồng của bạn muốn.",
+          "Hai quyết định đổi một phép đếm kịch dữ và đáng kiểm mỗi lần. Thứ nhất, các điểm đầu-cuối: phép đếm này gồm cả hai ngày, nên thứ Hai đến thứ Sáu trong một tuần là 5, không phải 3 — vài hệ thống đếm khoảng hở nghiêm ngặt ở giữa và sẽ trả 3. Thứ hai, ngày bắt đầu có bị tiêu trong chế độ cộng/trừ không: ở đây thì không, nên thứ Sáu cộng một ngày làm là thứ Hai.",
+          "Nếu hợp đồng hay SLA của bạn nói “ngày làm việc” mà không định nghĩa, quy ước thường là các ngày làm việc địa phương của khu vực pháp lý quản lý — thứ có thể có các ngày cuối tuần khác Sat/Sun và các ngày nghỉ công cụ này chưa từng nghe đến. Quy trình an toàn: dán danh sách ngày nghỉ của khu vực ấy, đếm ở đây, và ghi ngày lịch kết quả thành văn bản.",
+        ],
+      },
+      {
+        heading: "Phép đếm thực sự được tính thế nào",
+        paragraphs: [
+          "Chế độ giữa đi bộ lịch thật từng ngày một, đánh dấu mỗi ngày là ngày làm hay không theo định nghĩa cuối tuần của bạn và các dòng ngày nghỉ của bạn. Vì nó đi các ngày thật, câu trả lời luôn khớp thứ bạn nhận được bằng cách chỉ vào một cuốn lịch — và các dòng ngày nghỉ được khớp theo ngày chính xác, nên một ngày nghỉ rơi vào thứ Bảy không bỏ đi gì thêm, vì ngày đó đã bị quy tắc cuối tuần loại trước.",
+          "Chế độ cộng/trừ bước tới hay lui một ngày làm mỗi lần, bỏ qua các ngày không làm mà không tiêu chúng. Đó là lý do thứ Bảy cộng một ngày làm đáp vào thứ Hai chứ không phải chủ nhật: các ngày nghỉ được đi ngang qua, không được đếm. Các truy vấn lặp rẻ — phép số học là một vòng lặp thô trên các số ngày UTC.",
+          "Mọi thứ chạy trên các số ngày UTC, thứ miễn nhiễm với các lần chuyển giờ mùa hè. Số học ngày theo giờ địa phương quanh các lần đổi tháng Ba hay tháng Mười Một có thể trôi một ngày trong vài môi trường; đếm nguyên ngày UTC cho cùng câu trả lời thứ-Hai-sau-thứ-Sáu-là-2 ở mọi nơi trên Trái Đất, mọi mùa.",
+        ],
+      },
+      {
+        heading: "Công cụ này vừa vào đâu, và riêng tư",
+        paragraphs: [
+          "Những người dùng điển hình: các thời hạn báo trước hợp đồng, thời gian dẫn cho build và vận chuyển, cửa sổ phản hồi SLA, các hạn chốt bảng lương và hàng đợi hẹn visa. Với bất cứ thứ gì lặp lại, hãy lưu danh sách ngày nghỉ một lần và dùng lại cả năm — dán mười hay mười lăm ngày tốn vài giây và biến một phỏng đoán thành một con số có thể bảo vệ.",
+          "So với các hàm ngày-làm-việc của bảng tính, khác biệt là tính minh bạch và kiểm soát: bảng tính che ngày nào bị bỏ qua và vì sao, và nhiều nơi đòi nạp một bảng ngày nghỉ từ sheet khác. Ở đây các đầu vào — định nghĩa cuối tuần và các dòng ngày nghỉ — hiện trên trang, và ngày đáp cùng thứ trong tuần cho thấy phép đếm dừng đúng ở đâu.",
+          "Không dữ liệu ngày nghỉ nào được tải về và không ngày nào được upload: việc đếm chạy trong trình duyệt của bạn và chạy offline. Các mốc thời gian hợp đồng và ngày phân ca vốn nhạy cảm nghiệp vụ, thêm một lý do nữa để phép tính không bao giờ rời thiết bị của bạn.",
+        ],
+      },
+    ],
   },
   "cooking-conversion": {
     name: "Máy chuyển đổi nấu ăn",
@@ -6175,6 +8732,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Vì sao 350 °F đổi thành 175 °C mà không phải 176,7 °C?",
         a: "Phép đổi đúng là (350 − 32) × 5/9 = 176,7 °C, nhưng lò được khắc theo bậc 5–10 độ và người viết công thức làm tròn về mức quen thuộc gần nhất, nên 175 °C mới là cặp chuẩn. Bảng hiện các cặp quy ước đó; nhiệt thật của núm lò vốn dĩ chỉ là xấp xỉ.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao một cup không phải một con số",
+        paragraphs: [
+          "Thể tích đo không gian; trọng lượng đo vật chất, và cây cầu giữa chúng là khối lượng riêng — thứ dao động khủng khiếp giữa các nguyên liệu. Một cup mật ong (340 g) nặng gần gấp ba một cup yến mạch cán (90 g), mà cả hai lấp cùng 240 ml. Bất kỳ bộ chuyển đổi nào đưa một hệ số “cups sang gam” duy nhất là đang âm thầm giả định một khối lượng riêng cho mọi thứ — chính là giả định hủy hoại làm bánh.",
+          "Công cụ này giữ một bảng theo từng nguyên liệu thay vào. Bột mì nằm ở 120 g mỗi cup — con số muỗng-múc-và-gạt phẳng mà King Arthur và đa số bếp thử Mỹ dùng — trong khi đường (200), bơ (227) và mật ong (340) mang các giá trị công bố riêng. Sự phân biệt có ý nghĩa nhất với bột vì nó nén được: cùng một cup vật lý có thể nặng 110 g khi xới xốp hay 150 g khi múc thẳng từ bao.",
+          "Kết luận thực dụng: hãy coi các output gam như các trung bình có nguồn tốt, không phải các hằng số lab. Các thợ bánh chuyên nghiệp đổi công thức sang gam một lần rồi cân mọi thứ vĩnh viễn — một cân bếp bếp xóa ±15% biến động múc mà không máy tính nào nhìn thấy. Hãy dùng công cụ này cho phép đổi đầu tiên, và để dịch các công thức theo thể tích sang thói quen cân.",
+        ],
+      },
+      {
+        heading: "Kích thước cup khắp thế giới",
+        paragraphs: [
+          "Từ “cup” không được chuẩn hóa toàn cầu, và khác biệt lớn đến nỗi nếm được. Công cụ này dùng cup nấu ăn theo quán lệ Mỹ 240 ml, quy ước đứng sau các công thức Mỹ và nhãn dinh dưỡng — dựng từ 16 muỗng canh 15 ml hay 48 muỗng cà phê 5 ml. Các công thức Úc cũng dùng cup 250 ml, nên ngay cả các nguồn tiếng Anh cũng bất đồng.",
+          "Nếu công thức của bạn được viết cho các cốc đo metric (250 ml, phổ biến ở châu Âu, Nhật và phần lớn Mỹ Latin), mọi con số thể tích ở đây chạy nhỏ hơn cốc của bạn cỡ 4%. Cup imperial Anh (284 ml) chạy hướng ngược lại. Các nguyên liệu cân-theo-trọng như bột dịch vài gram mỗi cup; với chất lỏng lỗi tỉ lệ thuận và hiếm khi quan trọng. Bản vá an toàn là đổi một lần sang gam, rồi làm việc theo trọng lượng.",
+          "Muỗng canh giấu một cái bẫy thứ hai: muỗng canh Mỹ là 15 ml, Úc là 20 ml, và các công thức Anh cũ có thể giả định 17,7 ml. Nhỏ tính mỗi muỗng, nhưng một công thức với sáu muỗng canh dầu trôi thấy rõ. Khi một công thức nói “muỗng canh” mà không kèm quốc gia, hãy giả định 15 ml trừ khi nguồn là Úc.",
+        ],
+      },
+      {
+        heading: "Nhiệt độ lò và thực thi cục bộ",
+        paragraphs: [
+          "Bảng °F↔°C áp công thức chính xác °C = (°F − 32) × 5⁄9, nhưng làm tròn về các mức mà lò thực sự có: 350 °F thành 175 °C thay vì 176,7 °C đen tối đúng nghĩa, vì các núm bước theo bậc 5–10 độ và mọi người viết công thức đều làm tròn về vạch quen gần nhất. Các cặp chuẩn khác theo cùng logic — 300 °F ≈ 150 °C, 400 °F ≈ 200 °C, 425 °F ≈ 220 °C.",
+          "Nhớ rằng vạch trên núm tự nó là một xấp xỉ: các lò gia dụng thường xuyên trôi 10–25 độ khỏi điểm cài, đó là lý do các công thức nghiêm túc khuyên một nhiệt kế lò độc lập trước khi đổ lỗi cho phép đổi. Bảng giải bài toán đơn vị; nó không sửa nổi một cái lò lệch hiệu chuẩn.",
+          "Mọi thứ ở đây — bảng khối lượng riêng, phép toán đơn vị, công thức nhiệt độ — chạy hoàn toàn trong trình duyệt của bạn. Không danh sách nguyên liệu, không số lượng và không lượt tìm kiếm nào được gửi đi đâu, đó là lý do công cụ tức thì mà không spinner nào. Nó còn chạy offline khi đã tải, tiện cho những chiếc điện thoại dựa vào quầy phủ bột.",
+        ],
       },
     ],
   },
@@ -6206,6 +8789,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Có gì được gửi lên máy chủ không?",
         a: "Không. SVG được dựng từ một mẫu chuỗi trong trình duyệt của bạn và các bản raster vẽ trên canvas cục bộ. Không có gì rời trang: chạy cả khi ngoại tuyến và an toàn cho thiết kế chưa phát hành.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "SVG làm định dạng nguồn: văn bản mà phóng được",
+        paragraphs: [
+          "Một placeholder không cần một file raster — nó cần một hình chữ nhật với một nhãn. Diễn đạt nó thành SVG nghĩa là output là vài dòng markup đọc được: một rect, một phần tử text, có khi một thuộc tính fill. Chính văn bản ấy là lý do SVG sao chép sạch vào HTML, JSX, Figma hay một README, và lý do nó sửa lại được sau — đổi nhãn hay màu hex trong markup và ảnh cập nhật. Một PNG của cùng thứ ấy là các pixel đóng băng chẳng ai chỉnh nổi mà không phải sinh lại.",
+          "SVG còn phóng được: cùng file 1 KB render sắc ở 64×64 trong ô avatar và ở 1200×630 trong một hero mockup, vì một bản vẽ vector không có độ phân giải. Các placeholder raster hoặc nhìn mờ khi kéo giãn hoặc lãng phí byte khi quá khổ. Với wireframe và tài liệu — môi trường sống chính của placeholder — con đường vector thường tốt hơn tuyệt đối.",
+          "Hai định dạng raster giành chỗ của chúng trong các ngách cụ thể. PNG hợp với các nền tảng làm sạch hay phá SVG inline (vài CMS, mail client và app chat cắt hay làm gãy nó), còn JPG thắng khi placeholder bắt chước một bức ảnh vì nén JPEG xử lý gradient và nhiễu tốt hơn cách bảng màu của PNG. Cùng bản xem trước, ba định dạng giao — sự lựa chọn thuộc về nền tảng đích, không phải thị hiếu.",
+        ],
+      },
+      {
+        heading: "Các kích thước có ý nghĩa trong bố cục thật",
+        paragraphs: [
+          "Vài kích thước lặp lại vì các nền tảng ghim chúng. Hình chữ nhật 1200×630 là kích thước chuẩn tắc của thẻ open-graph / xem-trước-mạng-xã-hội — tỷ lệ đa số nền tảng cắt các bản xem trước link vào. 256×256 và các luỹ thừa của hai tương tự khớp các ô avatar và biểu tượng. Các hình chữ nhật 16:9 (1280×720) thẳng hàng với video nhúng. Chọn placeholder với tỷ lệ khung của tài sản cuối nghĩa là mockup không bao giờ dịch khi ảnh thật đến, vì reflow bố cục chính là bug đắt mà những ảnh này tồn tại để ngăn.",
+          "Trần 1–5000 pixel không phải tùy hứng. Dưới 1 pixel một ảnh không thể render có ý nghĩa; trên vài nghìn, các trình duyệt và công cụ thiết kế bắt đầu nghẹn trên các cấp phát canvas — một PNG 5000×5000 ở chất lượng đầy đủ đã là hàng chục megabyte dữ liệu pixel thô trước cả nén. Các bộ sinh placeholder hiếm khi cần hơn, và từ chối các kích thước cực đoan với một thông báo rõ thắng việc sinh một file không mở nổi ở đâu cả.",
+          "Một thói quen đáng nhận: giữ văn bản nhãn bên trong ảnh nhưng giữ kích thước thật trong markup xung quanh. Một thẻ img với các thuộc tính width và height tường minh cộng một placeholder cùng tỷ lệ cho bạn một hộp bố cục ổn ngay bây giờ và một bản thay thế thả-vào sau — không phẫu thuật CSS khi tài sản thật đáp xuống.",
+        ],
+      },
+      {
+        heading: "Vì sao việc sinh ở lại trên máy của bạn",
+        paragraphs: [
+          "Các placeholder xuất hiện sớm nhất trong đời một dự án — wireframe của các sản phẩm chưa phát hành, mockup của các tính năng dưới NDA, các dashboard nội bộ chẳng ai ngoài công ty nên thấy. Điều đó khiến quy trình bộ-sinh-trực-tuyến quen thuộc khó chịu: gõ kích thước của bạn vào một dịch vụ và yêu cầu (thường gồm cả một nhãn lộ-dự-án) chạm máy chủ của người khác và có thể bị ghi log. Công cụ này dựng SVG từ một template chuỗi và vẽ các bản raster trên một canvas cục bộ — không yêu cầu mạng nào mang thiết kế của bạn tại bất kỳ thời điểm nào.",
+          "Sinh cục bộ còn xóa nền kinh tế tài-khoản-và-watermark bao quanh nhiều dịch vụ placeholder: không đăng ký, không giới hạn tần suất hằng ngày, không thương hiệu nướng vào góc mockup của bạn. File bạn tải về đúng là file bạn chỉ định, và markup SVG bạn sao chép là của bạn để sửa.",
+          "Nó còn chạy offline khi trang đã tải, điều có ý nghĩa hơn nghe: các nhà thiết kế và lập trình viên thường làm việc trên đường đi hay trên các mạng hạn chế, và một công cụ chết khi mất kết nối vô dụng đúng trong các tình huống cần một placeholder nhanh. Sinh, tải về, đóng tab — chẳng có gì từng được truyền đi.",
+        ],
       },
     ],
   },
@@ -6240,6 +8849,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "FLSA tính tăng ca trên «mức lương bình thường», vốn có thể gồm nhiều hơn lương cơ bản — ví dụ phụ cấp ca và thưởng không tùy ý. Máy tính này chỉ dùng mức lương cơ bản, nên nếu bạn nhận các khoản đó thì mức tăng ca theo luật của bạn có thể cao hơn con số hiển thị ở đây.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Hệ số 1,5× từ đâu đến — và nó biến đổi ở đâu",
+        paragraphs: [
+          "Quy ước time-and-a-half được luật hóa rõ nhất trong Fair Labor Standards Act của Mỹ, thứ đòi ít nhất 1,5 lần mức lương thường cho nhân viên không-miễn-trừ vượt 40 giờ trong một tuần làm việc. Nhiều quốc gia khác quy định làm thêm khác đi — vài nơi đặt một trần tổng trên số giờ tuần với các phần thưởng được đàm phán theo ngành hay hợp đồng, nơi khác chủ yếu dựa vào thỏa thuận giữa người sử dụng và người lao động.",
+          "Đó là lý do máy tính này cho bạn chọn hệ số thay vì đóng cứng một cái: 1,5× là mặc định phổ thông, nhưng double time tồn tại ở vài bang Mỹ cho ngày nghỉ lễ hay các ca ngày dài, và các thỏa ước tập thể ở nơi khác đặt phần thưởng từ 1,25× trở lên tùy. Hãy coi output của máy tính như một mô hình các điều khoản hợp đồng của bạn, không phải một tuyên bố về điều luật nào bảo đảm.",
+          "Cách đọc bảo thủ: kiểm những gì hợp đồng lao động, thỏa ước ngành hay cơ quan lao động địa phương của bạn thực sự nói về các giờ vượt tuần làm việc chuẩn, rồi nhập hệ số và ngưỡng khớp. Phép toán tự thân — mức × hệ số × giờ — không bao giờ đổi; chỉ các đầu vào đổi.",
+        ],
+      },
+      {
+        heading: "Cái bẫy mức-lương-thường: thứ gì tính là gốc của bạn",
+        paragraphs: [
+          "Lỗi phổ biến nhất khi ước lương làm thêm là dùng một gốc quá thấp. Theo các quy tắc kiểu FLSA, làm thêm được nợ trên “mức lương thường” — một trung bình trộn phải gồm đa số thưởng không-tùy-nghiệm, phụ cấp ca và hoa hồng, không chỉ lương nền. Một nhân viên có mức thường thật 27,00 nhưng tính làm thêm từ gốc 25,00 mất tiền trên mỗi giờ làm thêm.",
+          "Máy tính này cố ý dùng một mức gốc thẳng bạn nhập, giữ mô hình minh bạch: bạn thấy đúng mức × hệ số × giờ, chẳng thêm hay giấu gì. Nếu lương của bạn gồm các phần thêm mà pháp luật xếp vào mức thường, quyền lợi thật của bạn cao hơn phần hiển thị — hãy nhập một mức tự trung bình hóa để xấp xỉ.",
+          "Với nhân viên lương cứng, gốc phải được suy trước: lương năm chia số giờ thường mỗi tuần nhân số tuần mỗi năm — điều chế độ lương-cứng ở đây làm. Kết quả chỉ chính xác bằng lịch bạn nhập — một người lương cứng thực sự làm 45 giờ mỗi tuần có mức giờ suy thấp hơn, và một bức tranh làm thêm khác, so với lịch 40 giờ danh nghĩa.",
+        ],
+      },
+      {
+        heading: "Đọc phần tách và lập kế hoạch với nó",
+        paragraphs: [
+          "Phần tách theo tuần — lương thường với phần thưởng làm thêm — là con số đáng canh, không phải tổng. Dòng phần thưởng là thu nhập biên thuần: nó cho biết mỗi giờ thêm thực sự đáng giá bao nhiêu ở biên, và theo đối xứng, mỗi giờ làm thêm bị từ chối hay không trả tốn của bạn bao nhiêu. Một tuần năm giờ ở 1,5× trên mức 25,00 cộng 187,50 phần thưởng — nhìn thấy được, đàm phán được, đáng theo dõi.",
+          "Con số năm hóa nhân tổng tuần với số tuần mỗi năm bạn làm. Hãy đọc nó như một trần, không phải một lời hứa: làm thêm hiếm khi được bảo đảm mỗi tuần, nên một khoảng thực tế dùng các tuần làm thêm điển hình của bạn thay vì 52. Ngân sách từ một phép chiếu làm thêm cả năm là cách mọi người kết thúc thiếu tiền khi các giờ thêm cạn.",
+          "Mọi thứ chạy cục bộ trong trình duyệt của bạn và không gì được lưu hay gửi — tiện khi thử các con số trước một cuộc trò chuyện về lương. Hãy mang phần tách, không chỉ tổng: “tuần thường của tôi là 1.000,00 và năm giờ bạn bảo tôi thêm đáng 187,50 theo time and a half” là một lời đề rõ hơn bất kỳ con số trọn gói nào.",
+        ],
+      },
+    ],
   },
   "rent-affordability-calculator": {
     name: "Máy tính khả năng trả tiền thuê nhà",
@@ -6267,6 +8902,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Tỷ lệ nợ trên thu nhập ở đây nghĩa là gì?",
         a: "Là phần thu nhập bị mức tiền thuê tối đa cộng các khoản nợ và bảo hiểm đã khai chiếm dụng. Bên cho vay thường thích tổng DTI dưới khoảng 36%; trên khoảng 43% thì khó đủ điều kiện vay thế chấp. Số cao nghĩa là trần tiền thuê quá tham vọng so với nghĩa vụ khác của bạn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Quy tắc 30% từ đâu đến — và nó quên gì",
+        paragraphs: [
+          "Chuẩn 30% có một nguồn gốc lập pháp Mỹ: Sửa đổi Brooke năm 1969 ghim tiền thuê trong nhà ở công ở 25% thu nhập, và trần được nâng lên 30% năm 1981. Các cơ quan nhà ở vẫn dùng vạch 30% để định nghĩa một hộ gia đình “gánh-chiếu-phí”, và từ đó nó rỉ vào các lời khuyên thuê nhà chung. Biết nguồn gốc có ý nghĩa vì con số đó là một quy tắc trợ cấp, không phải một phát hiện về điều bất kỳ hộ nào thực sự chi trả nổi.",
+          "Quy tắc được thiết kế quanh các thu nhập gộp giữa thế kỷ hai mươi và cấu trúc hộ gia đình của thời ấy. Nó chẳng nói gì về phần còn lại của ngân sách: một người thuê có nợ học và trả xe ở 30% gộp căng hơn một người không nợ ở 35%. Nó còn bỏ qua dòng linh hoạt lớn nhất trong ngân sách — chẳng gì trong quy tắc tính childcare, đi lại hay chi phí y tế, các thứ dao động xa hơn tiền thuê nhiều.",
+          "Đó là lý do máy tính này đưa ba preset thay vì một sự thật duy nhất: 30% gộp cho cách đọc kinh điển, 33% cho một chút giãn, và 40% thực-thu cho các thành phố chi phí cao nơi 30% gộp có khi không định giá nổi căn hộ thật nào. Dù chọn preset nào, hãy trừ nợ và bảo hiểm sau — ngân sách còn lại mới là con số trả lời “tôi sống nổi với cái này không”, chứ không phải bản thân cái trần.",
+        ],
+      },
+      {
+        heading: "Gộp hay ròng: chọn một nền và giữ nhất quán",
+        paragraphs: [
+          "Quy tắc kinh điển được phát biểu theo thu nhập gộp, điều âm thầm tâng bốc nó: 30% gộp có thể là 38–40% thực thu sau thuế và khấu trừ lương, tùy quốc gia và bậc thuế của bạn. Lập kế hoạch từ thu nhập ròng cảm giác trung thực hơn vì phiếu lương mới là thứ thực sự đến — nhưng các tỷ lệ theo-ròng cần cao hơn để đáp cùng chỗ, nên 40% ròng là preset cho thành phố đắt đỏ.",
+          "Lỗi cần tránh là đổi nền giữa chừng phân tích. Một ngân sách thuê dựng trên 30% gộp, rồi mỗi tháng so với tiền về theo ròng, sinh ra một khoản thiếu ma vĩnh viễn trông như chi quá tay. Chọn một nền, ghi chú nó, và giữ mọi phép kiểm sau trên nền ấy — máy tính gắn nhãn gộp với ròng chính để cái trần và sao kê ngân hàng của bạn đang nói về cùng một đồng tiền.",
+          "Chủ nhà cộng thêm lớp rà soát riêng của họ: các bội thu nhập hai-phẩy-năm đến ba lần tiền thuê tháng là phổ biến, cùng kiểm tín dụng và người tham chiếu. Những màn rà ấy nói về rủi ro của họ, không phải ngân sách của bạn — vượt qua chúng ở một tỷ lệ thuê/trên-thu-nhập 45% vẫn là một ngân sách căng, và con số DTI ở đây làm điều đó nhìn thấy được trước khi bạn ký.",
+        ],
+      },
+      {
+        heading: "Nợ-trên-thu-nhập và đọc phần còn lại",
+        paragraphs: [
+          "Phần trăm nợ-trên-thu-nhập hiện ở mức thuê tối đa là cùng phép đo các bên cho vay dùng: tổng nghĩa vụ hàng tháng trên tổng thu nhập hàng tháng. Như một la bàn thô, tổng DTI cỡ 36% thường được coi là thoải mái, và leo về giữa bốn-mươi là nơi các lần duyệt vay thế chấp và thuê bắt đầu vật lộn — đây là các thông lệ ngành phổ biến, không phải các giới hạn pháp lý cố định, và các ngưỡng khác nhau theo quốc gia và bên cho vay.",
+          "Hãy đọc ngân sách còn lại trước cái trần. Hai nguồn thu nhập có thể cho cùng tỷ lệ thuê/trên-thu-nhập trong khi để lại số tiền rất khác nhau cho ăn, đi lại và tiết kiệm — thu nhập 4.500 với thuê 1.350 để lại gấp đôi so với thu nhập 2.600. Phần dư tuyệt đối là thứ hứng các chi phí ngoài kế hoạch; tỷ lệ chỉ chuẩn hóa.",
+          "Cuối cùng, dòng âm là một tính năng: khi thuê cộng nợ vượt thu nhập, công cụ nói vậy thay vì làm mượt. Đó là tín hiệu trung thực để thu nhỏ preset tỷ lệ, tìm thuê rẻ hơn hay trả nợ trước — máy tính chạy hoàn toàn trong trình duyệt của bạn và không lưu gì, nên các con số thu nhập thật an toàn để nhập.",
+        ],
       },
     ],
   },
@@ -6298,6 +8959,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Máy tính này dùng 365 kỳ mỗi năm, quy ước mà phần lớn tài khoản tiết kiệm cá nhân theo. Một số sản phẩm tài chính thay vào đó quy năm trên cơ sở 360 ngày, làm lệch nhẹ lãi hiệu quả — nếu dòng chữ nhỏ ghi 360, hãy coi kết quả là xấp xỉ gần đúng chứ không phải báo giá chính xác.",
       },
     ],
+    deepDive: [
+      {
+        heading: "APR, APY, và ai hưởng lợi từ sự lẫn lộn",
+        paragraphs: [
+          "APR là một mức năm danh nghĩa: thứ số dư sẽ kiếm được, hay nợ, nếu lãi được tính một lần mỗi năm. APY là kết quả năm hiệu dụng một khi ghép lãi được gộp vào. Đồng nhất thức nối chúng, APY = (1 + r/n)^n − 1, nói cùng một mức danh nghĩa cho hiệu suất hiệu dụng cao hơn khi ghép càng thường xuyên — khác biệt ấy chính là lãi mà lãi của bạn kiếm được.",
+          "Sự bất đối xứng trong quảng cáo theo incentive: tiết kiệm được báo theo APY vì đó là con số to hơn, các khoản vay theo APR vì đó là con số nhỏ hơn. Cả hai thông lệ không phải gian lận tự thân — cả hai đều được chuẩn hóa ở đa số thị trường — nhưng so trực tiếp một APY tiết kiệm với một APR khoản vay, hay hai mức với tần suất ghép khác nhau, là so các đơn vị khác nhau.",
+          "Quy tắc một dòng mà công cụ này tự động hóa: với tiền gửi, so APY với APY, thứ đã chuẩn hóa tần suất sẵn; với nợ, so APR với APR rồi kiểm mỗi hợp đồng thực tế vốn hóa bao lâu một lần. Chỉ các mức trên cùng một nền mới xếp được hai ưu đãi.",
+        ],
+      },
+      {
+        heading: "Chú thích 365-với-360, và các quy ước khác dịch chuyển con số",
+        paragraphs: [
+          "Công cụ này dùng 365 kỳ cho ghép hằng ngày, quy ước đa số tài khoản tiết kiệm tiêu dùng theo. Nhưng phần chữ nhỏ của các sản phẩm tài chính có hơn một cuốn lịch: vài sản phẩm năm hóa trên nền 360 ngày, và vài hợp đồng vay tính lãi trên số ngày thật trong năm. Mỗi quy ước dịch mức hiệu dụng một chút — nhỏ mỗi năm, có ý nghĩa qua đời của một số dư lớn.",
+          "Thời điểm thanh toán cũng dịch con số. Một khoản gửi kiếm lãi từ ngày nó đến lớn hơn hơi nhanh so với một khoản được ghi cuối kỳ; việc một khoản vay vốn hóa lãi theo tháng hay ngày đổi chi phí hiệu dụng của nó ngay cả cùng mức danh nghĩa. Khi hai báo giá lệch nhau vài phần trăm điểm, nguyên nhân gần như luôn là một quy ước thế này, không phải một lỗi số học của bên nào.",
+          "Đó cũng là lý do chiều ngược quan trọng: cho một APY được quảng cáo, công cụ này khôi phục APR danh nghĩa sẽ sinh ra nó, để bạn thấy mức thô đứng sau con số marketing và so các hợp đồng báo theo đơn vị khác nhau. Chuyến khứ hồi chính xác vì đó là cùng một phương trình giải theo cả hai chiều.",
+        ],
+      },
+      {
+        heading: "Phép chiếu cộng gì, và dừng ở đâu",
+        paragraphs: [
+          "Khoản gửi tùy chọn và thời hạn biến một so sánh mức suất thành một so sánh tiền: cùng một phần một điểm giữa hai APY là chuyện nhỏ với một quỹ khẩn cấp nhỏ và bốn chữ số qua một thập kỷ trên một khoản gửi lớn. Phép chiếu ghép lãi theo mức hiệu dụng, nên nó trả câu hỏi thực dụng — khác biệt này mua cho tôi gì trên thời hạn thật của tôi — thay vì nhắc lại các mức suất.",
+          "Điều nó KHÔNG làm là mô hình thuế và phí. Thu nhập lãi chịu thuế ở đa số khu vực pháp lý, và các phí tài khoản trừ thẳng vào số dư, nên APY sau-thuế-sau-phí bạn thực sự trải qua thấp hơn cái được báo. Hãy đổi các con số của bạn một cách bảo thủ và coi số dư chiếu là một trần, không phải một lời hứa.",
+          "Như phần còn lại của trang này, phép đổi và phép chiếu chạy cục bộ trong trình duyệt của bạn. Các mức suất bạn còn đang đàm phán và các kích thước gửi không bao giờ rời thiết bị — điều có ý nghĩa hơn nghe khi bạn đang giữa chừng so hai ngân hàng.",
+        ],
+      },
+    ],
   },
   "gpa-calculator": {
     name: "Máy tính GPA",
@@ -6325,6 +9012,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Sao hàng không có điểm chữ hay tín chỉ không đổi GPA của tôi?",
         a: "Một môn chỉ được tính khi có cả số tín chỉ lẫn điểm chữ — mọi thứ nhập dở bị loại thay vì tính như 0, để GPA phản ánh đúng các môn bạn thực sự hoàn thành. Hoàn tất hàng đó và các tổng số cập nhật ngay.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao thang 4.0 không dịch gọn được",
+        paragraphs: [
+          "Thang 4.0 là một quy ước tổ chức Mỹ, không phải một tiêu chuẩn quốc tế. Bảng phổ thông nhất cho A+ và A = 4.0, A− = 3.7, B+ = 3.3 và các bậc 0.3–0.33 xuống theo chữ, nhưng các trường khác nhau theo cách thật: vài nơi chặn A+ ở 4.0, nơi khác cho nó 4.3; vài nơi gán trọng số cho các khóa honors hay AP trên 4.0; ít nơi bỏ hẳn các điểm trừ. Vậy nên hai bảng điểm cùng đọc “3.7” có thể mô tả hai mức thể hiện hơi khác nhau.",
+          "Đổi sang hay từ một hệ phần trăm còn tệ hơn là mất dữ liệu — nó thường không thể đảo. Một điểm 85/100 Trung Quốc có thể ánh xạ thành A− trên một bảng đánh giá bằng cấp và thành B trên bảng khác; một điểm 2.0 của Đức không tương ứng tin cậy với bất kỳ chữ Mỹ nào. Các đánh giá chính thức (WES và các dịch vụ tương tự) chạy các công thức tài liệu riêng chính vì không tồn tại phép chuyển phổ quát.",
+          "Quy tắc thực dụng: cho việc theo dõi và lập kế hoạch của chính bạn, bất kỳ bảng nhất quán nào cũng chạy, và công cụ này dùng bảng lan rộng nhất. Cho các hồ sơ — tuyển sau đại học, học bổng, visa hay quy trình bằng cấp — bảng chính thức của trường và bản thân bảng điểm quyết định, nên luôn kiểm ứng tuyển mong thang nào trước khi trích một con số.",
+        ],
+      },
+      {
+        heading: "Trọng số tín chỉ và một học kỳ thực sự dịch được bao xa",
+        paragraphs: [
+          "GPA là một trung bình có trọng số tín chỉ, không phải trung bình điểm. Công thức Σ(điểm × tín chỉ) ÷ Σtín chỉ nghĩa là một A 4 tín chỉ đóng góp 12 điểm chất lượng trong khi một B+ 3 tín chỉ đóng góp 9.9 — nên các khóa nhiều tín chỉ nhất lái GPA của bạn nhiều nhất. Khi lập kế hoạch học kỳ, đẩy khóa nhiều tín chỉ từ B lên A− thường thắng việc hoàn thiện một seminar 1 tín chỉ.",
+          "Sự trộn tích lũy làm việc cùng kiểu một bậc lên trên: (GPA học kỳ × tín chỉ học kỳ + GPA trước × tín chỉ trước) ÷ tổng tín chỉ. Phép toán giải thích một sự bức xúc mọi kẻ nở hoa muộn chạm phải — với 60 tín chỉ 3.00 phía sau, một học kỳ 3.60 rực rỡ trên 7 tín chỉ chỉ nâng tích lũy lên cỡ 3.06. Các học kỳ đầu di chuyển con số nhiều; các cái sau khó budge hơn.",
+          "Cùng phép toán ấy là lý do một học kỳ nhẹ hầu như không làm trầy hồ sơ, và lý do bỏ một khóa 3 tín chỉ giữa học kỳ có hiệu ứng lớn hơn trực giác — việc gỡ các tín chỉ ấy đổi cả tử lẫn mẫu. Nếu bạn đang mô hình các kịch bản, hãy nhập các khóa đúng như chúng sẽ hiện sau lần bỏ, không phải như các số 0.",
+        ],
+      },
+      {
+        heading: "Các hàng dở dang, Pass/Fail và riêng tư",
+        paragraphs: [
+          "Một hàng chỉ được đếm khi cả tín chỉ lẫn điểm chữ được điền. Các khóa nhập nửa vời bị bỏ qua thay vì bị chấm 0 — chấm 0 sẽ lặng lẽ trừng phạt các khóa bạn chưa học, chính là cách đa số máy tính GPA ngây thơ sinh số sai. Các khóa Pass/Fail thuộc về ngoài công cụ này: đa số phòng đào tạo loại chúng khỏi GPA hoàn toàn.",
+          "Mọi thứ chạy trong trình duyệt của bạn. Các điểm và tên khóa không bao giờ rời thiết bị — không tài khoản, không vòng đi về máy chủ, không lịch sử lưu. Điều đó có ý nghĩa hơn nghe: các nháp GPA thường đi trước kết quả chính thức, và dán bảng điểm vào một form web lạ là một lần phơi không cần thiết. Tải lại trang và bảng về trống.",
+        ],
       },
     ],
   },
@@ -6356,6 +9068,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Đo buổi sáng, vừa tỉnh dậy và trước khi rời giường: đếm mạch 60 giây (hoặc 30 giây × 2), lặp lại vài ngày để làm mượt nhiễu. Con số nghỉ 7 ngày của thiết bị đeo cũng ổn. Người trưởng thành điển hình rơi vào khoảng 60–80 bpm; vận động viên bền bỉ luyện tốt thường ngồi ở vùng 40 hay 50. Nếu nhịp nghỉ của bạn cao hơn mức tối đa ước lượng — hoặc thuốc như beta-blocker ảnh hưởng nhịp tim — hãy nhập cả hai số thủ công.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Hai công thức cùng làm việc: Karvonen và HR tối đa",
+        paragraphs: [
+          "Phương pháp Karvonen định nghĩa cường độ là một phần trăm của dự trữ nhịp tim của bạn: bpm = HR nghỉ + % × (HR max − HR nghỉ). Co giãn theo dự trữ thay vì theo max chính là toàn bộ điểm — một runner có HR nghỉ 45 có một khoảng huấn luyện được lớn hơn nhiều so với một người 70, và các vùng theo dự trữ tôn trọng điều đó.",
+          "Nhịp tim tối đa ở đây được ước bằng 206.9 − 0.67 × tuổi, một hồi quy khớp với các max đo trong phòng lab bởi Gellish và cộng sự năm 2007. Quy tắc nổi tiếng 220 − tuổi truy về một bảng tiện-phiên-thỏa thập niên 1970 và hệ thống hóa việc ước quá cao HR max ở người lớn tuổi; các hồi quy hiện đại (trong đó có 208 − 0.7 × tuổi của Tanaka) khớp dữ liệu đo được tốt hơn hẳn.",
+          "Các vùng sau đó chia dự trữ tại các mốc cắt kinh điển — Z1 ở 50%, Z2 ở 60%, Z3 ở 70%, Z4 ở 80%, Z5 ở 90% — cho năm dải từ chạy phục hồi qua công việc ngưỡng đến các chu kỳ VO2-max.",
+        ],
+      },
+      {
+        heading: "Dùng từng vùng thế nào",
+        paragraphs: [
+          "Các vùng mô tả ý định sinh lý, không phải tốc độ. Z1–Z2 dựng nền khí dưỡng và nên cảm giác thật sự nhẹ — đa số runner giải trí tập quá nặng ở đây, đó là lý do các kế hoạch phân cực nhấn mạnh giữ trung thực ở các vùng dễ. Z3 quanh nỗ lực đều thoải mái; Z4 là công việc ngưỡng bạn duy trì nổi cỡ 20–60 phút; Z5 là các chu kỳ ngắn, nặng gần trần của bạn.",
+          "Kiểm các con số với một dây ngực hay một đồng hồ có HR quang trong các tuần đầu. Nếu nỗ lực cảm nhận nói Z3 trong khi dây nói Z2, hãy tin nỗ lực — giấc ngủ và stress sẽ giải thích khoảng hở — nhịp tim trôi theo mệt mỏi, nóng, độ cao và nước, từng ngày.",
+          "Biết max thật của mình từ một phép thử lab hay một cú về đích hết mình? Nhập nó bằng tay — một giá trị đo được luôn thắng một phương trình, vì các max cá nhân rải cỡ ±10 bpm quanh bất kỳ đường hồi quy nào.",
+        ],
+      },
+      {
+        heading: "Chỗ các ước lượng gãy",
+        paragraphs: [
+          "Beta-blocker và các thuốc giới hạn nhịp khác làm phẳng cả mô hình: chúng chặn nhịp tim thấp xa dưới thứ bất kỳ phương trình nào dự báo, nên huấn luyện theo vùng trên các thuốc này nên theo hướng dẫn của bác sĩ lâm sàng hay chuyên gia sinh lý, không phải một máy tính.",
+          "Hồi quy còn yếu hơn ở hai đầu cực — các vận động viên rất trẻ và người lớn quá bảy mươi nằm ngoài dữ liệu các phương trình được khớp. Và các cảm biến quang cổ tay trễ trên các chu kỳ; cho công việc Z4–Z5 một dây ngực đáng giá.",
+          "Cuối cùng, HR nghỉ cần được đo, không phải đoán: hãy lấy nó buổi sáng trước khi đứng dậy, qua vài ngày. Dùng một giá trị nghỉ phình nén mọi vùng xuống và lặng lẽ khiến các ngày dễ của bạn quá nặng.",
+        ],
+      },
+    ],
   },
   "shoe-size-converter": {
     name: "Máy chuyển đổi cỡ giày",
@@ -6378,6 +9116,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Đo bàn chân thế nào?",
         a: "Cuối ngày, đứng lên tờ giấy, tô viền cả hai bàn chân rồi đo từ gót tới ngón dài nhất bằng centimet. Lấy chân to hơn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao kích cỡ giày là một đống quy ước",
+        paragraphs: [
+          "Các con số kích cỡ giày là tùy hứng, và mỗi vùng phát minh thang riêng. Hệ Mỹ và Anh đánh số từ một thang dựa barleycorn — mỗi bước size trọn đáng cỡ một phần ba inch (khoảng 8,5 mm) — trong khi thang EU chia chiều dài bàn chân cho một số gốc với cách làm tròn riêng, còn Nhật dùng Mondopoint, đơn giản là chiều dài bàn chân theo centimet. Chẳng thang nào chia sẻ một số 0 chung, đó là lý do cùng một bàn chân vật lý có thể đọc 9 ở hệ này và 42 ở hệ khác.",
+          "Thang nam và nữ ở Mỹ và Anh lệch nhau — một size nữ Mỹ 8 tương ứng cỡ nam 6,5 — vì việc định size nữ theo lịch sử chạy một thang riêng cao hơn nam cỡ 1,5 size. Đó là lý do một bộ chuyển unisex cần bộ chọn giới tính: chuyển một size nữ qua thang nam mà không có offset sẽ đặt bạn lệch hai size, một trong những lỗi phổ biến nhất khi mua các kiểu unisex.",
+          "Neo vào chiều dài bàn chân theo centimet né phần lớn chuyện này: độ dài là sự thật vật lý, các con số size là nhãn. Nửa size đáng cỡ 4–5 mm độ dài, nên khi một bảng đặt bạn giữa hai size, centimet đo được cho biết bàn chân của bạn thực sự nằm bên nào của khoảng hở.",
+        ],
+      },
+      {
+        heading: "Dùng phép chuyển đổi một cách trung thực",
+        paragraphs: [
+          "Bàn chân phồng qua ngày — đứng, đi và nóng đẩy máu vào mô — nên một phép đo buổi sáng có thể đọc thấp hơn nửa size so với đôi giày bạn thực sự cần đến tối. Hãy đo cuối ngày, đứng với toàn bộ trọng lượng trên bàn chân, và đo hoặc vẽ cả hai bàn chân: bàn chân của đa số hơi khác nhau, và giày phải vừa chiếc lớn hơn.",
+          "Các thương hiệu dựng giày trên các last khác nhau — cái khuôn hình bàn chân mà giày được tạo hình quanh — và một last hẹp ở gót hay rộng ở mũi đổi độ vừa mà không đổi con số size in. Một size Mỹ 10 của hãng này vừa như 9.5 của hãng khác là bình thường, không phải lỗi bảng. Các nhà bán online công bố ghi chú size riêng của họ (“chạy nhỏ”, “lên nửa size”); những ghi chú ấy vượt mọi bảng phổ quát.",
+          "Khi size đã chuyển nằm giữa hai lựa chọn, hãy lấy cái lớn hơn cho giày kín — da giãn, tất chiếm chỗ, và một đôi hơi rộng chỉnh được hơn một đôi móp. Với dây, sandal và các kiểu hở, đi xuống size an toàn hơn. Hãy coi mọi phép chuyển ở đây là tâm của một khoảng, rồi để bảng riêng của thương hiệu thu hẹp nó.",
+        ],
+      },
+      {
+        heading: "Các hệ thống chi tiết và thực thi cục bộ",
+        paragraphs: [
+          "Mondopoint (phép đo chiều dài bàn chân tham chiếu ISO, dùng bởi Nhật và bởi các đôi ski toàn thế giới) là hệ hợp lý nhất: một số Nhật 25.0 nghĩa là bàn chân 25 cm, không offset và về nguyên tắc không chia giới tính. Thang EU lỏng nhất — nó được thi hành bởi thực hành thay vì một tiêu chuẩn chặt, và các nguồn Pháp/Đức lệch nhau một size tại vài điểm. Các bảng Mỹ và Anh chính xác nhưng chia giới tính, và Anh chạy đúng một size dưới nam Mỹ ở đa số điểm trên thang.",
+          "Định size trẻ em là một thế giới riêng — các quy ước chỗ-dành-cho-tăng-trưởng như một bề rộng ngón cái thêm là phổ biến, và các thang trẻ ở Mỹ và Anh khác các thang người lớn. Bộ chuyển đổi này phủ các bảng nam và nữ người lớn; các phép chuyển trẻ em cần một bảng trẻ em chuyên dụng.",
+          "Cả bảng chạy trong trình duyệt của bạn từ các bảng công bố tĩnh — không tài khoản, không upload phép đo, không gì được lưu. Mở lại bất cứ khi nào một bảng của thương hiệu khiến bạn bất ngờ; so các con số của nó với điểm neo chuẩn thường đủ để thấy thương hiệu chạy nhỏ hay bảng đơn giản dùng một cách làm tròn khác.",
+        ],
       },
     ],
   },
@@ -6404,6 +9168,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Không — như đồng hồ bấm giây thật, đặt lại hay tải lại xóa sạch phiên. Giữ tab mở để giữ các vòng.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao các bộ đếm giờ tích lỗi — và vì sao cái này không",
+        paragraphs: [
+          "Một đồng hồ bấm giờ dựng trên setInterval cộng một giây mỗi callback, và thiết kế ấy mang ba nguồn lỗi riêng biệt: callback nổ muộn khi luồng chính bận, các trình duyệt hạn chế tab nền (thỉnh thoảng còn mỗi giây một lần hay tệ hơn), và mọi độ trễ nhỏ được cộng vào tổng tích lũy thay vì được sửa. Trong một lần chạy mười phút, vài giây trôi là thực tế; qua một tiếng, vài phút.",
+          "Đồng hồ bấm giờ này tính thời gian trôi như Date.now() trừ một dấu thời gian bắt đầu cố định. Đồng hồ hệ thống của trình duyệt là nguồn sự thật duy nhất, nên dù tab lag thế nào hay bị hạn chế hung hãn ra sao, lần vẽ lại kế tiếp cho thấy thời gian trôi thật. Các lần tạm dừng được xử lý cùng kiểu — resume ghi một đoạn neo mới thay vì tin bất kỳ giá trị đếm nào.",
+          "Phần hiển thị cho phần trăm giây vì đồng hồ nền dễ dàng phân giải nổi chúng, nhưng trung thực vẫn quan trọng ở đây: thứ các chữ số bảo đảm là phép toán, không phải phản xạ của ai đó bấm Start. Thời gian phản ứng của con người một phần hai phần mười giây lấn át bất kỳ lỗi tính toán nào trong thiết kế này — đó là lý do các tổ chức trọng tài vẫn dùng phần cứng chuyên dụng với tiếp xúc vật lý hay cảm biến quang.",
+        ],
+      },
+      {
+        heading: "Vòng và split giữ nhất quán thế nào",
+        paragraphs: [
+          "Mỗi vòng đóng dấu cùng đồng hồ neo tại khoảnh khắc bạn bấm Lap: split của nó là thời gian từ dấu vòng trước, và tổng của nó là thời gian từ lúc bắt đầu. Vì cả hai đến từ trừ các dấu thời gian thật — không bao giờ từ cộng dồn các khoảng — mọi cột tự nhất quán bất kể bạn bấm bao nhiêu vòng hay cú bấm trễ bao nhiêu.",
+          "Tính nhất quán ấy đáng kiểm khi so các đồng hồ bấm giờ: trong một bộ đếm tích lũy, các split có thể không cộng đúng bằng tổng, và chênh lệch lớn dần theo hạn chế và tải. Ở đây tổng các split bằng tổng cuối bởi cấu trúc — các con số không thể bất đồng với nhau.",
+          "Đóng hay tải lại tab xóa phiên, và điều đó là có chủ đích: không lưu trữ nghĩa là không gì để rò rỉ và không gì bị reset nhầm. Nếu cần các con số, hãy đọc (hay chụp màn hình) trước khi đóng — công cụ hành xử như một thiết bị vật lý, không phải một cơ sở dữ liệu.",
+        ],
+      },
+      {
+        heading: "Chỗ một đồng hồ bấm giờ trình duyệt vừa vào",
+        paragraphs: [
+          "Các cặp vừa: các chu kỳ huấn luyện nơi vận động viên tự đọc thời gian của họ, tập dượt họp và thuyết trình, đo các lần build hay render, minh họa trên lớp, các bước nấu ăn cần bấm giờ từng bước. Các chữ số bảng lớn tồn tại chính vì người đọc thường đang giữa nỗ lực và liếc nửa giây.",
+          "Các cặp không vừa: trọng tài thi đấu, thí nghiệm thời gian phản ứng, theo dõi giờ cấp-hóa-đơn. Trong các bối cảnh ấy, phần trăm-giây trên màn hình hứa quá — chính cú bấm nút là thành phần kém chính xác nhất — và thiết bị chuyên dụng hay phần mềm với bắt sự kiện cấp-bàn-phím là dụng cụ tốt hơn.",
+          "Như mọi thứ trên trang này, việc bấm giờ chạy hoàn toàn trong trình duyệt của bạn: không gì được ghi, truyền hay chia sẻ, và đồng hồ chạy offline. Dữ liệu phiên chỉ sống trong bộ nhớ trang, nên một người dùng cao cấp bấm giờ thứ gì đó nhạy cảm không bao giờ phải tự hỏi các con số đi đâu.",
+        ],
+      },
+    ],
   },
   "countdown-timer": {
     name: "Đồng hồ đếm ngược",
@@ -6426,6 +9216,32 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Tôi có nghe thấy tiếng chuông?",
         a: "Đó là một âm ngắn tổng hợp qua WebAudio. Giữ tab không tắt tiếng và mở âm lượng thiết bị; không có tệp âm thanh nào cần tải.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao các bộ đếm ngược trôi — và cái này tránh thế nào",
+        paragraphs: [
+          "Cách ngây thơ dựng một bộ đếm là setInterval trừ một giây mỗi tick. Nó gãy vì một lý do cấu trúc: setInterval là một yêu cầu, không phải một lời hứa. Các trình duyệt hạn chế các bộ đếm trong tab nền — lịch sử cỡ mỗi giây một lần hay thô hơn nhiều — nên một bộ đếm 10 phút trong một tab không hoạt động có thể lặng lẽ đếm lâu hơn mười phút nhiều. Các báo thức dạng-bộ-đếm trong trình duyệt là nguồn bug “nó kêu muộn” nổi tiếng.",
+          "Công cụ này đi hướng ngược: khi bạn bấm Start nó ghi một hạn chót theo đồng hồ tường, và mọi cập nhật hiển thị tính lại thời gian còn lại như hạn chót trừ bây giờ. Các tick bạn thấy có thể tạm ngừng khi tab bị hạn chế, nhưng đích bên dưới không bao giờ nhúc nhích, nên khoảnh khắc trang vẽ lại, vòng và các chữ số đã đúng sẵn. Nói ngắn gọn: bộ đếm có thể muộn khi render, nhưng không bao giờ muộn khi đúng.",
+          "Cùng phép neo ấy là lý do các màn hình ngủ và tải CPU nặng không tích lỗi — chẳng có gì để tích, vì không bộ đếm nào đang được tăng. Cuộc đánh đổi là tiếng chuông tự thân vẫn phụ thuộc tab đủ sống để chạy callback của nó; cho các bộ đếm mà một báo thức muộn không thể chấp nhận (thi, nấu ăn bấm-giờ-chính-xác), một bộ hẹn phần cứng vẫn là lựa chọn phòng thủ hơn.",
+        ],
+      },
+      {
+        heading: "Tiếng chuông, trình duyệt và chính sách âm thanh",
+        paragraphs: [
+          "Tiếng chuông được tổng hợp bằng Web Audio API — một dao động sinh âm lúc chạy thay vì một file âm thanh được tải xuống. Điều đó giữ trang nhẹ và khiến âm thanh chạy offline. Nó còn giải thích một ràng buộc: các trình duyệt đòi một cử chỉ người dùng (một cú bấm hay phím trên trang) trước khi âm thanh được phát, một chính sách nhắm chặn quảng cáo tự-phát. Bấm Start một lần thỏa nó, đó là lý do lần khởi động đầu tiên quan trọng.",
+          "Nếu tab kết thúc bị tắt tiếng hay âm lượng thiết bị đang tắt, tiếng chuông bị câm và không có âm dự phòng nào — các trình duyệt không cho một trang ghi đè mute hệ thống. Các tín hiệu thị giác được giữ làm kênh thứ hai: vòng chuyển xanh ở số 0 là trạng thái bạn bắt được trong một cái liếc ngay cả khi âm thanh không tới.",
+          "Chẳng gì về bộ đếm chạm máy chủ: thời lượng, preset và trạng thái sống trong bộ nhớ trang, và đóng tab là hết tất. Không lời nhắc quyền thông báo, không service worker, không push nền — bộ đếm ngược sống đúng bằng đời của tab.",
+        ],
+      },
+      {
+        heading: "Chọn thời lượng và dùng preset",
+        paragraphs: [
+          "Các preset 1 đến 25 phút tồn tại vì đa số bộ đếm thật tụ trong dải ấy: pha trà (2–5 phút), các khối tập trung kiểu Pomodoro (25), timebox họp (5–15), tập luyện và các khoảng nghỉ. Bấm một preset nhanh hơn gõ phút giây và né lỗi kinh điển nhập phút vào ô giây.",
+          "Với bất cứ thứ gì dài hơn một tiếng, một bộ đếm ngược thường là hình dạng sai — một hạn chót neo vào đồng hồ (nó kết thúc lúc mấy giờ?) sống sót qua các lần đóng tab tốt hơn một hiển thị thời-lượng-trôi. Công cụ này xử lý các khoảng ngắn, liếc-một-cái; cho lập kế hoạch theo ngày, một công cụ ngày hay đếm-ngược-đến-ngày mới là cặp vừa.",
+          "Thuần cục bộ còn có một lợi lặng trong không gian chung: không tài khoản, không banner quảng cáo làm mới cạnh bộ đếm của bạn, và không gì về thứ bạn đang bấm giờ rời thiết bị — điều có ý nghĩa khi bộ đếm nằm trên một màn hình cả lớp học hay phòng họp nhìn thấy.",
+        ],
       },
     ],
   },
@@ -6455,6 +9271,30 @@ export const vi: Record<string, ToolCopy> = {
         a: "Có — một mẫu đơn không chứng minh được tính tùy chọn nên tất cả đều bắt buộc. Tự đánh dấu trường tùy chọn ở chỗ API của bạn cho phép null hay thiếu khóa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Suy kiểu từ một mẫu nói được gì và không nói được gì",
+        paragraphs: [
+          "Sinh kiểu từ một mẫu JSON là suy diễn từ một điểm dữ liệu, và trung thực là biết phép suy diễn dừng ở đâu. Bất cứ thứ gì mẫu cho thấy đều được định kiểu trung thực: các đối tượng lồng thành các interface có tên, các mảng đối tượng gộp các khóa thành một hình dạng, và các mảng hỗn hợp kiểu thành các union như string | number. Nhưng bất cứ thứ gì mẫu không cho thấy là vô hình — một trường null trong payload trông như null, trong khi một trường thỉnh thoảng vắng mặt trông như bắt buộc, vì sự vắng mặt không thể xuất hiện trong một quan sát duy nhất.",
+          "Hệ quả là output là một điểm khởi đầu, không phải một hợp đồng. Các payload API thật trôi: một trường định kiểu string có thể thỉnh thoảng trả null, một đối tượng có thể vắng trong các phản hồi lỗi, và một mảng tình cờ chứa một phần tử không phải bằng chứng nó luôn vậy. Quy trình thực dụng là sinh các kiểu, rồi nới lỏng các trường bạn biết nullable hay tùy chọn bằng một ? hay một union null — vài phút soát tay thắng các lỗi compiler trong production.",
+          "Kiểu union là một biên trung thực khác. Nếu hai phần tử mảng có hình dạng khác nhau, gộp mọi khóa thành một interface (toàn tùy chọn) hay phát một union đều biện hộ được; công cụ này gộp, khớp cách một người soát thường thu gọn các payload mẫu, nhưng có thể giấu các khóa không bao giờ cùng xuất hiện. Khi độ chính xác có ý nghĩa, JSON Schema hay một union phân biệt viết tay là công cụ mạnh hơn — codegen phủ nhanh ca 90%, và bạn siết phần còn lại.",
+        ],
+      },
+      {
+        heading: "Vì sao các API client có kiểu bắt trôi sớm hơn",
+        paragraphs: [
+          "Giá trị thật của các interface sinh ra xuất hiện sau khi bạn dán chúng: compiler trở thành một bộ kiểm hình dạng cho mọi điểm gọi. Nếu backend đổi tên một trường, tách một đối tượng hay thu hẹp một giá trị thành null, TypeScript gắn cờ các lần truy cập không còn khớp — các kiểm thuộc-tính-thừa bắt lỗi gõ trong các literal đối tượng, và strictNullChecks buộc mọi trường có-thể-vắng được xử lý. Một vòng mẫu-sang-kiểu biến “API đổi một cách lặng lẽ” thành một lỗi build kèm file và số dòng.",
+          "Đó là lý do công cụ phát các khai báo interface trần trụi không có helper runtime: các kiểu chỉ tồn tại lúc biên dịch, nên output cộng đúng không byte nào vào bundle của bạn và chạy với mọi compiler hiện đại và mọi bundler. Chẳng gì để import, cấu hình hay khóa phiên bản — xóa các kiểu và mã runtime của bạn nguyên vẹn.",
+        ],
+      },
+      {
+        heading: "Sinh cục bộ và so với các công cụ nặng hơn",
+        paragraphs: [
+          "Dán một phản hồi mẫu và các interface được sinh trong trình duyệt của bạn — JSON không bao giờ rời thiết bị. Điều đó có ý nghĩa vì các payload bạn muốn định kiểu nhất thường là các payload nhạy cảm: phản hồi API có xác thực, các endpoint admin nội bộ, hồ sơ khách hàng hay dữ liệu staging với email thật bên trong. Gửi chúng tới một dịch vụ web để được chuyển đổi là đánh bại sự cẩn trọng bạn đã dùng để giữ chúng khỏi các log.",
+          "Các bộ sinh đa dụng như quicktype nhắm một chục ngôn ngữ, JSON Schema và các validator runtime, và là lựa chọn đúng cho một bề mặt API lớn điều khiển từ một nguồn sự thật. Công cụ này trả lời câu hỏi hẹp một cách nhanh: payload này trông như thế nào dưới dạng kiểu? Cộng với riêng tư của sinh cục bộ, nó vừa với vòng hằng ngày soi một endpoint và nhận một stub client có kiểu trong vài giây.",
+        ],
+      },
+    ],
   },
   "json-diff": {
     name: "JSON Diff",
@@ -6477,6 +9317,31 @@ export const vi: Record<string, ToolCopy> = {
       {
         q: "Thứ tự khóa có quan trọng không?",
         a: "Không — đối tượng so theo khóa, không theo thứ tự chèn. Hai tài liệu cùng khóa nhưng khác thứ tự được coi là giống hệt.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Diff ngữ nghĩa với diff ký tự",
+        paragraphs: [
+          "Một diff cấp ký tự (git diff, các công cụ diff văn bản thường) trả lời “những byte nào đã đổi”, và đó gần như không bao giờ là câu hỏi với JSON. Hai phản hồi API khác nhau chỉ vì một cái được in đẹp với 4 dấu cách và cái kia với 2, hay vì một encoder sắp lại các khóa đối tượng, là đồng nhất về ngữ nghĩa — nhưng một text diff hiện hàng trăm dòng đã đổi. Công cụ này parse cả hai tài liệu trước rồi so các giá trị, nên nhiễu định dạng không thể sinh các cờ dương giả.",
+          "Hệ quả là một bất đối xứng có chủ đích: thứ tự khóa đối tượng bị bỏ qua, vì các đối tượng JSON là các map không có thứ tự theo quy cách và mọi bên tiêu dùng đọc chúng theo khóa — {“a”:1,“b”:2} bằng {“b”:2,“a”:1}. Thứ tự mảng, ngược lại, có ý nghĩa, vì mảng là các danh sách có thứ tự và các bên tiêu dùng đọc vị trí chỉ số; [1,2,3] với [3,2,1] báo mọi phần tử đã đổi. Khớp ngữ nghĩa mà các bên tiêu dùng áp là thứ khiến output diff đáng tin.",
+          "Mỗi thay đổi được báo mang một đường chấm đầy đủ theo kiểu $.a.b[0].c mà JSONPath và RFC 6902 JSON Patch dùng. Ký pháp ấy không phải trang trí: một dòng diff có thể biến thành một assertion test (mong payload.user.role bằng “admin”) hay thành một phép toán patch mà không cần dịch trong đầu nào giữa khung diff và mã tiêu thụ nó.",
+        ],
+      },
+      {
+        heading: "Đọc diff: thêm, bỏ, đổi — và mỗi cái ngầm định gì",
+        paragraphs: [
+          "Các khóa được thêm trong tài liệu mới là thứ cần soát về khả năng tương thích ngược: một phản hồi API có thêm một trường thường an toàn cho các client cũ, nhưng một file cấu hình có thêm một khóa có thể nghĩa là một mặc định đã đổi ở đâu đó. Các khóa bị bỏ là chiều ngược — chúng là thứ gãy các bên tiêu dùng đọc các trường ấy. Các giá trị đổi với cả cũ lẫn mới hiện cạnh nhau làm delta hành vi thật nhìn thấy được, chính xác điều một code review thay đổi cấu hình cần và điều các commit message hiếm khi nắm bắt.",
+          "Các mảng được so theo chỉ số, nên chèn một phần tử vào giữa một danh sách dịch mọi chỉ số sau và báo một cơn lở thay đổi. Nếu dữ liệu của bạn về khái niệm là một tập hay một bộ sưu tập có khóa, hãy so nó với các phần tử được sắp hay như một đối tượng có khóa theo ID — diff khi đó sẽ hiện delta thật thay vì cú dịch. Quyết định tiền xử lý ấy thuộc về quy trình, không phải công cụ, đó là lý do công cụ giữ quy tắc đơn giản và đoán trước được.",
+          "Danh sách phẳng còn làm được nhiệm vụ checklist triển khai: dán trước và sau của một phản hồi API, và mọi dòng là một thứ một bên tiêu dùng phụ thuộc hoặc xử lý được hoặc không. Các team chụp ảnh payload API trước các lần phát hành dùng đúng vòng này, và làm cục bộ nghĩa là các payload không bao giờ rời máy.",
+        ],
+      },
+      {
+        heading: "So sánh cục bộ cho các payload không thể dán đi đâu khác",
+        paragraphs: [
+          "Các tài liệu bạn diff trên thực tế không phải các mẫu đồ chơi: các phản hồi API production có hồ sơ người dùng, các cấu hình môi trường có thông tin xác thực và hostname nội bộ, các bản xuất khách hàng. Dán một bên vào một dịch vụ diff web ngẫu nhiên nghĩa là vận chuyển dữ liệu ấy cho một bên thứ ba — công cụ trở thành mắt xích yếu nhất trong chính phép so sánh bạn đang chạy để bảo vệ tính đúng đắn.",
+          "Mọi thứ ở đây chạy bằng JavaScript trong trình duyệt của bạn: parse, chuyến đi bộ đệ quy và việc dựng đường đều diễn ra trên máy của bạn, và không gì được truyền, lưu hay ghi log. Nó còn chạy offline khi đã tải, điều có ý nghĩa vì các diff cấu hình môi trường thường xảy ra trên các máy staging và các mạng VPN hạn chế nơi các công cụ ngoài không chạm nổi. Trần trung thực là bộ nhớ trình duyệt — các tài liệu xa vào hàng chục megabyte so ổn, và mọi thứ quá thế thuộc về một pipeline có script.",
+        ],
       },
     ],
   },
@@ -6503,6 +9368,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Bạn nhận đúng lý do: khóa nào thiếu hay chỉ số nào vượt phạm vi. Không gì đổ vỡ.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ký pháp đường nói được gì và không nói được gì",
+        paragraphs: [
+          "Tập con được hỗ trợ cố ý nhỏ: $ cho gốc, .key cho các thành viên đối tượng, [0] cho các chỉ số mảng, và các khóa được quote như $['weird key'] cho các tên chứa dấu chấm, ngoặc hay dấu cách. Điều đó phủ phần áp đảo các lần tra thật — chỉ vào một giá trị cụ thể trong một cấu trúc đã biết.",
+          "Thứ nó không phủ là phía khai báo của JSONPath: wildcard $..price, các biểu thức lọc $[?(@.active==true)], các slice $[1:5], các union. Các toán tử ấy tồn tại cho các tài liệu có hình dạng bạn không biết trước. Khi bạn biết hình dạng — là đa số công việc debug và test — một đường trực tiếp nhanh hơn để viết và nhanh hơn để lý luận so với một biểu thức lọc.",
+          "Các khóa được quote là chi tiết mọi người bỏ sót. Một API trả về một khóa như user.name hay order[0] như một tên khóa nguyên văn làm gãy ký pháp chấm — đường sẽ lặng lẽ đi xuống sai nút. Bọc khóa trong quote nói với bộ đánh giá “toàn bộ chuỗi này là một khóa”, giải sự mơ hồ mà không cần mẹo escape nào.",
+        ],
+      },
+      {
+        heading: "Vì sao các lỗi đọc như câu văn",
+        paragraphs: [
+          "Đánh giá đường dẫn qua thư viện thường gãy theo một trong hai cách khó chịu: một lần truy cập undefined trả về “undefined” không lời giải thích, hay một exception với stack trace chỉ vào trong thư viện. Cả hai để bạn kỹ nghệ-ngược thất bại chỉ từ chuỗi đường.",
+          "Bộ đánh giá này đi từng bước của đường và dừng ở lệch đầu tiên, báo chính xác bước nào gãy và vì sao — “không tìm thấy khóa \"address\" tại $.user” hay “chỉ số 3 ngoài phạm vi, mảng có 2 phần tử”. Điều đó biến debug đường từ đoán-và-thử thành đọc: lỗi gọi tên nút nơi thực tế rời khỏi giả định của bạn.",
+          "Bảo đảm không-crash có ý nghĩa hơn nghe. Các đường dài vào các payload API lồng sâu thường gãy vài lần trong khi bạn thăm dò cấu trúc; một công cụ thoái hóa thành các thông báo ngôn-ngữ-thường giữ vòng lặp nhanh, trong khi một exception mỗi lần thử biến cùng chuyến thăm dò ấy thành một chuyến đi bộ vất vả.",
+        ],
+      },
+      {
+        heading: "Thăm dò payload mà không upload chúng",
+        paragraphs: [
+          "Các payload bạn truy vấn thường xuyên mật: các phản hồi API production có hồ sơ khách hàng, các dump lỗi chứa dữ liệu tài khoản, các file cấu hình có thông tin xác thực. Một công cụ POST tài liệu và đường lên backend sẽ phơi tất cả; ở đây truy vấn thực thi hoàn toàn bằng JavaScript trong trình duyệt của bạn trên một tài liệu được parse trên thiết bị của bạn.",
+          "Cũng chẳng có gì để cấu hình: không runtime cài, không nhị phân jq, không dự án. Dán một phản hồi, gõ một đường, đọc giá trị — điều đó biến nó thành công cụ đúng cho các cuộc điều tra một-lần nơi dựng một môi trường script tốn hơn chính câu hỏi.",
+          "Ghép với bộ định dạng khi một payload quá lớn để nhìn bằng mắt: định dạng một lần để thấy cấu trúc, rồi trích đúng các giá trị bạn cần bằng các đường thay vì cuộn. Và vì mọi thứ cục bộ, bạn có thể an toàn thăm dò một phản hồi gãy thật của khách chép thẳng từ production.",
+        ],
+      },
+    ],
   },
   "json-yaml-converter": {
     name: "Chuyển đổi JSON ⇄ YAML",
@@ -6527,6 +9418,32 @@ export const vi: Record<string, ToolCopy> = {
         a: "Thường nhất là ký tự tab trong thụt lề YAML (bị cấm ở đó) hay khóa trùng trong JSON. Thông báo lỗi chỉ đúng chỗ trục trặc.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao JSON và YAML không bao giờ khứ hồi hoàn hảo nổi",
+        paragraphs: [
+          "JSON và YAML không phải hai cách đánh vần của cùng một mô hình dữ liệu — YAML là một superset trong tham vọng. YAML mang thông tin JSON không có chỗ để đựng: các anchor và alias cho phép một nút được tham chiếu từ vài nơi, nhiều tài liệu có thể sống trong một file ngăn bởi ---, và các tag tùy chỉnh có thể đánh dấu một giá trị là dấu thời gian, blob nhị phân hay một kiểu riêng miền. Một bộ chuyển đổi chỉ mô hình JSON không thể đại diện trung thực bất cứ thứ nào trong số đó.",
+          "Công cụ này cố ý giới hạn ở schema lõi — các map lồng, các dãy và các vô hướng — để mọi thứ nó phát có thể được parse ngược không mất. Các anchor cố ý ngoài phạm vi: chuyển một file YAML dùng alias sang JSON sẽ phải inline mọi tham chiếu, và chuyển ngược sẽ không bao giờ phục hồi cấu trúc anchor gốc.",
+          "Cùng sự cẩn trọng áp cho các file đa tài liệu. Một .yaml chứa vài tài liệu ngăn bởi --- thực chất là một danh sách các file, không phải một đối tượng; lặng lẽ chuyển chỉ tài liệu đầu hay gộp chúng là làm hỏng ý nghĩa. Hãy cho công cụ một tài liệu mỗi lần và chuyến khứ hồi giữ chính xác.",
+        ],
+      },
+      {
+        heading: "Các cái bẫy ép kiểu mà YAML 1.1 để lại",
+        paragraphs: [
+          "Các parser YAML quyết định kiểu của một vô hướng bằng cách nhìn nó. Theo các quy tắc 1.1 cũ mà đa số parser vẫn mặc định, từ trần trụi Norway là một boolean false (một từ viết tắt của N-o-r-w-a-y, khớp họ yes/no/on/off), các số phiên bản như 1.20 có thể gộp thành 1.2, và một khóa bắt đầu bằng dấu cách dễ mất hẳn. Đây không phải các ca biên xa lạ — chúng làm gãy các cấu hình CI thật mỗi năm.",
+          "Sự cố an toàn kinh điển là mã quốc gia Na Uy: một trường quốc gia của người dùng đọc NO thành false trong tài liệu đã parse. Quote là lớp phòng thủ — hãy viết \"NO\", \"on\", \"1.0\" thành chuỗi bất cứ khi nào một giá trị nghĩa là văn bản, không phải một kiểu. Khi bạn dán YAML vào đây và chuyển sang JSON, schema lõi của js-yaml quyết định các phép ép ấy, và output JSON làm các kiểu kết quả nhìn thấy được để bạn bắt chúng.",
+          "Lợi thế của JSON là nó chẳng đoán gì cả: mọi giá trị phải tuyên bố kiểu của mình bằng cấu trúc — \"false\" trong quote là một chuỗi, 2.0 giữ là số. Đó là một lý do JSON vẫn là định dạng dây an toàn hơn ngay cả khi đích cuối là YAML: đi qua JSON và mọi kiểu đã bị ép ra ánh sáng.",
+        ],
+      },
+      {
+        heading: "Một quy trình chuyển đổi giữ cục bộ",
+        paragraphs: [
+          "Các file cấu hình là một trong những văn bản nhạy cảm nhất một dự án có: các secret Kubernetes (kể cả đã base64), các khối môi trường docker-compose, các biến CI. Dán chúng vào một bộ chuyển đổi đưa đầu vào lên máy chủ là rò chúng cho bất kỳ ai vận hành nó. Mọi thứ ở đây chạy trong trình duyệt của bạn — không upload, không ghi log, và trang tiếp tục chạy offline khi đã tải.",
+          "Quy trình thực dụng công cụ được dựng quanh là chuỗi có hướng: đổi JSON sang YAML, nhích một hai dòng bằng tay, rồi đảo hướng và chuyển ngược về JSON để kiểm chứng chỉnh sửa của bạn vẫn parse nổi. Thụt lề xấu và tab bị cấm được báo tại dòng phạm lỗi thay vì một thất bại chung chung, nên một manifest sửa tay có thể được soát chính tả trong vài giây.",
+          "Ghép công cụ này với bộ định dạng JSON và bộ kiểm JSON khi debug: định dạng phía JSON cho dễ đọc, validate trước khi chuyển, và dùng output YAML thẳng làm file cấu hình — nó ra theo kiểu khối, thụt lề như một manifest viết tay thay vì một dump máy móc.",
+        ],
+      },
+    ],
   },
   "sha1-generator": {
     name: 'Trình tạo SHA-1',
@@ -6538,6 +9455,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "SHA-1 năm 2024: gãy cho chữ ký, còn sống trong Git",
+        paragraphs: [
+          "SHA-1 sinh một digest 160-bit — 40 ký tự hex thường — được chuẩn hóa trong FIPS 180-4. Trong nhiều năm nó là hash mặc định của web: chứng chỉ TLS, ký code, quản lý phiên bản. Kỷ nguyên ấy kết thúc theo từng giai đoạn: NIST khấu hao SHA-1 cho chữ ký năm 2011 và cấm ở đó tới 2013, sau khi các nhà nghiên cứu chứng minh các tấn công va chạm đang trở nên thực dụng.",
+          "Cú đánh quyết định là SHAttered năm 2017: hai file PDF khác nhau có chủ đích với cùng digest SHA-1, được sinh với công sức tính toán lớn nhưng khả thi. Sau đó, dùng SHA-1 ở bất kỳ đâu kẻ đối kháng có thể ảnh hưởng đầu vào — chữ ký, chứng chỉ, các lời hứa toàn vẹn — trở nên không thể biện hộ. Các trình duyệt hiện đại từ chối các chứng chỉ SHA-1, và hệ sinh thái chuyển sang SHA-256.",
+          "SHA-1 không chết, thế nhưng, vì nó sống sót ở những nơi kháng va chạm không phải lời hứa đang được đưa ra. Git vẫn nhận diện commit và đối tượng bằng SHA-1 — nó nay ghép hash với phát hiện va chạm, và việc di trú sang một hash mạnh hơn đang diễn ra upstream. Các checksum tải xuống cũ và vân tay file từ các hệ thống không bao giờ nâng cấp là những lần gặp phổ thông khác. Hãy dùng công cụ này để tái lập và kiểm các vân tay cũ ấy; chọn SHA-256 cho bất cứ thứ gì mới.",
+        ],
+      },
+      {
+        heading: "Va chạm với preimage: đọc mối đe dọa cho chính xác",
+        paragraphs: [
+          "“SHA-1 đã gãy” cần được giải bọc, vì hai tấn công khác nhau tồn tại và chúng không nghiêm trọng ngang nhau. Một tấn công va chạm tìm bất kỳ hai đầu vào nào có cùng digest — kẻ tấn công kiểm soát cả hai, và điều đó phá chữ ký và chứng chỉ, nơi một bên ký thứ bên kia cung cấp. Đây là điều SHAttered chứng minh, và là lý do việc ký bằng SHA-1 đã kết thúc.",
+          "Một tấn công preimage khác: cho một digest, tìm một đầu vào nào đó sinh ra nó. Với SHA-1 điều này vẫn xa tầm với — không gian 160-bit vẫn thực sự không thể vét. Sự bất đối xứng ấy chính là lý do cách dùng của Git sống sót qua scrutiny: các ID commit không phải payload chữ ký do kẻ đối kháng kiểm soát theo cùng cách, và phát hiện va chạm tăng cường của Git gắn cờ các đầu vào được chế tác.",
+          "Bản dịch thực dụng: đừng chấp nhận một digest SHA-1 làm bằng chứng xác thực từ một bên bạn không tin, và đừng bao giờ dựng các luồng chữ ký hay chứng chỉ mới trên nó. Như một vân tay của nội dung bạn nhận qua một kênh bạn đã tin — tái lập những gì một hệ cũ công bố — nó vẫn dùng được, và đó là vai trò của công cụ này.",
+        ],
+      },
+      {
+        heading: "Băm cục bộ với WebCrypto gốc",
+        paragraphs: [
+          "Digest được tính trong trình duyệt của bạn qua API SubtleCrypto WebCrypto gốc — cùng đường mã đã kiểm toán trình duyệt của bạn dùng cho TLS. Dán văn bản và digest 40 ký tự cập nhật trực tiếp; chuyển sang chế độ file và thả một file được băm cục bộ, không upload và không trần kích thước nào ngoài thiết bị của bạn. Cho việc kiểm checksum cũ, tính cục bộ chính là điểm: file được kiểm thường đến từ một nơi không đáng tin, nên gửi nó tới một dịch vụ mạng khác để băm là phá hoàn toàn bài toán.",
+          "Độ chính xác đầu vào cai quản một phép so sánh có thể thành công hay không. Văn bản được băm như các byte UTF-8, nên hãy băm chính file đó thay vì gõ lại nội dung khi kiểm các bản tải xuống; một trình soạn thảo đổi các kết thúc dòng hay thêm một xuống dòng đổi mọi byte của digest. Output là hex thường, khớp sha1sum, openssl và các giá trị các hệ cũ công bố — sao chép và so bằng chương trình thay vì bằng mắt qua 40 ký tự.",
+          "Cho các thiết kế mới câu trả lời thống nhất: SHA-256 qua bộ sinh sha256 trên trang này, hay cả họ cạnh nhau trong hash-generator. Hãy giữ SHA-1 nghiêm ngặt cho các giao diện và kho lưu trữ đã nói nó sẵn.",
+        ],
+      },
+    ],
   },
   "sha384-generator": {
     name: 'Trình tạo SHA-384',
@@ -6548,6 +9491,31 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "SHA-384 đứng đâu trong họ SHA-2",
+        paragraphs: [
+          "SHA-2 không phải một thuật toán mà là một họ được chuẩn hóa trong FIPS 180-4, định nghĩa bởi hai engine nội bộ: SHA-224 và SHA-256 chạy engine 256-bit (từ 32-bit), trong khi SHA-384 và SHA-512 chạy engine 512-bit (từ 64-bit). Các output lần lượt là 224, 256, 384 và 512 bit — 56, 64, 96 và 128 ký tự hex. SHA-384 là thứ bạn nhận khi engine 512-bit được khởi tạo với các hằng số khác và output của nó bị cắt về 384 bit.",
+          "Sự cắt ấy là lý do SHA-384 không đơn thuần là “SHA-512 bị cắt ngắn”. Các giá trị khởi tạo khác làm nó thành một thuật toán riêng với đặc tả riêng: không tấn công đã biết nào trên SHA-512 chuyển giao được sang output ngắn hơn của SHA-384, và ngược lại bạn không thể kiểm một digest SHA-384 bằng cách băm với SHA-512 rồi cắt. Các công cụ phải đồng ý về thuật toán, không chỉ về họ.",
+          "Về an ninh, cả bốn biến thể SHA-2 được tin là đưa gần đúng độ dài output của chúng về kháng va chạm — SHA-384 cho một mức an ninh 192-bit chống va chạm, vượt xa mọi nhu cầu thực dụng. Lý do quen để chọn cái này thay cái kia là khả năng tương thích hạ tầng: bộ TLS của bạn, chuỗi ký-code của bạn hay bộ kiểm của đối tác đã mong đợi gì.",
+        ],
+      },
+      {
+        heading: "Đọc output và kiểm nó cho đúng",
+        paragraphs: [
+          "Digest là 96 ký tự hex, được phát ở đây dạng thường — so hex không phân biệt hoa thường, nhưng vài công cụ kiểm so chuỗi nguyên văn, nên một lệch hoa/thường có thể trông như một hash lệch. Digest là tất định: cùng các byte đầu vào luôn cho cùng output trên mọi bản cài đúng, chính là lý do nó làm được checksum.",
+          "Cẩn thận cái bẫy encoding khi so với một giá trị tham chiếu: băm chữ “hello” theo UTF-8, UTF-16 hay kèm một xuống dòng cuối cho ba digest khác nhau. Các công cụ dòng lệnh khét tiếng thêm một xuống dòng vào output của echo trừ khi bạn dùng echo -n hay printf. Khi digest của bạn không khớp, dữ liệu gần như chắc chắn khác — cùng thuật toán, khác byte.",
+          "Với file, digest nhận diện nội dung, không phải metadata: sao chép file giữ nguyên hash, trong khi mã hóa lại, đổi kết thúc dòng hay lưu lại qua một trình soạn thảo đổi nó. Tính chất ấy là thứ làm các digest SHA-384 hữu dụng làm bằng chứng chống can thiệp cho trình cài và chứng chỉ — và lý do một hash khớp chỉ chứng minh các byte đồng nhất, không chứng minh người gửi đáng tin.",
+        ],
+      },
+      {
+        heading: "Mật mã gốc, xử lý cục bộ",
+        paragraphs: [
+          "Việc băm đi qua SubtleCrypto WebCrypto gốc của trình duyệt của bạn, không phải mã JavaScript viết bởi trang này — cùng bản cài đã kiểm toán trình duyệt của bạn dùng cho TLS. Output khớp sha384sum, OpenSSL và mọi công cụ tuân thủ FIPS 180-4 khác từng byte một, và nó chạy nhanh hơn bất kỳ hash thuần JS nào với file lớn.",
+          "Các đầu vào văn bản và file không bao giờ rời thiết bị của bạn: digest được tính trong bộ nhớ trình duyệt của bạn và không gì được upload, lưu hay ghi log. Điều đó có ý nghĩa cho cách dùng điển hình — kiểm trình cài, băm các bí mật nội bộ cho cấu hình, hay tính digest của một tài liệu bạn chưa công bố.",
+        ],
+      },
+    ],
   },
   "sha512-generator": {
     name: 'Trình tạo SHA-512',
@@ -6557,6 +9525,32 @@ export const vi: Record<string, ToolCopy> = {
     faqs: [
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "SHA-512: digest rộng nhất trong họ SHA-2",
+        paragraphs: [
+          "SHA-512 là thành viên chuẩn lớn nhất của họ SHA-2, được chuẩn hóa trong FIPS 180-4: các digest 512-bit viết thành 128 ký tự hex thường. Bên trong nó xử lý các khối 1024-bit qua 80 vòng từ 64-bit — một đường ống rộng hơn các từ 32-bit của SHA-256, điều tạo nên tính cách của nó.",
+          "Thiết kế 64-bit ấy có một hệ quả thực dụng nổi tiếng: trên các CPU 64-bit hiện đại, SHA-512 thực ra băm file lớn nhanh hơn SHA-256, dù sinh nhiều output hơn. Nếu bạn lấy vân tay trình cài, ảnh đĩa hay các kho lưu trữ sao lưu, digest SHA-2 mạnh nhất cũng thường là cái nhanh nhất — một ca hiếm nơi lựa chọn hoang tưởng và lựa chọn thực dụng là cùng một cái.",
+          "Không tấn công va chạm hay preimage thực dụng nào được biết chống SHA-512. Biên ấy là lý do nó neo các cam kết toàn vẹn sống lâu: các chữ ký API HMAC-SHA512, các mục mật khẩu trong /etc/shadow Linux hiện đại, và các manifest lưu trữ được thiết kế để vẫn kiểm chứng được sau hàng thập kỷ. Cho các thiết kế mới không có ràng buộc ngoài, SHA-256 là mặc định quy ước và SHA-512 là bản nâng cấp quy ước.",
+        ],
+      },
+      {
+        heading: "Đọc, so sánh và tin một digest 128 ký tự",
+        paragraphs: [
+          "Phép kiểm độ dài đến trước: một digest SHA-512 đúng 128 ký tự hex. Các giá trị độ dài khác trong một ô cấu hình tên sha512 là một thuật toán khác bị dán nhầm, và lệch ấy sẽ nổi lên như một thất bại tích hợp sau này. Công cụ này sinh dạng chuẩn thường, khớp sha512sum, OpenSSL và mọi bản cài tuân thủ khác.",
+          "So sánh là tất-cả-hoặc-không-gì: hai digest hoặc khớp chính xác hoặc đầu vào khác nhau. Một bit duy nhất bị lật bất cứ đâu trong file nhiều gigabyte cho một giá trị 512-bit không liên quan — hiệu ứng tuyết lở khiến checksum đáng tin. Hãy so bằng chương trình (diff, ==, hay một tiện checksum) thay vì soát 128 ký tự bằng mắt, nơi một cặp đảo chỗ là vô hình.",
+          "Nhớ một digest hứa gì và không hứa gì. Nó chứng minh các byte không đổi kể từ khi digest được tính, miễn là bản thân digest đến tay bạn qua một kênh kẻ tấn công không viết lại nổi. Nó chẳng nói gì về ai sinh ra đầu vào, và — vì băm là một chiều — không thể đảo để phục hồi nội dung. Công bố một checksum cạnh một bản tải xuống là một phép đo toàn vẹn, không phải một chữ ký.",
+        ],
+      },
+      {
+        heading: "Vì sao băm file cục bộ ở mọi giá",
+        paragraphs: [
+          "Một hash chỉ có ý nghĩa nếu môi trường băm đáng tin, còn một dịch vụ web ngẫu nhiên thì không. Công cụ này tính qua SubtleCrypto WebCrypto gốc của trình duyệt — mã đã kiểm toán đang mang traffic TLS của bạn — và không gì rời thiết bị: văn bản được băm khi bạn gõ, và chế độ file băm đúng các byte của file cục bộ không upload và không trần nào ngoài bộ nhớ khả dụng.",
+          "Cho các khối lượng công việc điển hình của công cụ, tính cục bộ này không phải một xa xỉ. Ảnh đĩa và trình cài là các gigabyte chẳng ai muốn upload chỉ để lấy vân tay; các manifest lưu trữ thường phủ các file với ràng buộc giấy phép hay riêng tư; và vật liệu ký API không bao giờ nên đi qua một trang bên thứ ba. Khi trang đã tải, toàn bộ quy trình chạy offline.",
+          "Độ chính xác đầu vào khép lại bức tranh: văn bản được băm như các byte UTF-8, nên đổi kết thúc dòng hay một xuống dòng trình soạn thảo thêm vào đổi mọi ký tự của output. Khi kiểm một bản tải xuống, hãy băm chính file thay vì nội dung gõ lại, rồi so với giá trị của bên công bố bằng chương trình — cặp thói quen ấy bắt về như mọi lần lệch báo động giả.",
+        ],
+      },
     ],
   },
   "text-to-binary": {
@@ -6572,6 +9566,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "Nhị phân là byte, không phải ma thuật",
+        paragraphs: [
+          "Thứ công cụ này sinh ra không phải “văn bản biến thành 01” bằng một quá trình trừu tượng nào — nó là đúng dãy byte UTF-8 mà một máy tính đã lưu cho văn bản của bạn, được diễn đạt thành các chữ số nhị phân. Chữ “A” là một byte, 01000001, tức số 65 — mã ASCII nghĩa là A từ thập niên 1960. Không bước dịch và không bước diễn giải: các bit trên màn hình là các bit trong file.",
+          "UTF-8 là chi tiết then chốt. Các ký tự ASCII (A-Z, chữ số, dấu câu phổ thông) mỗi cái một byte, nên nhị phân của chúng ngắn. Các ký tự ngoài ASCII chiếm hai đến bốn byte: “é” là 0xC3 0xA9 (11000011 10101001), emoji 😀 là bốn byte. Đó là lý do cùng một từ cho các độ dài nhị phân khác nhau tùy ký tự — và lý do một dòng tiếng Trung dài hơn cỡ ba lần theo byte so với cùng ý nghĩa bằng tiếng Anh.",
+          "Decode chỉ chạy đúng nếu bên đọc giả định cùng encoding. Các byte tạo thành UTF-8 hợp lệ là vô nghĩa như EBCDIC hay như Latin-1 — hiện tượng “mojibake” của việc đọc văn bản qua sai encoding là phiên bản nhìn thấy được của giả định ấy gãy.",
+        ],
+      },
+      {
+        heading: "Vì sao nhóm 8 bit và các bit đầu nghĩa là gì",
+        paragraphs: [
+          "Byte được nhóm theo 8 vì đó là đơn vị ký tự thực dụng từ thời máy mainframe, và UTF-8 được thiết kế quanh nó. Các dãy đa byte tự mô tả: một byte bắt đầu bằng 110 mở đầu một ký tự hai byte, 1110 mở đầu ba, 11110 mở đầu bốn, và các byte tiếp diễn luôn bắt đầu bằng 10. Cấu trúc ấy là lý do UTF-8 tái đồng bộ sau các lỗi truyền và lý do nó trở thành encoding thống trị của web.",
+          "Đọc một byte bằng tay: 01000001 tách thành 0 (ASCII, một byte), rồi 1000001 = 65 = A. Với 11000011, tiền tố 110 tuyên bố một dãy hai byte và byte kế tiếp phải bắt đầu bằng 10. Một khi thấy được mẫu, nhị phân ngừng là nhiễu.",
+          "Dấu cách, xuống dòng và thậm chí quy ước nhóm là các lựa chọn hiển thị — dữ liệu nền là chuỗi chữ số. Vài công cụ nhóm theo 8, vài cái theo ký tự, vài cái phát một dòng liên tục; tất cả mã hóa cùng các byte.",
+        ],
+      },
+      {
+        heading: "Các cách dùng và riêng tư",
+        paragraphs: [
+          "Các cách dùng thực dụng: dạy và debug encoding, kiểm chính xác một regex hay API sẽ nhận những byte nào, sinh các câu đố nhị phân, và kiểm chứng chuyến khứ hồi — văn bản → nhị phân → văn bản phải tái lập bản gốc từng byte một. Bất kỳ lệch nào nghĩa là có người đã đổi encoding trên đường.",
+          "Với lập trình viên, đây là cách nhanh nhất trả lời “ký tự này một byte hay bốn byte?” mà không cần mở debugger. Với học sinh, chuyển tên của chính mình và thấy chữ nào giữ một byte chữ nào phình ra khiến UTF-8 cụ thể theo cách không bài giảng nào làm nổi.",
+          "Phép chuyển đổi chạy cục bộ bằng JavaScript khi bạn gõ — không gì được upload, và nó chạy offline. Văn bản bạn dán ở lại trên máy của bạn, dù là một đoạn mã nguồn hay một bản nháp tin nhắn.",
+        ],
+      },
+    ],
   },
   "text-to-unicode": {
     name: 'Văn bản → Unicode',
@@ -6585,6 +9605,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "Chuyển đổi Unicode thực sự hiện ra gì",
+        paragraphs: [
+          "Mọi ký tự bạn gõ là một số. Unicode gán cho mỗi cái một code point — “A” là U+0041, dấu euro € là U+20AC, một emoji nằm đâu đó trong dải U+1F300. Công cụ này hiển thị phép ánh xạ ấy: nó hiện code point theo vài ký hiệu (U+XXXX, thập phân, thập lục phân) và, với các ký tự ngoài BMP, cặp surrogate UTF-16 mà JavaScript thực sự giữ trong bộ nhớ.",
+          "Khoảng hở giữa “thứ bạn thấy” và “thứ được lưu” là lý do công cụ này tồn tại. Một ký tự trông đơn — é, một emoji cờ, một chữ Hán — có thể là một code point, hai nửa surrogate, hay một ký tự gốc cộng các dấu tổ hợp. Dán văn bản vào cho biết bạn đang đối mặt ca nào, điều có ý nghĩa khi một script đếm nhầm độ dài hay một cơ sở dữ liệu cắt tại sai biên.",
+          "Code point không phải byte: U+00E9 là khái niệm “e với dấu sắc”, thứ thành hai byte 0xC3 0xA9 trong UTF-8. Nếu bạn cần byte thay vì code point, bộ chuyển nhị phân là công cụ anh em cho câu hỏi đó.",
+        ],
+      },
+      {
+        heading: "Các escape và encoding: \\u, &#, và bạn bè",
+        paragraphs: [
+          "Cùng một ký tự có nhiều cách viết tùy bối cảnh. Trong chuỗi JSON và JavaScript, é có thể viết \\u00e9 (hay \\u{e9} theo cú pháp mới hơn). Trong HTML, &#233; hay &eacute;. Trong CSS, \\00e9. Trong URL, UTF-8 percent-encoded: %C3%A9. Chẳng cái nào là ký tự khác nhau — chúng là các hệ ký hiệu khác nhau cho cùng một số, và công cụ này xuất các biến thể bạn có thể dán thẳng vào từng bối cảnh.",
+          "Hai chế độ thất bại phổ thông điều này ngăn được: đóng-mã-hai-lần (\\u00e9 dán vào một hệ thống escape tiếp backslash, sinh văn bản nguyên văn \"\\u00e9\"), và lệch encoding (một trang khai báo một charset trong khi file được lưu theo charset khác, nên mọi ký tự không-ASCII render thành các ô thay thế).",
+          "Biên BMP tại U+FFFF là cái gotcha kinh điển: các ký tự trên nó — đa số emoji — không vừa một đơn vị UTF-16, nên các escape của chúng trông như \\ud83d\\ude00 thay vì \\u1f600. Các hệ cũ chỉ xử lý escape \\uXXXX không thể diễn đạt chúng nổi.",
+        ],
+      },
+      {
+        heading: "Decode cục bộ, không đi vòng",
+        paragraphs: [
+          "Mọi thứ chạy bằng JavaScript trong trình duyệt: các code point được đọc trực tiếp từ chuỗi trong bộ nhớ. Không upload, không API, chạy offline — đáng chú ý vì cách dùng phổ biến nhất là debug một chuỗi bạn nhận từ một log hay phản hồi API mà bạn có khi không muốn dán vào một dịch vụ web ngẫu nhiên.",
+          "Output cập nhật theo từng phím, nên bạn có thể quét qua một chuỗi đáng ngờ từng ký tự một và xem code point nào xuất hiện ở đâu. Ký tự thay thế U+FFFD trong output nghĩa là văn bản nguồn đã hỏng trước khi đến tay công cụ.",
+          "Ghép với bộ chuyển nhị phân cho các câu hỏi cấp byte và bộ đổi hoa/thường khi debug hành vi ánh xạ chữ trên các ký tự lạ — bộ ba phủ quy trình debug Unicode hằng ngày.",
+        ],
+      },
     ],
   },
   "text-to-nato-alphabet": {
@@ -6603,6 +9649,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Chữ số có được chuyển không?', a: 'Có. 0–9 thành Zero, One (Wun), Two, Tree, Fower, Five, Six, Seven, Eight, Nine — cách đọc chuẩn ICAO hiện bên cạnh mỗi từ mã.' },
         { q: 'Dấu thanh và emoji?', a: 'Chữ có dấu được quy về chữ gốc (É → Echo); emoji và ký tự ngoài bảng chữ cái được giữ nguyên kèm ghi chú vì không thể đánh vần.' },
     ],
+    deepDive: [
+      {
+        heading: "Vì sao Alfa, Bravo, Charlie tồn tại",
+        paragraphs: [
+          "Đánh vần một cái tên qua điện thoại là cơn ác mộng: B và P nghe gần như đồng nhất, M và N mờ nhạt, và một đường truyền tệ xóa khác biệt giữa F và S. Các bảng chữ đánh vần sửa điều này bằng cách gán mỗi chữ một từ không mơ hồ — B thành Bravo, M thành Mike — được chọn sao cho không hai từ nào nghe giống nhau ngay cả qua các kênh ồn ào.",
+          "Bảng chữ NATO (chính thức là bảng đánh vần ICAO) là tiêu chuẩn thắng cuộc. Nó lớn lên từ hàng thập kỷ thử nghiệm quân sự và hàng không: các bảng Anh và Mỹ trước đó dùng các từ như Able, Baker, Charlie, nhưng các phép thử thấy các nhà vận hành vô tuyến quốc tế nghe nhầm chúng. Bản sửa ICAO thập niên 1950 thử nghiệm các từ ứng viên với người nói của nhiều ngôn ngữ và chọn ra bộ — Alfa (cố ý không phải \"Alpha\", để người nói các ngôn ngữ không có âm \"ph\" viết đúng), Bravo, Charlie đến Zulu — bộ sống sót qua các phép thử ấy.",
+          "Nay nó sống xa hơn hẳn quân đội: các hãng hàng không, tổng đài, bộ phận hỗ trợ IT đọc số serial, và bất kỳ ai đọc một mã xác nhận bằng miệng. Khi một nhân viên hỗ trợ nói “S như trong Sierra”, họ đang dùng cùng hệ thống ấy.",
+        ],
+      },
+      {
+        heading: "Các chữ số và các chữ khó",
+        paragraphs: [
+          "Tiêu chuẩn còn phủ các chữ số, được đọc để phân biệt chúng với các từ dễ nhầm: 9 thành “Niner” (tránh nhầm với “nein” tiếng Đức và cái five nghe phẳng), 3 là “Tree”, 5 là “Fife”. Các cách phát âm ấy đến từ cùng phép thử khả-nắm-bắt đã định hình các chữ cái.",
+          "Các chữ khiến người ta vấp nhất trên thực tế: cặp E/K (Echo, Kilo), cặp M/N (Mike, November) và cặp S/F (Sierra, Foxtrot) — chính xác là các cặp mà bảng chữ được dựng để tách. Các từ có nhiều cách đánh vần phổ thông bị né bởi thiết kế; chính tả của Alfa là ví dụ rõ nhất của một từ được kỹ nghệ hóa thay vì được chọn.",
+          "Khi đánh vần các mã hỗn hợp — một số đơn hàng có chữ và số — hãy đánh vần từng ký tự và giữ thứ tự: “C-O-D-E-4” đọc Charlie Oscar Delta Echo Fower... Fower là chữ số 4. Khoảng ngừng quan trọng ngang các từ; bảng chữ chẳng giúp gì nếu người nghe mất đi sự phân nhóm.",
+        ],
+      },
+      {
+        heading: "Tra cứu tức thì, không gửi gì đi",
+        paragraphs: [
+          "Phép chuyển đổi chạy từng ký tự trong trình duyệt của bạn khi bạn gõ — không gọi máy chủ, chạy offline. Chữ hoa/thường bị bỏ qua (bảng chữ không có chữ thường), và các ký tự không-phải-chữ đi qua nguyên trạng để các mã giữ hình dáng của chúng.",
+          "Đây là công cụ nên với tới trước một cuộc gọi hỗ trợ: dán số serial, đọc output thành tiếng. Nó còn kiêm nhiệm một công cụ dạy quy trình vô tuyến và dạy trẻ học tên các chữ.",
+          "Không gì được lưu hay truyền — một số serial, khóa bản quyền hay mã đơn hàng dán vào đây ở lại trên thiết bị của bạn. Cả bảng đi kèm trang, nên tra cứu chạy không cần kết nối.",
+        ],
+      },
+    ],
   },
   "hmac-generator": {
     name: 'Trình tạo HMAC',
@@ -6618,6 +9690,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Dán khóa bí mật vào đây có an toàn không?', a: 'An toàn — toàn bộ phép tính chạy trong WebCrypto của trình duyệt. Khóa và thông điệp không bao giờ rời thiết bị; không ghi log hay truyền đi đâu. Dù vậy, như thói quen chung, hãy xoay vòng các khóa bạn dán vào bất kỳ trang web nào.' },
         { q: 'HMAC-SHA-256 hay HMAC-SHA-512?', a: 'SHA-256 là chuẩn phổ biến. SHA-512 cho biên lớn hơn và thậm chí nhanh hơn trên CPU 64-bit; dùng khi đặc tả cho phép. Tránh SHA-1 trừ khi hệ thống cũ bắt buộc.' },
     ],
+    deepDive: [
+      {
+        heading: "HMAC thực sự hoạt động thế nào: hai lượt, một khóa",
+        paragraphs: [
+          "Gộp khóa với hash một cách ngây thơ — SHA-256(key + message) — có các điểm yếu đã biết: thêm dữ liệu rồi tính lại có thể khả thi nếu trạng thái nội bộ của hash rò rỉ, và va chạm khóa ở biên khối là phiền phức. HMAC, được chuẩn hóa trong RFC 2104 (1997) rồi NIST FIPS 198, né cả hai bằng cách băm khóa hai lần trong một cấu trúc cố định: trước hết thông điệp được băm với khóa XOR với một hằng đệm (opad), rồi kết quả đó được băm lại với khóa XOR với một hằng khác (ipad).",
+          "Cấu trúc kép nghĩa là output không tiết lộ gì về khóa ngay cả khi kẻ tấn công kiểm soát các thông điệp, và sự tách trong/ngoài chặn các tấn công kéo-dài-độ-dài ám ảnh các hash Merkle-Damgård trần trụi. Đó là lý do HMAC-SHA-256 vẫn an toàn dù SHA-256 thô có các quirk cấu trúc đã biết — chính lớp vỏ, không phải hash một mình, cung cấp tính chất xác thực.",
+          "Các chi tiết cài đặt quan trọng hơn mọi người mong đợi. Khóa được đệm hay băm tới kích thước khối (64 byte cho SHA-256, 128 cho SHA-512); một khóa ngắn hơn được đệm số 0, một khóa dài hơn được băm trước. Các khóa dài hơn đáng kể kích thước khối hay ngắn hơn vài byte đều làm suy cấu trúc — điểm ngọt thực dụng là một khóa 32 đến 64 byte ngẫu nhiên, đúng thứ đa số nhà cung cấp webhook trao tay.",
+        ],
+      },
+      {
+        heading: "Kiểm webhook mà không tự bắn vào chân mình",
+        paragraphs: [
+          "Thất bại kiểm chứng chất đầy ticket hỗ trợ là một lệch byte, không phải một thuật toán gãy. Các dịch vụ ký phần thân yêu cầu thô — đúng các byte như đã gửi. Nếu framework của bạn serialize lại JSON (đổi thứ tự khóa, đổi khoảng trắng, đổi kết thúc dòng) trước khi bạn kiểm, chữ ký tính lại sẽ không bao giờ khớp. Hãy so với phần thân chưa parse, và canh các proxy hay bộ parse thân “tốt bụng” chuẩn hóa nó trước.",
+          "Vài nhà cung cấp (Stripe là ví dụ nổi tiếng) ký một chuỗi được dựng gồm dấu thời gian cộng payload thay vì chỉ phần thân, và nối một dấu thời gian vào header để bạn từ chối các tin nhắn cũ — nếu không, một tấn công replay là khả thi vì HMAC tự nó không cho tính tươi mới. Luôn đọc hướng dẫn kiểm chứng của nhà cung cấp thay vì giả định văn bản được ký chỉ là phần thân. Cũng để ý encoding của output: hex với Base64 là nguồn lệch-giả phổ biến thứ hai.",
+          "Khi so các chữ ký, hãy dùng so-sánh-thời-gian-hằng thay vì so chuỗi thường nơi thời điểm có thể rò rỉ — đa số ngôn ngữ có sẵn một cái (crypto.timingSafeEqual trong Node, hmac.compare_digest trong Python). Một phép kiểm chữ ký phơi bao nhiêu byte đầu khớp cho phép kẻ tấn công làm giả chữ ký từng byte một. Một chi tiết nhỏ, nhưng nó là ranh giới giữa một lần kiểm chứng và một oracle.",
+        ],
+      },
+      {
+        heading: "Vì sao tính cục bộ quan trọng với một công cụ ký",
+        paragraphs: [
+          "Một công cụ ký xử lý thông tin xác thực nhạy cảm nhất mà một lập trình viên đang có trên đường: bí mật dùng chung cho một nhà cung cấp thanh toán hay hệ quản trị mã nguồn. Điều đó định hình kiến trúc. Mọi thứ ở đây chạy qua API WebCrypto của trình duyệt — bí mật và thông điệp được xử lý bên trong tiến trình của chính bạn, và không yêu cầu mạng nào mang chúng đi đâu. Không có tương đương phía-máy-chủ nào có thể ghi log, cache hay đòi chúng.",
+          "Hệ quả thực dụng là bạn có thể kiểm một secret webhook production với một payload thật mà nó chưa bao giờ được gõ vào log của người khác. Vẫn giữ quy tắc vệ sinh: một bí mật dán vào bất kỳ công cụ trình duyệt nào đã đi qua lịch sử clipboard và có khi bộ nhớ của một extension, nên luân phiên các secret webhook định kỳ là thực hành tốt ngay cả khi công cụ tự nó không bao giờ truyền chúng.",
+          "Cho tự động hóa sống lâu, hãy ưu tiên cùng các nguyên thủy trong mã của chính bạn (Web Crypto API hay một hàm HMAC trong thư viện chuẩn của ngôn ngữ) với bí mật đọc từ biến môi trường hay secret manager. Một công cụ trình duyệt như cái này là cho việc kiểm chứng tương tác và debug — tái lập một chữ ký để tìm ra vì sao một yêu cầu bị từ chối — hơn là để nhúng vào một pipeline triển khai.",
+        ],
+      },
+    ],
   },
   "unlock-pdf": {
     name: 'Mở khóa PDF',
@@ -6630,6 +9728,32 @@ export const vi: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Có thể bỏ mật khẩu mở tệp không?', a: 'Chỉ khi trình đọc của bạn đã lưu mật khẩu và hiển thị nội dung không cần hỏi. Tệp thực sự cần mật khẩu để mở thì được mã hóa bằng mật khẩu đó, và công cụ này không cố bẻ khóa hay giải mã.' },
         { q: 'Có thể đặt mật khẩu cho PDF tại đây không?', a: 'Không. Mã hóa AES đáng tin cho PDF không khả thi với bản triển khai nhẹ chỉ trong trình duyệt, nên trang không cung cấp thêm mật khẩu — chỉ gỡ hạn chế khỏi tệp đọc được.' },
+    ],
+    deepDive: [
+      {
+        heading: "Bảo vệ mật khẩu PDF thực sự khóa gì — và unlock làm được gì",
+        paragraphs: [
+          "Mã hóa PDF có hai tầng riêng biệt, và việc trộn chúng gây đa số sự lẫn lộn. Mật khẩu mở (user password) canh cả file: thiếu nó, nội dung không đọc được chút nào. Mật khẩu quyền hạn (owner password) canh các hành động — in, sao chép văn bản, sửa — trong khi file mở tự do. Một file bị hạn chế bởi owner-password đọc được hoàn toàn; nó đơn giản được đánh dấu “không cho phép sao chép”.",
+          "Công cụ này dành cho kịch bản thứ hai và kịch bản thứ nhất khi mật khẩu trong tay: các file bạn hợp pháp mở được nhưng mang ràng buộc, hay các file có mật khẩu bạn biết và có thể cung cấp. Mở khóa gỡ tầng mã hóa và sinh một bản sao không mã hóa — sau đó, không trình xem nào hỏi gì và không ràng buộc nào áp dụng.",
+          "Ranh giới phải nói thẳng: đây không phải một công cụ phá mật khẩu, và nó không thể mở một file có mật khẩu bạn không có. Nếu bạn mất mật khẩu của một tài liệu bạn sở hữu, con đường là phục hồi mật khẩu, không phải gỡ mã hóa. Gỡ ràng buộc trên một file bạn được ủy quyền mở — bản xuất của chính bạn, tài liệu bạn nhận hợp pháp — là cách dùng chủ đích.",
+        ],
+      },
+      {
+        heading: "Các ràng buộc owner-password từ đâu đến, và khi nào gỡ là chính đáng",
+        paragraphs: [
+          "Owner password ngoài đời xuất hiện thường như tai nạn hơn là bảo vệ. Các hộp thoại xuất PDF cho phép tác giả tick “hạn chế sửa” hay “hạn chế sao chép” với một owner password sinh ngẫu nhiên mà tác giả có khi không bao giờ ghi lại — nên ràng buộc sống lâu hơn kiến thức của tác giả về nó. Các nguồn phổ thông khác: các công ty template khóa file của họ chống sửa, và các quy trình cũ hạn chế in như một chuyện hiển nhiên.",
+          "Việc gỡ là chính đáng khi bạn có quyền đọc file. Các ràng buộc tác động lên những người vốn đã mở được tài liệu — chúng là một chính sách sử dụng, không phải sự mật. Nếu bạn nhận một tài liệu hợp pháp và đọc được nó, gỡ các ràng buộc sao chép cho mục đích của mình (trích một điều khoản vào ghi chú, in một mẫu biểu) là kỳ vọng bình thường của quyền sở hữu tài liệu; nếu giấy phép của tài liệu nói khác, hãy tôn trọng giấy phép.",
+          "Điều mở khóa KHÔNG đổi: bản thân nội dung. Không tái xử lý nào xảy ra — các trang, văn bản, font và ảnh được giải mã và bọc lại không có bất kỳ chuyển đổi nào. Đó là lý do mở khóa không mất dữ liệu và nhanh ngay cả với file lớn, và lý do output tương đương-bit về nội dung với thứ bạn thấy trong trình xem.",
+        ],
+      },
+      {
+        heading: "Logic riêng tư của việc mở khóa cục bộ",
+        paragraphs: [
+          "Hãy nghĩ xem một dịch vụ mở khóa sẽ đòi gì: bạn phải cung cấp file bị khóa — và thường, trên thực tế, cả mật khẩu của nó — cho một bên thứ ba. Mật khẩu là một thông tin xác thực, không chỉ dữ liệu; tổ hợp một file với mật khẩu mở của nó trên máy chủ của người khác là một sự xâm phạm trọn vẹn tính mật của tài liệu đó, được ghi vào log, chỉ vì gỡ một cờ.",
+          "Công cụ này giải mã trong trình duyệt của bạn: file và mật khẩu được xử lý trên thiết bị của bạn, giải mã diễn ra trong bộ nhớ, và bản sao không mã hóa được lưu trực tiếp bởi trình duyệt của bạn. Mật khẩu không bao giờ được truyền hay lưu ở đâu cả — không máy chủ nào tham gia tại bất kỳ thời điểm nào, và thao tác chạy hoàn toàn offline.",
+          "Một lưu ý thực dụng cho mở khóa hàng loạt: các kho lưu trữ xuất từ các hệ cũ thường có một mật khẩu chung qua nhiều file. Vì công cụ xử lý cục bộ không giới hạn tần suất hay hàng đợi upload, mở khóa cả một bộ nhanh như mở khóa một file — và chẳng file nào trong số đó, hay mật khẩu chung của chúng, rời máy của bạn.",
+        ],
+      },
     ],
   },
   "flatten-pdf": {
@@ -6644,6 +9768,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Trang có nhìn giống hệt sau khi làm phẳng không?', a: 'Có. Giá trị trường được vẽ tại chỗ, nên kết quả hiển thị khớp với những gì bạn thấy. Khác biệt nằm bên dưới: tệp không còn các đối tượng trường tương tác.' },
         { q: 'Biểu mẫu có thể chỉnh sửa lại được không?', a: 'Không, và đó chính là mục đích. Làm phẳng là không thể đảo ngược ở tệp kết quả — các giá trị trở thành nội dung trang thường. Giữ tệp gốc tương tác nếu bạn có thể cần chỉnh sửa sau.' },
     ],
+    deepDive: [
+      {
+        heading: "Làm phẳng thực sự sửa gì",
+        paragraphs: [
+          "Một PDF có thể mang các tầng tương tác trên nội dung in của nó: các trường form có giá trị ai đó đã gõ, các đối tượng chú thích (tô sáng, bình luận, con dấu), và các nhóm nội dung tùy chọn (các tầng). Chẳng cái nào trong số đó là mực. Một trường form là một widget đọc giá trị của nó từ các cấu trúc dữ liệu của tài liệu lúc hiển thị; một chú thích là một đối tượng riêng đặt đè lên trang. Các trình xem và máy in được cho là render chúng, nhưng không phải thứ nào cũng làm — một máy in bỏ qua các trường form cho ra một trang với các ô trống đúng chỗ các câu trả lời lẽ ra nằm.",
+          "Làm phẳng đốt các tầng ấy vào trang vĩnh viễn. Giá trị hiện tại của mỗi trường được vẽ thành nội dung trang thường, mỗi chú thích được raster hóa hay đổi thành đồ họa trang, và cỗ máy tương tác bị gỡ khỏi output. Kết quả nhìn như nhau trong bất kỳ trình xem nào, in như nhau trên bất kỳ máy in nào, và không thể được sửa như một form nữa.",
+          "Thất bại kinh điển điều này ngăn: bạn điền form, lưu, gửi email — và người nhận mở nó trong một trình xem hiện các trường trống, hay app “trả-lời-kèm-chữ-ký” của họ cắt các trường khi xuất. Làm phẳng trước khi gửi đông cứng các câu trả lời của bạn vào chính trang, nên thứ bạn thấy là thứ họ nhận.",
+        ],
+      },
+      {
+        heading: "Khi nào phẳng, khi nào đừng",
+        paragraphs: [
+          "Hãy làm phẳng khi tài liệu đã xong và hướng ra ngoài: một form hồ sơ đã điền, một hợp đồng đã ký đang được gửi, một bản thảo đã soát mà các bình luận phải sống sót qua một chiếc máy in cẩu thả. Làm phẳng còn là nước đi chuẩn trước khi ghép: gộp hai file mà một cái có các trường form có thể sinh các tên trường xung đột, và các đầu vào đã phẳng gộp thành các trang trơ.",
+          "Đừng làm phẳng các tài liệu đang làm. Khi đã phẳng, các giá trị trường là các pixel và chữ trên trang — bạn không thể mở lại form và đổi một mục; bạn sẽ phải giữ bản sao tương tác gốc. Tương tự, các chú thích mà một đồng nghiệp còn cần xử lý như bình luận mất tính-bình-luận và thành một phần của trang.",
+          "Một điểm tinh tế: làm phẳng nướng vào trạng thái hiện tại. Nếu một trường hiện “chọn...” vì chẳng ai điền, chính placeholder đó là thứ bị nướng vào. Hãy điền mọi thứ bạn định điền trước, rồi làm phẳng — thao tác nắm bắt tài liệu đúng như nó nhìn vào khoảnh khắc ấy.",
+        ],
+      },
+      {
+        heading: "Làm phẳng cục bộ và tính mật của tài liệu",
+        paragraphs: [
+          "Các tài liệu đã phẳng, theo bản chất, là các phiên bản hoàn chỉnh và nhạy cảm nhất: hợp đồng thuê đã ký, tờ thuế đã điền, thư mời cuối cùng. Đây chính xác là các file mọi người upload lên các trang “free PDF fixer”, và các trang đó xử lý các hồ sơ pháp lý và tài chính đã hoàn thành của bạn trên máy chủ của họ như một chi phí vận hành thường lệ của việc chạy trang.",
+          "Ở đây toàn bộ thao tác diễn ra trong trình duyệt của bạn: tài liệu được parse và render lại cục bộ, các trường và chú thích được hợp thành vào đồ họa trang trong bộ nhớ, và file đã phẳng được ghi thẳng vào mục tải về của bạn. Không gì được upload, xếp hàng hay giữ lại ở đâu cả, và không có kịch bản nào trong đó các giá trị đã điền tồn tại ngoài thiết bị của bạn.",
+          "Một mẹo thực dụng cho người cẩn trọng tuyệt đối: sau khi phẳng, mở kết quả và thử bấm vào nơi một trường từng nằm. Chẳng gì còn chọn được hay sửa được — đó là sự xác nhận của bạn rằng tầng tương tác đã biến mất. Nếu bạn còn muốn văn bản không sao chép được, đó là một thao tác khác (raster hóa, như công cụ nén làm), không phải làm phẳng; làm phẳng bỏ tính tương tác, không bỏ tầng văn bản.",
+        ],
+      },
+    ],
   },
   "pdf-crop": {
     name: 'Cắt PDF',
@@ -6656,6 +9806,32 @@ export const vi: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Việc cắt có phá hủy nội dung không?', a: 'Không. Crop box chỉ thay đổi vùng nào được hiển thị và in; nội dung gốc vẫn nằm trong tệp. Trình đọc nào đặt lại crop box về media box sẽ hiển thị lại trang gốc đầy đủ.' },
         { q: 'Tại sao bản xem trước chỉ có trang 1?', a: 'Hình chữ nhật được định nghĩa theo phần trăm của trang, nên nó co giãn cho mọi trang đích dù kích thước khác nhau. Trang 1 được kết xuất trực tiếp bằng pdf.js, và bốn ô nhập số cho điều khiển chính xác khi kéo chưa đủ chuẩn.' },
+    ],
+    deepDive: [
+      {
+        heading: "Cắt PDF thực sự đổi gì — và không đổi gì",
+        paragraphs: [
+          "Cắt một PDF theo mặc định không xóa gì cả — nó đổi hộp cắt (crop box) của trang, hình chữ nhật nói với các trình xem phần nào của trang được hiển thị và in. Toàn bộ nội dung vẫn tồn tại ngoài vùng nhìn thấy; một trình đọc có công cụ, hay một cú copy-paste hung hãn, chạm được nội dung bạn tưởng đã cắt bỏ. Điều này khác về bản chất với cắt ảnh, nơi các pixel ngoài khung thực sự biến mất.",
+          "Cho việc giấu các lề nhạy cảm (một header fax, một chú thích scan ở mép), một thay đổi crop box là chuyện thẩm mỹ. Cho các cách dùng hằng ngày — cắt viền máy scan, bỏ khoảng trắng khỏi slide, khớp vùng in được của máy in — nó đúng là công cụ đích đáng, vì nó bảo toàn mọi thứ trong khi đổi cách trang được đóng khung.",
+          "Khi bạn thực sự cần nội dung biến mất, cắt là chưa đủ: hãy raster hóa trang (như công cụ nén làm) sau khi cắt, hay xóa hẳn trang. Mô hình tinh thần an toàn: cắt che giấu, raster hóa đốt, xóa loại bỏ. Chọn theo ý định, và nhớ sự phân biệt khi tài liệu sắp đến tay một người nhận không đáng tin.",
+        ],
+      },
+      {
+        heading: "Lề, tính nhất quán và cách chọn hình chữ nhật",
+        paragraphs: [
+          "Công việc cắt phổ biến nhất là các cưa của máy scan: các cạnh đen, lề xiên, và vệt bóng của nắp máy scan. Cho một bản scan nhiều trang, cắt từng trang riêng tốn công và cho các kích thước trang không nhất quán — một tài liệu mà các trang khác nhau tinh tế về kích thước in và đọc tệ hơn. Cắt mọi trang với một hình chữ nhật dùng chung giữ tài liệu đồng nhất; cắt theo từng trang chỉ hợp lý khi các trang thực sự khác nhau, như các gói hỗn hợp chiều dọc-ngang.",
+          "Một mẹo hữu ích cho tài liệu văn bản: cắt bảo thủ hơn là cắt sát. Cắt bớt khoảng trắng ngoài chẳng tốn gì, nhưng cắt vào vùng sống sẽ cụt các phần chữ lên, chú thích chân trang hay văn bản header. Phóng tới nội dung sát nhất trên trang tệ nhất trước, rồi cộng một biên an toàn nhỏ — các tài liệu gần như luôn có một trang mà nội dung trải xa hơn phần còn lại.",
+          "Nhớ cắt còn tương tác với in ấn: các trình xem PDF thường khít trang đã cắt vào tờ giấy, nên một trang A4 cắt sát in trên giấy A4 phóng đại nhẹ, đổi cỡ chữ. Nếu output phải in đúng thang gốc, hãy giữ đủ lề để kích thước sau cắt khớp một khổ giấy chuẩn.",
+        ],
+      },
+      {
+        heading: "Cắt cục bộ khi các trang là riêng tư",
+        paragraphs: [
+          "Các tài liệu cần cắt thường là các bản scan của bản gốc bạn đang giữ: hợp đồng, thư, chứng chỉ, hóa đơn. Upload chúng lên một công cụ cắt trực tuyến là trao toàn bộ ảnh chưa cắt — gồm cả thứ bạn định cắt đi — cho dịch vụ ấy. Một sự trớ trêu nhỏ của công việc riêng tư: bước vốn nhằm gọn gàng hóa tài liệu lại thành bước phơi nó trọn vẹn nhất.",
+          "Công cụ này áp các hộp cắt hoàn toàn trong trình duyệt của bạn: các trang được parse cục bộ, các hình chữ nhật mới được ghi vào cấu trúc tài liệu, và kết quả được lưu bởi chính thiết bị của bạn. Không gì được truyền đi, và file gốc trên đĩa chưa bao giờ bị chạm — bạn luôn giữ nguồn chưa cắt để chỉnh hình chữ nhật sau này.",
+          "Vì cắt ở đây ở cấp metadata và không mất dữ liệu, nó còn tức thì ngay cả với file lớn — không có lượt mã hóa lại nào. Điều đó khiến việc lặp trở nên thực tế: cắt, xem, tinh chỉnh, cắt lại, không chờ đợi. Ghép với công cụ xóa-trang cho một quy trình “dọn một bản scan” trọn vẹn không bao giờ rời máy của bạn.",
+        ],
+      },
     ],
   },
   "eta-calculator": {
@@ -6672,6 +9848,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Dùng đơn vị nào cho khối lượng?', a: 'Bất kỳ đơn vị nhất quán nào: ticket, bài viết, ki-lô-mét đường, dòng cơ sở dữ liệu. Máy tính chỉ cần tỷ lệ giữa khối lượng và tốc độ, nên hai phía phải dùng cùng một đơn vị.' },
         { q: 'Có thể đặt thời điểm bắt đầu ở tương lai hoặc quá khứ không?', a: 'Được. Mặc định đếm ngược bắt đầu từ bây giờ, nhưng bạn có thể bật thời điểm bắt đầu tùy chỉnh — hữu ích để ước tính công việc bắt đầu thứ Hai tới, hoặc kiểm tra khi nào công việc bắt đầu tuần trước sẽ xong.' },
     ],
+    deepDive: [
+      {
+        heading: "Phép số học đứng sau một ETA",
+        paragraphs: [
+          "Ở lõi, phép chiếu là một phép chia: khối lượng còn lại chia hiệu suất hiệu dụng. Điểm tinh tế là “hiệu dụng” nghĩa là gì. Một mức theo giờ được dùng nguyên trạng; một mức theo ngày được chiếu lên cài đặt giờ-làm của bạn, nên một việc 40 giờ với 8 giờ mỗi ngày trải năm ngày lịch, không phải một; một mức theo tuần giả định tuần làm việc 5 ngày, nên nó trải bảy ngày lịch. Mỗi lựa chọn dịch dấu thời gian kết thúc, đó là lý do công cụ hỏi.",
+          "Bộ đếm ngược và khoảng thời gian được nói-cho-người là cùng phép chiếu được render hai kiểu: bộ đếm là thời gian từ điểm bắt đầu đến kết thúc, và “3 ngày 4 tiếng” là cùng khoảng ấy được phát biểu lại theo các đơn vị mọi người xếp lịch quanh. Vì cả ba output suy từ một công thức, đổi hiệu suất cập nhật tất cả cùng lúc — cách nhanh nhất thấy được việc tăng hay giảm tốc thực sự đáng giá bao nhiêu.",
+          "Một giới hạn trung thực: mô hình là tuyến tính. Nó giả định mỗi đơn vị việc tốn cùng thời gian với cái trước, không khởi động, không làm lại và không bị gián đoạn. Các hàng đợi thật tăm ra ở đuôi — 10 phần trăm cuối thường tốn lâu hơn mỗi đơn vị so với 90 đầu — nên hãy coi một ETA giai-đoạn-cuối lạc quan theo mặc định và làm mới nó khi tiến độ thật về.",
+        ],
+      },
+      {
+        heading: "Chọn hiệu suất: nguồn lỗi lớn nhất",
+        paragraphs: [
+          "Đa số ETA sai là sai vì hiệu suất, không phải phép toán. Lỗi kinh điển là nhập một hiệu suất ca-tốt-nhất — thứ bạn đạt trong một buổi chiều quang đãng không gián đoạn — và để nó đứng thay cho mức trung bình gồm các cuộc họp, các lần đổi ngữ cảnh và các ngày xấu. Một hiệu suất bằng nửa mức tốt nhất của bạn thường dự đoán hoàn thành thật tốt hơn hẳn chính mức tốt nhất.",
+          "Một cái bẫy thứ hai là lệch đơn vị: nhập tickets mỗi ngày với một khối lượng tính theo trang, hay mức theo giờ với khối lượng theo ngày. Công cụ cần cả hai phía cùng đơn vị, và phép kiểm an toàn nhất là tính lại một mẩu nhỏ đã hoàn thành và xem công thức có dự đoán được thời gian của nó không.",
+          "Giờ làm và lịch cũng tương tác: một mức theo ngày không tự bỏ cuối tuần, và các ngày nghỉ lễ không bị trừ trừ khi mức của bạn đã tính chúng. Nếu ngày kết thúc rơi vào thứ Bảy và bạn không làm ngày đó, hãy nhích hiệu suất xuống hay kéo dài mốc thời gian bằng tay — công cụ mô hình các giả định bạn tuyên bố, không phải lịch riêng của bạn.",
+        ],
+      },
+      {
+        heading: "Dùng ETA mà không bị chúng làm bị thương",
+        paragraphs: [
+          "Quy trình đáng tin nhất là dự báo lại: nhập khối lượng, chạy ước lượng, rồi — khi việc diễn ra — cập nhật khối lượng còn lại và hiệu suất bạn thực sự đạt được. Một ETA tính lại ở 25 phần trăm hoàn thành chính xác hơn hẳn một cái làm ở 0, vì hiệu suất thực hiện được đo chứ không phải đoán.",
+          "Khi ước lượng dành cho người khác (một khách hàng, một bên liên quan), khoảng thời gian đọc-được là output để chia sẻ, và việc đệm belongs vào hiệu suất, không phải vào một bộ đệm không-giải-thích đắp lên: “12 đơn vị mỗi tuần, không phải 20” là một tuyên bố có thể bảo vệ, trong khi một con số trần với một cú đệm 40 phần trăm giấu kín mời gọi lịch bị tin theo mặt chữ.",
+          "Như mọi thứ trên trang này, phép tính chạy cục bộ trong trình duyệt của bạn — không dữ liệu khối lượng hay hiệu suất nào được upload, ghi log hay chia sẻ. Điều đó khiến nó dùng được cho cả các kế hoạch phân ca nội bộ lẫn báo giá khách mà các con số chưa bao giờ rời thiết bị của bạn.",
+        ],
+      },
+    ],
   },
   "mime-types": {
     name: 'Bảng kiểu MIME',
@@ -6686,6 +9888,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Đây có phải toàn bộ danh mục kiểu phương tiện của IANA?', a: 'Không — IANA liệt kê hơn một nghìn kiểu đã đăng ký, nhiều kiểu dành riêng cho nhà cung cấp hoặc mang tính lịch sử. Bảng này tập trung vào khoảng 120 mục thực sự gặp trong phát triển web, cấu hình triển khai và thư điện tử, với giá trị hiện hành chính xác.' },
         { q: 'Vì sao .ts xuất hiện hai lần với danh mục khác nhau?', a: 'Phần mở rộng này thực sự nhập nhằng: mã nguồn TypeScript (text/x.typescript) và luồng truyền MPEG (video/mp2t) đều dùng .ts. Máy chủ quyết định theo ngữ cảnh thư mục, nên hãy kiểm tra trường hợp nào áp dụng cho bạn.' },
     ],
+    deepDive: [
+      {
+        heading: "MIME type thực chất là gì",
+        paragraphs: [
+          "Một MIME type là một nhãn hai phần — type/subtype, như text/html hay image/png — nói với bên nhận cách diễn giải một payload. Sổ đăng ký do IANA duy trì, và các kiểu kế thừa từ hệ đính kèm email mà định dạng được đặt tên theo (Multipurpose Internet Mail Extensions). Các trình duyệt, máy chủ và mail client đều dựa vào đúng một dòng metadata này.",
+          "Các kiểu cấp cao chỉ vài cái: text, image, audio, video, application, cộng vài cái đặc biệt như multipart và font. Subtype mang thông tin thật — application/json nghĩa là dữ liệu có cấu trúc, application/pdf nghĩa là một tài liệu, application/octet-stream nghĩa là “các byte mờ đục, chúc may mắn”. Các quy ước +hậu-tố (application/+json, +xml) chỉ ra cấu trúc nội bộ của subtype.",
+          "Các tham số theo sau dấu chấm phẩy: text/html; charset=utf-8 tuyên bố encoding ký tự. Đây là chỗ một con số bug đáng ngạc nhiên sống — một trang được phục vụ không charset có thể render đẹp trong một trình duyệt và thành rác trong trình duyệt khác.",
+        ],
+      },
+      {
+        heading: "Vì sao trình duyệt sniff, và điều đó khiến bạn tốn gì",
+        paragraphs: [
+          "Các máy chủ thường xuyên sai MIME type: các host cấu hình nhầm gửi văn bản thường với đuôi .css, hay mọi thứ thành application/octet-stream. Thay vì gãy, các trình duyệt theo lịch sử đoán từ nội dung — “MIME sniffing” — đọc các magic byte (một PNG bắt đầu bằng 89504E47, một PDF bằng %PDF) và render theo kết quả đoán. Hành vi ấy gây ra các lỗ hổng thật: phục vụ nội dung người dùng upload thành text/html cho phép kẻ tấn công chạy script trên origin của bạn, đó là lý do các công cụ an ninh tồn tại để tắt sniffing theo từng phản hồi.",
+          "Hợp đồng hiện đại: đặt Content-Type đúng cho mọi thứ bạn phục vụ, cộng header nosniff cho nội dung người dùng, và không bao giờ phục vụ các bản upload người dùng thành text/html. Cơ sở dữ liệu ở đây dùng để kiểm hợp đồng ấy — trước khi phục vụ một loại file, hãy tra kiểu chuẩn tắc của nó thay vì bịa một cái.",
+          "Phép ánh xạ đuôi-file-sang-MIME là quy ước, không phải luật: một file .dat có thể là bất cứ thứ gì, và vài định dạng chia sẻ các đuôi (.mp4 cho cả hộp chứa âm thanh lẫn video). Khi phân vân, hãy tự sniff magic byte của file trước khi tuyên bố một kiểu.",
+        ],
+      },
+      {
+        heading: "Bảng tham chiếu offline",
+        paragraphs: [
+          "Bảng là một tham chiếu tĩnh đi kèm trang — tra cứu diễn ra tức thì trong trình duyệt của bạn không cần yêu cầu mạng nào. Điều đó khiến nó dùng được trong các môi trường cách-ly-mạng và đủ nhanh để mở cạnh một file cấu hình bạn đang sửa.",
+          "Cho công việc cấu hình máy chủ, các tra cứu phổ biến nhất là các cặp phía máy chủ: kiểu nội dung cho font (font/woff2), manifest (application/manifest+json) và media stream. Lấy đúng chúng ngăn các triệu chứng kinh điển — font lặng lẽ gãy các phép kiểm CORS, stylesheet từ chối tải dưới kiểm MIME nghiêm ngặt.",
+          "Chẳng gì về traffic hay file của bạn được ghi lại; trang là một cuốn từ điển, không phải một dịch vụ. Ghép với các công cụ JSON khi debug các phản hồi API có header Content-Type đáng nghi.",
+        ],
+      },
+    ],
   },
   "keycode-info": {
     name: 'Mã phím',
@@ -6699,6 +9927,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Vì sao event.key và event.code khác nhau cho cùng một phím?', a: 'event.key báo ký tự tạo ra theo bố cục và trạng thái bổ trợ hiện tại ("A", "á", "1"), còn event.code báo vị trí vật lý (KeyA, Digit1) độc lập với bố cục. Phím tắt thường nên khớp theo code; xử lý văn bản nên đọc key.' },
         { q: 'keyCode đã bị loại bỏ?', a: 'Có — nó là di sản, chỉ giữ lại để tương thích với mã cũ phân nhánh theo số như 13 (Enter) hoặc 27 (Escape). Mã mới nên dùng event.key hoặc event.code; công cụ này hiển thị nó để tra các hằng số cũ khi chuyển đổi.' },
         { q: 'Vì sao cùng một giá trị lặp lại khi tôi giữ một phím?', a: 'Giữ phím khiến hệ điều hành gửi các sự kiện keydown lặp lại với repeat là true. Bật "bỏ qua tự động lặp" để chỉ hiển thị lần nhấn đầu; tắt đi nếu cần kiểm tra handler của bạn có nhận đúng sự kiện lặp.' },
+    ],
+    deepDive: [
+      {
+        heading: "keyCode đã bị khấu hao — đây là bức tranh",
+        paragraphs: [
+          "Các mã phím số công cụ này hiển thị đến từ KeyboardEvent.keyCode và which gốc, ra đời thập niên 1990 và nay chính thức bị khấu hao. Chúng vẫn là các định danh phím được biết rộng nhất vì hàng thập kỷ hướng dẫn, thư viện và câu trả lời Stack Overflow dựng trên chúng — nhưng tiêu chuẩn thay thế chúng là KeyboardEvent.key (ký tự, như “a” hay “ArrowLeft”) và KeyboardEvent.code (phím vật lý, như “KeyA” hay “ArrowLeft”).",
+          "Sự phân biệt có ý nghĩa: key tôn trọng bố cục bàn phím (bấm phím cạnh Tab trên một AZERTY Pháp cho một giá trị key khác với QWERTY Mỹ), trong khi code luôn nhận diện cùng vị trí vật lý. Cho điều khiển game và các hệ phím tắt, code thường đúng; cho xử lý văn bản, key đúng.",
+          "Vấn đề khác của keyCode là sự bất nhất: các phím mũi, phím F và vài phím số có các giá trị phụ thuộc trình duyệt và nền tảng, và cách xử lý cũ với các dead key và đầu vào IME khác nhau. Mã mới nên coi các con số của công cụ này làm tham chiếu để đọc mã cũ, không phải thứ để viết.",
+        ],
+      },
+      {
+        heading: "Đọc các định danh phím trên thực tế",
+        paragraphs: [
+          "Ba thuộc tính trả lời ba câu hỏi khác nhau: keyCode (bị khấu hao) cho một số, key cho cú bấm nghĩa là gì, code cho phím ngồi ở đâu. Cùng một cú bấm phím vật lý có thể báo key “a” với code “KeyA”; giữ Shift, key thành “A” trong khi code giữ “KeyA”. Giữ một phím bổ trợ đổi key nhưng chưa bao giờ đổi code.",
+          "Phím Escape là một ca ổn định (key “Escape”, code “Escape”, keyCode 27 — con số cũ gần như ai cũng thuộc). Space là một cái bẫy: giá trị key của nó là “ ” (một dấu cách nguyên văn), không phải “Space”, thứ đã làm gãy nhiều switch statement ngây thơ.",
+          "Cho các phím tắt, hãy nghe code khi ràng buộc mang tính vị trí (di chuyển WASD) và key khi mang tính đánh-văn bản (Ctrl+Shift+P nên chạy cả trên AZERTY). Và dùng e.repeat để bỏ tự-lặp khi một phím tắt nên nổ một lần mỗi cú bấm.",
+        ],
+      },
+      {
+        heading: "Tra cứu tham chiếu, offline",
+        paragraphs: [
+          "Công cụ hiện mã số cạnh các giá trị key và code hiện đại, nên bạn dịch keyCode 188 của một đoạn mã cũ thành các tương đương hiện đại mà không cần mở debugger trình duyệt và bấm từng phím một.",
+          "Mọi thứ là một bảng tĩnh render trong trình duyệt của bạn — không yêu cầu mạng, chạy không cần kết nối, và không gì về bàn phím của bạn được báo đi đâu.",
+          "Khi viết các bộ xử lý sự kiện mới, hãy thử trên một bàn phím thật theo bố cục của người dùng mục tiêu, vì các giá trị phụ-thuộc-bố-cục khác nhau nhiều hơn bất kỳ bảng nào hiện nổi. Trang này là cuốn từ điển; bàn phím của bạn là phép thử hiện trường.",
+        ],
+      },
     ],
   },
   "ipv4-subnet-calculator": {
@@ -6715,6 +9969,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Lớp IP còn có ý nghĩa không?', a: 'Không cho định tuyến — internet chuyển sang CIDR không lớp từ nhiều thập kỷ trước. Chữ A/B/C/D/E chỉ hiển thị để tham khảo, vì tài liệu cũ, đề thi và một số thiết bị cũ vẫn dùng thuật ngữ lớp.' },
         { q: 'CIDR nhỏ nhất chứa hai IP được tính thế nào?', a: 'Hai địa chỉ được XOR để tìm các bit thấp nào khác nhau; tiền tố là vị trí bit đầu tiên hai địa chỉ trùng nhau, và khối được căn theo biên đó. Ví dụ 10.1.2.3 và 10.1.9.200 cùng rơi vào 10.1.0.0/20.' },
     ],
+    deepDive: [
+      {
+        heading: "CIDR và mặt nạ subnet, từ các nguyên lý đầu tiên",
+        paragraphs: [
+          "Một địa chỉ IPv4 là 32 bit, và tiền tố CIDR nói bao nhiêu bit đầu nhận diện mạng: /24 nghĩa là 24 bit đầu cố định và 8 bit cuối thuộc về host. Mặt nạ dạng chấm chỉ là quy tắc ấy viết theo ký hiệu IP — 255.255.255.0 có đúng 24 số một. Mặt nạ wildcard là nghịch đảo bit, thứ cú pháp ACL tường lửa đòi thay vào: nơi mặt nạ nói “phải khớp”, wildcard nói “không quan tâm”.",
+          "Các giá trị chuẩn rơi ra một cách cơ học một khi biên được đặt: địa chỉ mạng có mọi bit host về 0, địa chỉ broadcast có mọi bit được bật, và các host khả dụng chạy từ network+1 đến broadcast−1. Số host khả dụng là 2^(32−n) − 2 vì network và broadcast được dành riêng — một /24 chứa 256 địa chỉ nhưng 254 host khả dụng, và cú-lệch-hai ấy là lý do phổ biến nhất khiến một kế hoạch mạng thiếu đúng một host.",
+          "Hai ngoại lệ được tôn trọng một cách có chủ đích: các liên kết điểm-đến-điểm /31 theo RFC 3021 dùng cả hai địa chỉ không có network hay broadcast dành riêng, và /32 là một tuyến single-host theo định nghĩa. Nếu mô hình tinh thần của bạn nói “luôn trừ hai”, đây là hai ca mà các cấu hình thật rời khỏi giáo trình.",
+        ],
+      },
+      {
+        heading: "Các dải riêng tư và lỗi tường lửa kinh điển",
+        paragraphs: [
+          "Không phải mọi địa chỉ đều duy nhất toàn cầu. RFC 1918 dành 10.0.0.0/8, 172.16.0.0/12 và 192.168.0.0/16 cho các mạng riêng tư; 127.0.0.0/8 là loopback, 169.254.0.0/16 là link-local, và 100.64.0.0/10 là không gian dùng chung CGNAT mà các nhà mạng dùng giữa modem và lõi của họ. Công cụ gắn cờ tất cả để bạn biết mình đang nhìn loại địa chỉ nào.",
+          "Lỗi mà các cờ ngăn: viết một quy tắc cho phép tường lửa cho một dải bạn tin là công khai, trong khi nó thực tế nằm trong RFC 1918 — ví dụ cho phép lân cận của 172.16.0.0/12 một cách vô ý. Ngược lại, coi một nguồn CGNAT như một khách truy cập công khai khiến cùng địa chỉ nhà mạng xuất hiện từ hàng triệu người đăng ký, phá vỡ các giới hạn tần suất theo-IP và các giả định ghi log.",
+          "Một cái bẫy nữa sống trong riêng dải 172: 172.16/12 trải từ 172.16.0.0 đến 172.31.255.255, nên 172.20.x.x là riêng tư nhưng 172.32.x.x là công khai. Trí nhớ nói “172 là riêng tư”, thực tế nói chỉ một lát rộng 16 bit của không gian 172 là vậy. Đây là lỗi tra-dải-riêng-tư phổ biến nhất trên thực tế, và chính là thứ cột gắn cờ kết thúc ngay lập tức.",
+        ],
+      },
+      {
+        heading: "CIDR phủ nhỏ nhất và vì sao gộp tay thất bại",
+        paragraphs: [
+          "Cho hai IP, khối nhỏ nhất chứa cả hai được tìm bằng cách so bit: XOR hai địa chỉ, và vị trí bit khác nhau cao nhất cho biết bao nhiêu bit thấp biến đổi. Tiền tố là mọi thứ trên vị trí ấy, và khối được căn xuống biên đó — nên 10.1.2.3 và 10.1.9.200 chia sẻ một /20 nhưng sẽ không chia sẻ một /21, vì khác biệt của chúng chạm vào vùng bit 20.",
+          "Gộp tay thất bại vì con người lý luận theo thập phân. 10.1.2.3 “trông như” thuộc về 10.1.2.x, và một /24 đúng là chứa nó — nhưng ghép nó với 10.1.9.200 buộc một khối mà octet thứ ba trải 0–15, điều chẳng ai trực giác nổi từ các chuỗi thập phân. Phương pháp XOR biến một bài toán trực giác thành phép số học bit hoặc chạy hoặc chứng minh được là không chạy.",
+          "Kết quả chứa còn cho bạn biết chi phí của việc tổng hợp: gộp hai host thành một quy tắc có thể kéo vào 2.048 địa chỉ bạn không định gồm. Hãy đọc số host khả dụng của khối kết quả trước khi dán vào tường lửa, và ưu tiên hai quy tắc cụ thể hơn một quy tắc rộng khi các địa chỉ thừa có ý nghĩa. Mọi thứ ở đây tính cục bộ trong trình duyệt — các kế hoạch địa chỉ nội bộ không bao giờ rời trang.",
+        ],
+      },
+    ],
   },
   "json-viewer": {
     name: 'Trình xem JSON',
@@ -6729,6 +10009,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Tài liệu lớn có xử lý được không?', a: 'Có với payload API và cấu hình thông thường — hàng chục nghìn nút render mượt. Việc cắt 60 ký tự chỉ áp dụng cho hiển thị; khung thô và nút sao chép luôn giữ dữ liệu đầy đủ.' },
         { q: 'Dữ liệu của tôi có rời thiết bị không?', a: 'Không. Phân tích và render diễn ra hoàn toàn trong bộ nhớ trình duyệt. Không có gì gửi đến máy chủ — an toàn cho phản hồi API nội bộ và cấu hình.' },
     ],
+    deepDive: [
+      {
+        heading: "Khung cây đổi gì trong việc đọc JSON",
+        paragraphs: [
+          "JSON thô được tối ưu cho máy móc: nó đóng gói cấu trúc vào dấu câu và khoảng trắng, nên một payload lồng sâu đọc như một bức tường ngoặc. Một khung cây đảo điều đó — mỗi đối tượng và mảng thành một nút bạn gấp lại được, nên tầng trên trả lời “phản hồi này chứa gì?” trong một cái liếc và chi tiết chỉ xuất hiện nơi bạn mở ra. Với một phản hồi API 200 dòng, đó là khác biệt giữa cuộn và điều hướng.",
+          "Tô màu theo kiểu không phải trang trí. Trong các payload thật, các bug tụ ở các biên: một số đến như chuỗi (“42”), một false thực ra là chuỗi “false”, một null lẽ ra phải là một đối tượng. Khi chuỗi, số, boolean và null mỗi cái một màu, các dị thường ấy bật ra thị giác — bạn quét cả một phản hồi tìm các kiểu đáng nghi mà không cần đọc tên khóa nào.",
+          "Cắt cụt chuỗi dài là mẹo đọc thứ ba. Các blob Base64, mảnh HTML và các mô tả dài thường kéo một giá trị qua hàng trăm ký tự và chôn cấu trúc. Cắt hiển thị ở 60 ký tự giữ mọi giá trị trên một dòng — trong khi khung thô và nút copy luôn mang trọn văn bản, nên không gì mất. Sự cắt cụt là phần trình bày, không phải dữ liệu.",
+        ],
+      },
+      {
+        heading: "Đọc lỗi parse: dòng, cột và các nghi phạm quen",
+        paragraphs: [
+          "JSON không khoan nhường theo những cách cụ thể, lặp lại, và các lỗi parser ánh xạ lên chúng. Các thất bại kinh điển: một dấu phẩy thừa sau phần tử cuối của đối tượng hay mảng (hợp lệ trong literal JavaScript, bất hợp pháp trong JSON), các khóa không quote hay quote đơn, nháy đơn quanh chuỗi, một ngoặc thiếu chỉ nổi lên hàng trăm dòng sau, và các comment — // ổn trong JS, chưa bao giờ hợp lệ trong JSON. Biết danh sách này biến đa số thông báo lỗi thành các bản vá một giây.",
+          "Số dòng và cột quan trọng vì điểm gãy thường xa điểm lỗi: một ngoặc đóng thiếu ở dòng 10 có khi chỉ được báo khi parser chạm một token mâu thuẫn ở dòng 40. Hãy sửa lỗi đầu tiên được báo và parse lại thay vì săn tất cả cùng lúc — các parser phục hồi tệ từ các lỗi chồng, và thông báo đầu là cái đáng tin.",
+          "Trình xem này báo lỗi kèm thông báo gốc của parser cùng vị trí, rồi render lại cây ngay khi đầu vào hợp lệ. Vòng lặp — dán, thấy lỗi, sửa, thấy cây — đủ nhanh rằng debug một file cấu hình sai khuôn thắng việc chuyển sang một trình soạn thảo có JSON linter cho một lần kiểm đơn lẻ.",
+        ],
+      },
+      {
+        heading: "Parse cục bộ, và khi nào với tới một công cụ khác",
+        paragraphs: [
+          "Mọi thứ chạy trong trình duyệt của bạn: parse, dựng cây và render diễn ra bằng JavaScript trên thiết bị của bạn, và không gì được truyền hay lưu. Điều này quan trọng nhất với các payload bạn thực sự dán — các phản hồi API có xác thực, cấu hình nội bộ, các hồ sơ khách hàng rút từ cơ sở dữ liệu. Gửi chúng tới một dịch vụ JSON trực tuyến để được in đẹp tạo ra một bản sao phía-máy-chủ mà bạn không kiểm soát cũng không cần.",
+          "Quy mô là biên trung thực. Hàng chục nghìn nút render ổn; một bản xuất nhiều trăm megabyte sẽ ép tab trình duyệt bất kể trình xem nào render nó, và một công cụ stream hay dòng-lệnh là câu trả lời đúng ở đó. Cho dải hằng ngày — các phản hồi API, payload webhook, file cấu hình — một cây trình duyệt là con đường nhanh nhất từ “cái này chứa gì?” đến một câu trả lời.",
+          "Ghép với các công cụ xung quanh cho các bước tiếp theo: bộ định dạng chuẩn hóa thụt lề trước khi bạn commit một bản vá, bộ kiểm xác nhận tuân thủ nghiêm ngặt, và json-path-query trích một cây con không cần săn qua cây bằng tay. Trình xem là công cụ đọc; các cái khác làm việc viết và truy vấn.",
+        ],
+      },
+    ],
   },
   "chmod-calculator": {
     name: 'Máy tính chmod',
@@ -6742,6 +10048,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: '755 nghĩa chính xác là gì?', a: 'Chủ sở hữu: đọc+ghi+thực thi (7=4+2+1); nhóm: đọc+thực thi (5=4+1); người khác: đọc+thực thi (5). Cấu hình điển hình cho thư mục chia sẻ và script cho phép chạy.' },
         { q: 'Sticky bit để làm gì?', a: 'Trên thư mục nó cấm xóa file của người khác — chính là «t» trong /tmp (drwxrwxrwt). Trên file thực thi nó giữ chương trình trong bộ nhớ — nay phần lớn chỉ còn ý nghĩa lịch sử.' },
         { q: 'setuid và setgid làm gì?', a: 'Trên file thực thi, setuid chạy nó bằng danh tính chủ sở hữu (setgid: nhóm) — đây là lý do chúng nguy hiểm. Trên thư mục, setgid buộc file mới kế thừa nhóm của thư mục.' },
+    ],
+    deepDive: [
+      {
+        heading: "755 và 644 từ đâu ra: phép số học 4-2-1",
+        paragraphs: [
+          "Mỗi trong ba lớp quyền — chủ, nhóm, người khác — giữ ba bit: đọc, ghi, thực thi. Chữ số bát phân là tổng các bit được bật có trọng số 4-2-1, đó là lý do chữ số chỉ có thể là 0-7 và mỗi giá trị ánh xạ đúng một chuỗi rwx. 7 là rwx (4+2+1), 6 là rw- (4+2), 5 là r-x (4+1), 4 là r-- (4). Chẳng tổ hợp nào sinh nổi, nói vậy, một số 3 nghĩa là gì khác -wx, nên ký pháp không mơ hồ một khi bạn thấm các trọng số.",
+          "Phép số học ấy giải thích hai chế độ ngựa thồ. 755 (rwxr-xr-x) nghĩa là chủ làm mọi thứ trong khi mọi người khác có thể vào và đọc nhưng không sửa — chế độ tự nhiên cho thư mục và cho các script mà người khác phải chạy được. 644 (rw-r--r--) bỏ thực thi khỏi bức tranh hoàn toàn: đọc được bởi tất, chỉ ghi được bởi chủ, vừa với các file thường. Lý do các máy chủ web muốn 644 trên file và 755 trên thư mục đơn giản là việc vào một thư mục là một thao tác thực thi, không phải đọc.",
+          "Umask khép lại bức tranh. Một umask điển hình 022 được trừ khỏi các mặc định 666/777 lúc tạo, chính là lý do file mới đáp ở 644 và thư mục mới ở 755. Khi một file cứ “mất” bit thực thi hay quyền ghi nhóm cứ biến mất, thủ phạm thường là umask hay một công cụ sync quá nhiệt tình, không phải chmod — kiểm chế độ bằng stat trước khi cấp lại tiết kiệm rất nhiều lần vò đầu.",
+        ],
+      },
+      {
+        heading: "Các bit đặc biệt: setuid, setgid và sticky",
+        paragraphs: [
+          "Ngoài chín bit quyền còn ba bit nữa. setuid (bát phân 4000) khiến một file thực thi chạy với danh tính của chủ file thay vì của người gọi — cơ chế đứng sau passwd, thứ phải ghi vào các file thuộc root trong khi mọi người chạy được. setgid (2000) làm tương tự với nhóm, và trên thư mục nó làm các file mới kế thừa nhóm của thư mục — cách các thư mục nhóm dùng chung giữ quyền sở hữu nhất quán.",
+          "Bit sticky (1000) phần lớn là lịch sử cho file, nhưng trên thư mục nó nghĩa là chỉ chủ file (hay root) xóa hay đổi tên được các mục bên trong. /tmp là ví dụ chuẩn tắc: 1777, ghi-được-bởi-tất-cả, thế mà người dùng không xóa file của nhau nổi. COPY --chmod của Docker và các script CI thỉnh thoảng cần các chữ số ấy được đánh vần — chính là lúc dạng bốn chữ số quan trọng: chữ số đầu là bát phân bit-đặc-biệt, 0 khi vắng.",
+          "Ký hiệu biểu tượng mã hóa trạng thái thay chỗ x: s thường nghĩa là bit đặc biệt cộng thực thi (rws), S hoa nghĩa là bit đặc biệt mà không thực thi — thường là một sai sót, vì một file setuid không-thực-thi chẳng làm gì. Cùng logic áp cho t với T trên thư mục. Thấy rwS hay rwT trong một listing là tín hiệu để cấp thực thi hay xóa bit đặc biệt.",
+        ],
+      },
+      {
+        heading: "Các cạm thực dụng và cách kiểm chế độ an toàn",
+        paragraphs: [
+          "Lỗi vận hành phổ biến nhất là chmod -R 777 làm bản vá cho một lỗi quyền. Nó khiến vấn đề trước mặt biến mất và để lại một cây ghi-được-bởi-tất-cả — một lỗ hổng an ninh thật trên bất kỳ host đa người dùng nào, và vô dụng như một chẩn đoán vì nó phá bằng chứng về chế độ thật là gì. Khi một dịch vụ không đọc được một file, hãy làm việc dọc đường đi thay vào: mọi thư mục trên đường cần thực thi (và thường cả đọc) cho user của dịch vụ, và thất bại thường nằm ở một thư mục cha, không phải file.",
+          "Một cái bẫy liên quan: chmod 644 trên một thư mục cắt bit thực thi của nó (r--r--r--), và chẳng ai — kể cả chủ — vào nổi nó nữa, vì bước vào một thư mục là một thực thi. Thư mục gần như luôn muốn ít nhất 755 hay 700, không bao giờ 644. Khi khôi phục các chế độ từ tài liệu, hãy ưu tiên dạng chữ số tường minh (chmod 755) hơn các biểu thức biểu tượng như +x mà hiệu ứng phụ thuộc chế độ hiện tại và umask.",
+          "Một máy tính như cái này cố ý chỉ-kiểm và offline: nó tính các chữ số trong trình duyệt của bạn và đưa bạn một lệnh để soát trước khi chạy. Điều đó giữ quy trình đúng chỗ của nó — bạn dán lệnh vào terminal của chính bạn, trên các file của chính bạn, và không gì về hệ tập tin hay cấu trúc thư mục của bạn rời máy.",
+        ],
+      },
     ],
   },
   "ulid-generator": {
@@ -6758,6 +10090,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Crockford Base32 là gì?', a: 'Bảng 32 ký tự (chữ số cộng A-Z trừ I, L, O, U) được thiết kế để sống sót qua khâu chép tay: không có cặp trông giống nhau, không phân biệt hoa-thường. Dày hơn hex 25% và không có +, /, = — an toàn cho URL, tên file và XML mà không cần escape.' },
         { q: 'Hai ULID tạo trong cùng mili-giây có va nhau không?', a: 'Thực tế là không: 80 bit ngẫu nhiên cho ~1,2 × 10²⁴ khả năng mỗi mili-giây. Đặc tả còn định nghĩa sinh đơn điệu (tăng phần ngẫu nhiên trong cùng mili-giây), mà chế độ loạt tuân theo ngay từ cấu trúc.' },
     ],
+    deepDive: [
+      {
+        heading: "Khả năng sắp thứ tự: khác biệt đổi cả chỉ mục của bạn",
+        paragraphs: [
+          "Một khóa chính UUIDv4 rải các dòng mới đến các vị trí ngẫu nhiên trong chỉ mục. Trên lưu trữ B-tree, điều đó nghĩa là các lần chia trang, các cú hụt cache và một chỉ mục ngày càng phân mảnh khi bảng lớn lên — một cơn đau vận hành nổi tiếng trên các bảng viết nhiều. Một khóa ULID luôn đáp bên phải mọi khóa trước nó, nên các lần chèn giữ kiểu-ghi-thêm và chỉ mục giữ gọn.",
+          "Khả năng sắp còn đổi những truy vấn bạn viết nổi được. Với các khóa ULID, “cho tôi mọi thứ tạo giữa 14:00 và 15:00” là một quét khoảng trần trụi trên khóa chính — không cần một chỉ mục created_at riêng cho các cửa sổ thô. Các log, bảng sự kiện và hàng đợi tin nhắn hưởng lợi nhiều nhất, vì các mẫu truy cập của chúng bị thời gian thống trị.",
+          "Cuộc đánh đổi đáng nói thẳng: ULID phơi thời gian tạo của chúng cho bất kỳ ai thấy được định danh, và các ID liên tiếp đoán trước được trong cùng một mili giây. Nếu định danh phải mờ đục (chia sẻ ID công khai nơi việc liệt kê có ý nghĩa), hãy giữ UUIDv4. Cho các khóa nội bộ trong log và cơ sở dữ liệu, thứ tự của ULID thắng.",
+        ],
+      },
+      {
+        heading: "Crockford Base32 và đọc định danh thành tiếng",
+        paragraphs: [
+          "26 ký tự của một ULID dùng Crockford Base32: các chữ số 0-9 cộng các chữ A-Z trừ I, L, O, U. Bốn chữ ấy bị loại vì trong chép tay hằng ngày chúng va với 1 và 0 — các ticket hỗ trợ, các bàn giao bằng miệng và các runbook in ra đều có con người chép định danh bằng mắt, và mỗi cú nhầm là một bug ghi-sai-bản-ghi.",
+          "Encoding còn không-phan-biet-hoa-thuong theo quy ước (I và l cùng decode như 1), thứ tha cho các lần dán chữ thường từ terminal và URL. So với hex, Base32 đóng gói hơn 25% thông tin mỗi ký tự, đó là lý do một giá trị 128-bit chiếm 26 ký tự thay vì 32. So với base64, không có +, / hay = — nên định danh an toàn trong URL, tên file, thuộc tính XML và các bối cảnh cạnh-DNS mà không cần tầng escape nào.",
+          "Decode khép vòng lặp: vì 10 ký tự đầu thuần túy là dấu thời gian, bất kỳ ULID nào bạn tìm thấy trong một log cũ đều đổi ngược về đúng mili giây nó sinh ra. Điều đó khiến các phiên debug thân thiện hơn hẳn — bản thân định danh trả lời “bản ghi này sinh ra khi nào?”.",
+        ],
+      },
+      {
+        heading: "Độ ngẫu nhiên, đồng hồ, và thứ ở lại trên thiết bị của bạn",
+        paragraphs: [
+          "Việc sinh ở đây dùng hai nguồn: nửa dấu thời gian đến từ đồng hồ thiết bị của bạn, 80 bit ngẫu nhiên đến từ crypto.getRandomValues — nguồn ngẫu nhiên mật mã của trình duyệt, cùng nguyên thủy đứng sau các khóa phiên TLS. Không bảng tiền-tính, không bộ đếm chia sẻ với máy chủ, và không phụ thuộc vào bất kỳ dịch vụ trực tuyến nào khả dụng.",
+          "Điều đó còn có nghĩa là việc sinh offline và không giới hạn. Chuẩn bị dữ liệu seed cơ sở dữ liệu, fixture cho một bộ test hay một lô di trú hàng nghìn định danh chạy như nhau trên một máy bay và trong một trung tâm dữ liệu khóa chặt; không gì được upload, ghi log hay giới hạn tần suất, và decode một ULID có sẵn chỉ chạm đồng hồ và JavaScript của bạn.",
+          "Một lưu ý thực dụng đáng biết: các định danh suy từ đồng hồ thiết bị kế thừa độ chính xác của nó. Nếu đồng hồ của một máy sai, các ULID nó sinh sắp đúng với nhau nhưng ngồi sai chỗ trong thời gian tuyệt đối. Cho phần áp đảo các ứng dụng điều này không liên quan — nhưng hãy nhớ khi đối chiếu các ULID với các hệ ngoài có yêu cầu thời gian nghiêm ngặt.",
+        ],
+      },
+    ],
   },
   "user-agent-parser": {
     name: 'Trình phân tích User-Agent',
@@ -6772,6 +10130,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Vì sao Chrome nhận mình là Safari và Mozilla?', a: 'Tương thích lịch sử. Các site tương thích Netscape phục vụ cho trình duyệt tuyên bố «Mozilla», và Chrome kế thừa lớp ngụy trang đó để nhận nội dung như nhau — vì thế UA Chrome hiện đại đọc là «Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/…». Bộ phân tích đọc từ cuối chuỗi (token Chrome), không từ đầu.' },
         { q: 'Cách nào phân biệt bot với người dùng thật?', a: 'Crawler quen thuộc công khai token của mình — Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit xuất hiện nguyên văn trong UA. Bộ phân tích này gọi tên theo chữ ký thay vì đoán; thứ không nhận ra được vẫn là trình duyệt thường, không bị gắn nhãn bot.' },
         { q: 'UA sniffing đủ tin để điều khiển tính năng không?', a: 'Không cho đường dẫn quan trọng — chuỗi UA nói dối theo thiết kế và dễ giả mạo. Dùng phân tích UA cho phân tích lưu lượng, log và các quyết định ngoài bảo mật (hiện giao diện di động, đếm traffic bot); với bất cứ thứ gì chức năng, hãy feature-detect trong trang. Công cụ này đọc UA, chứ không tin UA.' },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao chuỗi User-Agent nói dối, và là do thiết kế",
+        paragraphs: [
+          "Mọi chuỗi UA trình duyệt hiện đại bắt đầu bằng Mozilla/5.0, bất kể liên hệ gì với Mozilla của Netscape. Đây là lịch sử tương thích cạnh tranh, không phải trục trặc: thập niên 1990 các trình duyệt quảng cáo “Mozilla” để nhận nội dung tốt, và mỗi kẻ mới chép cả tiền tố để tránh bị phục vụ phiên bản hạ cấp. UA của Chrome rồi tự xưng là AppleWebKit (thứ tự xưng Gecko), các token tương thích Safari bám theo, và các trình duyệt sau nối thêm mình vào đống.",
+          "Kết quả là một chuỗi các tuyên bố kế thừa: “Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/… Safari/…”. Parse ngược là kỹ thuật đáng tin — token cụ thể nhất thường trung thực nhất, đó là lý do Edge (Edg/), Opera (OPR/) và Samsung Internet có các mục riêng sau khớp Chrome tổng quát, và lý do phát hiện họ-Chrome phải chạy trước fallback tổng quát chứ không phải sau.",
+          "Cuộc chạy đua chưa kết thúc: với UA reduction, các trình duyệt đang đóng băng và cắt gọn các chuỗi này, và vài cái nay gửi các chuỗi UA về như đồng nhất bất kể phiên bản. Quỹ đạo ấy đáng biết trước khi bạn dựng bất cứ thứ gì trên việc parse UA — tín hiệu được thiết-kế-không-đáng-tin và ngày càng im hơn. Hãy đọc UA cho phân tích và ghi log; đừng bao giờ canh cổng an ninh hay tính năng trọng yếu bằng nó.",
+        ],
+      },
+      {
+        heading: "Một lần parse nói được gì và không nói được gì",
+        paragraphs: [
+          "Một parser phục hồi được thứ chuỗi tuyên bố: họ trình duyệt và phiên bản, engine render (Blink, Gecko, WebKit), hệ điều hành, lớp thiết bị (desktop, mobile, tablet), và — khi token xuất hiện nguyên văn — con bot. Các crawler đã biết tự nhận diện tường minh: Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit và bạn bè, đó là lý do chúng được khớp theo tên thay vì đoán từ các trường mobile hay desktop.",
+          "Điều một lần parse không phục hồi nổi là sự thật đứng sau một tuyên bố giả mạo. Các chuỗi UA bị client đặt một cách tầm thường — curl gửi của riêng nó, các thư viện cho bạn truyền bất kỳ chuỗi nào, và các app mobile thường mang WebView với các danh tính mượn. Vậy nên một lần parse là một bản ghi về điều client tự nói, không phải một kết quả xác thực; hãy đối xử với cờ bot cùng kiểu, vì bất cứ thứ gì không nhận ra được vẫn được dán nhãn trình duyệt thường thay vì bị gắn cờ.",
+          "Các cách dùng thực dụng xếp thẳng theo các giới hạn ấy: các dashboard phân tích (phân bố trình duyệt và hệ điều hành), phân loại log (phát hiện một WebView hay một crawler giữa traffic thật), debug vì sao một phép kiểm tính năng gãy, và phân loại traffic trong một tập dữ liệu. Cho bất cứ thứ gì chức năng bên trong một trang — bật một tính năng, chọn một bố cục — câu trả lời chuẩn là phát hiện tính năng phía client, với parse UA làm gợi ý chứ không phải cánh cổng.",
+        ],
+      },
+      {
+        heading: "Parse cục bộ, kể cả UA của chính bạn",
+        paragraphs: [
+          "Mọi thứ ở đây chạy trong trình duyệt của bạn: chuỗi bạn dán không bao giờ rời thiết bị. Điều đó có ý nghĩa vì các chuỗi bạn điều tra thường là các hiện vật vận hành — header từ một log nội bộ, một yêu cầu đáng nghi mà tường lửa bắt được, một UA từ một dòng thời gian sự cố. Gửi chúng tới một dịch vụ bên thứ ba để được parse biến một chẩn đoán riêng tư thành tập dữ liệu của người khác.",
+          "UA của chính trình duyệt bạn có sẵn làm ví dụ một-cú-bấm, cách nhanh nhất thấy được hình dạng output của parser và kiểm chứng ý nghĩa các trường với một sự thật đã biết — bạn biết mình đang chạy trình duyệt và hệ điều hành nào, nên một lần parse đúng là kiểm được ngay.",
+          "Phân loại hàng loạt là quy trình tự nhiên còn lại: dán các chuỗi lần lượt từ một đoạn log và đọc kết quả như một bảng trình duyệt/engine/hệ điều hành/thiết bị. Vì các quy tắc chạy phía client không vòng máy chủ, parse hàng chục chuỗi tức thì, chạy offline, và chẳng nội dung log nào được truyền — điều thường chính xác là điều một đoạn log vốn không nhằm mục đích chia sẻ.",
+        ],
+      },
     ],
   },
   "token-generator": {
@@ -6788,6 +10172,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Token nên dài bao nhiêu?', a: 'Khóa nội bộ và ID phiên thì 32 ký tự chữ-số (~190 bit) đã vượt xa brute force. Token hex được ưa vì khớp byte chính xác: 32 ký tự hex = 16 byte ngẫu nhiên. Ký hiệu tăng entropi mỗi ký tự nhưng làm hỏng hệ thống không URL-encode — chỉ dùng khi phía tiêu thụ xử lý được.' },
         { q: 'Token, UUID hay ULID?', a: 'Dùng token ngẫu nhiên mờ đục (công cụ này) khi định danh không được đoán ra: khóa API, phiên, bí mật webhook. UUID/ULID dành cho định danh sinh song song hay sắp được theo thời gian — chúng rò rỉ nhịp hay số lượng và không nên gánh vai trò bảo mật. Cần ID sắp được? Dùng trình tạo ULID.' },
     ],
+    deepDive: [
+      {
+        heading: "Độ dài token và phép số học của vét cạn",
+        paragraphs: [
+          "An ninh của một token là entropy của nó, và entropy là phép số học đơn giản: log2 của kích thước bộ ký tự, nhân độ dài. Bộ chữ-số 62 ký tự cho cỡ 5,95 bit mỗi ký tự, nên 32 ký tự là ~190 bit — một không gian tìm kiếm không phần cứng nào tưởng tượng nổi đi hết nổi. Ngay cả 16 ký tự chữ-số (~95 bit) cũng ngồi thoải mái vượt trên các lần đoán trực tuyến và đa số kịch bản offline.",
+          "Độ dài thực sự mua cho bạn biên chống hai thực tế: token bị lộ một phần (một log, một header referrer, một ảnh chụp màn hình) và các thuật toán tiến bộ. Một token 128-bit bị lộ 30 bit vẫn còn 98 — ổn; một token 40-bit bị lộ 10 thì gần cạn. Đó là lý do khuyến nghị trung thực là “nhiều hơn bạn nghĩ bạn cần”: entropy rẻ, các lần luân phiên sau lộ là đắt.",
+          "Một lưu ý mà số đọc không nhìn thấy: entropy đo quá trình sinh, không phải cách xử lý. Một token 190-bit ngẫu nhiên hoàn hảo dán vào một ticket, commit vào một repository hay bị một proxy ghi log có sức mạnh hiệu dụng bằng 0 cho tới khi bị luân phiên. Độ dài chống việc đoán; vệ sinh chống mọi thứ còn lại.",
+        ],
+      },
+      {
+        heading: "Token mờ đục với UUID: không phải cùng một việc",
+        paragraphs: [
+          "Thật cám dỗ coi bất kỳ chuỗi trông-ngẫu-nhiên nào là một bí mật, nhưng các định danh tách thành hai họ với các yêu cầu ngược nhau. UUID và ULID được thiết kế để sinh ở đâu cũng được, song song, và (với ULID) sắp theo thời gian — nghĩa là chúng cố ý mã hóa thông tin: các bit phiên bản, dấu thời gian, thỉnh thoảng một bộ đếm. Khả năng đoán không phải mối quan tâm của chúng.",
+          "Một token ngẫu nhiên mờ đục là điều ngược lại: nó không mã hóa gì và tồn tại chỉ để không đoán nổi. Đó là nguyên thủy đúng cho các khóa API, bearer token, định danh phiên và secret webhook. Dùng một UUID v1 làm session ID, chẳng hạn, phơi địa chỉ MAC và thời gian tạo của máy — một lớp lỗ hổng lịch sử thật, không phải lý thuyết.",
+          "Hex xứng đáng một ghi chú: nó ánh xạ chính xác vào byte (32 ký tự hex = 16 byte ngẫu nhiên), đó là lý do nhiều giao thức hiển thị bí mật kiểu đó, nhưng nó chỉ mang 4 bit mỗi ký tự — nửa mật độ của chữ-số. Các ký hiệu nâng mật độ nhưng gãy các bên tiêu dùng không URL-encode header; hãy chọn bộ mà bên tiêu dùng của bạn thực sự nhận.",
+        ],
+      },
+      {
+        heading: "Vì sao Math.random thất bại với bí mật, và sinh cục bộ",
+        paragraphs: [
+          "Math.random() là một bộ sinh giả ngẫu nhiên có trạng thái nội bộ hữu hạn và dựng lại được: một kẻ tấn công quan sát đủ output — hay biết cỡ khi token được sinh — tái lập được nó. Các token dựng trên nó đã trông ngẫu nhiên và bị dự đoán trong các sự cố thật; lối tắt sống sót trong các hướng dẫn và câu trả lời Stack Overflow, chính là lý do nó cứ tiếp diễn.",
+          "crypto.getRandomValues là nguồn an toàn mật mã của trình duyệt, được hệ điều hành gieo hạt từ entropy phần cứng và được thiết kế sao cho không người quan sát nào dự báo nổi output kế tiếp từ các output trước. Công cụ này rút từ nó và ánh xạ các byte lên bộ ký tự bạn chọn mà không lệch, rồi hiển thị entropy kết quả để con số là thứ kiểm toán được thay vì được tuyên bố.",
+          "Việc sinh còn cục bộ: các token được tạo trong bộ nhớ trình duyệt của bạn và không bao giờ được truyền, nên một bí mật production sinh ở đây chưa bao giờ xuất hiện trong một log máy chủ bên thứ ba. Tải lại trang và chúng biến mất — hãy sao chép chúng vào kho bí mật của bạn trong cùng phiên. Cho các thông tin xác thực sống lâu, kho ấy là nhà vĩnh viễn; bộ sinh là nơi sinh, không phải kho lưu trữ.",
+        ],
+      },
+    ],
   },
   "extract-audio": {
     name: 'Video sang MP3',
@@ -6803,6 +10213,32 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Vì sao lần chuyển đầu chậm?', a: 'Lần chạy đầu tải engine WebAssembly (~31 MB) — chi phí một lần; sau đó cache của trình duyệt cung cấp tức thì. Bản thân việc chuyển chạy gần thời gian thực hoặc nhanh hơn: mã hóa âm thanh nhẹ hơn nhiều so với mã hóa lại video.' },
         { q: 'Chọn chất lượng nào?', a: '320 kbps trong suốt với nhạc; 192 kbps là điểm ngọt cho phần lớn nội dung kể cả podcast và bài giảng; 128 kbps giữ file lời nói nhỏ gọn. Lưu ý: MP3 không vượt quá chất lượng nguồn — video nguồn bitrate thấp vẫn thấp bất kể cài đặt.' },
         { q: 'Công cụ báo không tìm thấy track âm thanh — tại sao?', a: 'Vài video thật sự câm; một số container (stream .ts thô, vài .flv) bộ demux nhanh không xử lý được. Chuyển chúng sang MP4 trước, hoặc kiểm tra file có phát kèm âm thanh trong trình phát của bạn không.' },
+    ],
+    deepDive: [
+      {
+        heading: "Chuyện gì thực sự xảy ra với file của bạn",
+        paragraphs: [
+          "Video không bao giờ rời máy của bạn. ffmpeg.wasm — codebase FFmpeg desktop biên dịch thành WebAssembly — nạp một lần (cỡ 31 MB, được cache sau đó), và từ đó mọi thứ diễn ra trong tab: file được đọc vào một hệ tập tin ảo trong bộ nhớ, được demux để tách các stream, stream âm thanh được decode và mã hóa lại thành MP3 bằng libmp3lame, và kết quả quay về như một bản tải.",
+          "Demux là lý do việc trích xuất nhanh: các khung hình video chưa bao giờ bị chạm. Công cụ đọc hộp chứa (MP4, MOV, WebM, MKV…), chọn track âm thanh — thường AAC bên trong các file họ MP4, Opus hay Vorbis bên trong WebM — và chỉ track ấy được decode và mã hóa lại. Mã hóa chỉ-âm-thanh chạy bằng hay nhanh hơn thời gian thực, đó là lý do một bài giảng 2 tiếng xong trong vài phút.",
+          "Bản dựng đơn-luồng không cần SharedArrayBuffer, nên trang chạy trong bất kỳ trình duyệt hiện đại nào mà không cần header máy chủ đặc biệt — cùng lý do file không bao giờ cần được upload: sức mạnh xử lý nó cần vừa vặn trong một tab.",
+        ],
+      },
+      {
+        heading: "Hộp chứa, codec, và lỗi không-có-track-âm-thanh",
+        paragraphs: [
+          "Các đuôi file gọi tên các hộp chứa, không phải âm thanh: một .mp4 có thể chứa AAC, MP3, hay chẳng gì cả, và một .mov từ máy quay chỉ là QuickTime bọc thứ gì recorder sinh ra. Đó là lý do công cụ soi các stream thay vì tin đuôi file — và lý do một video thật sự câm (các bản ghi màn hình không có mic) nhận một cách trung thực thông báo không-có-track-âm-thanh.",
+          "Vài hộp chứa làm vấp bộ demux nhanh: các stream broadcast .ts thô và vài file .flv gãy khi soi dù chúng thực sự có âm thanh. Bản vá là cơ học — chuyển file thành MP4 trước bằng bất kỳ công cụ desktop nào, rồi trích ở đây. Nếu một file phát có âm thanh trong player của bạn mà vẫn gãy, nó thuộc giỏ ấy.",
+          "Trích xuất với chuyển-mã là sự phân biệt then chốt: mã hóa lại âm thanh thành MP3 là không tránh nổi (trình duyệt không thể trao bạn stream AAC thô thành file), nhưng stream video bị bỏ đi nguyên vẹn và không bao giờ được decode lần thứ hai — đó là toàn bộ câu chuyện tốc độ.",
+        ],
+      },
+      {
+        heading: "Chọn bitrate, một cách trung thực",
+        paragraphs: [
+          "Bitrate MP3 chặn những gì sống sót qua mã hóa: 320 kbps trong suốt với nhạc, 192 kbps là điểm ngọt thực dụng cho podcast và bài giảng, và 128 kbps giữ các file lời-nói nhỏ. Chất lượng nguồn là một trần cứng — một track AAC 96 kbps không trở nên tốt hơn vì được viết vào các file to hơn.",
+          "Trần ấy cũng là lý do trích xuất không bao giờ phục hồi được âm thanh: thứ nén hung hãn của một cuộc gọi video làm hỏng thì vẫn hỏng. Nếu chất lượng lưu trữ có ý nghĩa, hãy quay về bản ghi gốc, không phải một video sống sót qua một nền tảng họp.",
+          "Video dài là chi phí thời gian chính, và thanh tiến độ báo tiến độ ffmpeg thật thay vì một animation trang điểm. Mọi thứ chạy cục bộ — các bài giảng có dữ liệu cá nhân, các cuộc gọi mật, các bản thu chưa phát hành không bao giờ chạm một máy chủ; và một khi engine đã được cache, công cụ chạy offline.",
+        ],
+      },
     ],
   },
 };
