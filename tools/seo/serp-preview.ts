@@ -37,6 +37,32 @@ export default defineTool({
           a: "When it thinks another string fits the query better, Google may substitute the H1, anchor text of internal links or the site name. The preview shows the best case: your own tags, unmodified.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Pixels, not characters",
+          paragraphs: [
+            "Google's results page lays titles out in a proportional font and cuts when the line runs out of pixels — roughly 580–600 on desktop — not when a character count is reached. Because letters differ in width, IIIIIIII and MMMMMMMM are eight characters each and wildly different in width; any rule expressed in characters is a guess wearing a suit.",
+            "The description follows the same logic with a softer limit: about 155–160 characters is the common desktop ceiling before the ellipsis, but at equal counts wide letters cut earlier than narrow ones. Mobile draws a slightly different budget again, which is why checking both layouts beats trusting one.",
+            "This preview measures the text with pixel metrics modeled on the fonts Google uses and cuts where the results page would cut — the number you watch is the one Google's renderer watches, not an approximation of it.",
+          ],
+        },
+        {
+          heading: "Google will rewrite you anyway — plan for it",
+          paragraphs: [
+            "The preview shows the best case: your title tag, verbatim. In practice Google replaces titles and descriptions for a large share of queries — pulling the H1, the anchor text of internal links, the site name, or its own rewrite of your words when it judges another string fits the query better.",
+            "The defense is not tricks but evidence: pages whose titles match the content and the query get rewritten less. A precise, specific meta description raises the odds yours is used verbatim; a vague marketing sentence invites a substitute tailored to the searcher instead.",
+            "So treat the preview as the negotiating position, not the guaranteed outcome: put the words that must survive — brand, primary keyword, the offer — early in the title, so even a truncated or rewritten snippet keeps them.",
+          ],
+        },
+        {
+          heading: "A workflow that ends before the page ships",
+          paragraphs: [
+            "Type the title, description and URL, watch both meters fill, switch desktop/mobile, trim. The edits that buy space are predictable: move the brand to the end, cut filler adverbs, replace wordy phrases with the plain noun.",
+            "CMS plugins preview the same idea, but bolt it to a platform dependency; a standalone check works for any template, any stack and any stage — including reviewing pages that never touch the CMS, like generated landing pages.",
+            "Everything computes locally in your browser — draft titles for unannounced products can pass through without being sent anywhere. When the copy survives both pixel budgets, the meta-tag and Open Graph generators take the finished strings the rest of the way.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "SERP 预览",
@@ -64,6 +90,32 @@ export default defineTool({
           a: "当 Google 认为其他文本更匹配查询时,可能改用 H1、内链锚文本或网站名称。预览展示的是最好情况:你自己的标签原样呈现。",
         },
       ],
+      deepDive: [
+        {
+          heading: "按像素,不按字符",
+          paragraphs: [
+            "Google 的结果页用比例字体排版标题,一行像素用尽就截断——桌面端约 580–600——而不是数到某个字符就停。字母宽度不同,IIIIIIII 和 MMMMMMMM 都是八个字符,宽度却天差地别;任何以字符数表达的规则,都是穿着西装的猜。",
+            "描述遵循同样的逻辑,只是限制更软:桌面端通常约 155–160 字符就见省略号,但同样字符数下,宽字母的描述会比窄字母更早被截。移动端又是另一套预算——所以两种布局都查一遍,胜过只信一种。",
+            "这个预览用按 Google 所用字体建模的像素度量来测你的文本,并在结果页会截断的位置截断——你盯着的数字,就是 Google 渲染器盯着的那个,而不是它的近似。",
+          ],
+        },
+        {
+          heading: "反正 Google 会改写——按这个来规划",
+          paragraphs: [
+            "预览展示的是最好情况:你的标题标签、一字不差。实际上,对相当大比例的查询,Google 会替换标题和描述——抓 H1、内链锚文本、站名,或者在它认为别的字符串更匹配查询时,改写你的原话。",
+            "防御不靠技巧,靠证据:标题与内容和查询一致的页面,被改写的概率更低。准确、具体的 meta 描述更有机会被原样采用;一句含糊的营销话术,只会招来一条为搜索者量身定制的替身。",
+            "所以把预览当谈判起点,而不是保证结果:必须幸存的词——品牌、主关键词、卖点——尽量放在标题前部,这样即使摘要被截断或改写,它们也还在。",
+          ],
+        },
+        {
+          heading: "在页面上线前结束的流程",
+          paragraphs: [
+            "填标题、描述和 URL,盯住两条计量条,切换桌面/移动,删改。买空间的编辑手段可以预测:把品牌挪到末尾、砍掉填充副词、把啰嗦短语换成朴素的名词。",
+            "CMS 插件预览同一个想法,但把它拴在平台依赖上;独立检查对任何模板、任何技术栈、任何阶段都成立——包括审查永远不会进 CMS 的页面,比如批量生成的落地页。",
+            "一切都在浏览器本地计算——未发布产品的标题草稿可以过一遍而不发往任何地方。文案在两套像素预算里都活下来之后,meta 标签生成器和 Open Graph 生成器接手把它做完。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "SERP プレビュー",
@@ -89,6 +141,32 @@ export default defineTool({
         {
           q: "Google が title を差し替えるのはなぜ?",
           a: "クエリにより適合する文字列があると判断すると、H1・内部リンクのアンカーテキスト・サイト名に置き換えることがあります。プレビューは最良のケース、つまり自分のタグがそのまま表示される状態を示します。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "ピクセルであって文字数ではない",
+          paragraphs: [
+            "Google の結果ページは title をプロポーショナルフォントで組むので、行のピクセルが尽きた時点で切ります——デスクトップで約 580〜600。文字数が基準ではありません。文字の幅はまちまちで、IIIIIIII と MMMMMMMM はどちらも 8 文字なのに幅は桁違い。文字数で表現されたルールは、スーツを着た推測にすぎません。",
+            "description も同じ論理で、制限はさらに柔らかいです。デスクトップの天井は約 155〜160 文字が目安ですが、同じ文字数でも幅の広い文字のほうが早く切れます。モバイルはまた別の予算を持つ——だから片方だけ信じるより、両方のレイアウトを確認するほうが賢明です。",
+            "このプレビューは、Google の使うフォントをモデルにしたピクセル計量でテキストを測り、結果ページが切る位置で切ります——あなたが見ている数字は、Google のレンダラーが見ているその数です。その近似ではありません。",
+          ],
+        },
+        {
+          heading: "どうせ Google は書き換える——それを前提に設計する",
+          paragraphs: [
+            "プレビューが示すのは最良のケースです。あなたの title タグ、一字一句そのまま。実際にはかなりの割合のクエリで、Google は title や description を差し替えます。H1 を引くこともあれば、内部リンクのアンカーテキストやサイト名、あるいは別の文字列のほうがクエリに合うと判断して自分の言葉で書き直すこともあります。",
+            "防御はテクニックではなく証拠です。title が内容とクエリに一致しているページは、書き換えられる頻度が下がります。正確で具体的な meta description はそのまま使われる可能性を上げ、曖昧な宣伝文は検索者に合わせた替え玉を招きます。",
+            "だからプレビューは交渉の起点であって、保証された結果ではありません。生き残らせるべき語——ブランド、主キーワード、オファー——は title の前のほうに置く。スニペットが切り詰められようが書き直されようが、それらは残るように。",
+          ],
+        },
+        {
+          heading: "ページの公開前に終わるワークフロー",
+          paragraphs: [
+            "title・description・URL を入力し、2 つのメーターを見ながらデスクトップ/モバイルを切り替え、削る。空きを買う編集は見当がつきます。ブランドを末尾へ、つなぎの副詞を切り、くどい言い回しを素の名詞へ。",
+            "CMS のプラグインは同じ発想をプレビューしますが、プラットフォームへの依存ごと持ち込みます。独立したチェックはどのテンプレートでも、どのスタックでも、どの段階でも機能します。CMS に決して入らないページ——量産ランディングページなど——のレビューも含めて。",
+            "計算はすべてブラウザ内で行われます。未発表製品の title 下書きも、どこへも送られずに通せます。コピーが両方のピクセル予算を生き延びたら、meta タグ生成と Open Graph 生成が仕上げを引き継ぎます。",
+          ],
         },
       ],
     },
@@ -119,6 +197,32 @@ export default defineTool({
           a: "Si cree que otra cadena encaja mejor con la consulta, puede usar el H1, el texto ancla de enlaces internos o el nombre del sitio. La vista previa muestra el mejor caso: tus propias etiquetas sin modificar.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Píxeles, no caracteres",
+          paragraphs: [
+            "La página de resultados de Google compone los títulos con fuente proporcional y corta cuando la línea se queda sin píxeles — unos 580–600 en escritorio — no al llegar a una cuenta de caracteres. Como las letras varían de ancho, IIIIIIII y MMMMMMMM son ocho caracteres cada una y de anchura disparatadamente distinta; toda regla expresada en caracteres es una apuesta con traje.",
+            "La description sigue la misma lógica con un límite más blando: unos 155–160 caracteres es el techo habitual en escritorio antes de los puntos suspensivos, pero, a igualdad de recuento, las letras anchas cortan antes que las estrechas. El móvil traza un presupuesto de nuevo algo distinto — por eso revisar ambos diseños vence a fiarse de uno.",
+            "Esta vista previa mide el texto con métricas de píxel modeladas sobre las fuentes que usa Google y corta donde lo cortaría la página de resultados — la cifra que vigilas es la misma que vigila el renderizador de Google, no una aproximación suya.",
+          ],
+        },
+        {
+          heading: "Google te reescribirá igualmente — planea con ello",
+          paragraphs: [
+            "La vista previa enseña el mejor caso: tu etiqueta title, palabra por palabra. En la práctica, Google sustituye titles y descriptions en buena parte de las consultas — tira del H1, del texto ancla de enlaces internos, del nombre del sitio, o reescribe tus palabras cuando juzga que otra cadena encaja mejor con la consulta.",
+            "La defensa no son trucos sino pruebas: las páginas cuyo title coincide con el contenido y la consulta se reescriben menos. Una meta description precisa y específica aumenta la probabilidad de usarse tal cual; una frase de marketing vaga invita a un sustituto a la medida del buscador.",
+            "Trata la vista previa como la posición de negociación, no como el resultado garantizado: coloca las palabras que deben sobrevivir — marca, palabra clave principal, la oferta — al principio del title, de modo que incluso un fragmento truncado o reescrito las conserve.",
+          ],
+        },
+        {
+          heading: "Un flujo que termina antes de publicar la página",
+          paragraphs: [
+            "Escribe el title, la description y la URL, mira llenarse ambos medidores, alterna escritorio/móvil, recorta. Las ediciones que compran espacio son previsibles: manda la marca al final, quita los adverbios de relleno, cambia los giros prolijos por el sustantivo llano.",
+            "Los plugins de CMS prevén la misma idea, pero la atan a una dependencia de plataforma; una comprobación independiente funciona con cualquier plantilla, cualquier stack y cualquier etapa — incluida la revisión de páginas que nunca tocarán el CMS, como landing pages generadas.",
+            "Todo se calcula en tu navegador — los borradores de titles de productos sin anunciar pueden pasar por aquí sin enviarse a ningún sitio. Cuando el texto sobrevive a ambos presupuestos de píxeles, el generador de meta etiquetas y el de Open Graph se llevan las cadenas terminadas hasta el final.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Prévia SERP",
@@ -145,6 +249,32 @@ export default defineTool({
         {
           q: "Por que o Google trocaria meu title?",
           a: "Quando julga que outro texto combina melhor com a consulta, ele pode usar o H1, o texto âncora de links internos ou o nome do site. A prévia mostra o melhor caso: suas próprias tags, sem alteração.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Pixels, não caracteres",
+          paragraphs: [
+            "A página de resultados do Google compõe os títulos em fonte proporcional e corta quando a linha fica sem pixels — uns 580–600 no desktop — não ao atingir uma contagem de caracteres. Como as letras variam de largura, IIIIIIII e MMMMMMMM são oito caracteres cada uma e de largura absurdamente diferente; toda regra expressa em caracteres é um chute de terno.",
+            "A description segue a mesma lógica com um limite mais mole: uns 155–160 caracteres é o teto comum no desktop antes das reticências, mas, em contagem igual, letras largas cortam antes que estreitas. O mobile traça um orçamento de novo um pouco diferente — por isso conferir os dois layouts ganha de confiar num só.",
+            "Esta prévia mede o texto com métricas de pixel modeladas nas fontes que o Google usa e corta onde a página de resultados cortaria — o número que você vigia é o mesmo que o renderizador do Google vigia, não uma aproximação dele.",
+          ],
+        },
+        {
+          heading: "O Google vai te reescrever mesmo assim — planeje com isso",
+          paragraphs: [
+            "A prévia mostra o melhor caso: sua tag de título, palavra por palavra. Na prática, o Google substitui titles e descriptions em boa parte das consultas — puxa o H1, o texto âncora de links internos, o nome do site, ou reescreve suas palavras quando julga que outra cadeia combina melhor com a consulta.",
+            "A defesa não é truque, é evidência: páginas cujo title bate com o conteúdo e com a consulta são reescritas menos. Uma meta description precisa e específica aumenta a chance de ser usada ao pé da letra; uma frase de marketing vaga convida um substituto feito sob medida para o buscador.",
+            "Trate a prévia como posição de negociação, não como resultado garantido: ponha as palavras que precisam sobreviver — marca, palavra-chave principal, a oferta — no começo do title, para que até um snippet truncado ou reescrito as guarde.",
+          ],
+        },
+        {
+          heading: "Um fluxo que termina antes de a página sair",
+          paragraphs: [
+            "Digite o title, a description e a URL, veja os dois medidores encher, alterne desktop/mobile, corte. As edições que compram espaço são previsíveis: manda a marca para o fim, corta advérbios de enchimento, troca frases prolixas pelo substantivo simples.",
+            "Plugins de CMS preveem a mesma ideia, mas a amarram a uma dependência de plataforma; uma checagem independente funciona com qualquer template, qualquer stack e qualquer estágio — inclusive revisando páginas que nunca vão tocar o CMS, como landing pages geradas.",
+            "Tudo se calcula no seu navegador — rascunhos de title de produtos não anunciados podem passar por aqui sem ir a lugar nenhum. Quando o texto sobrevive aos dois orçamentos de pixels, o gerador de meta tags e o de Open Graph levam as strings prontas até o fim.",
+          ],
         },
       ],
     },

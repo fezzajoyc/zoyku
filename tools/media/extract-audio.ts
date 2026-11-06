@@ -39,6 +39,32 @@ export default defineTool({
           a: "Some videos are genuinely silent, and a few containers (raw .ts streams, some .flv) aren't matched by the quick demuxer. Convert those to MP4 first, or check that the file actually plays with sound in your player.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What actually happens to your file",
+          paragraphs: [
+            "The video never leaves your machine. ffmpeg.wasm — the desktop FFmpeg codebase compiled to WebAssembly — loads once (about 31 MB, cached afterwards), and from then on everything happens inside the tab: the file is read into an in-memory virtual filesystem, demuxed to pull the streams apart, the audio stream is decoded and re-encoded to MP3 with libmp3lame, and the result comes back as a download.",
+            "Demuxing is why extraction is fast: the video frames are never touched. The tool reads the container (MP4, MOV, WebM, MKV…), picks the audio track — usually AAC inside MP4-family files, Opus or Vorbis inside WebM — and only that track is decoded and re-encoded. Audio-only encoding runs at or faster than real time, which is why a 2-hour lecture finishes in minutes.",
+            "The single-threaded build needs no SharedArrayBuffer, so the page runs in any modern browser without special server headers — the same reason the file never needs to be uploaded: the processing power it requires fits comfortably in a tab.",
+          ],
+        },
+        {
+          heading: "Containers, codecs, and the no-audio-track error",
+          paragraphs: [
+            "File extensions name containers, not audio: an .mp4 can hold AAC, MP3, or nothing at all, and a .mov from a camera is just QuickTime wrapping whatever the recorder produced. That is why the tool inspects the streams rather than trusting the extension — and why a genuinely silent video (screen recordings without a mic) gets the no-audio-track message honestly.",
+            "A few containers trip the quick demuxer: raw .ts broadcast streams and some .flv files fail inspection even when they do carry sound. The workaround is mechanical — convert the file to MP4 first with any desktop tool, then extract here. If a file plays with sound in your player and still fails, it belongs in that bucket.",
+            "Extraction versus transcoding is the key distinction: re-encoding the audio to MP3 is unavoidable (browsers cannot hand you the raw AAC stream as a file), but the video stream is discarded untouched and never decoded a second time — that is the whole speed story.",
+          ],
+        },
+        {
+          heading: "Choosing the bitrate, honestly",
+          paragraphs: [
+            "MP3 bitrate caps what survives the encode: 320 kbps is transparent for music, 192 kbps is the practical sweet spot for podcasts and lectures, and 128 kbps keeps spoken-word files small. Source quality is a hard ceiling — a 96 kbps AAC track does not get better by being written into bigger files.",
+            "That ceiling is also why extraction can never restore audio: what a video call's aggressive compression mangled stays mangled. If archival quality matters, go back to the original recording, not to a video that survived a meeting platform.",
+            "Long videos are the main time cost, and the progress bar reports real ffmpeg progress rather than a cosmetic animation. Everything runs locally — lectures with personal data, confidential calls, unreleased recordings never reach a server; and once the engine is cached, the tool works offline.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "视频转 MP3",
@@ -69,6 +95,32 @@ export default defineTool({
         {
           q: "提示「没有找到音频轨」是怎么回事?",
           a: "有些视频真的没有声音;少数容器(原始 .ts 流、部分 .flv)quick demuxer 处理不了。先把它们转成 MP4 再来,或确认文件在播放器里确实有声音。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "你的文件到底经历了什么",
+          paragraphs: [
+            "视频从不离开你的机器。ffmpeg.wasm——编译成 WebAssembly 的桌面版 FFmpeg——首次加载一次(约 31 MB,之后走缓存),然后一切都发生在标签页内:文件读入内存里的虚拟文件系统,解封装把各条流分开,音频流解码后用 libmp3lame 重编码成 MP3,结果以下载形式交还。",
+            "解封装快的原因是视频帧全程没被碰过。工具读取容器(MP4、MOV、WebM、MKV……),挑出音轨——MP4 系文件里通常是 AAC,WebM 里是 Opus 或 Vorbis——只有音轨被解码重编码。纯音频编码能跑到实时或更快,两小时的课程几分钟完事。",
+            "单线程版不需要 SharedArrayBuffer,所以页面在任何现代浏览器都能跑,不需要特殊响应头——这也是文件永远不用上传的同一个理由:它要的算力,一个标签页就装得下。",
+          ],
+        },
+        {
+          heading: "容器、编码,与“没找到音轨”",
+          paragraphs: [
+            "文件扩展名说的是容器,不是音频:.mp4 里可以装 AAC、MP3,或者干脆什么都没有;相机出的 .mov 只是 QuickTime 包着录制器产出的东西。所以工具检查的是流而不是扩展名——也所以真正无声的视频(没开麦的录屏)报“没找到音轨”是诚实的。",
+            "少数容器会绊倒快速解封装器:原始 .ts 电视流和部分 .flv 即使带声音也过不了检查。解决办法很机械——先用任意桌面工具转成 MP4,再来这里提取。如果文件在播放器里有声音却仍然失败,就归入这一类。",
+            "“提取”与“转码”是关键区别:音频重编码成 MP3 无法避免(浏览器没法把原始 AAC 流直接当文件交给你),但视频流被原封不动丢弃,从不二次解码——速度的全部故事就在这里。",
+          ],
+        },
+        {
+          heading: "诚实地选码率",
+          paragraphs: [
+            "MP3 码率封顶了编码后能留下的东西:音乐选 320 kbps(无失真感),播客和课程 192 kbps 是实际的甜蜜点,人声内容 128 kbps 省空间。源质量是硬上限——96 kbps 的 AAC 轨不会因为写进更大的文件就变好。",
+            "这个上限也是提取永远无法“修复”音频的原因:被会议软件激进压缩毁掉的东西,仍然是毁掉的。要存档质量,回到原始录音,而不是一段在会议平台上幸存下来的视频。",
+            "长视频是主要耗时,进度条报告的是真实的 ffmpeg 进度,不是装饰动画。一切本地运行——含个人数据的课程、机密通话、未发布的录音永远到不了服务器;引擎缓存好之后,离线也能用。",
+          ],
         },
       ],
     },
@@ -103,6 +155,32 @@ export default defineTool({
           a: "本当に無音の動画もあります。一部のコンテナ(生の .ts ストリーム、一部の .flv)はクイック demuxer が対応しません。先に MP4 に変換してから試すか、プレーヤーで音が出ることを確認してください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "ファイルに実際に起きること",
+          paragraphs: [
+            "動画は端末から出ません。ffmpeg.wasm——WebAssembly にコンパイルされたデスクトップ版 FFmpeg——は最初に一度だけ読み込み(約 31 MB、以後はキャッシュ)、あとはすべてタブの中で進みます。ファイルはメモリ上の仮想ファイルシステムに読み込まれ、demux でストリームが分けられ、音声ストリームをデコードして libmp3lame で MP3 に再エンコード。結果はダウンロードとして手元に戻ります。",
+            "抽出が速いのは、demux のおかげです。映像フレームには一切触れません。ツールはコンテナ(MP4、MOV、WebM、MKV……)を読み、音声トラックを拾います。MP4 系ならたいてい AAC、WebM なら Opus や Vorbis。デコードと再エンコードを経るのはその音声トラックだけ。音声だけのエンコードは実時間並みかそれ以上で走るので、2 時間の講義も数分で終わります。",
+            "シングルスレッド版は SharedArrayBuffer を必要としないため、特別なサーバーヘッダーなしでモダンなブラウザならどこでも動きます。ファイルをアップロードする必要がないのと同じ理由です。必要な計算能力が、タブ 1 つに収まるからです。",
+          ],
+        },
+        {
+          heading: "コンテナ、コーデック、「音声トラックが見つからない」",
+          paragraphs: [
+            "拡張子が名指すのはコンテナであって音声ではありません。.mp4 は AAC も MP3 も、何も持たないことすらあります。カメラの .mov は、録画機器が産んだものを QuickTime が包んでいるだけ。だからツールは拡張子でなくストリームを検査しますし、本当に無音の動画(マイクなしの画面録画)が「音声トラックが見つからない」を報告するのは正直なのです。",
+            "いくつかのコンテナはクイック demuxer をつまずかせます。生の .ts 放送ストリームや一部の .flv は、音があっても検査を通れません。回避は機械的です。まず任意のデスクトップツールで MP4 に変換し、それからここで抽出する。プレーヤーで音がするのに失敗するファイルは、この棚に入ります。",
+            "「抽出」と「トランスコード」の区別が核心です。音声の MP3 再エンコードは避けられません(ブラウザは素の AAC ストリームをファイルとして渡せない)。ただし映像ストリームは手つかずのまま捨てられ、二度とデコードされません——速度の話はこれで全部です。",
+          ],
+        },
+        {
+          heading: "ビットレートの選び方、正直に",
+          paragraphs: [
+            "MP3 のビットレートは、エンコード後に残るものの上限です。音楽は 320 kbps(透明な音質)、ポッドキャストと講義は 192 kbps が実際の最適点、声だけの内容は 128 kbps で小さく。ソースの品質は絶対的な天井です。96 kbps の AAC トラックは、大きいファイルに書いても良くなりません。",
+            "この天井こそ、抽出が音声を「修復」できない理由でもあります。Web 会議の過激な圧縮で壊れたものは、壊れたままです。保管品質が大事なら、会議プラットフォームを生き延びた動画ではなく、元の録音に戻ってください。",
+            "長い動画が主な時間コストで、プログレスバーは飾りのアニメーションではなく実際の ffmpeg の進捗を報告します。すべてローカルで動くので、個人データを含む講義も、機密の通話も、未公開の録音もサーバーに届きません。エンジンがキャッシュされたあとは、オフラインでも動きます。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Video a MP3",
@@ -135,6 +213,32 @@ export default defineTool({
           a: "Algunos videos son realmente mudos, y unos pocos contenedores (flujos .ts crudos, algunos .flv) no los maneja el demuxer rápido. Conviértelos primero a MP4, o comprueba que el archivo suena en tu reproductor.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Lo que le ocurre de verdad a tu archivo",
+          paragraphs: [
+            "El video nunca sale de tu máquina. ffmpeg.wasm — la base de código de FFmpeg de escritorio compilada a WebAssembly — se carga una vez (unos 31 MB, luego en caché) y desde entonces todo ocurre dentro de la pestaña: el archivo se lee en un sistema de archivos virtual en memoria, se demultiplexa para separar las pistas, la pista de audio se decodifica y se re-codifica a MP3 con libmp3lame, y el resultado vuelve como descarga.",
+            "El demux explica por qué la extracción es rápida: los fotogramas de video jamás se tocan. La herramienta lee el contenedor (MP4, MOV, WebM, MKV…), escoge la pista de audio — normalmente AAC en archivos de la familia MP4, Opus o Vorbis en WebM — y solo esa pista se decodifica y re-codifica. La codificación solo de audio corre a ritmo real o mayor, y por eso una clase de dos horas termina en minutos.",
+            "La compilación de un solo hilo no necesita SharedArrayBuffer, así que la página funciona en cualquier navegador moderno sin cabeceras especiales del servidor — la misma razón por la que el archivo nunca necesita subirse: la potencia que exige cabe de sobra en una pestaña.",
+          ],
+        },
+        {
+          heading: "Contenedores, códecs y el error de pista de audio no encontrada",
+          paragraphs: [
+            "Las extensiones nombran contenedores, no audio: un .mp4 puede llevar AAC, MP3 o directamente nada, y un .mov de cámara es solo QuickTime envolviendo lo que el grabador produjo. Por eso la herramienta inspecciona las pistas en vez de fiarse de la extensión — y por eso un video genuinamente mudo (grabaciones de pantalla sin micrófono) da el mensaje de pista no encontrada con honestidad.",
+            "Algunos contenedores hacen tropezar al demuxer rápido: los flujos .ts de emisión y algunos .flv no pasan la inspección aunque traigan sonido. La salida es mecánica — convierte el archivo a MP4 primero con cualquier herramienta de escritorio y extrae aquí. Si un archivo suena en tu reproductor y aun así falla, pertenece a ese cajón.",
+            "Extraer frente a transcodificar es la distinción clave: re-codificar el audio a MP3 es inevitable (los navegadores no pueden entregarte la corriente AAC cruda como archivo), pero la pista de video se descarta intacta y nunca se decodifica por segunda vez — toda la historia de la velocidad está ahí.",
+          ],
+        },
+        {
+          heading: "Elegir el bitrate, con honestidad",
+          paragraphs: [
+            "El bitrate del MP3 pone techo a lo que sobrevive a la codificación: 320 kbps es transparente para música, 192 kbps es el punto dulce práctico para podcasts y clases, y 128 kbps mantiene pequeños los archivos de palabra hablada. La calidad del origen es techo duro — una pista AAC de 96 kbps no mejora por escribirse en archivos más grandes.",
+            "Ese techo es también la razón de que la extracción nunca restaure el audio: lo que la compresión agresiva de una videollamada dañó, queda dañado. Si importa la calidad de archivo, vuelve a la grabación original, no a un video que sobrevivió a una plataforma de reuniones.",
+            "Los videos largos son el coste principal de tiempo, y la barra de progreso informa del avance real de ffmpeg, no de una animación decorativa. Todo corre en local — clases con datos personales, llamadas confidenciales, grabaciones sin publicar jamás llegan a un servidor; y una vez cacheado el motor, funciona sin conexión.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Vídeo para MP3",
@@ -165,6 +269,32 @@ export default defineTool({
         {
           q: "A ferramenta diz que não encontrou faixa de áudio — por quê?",
           a: "Alguns vídeos são realmente mudos, e alguns contêineres (streams .ts crus, alguns .flv) não são tratados pelo demuxer rápido. Converta-os para MP4 primeiro, ou verifique se o arquivo toca com som no seu player.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O que acontece de verdade com o seu arquivo",
+          paragraphs: [
+            "O vídeo nunca sai da sua máquina. ffmpeg.wasm — a base de código do FFmpeg de desktop compilada para WebAssembly — carrega uma vez (uns 31 MB, depois fica em cache) e daí em diante tudo acontece dentro da aba: o arquivo é lido num sistema de arquivos virtual na memória, desmultiplexado para separar as faixas, a faixa de áudio é decodificada e re-codificada em MP3 com libmp3lame, e o resultado volta como download.",
+            "O demux é o motivo de a extração ser rápida: os quadros de vídeo nunca são tocados. A ferramenta lê o contêiner (MP4, MOV, WebM, MKV…), escolhe a faixa de áudio — normalmente AAC em arquivos da família MP4, Opus ou Vorbis em WebM — e só essa faixa é decodificada e re-codificada. A codificação só de áudio roda em ritmo real ou maior, e por isso uma aula de duas horas termina em minutos.",
+            "A build de thread único não precisa de SharedArrayBuffer, então a página funciona em qualquer navegador moderno sem cabeçalhos especiais do servidor — a mesma razão de o arquivo nunca precisar ser enviado: a potência que ele exige cabe de sobra numa aba.",
+          ],
+        },
+        {
+          heading: "Contêineres, codecs e o erro de faixa de áudio não encontrada",
+          paragraphs: [
+            "As extensões nomeiam contêineres, não áudio: um .mp4 pode carregar AAC, MP3 ou simplesmente nada, e um .mov de câmera é só QuickTime embrulhando o que o gravador produziu. Por isso a ferramenta inspeciona as faixas em vez de confiar na extensão — e por isso um vídeo genuinamente mudo (gravações de tela sem microfone) dá a mensagem de faixa não encontrada com honestidade.",
+            "Alguns contêineres fazem o demuxer rápido tropeçar: streams .ts de transmissão e alguns .flv não passam pela inspeção mesmo trazendo som. A saída é mecânica — converta o arquivo para MP4 primeiro com qualquer ferramenta de desktop e extraia aqui. Se um arquivo toca com som no seu player e ainda assim falha, pertence a essa gaveta.",
+            "Extrair versus transcodificar é a distinção-chave: re-codificar o áudio em MP3 é inevitável (navegadores não podem te entregar a stream AAC crua como arquivo), mas a faixa de vídeo é descartada intacta e nunca é decodificada uma segunda vez — toda a história da velocidade está aí.",
+          ],
+        },
+        {
+          heading: "Escolhendo o bitrate, com honestidade",
+          paragraphs: [
+            "O bitrate do MP3 põe teto no que sobrevive à codificação: 320 kbps é transparente para música, 192 kbps é o ponto doce prático para podcasts e aulas, e 128 kbps mantém pequenos os arquivos de fala. A qualidade da origem é teto duro — uma faixa AAC de 96 kbps não melhora por ser escrita em arquivos maiores.",
+            "Esse teto é também o motivo de a extração nunca restaurar o áudio: o que a compressão agressiva de uma chamada de vídeo estragou, continua estragado. Se a qualidade de acervo importa, volte à gravação original, não a um vídeo que sobreviveu a uma plataforma de reuniões.",
+            "Vídeos longos são o custo principal de tempo, e a barra de progresso informa o avanço real do ffmpeg, não uma animação decorativa. Tudo roda em local — aulas com dados pessoais, chamadas confidenciais, gravações não lançadas jamais chegam a um servidor; e com o motor em cache, funciona offline.",
+          ],
         },
       ],
     },

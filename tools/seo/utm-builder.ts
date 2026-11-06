@@ -113,6 +113,32 @@ export default defineTool({
           a: "Yes — utm_campaign=Spring and utm_campaign=spring count as two campaigns in most analytics tools. Standardize on lowercase and your reports stay clean.",
         },
       ],
+      deepDive: [
+        {
+          heading: "The parameter system, decoded",
+          paragraphs: [
+            "UTM stands for Urchin Tracking Module — a fossil of Urchin Software, whose web analytics Google bought in 2005 and turned into Google Analytics. The five standard parameters have survived every redesign since: utm_source names where the visitor came from (google, newsletter, twitter), utm_medium names the channel (cpc, email, social, referral), utm_campaign names the initiative, and the optional utm_term and utm_content split out paid keyword and A/B variant.",
+            "utm_id deserves a special mention: GA4 uses it to tie different links to one campaign ID — the clean way to merge traffic that arrives with slightly different campaign names. If your organization already assigns campaign IDs, put the same value on every link of the campaign.",
+            "The parameters are ordinary query string entries — appended after the path, before the #fragment — and this builder percent-encodes each value, so spaces become %20 and survive mail clients, QR generators and ad-platform redirects without breaking the URL.",
+          ],
+        },
+        {
+          heading: "Naming conventions are the real product",
+          paragraphs: [
+            "The builder guarantees well-formed links; only discipline guarantees useful reports. Analytics treats values as case-sensitive strings, so utm_campaign=Spring_Sale and utm_campaign=spring_sale fragment one campaign into two — and every future report has to add them back by hand.",
+            "The conventions that age well are boring: all lowercase, dashes or underscores instead of spaces, no dates inside campaign names (they split one initiative into weekly near-duplicates), and a stable vocabulary of sources and mediums shared by everyone who can create links. Some teams keep that list in a spreadsheet; others restrict who builds links at all.",
+            "Retagging is the other trap: once a URL with UTM parameters has been shared, indexed or printed, its history is welded in place. Changing the tags later does not fix the past — it cuts the time series. Decide the taxonomy before the first campaign, not after the third.",
+          ],
+        },
+        {
+          heading: "UTM and SEO, neighbors not enemies",
+          paragraphs: [
+            "Tagged URLs can fragment crawling: example.com/page and example.com/page?utm_source=newsletter look like two documents to a crawler until a canonical tag says otherwise. A self-referencing canonical on every page is the standard defense — which is why the canonical generator on this site pairs naturally with this one.",
+            "Internal links generally should not carry UTM parameters (in some analytics setups they pollute referral data); UTM belongs to links you control off-site — ads, newsletters, social posts, QR codes. Making those outbound links correct is the builder's job; keeping them out of your own navigation is yours.",
+            "As with everything on the site, the assembled URL never leaves your browser — no account, no logging. Paste a destination, fill the fields, copy the result into the ad platform or QR generator, and the attribution chain starts from a link that decodes the same way everywhere it travels.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "UTM 链接生成器",
@@ -140,6 +166,32 @@ export default defineTool({
           a: "有——utm_campaign=Spring 和 utm_campaign=spring 在多数分析工具里是两个活动。统一用小写,报表才能保持干净。",
         },
       ],
+      deepDive: [
+        {
+          heading: "参数体系,逐个拆开",
+          paragraphs: [
+            "UTM 是 Urchin Tracking Module 的缩写——Urchin Software 公司的化石,2005 年谷歌买下它的网页分析业务,改造成 Google Analytics。五件套参数活过了之后每一次改版:utm_source 标流量来源(google、newsletter、twitter),utm_medium 标渠道(cpc、email、social、referral),utm_campaign 标活动,可选的 utm_term 和 utm_content 拆出付费关键词与 A/B 变体。",
+            "utm_id 值得单独一提:GA4 用它把不同链接挂到同一个活动 ID 上——这是把“活动名略有出入的流量”合并干净的体面办法。团队如果已有活动 ID 制度,就给同一场活动的每条链接填同一个值。",
+            "参数就是普通的查询串条目——接在路径之后、# 片段之前——本工具对每个值做百分比编码,空格变成 %20,在邮件客户端、二维码生成器、广告平台跳转之间往返也不会把链接搞坏。",
+          ],
+        },
+        {
+          heading: "命名规范才是真正的产品",
+          paragraphs: [
+            "生成器只保证链接格式正确;有用的报表靠纪律保证。分析工具把参数值当区分大小写的字符串,utm_campaign=Spring_Sale 和 utm_campaign=spring_sale 会把一场活动裂成两场——以后每份报表都得手工把它们加回来。",
+            "经得起时间考验的规范都很无聊:全部小写,连字符或下划线代替空格,活动名里不放日期(会把一场活动裂成一周一个的近似重复),并且所有能建链接的人共用一套来源与渠道词表。有的团队把词表放在表格里,有的干脆限制谁能建链接。",
+            "另一个坑是重打标:带 UTM 的 URL 一旦被分享、收录或印出来,历史就焊死了。事后改标签不是修正过去,而是掐断时间序列——先定分类法,再发第一场活动,而不是第三场之后。",
+          ],
+        },
+        {
+          heading: "UTM 与 SEO,是邻居不是敌人",
+          paragraphs: [
+            "带参数的 URL 会让抓取碎片化:example.com/page 和 example.com/page?utm_source=newsletter 在爬虫眼里像两个文档,直到 canonical 标签出面。每页自引用 canonical 是标准防御——所以本站的 canonical 生成器和这个工具天然是一对。",
+            "站内链接一般不该带 UTM(某些统计配置里会污染引荐数据);UTM 属于你在站外控制的链接——广告、邮件、社交帖、二维码。把外发链接做对是生成器的任务;别让它们混进自己的导航,这归你管。",
+            "与全站一样,拼好的 URL 不离开你的浏览器——不用登录,也没有日志。粘贴目标页、填字段、把结果复制进广告平台或二维码生成器,归因链条就从一条“到哪儿都解码一致”的链接开始了。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "UTM リンク生成",
@@ -165,6 +217,32 @@ export default defineTool({
         {
           q: "UTM 値の大文字小文字は区別される?",
           a: "されます。utm_campaign=Spring と utm_campaign=spring は多くのツールで別キャンペーンになります。小文字に統一すればレポートは汚れません。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "パラメータ体系、分解図",
+          paragraphs: [
+            "UTM は Urchin Tracking Module の略です。Urchin Software 社の化石で、2005 年に Google がそのウェブ分析事業を買収し Google Analytics に仕立てました。5 つの標準パラメータはその後の全改訂を生き延びています。utm_source は流入元(google、newsletter、twitter)、utm_medium はチャネル(cpc、email、social、referral)、utm_campaign は施策名、任意の utm_term と utm_content が有料キーワードと A/B バリアントを切り出します。",
+            "utm_id は別枠で挙げる価値があります。GA4 はこれで異なるリンクを 1 つのキャンペーン ID に結び付けます。キャンペーン名の揺れで分かれた流入をきれいに統合する、まっとうな手段です。組織にキャンペーン ID の運用があれば、同じ施策の全リンクに同じ値を入れてください。",
+            "パラメータはごく普通のクエリ文字列の項目です。パスの後、#フラグメントの前に付きます。このビルダーは各値をパーセントエンコーディングし、空白は %20 になります。メールクライアント、QR 生成器、広告プラットフォームのリダイレクトを往復しても URL は壊れません。",
+          ],
+        },
+        {
+          heading: "命名規則こそ本当のプロダクト",
+          paragraphs: [
+            "ビルダーが保証するのはリンクの整形までです。有用なレポートは規律が保証します。アナリティクスは値を大文字小文字を区別する文字列として扱うので、utm_campaign=Spring_Sale と utm_campaign=spring_sale は 1 つの施策を 2 つに裂きます。以後のレポートは、そのつど手で足し戻すことになります。",
+            "時間に耐える規則は退屈です。すべて小文字、空白の代わりにハイフンかアンダースコア、キャンペーン名に日付を入れない(1 施策が週ごとのほぼ重複に裂けます)、そしてリンクを作れる人全員が同じソースとチャネルの語彙を共有する。語彙表をスプレッドシートで共有するチームもあれば、リンク作成者そのものを絞るチームもあります。",
+            "もう 1 つの罠は再タグ付けです。UTM 付き URL は、共有され、インデックスされ、印刷された時点で歴史が溶接されます。後からタグを変えるのは修正ではなく時系列の切断です。分類法は最初の施策の前に決める。3 つ目の施策の後にではなく。",
+          ],
+        },
+        {
+          heading: "UTM と SEO、敵ではなく隣人",
+          paragraphs: [
+            "パラメータ付き URL はクロールを断片化させます。example.com/page と example.com/page?utm_source=newsletter は、canonical が言及するまでクローラーには 2 つの文書に見えます。全ページの自己参照 canonical が標準の防御です。だからこのサイトの canonical 生成ツールとこのツールは自然な相棒です。",
+            "サイト内リンクは原則として UTM を載せるべきではありません(統計設定によってはリファラーデータを汚します)。UTM の居場所はサイト外であなたが管理するリンク——広告、メルマガ、SNS 投稿、QR コードです。外向きのリンクを正しく作るのがこのツールの仕事で、自分のナビゲーションに入れないのはあなたの仕事です。",
+            "このサイトのすべてと同様、組み上がった URL はブラウザの外に出ません。登録もログもありません。リンク先を貼り、項目を埋め、結果を広告プラットフォームや QR 生成器に貼り付けば、帰属の連鎖は「どこで解釈しても同じリンク」から始まります。",
+          ],
         },
       ],
     },
@@ -195,6 +273,32 @@ export default defineTool({
           a: "Sí: utm_campaign=Spring y utm_campaign=spring cuentan como dos campañas en la mayoría de herramientas. Estandariza en minúsculas y los informes se mantienen limpios.",
         },
       ],
+      deepDive: [
+        {
+          heading: "El sistema de parámetros, diseccionado",
+          paragraphs: [
+            "UTM son las siglas de Urchin Tracking Module — un fósil de Urchin Software, cuya analítica web compró Google en 2005 y convirtió en Google Analytics. Los cinco parámetros estándar han sobrevivido a todos los rediseños desde entonces: utm_source nombra de dónde llega la visita (google, newsletter, twitter), utm_medium nombra el canal (cpc, email, social, referral), utm_campaign nombra la iniciativa, y los opcionales utm_term y utm_content separan palabra clave de pago y variante A/B.",
+            "utm_id merece mención aparte: GA4 lo usa para atar enlaces distintos a un mismo ID de campaña — la manera limpia de fusionar tráfico que llega con nombres de campaña ligeramente distintos. Si tu organización ya asigna IDs de campaña, pon el mismo valor en cada enlace de la campaña.",
+            "Los parámetros son entradas normales de query string — añadidos tras la ruta y antes del fragmento # — y este constructor codifica cada valor en porcentaje, así que los espacios se vuelven %20 y sobreviven a clientes de correo, generadores de QR y redirecciones de plataformas de anuncios sin romper la URL.",
+          ],
+        },
+        {
+          heading: "Las convenciones de nombres son el producto de verdad",
+          paragraphs: [
+            "El constructor garantiza enlaces bien formados; solo la disciplina garantiza informes útiles. Las analíticas tratan los valores como cadenas sensibles a mayúsculas, así que utm_campaign=Spring_Sale y utm_campaign=spring_sale fragmentan una campaña en dos — y cada informe futuro tendrá que sumarlas a mano.",
+            "Las convenciones que envejecen bien son aburridas: todo en minúsculas, guiones o guiones bajos en vez de espacios, sin fechas dentro del nombre de campaña (fragmentan una iniciativa en casi-duplicados semanales), y un vocabulario estable de fuentes y medios compartido por todo el que pueda crear enlaces. Algunos equipos guardan la lista en una hoja de cálculo; otros limitan directamente quién crea enlaces.",
+            "La otra trampa es reetiquetar: cuando una URL con UTM ya se compartió, se indexó o se imprimió, su historia queda soldada. Cambiar las etiquetas después no corrige el pasado — corta la serie temporal. Decide la taxonomía antes de la primera campaña, no después de la tercera.",
+          ],
+        },
+        {
+          heading: "UTM y SEO, vecinos no enemigos",
+          paragraphs: [
+            "Las URLs etiquetadas pueden fragmentar el rastreo: example.com/page y example.com/page?utm_source=newsletter parecen dos documentos a un rastreador hasta que un canonical dice otra cosa. El canonical autorreferenciado en cada página es la defensa estándar — por eso el generador de canonicals de este sitio empareja de forma natural con este.",
+            "Los enlaces internos en general no deberían llevar UTM (en algunas configuraciones de analítica contaminan los datos de referencia); el UTM pertenece a los enlaces que controlas fuera del sitio — anuncios, newsletters, posts sociales, códigos QR. Que esos enlaces salientes sean correctos es trabajo del constructor; mantenerlos fuera de tu navegación es cosa tuya.",
+            "Como en todo el sitio, la URL armada nunca sale de tu navegador — sin cuenta, sin registros. Pega un destino, rellena los campos, copia el resultado a la plataforma de anuncios o al generador de QR, y la cadena de atribución empieza con un enlace que se decodifica igual por donde viaje.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Gerador de links UTM",
@@ -221,6 +325,32 @@ export default defineTool({
         {
           q: "Maiúsculas nos valores UTM fazem diferença?",
           a: "Fazem — utm_campaign=Spring e utm_campaign=spring contam como duas campanhas na maioria das ferramentas. Padronize em minúsculas e os relatórios continuam limpos.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O sistema de parâmetros, dissecado",
+          paragraphs: [
+            "UTM é a sigla de Urchin Tracking Module — um fóssil da Urchin Software, cuja análise web o Google comprou em 2005 e transformou no Google Analytics. Os cinco parâmetros padrão sobreviveram a todos os redesenhos desde então: utm_source nomeia de onde vem a visita (google, newsletter, twitter), utm_medium nomeia o canal (cpc, email, social, referral), utm_campaign nomeia a iniciativa, e os opcionais utm_term e utm_content separam palavra-chave paga e variante A/B.",
+            "utm_id merece destaque à parte: o GA4 o usa para amarrar links diferentes a um mesmo ID de campanha — o jeito limpo de fundir tráfego que chega com nomes de campanha levemente distintos. Se sua organização já atribui IDs de campanha, ponha o mesmo valor em cada link da campanha.",
+            "Os parâmetros são entradas comuns de query string — acrescentados após o caminho e antes do fragmento # — e este gerador faz o percent-encoding de cada valor, então espaços viram %20 e sobrevivem a clientes de e-mail, geradores de QR e redirecionamentos de plataformas de anúncios sem quebrar a URL.",
+          ],
+        },
+        {
+          heading: "As convenções de nomes são o produto de verdade",
+          paragraphs: [
+            "O gerador garante links bem formados; só a disciplina garante relatórios úteis. As ferramentas de analytics tratam os valores como strings sensíveis a maiúsculas, então utm_campaign=Spring_Sale e utm_campaign=spring_sale fragmentam uma campanha em duas — e todo relatório futuro terá de somá-las à mão.",
+            "As convenções que envelhecem bem são chatas: tudo em minúsculas, hífens ou underscores em vez de espaços, sem datas dentro do nome da campanha (fragmentam uma iniciativa em quase-duplicados semanais), e um vocabulário estável de sources e mediums compartilhado por todo mundo que pode criar links. Alguns times guardam a lista numa planilha; outros simplesmente restringem quem cria links.",
+            "A outra armadilha é retagar: quando uma URL com UTM já foi compartilhada, indexada ou impressa, sua história fica soldada. Trocar as tags depois não corrige o passado — corta a série temporal. Decida a taxonomia antes da primeira campanha, não depois da terceira.",
+          ],
+        },
+        {
+          heading: "UTM e SEO, vizinhos não inimigos",
+          paragraphs: [
+            "URLs etiquetadas podem fragmentar o rastreamento: example.com/page e example.com/page?utm_source=newsletter parecem dois documentos para um rastreador até um canonical dizer o contrário. O canonical autorreferente em cada página é a defesa padrão — por isso o gerador de canonical deste site faz par natural com este.",
+            "Links internos em geral não deveriam carregar UTM (em algumas configurações de analytics poluem dados de referência); UTM é coisa de link que você controla fora do site — anúncios, newsletters, posts sociais, QR codes. Fazer os links de saída ficarem certos é trabalho do gerador; mantê-los fora da sua navegação é seu.",
+            "Como em todo o site, a URL montada nunca sai do seu navegador — sem conta, sem logs. Cole um destino, preencha os campos, copie o resultado para a plataforma de anúncios ou o gerador de QR, e a cadeia de atribuição começa com um link que decodifica igual por onde viajar.",
+          ],
         },
       ],
     },
