@@ -1115,6 +1115,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Chrome, Edge, Firefox und Safari 17+ können WebP speichern. Wenn Ihr Browser kein WebP kodieren kann, sagt Ihnen das Tool und fällt auf JPG zurück, damit Sie immer eine brauchbare Datei erhalten.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Das Zielformat danach wählen, was erhalten bleiben muss",
+        paragraphs: [
+          "Formatkonvertierung ist in Wahrheit eine Frage danach, welche Eigenschaften für das Ziel zählen. Drei Fragen entscheiden: Braucht es Transparenz (PNG oder WebP ja, JPG nein)? Ist es fotografischer oder grafischer Inhalt? Muss es in unbekannter Software funktionieren? Aus den Antworten ergibt sich die Wahl fast von selbst.",
+          "Zwei Zwänge grenzen die Wahl schnell ein: Muss Transparenz erhalten bleiben, scheidet JPG sofort aus. Muss die Datei in unbekannter Software funktionieren — ein Formular, ein Drucker, der alte Windows-Rechner eines Kunden —, bleiben JPG und PNG als sichere Wahlen übrig.",
+          "WebP nimmt die effiziente Mitte ein: kleiner als JPG bei gleicher Qualität, transparentfähig, aber mit dem längsten Kompatibilitätsschwanz. Das pragmatische Muster: für die eigenen Websites nach WebP konvertieren und für alles, was die Hände wechselt, eine JPG- oder PNG-Kopie behalten.",
+        ],
+      },
+      {
+        heading: "Was eine Konvertierung tatsächlich kostet",
+        paragraphs: [
+          "Konvertierung zwischen verlustbehafteten Formaten ist eine Neukodierung: Ein als verlustbehaftetes WebP neu gespeichertes JPG verwirft Daten ein zweites Mal. Bei hoher Qualität ist der Verlust unsichtbar, aber verkettete verlustbehaftete Konvertierungen — JPG zu WebP zu JPG — summieren Schäden, die sich auf einmal nicht zurückholen lassen.",
+          "Der Wechsel in ein verlustfreies Format erhält stets alle Information der Quelle: JPG zu PNG bewahrt alles, was das JPG enthält, einschließlich seiner Artefakte, verliert aber nichts weiter. Die Datei wächst, weil PNG jeden Pixel getreu ablegt, den JPEG in eine Schätzung zusammengefasst hat.",
+          "Achten Sie auf Transparenz entlang der Kette: Ein Bild mit Alphakanal, nach JPG konvertiert, füllt die transparenten Bereiche lautlos mit einer Hintergrundfarbe. Zeigt das Ergebnis ein unerwartetes Weiß oder Schwarz, war das der Grund — nicht ein Fehler des Konvertierers.",
+        ],
+      },
+      {
+        heading: "Stapelkonvertierung und lokale Verarbeitung",
+        paragraphs: [
+          "Das realistische Szenario für einen allgemeinen Konvertierer ist ein Ordner mit uneinheitlichen Dateien: Screenshots als PNG, die ein Formular als JPG will, heruntergeladene WebP, die ein alter Editor nicht öffnet, gemischte Stapel auf dem Weg in ein einziges Ziel.",
+          "Das Sortieren des Stapels vor der Konvertierung erspart Nacharbeit: Fotografisches kann als JPG laufen, Grafisches als PNG — in zwei Durchgängen statt mit einem Kompromiss. Eine einzige universelle Wahl dient meist dem allgemeinen Mittelweg, nicht dem besten Ergebnis pro Datei.",
+          "Alles läuft in Ihrem Browser: Dekodierung, Konvertierung und Download geschehen auf Ihrem Gerät ohne Upload. Kunden-Assets, unveröffentlichte Entwürfe oder private Archive verlassen Ihren Rechner so nie.",
+        ],
+      },
+    ],
   },
   "crop-image": {
     name: "Bild zuschneiden",
@@ -1143,6 +1169,32 @@ export const de: Record<string, ToolCopy> = {
         a: "1:1 (quadratisch). Die meisten sozialen Plattformen schneiden Avatare auf einen Kreis innerhalb eines Quadrats, das Motiv also mittig in einer 1:1-Auswahl zu platzieren ist am sichersten.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Zuschneiden entfernt Pixel — planen Sie, bevor Sie schneiden",
+        paragraphs: [
+          "Zuschneiden ist auf eine Weise destruktiv, die Skalieren nicht ist: Skalieren erhält alle Inhalte mit weniger Detail, Zuschneiden löscht Inhalte dauerhaft. Sobald Sie den Zuschnitt speichern, sind die Pixel außerhalb der Auswahl aus dieser Kopie verschwunden.",
+          "Arbeiten Sie von der größten Quelle, die Sie haben: Ein kleines Bild zuzuschneiden und danach hochzuskalieren verstärkt die Weichheit; das Original in voller Auflösung zuzuschneiden und das Ergebnis zu verkleinern, hält die Kanten scharf.",
+          "Schneiden Sie außerdem mit Absicht bezüglich des Seitenverhältnisses: Entscheiden Sie das Ziel zuerst (Blog-Header, Plattform-Post, Druckrahmen) und stellen Sie den Zuschnitt auf dieses Verhältnis ein, statt frei zu schneiden und zu entdecken, dass das Ergebnis woanders nicht passt.",
+        ],
+      },
+      {
+        heading: "Kompositionsgrundlagen, die Zuschnitte besser machen",
+        paragraphs: [
+          "Zwei Framing-Konventionen tragen den meisten Wert: Die Drittel-Regel platziert das Motiv nahe der Kreuzung der Linien, die das Bild in drei mal drei teilen — einen Horizont auf die obere oder untere Linie statt in die Mitte legt.",
+          "Geben Sie bewegten Motiven Raum in die Richtung, in die sie blicken oder laufen: Ein Läufer mit freiem Raum vor sich wirkt dynamisch, derselbe Läufer eng hinter sich abgeschnitten wirkt, als würde er gegen eine Wand laufen. Für Blicke gilt dasselbe.",
+          "Prüfen Sie die Ränder zuletzt: lose Gliedmaßen, halbe Objekte und ablenkende Lichter am Bildrand ziehen die Aufmerksamkeit weg. Zoomen Sie nach dem Setzen des Zuschnitts heraus und sehen Sie sich das ganze Rechteck einmal an, bevor Sie es festlegen.",
+        ],
+      },
+      {
+        heading: "Lokale Verarbeitung hält sensible Zuschnitte privat",
+        paragraphs: [
+          "Zuschnitte entstehen oft gerade deshalb, weil ein Foto etwas enthält, das nicht gezeigt werden darf — eine Dokumentkante, eine Passantin, ein Adressaufkleber. Genau dieses Bild an einen Upload-basierten Zuschnitt-Dienst zu schicken, um ein Detail zu verbergen, wäre das Gegenteil des Ziels.",
+          "Dieses Tool verarbeitet vollständig im Browser: Dekodieren, Auswählen und Neukodieren geschehen auf Ihrem Gerät, nichts wird übertragen oder gespeichert. Die Version, die Sie zuschneiden, ist die Version, die Sie veröffentlichen; das vollständige Original bleibt bei Ihnen.",
+          "Ein Hinweis zum Workflow: Zuschneiden ist keine Schwärzung. Eine Region aus dem sichtbaren Bereich zu entfernen, entfernt sie aus der Datei — echte Löschung, anders als eine Unschärfe oder ein schwarzes Rechteck über dem Inhalt, das unter dem Bildschirm weiterexistiert.",
+        ],
+      },
+    ],
   },
   "exif-remover": {
     name: "EXIF entfernen",
@@ -1169,6 +1221,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Kann ich Metadaten ohne Neukomprimierung entfernen?",
         a: "Nicht auf eine browserbasierte, sichere Weise. Verlustfreies Metadaten-Stripping erfordert das Umschreiben des Datei-Containers — PNGs lassen sich mit Spezialtools verlustfrei säubern, bei JPEG ist genau diese Neukodierung der verlässliche, einfache Weg. PNG-Eingaben bleiben hier pixelgenau.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Was EXIF in Ihren Fotos verbirgt",
+        paragraphs: [
+          "Jedes Foto aus einer modernen Kamera oder einem Smartphone trägt mehr als Pixel. Der EXIF-Block speichert Kameramodell, Objektiv, Belichtungseinstellungen und Zeitstempel — und am Folgenreichsten in vielen Fällen GPS-Koordinaten. Ein beiläufiger Schnappschuss im Netz kann verraten, in welchem Zimmer oder an welcher Straßenecke er aufgenommen wurde.",
+          "Der Block enthält oft auch eine eingebettete Vorschau und auf manchen Geräten Software- und Bearbeitungshistorie. Screenshots und heruntergeladene Bilder haben typischerweise wenig oder kein EXIF — deshalb zeigt ein Metadaten-Viewer manchmal „nichts gefunden“; das Fehlen ist normal, kein Fehler.",
+          "EXIF zu entfernen ist keine Vertuschung, sondern Routinehygiene vor der Veröffentlichung. Journalisten, Aktivistinnen, medizinisches Fachpersonal und ganz normale Nutzer haben alle triftige Gründe, den Inhalt eines Bildes von seinen Aufnahme-Metadaten zu trennen.",
+        ],
+      },
+      {
+        heading: "Was das Entfernen ändert — und was nicht",
+        paragraphs: [
+          "Das Entfernen von EXIF lässt das sichtbare Bild unberührt: Maße, Farben und Qualität bleiben exakt gleich. Was verschwindet, ist der Metadaten-Block; die Datei wird anonym — keine Kamera, kein Ort, keine Zeitstempel mehr.",
+          "Die Pixel bleiben unverändert, sichtbare Informationen bleiben sichtbar. Zeigt das Foto ein Straßenschild, einen Namenszug oder einen Bildschirm mit Text, hilft EXIF-Entfernung nicht; diese Bereiche müssen separat zugeschnitten oder überdeckt werden.",
+          "Geotagging ist der Grund, warum sich die meisten kümmern, aber Zeitstempel zählen auch: kombiniert mit anderen öffentlichen Beiträgen können Aufnahmedaten ein Muster von Bewegungen oder Gewohnheiten ergeben. Vollständige Entfernung schließt beide Kanäle zugleich.",
+        ],
+      },
+      {
+        heading: "Lokale Verarbeitung ist der eigentliche Punkt",
+        paragraphs: [
+          "Es ist eine Ironie, ein Foto zu einem „Datenschutz“-Tool hochzuladen: Die schützenswerte Datei läuft dann über den Server eines Dritten, der genau die Metadaten sieht, die Sie entfernen wollen — inklusive GPS-Marken. Ein Upload-basierter Entferner unterläuft einen Teil seines eigenen Zwecks.",
+          "Dieses Tool liest und schreibt die Datei vollständig im Browser: Das Bild wird lokal dekodiert, die Metadaten werden entfernt, und die saubere Datei entsteht auf Ihrem Gerät; nichts wird übertragen. Die Daten, die Sie loswerden wollten, verlassen Ihre Hände nie.",
+          "Praktische Gewohnheit: Metadaten als letzten Schritt vor dem Teilen entfernen — und zwar aus der exportierten Datei, die Sie tatsächlich veröffentlichen. Behalten Sie das Original mit EXIF als Master; es bewahrt nützliche Angaben wie Belichtungswerte für spätere Bearbeitungen.",
+        ],
       },
     ],
   },
@@ -1200,6 +1278,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Moderne Browser nutzen PNG-Favicons gerne über <link>-Tags, und der Schnipsel dieses Tools ist alles, was sie brauchen. Ein Legacy-.ico zählt nur für sehr alte Browser, die für die meisten Websites selten genug sind, um sie zu ignorieren.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Warum Favicons mehrere Größen brauchen",
+        paragraphs: [
+          "Ein Favicon ist keine einzelne Datei: dasselbe Zeichen erscheint mit 16 px im Browser-Tab, mit etwa 32 px auf hochauflösenden Tabs und Taskbars, mit rund 180 px als Apple-Touch-Icon auf iOS-Startbildschirmen und mit 512 px bei Android- und PWA-Installationsbildschirmen. Eine einzige 16-px-Datei für alle Kontexte macht aus dem Startbildschirm-Symbol einen Pixelbrei.",
+          "Browser wählen die größte deklarierte Icon-Datei, die passt, und skalieren sanft herunter — aber sie können nicht hochskalieren: Eine auf 512 px gestreckte 16-px-Quelle bleibt unwiederbringlich unscharf. Deshalb startet der Generator von einer hochauflösenden Quelle und erzeugt die ganze Größenleiter auf einmal.",
+          "Die praktische Deklaration deckt den gemeinsamen Boden ab: 16 und 32 px für Tabs, 180 px für iOS, 192 und 512 px für Android- und PWA-Manifeste. Alle in HTML mit korrekten link-Tags anzugeben, lässt jede Plattform ihre beste Passung wählen.",
+        ],
+      },
+      {
+        heading: "Ein Zeichen entwerfen, das 16 Pixel überlebt",
+        paragraphs: [
+          "Die meisten Logos sterben bei 16 px: feine Linien verschmelzen zu Rauschen, Buchstabenformen werden zu Klecksen, zweifarbige Details verschwinden. Der favicon-taugliche Weg ist, das Zeichen auf sein erkennbarstes Element zu reduzieren — einen Buchstaben, ein Symbol, eine Form — statt das ganze Logo zu verkleinern.",
+          "Testen Sie in den Zielgrößen, nicht in voller Auflösung: Was bei 512 px klar lesbar ist, kann bei 16 px unleserlich sein. Hoher Kontrast, dicke Striche und eine einfache Silhouette überstehen das Verkleinern; Farbverläufe und dünne Konturen nicht.",
+          "Denken Sie auch an die dunkle Seite: Tabs und Betriebssysteme zeigen Icons auf hellen und dunklen Hintergründen. Ein rein schwarzes Zeichen auf Transparent verschwindet im Dunkelmodus, ein rein weißes im Hellmodus. Eine dezente Kontrastkontur oder eine gefüllte Hintergrundform macht das Icon in beiden Fällen tauglich.",
+        ],
+      },
+      {
+        heading: "Lokale Erzeugung und Markenschutz",
+        paragraphs: [
+          "Ein Favicon ist der Keim der visuellen Identität einer Marke, und Marken in Entwicklung sind oft vertraulich — unveröffentlichte Produktzeichen, Redesign-Kandidaten. Favicon-Sets lokal im Browser zu erzeugen bedeutet, dass ein nie gezeigtes Design niemals eine Upload-Warteschlange berührt.",
+          "Das Tool rendert Ihr Quellbild im Browser Ihres Geräts auf jede Zielgröße herab und erzeugt saubere Verkleinerungen aus dem hochauflösenden Original. Kein Server sieht das Kunstwerk, und die erzeugten Dateien landen direkt auf Ihrer Festplatte.",
+          "Workflow-Tipp: Erzeugen Sie das Set neu, sobald sich das Quellzeichen ändert, und halten Sie die Erzeugung reproduzierbar — dasselbe Quellbild sollte stets dasselbe Favicon-Set liefern, damit eine fehlende Größe jederzeit nachgeholt werden kann.",
+        ],
+      },
+    ],
   },
   "grayscale-image": {
     name: "Bild in Graustufen",
@@ -1222,6 +1326,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Warum ist mein PNG nach der Konvertierung größer?",
         a: "Graustufen ändern die Komprimierung nicht: Ein verrauschtes Foto kann etwas anders komprimieren. Wählen Sie JPG für Fotos und PNG nur für flache Grafiken.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Graustufen sind mehr als „Farben entfernen“",
+        paragraphs: [
+          "Der naive Weg, ein Bild grau zu machen, ist, Rot-, Grün- und Blaukanal gleichmäßig zu mitteln. Das übersieht, wie menschliches Sehen funktioniert: Wir sind für grünes Licht weit empfindlicher als für rotes und kaum für blaues. Gleiche Mittelung lässt grünes Gras und roten Ziegel — dem Auge nach gleich hell — mit falscher relativer Helligkeit erscheinen.",
+          "Eine korrekte Umwandlung nutzt Leuchtdichtegewichte aus der Wahrnehmung der Grundfarben, grob 0,299 Rot + 0,587 Grün + 0,114 Blau (die ITU-R-BT.601-Koeffizienten, die Fernsehnormen vor Jahrzehnten festlegten). Dieses Tool wandelt mit solcher Wahrnehmungsgewichtung, sodass das Graustufen-Ergebnis dem entspricht, was Ihr Auge im Farbbild tatsächlich sieht.",
+          "Das Ergebnis ist auch ein nützliches Bearbeitungswerkzeug: Viele Fotografen konvertieren zuerst in Graustufen, um die Tonstruktur eines Bildes zu beurteilen — echtes Schwarz, echtes Weiß, weiche Mitteltöne — bevor sie sich überhaupt um Farbe kümmern.",
+        ],
+      },
+      {
+        heading: "Ausgabeformat und was unangetastet bleibt",
+        paragraphs: [
+          "Die Graustufenkonvertierung ändert nur Farbdaten — die Pixelgeometrie bleibt unberührt, also überleben Maße, Schärfe und Komposition exakt. Das macht sie in jeder Workflow-Phase sicher, ohne die Kaskadeneffekte, die eine Neuberechnung der Auflösung hätte.",
+          "Die Formatwahl zählt trotzdem: Speichern Sie als PNG, wenn das Bild Text oder flache Grafiken enthält oder Sie maximale Treue ohne weiteren Verlust wollen; als JPG bei fotografischem Inhalt, wo Dateigröße zählt. Ein Graustufen-JPEG ist typischerweise kleiner als die Farbfassung, denn die Farbkänäle tragen viel von dem, was wegkomprimiert wird.",
+          "Ein subtiler Unterschied: Ein echtes Graustufenbild und ein Farbbild, dessen drei Kanäle zufällig gleich sind, können beide „grau aussehen“ — gespeichert werden sie aber unterschiedlich. Tools und Drucker behandeln sie mitunter verschieden; wenn exaktes Verhalten in einer Druckpipeline zählt, behalten Sie PNG.",
+        ],
+      },
+      {
+        heading: "Wo Graustufen sich auszahlen — und Datenschutz",
+        paragraphs: [
+          "Klassische Einsatzfälle gehen über Ästhetik hinaus: Dokumentenscans lesen sich ohne Farbstiche der Scannerlampe sauberer; Barrierefreiheits-Prüfungen nutzen Graustufen, um zu verifizieren, dass ein Design ohne Farbinformation funktioniert; und für Schwarzweiß-Druck gedachte Ausgaben sollten immer zuerst in Grau geprüft werden.",
+          "Es ist auch ein Diagnosewerkzeug für Fotos: Hat ein Porträt einen seltsamen Farbstich oder ungleichmäßige Hauttöne, trennt die Graukonvertierung das Tonproblem vom Farbproblem und zeigt Ihnen, ob Belichtung oder Weißabgleich dran sind.",
+          "Wie jedes Tool hier läuft die Konvertierung vollständig in Ihrem Browser — das Bild verlässt Ihr Gerät nie. Graustufen Sie einen Stapel persönlicher Scans, Kundenentwürfe oder privater Dokumente, ohne dass auch nur eines davon einen Server berührt.",
+        ],
       },
     ],
   },
@@ -1250,6 +1380,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Werden meine iPhone-Fotos irgendwo hochgeladen?",
         a: "Nein. Die Konvertierung geschieht in Ihrem Browser mit einem lokalen HEIC-Dekoder. Ihre Fotos bleiben die ganze Zeit auf Ihrem Gerät — dieses Tool funktioniert sogar offline, sobald die Seite geladen ist.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Was HEIC eigentlich ist — und warum es existiert",
+        paragraphs: [
+          "HEIC ist das Containerformat hinter Apples High-Efficiency-Image-Format, seit iOS 11 Standard für iPhone-Kamerafotos. Es beruht auf derselben HEVC-Videokompressionsfamilie und speichert Fotos in deutlich kleineren Dateien als JPEG.",
+          "Der Preis ist Kompatibilität: HEIC ist im Apple-Ökosystem und in neueren Windows- und Android-Versionen gut unterstützt, aber viele Websites, Behördenportale, Drucker und ältere Software können damit nichts anfangen.",
+          "Die Konvertierung zu JPG tauscht Dateigröße gegen Universalität: Das Ergebnis ist größer, öffnet aber überall, vom zehn Jahre alten Browser bis zur Druckerei. Das ist die richtige Entscheidung, sobald das Ziel außerhalb Ihrer Kontrolle liegt.",
+        ],
+      },
+      {
+        heading: "Konvertierungsdetails, die sich lohnen",
+        paragraphs: [
+          "JPEG ist verlustbehaftet, also ist HEIC-zu-JPG eine Neukodierung, kein Umpacken: Bei hohen Qualitätseinstellungen ist der Unterschied für typische Fotos unmerklich; bei niedrigen erben Sie Artefakte zusätzlich zu denen, die HEIC vielleicht schon hinterlassen hat.",
+          "Metadaten überleben die Konvertierung womöglich nicht: HEIC unterstützt Features, die JPEG nicht kennt, etwa Tiefenkarten des Porträtmodus. Ein schlichtes JPEG trägt das sichtbare Bild, Maße und Standard-EXIF, aber nicht diese Zusatzebenen.",
+          "Stapelkonvertierung ist der realistische Workflow: Eine iPhone-Mediathek enthält hunderte oder tausende HEIC-Dateien, und konvertiert werden muss meist in dem Moment, in dem sie zu einem PC, einem Webformular oder einer geteilten Festplatte sollen.",
+        ],
+      },
+      {
+        heading: "Datenschutz zählt bei privaten Fotos am meisten",
+        paragraphs: [
+          "Kamerafotos gehören zu den sensibelsten Dateien, die Menschen besitzen: Familienmomente, Wohnungsinnenräume, Reisemuster. Foto-Konvertierseiten mit Upload-Pflicht sehen all das — und EXIF-Standortmarken können jeden Aufenthaltsort verraten.",
+          "Dieser Konvertierer arbeitet vollständig in Ihrem Browser: Das HEIC wird auf Ihrem Gerät dekodiert und zu JPG neu kodiert, nichts wird übertragen. Genau deshalb ist er die vernünftige Wahl für private Mediatheken.",
+          "Ein verwandter Tipp: Wenn Sie das JPG öffentlich teilen statt es nur irgendwo öffnen wollen, ziehen Sie in Betracht, auch die Standort-EXIF zu entfernen — die Formatkonvertierung selbst entfernt keine Ortsmetadaten.",
+        ],
       },
     ],
   },
@@ -1308,6 +1464,29 @@ export const de: Record<string, ToolCopy> = {
         a: "Nein. Dateien werden nur lesend geöffnet; das Tool dekodiert eine Kopie im Speicher und schreibt nie in das Original zurück. Ihr Bild wird vollständig auf Ihrem Gerät angezeigt und analysiert.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Die Metadaten-Ebenen in einer Bilddatei",
+        paragraphs: [
+          "Metadaten in einer Bilddatei liegen in Schichten. Die Container-Ebene ist immer da: Dateiformat, Pixelmaße, Dateigröße und Farbtiefe. Darüber sitzt EXIF — Kamerahersteller und Modell, Objektiv, Blende, Verschlusszeit, ISO, Brennweite, Blitzstatus, Aufnahmezeitpunkt. Darunter formatspezifische Blöcke: PNG-tEXt/iTXt-Chunks, JPEG-Kommentar-Marker, mitunter eingebettete ICC-Farbprofile und sogar Vorschaubilder, die selbst kleine Bilder sind.",
+          "Ein Viewer liest diese Schichten, ohne die Pixel zu berühren — genau die sichere Art, eine Datei zu inspizieren: nichts wird in eine neue Datei dekodiert, nichts umgeschrieben, nichts kann dabei beschädigt werden. Was Sie sehen, trägt die Datei wirklich — auch die Teile, deren Existenz der ursprüngliche Autor womöglich nicht kannte.",
+        ],
+      },
+      {
+        heading: "GPS-Daten in EXIF: der wichtigste Datenschutzpunkt",
+        paragraphs: [
+          "Die meisten Smartphone-Kameras betten standardmäßig GPS-Koordinaten in jedes Foto ein. Die Koordinaten sind präzise genug, um ein Foto auf wenige Meter zu verorten — ein beiläufiger Schnappschuss kann so stillschweigend Ihr Zuhause, die Schule Ihres Kindes oder Ihr Hotelzimmer verraten. Vor dem öffentlichen Teilen ist der GPS-Check die Metadaten-Gewohnheit mit dem höchsten Nutzen.",
+          "Ist GPS vorhanden und Sie wollen das Bild veröffentlichen, schicken Sie es anschließend durch den EXIF-Entferner. Viewer und Entferner sind zwei Hälften eines Workflows: erst nachsehen, was leaken würde, dann entfernen, damit es nicht leakt. Messaging-Apps streifen Metadaten beim Weitersenden oft automatisch ab — direkte Dateiweitergabe per E-Mail, Cloud-Link oder Upload tut es nicht.",
+        ],
+      },
+      {
+        heading: "Inspektion ohne Upload",
+        paragraphs: [
+          "Die Datei wird lokal in Ihrem Browser geparst: Die Rohbytes werden von der Festplatte in den Speicher gelesen und die Metadaten-Tabellen dort dekodiert. Nichts wird übertragen, sodass Sie auch sensible Fotos prüfen können — Beweismittel in einem Streit, ortsmarkierte Arbeitsfotos, Bilder unter NDA — mit null Expositionsrisiko.",
+          "Da kein Upload stattfindet, gibt es keine Größengrenze: Ein 50-Megapixel-Kameraoriginal wird genau so schnell inspiziert wie eine Miniatur. Kombinieren Sie den Viewer mit dem EXIF-Entferner zu einer kompletten Prüfen-und-Bereinigen-Schleife, beide auf Ihrem Gerät.",
+        ],
+      },
+    ],
   },
   "image-resizer": {
     name: "Bildskalierer",
@@ -1334,6 +1513,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Behalten skalierte PNG-Bilder ihre Transparenz?",
         a: "Ja. Die Skalierung behält das Originalformat, PNG-Transparenz und WebP-Alpha überleben also unangetastet. Nur die Konvertierung zu JPG würde Transparenz auf einen weißen Hintergrund legen.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Gut verkleinern: welche Richtung, welche Voreinstellungen",
+        paragraphs: [
+          "Größenänderung kennt zwei Richtungen mit unterschiedlicher Physik: Verkleinern entfernt Pixel und verliert, gut gemacht, fast nichts Sichtbares — ein auf halbe Breite gebrachtes Foto wirkt in Seitengröße praktisch identisch. Vergrößern erfindet Pixel dazu und glättet mehr, als es zurückholen kann.",
+          "Lassen Sie das Seitenverhältnis gesperrt, es sei denn, das Ziel verlangt Verzerrung wirklich: freie Breiten- und Höhenwerte ziehen Kreise zu Ovalen und Gesichter zu Zerrbildern. Plattformen beschneiden oder letterboxen ohnehin — Sie entscheiden dann nicht mehr selbst.",
+          "Die üblichen Voreinstellungen entsprechen echten Grenzen: 1920 px Breite passt zu Full-HD-Bildschirmen und den meisten Blogspalten, 1080 px zu Social-Posts, 512 px und darunter zu Avataren und Icons. Auf die tatsächliche Anzeigegröße zu skalieren spart die meisten Bytes.",
+        ],
+      },
+      {
+        heading: "Reihenfolge: erst skalieren, dann komprimieren",
+        paragraphs: [
+          "Braucht ein Bild beides, Skalierung und Kompression, dann zuerst skalieren: Jedes entfernte Pixel sind Daten, die der Kompressor nie kodieren muss, und die Ersparnis skaliert mit der Fläche — halbe Breite und Höhe lassen die Pixelzahl um rund drei Viertel sinken.",
+          "Skalieren interagiert auch mit Formaten: Ein PNG-Screenshot zu verkleinern bleibt verlustfrei, ein JPG zu verkleinern komprimiert erneut und fügt eine Runde Artefakte hinzu. Skalieren Sie, wenn möglich, aus der am wenigsten komprimierten Quelle.",
+          "Ein Detail, das viele übersehen: Nach dem Herunterskalieren kann leichtes Nachschärfen die empfundene Schärfe zurückholen, die die Interpolation wegspült — aber Überschärfung erzeugt Halos, die schlimmer sind als die Weichheit.",
+        ],
+      },
+      {
+        heading: "Lokales Skalieren und Datenschutz",
+        paragraphs: [
+          "Skalieraufträge betreffen oft die privatesten Bildkategorien: Ausweisdokumente in Formulargröße, Familienfotos zum Teilen verkleinert, unveröffentlichte Produktfotos für ein Listing vorbereitet. An einen Upload-Dienst geschickt, wären sie kopiert, bevor sie konvertiert sind.",
+          "Dieses Tool skaliert vollständig in Ihrem Browser: Dekodieren, Skalieren und Neukodieren geschehen auf Ihrem Gerät, das Ergebnis wird direkt heruntergeladen. Nichts wird übertragen, also existiert keine Kopie Ihres Originals auf fremdem Speicher.",
+          "Der Stapelmodus passt zum wiederkehrenden Fall — ein Fotoset, das überall dieselbe Webbreite braucht. Eine Größe auf den Ordner anwenden, die Ergebnisse als ZIP herunterladen und die Originale unangetastet als Quelle der Wahrheit behalten.",
+        ],
       },
     ],
   },
@@ -1364,6 +1569,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nein. JPEG speichert nie Transparenz, es gibt also nichts wiederherzustellen — Ihr konvertiertes PNG ist vollständig deckend. Um einen Hintergrund freizustellen, bräuchten Sie ein dediziertes Hintergrund-Entfernungs-Tool.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Was JPG-zu-PNG wiederherstellen kann — und was nicht",
+        paragraphs: [
+          "Die erste Tatsache, die man akzeptieren muss: JPG zu PNG konvertieren verbessert das Bild nicht. PNG ist verlustfrei, kann aber nur bewahren, was existiert — und was in einem JPG existiert, ist bereits das Ergebnis verlustbehafteter Kompression.",
+          "Was die Konvertierung bietet, ist eine sichere Zukunft: Ein PNG hält jeden Pixel exakt, sodass Bearbeiten, Zuschneiden und Neu-Speichern ab dem Konvertierungszeitpunkt nichts mehr an Qualität kosten. Das JPG als Arbeitskopie zu behalten, bedeutet bei jeder Speicherung einen weiteren Verlust zu akzeptieren.",
+          "Das richtige Denkmodell ist also „stabilisieren“: Die Konvertierung lohnt sich, wenn das JPG Ihre beste Kopie ist und Sie es weiter bearbeiten, archivieren oder re-exportieren wollen. Als kosmetische Behauptung — „PNG klingt hochwertiger“ — ist sie wertlos.",
+        ],
+      },
+      {
+        heading: "Größenerwartungen und Formatverhalten",
+        paragraphs: [
+          "Erwarten Sie, dass die Datei wächst: JPEGs clevere Kompression verwirft Daten, die PNG getreu ablegen muss, daher ist dasselbe Bild als PNG typischerweise ein Mehrfaches des JPG — das PNG zahlt für jeden Pixel, den JPEG in eine Schätzung zusammengefasst hat.",
+          "Bei fotografischem Inhalt lohnt sich dieser Preis meist nur, wenn Sie ihn brauchen: Behalten Sie Fotos zum Teilen als JPG und konvertieren Sie zu PNG, wenn das Bild in einen Bearbeitungsworkflow geht, in dem wiederholtes Speichern sonst schleichend weiter schadet.",
+          "Wo die Konvertierung wirklich glänzt, ist der gemischte Fall: Bilder mit Text oder flachen Grafiken, die fälschlich als JPG gespeichert wurden. Sie sind bereits beschädigt — aber sie in PNG einzufrieren, stoppt das Wachstum des Schadens, und die Textkanten verlieren nichts weiter.",
+        ],
+      },
+      {
+        heading: "Bearbeitungs-Workflows und lokale Verarbeitung",
+        paragraphs: [
+          "Die praktische Regel für Bearbeitungspipelines: Am Anfang zu PNG konvertieren, die gesamte Bearbeitung im verlustfreien Bereich tun und JPG nur als letzten Auslieferungsschritt exportieren. So geschieht der verlustbehaftete Schritt genau einmal, am Ende, mit vollem Bewusstsein.",
+          "Archive und Master profitieren aus anderem Grund: Formate driften und Software altert, aber PNGs verlustfreie Pixeldaten sind die haltbarste Darstellung dessen, was die Datei tatsächlich enthält. Ihre Meister in PNG zu überführen, ist eine Investition in die Lesbarkeit in zwanzig Jahren.",
+          "Wie überall auf dieser Seite läuft die Konvertierung lokal in Ihrem Browser — Dekodieren, Kodieren und Download geschehen auf Ihrem Gerät ohne Upload. Private Fotos oder Kunden-Master verlassen den Rechner daher nie.",
+        ],
+      },
+    ],
   },
   "merge-images": {
     name: "Bilder zusammenfügen",
@@ -1386,6 +1617,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Spielt die Reihenfolge eine Rolle?",
         a: "Ja — Bilder landen in der Listenreihenfolge, von links nach rechts, von oben nach unten. Entfernen und neu hinzufügen, um sie zu ändern.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Layout wählen: nebeneinander, gestapelt oder als Raster",
+        paragraphs: [
+          "Zusammenfügen ist vor allem eine Layoutentscheidung: Horizontales Zusammenfügen passt zu Sequenzen, die von links nach rechts gelesen werden — Vorher/Nachher-Vergleiche, Schritt eins neben Schritt zwei. Vertikales Stapeln passt zu Listen und Chat-artigen Inhalten, bei denen jedes Bild nach unten fortsetzt. Raster passen zu Collagen und Mehrfachvergleichen ohne dominierende Leserichtung.",
+          "Die versteckte Variable sind unterschiedliche Eingabegrößen: Teilen zusammengeführte Bilder keine Dimension, muss das Tool entscheiden — dehnen (verzerrt), auffüllen (letterboxt mit Hintergrundfarbe) oder an eine Kante ausrichten und Asymmetrie akzeptieren. Zu wissen, welches Verhalten Sie bekommen, verhindert die meisten Überraschungen.",
+          "Abstand und Hintergrundfarbe sind die Feinschliff-Ebene: Ein paar Pixel Abstand auf neutralem Hintergrund machen aus zwei aneinandergeklebten Bildern eine bewusste Komposition. Auf transparenten Hintergründen bleibt die Lücke bei PNG-Ausgabe durchsichtig — wichtig für Overlays.",
+        ],
+      },
+      {
+        heading: "Formatverhalten beim Zusammenfügen",
+        paragraphs: [
+          "Zusammenfügen ist strukturell meist verlustfrei — Komposition, nicht Kompression — aber das Ausgabeformat entscheidet, was danach passiert: PNG-Ausgabe bewahrt jeden Eingabepixel exakt und hält Transparenz; der sichere Standard für Screenshots, Grafiken und alles mit Text.",
+          "JPG-Ausgabe gießt das Ergebnis in ein flaches Rechteck: transparente Lücken werden Vollton, und die ganze Komposition nimmt eine Runde verlustbehafteter Kompression. Für fotografische Kompositionen in Ordnung — und größenmäßig nötig, wenn viele große Fotos in eine Datei wandern.",
+          "Achten Sie auf die Gesamtmaße: Vertikales Stapeln summiert Höhen und behält die breiteste Breite, sodass ein Ordner hoher Screenshots ein Ergebnis liefern kann, das höher ist, als viele Viewer angenehm anzeigen. Manchmal schlägt Aufteilen oder Skalieren der Eingaben vor dem Zusammenfügen eine einzige riesige Ausgabe.",
+        ],
+      },
+      {
+        heading: "Lokales Zusammenfügen hält Kompositionen privat",
+        paragraphs: [
+          "Zusammengefügte Bilder enthalten oft sensibles Material: ein Vergleich zweier interner Dashboards, Dokumentations-Screenshots mit Dateipfaden und Nutzernamen, private Vorher/Nachher-Fotos. Ein Upload-basierter Merger sieht jeden Input vollständig — die Komposition und alle ihre Teile.",
+          "Dieses Tool komponiert vollständig in Ihrem Browser: Jedes Bild wird lokal dekodiert und auf eine gemeinsame Canvas gezeichnet, die zusammengeführte Datei wird auf Ihre Festplatte geschrieben. Kein Input verlässt Ihr Gerät, also bleiben die Teile so privat wie das Ergebnis.",
+          "Reihenfolge zählt für Reproduzierbarkeit: Notieren oder behalten Sie die Reihenfolge, in der Bilder hinzugefügt wurden — ein umgekehrter oder gemischter Merge erzeugt eine visuell ähnliche, inhaltlich andere Datei. Fatal bei Vorher/Nachher-Vergleichen, bei denen die Richtung die ganze Botschaft ist.",
+        ],
       },
     ],
   },
@@ -1415,6 +1672,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Warum ist ein Teil des Texts falsch?",
         a: "Die OCR-Genauigkeit hängt stark von der Quelle ab: unscharfe Fotos, gewölbte Seiten, kleine Schriften und unruhige Hintergründe verursachen Fehler. Nehmen Sie das schärfste Bild, beschneiden Sie auf den Textbereich, und planen Sie eine Gegenlese ein — besonders bei Zahlen und ähnlichen Zeichen.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Wie OCR aus Pixeln Text macht",
+        paragraphs: [
+          "Texterkennung ist eine Pipeline, kein einzelner Schritt: Zuerst wird das Bild vorbehandelt (Kontrastanpassung, Rauschreduktion, Entzerrung), dann das Layout analysiert, um Regionen zu finden, die wie Textblöcke aussehen, dann ordnet ein Erkennungsmodell jede Zeichenform einem Buchstaben zu, und zuletzt werden die Teile zu Zeilen und Absätzen zusammengesetzt.",
+          "Die Genauigkeit hängt stark von der Quellqualität ab: Saubere, hochauflösende Scans von getipptem Text mit gutem Kontrast erreichen nahezu perfekte Erkennung; niedrig aufgelöste Fotos, schiefe Seiten, verzierte Schriften und Handschrift lassen sie deutlich fallen. Faustregel: Je näher das Bild an einem kopierten Dokument aussieht, desto besser das Ergebnis.",
+          "Die Spracheinstellung wiegt ebenso viel wie die Bildqualität: Das Modell muss wissen, welche Schrift und welche Wortformen es erwartet. OCR auf einem japanischen Beleg mit englischem Modell erzeugt überzeugenden Unsinn — das Modell immer an die Sprache des Textes anpassen.",
+        ],
+      },
+      {
+        heading: "Bessere Ergebnisse aus unvollkommenen Quellen",
+        paragraphs: [
+          "Ein paar Gewohnheiten heben die Genauigkeit deutlich: Irrelevante Umgebung vor der Erkennung weguschneiden, schiefe Seiten zu entzerren oder neu abzufotografieren und den Kontrast zu erhöhen, wenn der Text blass ist — Screenshots von Text schlagen Fotos vom Bildschirm, weil Perspektive und Blendlicht fehlen.",
+          "Achten Sie auf Verwechslungen, die Modelle bei geringer Qualität falsch machen: 0 und O, 1 und l und I, rn und m. Zahlen in Tabellen, Codes und Beträgen verdienen eine manuelle Durchsicht — eine falsche Ziffer in einer Kontonummer oder einem Preis ist der klassische OCR-Fehler.",
+          "Behandeln Sie das Ergebnis als Entwurf, nicht als Abschrift: Korrekturlesen Sie alles, was Sie in ein Dokument einfügen wollen, und behalten Sie das Originalbild. Schnelle maschinelle Erkennung plus kurze menschliche Prüfung ist deutlich zuverlässiger als beides allein.",
+        ],
+      },
+      {
+        heading: "Datenschutz ist der Grund, warum lokales OCR zählt",
+        paragraphs: [
+          "Die Dokumente, die Menschen durch OCR schicken, sind genau die sensiblen: Verträge, Ausweiskopien, Gehaltsabrechnungen, Belege mit Kartennummern, handschriftliche Notizen. Upload-basierte Dienste empfangen das vollständige Bild — also Text und alle persönlichen Daten darin — auf fremder Infrastruktur.",
+          "Dieses Tool erkennt vollständig in Ihrem Browser: Das Bild wird auf Ihrem Gerät verarbeitet und der extrahierte Text bleibt auf Ihrem Bildschirm. Nichts wird übertragen, OCR auf vertraulichen Dokumenten trägt also keinerlei Upload-Risiko.",
+          "Praktische Folge: Sie können Dokumente unter NDA, medizinische Unterlagen oder interne Aufzeichnungen verarbeiten, ohne irgendjemandes Datenschutzerklärung zu prüfen — an der Verarbeitung ist überhaupt keine externe Partei beteiligt.",
+        ],
       },
     ],
   },
@@ -1502,6 +1785,32 @@ export const de: Record<string, ToolCopy> = {
         a: "Nur die Ecken werden angefasst — die Pixel innen bleiben unberührt. PNG-Ausgabe ist verlustfrei, JPG wird in hoher Qualität neu kodiert, was die Dateigröße in beide Richtungen leicht verschieben kann.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Wie abgerundete Ecken tatsächlich funktionieren",
+        paragraphs: [
+          "Bilder sind von Natur aus rechteckig, eine abgerundete Ecke ist also nichts, was ein Bild „hat“ — sie ist Transparenz, die aus den vier Ecken herausgemeißelt wird. Das Runden geschieht über einen Alphakanal: Pixel innerhalb des Viertelkreises bleiben deckend, außerhalb werden voll transparent, und die wenigen Pixel auf dem Bogen selbst erhalten Teiltransparenz, um die Kurve zu glätten.",
+          "Deshalb muss die Ausgabe PNG sein (oder WebP mit Alpha): JPG kann keine Transparenz speichern, würde die ausgehöhlten Ecken mit Vollton füllen, und das Runden wäre Fake — eine sichtbare weiße oder schwarze Quadratkante auf jedem nicht passenden Hintergrund.",
+          "Der Radius bestimmt den Charakter: ein kleiner Radius wirkt als dezente moderne Note, ein Radius von der halben kürzeren Seite macht aus dem ganzen Bild eine Pille oder einen Kreis. Den Radius an die border-radius-Werte des Designsystems anzupassen, hält Screenshots konsistent mit der umgebenden UI.",
+        ],
+      },
+      {
+        heading: "Wo abgerundete Ecken in echten Layouts zählen",
+        paragraphs: [
+          "Designsysteme runden fast alles: Karten, Buttons, Avatare, Bildkacheln. Ein spitzwinkliger Screenshot in einer gerundeten Karte wirkt wie ein Relikt aus einer anderen Ära; der Screenshot auf denselben Radius gerundet fühlt sich im Layout heimisch an.",
+          "Präsentationen und Dokumentation profitieren gleichermaßen: Gerundete Screenshots lesen sich als bewusstes Design, eckige als roher Einfügung. Die wenigen Pixel Transparenz lassen auch die Seiten- oder Folienhintergrundfarbe durchscheinen und binden das Bild an seine Umgebung.",
+          "In Social Media und Messaging leihen sich gerundete Ecken Glaubwürdigkeit von App-UIs — Bilder, die wie aus einem polierten Produkt stammend aussehen, werden ernster genommen als hartkantige Rohaufnahmen. Der Effekt ist klein, aber beständig.",
+        ],
+      },
+      {
+        heading: "Lokale Verarbeitung und Workflow-Notizen",
+        paragraphs: [
+          "Das Runden läuft vollständig in Ihrem Browser: Das Bild wird dekodiert, die Eckenmaske angewendet und das transparente PNG auf Ihrem Gerät erzeugt. Nichts wird hochgeladen — relevant, wenn die gerundeten Screenshots interne Tools, Kundendaten oder privaten Kontext zeigen.",
+          "Der Stapelmodus behandelt den häufigen Fall: ein Dokumentationsset, bei dem jeder Screenshot denselben Radius braucht. Einen Radius auf den ganzen Ordner anwenden und die Ergebnisse herunterladen, statt den Wert pro Bild neu einzutippen.",
+          "Behalten Sie das eckige Original: Eckpixel werden dauerhaft entfernt. Ändert sich die Radiuswahl später — ein Designsystem-Update, eine andere Plattform —, führt der einzige Weg über die unbeschnittene Quelle, nicht über das bereits gerundete Ergebnis.",
+        ],
+      },
+    ],
   },
   "screenshot-tool": {
     name: "Screenshot-Tool",
@@ -1528,6 +1837,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Funktioniert das auf Handys oder Tablets?",
         a: "Nein. Browser unter iOS und Android bieten Webseiten keine Bildschirmaufnahme an, das Tool erklärt stattdessen, dass es dort nicht verfügbar ist. Auf dem Desktop unterstützen Chrome, Edge, Firefox und Safari es alle.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "In die Zwischenablage aufnehmen, dann aufhübschen",
+        paragraphs: [
+          "Ein Screenshot ist selten das finale Asset: Er braucht einen Rahmen, runde Ecken, eine Farb- oder Größenanpassung, bevor er in eine Folie, einen Bugreport oder einen Social-Post passt. Direkt in der Bearbeitungsansicht aufzunehmen, faltet zwei Schritte in einen — Region greifen, anpassen, herunterladen — statt zwischen OS-Shortcut, Editor und Dateimanager zu springen.",
+          "Rahmen sind die wertvollste Aufhübschung: Ein dünner Rand in neutraler Farbe trennt das Bild vom Hintergrund, auf dem es landet — besonders auf Seiten mit derselben weißen Hintergrundfarbe wie der Screenshot selbst. Ohne Rand löst sich ein Weißhintergrund-Screenshot einfach in der Seite auf.",
+          "Anmerkungen verblassen schnell aus dem Gedächtnis; die Gewohnheit, die sich auszahlt, ist Aufnehmen, Aufhübschen und Sofort-Speichern — rohe Clipboard-Daten verlieren den Kontext, und ein flüchtiger UI-Zustand (Dropdown offen, Tooltip sichtbar) lässt sich Minuten später womöglich nicht mehr einfangen.",
+        ],
+      },
+      {
+        heading: "Warum Screenshots verlustfreies PNG verdienen",
+        paragraphs: [
+          "Screenshots sind der Musterschüler für PNG statt JPG: Sie enthalten Volltonflächen, harte Kanten und Text — genau den Inhalt, den JPEG-Kompression mit Ringing-Halos um Buchstaben und Banding in Verläufen beschädigt. Ein JPG-Screenshot wirkt subtil schmutzig; ein PNG ist pixelidentisch mit dem, was auf dem Bildschirm war.",
+          "Wo JPG gewinnt, sind Screenshots von Fotografien: Ein auf dem Bildschirm angezeigtes Foto enthält natürliche Bilddetails, die gut komprimieren. Für alles andere — Fenster, Terminals, Dokumente, UI-Elemente — kauft die Größenaufnahme von PNG sichtbare Sauberkeit.",
+          "Zählt die Dateigröße (manche Formulare begrenzen Screenshots auf ein paar hundert KB), ist der ehrliche Hebel die Aufnahmeregion: Eng zuschneiden, bevor Sie an den Qualitätsregler gehen. Ein eng zugeschnittenes PNG des relevanten Fensters ist kleiner und nützlicher als ein Vollbild-JPG.",
+        ],
+      },
+      {
+        heading: "Was auf Ihrem Gerät bleibt",
+        paragraphs: [
+          "Screenshots zeigen häufig privaten Kontext: interne Dashboards, persönliche Nachrichten, Dateinamen, Browser-Tabs, Kundendaten. Einen Screenshot zu einem Capture-Dienst hochzuladen, schickt all das an einen fremden Server — ein Risiko, das lokal bleibt, wenn Aufnahme und Bearbeitung auf Ihrem Gerät geschehen.",
+          "Dieses Tool nimmt auf und verarbeitet innerhalb Ihres Browsers: Die Pixel stammen aus Ihrer Bildschirmsitzung, die Aufhübschung läuft auf Ihrem Gerät, und die Datei wird direkt auf Ihre Festplatte geschrieben. Nichts wird zu irgendeinem Zeitpunkt übertragen.",
+          "Eine Datenschutzgewohnheit, die sich lohnt: Vor dem Speichern eines Screenshots zum Teilen die Ränder auf unbeabsichtigten Kontext prüfen — ein zweiter Monitor, eine Benachrichtigung, eine Adressleiste. Ein sauberes Bild neu aufzunehmen ist leichter, als ein Leck rückgängig zu machen.",
+        ],
       },
     ],
   },
@@ -1580,6 +1915,32 @@ export const de: Record<string, ToolCopy> = {
       {
         q: "Funktioniert es mit transparenten PNGs?",
         a: "Die Ausgabe ist JPG, Transparenz wird also auf Weiß gelegt. Markieren Sie das Original-PNG mit einer Hintergrundfarbe Ihrer Wahl, wenn Sie Alpha brauchen.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Was ein Wasserzeichen schützt — und was nicht",
+        paragraphs: [
+          "Ein Wasserzeichen ist Abschreckung und Zuschreibung, kein Schloss. Sichtbare Marken machen beiläufigen Diebstahl unattraktiv — geklaute Bilder mit Logo sind wertlos, wer fremdes Werk als eigenes ausgeben will —, aber sie verhindern weder Zuschneiden noch entschlossene Entfernung, und sie beweisen für sich genommen nichts über Urheberschaft.",
+          "Die Platzierung ist das ganze Spiel für die Sichtbarkeit: Eine Marke in der Ecke lässt sich trivial wegstutzen, eine wiederholte oder zentrierte Marke übersteht das Zuschneiden, verändert das Bild aber stärker. Editorial- und Preview-Nutzung favorisiert Eckmarken in der ehrlichen Annahme, dass der Käufer die saubere Version bekommt; Schutz nur geteilter Bilder favorisiert aufdringlichere Platzierung.",
+          "Die Deckkraft ist das andere Stellrad: zu dezent und die Marke verschwindet auf unruhigen Hintergründen, zu stark und sie entwertet die Vorschau, auf die sie aufmerksam machen soll. Rund 40–60 % Deckkraft in einer Farbe, die zu den meisten Bildpartien kontrastiert, ist die übliche Arbeitszone.",
+        ],
+      },
+      {
+        heading: "Textmarken gegen Bildlogos",
+        paragraphs: [
+          "Ein Text-Wasserzeichen ist schnell und flexibel — Namen, Handle oder Copyright-Zeile eintippen, Größe und Position justieren. Seine Schwäche ist die Gesichtslosigkeit: schlichte Textmarken sind leicht nachzuahmen, sie schreiben zu, aber sie markieren kaum.",
+          "Ein bildbasiertes Wasserzeichen (Logo-PNG mit Transparenz) trägt Markenkennung und übersteht Formatwechsel — wer das gezeichnete Foto kopiert, kopiert Ihr Logo mit. Es erfordert ein vorbereitetes Asset, aber dieses eine Asset stempelt dann einen ganzen Stapel in einem Durchgang.",
+          "Für Stapelarbeit zählt Konsistenz mehr als die Kombination: gleiche Position, gleiche Deckkraft, gleiche Größe über alle Bilder. Ein gezeichnetes Portfolio wirkt professionell, wenn die Marke vorhersehbar sitzt, und Amateur, wenn sie von Bild zu Bild springt.",
+        ],
+      },
+      {
+        heading: "Lokale Verarbeitung schützt die sauberen Originale",
+        paragraphs: [
+          "Wasserzeichen bedeuten, einer Software die besten, unmarkierten Bilder zu füttern — genau die Assets, die Sie möglichst fern von fremden Servern halten wollen. Ein Upload-basierter Dienst empfängt Ihre sauberen Originale in voller Auflösung; das kehrt den Sinn der Übung um.",
+          "Dieses Tool verarbeitet vollständig in Ihrem Browser: Original und Wasserzeichen werden lokal komponiert, die Ausgabe auf Ihre Festplatte geschrieben. Die saubere Version verlässt Ihr Gerät nie — außerhalb existiert nur die markierte.",
+          "Bewahren Sie die unmarkierten Master getrennt und sorgfältig auf: Müssen Sie später in neuer Größe oder Position neu zeichnen, ist das saubere Original die einzige Quelle. Und veröffentlichen Sie die saubere Datei niemals versehentlich — die meisten Lecks geschützter Bilder stammen aus der ungeschützten Kopie, nicht aus jemandem, der die Marke wegradiert.",
+        ],
       },
     ],
   },
