@@ -36,6 +36,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I PDF molto poveri, solo testo, sono già efficienti e potrebbero non comprimersi — la tabella te lo dirà onestamente. Abbassa DPI o qualità e riprova, oppure accetta che l'originale fosse già snello.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Con o senza perdita: cosa la compressione fa davvero a un PDF",
+        paragraphs: [
+          "Un PDF non è un'immagine delle pagine: è un programma che le descrive. Il testo è memorizzato come glifi e coordinate, la grafica vettoriale come comandi di disegno e le immagini come bitmap compressi incorporati nel file. Per questo una pagina di puro testo può pesare pochi kilobyte, mentre la stessa pagina rasterizzata a 150 DPI può pesare cento volte di più. Quando un PDF è pesante, il peso quasi sempre sta nelle immagini incorporate: foto, loghi e soprattutto scansioni, dove ogni pagina è un unico enorme bitmap.",
+          "Questo strumento assume il compromesso della rasterizzazione: ogni pagina viene ridisegnata al DPI che scegli e ricodificata in JPEG. È una compressione con perdita — il testo selezionabile diventa pixel — e lo diciamo chiaramente, perché molti strumenti lo tacciono. In cambio ottieni prevedibilità: una scansione da 40 MB memorizzata come bitmap mal compresso diventa qualche centinaio di kilobyte di JPEG ben regolato, e a 150 DPI la stampa resta visivamente indistinguibile per la maggior parte dei documenti.",
+          "Per un PDF ricco di scansioni non esiste una vera scorciatoia senza perdita, perché i dati di origine sono già pixel. Sui PDF di testo e vettori esistono trucchi senza perdita (rimozione degli oggetti duplicati, ricompressione dei flussi), ma di solito risparmiano solo pochi punti percentuali. Ecco perché lo strumento ti dice onestamente quando un file si restringe appena: se le pagine sono già snelle, non c'è nulla da comprimere senza passare al modo con perdita.",
+        ],
+      },
+      {
+        heading: "Scegliere DPI e qualità: una piccola tabella decisionale",
+        paragraphs: [
+          "Il DPI (punti per pollice) decide con quanti pixel viene ridisegnata ogni pagina; la qualità JPEG decide quanto aggressivamente quei pixel vengono compressi. I due si moltiplicano: una pagina Letter a 72 DPI ha circa 612×792 pixel, a 150 DPI circa 1275×1650 — quasi quattro volte tanto. Per la lettura a schermo bastano 72–96 DPI, perché è comunque la risoluzione effettiva con cui un portatile comune mostra una pagina PDF. Per la stampa, 150 DPI sono il pavimento pratico per un corpo testo leggibile; 300 DPI contano solo per foto o caratteri fini destinati a ingrandimenti.",
+          "La qualità JPEG pesa meno di quanto si pensi tra 60 e 80: quella fascia è di solito la zona ideale in cui gli artefatti restano invisibili in un documento. Sotto circa 50, gli artefatti a blocchi del JPEG iniziano a sfumare i bordi delle lettere e compaiono aloni grigi attorno ai caratteri. La scala di grigi è la terza leva silenziosa: una scansione in bianco e nero memorizzata a colori spreca due terzi dei suoi bit, quindi il solo passaggio al grigio spesso riduce la dimensione di un terzo o più, senza alcuna differenza visibile.",
+          "Il flusso giusto: comprimi prima un file rappresentativo, apri il risultato a zoom 100% e controlla il testo più piccolo che ti importa. Se resta nitido, applica queste impostazioni a tutto il lotto. La tabella prima/dopo mostra il risparmio file per file, così i casi anomali (un file che si restringe appena) si vedono a colpo d'occhio invece di affondare in una media.",
+        ],
+      },
+      {
+        heading: "Perché i documenti richiedono un'elaborazione locale",
+        paragraphs: [
+          "Un PDF è un contenitore e, a differenza di un'immagine, trasporta spesso più del suo contenuto visibile: valori dei campi dei moduli, annotazioni, font incorporati, a volte allegati e metadati che rivelano autore, versione del software e cronologia delle revisioni. Caricare un file del genere su un servizio di compressione significa consegnare tutto in blocco — e la maggior parte delle persone non verifica mai cosa contiene il documento prima di caricarlo. Contratti, cartelle cliniche, buste paga e documenti d'identità scansionati sono esattamente i file che si comprimono più spesso, e esattamente quelli che vale meno la pena caricare.",
+          "Questo strumento funziona interamente nel tuo browser: il file viene letto nella memoria del tuo dispositivo, ridisegnato dalla canvas e ricodificato in JavaScript, senza mai essere trasmesso. Nessuna coda lato server, nessun periodo di conservazione da credere, nessuna politica di eliminazione da verificare. Puoi disconnetterti dalla rete a metà compressione: il lavoro finisce lo stesso.",
+          "In pratica questo cambia anche il flusso di lavoro. Poiché non viene caricato nulla, non c'è attesa né un limite di dimensione imposto dal trasferimento: un lotto di scansioni da 200 MB si elabora con la stessa fluidità di un file da 2 MB, e l'unico limite è la memoria della tua macchina. Il file compresso viene scritto dal meccanismo di download del tuo browser e finisce nella cartella download come qualsiasi file salvato a mano.",
+        ],
+      },
+    ],
   },
   "delete-pdf-pages": {
     name: "Elimina pagine PDF",
@@ -62,6 +88,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Cosa succede alla numerazione delle pagine?",
         a: "Le pagine si richiudono da sole: dopo aver eliminato le pagine 2-4, la vecchia pagina 5 diventa la pagina 2. I link interni che puntavano alle pagine eliminate potrebbero smettere di funzionare.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Eliminare pagine tocca l'albero delle pagine, non il contenuto",
+        paragraphs: [
+          "All'interno di un PDF c'è un albero di pagine: un elenco ordinato di riferimenti, ciascuno dei quali punta a un oggetto pagina che a sua volta rimanda ai suoi flussi di contenuto, ai font e alle immagini. Eliminare una pagina è un'operazione su questo albero — il riferimento esce dall'elenco — mentre i flussi, i font e le immagini della pagina rimossa diventano semplicemente orfani e vengono abbandonati. Nulla delle pagine superstiti viene ridisegnato, ricodificato o alterato in alcun modo.",
+          "La conseguenza pratica da conoscere: eliminare pagine è un'operazione perfettamente senza perdita per le pagine che conservi. I font restano incorporati come erano, la risoluzione delle immagini è intatta, il testo resta selezionabile e perfino i numeri di oggetto interni delle pagine superstiti di solito restano gli stessi. A differenza della compressione, qui non c'è nessuna manopola di qualità, perché nulla viene rielaborato.",
+          "Vale anche il contrario: tutto ciò che viveva sulle pagine eliminate scompare integralmente. Se un'annotazione o un livello nascosto ti serviva, assicurati che si trovi su una pagina che conservi — lo strumento lavora alla granularità della pagina e non può trasferire contenuto da una pagina all'altra. Per farlo, passa a un flusso di estrazione o di unione.",
+        ],
+      },
+      {
+        heading: "Le trappole classiche dell'eliminazione di pagine",
+        paragraphs: [
+          "L'errore più frequente nasce da un conteggio sbagliato per il disallineamento tra ciò che mostra un lettore e l'ordine interno delle pagine. Le etichette di pagina — il «1, 2, iii, A-4» stampato nell'angolo — sono uno strato di visualizzazione sopra la sequenza reale; un documento le cui etichette ripartono da uno a ogni capitolo conserva comunque sotto un unico ordine lineare. Lo strumento opera sempre sulla sequenza reale, numerata da 1 a N: fidati del contenuto, non dell'etichetta stampata.",
+          "Seconda trappola: eliminare pagine da cui altre dipendono. Un indice che dice «vedi pagina 12» contiene un riferimento in testo semplice (o, nei documenti meglio costruiti, un link che punta a un oggetto pagina). Elimini la pagina 12 e il riferimento in testo diventa falso senza preavviso, mentre il link può rompersi o saltare altrove. Nessuno strumento può avvisarti in modo affidabile: quindi sfoglia il documento in cerca di rimandi prima di un'eliminazione importante.",
+          "Infine, ricorda che alcuni lettori mettono in cache il vecchio file. Se la versione ridotta sembra invariata, chiudi e riapri il PDF, o confronta la dimensione del file — quella nuova dovrebbe essere più piccola. E se si tratta di un modulo le cui pagine successive definiscono campi richiamati prima, prova il modulo dopo la modifica.",
+        ],
+      },
+      {
+        heading: "Perché il file non lascia mai il tuo dispositivo",
+        paragraphs: [
+          "Le pagine si eliminano spesso proprio per privacy: togliere una pagina con dati personali, un allegato salariale, una bozza mai destinata a circolare. Affidare la stessa operazione a un servizio web vanifica lo scopo: la pagina che volevi far sparire finisce nella coda e nei log di qualcun altro. Questo strumento fa la modifica in locale, nel tuo browser, e il file non attraversa mai la rete.",
+          "Tutto avviene lato client: il PDF viene analizzato in JavaScript, i riferimenti delle pagine scelte vengono tolti dall'albero e un file nuovo viene scritto nei tuoi download. Nessun account, nessuna barra di caricamento, nessuna politica di conservazione da prendere sulla parola. Offline funziona esattamente uguale.",
+          "Riflesso utile dopo l'eliminazione: cerca nel risultato i termini presenti sulle pagine rimosse. Dieci secondi bastano per verificare che il contenuto sensibile sia davvero sparito dal file prodotto — ed è anche un promemoria che qui si eliminano pagine intere, non parole scelti dentro una pagina.",
+        ],
       },
     ],
   },
@@ -92,6 +144,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — una pagina PDF è statica, quindi ottieni il primo fotogramma. Converti le animazioni in video o condividi direttamente il GIF.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché immagini e PDF sono due animali diversi",
+        paragraphs: [
+          "Un file JPEG o PNG è una griglia piatta di pixel, senza concetto di pagine, dimensioni o impaginazione — è semplicemente un'immagine. Un PDF, al contrario, è un formato di descrizione di pagine: definisce pagine con dimensioni fisiche (in punti, dove 72 punti fanno un pollice) e vi colloca il contenuto. Trasformare immagini in PDF significa quindi prendere una vera decisione di impaginazione, non limitarsi a cambiare l'estensione del file.",
+          "Questo strumento avvolge ogni immagine in una pagina PDF dimensionata sull'immagine, conservando i dati pixel originali invece di ricomprimerli. Per questo una conversione fatta così è visivamente senza perdita: i pixel che vedi nel risultato sono quelli che hai messo. Anche la dimensione del file resta vicina alla somma delle immagini, perché il PDF è solo il contenitore.",
+          "Vale la pena conoscere l'alternativa: alcuni convertitori ricodificano tutto a un'unica qualità JPEG, degradando silenziosamente i PNG con testo nitido o grafica a linee. Conservare i dati d'immagine originali dentro il contenitore PDF elimina del tutto questa modalità di guasto — il tuo screenshot resta esattamente netto dentro il PDF quanto fuori.",
+        ],
+      },
+      {
+        heading: "Ordine, orientamento e assemblaggio multipagina",
+        paragraphs: [
+          "Poiché un PDF è una sequenza ordinata di pagine, l'ordine in cui aggiungi le immagini diventa l'ordine del documento. Per un contratto scansionato, un libro di ricevute o una serie di foto, l'abitudine affidabile è ordinare per nome file prima di aggiungere: i nomi si ordinano in modo deterministico, dove il ricordo di «li ho caricati in ordine» non garantisce nulla. Riordinare dopo è possibile con uno strumento dedicato, ma fare subito giusto costa meno.",
+          "Le dimensioni miste sono normali e gestite pagina per pagina: un lotto con foto orizzontali e verticali produce pagine che seguono l'aspetto di ciascuna immagine. Se ti serve un formato uniforme (pagine A4 per stampare, per esempio), fai poi passare l'output per un ritaglio o un ridimensionamento — avvolgere prima alla dimensione nativa e normalizzare dopo batte cercare di forzare tutto in un'unica dimensione alla creazione.",
+          "Una nota sulla risoluzione: la pagina PDF adotta i pixel dell'immagine mappati a 72 pixel per pollice, quindi una foto larga 3000 pixel diventa una pagina molto grande. È corretto per archiviare e ingrandire; per l'output da stampa conta che l'immagine d'origine abbia abbastanza pixel per la dimensione di stampa desiderata, cosa che l'avvolgimento non cambia in nessun caso.",
+        ],
+      },
+      {
+        heading: "Le tue immagini restano sul tuo dispositivo",
+        paragraphs: [
+          "Foto e scansioni sono tra i file più personali che si possiedano — foto di famiglia, scansioni di documenti, ricevute, immagini mediche. Inviarle a un convertitore online significa che copie esistono sull'archiviazione di qualcun altro prima ancora di vedere il risultato. Questo strumento fa l'incapsulamento interamente nel browser: le immagini vengono lette dal disco in memoria, incorporate negli oggetti pagina PDF da JavaScript e il file finito viene scritto in locale. Nessun upload, nessuna copia sul server, nessuna conservazione.",
+          "Poiché non c'è trasferimento, il tetto di dimensione sparisce con esso. I convertitori online di solito limitano a 10–20 MB o azzoppano gli utenti gratuiti; qui una cartella di 50 foto grandi si converte con la stessa fluidità di tre, con il solo limite della memoria del dispositivo. L'elaborazione in blocco è anche più veloce senza viaggi di rete — il passo più lento diventa il tuo disco, non la banda di qualcun altro.",
+          "Un'abitudine privacy da adottare: le foto fatte col telefono portano metadati EXIF, incluse le coordinate GPS. Incorporarle in un PDF conserva quei dati così com'erano nell'immagine originale. Se condividi ampiamente i PDF convertiti, valuta di rimuovere i dati di posizione alla fonte — l'incapsulamento in PDF non aggiunge né toglie metadati, conserva ciò che c'era.",
+        ],
+      },
+    ],
   },
   "jpg-to-pdf": {
     name: "JPG in PDF",
@@ -118,6 +196,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso mescolare JPG con PNG o altri formati?",
         a: "Sì — usa lo strumento generale Immagini in PDF per i lotti misti; converte gli altri formati automaticamente prima dell'incorporamento.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dal rullino al documento: perché questa conversione esiste",
+        paragraphs: [
+          "Le istituzioni non accettano venti allegati JPEG separati. Una domanda d'affitto, una pratica assicurativa, una nota spese — vogliono un solo PDF, pagine in ordine, da stampare, timbrare e archiviare come un documento cartaceo. È l'intera ragione d'esistere della conversione da JPG a PDF: trasformare una pila di foto in un documento paginato, ordinato e a file unico, che i sistemi burocratici sanno gestire.",
+          "La conversione in sé è strutturalmente semplice: ogni JPEG diventa una pagina PDF, e i dati compressi del JPEG possono perfino essere incorporati così come sono, perché il PDF supporta JPEG (DCTDecode) come filtro immagine nativo. Un convertitore ben costruito non decomprime e ricomprime le tue foto — avvolge i byte esistenti in un contenitore di pagina, il che significa nessuna perdita di qualità e crescita di dimensione quasi nulla.",
+          "Conta più ciò che scegli di ciò che fa lo strumento: l'ordine delle immagini diventa l'ordine delle pagine e la risoluzione di ogni immagine determina come si comporta la pagina allo zoom o in stampa. Il compito dello strumento è non intralciare — nessuna ricompressione forzata, nessun ridimensionamento a sorpresa, solo un imballaggio fedele.",
+        ],
+      },
+      {
+        heading: "Abitudini di assemblaggio che fanno risparmiare rifacimenti",
+        paragraphs: [
+          "Dai ai file nomi con numeri iniziali prima di cominciare: 01-fronte.jpg, 02-interno.jpg, 03-firma.jpg. L'ordine per nome file è l'unico su cui tutti sono d'accordo e sopravvive a ogni metodo di trasferimento — app di messaggistica, cartelle cloud, email. Le foto scaricate dalla fotocamera si ordinano per data, il che va bene per insiemi cronologici ma è inutile per l'«ordine da documento» che segue la struttura di un modulo.",
+          "Controlla l'orientamento prima di convertire. Una foto scattata con la fotocamera ruotata si affida a un flag di orientamento EXIF, e alcuni lettori PDF lo rispettano mentre altri no, producendo pagine di lato per chi le riceve. Se una foto appare dritta nel tuo file manager ma di lato nel PDF finito, il colpevole è il flag — ruotare i pixel veri e propri lo sistema per sempre.",
+          "Per i documenti destinati alla stampa, valuta se l'uniformità del formato pagina conta. Avvolgere ogni immagine alla sua dimensione va bene per visualizzare e archiviare; in stampa, dimensioni di pagina miste possono causare sorprese di scala in tipografia. Converti prima, poi normalizza il formato pagina in un secondo passaggio: ogni passo resta semplice e reversibile.",
+        ],
+      },
+      {
+        heading: "Foto, documenti d'identità e la questione dell'elaborazione locale",
+        paragraphs: [
+          "Le cose che la gente converte più spesso con questo strumento sono esattamente le più sensibili: scansioni del passaporto per un visto, foto dei documenti per verificare un account, ricevute con numeri di carta visibili. Caricarle su un sito convertitore significa che una copia dei tuoi documenti d'identità riposa su un server sconosciuto, retto da una politica di conservazione sconosciuta, prima ancora di aver controllato il risultato.",
+          "Questo strumento fa l'imballaggio nel tuo browser: i JPEG vengono letti in locale, incorporati nelle strutture PDF da JavaScript e il risultato viene salvato dal tuo stesso dispositivo. I file non attraversano la rete in nessuna direzione, quindi non c'è log sul server, nessuna copia di terzi, nessuna storia sull'eliminazione da credere.",
+          "C'è anche un dividendo pratico: senza tempo di caricamento né limiti di dimensione puoi convertire un'intera cartella — cinquanta foto di un sopralluogo, un portascontrichi completo — in un solo passaggio. I convertitori legati alla rete ti obbligano a spezzare i lotti e ad attendere; in locale l'unico limite è la memoria del dispositivo e l'intero lavoro di solito finisce in pochi secondi.",
+        ],
       },
     ],
   },
@@ -148,6 +252,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. L'unione avviene in locale nel tuo browser con JavaScript. Nulla viene inviato a nessun server e il PDF unito viene generato sul tuo stesso dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Unire è chirurgia dell'albero delle pagine, non ridisegno",
+        paragraphs: [
+          "Una paura comune sull'unione dei PDF è che lo strumento «rielabori» le pagine — ricodifichi le immagini, ridisegni il testo, degradi silenziosamente la qualità. In un software di unione ben costruito non succede nulla di tutto ciò. Le pagine di ogni PDF vivono in un albero interno di riferimenti, e l'unione innesta quegli alberi in un nuovo documento: l'ordine delle pagine viene concatenato, i riferimenti rinumerati per evitare collisioni, ma i flussi di contenuto, i font e le immagini stessi vengono copiati byte per byte.",
+          "Ecco perché una buona unione è senza perdita per costruzione. Il testo resta selezionabile, la risoluzione delle immagini resta esattamente com'era, la grafica vettoriale conserva le sue curve. Le pagine di output sono, a livello di contenuto, indistinguibili da quelle di input — l'unica cosa cambiata è, per così dire, l'indice del contenitore.",
+          "Due realtà strutturali vale la pena conoscere. La prima: la numerazione riparte — la pagina 1 del documento B segue l'ultima pagina del documento A, a prescindere da qualsiasi etichetta stampata. La seconda: segnalibri, link e destinazioni con nome possono sopravvivere o meno a seconda di quanto accuratamente il software rimappa i riferimenti interni — strumenti che si limitano a innestare l'albero possono lasciare link interni appesi.",
+        ],
+      },
+      {
+        heading: "Ordine, duplicati e lista di controllo pre-unione",
+        paragraphs: [
+          "L'ordine di unione è l'ordine in cui aggiungi i file, ed è l'errore più comune di tutti: mettere la copertina dopo l'appendice. L'abitudine affidabile è nominare i file sorgente con prefissi numerici (01-contratto.pdf, 02-appendice.pdf), così l'ordine voluto si vede a colpo d'occhio e sopravvive a qualunque ordinamento del selettore file. Verifica la sequenza sull'output unito prima di distribuire — due secondi di sfogliata colgono ciò che un'ora di imbarazzo non riparerebbe.",
+          "Le dimensioni di pagina miste sono lecite in PDF e si uniscono pulite, ma pensa al destinatario: un documento dove pagine A4 si alternano a pagine Letter si stampa male ovunque. Se le fonti differiscono, decidi prima di unire se normalizzare il formato in un secondo tempo o accettare il misto.",
+          "Un'altra voce della lista: i moduli. Unire due PDF che contengono ciascuno campi di modulo può far collidere i nomi dei campi — due campi entrambi chiamati «firma» possono finire per condividere un solo valore, quindi scrivendo in uno si riempiono entrambi. Appiattire gli input prima dell'unione è la cura standard, perché le pagine appiattite non portano con sé alcuna macchina dei campi.",
+        ],
+      },
+      {
+        heading: "Combinare documenti senza caricarne nessuno",
+        paragraphs: [
+          "L'unione si fa di solito proprio sui file che non andrebbero mai caricati: il contratto con i suoi allegati, la domanda con la scansione del documento d'identità, il referto medico con il riassunto delle immagini. Mandare entrambe le parti a un'unione online crea un documento combinato unico sul server di qualcun altro — la versione più completa e più sensibile dei tuoi documenti, in un unico comodo file, nei loro log.",
+          "Questo strumento esegue l'innesto interamente nel browser. Entrambi i PDF sorgente vengono analizzati in JavaScript sul tuo dispositivo, gli alberi delle pagine vengono uniti in memoria e il file unito viene scritto direttamente nei tuoi download. Nessuna parte di alcun documento viene trasmessa, messa in coda o conservata da qualche parte, e l'unione funziona identica con il cavo di rete staccato.",
+          "C'è anche un beneficio di velocità: senza viaggi di andata e ritorno di caricamento e scaricamento, unire anche file grandi — un fascicolo scansionato da 100 MB più un'appendice da 50 MB — si completa in secondi, limitato solo dalla memoria locale. Questo rende pratico unire alla fine di ogni sessione di lavoro, tenendo un unico file principale ordinato per progetto invece di disperdere frammenti tra le caselle di posta.",
+        ],
+      },
+    ],
   },
   "ocr-pdf": {
     name: "OCR PDF",
@@ -176,6 +306,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Non in modo affidabile. Tesseract è addestrato su testo stampato: la tipografia ordinata funziona, il corsivo a mano di solito produce un pasticcio illeggibile.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Cosa l'OCR può e non può recuperare da una pagina scansionata",
+        paragraphs: [
+          "Una scansione è solo una fotografia della carta — il computer vede pixel grigi, non lettere. L'OCR (riconoscimento ottico dei caratteri) è il processo di riconoscere le forme delle lettere in quei pixel e attaccare il testo riconosciuto alla pagina come uno strato invisibile e ricercabile sotto l'immagine originale. Dopo l'OCR puoi selezionare il testo, cercare una frase e copiare un paragrafo, anche se la pagina visibile resta la foto scansionata.",
+          "Qui contano i limiti onesti. L'accuratezza dell'OCR dipende prima di tutto dalla qualità della scansione: scansioni a 300 DPI di testo dattiloscritto pulito di solito si riconoscono molto bene, mentre foto a bassa risoluzione, pagine storte, fotocopie sbiadite e scrittura a mano degradano rapidamente. Il testo riconosciuto non è mai garantito perfetto — un segno vagante può diventare un carattere sbagliato, e dettagli cruciali come importi o nomi meritano una rilettura umana prima di fidarti del testo estratto.",
+          "Ciò che l'OCR davvero non può fare: recuperare testo non leggibile nell'immagine, tradurre, o sistemare una scansione fondamentalmente brutta. Se l'occhio umano fatica su una pagina, il riconoscimento faticherà di più. Riscansionare a risoluzione più alta è spesso un investimento migliore di qualunque post-elaborazione.",
+        ],
+      },
+      {
+        heading: "Impostazioni lingua e ricercabilità: ottenere un output utilizzabile",
+        paragraphs: [
+          "L'OCR tiene conto della lingua, e scegliere la lingua sbagliata è il più comune assassino della qualità. I motori di riconoscimento valutano le sequenze di lettere contro le statistiche della lingua scelta — passa testo spagnolo attraverso un modello solo inglese e ogni carattere accentato diventa sospetto, e ñ, á, ü si dissolvono in rumore. I documenti multilingue richiedono le lingue corrispondenti attivate, o i passaggi in lingua minoritaria escono come cose insensate.",
+          "La ricercabilità ha un livello in più: lo strato di testo riconosciuto sta dietro l'immagine, quindi cercare in un lettore trova la frase e salta alla pagina giusta, ma i pixel sottostanti restano intatti. È la struttura a «sandwich» standard che ogni prodotto OCR serio produce, e significa che il tuo archivio conserva l'aspetto originale guadagnando la ricerca a testo integrale — il meglio di entrambi per la conservazione dei registri.",
+          "Un flusso pratico per gli archivi: passa l'OCR a tutto il lotto una volta sola con la lingua giusta, poi verifica a campione cercando alcune frasi note (un nome, una data, un numero di fattura). Se le ricerche colpiscono, lo strato di testo funziona; se mancano, o la lingua è sbagliata o la qualità della scansione è sotto la soglia di riconoscimento — il risultato della ricerca ti dice quali pagine riscansionare.",
+        ],
+      },
+      {
+        heading: "Riconoscimento sul tuo dispositivo, non nell'archivio di qualcun altro",
+        paragraphs: [
+          "I documenti che richiedono l'OCR sono sproporzionatamente quelli sensibili: vecchi registri fiscali, cartelle cliniche, fascicoli del personale, atti notarili, trascrizioni accademiche. Farli passare per un servizio OCR web significa che l'intero testo leggibile dei tuoi registri — estratto, indicizzato e ricercabile dalle macchine — sta su un'infrastruttura di cui non sai nulla. Il testo è persino più portabile dell'immagine scansionata stessa: una volta estratto, può essere copiato, indicizzato o scavato senza che tu lo sappia.",
+          "Questo strumento riconosce il testo interamente nel tuo browser: le pagine scansionate vengono elaborate sul tuo dispositivo, lo strato di testo viene attaccato in locale e il PDF ricercabile viene scritto direttamente su disco. Nessuna pagina del tuo archivio viene caricata, e nessun testo estratto lascia la tua macchina. Il funzionamento offline è identico, il che si addice agli archivi che, per ottimo motivo, vivono su macchine isolate dalla rete.",
+          "Aspettati un compromesso che vale conoscere in anticipo: il riconoscimento nel browser di un grande lotto richiede tempo e memoria, perché il calcolo avviene sul tuo hardware invece che in un centro dati. Per una scansione di 20 pagine sono secondi; per un archivio di 500 pagine è una pausa caffè. Il vantaggio è che il passo più privato della digitalizzazione dei tuoi registri avviene interamente sotto il tuo controllo.",
+        ],
+      },
+    ],
   },
   "page-numbers-pdf": {
     name: "Aggiungi numeri di pagina al PDF",
@@ -197,6 +353,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "I numeri restano coerenti tra formati pagina diversi?",
         a: "Ogni pagina viene timbrata rispetto alla sua larghezza e alla sua altezza, quindi orienti e formati misti ricevono il numero nello stesso angolo visivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Come funziona la sovrapposizione della numerazione in un PDF",
+        paragraphs: [
+          "Aggiungere numeri di pagina a un PDF esistente non rielabora le pagine. Il contenuto originale — testo, immagini, tutto — resta intoccato; lo strumento aggiunge una piccola istruzione di disegno in più al flusso di contenuto di ogni pagina, che dipinge il numero alla posizione scelta. Tecnicamente è una sovrapposizione: nuova inchiostro disegnata sopra la pagina esistente, come un timbro aggiunto in un secondo momento.",
+          "Per questo la numerazione è sicura e reversibile in partenza: il file originale resta sul tuo disco non modificato, e l'output numerato differisce da esso solo per quei pochi comandi di disegno in più. I font usati per i numeri vengono aggiunti al documento o disegnati con font standard, e alle dimensioni tipiche (9–12 pt) i numeri occupano una frazione minuscola di ogni pagina.",
+          "Le opzioni di formato rispecchiano ciò che i documenti veri usano: cifre semplici (1, 2, 3) per la maggior parte dei casi, o schemi come «Pagina 3 di 12» per contratti e report dove il totale conta. Il totale è calcolato dal numero effettivo di pagine al momento della numerazione, quindi è sempre coerente con il documento che produci.",
+        ],
+      },
+      {
+        heading: "Scelte di posizione: margini, prime pagine e collisioni",
+        paragraphs: [
+          "La posizione classica è in basso al centro o in basso a destra, dentro il margine inferiore — dove i lettori se l'aspettano e le stampanti non la tagliano. Le stampanti spesso non riescono a stampare fino al bordo estremo della carta, quindi un numero troppo vicino al bordo fisico può essere tagliato su alcune macchine anche se a schermo sembra a posto. Tenere i numeri a circa un centimetro e tre dal bordo pagina (circa 36 pt) è la zona sicura.",
+          "Copertine e frontespizi di solito non dovrebbero portare un numero — un «1» stampato sulla copertina sembra un incidente. Gli strumenti di numerazione offrono proprio per questo un scostamento iniziale: comincia a numerare dalla pagina 2 (o dopo l'indice), così i numeri visibili corrispondono al corpo mentre la copertina resta pulita. Nota che lo scostamento influenza da quale pagina parte il conteggio, quindi «Pagina 1» finisce dove la punti tu.",
+          "Le collisioni sono l'altra trappola: se le pagine sorgente hanno già numeri stampati (per esempio, hai unito capitoli numerati separatamente), sovrapporre nuovi numeri produce due numeri in competizione per pagina. La numerazione in sovrapposizione non può cancellare la vecchia inchiostro — servirebbe rasterizzare o operare sul contenuto. In quel caso, unisci fonti senza numeri, o accetta la numerazione di un documento e rinuncia alla sovrapposizione.",
+        ],
+      },
+      {
+        heading: "Una modifica locale per i documenti che circolano",
+        paragraphs: [
+          "La numerazione è tipicamente l'ultimo tocco prima che un documento esca: il contratto da controfirmare, il report per il consiglio, il manoscritto da presentare. Sono esattamente i file dove «caricalo su un sito di numerazione» è lo scambio sbagliato — un contratto numerato caricato su un server di terzi è il tuo documento legale quasi definitivo che riposa nei log di qualcuno per aggiungere due cifre per pagina.",
+          "Questo strumento fa la sovrapposizione interamente nel tuo browser: le pagine vengono elaborate in locale, i numeri vengono disegnati nel contenuto della pagina in memoria e l'output viene scritto dal tuo dispositivo. Il documento non lascia mai la tua macchina in nessuna forma, e l'operazione è istantanea — non c'è proprio una fase di caricamento da attendere.",
+          "Una piccola abitudine di qualità: dopo la numerazione, apri l'output e sfoglia qualche pagina controllando che i numeri non si sovrappongano a note a piè di pagina, didascalie o contenuti nel margine inferiore — i layout accademici densi a volte portano contenuto dove ti aspetteresti margine. Se appare una collisione, spostare la posizione in alto o sull'altro lato la risolve senza toccare nulla d'altro.",
+        ],
       },
     ],
   },
@@ -227,6 +409,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I valori arrivano come testo esattamente come stampati, preservando zeri iniziali e virgole decimali regionali — Excel li tratta come stringhe finché non converti la colonna.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché PDF in Excel è la conversione più difficile, detta onestamente",
+        paragraphs: [
+          "I documenti Word hanno paragrafi; i fogli di calcolo hanno griglie; un PDF non ha nessuna delle due — ha glifi posizionati a coordinate. Quando un PDF sembra una tabella, quell'aspetto è un'illusione assemblata da caratteri singoli posizionati per allinearsi. Convertire in Excel significa fare del reverse engineering della griglia: quali caratteri formano una cella, dove iniziano e finiscono le colonne, quali righe appartengono insieme. Nel PDF non c'è nessun metadato che risponda a queste domande in modo affidabile.",
+          "Per questo gli strumenti PDF in Excel differiscono enormemente in qualità, e perché ogni strumento onesto lo avverte. I PDF puliti, generati digitalmente, con tabelle regolari si estraggono bene; le tabelle scansionate, le celle unite, le intestazioni annidate e le tabelle multipagina con intestazioni ripetute sono i punti in cui i risultati deviano. I numeri possono finire nella colonna sbagliata, e una riga spostata in una tabella finanziaria è peggiore di una conversione fallita, perché fallisce in silenzio.",
+          "Aspettative pratiche: tratta l'output come una ricostruzione di prima bozza, non come un'esportazione certificata. Verifica a campione i totali e alcune righe d'esempio contro la fonte. Se il PDF era stato prodotto da Excel (nessun segno di scansione, testo nitido), l'estrazione inversa di solito è vicina. Se è una scansione, esegui prima l'OCR e attenditi correzioni manuali.",
+        ],
+      },
+      {
+        heading: "Leggere l'output: cosa controllare prima di fidarsi",
+        paragraphs: [
+          "Tre controlli colgono la maggior parte degli errori di estrazione. Primo, i conteggi di righe e colonne: il foglio dovrebbe avere lo stesso numero di righe e colonne utili della tabella di partenza — un errore di uno di solito significa che un'intestazione è stata inghiottita o che una cella su più righe è diventata due righe. Secondo, l'integrità dei numeri: verifica che cifre come 1,234.56 abbiano conservato il separatore decimale e non siano diventate testo (i «numeri» allineati a sinistra in Excel sono di solito stringhe).",
+          "Terzo, l'allineamento dei totali: se la tabella di partenza somma una colonna, verifica che la colonna estratta dia ancora la stessa somma. Una singola cella spostata rompe la traccia di controllo in un modo facile da perdere di vista ma fatale all'uso. Per le tabelle multipagina, controlla se l'intestazione ripetuta su ogni pagina è diventata righe duplicate nel foglio — la maggior parte degli strumenti le esporta letteralmente.",
+          "Le celle unite sono il guastafeste eterno: un'unione verticale (un'etichetta che copre più righe) di solito diventa un valore nella prima riga e vuoti sotto. Se le formule a valle hanno bisogno dell'etichetta ripetuta, il riempimento verso il basso in Excel richiede un secondo e fa risparmiare un'ora di confusione.",
+        ],
+      },
+      {
+        heading: "Le tabelle finanziarie meritano l'elaborazione locale",
+        paragraphs: [
+          "Le tabelle che la gente converte in Excel sono sproporzionatamente finanziarie: estratti conto, fatture, scadenari di buste paga, prospetti fiscali. Sono esattamente i dati che non dovresti caricare — un estratto conto estratto è una cronologia completa delle transazioni in forma leggibile dalle macchine, e caricarlo su un convertitore consegna quella cronologia a un terzo sconosciuto, con una copia nei suoi log.",
+          "Questo strumento analizza e ricostruisce le tabelle interamente nel tuo browser: il PDF viene letto in locale, i confini delle celle vengono dedotti sul tuo dispositivo e la cartella di lavoro viene generata e salvata in locale. Nessuna pagina del tuo estratto conto viene trasmessa da qualche parte, e nessuna cifra estratta lascia la tua macchina — la conversione funziona identica offline.",
+          "Visto il passaggio di revisione manuale raccomandato sopra, l'elaborazione locale rende anche l'iterazione gratuita: converti, ispeziona, sistema e riconverti quante volte serve senza ricaricare nulla. Il flusso che produce fogli di calcolo affidabili — converti, verifica, correggi — è piacevole solo quando ogni ciclo costa secondi invece di un viaggio di caricamento.",
+        ],
+      },
+    ],
   },
   "pdf-to-jpg": {
     name: "PDF in JPG",
@@ -253,6 +461,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso convertire solo alcune pagine?",
         a: "Questo strumento converte l'intero documento e nomina i file per numero di pagina, così puoi tenere solo quelli che ti servono. Usa prima Dividi PDF se vuoi in anticipo un intervallo preciso.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rasterizzazione: cosa significa trasformare una pagina in JPG",
+        paragraphs: [
+          "Una pagina PDF è una descrizione — glifi di testo, forme vettoriali, immagini incorporate assemblate da un renderer. Un JPG è una griglia piatta di pixel. Convertire da pagina a immagine significa far passare quella descrizione attraverso un renderer alla risoluzione scelta e salvare il risultato come pixel. Tutto ciò che rendeva speciale il PDF viene lasciato indietro: il testo smette di essere selezionabile, le linee vettoriali smettono di essere infinite nitide, e la pagina diventa esattamente nitida quanto lo consente la sua densità di pixel.",
+          "Quel compromesso di solito è quello giusto per gli usi previsti: inserire l'immagine di una pagina in una presentazione, pubblicare lo screenshot di un documento in chat, allegare un'anteprima visiva a un'email in cui il destinatario non deve modificare nulla. Una pagina rasterizzata è anche un formato naturale di sola lettura — ciò che invii è ciò che vedono, senza font da sostituire né layout da riflussare.",
+          "La risoluzione è l'unica manopola che conta. A 150 DPI, una pagina formato Letter è circa 1275×1650 pixel — nitida a schermo e adeguata per la stampa quotidiana. A 72 DPI è leggera e va bene per miniature; a 300 DPI è di livello tipografico ma pesante. Scegliere in base alla destinazione (schermo vs. stampa) batte il tirare a indovinare.",
+        ],
+      },
+      {
+        heading: "Una pagina o molte: struttura e qualità dell'output",
+        paragraphs: [
+          "Un PDF multipagina non può essere un JPG solo, quindi i convertitori producono o una serie numerata (pagina-1.jpg, pagina-2.jpg, …) o un archivio ZIP. La serie numerata è più comoda per pescare singole pagine in altri strumenti; l'archivio è più comodo per scaricarne decine insieme. In ogni caso la numerazione segue l'ordine interno delle pagine del PDF — che, come per tutti gli strumenti pagina, può non corrispondere a nessuna etichetta stampata se il documento aveva una numerazione strana.",
+          "La compressione JPEG si adatta alle pagine con foto e sfumature di colore, dove i suoi artefatti sono invisibili. Per le pagine che sono per lo più testo nitido o grafica a linee, gli artefatti a blocchi del JPEG possono produrre un leggero «rumore a zanzara» attorno alle lettere a qualità basse; se l'output ti sembra un po' sfocato attorno al testo, alza la qualità o il DPI invece di accettarlo.",
+          "Lo sfondo bianco conta più del previsto: il JPEG non ha trasparenza, quindi le pagine con aree trasparenti vengono renderizzate su bianco per impostazione predefinita. Di solito è ciò che si vuole per i documenti, ma se la fonte aveva modalità scura o sfondi colorati, controlla la prima immagine di output prima di elaborare un intero lotto.",
+        ],
+      },
+      {
+        heading: "Renderizzare i tuoi documenti sul tuo stesso dispositivo",
+        paragraphs: [
+          "Un PDF spesso aggrega la traccia cartacea di una persona: estratti conto, lettere, referti medici, accordi. Renderizzare le pagine in immagini e caricarle su un convertitore significa che il registro visivo completo lascia il tuo dispositivo prima ancora che tu abbia scelto la singola pagina che ti serviva. Vale la pena notare che le immagini estratte sono anche facili da ridistribuire — un file immagine viaggia più lontano di un PDF con i suoi metadati intatti.",
+          "Questo strumento renderizza ogni pagina in locale nel tuo browser: il PDF viene analizzato e disegnato sulla canvas del tuo dispositivo al DPI scelto, codificato in JPEG in memoria e salvato dal tuo browser direttamente. Nessuna immagine di pagina viene caricata, nessun server renderizza i tuoi documenti, e l'intera conversione gira con la rete disconnessa.",
+          "La renderizzazione locale significa anche che puoi essere selettivo con zero sovraccarico: renderizza tutte le pagine, poi conserva solo le due che ti servivano, eliminando le altre prima che esistano mai fuori dalla tua macchina. Per una figura di una pagina dentro un report di 100 pagine, quella selettività è tutto il punto — ottieni l'immagine che volevi e nient'altro.",
+        ],
       },
     ],
   },
@@ -283,6 +517,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Le pagine vengono renderizzate su sfondo bianco, quindi l'output è PNG opaco. È così che i PDF si stampano e si evitano sorprese a sfondo nero nei visualizzatori.",
       },
     ],
+    deepDive: [
+      {
+        heading: "PNG vs. JPG per le pagine catturate: quando vince ciascuno",
+        paragraphs: [
+          "PNG e JPG trasformano entrambi le pagine PDF in pixel, ma li codificano con filosofie opposte. Il JPG usa compressione con perdita calibrata per le fotografie: file piccoli, artefatti invisibili sulle sfumature, leggera sfocatura sui bordi netti. Il PNG usa compressione senza perdita calibrata per la grafica piatta: testo, diagrammi, screenshot e tutto ciò che ha bordi netti o aree a tinta unita resta perfetto al pixel, al costo di file più grandi per i contenuti fotografici.",
+          "Quindi la regola pratica: le pagine di testo, tabelle, grafici e disegni al tratto appartengono al PNG — le lettere restano nitide a ogni zoom e la compressione non sfuma mai una linea di diagramma. Le pagine di foto scansionate, o qualunque pagina dominata da immagini a tono continuo, appartengono al JPG — il PNG gonfierebbe la dimensione senza alcun guadagno visibile.",
+          "Il PNG conserva anche i colori esatti, dove la compressione del croma del JPG può spostare sottilmente i colori saturi di un marchio, e i file PNG si risalvano senza perdita generazionale: modificare e risalvare un PNG non lo degrada mai, mentre le ricodifiche JPG ripetute accumulano artefatti. Per le pagine destinate a ulteriori modifiche, il PNG è la scelta d'archivio.",
+        ],
+      },
+      {
+        heading: "Nitidezza, scala e note sulla trasparenza",
+        paragraphs: [
+          "Poiché il PNG è senza perdita, l'unica manopola di qualità è la risoluzione — renderizza a 150 DPI per il lavoro a schermo, 300 DPI per catture di livello tipografico. Non c'è nessun cursore di compressione da sbagliare, il che elimina un'intera classe di errori: un PNG è renderizzato con abbastanza pixel oppure no, e la renderizzazione a DPI più alti è la cura completa per la morbidezza.",
+          "Un vantaggio reale rispetto al JPG: il PNG supporta la trasparenza. Una pagina renderizzata in PNG con lo sfondo conservato può essere composta su qualsiasi altro sfondo; il JPG si appiattisce sempre su un colore pieno, di solito bianco. Per le pagine di diagrammi destinate a slide o file di design, questo può farti risparmiare un passaggio manuale di rimozione dello sfondo.",
+          "Attento alle dimensioni sulle pagine dense: un PNG a 300 DPI di una pagina ricca di foto può pesare decine di megabyte. Se la destinazione è una pagina web o un messaggio in chat, quella dimensione peserà più di quanto la fedeltà aiuti — abbassa il DPI o passa al JPG esattamente per quelle pagine.",
+        ],
+      },
+      {
+        heading: "Catturare pagine senza inviarle da nessuna parte",
+        paragraphs: [
+          "La gente cattura più spesso le pagine PDF come immagini per riutilizzarle: un grafico per un report, una pagina di firma come prova, un diagramma per materiale formativo. Ogni immagine catturata è una copia autosufficiente che può viaggiare ben oltre il documento originale — ed è esattamente per questo che conta chi gestisce la conversione. Caricare una pagina riservata su un convertitore mette la copia perfetta al pixel sull'infrastruttura di qualcun altro prima che tu ci abbia fatto nulla.",
+          "Questo strumento renderizza e codifica interamente nel tuo browser: il PDF viene disegnato sulla canvas del tuo dispositivo al DPI selezionato, codificato in PNG senza perdita in memoria e salvato dal tuo browser. Nessuna pagina viene caricata, nessuna copia esiste fuori dal tuo dispositivo in nessun momento, e la conversione si completa con la rete staccata.",
+          "Il beneficio pratico si moltiplica con i lavori in blocco: convertire un manuale di 200 pagine in PNG produce centinaia di file, e farlo in locale significa nessuna attesa di caricamento, nessun tetto di dimensione per file e nessuna coda di lotti — solo la velocità di renderizzazione del tuo dispositivo, che per una macchina moderna è tipicamente più rapida di quanto sarebbe stato il caricamento degli stessi contenuti.",
+        ],
+      },
+    ],
   },
   "pdf-to-ppt": {
     name: "PDF in PowerPoint",
@@ -309,6 +569,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Quanto pesa il file .pptx?",
         a: "Più o meno quanto tutte le immagini delle pagine insieme — un PDF di 20 pagine ad alta risoluzione può arrivare a decine di megabyte. Comprimi prima il PDF sorgente se ti serve una presentazione più leggera.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che PDF in PPT può onestamente offrire",
+        paragraphs: [
+          "Una presentazione esportata in PDF è appiattita: le caselle di testo editabili, le forme e i segnaposto della presentazione originale diventano glifi posizionati e rettangoli nel PDF. Convertire al contrario significa ricostruzione — il convertitore deve indovinare quali glifi formano una casella di testo, cosa era una forma anziché un'immagine e dove stava ogni cosa sulla tela della slide. Non c'è nessuna traccia di metadati verso la struttura originale.",
+          "Quindi l'aspettativa onesta: ottieni slide che somigliano all'originale, con testo selezionabile e modificabile, a posizioni approssimativamente giuste. Non riottieni l'annidamento esatto dell'originale, le animazioni (che nel PDF non sono mai esistite), la struttura master delle slide o i token precisi del tema. I font possono essere sostituiti se gli originali non erano incorporati.",
+          "Dove questa conversione brilla: recuperare una presentazione editabile quando il .pptx è perduto e sopravvive solo il PDF; tirare fuori due slide dalla presentazione di un collega per riutilizzarle nelle tue; fare ritocchi di contenuto a una presentazione ricevuta senza chiedere la fonte. Dove delude: le presentazioni di design perfette al pixel costruite su elementi sovrapposti, che si ricostruiscono come livelli impilati che sembrano giusti ma sono delicati quando li modifichi.",
+        ],
+      },
+      {
+        heading: "Aspettative di modifica e come lavorare con il risultato",
+        paragraphs: [
+          "Prevedi di aggiustare, non di ottenere l'identità. Le pulizie più comuni dopo la conversione: caselle di testo i cui confini sono leggermente più grandi del testo visibile (così cliccando selezioni più del previsto), immagini a posizioni quasi ma non esatte, e dimensioni dei font arrotondate alla dimensione disponibile più vicina. Nessuna di queste influenza come appaiono le slide in modalità presentazione; influenza quanto il file è ordinato da modificare.",
+          "Un flusso pratico: converti il PDF in PPT, poi controlla subito le slide che ti contano di più — di solito la slide del titolo e una di contenuto. Sistema i font e un layout, e se la struttura tiene, correggi in blocco il resto con il master delle slide. Se la struttura non tiene — caselle che si sovrappongono selvaggiamente — il design della presentazione di partenza era troppo stratificato per essere invertito pulito, e ricreare quelle slide specifiche a mano sarà più veloce che litigare con la conversione.",
+          "I grafici meritano una menzione speciale: un grafico che era un'immagine incorporata nel PDF resta un'immagine nel PPT (non dati di grafico modificabili); un grafico disegnato come forme vettoriali si ricostruisce come forme raggruppate, che puoi ricolorare ma non ridisegnare con nuovi numeri. In ogni caso, i dati dietro un grafico non possono essere recuperati dal PDF — non ci sono mai stati.",
+        ],
+      },
+      {
+        heading: "Le presentazioni viaggiano; tienile a casa finché non convertite",
+        paragraphs: [
+          "Le presentazioni sono riservate per impostazione predefinita: slide strategiche, revisioni finanziarie, materiali di fusioni e acquisizioni, piani di prodotto non ancora rilasciati. Un PDF di tale presentazione contiene tutto tranne le note del relatore — e caricarlo su un servizio di conversione significa che l'intero contenuto visivo di una presentazione interna è leggibile sul server di qualcun altro, spesso a pochi minuti dalla riunione in cui è stata mostrata.",
+          "Questo strumento ricostruisce le slide interamente nel tuo browser: il PDF viene analizzato e renderizzato sul tuo dispositivo, gli elementi delle slide vengono ricostruiti in locale e il file PPT viene salvato direttamente dal tuo browser. Nulla viene caricato, non c'è coda di elaborazione, e la conversione gira identica offline — la presentazione non esiste mai fuori dalla tua macchina in nessuna forma.",
+          "Visto che le presentazioni convertite sono comunque destinate a essere modificate, l'elaborazione locale si adatta anche al flusso di lavoro: converti, apri nel tuo software di presentazione e itera quanto serve senza ricaricare tra i tentativi. Ogni tentativo di conversione costa secondi e nient'altro — quindi puoi provare, ispezionare e sistemare liberamente finché la presentazione non si comporta come ti serve.",
+        ],
       },
     ],
   },
@@ -339,6 +625,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Nessuno artificiale. Centinaia di pagine funzionano; il limite pratico è la memoria del browser, in genere ben oltre documenti da 100 MB.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Lo strato di testo: cosa un PDF memorizza davvero delle sue parole",
+        paragraphs: [
+          "Un PDF creato digitalmente memorizza il suo testo come sequenza di operazioni di disegno: mostra questo glifo, a questa posizione, in questo font. Le parole sono davvero lì dentro — è per questo che Ctrl+F funziona su tali documenti. Estrarre il testo non è quindi riconoscimento ma decodifica: rileggere lo strato di testo nell'ordine di lettura. Non è coinvolto alcun processo di immagini, e la fedeltà è limitata solo da come il documento è stato costruito.",
+          "Le complicazioni classiche sono l'ordine e la sillabazione. I PDF descrivono i glifi per posizione, non per flusso logico, quindi layout a più colonne, barre laterali e tabelle possono estrarre in ordine visivo anziché di lettura — colonne intrecciate riga per riga. Gli estrattori decenti usano euristiche di layout per rilevare le colonne e ricostruire il flusso, ma i documenti fortemente progettati possono comunque uscire mescolati.",
+          "L'altro vuoto sono le scansioni: una pagina scansionata non ha alcuno strato di testo, solo pixel, quindi l'estrazione semplice non restituisce nulla. Le scansioni hanno bisogno prima dell'OCR (è uno strumento separato), e i file passati all'OCR acquistano uno strato di testo che l'estrazione può poi leggere.",
+        ],
+      },
+      {
+        heading: "Ordine di lettura, casi limite di codifica e controlli pratici",
+        paragraphs: [
+          "Quando l'estrazione sembra caotica, quasi sempre è il layout: articoli accademici a due colonne che escono come frammenti intrecciati, o note a piè di pagina che finiscono a metà frase. Rimedi rapidi: prova lo stesso documento con un estrattore diverso per confrontare gli ordinamenti, o accetta che per i layout progettati potresti volere l'estrazione pagina per pagina e un rimontaggio manuale. Le interruzioni di riga nel testo estratto rispecchiano la struttura di riga del PDF, quindi riflussare i paragrafi è spesso un passo di pulizia nel tuo editor.",
+          "I casi limite di codifica compaiono come caratteri misteriosi: legature (fi, fl) che arrivano come glifi singoli, accenti mutilati se il PDF usa una codifica font non standard, e simboli matematici che si mappano male al testo semplice. L'output in testo semplice non ha grassetto, corsivo, tabelle né immagini — tutto diventa caratteri, quindi la struttura che vale la pena conservare va annotata a mano.",
+          "Un controllo di sanità prima di fidarti del testo estratto: cerca nell'output una frase che vedi sulla prima pagina, e confronta il conteggio dei caratteri con le aspettative. Se un report di 10 pagine estrae 300 caratteri, lo strato di testo è rotto o assente (solo immagini) — il risultato vuoto onesto dello strumento su una scansione è meglio che scartare contenuti in silenzio.",
+        ],
+      },
+      {
+        heading: "Estrarre documenti in locale, soprattutto quelli sensibili",
+        paragraphs: [
+          "L'estrazione del testo è spesso il primo passo dell'elaborazione di documenti che non hai creato tu: accordi legali, report finanziari, articoli di ricerca, memo interni. Caricarli su un sito di estrazione significa che l'intero contenuto leggibile — la forma più portatile e più copiabile del tuo documento — passa per il server di qualcun altro. Il testo estratto è persino più facile da ridistribuire del file originale: non porta con sé alcuna traccia di metadati.",
+          "Questo strumento decodifica lo strato di testo interamente nel tuo browser: il PDF viene analizzato in locale, i glifi vengono mappati di nuovo a caratteri sul tuo dispositivo e il file di testo semplice viene salvato dal tuo browser. Nulla viene caricato e nulla viene registrato da qualche parte — con la rete disconnessa, l'estrazione funziona esattamente uguale.",
+          "Poiché l'estrazione è veloce e priva di viaggi di rete, si adatta al flusso «estrai tanti, poi cerca»: tira fuori il testo da un'intera cartella di PDF, incolla tutto in un documento ricercabile o usalo come corpus, e non far mai lasciare la tua macchina a nessuna di quelle fonti. Per le revisioni della letteratura e i confronti tra contratti, quella combinazione di privacy e velocità è ciò che rende pratica l'estrazione in blocco.",
+        ],
+      },
+    ],
   },
   "pdf-to-word": {
     name: "PDF in Word",
@@ -365,6 +677,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Tabelle e immagini sopravvivono?",
         a: "Le immagini non vengono portate nel .docx. Le tabelle arrivano come semplici righe di testo — utilizzabili, ma per qualcosa di complesso vorrai ricostruire le vere tabelle in Word.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Il confine di fedeltà: cosa sopravvive al viaggio verso Word",
+        paragraphs: [
+          "Un PDF descrive l'aspetto finale; un documento Word descrive la struttura — paragrafi, stili, elenchi, titoli. Convertire tra i due è una traduzione, non un deciframento, e ogni conversione deve decidere quanta struttura ricostruire a partire dal solo aspetto. I convertitori ben costruiti ricostruiscono i confini dei paragrafi, i livelli dei titoli dalle dimensioni dei font e le tabelle dal testo allineato; quelli semplici scaricano righe di testo in un unico flusso.",
+          "Ciò che sopravvive bene a una buona conversione: il testo del corpo con le sue interruzioni di paragrafo, le tabelle semplici, l'enfasi in grassetto/corsivo di base e l'ordine di lettura nei documenti tipici. Ciò che raramente sopravvive perfetto: i font esatti (Word li sostituisce con i più vicini disponibili), i layout a più colonne (di solito appiattiti in una colonna), intestazioni e piè di pagina (fusi nel corpo o eliminati) e tutto ciò che è interattivo come campi di modulo e annotazioni.",
+          "La cornice più onesta: PDF in Word è eccellente per recuperare prosa editabile, abbastanza buono per i documenti aziendali tipici e strutturalmente sbagliato per le pagine fortemente progettate — manifesti, layout di rivista complessi, moduli. Per quest'ultima categoria la conversione ti dà un pasticcio editabile; ricreare il layout direttamente in Word è spesso più veloce che sistemare la conversione.",
+        ],
+      },
+      {
+        heading: "Scansioni, OCR e il flusso di lavoro attorno alla conversione",
+        paragraphs: [
+          "Il bivio più grande per la qualità di PDF in Word è se la fonte sia digitale o scansionata. Un PDF digitale porta con sé il testo e si converte direttamente. Un PDF scansionato contiene solo pixel, quindi la catena di conversione è più lunga: OCR per creare uno strato di testo, poi ricostruzione in paragrafi Word — e l'accuratezza dell'OCR si somma ora ai limiti della conversione stessa. Scrittura a mano, timbri e note a margine degradano ulteriormente il risultato.",
+          "Aspettative pratiche per fonte: un contratto nato digitale si converte in qualcosa che puoi modificare e finalizzare con una pulizia moderata. Una scansione nitida a 300 DPI di testo dattiloscritto si converte in qualcosa che puoi modificare ma devi rileggere riga per riga — gli errori dell'OCR su clausole e nomi sono esattamente gli errori che non puoi permetterti. Una foto di pagina scattata con luce scarsa si converte male a prescindere dallo strumento; meglio riscansionarla bene.",
+          "Dopo aver convertito un documento importante, fai una lettura strutturale in Word, non solo visiva: controlla le interruzioni di paragrafo, la numerazione degli elenchi e le celle delle tabelle, perché è lì che le conversioni sbagliano in silenzio mentre la pagina continua a sembrare giusta.",
+        ],
+      },
+      {
+        heading: "Contratti e report dovrebbero convertirsi in locale",
+        paragraphs: [
+          "I documenti che la gente vuole più spesso in forma Word editabile sono i più vincolanti: contratti da rinegoziare, politiche da aggiornare, report da riutilizzare, trascrizioni da annotare. Caricare un PDF di contratto su un convertitore significa che il tuo testo legale passa per i server di terzi — e la copia Word estratta, essendo ancora più facile da modificare e ridistribuire dell'originale, è esattamente l'artefatto che vorresti meno vedere nella memoria di qualcun altro.",
+          "Questo strumento esegue l'intera conversione nel tuo browser: il PDF viene analizzato in locale, la struttura del testo viene ricostruita sul tuo dispositivo e il file Word viene generato e salvato in locale. Nulla viene trasmesso in nessuna direzione, e la conversione funziona completamente offline — un contratto sotto NDA si converte con la stessa serenità di un menù.",
+          "La conversione locale rende anche stretto il ciclo di revisione: converti, apri in Word, annota le correzioni necessarie, sistema e riconverti se serve — tutto in pochi secondi per ciclo e senza mai ricaricare nulla. Quel ciclo stretto è ciò che rende fattibile la rilettura attenta, e la rilettura attenta — non la conversione in sé — è ciò che protegge davvero l'integrità del documento.",
+        ],
       },
     ],
   },
@@ -395,6 +733,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I dati PNG senza perdita sono grandi per natura. Se ti serve un file più piccolo, passa il risultato in Comprimi PDF, che scambia un po' di fedeltà con la dimensione.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché l'input PNG merita un trattamento diverso dal JPEG",
+        paragraphs: [
+          "PNG e JPEG sembrano simili a un occhio distratto ma codificano i pixel con compromessi opposti. Il PNG è senza perdita: ogni pixel è conservato esattamente, il che lo rende il formato di screenshot, diagrammi, testo scansionato e tutto ciò che ha bordi netti. Il JPEG è con perdita e calibrato per le fotografie. Avvolgere PNG in un PDF significa quindi di solito trattare contenuti che traggono vantaggio dal restare senza perdita — e un convertitore che ricodifica silenziosamente PNG in JPEG butta via esattamente la proprietà per cui hai scelto PNG.",
+          "Questo strumento incorpora i dati immagine senza ricompressione distruttiva, quindi gli screenshot restano nitidi al pixel dentro il PDF: il testo nello screenshot resta leggibile a ogni zoom, e le linee dei diagrammi restano pulite. Il PDF è il contenitore; i pixel senza perdita del PNG viaggiano dentro intatti.",
+          "Un dettaglio sottile vale la pena conoscere: il PNG supporta la trasparenza, le pagine PDF no. Un PNG trasparente collocato su una pagina PDF viene composto su uno sfondo — bianco per convenzione. Se il tuo screenshot ha una trasparenza che conta (un logo, una sovrapposizione), controlla la prima pagina dell'output invece di dare per scontato.",
+        ],
+      },
+      {
+        heading: "Screenshot, scansioni e assemblaggio in ordine",
+        paragraphs: [
+          "I lavori più comuni da PNG a PDF hanno forma di documentazione: una sequenza di screenshot che compone un tutorial, una segnalazione di bug con immagini di prova, attestati o moduli scansionati salvati come PNG. Per tutti questi, l'ordine delle pagine è tutto il gioco — un tutorial i cui screenshot arrivano fuori sequenza è inutile. Rinominare i file 01-..., 02-... prima di aggiungerli rende esplicito l'ordine voluto e sopravvive a qualunque ordinamento del selettore file.",
+          "Gli screenshot hanno dimensioni esatte al pixel che raramente corrispondono ai formati carta, quindi le pagine di output saranno tipicamente dimensionate su ogni immagine. È l'ideale per la lettura a schermo e l'archiviazione. Se la destinazione è la stampa, la discrepanza conta di più: valuta se il testo degli screenshot è abbastanza grande alla dimensione stampata, perché ridurre uno screenshot 1080p su A4 rende il testo piccolo dell'interfaccia difficile da leggere.",
+          "Per i documenti multi-immagine, la coerenza batte la varietà: screenshot della stessa sessione della stessa app condividono dimensioni e stile, e il PDF risultante si legge come un documento coerente. Fonti miste — screenshot più foto più scansioni — producono pagine di scala selvaggiamente diversa; normalizzare (ridimensionare o ritagliare prima le fonti) produce un risultato molto più professionale.",
+        ],
+      },
+      {
+        heading: "Imballare prove in locale, senza intermediari",
+        paragraphs: [
+          "Il contenuto che la gente imballa da PNG a PDF è spesso probatorio o privato: screenshot di una transazione fraudolenta, log di chat per una disputa, scansioni di documenti d'identità per verifica, risultati di esami medici. Ognuna di queste cose è del tipo che non consegneresti mai a un estraneo — eppure caricare su un convertitore fa esattamente questo, prima ancora che il PDF esista.",
+          "Questo strumento fa l'imballaggio interamente nel tuo browser: i PNG vengono letti in locale, incorporati senza perdita negli oggetti pagina PDF e il documento finito viene salvato dal tuo dispositivo. Nulla viene caricato in nessun momento, quindi gli screenshot della tua app bancaria non esistono mai su nessun server, e l'operazione funziona uguale senza connessione a internet.",
+          "C'è anche un dividendo di qualità: poiché i dati PNG sono incorporati così come sono, il PDF conserva i pixel esatti che hai catturato — importante quando il contenuto è una prova, dove un artefatto di compressione su una data o un numero di conto potrebbe sollevare dubbi sull'autenticità. Ciò che hai acquisito nello screenshot è precisamente ciò che vedrà il lettore.",
+        ],
+      },
+    ],
   },
   "rearrange-pdf-pages": {
     name: "Riordina pagine PDF",
@@ -421,6 +785,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il riordino tocca la qualità?",
         a: "Per niente. Le pagine vengono copiate invariate nel nuovo documento — cambia solo la loro sequenza.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Riordinare è pura manipolazione dell'albero delle pagine",
+        paragraphs: [
+          "Riordinare le pagine di un PDF cambia esattamente una cosa: l'ordine delle voci nell'albero delle pagine del documento. Flussi di contenuto delle pagine, font, immagini, annotazioni — tutto resta identico al byte. Nulla viene ridisegnato, nulla ricompresso, e l'operazione è senza perdita nel senso più stretto: riordinare le pagine e poi riordinarle al contrario produce un documento equivalente all'originale.",
+          "Questo rende il riordino istantaneo anche per file enormi, perché nessun dato di pagina viene toccato — solo il piccolo indice che dice «prima viene questa pagina, poi quella». La dimensione del file cambia appena, e la qualità è identica per definizione.",
+          "Ciò che il riordino non tocca: i link interni e i segnalibri puntano in genere a oggetti pagina anziché a posizioni, quindi tipicamente seguono la loro pagina di destinazione — un link verso «la pagina che contiene il capitolo 3» resta corretto dopo il riordino. Ma tutto ciò che rimandava a una posizione (un «vedi pagina 12» stampato) non si aggiorna da solo. Le liste di controllo dei rimandi valgono qui come per l'eliminazione.",
+        ],
+      },
+      {
+        heading: "Flussi basati sulle miniature e errori da evitare",
+        paragraphs: [
+          "Lavorare dalle miniature invece che dai numeri di pagina è il più grande miglioramento di usabilità nel riordino. Le etichette di pagina nel lettore spesso non concordano con la sequenza reale (documenti con preliminari in numeri romani, numerazione ripartita per capitoli), ma le miniature mostrano direttamente il contenuto. Trascina la pagina che vedi, non il numero che hai calcolato.",
+          "Gli errori classici: lasciare una coppia di pagine duplicate dopo il trascinamento (un'appendice inserita due volte) e dimenticare che le pagine bianche di separazione possono essere intenzionali. Una rapida sfogliata dell'ordine finale coglie entrambi in pochi secondi. Per i documenti assemblati da più fonti, verifica anche la coerenza del formato pagina mentre ci sei — il riordino è il momento naturale per notare una pagina Letter vagante tra le A4.",
+          "Un consiglio di flusso: quando correggi una scansione con pagine fuori ordine (fogli alimentati all'ADF in disordine), la correzione è di solito qualche scambio tra pagine adiacenti, non un rimescolamento completo. Sistemare coppie adiacenti è rapido e a basso rischio; un riordino radicale di una scansione dovrebbe far sorgere la domanda se valga la pena sistemare le impostazioni del vassoio dell'ADF per la prossima volta.",
+        ],
+      },
+      {
+        heading: "Correggere l'ordine senza spedire il file da nessuna parte",
+        paragraphs: [
+          "I documenti che richiedono il riordino delle pagine sono di routine interi e sensibili: contratti completi, fascicoli di domanda interi, fascicoli di prove assemblati. Sono esattamente i file che non dovresti caricare per una correzione cosmetica — spedire un contratto completo a un sito di riordino dà a quel sito l'intero documento, ogni pagina, per sistemare qualcosa che costa un trascinamento e un clic.",
+          "Questo strumento riordina interamente nel tuo browser: il PDF viene analizzato in locale, l'indice dell'albero delle pagine viene riscritto in memoria e il file riordinato viene salvato dal tuo dispositivo. Non un byte di contenuto pagina viene trasmesso, e l'operazione si completa istantaneamente a prescindere dallo stato della rete — puoi farlo in modalità aereo.",
+          "Poiché nulla viene ricodificato, l'output conserva ogni proprietà della fonte: testo ricercabile, font incorporati, annotazioni, campi di modulo, metadati. Il riordino qui è puramente strutturale, il che significa anche che puoi riordinare quante volte serve senza alcuna preoccupazione di qualità — il decimo riordino è senza perdita quanto il primo.",
+        ],
       },
     ],
   },
@@ -451,6 +841,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Cambia solo il flag di rotazione; il contenuto delle pagine resta intatto, quindi la qualità è identica e il testo rimane selezionabile.",
       },
     ],
+    deepDive: [
+      {
+        heading: "La rotazione è metadato, non pixel",
+        paragraphs: [
+          "Ogni pagina di un PDF porta un flag di rotazione — un semplice valore (a passi di 90 gradi) che dice ai lettori di mostrare la pagina ruotata. Ruotare una pagina con questo strumento cambia quel flag, non il contenuto della pagina: testo, immagini e vettori restano esattamente dove erano nel file. Per questo la rotazione è istantanea e perfettamente senza perdita, anche per file da centinaia di megabyte.",
+          "Il meccanismo del flag spiega una particolarità familiare: una pagina può contenere contenuto dritto ma essere mostrata di lato (o viceversa) a seconda del suo flag di rotazione. Alcuni scanner e alcuni produttori di PDF impostano il flag anziché ruotare davvero il contenuto. Ruotare una pagina simile ribalta il flag; il contenuto sottostante resta intatto comunque.",
+          "Una conseguenza utile da conoscere: poiché la rotazione vive in un flag, gli strumenti che lo ignorano — alcuni parser basilari, alcuni generatori di miniature — possono mostrare l'orientamento «grezzo». E se in seguito rasterizzi la pagina (per esempio comprimendola), la renderizzazione avviene all'orientamento ruotato e il lavoro del flag diventa permanente. Ruotare prima della rasterizzazione è quindi l'ordine corretto.",
+        ],
+      },
+      {
+        heading: "Scansioni, orientamenti misti e correzioni pratiche",
+        paragraphs: [
+          "Il lavoro di rotazione più comune è sistemare le scansioni: uno scanner duplex ribalta i versi posteriori, la fotocamera del telefono produce una ricevuta di lato, un lotto esce con orientamenti alternati. Sistemare questi pagina per pagina è esattamente ciò per cui serve questo strumento — seleziona le pagine anomale e girale. Rotare tutto è la mossa sbagliata lì; sistema le giuste rompendole.",
+          "Per i documenti destinati a stampa o rilegatura, pensa a quale lato sarà il lato di rilegatura dopo la rotazione. Una pagina ruotata di 90 gradi si legge naturalmente a schermo ma può stamparsi con il «suo alto» lungo il lato corto del foglio, il che cambia come cadono i margini. Controllare una pagina stampata prima di elaborare l'intero lotto fa risparmiare carta e frustrazione.",
+          "Una nota sul perché alcune pagine sembrano «dis-ruotarsi»: se un lettore ricorda il flag e un altro strumento risalva il file senza riportare il flag, l'orientamento si azzera. Tenere la catena di modifica entro strumenti che preservano il flag (come questo) evita l'azzeramento; se una pagina torna di lato dopo ogni correzione, qualche passaggio della tua catena sta perdendo il flag.",
+        ],
+      },
+      {
+        heading: "Girare pagine in locale, a costo zero",
+        paragraphs: [
+          "La rotazione è di solito una correzione applicata a documenti che possiedi già e di cui ti fidi: le tue scansioni, file che ti hanno mandato colleghi. Il motivo per insistere comunque sull'elaborazione locale è la coerenza di principio — un documento che non va mai a terzi per nessuna operazione è un documento la cui superficie di esposizione controlli per intero. Non c'è operazione così banale da giustificare l'abitudine al caricamento con file riservati.",
+          "Questo strumento ruota nel tuo browser: il PDF viene letto in locale, i flag delle pagine vengono aggiornati in memoria e l'output viene salvato dal tuo dispositivo. Nessun caricamento avviene, e poiché cambiano solo i flag, l'operazione è di fatto istantanea anche per file molto grandi — non c'è attesa di ricodifica di alcun tipo.",
+          "La natura a livello di flag significa anche che la rotazione qui è reversibile in sicurezza: ruota di 90 gradi quattro volte e torni all'originale esatto, bit per bit. Puoi sperimentare liberamente — gira una pagina, guardala, girala indietro — senza alcun rischio per il file, che è esattamente il tipo di operazione a bassa posta in gioco dove gli strumenti locali brillano.",
+        ],
+      },
+    ],
   },
   "sign-pdf": {
     name: "Firma PDF",
@@ -477,6 +893,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso firmare ogni pagina del documento?",
         a: "Sì. Compila il campo pagine con un elenco come «1-5» oppure lascia una singola pagina; la firma viene timbrata nella stessa posizione su ogni pagina selezionata.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che questa firma è — e ciò che non è",
+        paragraphs: [
+          "Questo strumento aggiunge alla pagina un'immagine di firma disegnata o dattiloscritta — come firmeresti a mano una stampa. È una firma elettronica nell'accezione quotidiana ampia: inchiostro visibile sul documento, collocata da te, dal tuo stesso dispositivo. Non è una firma digitale a certificato: non c'è coppia di chiavi crittografiche, nessuna autorità di certificazione, e nessun rilevamento di manomissione verificabile da un lettore.",
+          "La distinzione conta ai fini legali. Molte giurisdizioni accettano firme elettroniche semplici per la maggior parte degli accordi quotidiani (documenti del rapporto di lavoro, moduli di fornitori, approvazioni interne), mentre classi specifiche di documenti possono richiedere firme digitali qualificate con certificato. Se la tua controparte o la legge richiede una firma basata su certificato, questo strumento non è quello — usa un servizio di firma qualificato.",
+          "Ciò che ti dà: un modo rapido e a costo zero di firmare documenti senza stampare, scansionare e spedire carta, tenendo il documento interamente sulla tua macchina. Per l'enorme volume di sottoscrizioni quotidiane dove basta una firma visibile, copre il bisogno reale.",
+        ],
+      },
+      {
+        heading: "Ottenere una firma che somigli alla tua",
+        paragraphs: [
+          "Una firma disegnata col mouse di solito esce peggiore della tua firma vera a mano. Se il risultato conta visivamente, due opzioni pratiche: disegna su un touchscreen se ne hai uno, oppure firma un foglio di carta bianca, fotografalo, ritaglialo stretto e usa l'immagine. Una firma fotografata su carta bianca semplice si importa pulita e somiglia esattamente alla tua mano.",
+          "Il posizionamento è metà del mestiere: la firma deve stare dove spetta una firma — sopra o accanto alla riga di firma, non fluttuante nello spazio bianco. Zooma sull'area di firma, collocala con precisione e ridimensionala così che la sua scala corrisponda al testo del documento; una firma grande quanto un paragrafo sembra incollata. Controlla anche la pagina successiva, se i campi continuano lì.",
+          "Capisci cosa stai firmando: essendo una sovrapposizione d'immagine, non blocca il documento. Chiunque abbia il file può rimuovere l'immagine o modificare il testo attorno. Firma una versione finale — appiattisci e finalizza prima — e inviala in una forma che controlli (PDF, non una bozza editabile), così ciò che è stato firmato è ciò che circola.",
+        ],
+      },
+      {
+        heading: "Firmare è l'atto più privato; tienilo locale",
+        paragraphs: [
+          "Una firma è l'atto singolo più carico di identità eseguito su un documento — più personale del contenuto stesso. Consegnare l'immagine della tua firma a un sito di firma significa che una copia della tua firma manoscritta riposa sul server di qualcun altro: un artefatto riutilizzabile della tua identità che potrebbe essere sollevato e incollato su altri documenti. Poichissime persone consegnerbbero un foglio delle proprie firme a un estraneo; caricarne una è lo stesso atto con una veste migliore.",
+          "Questo strumento firma interamente nel tuo browser: il documento viene elaborato sul tuo dispositivo, la firma viene disegnata nella pagina in locale e il file firmato viene salvato dalla tua macchina. L'immagine della firma viene usata in memoria e mai trasmessa, e l'intera operazione funziona offline.",
+          "Un'abitudine da adottare firmando in locale: conserva la fonte della firma (foto o disegno) in una cartella privata anziché nei download generali, e produci il PDF firmato per ogni documento. Così l'artefatto della firma riutilizzabile esiste in esattamente un posto che controlli, e ogni documento firmato è un file finale distinto — nessun intermediario condiviso che gira in giro.",
+        ],
       },
     ],
   },
@@ -507,6 +949,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Le pagine vengono copiate byte per byte in nuovi documenti, quindi il testo resta selezionabile e le immagini mantengono la qualità originale.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Spezzare è il riflesso dell'unire — e altrettanto senza perdita",
+        paragraphs: [
+          "Spezzare un PDF produce nuovi documenti che contengono ciascuno un sottoinsieme delle pagine dell'originale. Come per l'unione, l'operazione lavora sull'albero delle pagine: ogni documento di output riceve un elenco di riferimenti che punta agli oggetti pagina originali, copiati così come sono. Il contenuto delle pagine non viene mai ridisegnato né ricompresso, quindi ogni output conserva esattamente la qualità della fonte — testo selezionabile, font incorporati, risoluzione delle immagini, annotazioni.",
+          "Ci sono due modi di spezzare comuni, con intuizioni diverse. Lo spezzamento per intervalli («pagine 1-5, 6-12») produce blocchi nominati per la distribuzione — un capitolo per destinatario, una sezione per reparto. Lo spezzamento ogni N pagine («ogni 10 pagine») è lo strumento da lotto per rompere una scansione o un'esportazione lunga in unità processabili, per esempio per soddisfare altrove un limite di dimensione al caricamento.",
+          "Ciò che lo spezzamento non fa: estrarre contenuto dentro una pagina. Una pagina che contiene metà del tuo segreto e metà di cose pubbliche resta intera nell'output in cui finisce. Il contenuto sensibile che condivide la pagina con contenuto condivisibile richiede una riorganizzazione a livello di pagina (o la redazione, che è un'operazione diversa e più impegnativa) prima di spezzare.",
+        ],
+      },
+      {
+        heading: "Pianificare i tagli: intervalli, confini e nomi dei file",
+        paragraphs: [
+          "La qualità di uno spezzamento si decide prima di cliccare: da dove tracci i confini. Taglia lungo le cuciture strutturali — inizio capitolo, stacchi di sezione, pagine bianche di separazione — non a conteggi arbitrari di pagina. Un capitolo che comincia a metà di un blocco dà più fastidio di una distribuzione leggermente ineguale. Sfogliare prima l'indice o l'elenco dei segnalibri del documento è la via più rapida per trovare punti di taglio naturali.",
+          "I nomi contano più del previsto. Gli output di uno spezzamento tendono a moltiplicarsi — e sei file chiamati «output_1.pdf» fino a «output_6.pdf» garantiscono confusione una settimana dopo. Nomina i blocchi per contenuto («contratto-firme.pdf», «allegato-A.pdf») man mano che li produci; lo spezzamento è il momento giusto, perché è quando sai esattamente cosa contiene ciascun blocco.",
+          "Un'abitudine per gli spezzamenti ricorrenti: se spezzi lo stesso documento lungo allo stesso modo ripetutamente (estratti conto mensili divisi per cliente, un manuale diviso per capitolo), tieni l'elenco degli intervalli in una nota e riutilizzalo. Gli intervalli restano stabili finché il numero di pagine della fonte non cambia — e la nota fa anche da documentazione di come la raccolta è organizzata.",
+        ],
+      },
+      {
+        heading: "Distribuire documenti senza una copia intermediaria",
+        paragraphs: [
+          "Lo spezzamento di solito precede la distribuzione: il capitolo uno ai revisori, le pagine della fattura alla contabilità, il sommario pubblico al cliente. Il documento da spezzare è tipicamente il master completo e sensibile — il che rende particolarmente controproducente caricarlo su un servizio di spezzamento: consegni l'intero documento per produrre pezzi che intendi distribuire selettivamente.",
+          "Questo strumento spezza interamente nel browser: il PDF sorgente viene analizzato in locale, i documenti di output vengono assemblati in memoria dai riferimenti di pagina che scegli e ogni file viene salvato direttamente dal tuo dispositivo. Il master non lascia mai la tua macchina, quindi le parti che tieni private e le parti che distribui nascono esattamente nelle stesse condizioni di privacy.",
+          "Una conseguenza utile: poiché gli output sono copie byte-fedeli delle pagine originali, puoi verificare uno spezzamento aprendo un output qualsiasi e controllando che le sue pagine siano identiche al pixel alle corrispondenti pagine della fonte. Non serve alcun audit di qualità — lo spezzamento è strutturale, non generativo, quindi non c'è nulla che possa essersi degradato in partenza.",
+        ],
+      },
+    ],
   },
   "watermark-pdf": {
     name: "Filigrana PDF",
@@ -535,6 +1003,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I font standard dei PDF coprono il testo latino, la punteggiatura e i simboli comuni come ©. Gli altri alfabeti (cinese, giapponese, arabo…) vengono sostituiti con ? — tieni la filigrana in lettere latine.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come viene aggiunta una filigrana — e cosa non può fare",
+        paragraphs: [
+          "Una filigrana è una sovrapposizione: lo strumento disegna il tuo testo o la tua immagine sopra (o sotto) il contenuto di ogni pagina, alla posizione, dimensione e trasparenza scelte. Il contenuto originale della pagina resta intoccato — lo stesso meccanismo dei numeri di pagina, solo più grande. Per questo la filigranatura è istantanea e senza perdita per il documento sorgente, e perché il file originale sul tuo disco resta non modificato.",
+          "La scelta classica è testo diagonale semitrasparente attraverso la pagina — «BOZZA», «RISERVATO», un nome d'azienda. Il posizionamento diagonale resiste al ritaglio casuale, e la trasparenza tiene il testo del corpo leggibile sotto. Le filigrane sotto il contenuto (disegnate dietro lo strato di testo) appaiono più pulite ma possono essere nascoste da pagine che dipingono un'immagine di sfondo a pagina intera sopra.",
+          "Sii chiaro su ciò che una filigrana è: un deterrente e un marcatore, non una serratura. Chiunque abbia strumenti di base può coprire una filigrana o estrarre il contenuto non marcato se lo strato di testo è intatto. Le filigrane segnalano proprietà e stato («questa è la bozza, non la finale») ai lettori onesti e complicano l'uso improprio distratto — non fermano uno determinato.",
+        ],
+      },
+      {
+        heading: "Scelte di design: opacità, posizione e comportamento per pagina",
+        paragraphs: [
+          "L'opacità è la manopola che fa o disfa una filigrana. Attorno al 10–20% di trasparenza il testo resta pienamente leggibile e il marchio è presente senza gridare; sopra il ~30% comincia a battersi col contenuto, e i lettori socchiudono gli occhi. Prova sulla pagina col testo più denso — una filigrana che funziona su una copertina spoglia può calpestare una pagina di tabella densa.",
+          "La posizione deve corrispondere all'intento. Un marchio diagonale centrato dice «etichetta di stato» (bozza, riservato). Un marchio d'angolo o a piè di pagina si legge come un timbro e si addice all'attribuzione — nome d'azienda, origine del documento. Per i documenti che verranno ritagliati o dove i margini possono essere rifilati, la posizione centrata sopravvive; i marchi d'angolo presso il bordo possono essere tagliati in stampa.",
+          "Una sottigliezza da controllare: le filigrane si applicano a ogni pagina per impostazione predefinita, comprese copertine e separatori bianchi, il che a volte appare strano. Se la copertina dell'output sembra troppo timbrata, è la sovrapposizione uniforme che fa il suo lavoro uniformemente — alcuni flussi invece filigranano dopo l'assemblaggio e eliminano la filigrana della copertina riaggiungendo sopra una copertina pulita.",
+        ],
+      },
+      {
+        heading: "Marcare le bozze in locale, prima che circolino",
+        paragraphs: [
+          "Le filigrane si applicano più spesso proprio ai documenti in movimento: bozze che escono per revisione, estratti riservati condivisi per commento, fatture ed estratti conto che portano il nome dell'emittente. Sono documenti di lavoro il cui pubblico è per definizione mezzo fidato — e caricarli su un servizio di filigrane consegna l'originale non marcato a un terzo proprio nel momento in cui sta per circolare.",
+          "Questo strumento filigrana nel tuo browser: le pagine vengono elaborate in locale, il marchio viene disegnato nel contenuto della pagina in memoria e l'output viene salvato dal tuo dispositivo. L'originale non marcato non lascia mai la tua macchina; ciò che circola è solo la copia marcata che hai scelto di produrre.",
+          "C'è anche un dividendo di flusso: poiché la filigranatura è istantanea e locale, è economico produrre varianti marcate per pubblico — «BOZZA — per revisione interna» a un gruppo, una copia col nome del destinatario a un altro. Quel marcatore per destinatario è la pratica classica di tracciamento delle perdite, e diventa pratica solo quando produrre ogni variante costa secondi e zero caricamenti.",
+        ],
+      },
+    ],
   },
   "word-to-pdf": {
     name: "Word in PDF",
@@ -561,6 +1055,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Supporta i vecchi file .doc o il testo non latino?",
         a: "Solo .docx è supportato. Il testo usa i font standard dei PDF, quindi le lingue latine si renderizzano correttamente mentre gli altri alfabeti (cinese, arabo…) per ora vengono sostituiti con ?.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché Word in PDF è di solito la direzione affidabile",
+        paragraphs: [
+          "La conversione tra Word e PDF è asimmetrica, e Word in PDF è la direzione facile. Un documento Word ha tutta la struttura che un renderer richiede — testo, stili, tabelle, immagini, impaginazione — e produrre un PDF è semplicemente renderizzare quella struttura nel formato di descrizione di pagina. Non c'è nessun indovinare: ciò che vedi in Word è ciò che viene disegnato.",
+          "Per questo l'output di una buona conversione Word in PDF è fedele per costruzione: font, spaziature, tabelle e interruzioni di pagina finiscono come previsto, e il PDF le congela così che qualsiasi lettore su qualsiasi dispositivo mostri la stessa cosa. Quel congelamento è l'intero punto del formato — un contratto che appare identico sul tuo portatile, sul telefono del destinatario e nella RIP della tipografia.",
+          "L'asimmetria di affidabilità conta per pianificare il lavoro: converti Word in PDF all'ultimo momento, quando il documento è finale, e non pianificare mai di riconvertire in Word per ulteriori modifiche. PDF in Word è ricostruzione (e con perdita di struttura); il file .docx stesso è la copia master da conservare.",
+        ],
+      },
+      {
+        heading: "Font, campi e la lista di controllo pre-conversione",
+        paragraphs: [
+          "I font sono l'insidia classica di Word in PDF. Se il documento usa un font non installato sulla macchina che converte, il renderer ne sostituisce uno simile e le spaziature si spostano sottilmente — una riga di firma può spostarsi, una tabella può andare a capo diversamente. Una buona conversione incorpora i font che renderizza, quindi l'output è autosufficiente; ma il font giusto deve essere presente al momento della conversione. Convertire sulla macchina dove il documento è stato scritto è l'impostazione sicura.",
+          "Controlla le parti vive prima di convertire: i campi dell'indice, i riferimenti dei numeri di pagina e i riferimenti incrociati vanno aggiornati (Ctrl+A poi F9 in Word) così che il PDF porti numeri finali, non stantii. Controlla anche se il documento contiene commenti o revisioni tracciate — se compaiono nel PDF dipende dal renderer, e spedire un PDF con revisioni visibili a una controparte è il classico incidente di divulgazione.",
+          "Un'altra abitudine: dopo la conversione, confronta il numero di pagine e getta un'occhiata alla prima e all'ultima pagina. Se il PDF ha una pagina in più o in meno rispetto a Word, qualcosa è andato a capo diversamente — di solito una sostituzione di font — e vale la pena trovarlo prima di inviare, non dopo.",
+        ],
+      },
+      {
+        heading: "I documenti finali vanno finalizzati in locale",
+        paragraphs: [
+          "Word in PDF è il passo che produce la forma ufficiale di un documento: il CV da presentare, la fattura da inviare, la tesi da depositare, il contratto da firmare. Questi artefatti finali sono quelli che più vale la pena proteggere, e sono anche quelli più spesso caricati sui siti di conversione — il che significa che la versione quasi definitiva del tuo CV o contratto riposa sul server di uno sconosciuto prima ancora di inviarla al destinatario vero.",
+          "Questo strumento renderizza la conversione interamente nel tuo browser: la struttura del documento viene elaborata sul tuo dispositivo, il PDF viene generato in memoria e l'output viene salvato in locale. Nulla viene caricato in nessuna fase — la versione finale del tuo documento esiste in esattamente due posti: il tuo .docx originale e il PDF che hai prodotto, entrambi sulla tua macchina.",
+          "La conversione locale rende anche pratica la disciplina delle versioni: poiché ogni conversione costa secondi, puoi rigenerare il PDF dopo ogni modifica invece di mantenerne uno stantio — il PDF corrisponde sempre all'ultimo .docx. Quell'abitudine elimina del tutto il classico problema «quale versione ho inviato?», e funziona solo quando convertire è privo di attrito di caricamento.",
+        ],
       },
     ],
   },
@@ -594,6 +1114,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Chrome, Edge, Firefox e Safari 17+ possono salvare WebP. Se il tuo browser non sa codificare WebP, lo strumento te lo dice e passa a JPG, così ottieni sempre un file utilizzabile.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Scegliere il formato di destinazione in base a ciò che deve sopravvivere",
+        paragraphs: [
+          "La conversione di formato è davvero una domanda su quali proprietà contano per la destinazione. Fatti tre domande: serve la trasparenza (PNG o WebP sì, JPG no), il contenuto è fotografico o grafico (JPG/WebP per le foto, PNG per testo e bordi netti), e il destinatario accetta per niente il formato (alcune piattaforme, CMS e software vecchi accettano solo JPG e PNG).",
+          "Due vincoli restringono la scelta in fretta. Se la trasparenza deve sopravvivere, il JPG è subito fuori. Se il file deve aprirsi in software sconosciuto — un modulo, una stampante, il vecchio Windows di un cliente — JPG e PNG sono le scommesse più sicure, perché ogni sistema di immagini degli ultimi decenni li legge.",
+          "Il WebP occupa il mezzo efficiente: più piccolo del JPG a pari qualità, capace di trasparenza, ma con la coda di compatibilità più lunga. Lo schema pragmatico è convertire in WebP per i tuoi siti e in JPG/PNG per tutto ciò che non controlli.",
+        ],
+      },
+      {
+        heading: "Ciò che la conversione costa davvero",
+        paragraphs: [
+          "La conversione tra formati con perdita è una ricodifica: un JPG risalvato come WebP con perdita scarta dati una seconda volta. Ad alta qualità la perdita è invisibile, ma le conversioni con perdita a catena — JPG in WebP in JPG — accumulano artefatti come qualunque compressione ripetuta. Converti una volta sola, verso il formato finale.",
+          "Andare verso un formato senza perdita conserva sempre l'informazione rispetto alla fonte: da JPG a PNG si conserva tutto ciò che il JPG contiene, artefatti compresi, ma si perde niente di più. Il file cresce perché la senza-perdita deve registrare ogni pixel fedelmente.",
+          "Occhio alla trasparenza lungo la catena: convertire un'immagine con canale alfa in JPG riempie silenziosamente le aree trasparenti con un colore di sfondo. Se il risultato mostra una casella bianca o nera inattesa, è il canale alfa appiattito, non un danneggiamento.",
+        ],
+      },
+      {
+        heading: "Conversione in blocco ed elaborazione locale",
+        paragraphs: [
+          "Lo scenario realistico per un convertitore generale è una cartella di file disallineati: screenshot in PNG che un modulo vuole come JPG, WebP scaricati che un editor vecchio non apre, lotti misti diretti al caricatore di una sola piattaforma. La modalità blocco applica un formato di destinazione e un'impostazione di qualità a tutta la cartella.",
+          "Ordinare il lotto prima di convertire fa risparmiare rifacimenti: gli elementi fotografici possono andare in JPG, gli elementi grafici in PNG, in due passaggi invece di una sola impostazione di compromesso. Una scelta universale unica serve di solito la piattaforma, non le immagini.",
+          "Tutto gira nel tuo browser: decodifica, conversione e scaricamento avvengono sul tuo dispositivo senza caricamenti. Convertire risorse di clienti, design non ancora rilasciati o archivi personali significa che quei file non lasciano mai la tua macchina in nessun momento.",
+        ],
+      },
+    ],
   },
   "crop-image": {
     name: "Ritaglia immagini",
@@ -622,6 +1168,32 @@ export const it: Record<string, ToolCopy> = {
         a: "1:1 (quadrata). La maggior parte delle piattaforme social ritaglia gli avatar in un cerchio dentro un quadrato, quindi centrare il soggetto in una selezione 1:1 è la scelta più sicura.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Il ritaglio rimuove pixel — pianifica prima di tagliare",
+        paragraphs: [
+          "Il ritaglio è distruttivo in un modo in cui il ridimensionamento non lo è: il ridimensionamento conserva tutto il contenuto a dettaglio minore, il ritaglio elimina contenuto per sempre. Una volta salvato il ritaglio, i pixel fuori dalla selezione sono spariti da quel file. Per questo la regola d'oro è conservare l'originale e trattare ogni versione ritagliata come un file derivato che puoi rigenerare.",
+          "Parti dalla fonte più grande che hai. Ritagliare un'immagine piccola e poi ingrandirla compone la sfocatura; ritagliare l'originale a piena risoluzione e ridurre il risultato tiene i bordi nitidi. Se ti servono sia un banner largo sia un avatar quadrato, fai due ritagli dallo stesso originale anziché ritagliare il ritaglio.",
+          "Ritaglia anche con intenzione riguardo al rapporto d'aspetto: decidi prima la destinazione (intestazione di blog, post per piattaforma, cornice per stampa) e imposta il ritaglio su quel rapporto, anziché tagliare liberamente e scoprire che il risultato non entra da nessuna parte senza ulteriori bordi di riempimento.",
+        ],
+      },
+      {
+        heading: "Basi di composizione che rendono migliori i ritagli",
+        paragraphs: [
+          "Due convenzioni di incorniciatura portano la maggior parte del valore. La regola dei terzi colloca il soggetto vicino all'incrocio delle linee che dividono l'inquadratura in tre per tre — mettere un orizzonte sulla terzia superiore o inferiore anziché al centro esatto di solito si legge come più intenzionale. L'incorniciatura centrata, al contrario, è giusta per soggetti simmetrici, volti e foto di prodotto.",
+          "Dai ai soggetti in movimento spazio nella direzione verso cui guardano o si muovono: un corridore con spazio vuoto davanti appare dinamico, lo stesso corridore ritagliato stretto alle spalle sembra sul punto di schiantarsi contro un muro. Vale anche per gli sguardi — i ritratti di solito guadagnano da un po' di spazio sul lato verso cui la persona guarda.",
+          "Controlla i bordi per ultimo: arti vaganti, oggetti a metà e riflessi distraenti al confine dell'inquadratura tirano via l'attenzione. Dopo aver impostato il ritaglio, zooma indietro e guarda l'intero rettangolo una volta prima di confermare.",
+        ],
+      },
+      {
+        heading: "L'elaborazione locale tiene privati i ritagli sensibili",
+        paragraphs: [
+          "I ritagli si fanno spesso proprio perché una foto contiene qualcosa che non deve essere mostrato — il bordo di un documento, un passante, un'etichetta con l'indirizzo. Spedire quell'immagine a un ritagliatore basato su caricamento per nascondere un dettaglio è controproducente: la foto completa, non ritagliata, finisce allora sul server di qualcun altro.",
+          "Questo strumento elabora interamente nel tuo browser: decodifica, selezione e ricodifica avvengono sul tuo dispositivo, e nulla viene trasmesso o memorizzato. La versione che ritagli è la versione che pubblichi; l'originale completo resta con te.",
+          "Una nota di flusso: il ritaglio non è la redazione. Rimuovere una regione dall'area visibile la rimuove dal file, il che è una cancellazione vera — a differenza della sfocatura o dei rettangoli neri disegnati sopra il contenuto, che a volte possono essere invertiti se applicati distrattamente su dati compressi. Per nascondere regioni sensibili, ritagliare o coprire prima dell'esportazione è la mossa più sicura.",
+        ],
+      },
+    ],
   },
   "exif-remover": {
     name: "Rimuovi dati EXIF",
@@ -648,6 +1220,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso togliere i metadati senza ricomprimere l'immagine?",
         a: "Non in un modo che giri nel browser e resti sicuro. La rimozione senza perdita richiede di riscrivere il contenitore del file — i PNG si possono ripulire senza perdite con strumenti appositi, ma per JPEG l'approccio affidabile e semplice è proprio questa ricodifica. Gli input PNG qui restano perfetti al bit nei pixel.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Cosa l'EXIF nasconde dentro le tue foto",
+        paragraphs: [
+          "Ogni foto di una fotocamera o di un telefono moderno porta con sé più dei pixel. Il blocco EXIF memorizza il modello della fotocamera, l'obiettivo, le impostazioni di esposizione, le date — e, più consequenzialmente, in molti casi le coordinate GPS. Un istantanea qualunque pubblicata online può rivelare la stanza esatta o l'angolo di strada dove è stata scattata.",
+          "Il blocco include spesso anche una piccola miniatura di anteprima incorporata e, su alcuni dispositivi, il software e la cronologia delle modifiche. Screenshot e immagini scaricate da altre fonti tipicamente hanno poco o nessun EXIF, ecco perché i visualizzatori di metadati a volte mostrano «nulla trovato» — l'assenza è normale, non un guasto.",
+          "Rimuovere l'EXIF non riguarda il nascondere il proprio operato; è igiene di routine prima della pubblicazione. Giornalisti, attivisti, professionisti sanitari e utenti comuni hanno tutti buone ragioni per separare il contenuto di un'immagine dai suoi metadati di registrazione.",
+        ],
+      },
+      {
+        heading: "Ciò che la rimozione cambia — e ciò che non cambia",
+        paragraphs: [
+          "Rimuovere l'EXIF lascia l'immagine visibile intoccata: dimensioni, colori e qualità restano esattamente gli stessi. Ciò che sparisce è il blocco di metadati, quindi il file diventa anonimo — nessuna fotocamera, nessuna posizione, nessuna data allegata.",
+          "La rimozione non cambia il contenuto dei pixel, il che significa che l'informazione visibile resta visibile. Se la foto mostra un cartello stradale, un targhetta con un nome o uno schermo con del testo, rimuovere l'EXIF non aiuta; devi ritagliare o coprire quelle regioni separatamente.",
+          "La geolocalizzazione è il motivo per cui la maggior parte delle persone se ne preoccupa, ma le date contano anche loro: combinate con altri post pubblici, le date di creazione possono aiutare a costruire uno schema dei movimenti o delle abitudini di qualcuno. La rimozione completa dei metadati chiude entrambi i canali in una volta.",
+        ],
+      },
+      {
+        heading: "L'elaborazione locale è tutto il punto",
+        paragraphs: [
+          "C'è un'ironia nel caricare una foto su uno strumento «privacy»: il file sensibile alla privacy passa allora per il server di qualcun altro, che vede esattamente i metadati che stai cercando di rimuovere — comprese le etichette GPS. Un rimuometadata basato su caricamento vanifica gran parte del proprio scopo.",
+          "Questo strumento legge e riscrive il file interamente nel tuo browser. L'immagine viene decodificata in locale, i metadati vengono rimossi e il file pulito viene prodotto sul tuo dispositivo; nulla viene trasmesso da nessuna parte, così i dati stessi che volevi eliminare non lasciano mai le tue mani.",
+          "Un'abitudine pratica: rimuovi i metadati come ultimo passo prima di condividere, dal file esportato che intendi davvero pubblicare. Conserva l'originale con il suo EXIF come master — mantiene informazioni utili come le impostazioni di esposizione per modifiche future.",
+        ],
       },
     ],
   },
@@ -679,6 +1277,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I browser moderni usano tranquillamente favicon PNG tramite tag <link>, e lo snippet generato da questo strumento è tutto ciò che gli occorre. Un .ico d'altri tempi conta solo per browser molto vecchi, ormai così rari che la maggior parte dei siti può ignorarli.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché le favicon richiedono più dimensioni",
+        paragraphs: [
+          "Una favicon non è un solo file: lo stesso marchio viene mostrato a 16 px nella scheda del browser, 32 px in alcune schede retina e nelle barre delle applicazioni, circa 180 px come icona touch Apple nelle schermate home di iOS, e 512 px per Android e per le schermate di installazione PWA. Servire un unico file da 16 px a tutti quei contesti fa sembrare l'icona della home screen una macchia di pixel.",
+          "I browser scelgono l'icona dichiarata più grande che si adatta al contesto e riducono con grazia, ma non possono ingrandire — una sorgente da 16 px stirata a 512 px è sfocata in modo irreversibile. Per questo il generatore parte da un'immagine sorgente ad alta risoluzione e produce l'intera scala di dimensioni in una volta.",
+          "L'insieme pratico da dichiarare copre il terreno comune: 16 e 32 px per le schede, 180 px per iOS, 192 e 512 px per i manifest Android/PWA. Dichiararli tutti nel tuo HTML con tag link corretti lascia che ogni piattaforma scelga la sua misura migliore.",
+        ],
+      },
+      {
+        heading: "Progettare un marchio che sopravvive a 16 pixel",
+        paragraphs: [
+          "La maggior parte dei loghi muore a 16 px: le linee fini si fondono in rumore, le lettere diventano macchie, i dettagli a due colori svaniscono. L'approccio sicuro per la favicon è ridurre il marchio al suo singolo elemento più riconoscibile — una lettera, un simbolo, una forma — anziché restringere l'intero composto del logo.",
+          "Prova alle dimensioni di destinazione, non a piena risoluzione: ciò che si legge chiaramente a 512 px può essere illeggibile a 16 px. Alto contrasto, tratti spessi e una silhouette semplice sopravvivono alla riduzione; gradienti e contorni fini no.",
+          "Pensa anche al lato scuro: schede e sistemi operativi mostrano le icone su sfondi sia chiari sia scuri. Un marchio nero puro su trasparenza sparisce in modalità scura, e il bianco puro sparisce in quella chiara. Aggiungere un contorno contrastante sottile o una forma di sfondo piena fa funzionare l'icona in entrambi.",
+        ],
+      },
+      {
+        heading: "Generazione locale e privacy del marchio",
+        paragraphs: [
+          "Una favicon è il seme dell'identità visiva di un marchio, e i loghi in lavorazione sono spesso riservati — marchi di prodotti non rilasciati, candidati per un restyling. Generare i set di favicon in locale nel browser significa che un design mai mostrato pubblicamente non tocca mai una coda di caricamento.",
+          "Lo strumento renderizza la tua immagine sorgente a ogni dimensione di destinazione nel browser del tuo dispositivo, producendo riduzioni pulite dall'originale a piena risoluzione. Nessun server vede l'opera, e i file generati vengono scaricati direttamente sul tuo disco.",
+          "Consiglio di flusso: rigenera il set ogni volta che il marchio sorgente cambia, e tieni la generazione riproducibile — la stessa immagine sorgente deve sempre produrre lo stesso set di favicon, così una dimensione mancante può essere ricreata in qualunque momento.",
+        ],
+      },
+    ],
   },
   "grayscale-image": {
     name: "Immagini in bianco e nero",
@@ -700,6 +1324,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché il mio PNG è più grande dopo la conversione?",
         a: "La scala di grigi non cambia la compressione: una foto con molto rumore può comprimersi in modo leggermente diverso. Scegli JPG per le foto e PNG solo per la grafica piatta.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché la scala di grigi va oltre «togliere i colori»",
+        paragraphs: [
+          "Il modo ingenuo di ingrigire un'immagine è mediare uniformemente i canali rosso, verde e blu. Ciò ignora come funziona la visione umana: siamo molto più sensibili al verde che al rosso, e quasi per niente al blu. La media uniforme dà all'erba verde e al mattone rosso — ugualmente luminosi all'occhio — luminosità relative sbagliate.",
+          "La conversione corretta usa ponderazioni di luminanza derivate dalla percezione di ciascun primario, circa 0,299 rosso + 0,587 verde + 0,114 blu (i coefficienti ITU-R BT.601 che gli standard televisivi fissarono decenni fa). Questo strumento converte con tale ponderazione percettiva, così che il grigio ottenuto corrisponde a ciò che il tuo occhio vede davvero nell'originale a colori.",
+          "Il risultato è anche uno strumento di editing utile: molti fotografi convertono prima in grigio per giudicare la struttura tonale di un'immagine — nero vero presente, bianco vero presente, toni medi regolari — prima ancora di preoccuparsi del colore.",
+        ],
+      },
+      {
+        heading: "Formato di output e ciò che resta intatto",
+        paragraphs: [
+          "La conversione in scala di grigi cambia solo i dati di colore — la geometria dei pixel resta intoccata, quindi dimensioni, nitidezza e composizione sopravvivono esattamente. Questo la rende sicura in qualunque fase di un flusso di lavoro, senza effetti a cascata come avrebbe un ricampionamento.",
+          "La scelta del formato conta comunque: salva come PNG quando l'immagine contiene testo, grafica piatta, o quando vuoi fedeltà massima e nessuna perdita ulteriore; salva come JPG per i contenuti fotografici dove la dimensione del file conta. Un JPEG in scala di grigi è tipicamente più piccolo della sua versione a colori, perché i canali colore portano gran parte di ciò che viene compresso via.",
+          "Una differenza sottile da conoscere: una vera immagine in scala di grigi e un'immagine a colori i cui tre canali siano per caso uguali possono entrambe «sembrare grigie», ma vengono memorizzate diversamente. Strumenti e stampanti possono trattarle diversamente; se il comportamento esatto conta per una catena di stampa, tieni un PNG.",
+        ],
+      },
+      {
+        heading: "Dove la scala di grigi rende — e la privacy",
+        paragraphs: [
+          "Gli usi classici vanno oltre l'estetica: le scansioni di documenti si leggono più pulite senza dominanti di colore dalla lampada dello scanner; i controlli di accessibilità usano la scala di grigi per verificare che un design funzioni ancora senza appoggiarsi al colore; e le stampe destinate alla riproduzione in bianco e nero andrebbero sempre anticipate in anteprima in grigio.",
+          "È anche uno strumento diagnostico per le foto: se un ritratto ha una dominante strana o tonalità della pelle disuguali, convertire in scala di grigi separa il problema tonale da quello del colore, dicendoti se sistemare l'esposizione o il bilanciamento del bianco.",
+          "Come per ogni strumento qui, la conversione gira interamente nel tuo browser — l'immagine non lascia mai il tuo dispositivo. Converti in grigio un lotto di scansioni personali, bozze di clienti o documenti privati senza che nessuno di essi tocchi un server.",
+        ],
       },
     ],
   },
@@ -730,6 +1380,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La conversione avviene nel tuo browser con un decodificatore HEIC locale. Le foto restano sul tuo dispositivo per tutto il tempo — questo strumento funziona perfino offline una volta caricata la pagina.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Cosa è davvero HEIC — e perché esiste",
+        paragraphs: [
+          "HEIC è il formato contenitore dietro il formato High Efficiency Image di Apple, adottato come predefinito per le foto della fotocamera iPhone da iOS 11 in poi. Si basa sulla stessa famiglia di compressione video HEVC e memorizza le immagini a circa metà della dimensione di un JPEG equivalente, motivo per cui un telefono può continuare a scattare foto ad alta risoluzione senza riempire la memoria.",
+          "Il compromesso è la compatibilità. HEIC è ben supportato nell'ecosistema Apple e in alcune versioni recenti di Windows e Android, ma tanti siti web, portali governativi, stampanti, software vecchi e dispositivi non Apple si aspettano ancora JPG. Una foto che si apre bene sul tuo telefono può essere respinta nel momento in cui la carichi da qualche parte.",
+          "Convertire in JPG scambia dimensione del file con universalità: il file risultante è più grande ma si apre ovunque, da un browser di dieci anni fa a una tipografia. È lo scambio giusto ogni volta che la destinazione è fuori dal tuo controllo.",
+        ],
+      },
+      {
+        heading: "Dettagli di conversione che vale la pena conoscere",
+        paragraphs: [
+          "JPEG è un formato con perdita, quindi convertire HEIC in JPG è una ricodifica, non un riconfezionamento. Con impostazioni di alta qualità la differenza è impercettibile per le foto tipiche; con impostazioni basse eredi artefatti sopra la compressione originale. Usa la qualità massima disponibile a meno che la dimensione del file conti più della fedeltà.",
+          "I metadati possono non sopravvivere alla conversione: HEIC supporta funzionalità che il JPEG non ha, come le mappe di profondità usate dalla modalità Ritratto. Un JPEG semplice porta l'immagine visibile, le dimensioni e i dati EXIF standard, ma non le estensioni specifiche Apple. Se ti affidi alla modifica della profondità di una foto più avanti, conserva l'HEIC originale.",
+          "La conversione in blocco è il flusso realistico: una libreria iPhone contiene centinaia o migliaia di file HEIC, e di solito vanno convertiti nel momento in cui devono andare su un PC, un modulo web o un'unità condivisa. Converti solo ciò che la destinazione richiede, e tieni i master HEIC come fonte di verità.",
+        ],
+      },
+      {
+        heading: "La privacy conta di più con le foto personali",
+        paragraphs: [
+          "Le foto della fotocamera sono tra i file più sensibili che si possiedano: momenti di famiglia, interni di casa, abitudini di viaggio. I siti di conversione foto che richiedono caricamenti le vedono tutte — e le etichette EXIF di posizione possono perfino registrare dove è stata scattata ogni foto.",
+          "Questo convertitore gira interamente nel tuo browser: l'HEIC viene decodificato e ricodificato in JPG sul tuo dispositivo, e nulla viene trasmesso. È la scelta sensata per le librerie personali proprio perché non esiste alcun server che veda mai le foto.",
+          "Un consiglio collegato: se pensi di condividere pubblicamente il JPG anziché limitarti ad aprirlo da qualche parte, valuta di rimuovere anche l'EXIF di posizione — convertire il formato non rimuove da solo i metadati di posizione, a meno che lo strumento non li scarti durante la ricodifica.",
+        ],
+      },
+    ],
   },
   "image-compressor": {
     name: "Comprimi immagini",
@@ -756,6 +1432,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "La mia immagine viene caricata su un server?",
         a: "No. La compressione è fatta dall'encoder canvas integrato del tuo browser. I file non lasciano mai il dispositivo — puoi persino disconnetterti da internet e continua a funzionare.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che la compressione con perdita scarta davvero",
+        paragraphs: [
+          "La compressione in stile JPEG funziona in tre mosse: trasforma l'immagine in dati di frequenza, getta via le componenti ad alta frequenza a cui il tuo occhio è meno sensibile, e impacchetta il resto in modo efficiente. Per questo la compressione è quasi invisibile sulle fotografie — pelle liscia e cielo perdono poco — mentre testo dai bordi netti e linee fini soffrono per primi, mostrando aloni di ringing attorno alle lettere.",
+          "Il cursore di qualità si mappa su quanta informazione di frequenza sopravvive. Ad alte impostazioni i dati scartati sono davvero impercettibili; scendendo, la blockiness appare nelle sfumature e il rumore si amplifica attorno ai bordi. Non esiste un numero «migliore» universale: una foto densa può stare bene a 60 mentre uno screenshot richiede 85 per restare pulito.",
+          "La compressione è a senso unico. Ogni salvataggio riscarta informazione, quindi modificare e salvare ripetutamente un JPEG a qualità moderata compone artefatti di generazione in generazione — un fenomeno chiamato perdita generazionale. Conserva sempre l'originale, e comprimi una volta sola, alla fine del flusso.",
+        ],
+      },
+      {
+        heading: "Scegliere la qualità, e quando le dimensioni battono il cursore",
+        paragraphs: [
+          "Una scala pratica di partenza: 80–90 per le immagini principali e tutto ciò che contiene testo; 60–80 per le foto ordinarie sul web; sotto 50 solo quando un limite rigido di dimensione lo impone. Poi giudica con i tuoi occhi alla dimensione a cui l'immagine sarà davvero mostrata — artefatti visibili allo zoom 100% possono sparire del tutto alla larghezza della pagina.",
+          "Quando nemmeno la qualità bassa raggiunge la dimensione obiettivo, il numero di pixel è il vero problema. Dimezzare entrambe le dimensioni rimuove circa tre quarti dei pixel, un ordine di grandezza che il cursore di qualità non può eguagliare. Ridimensiona prima, comprimi dopo — le due leve lavorano a scale diverse.",
+          "Guarda i numeri di byte prima/dopo anziché dare per scontato: alcuni file già compressi si restringono appena ulteriormente, e ricomprimerli costa solo qualità. Se un file è già ben compresso, la migliore ottimizzazione è lasciarlo stare o ridimensionarlo.",
+        ],
+      },
+      {
+        heading: "Elaborazione locale e adattamento al flusso di lavoro",
+        paragraphs: [
+          "La compressione gira interamente nel tuo browser: l'immagine viene decodificata, ricodificata e misurata in locale, senza fase di caricamento. Questo la rende utilizzabile per lavori di clienti, foto di prodotti non ancora rilasciati o documenti personali che preferiresti non consegnare a un servizio web casuale.",
+          "Poiché l'elaborazione è istantanea, il flusso naturale è iterativo: prova un valore di qualità, guarda anteprima e dimensione, sistema, ripeti. È esattamente ciò che un compressore basato su caricamento rende doloroso, visto che ogni tentativo costa un viaggio di andata e ritorno.",
+          "Metti lo strumento nella giusta prospettiva: è l'ultimo passo prima della pubblicazione. Fai prima modifica e ritocco sull'originale, esporta una volta sola, poi comprimi quell'esportazione. Comprimere presto significa che ogni modifica successiva ricomprime un file già danneggiato.",
+        ],
       },
     ],
   },
@@ -786,6 +1488,29 @@ export const it: Record<string, ToolCopy> = {
         a: "No. I file vengono aperti in sola lettura; lo strumento decodifica una copia in memoria e non scrive mai sull'originale. La tua immagine viene mostrata e analizzata interamente sul tuo dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Gli strati di metadati dentro un file immagine",
+        paragraphs: [
+          "I metadati in un file immagine si dispongono a strati. Il livello contenitore c'è sempre: formato del file, dimensioni in pixel, dimensione del file e profondità di colore. Sopra sta l'EXIF — marca e modello della fotocamera, obiettivo, diaframma, velocità dell'otturatore, ISO, lunghezza focale, stato del flash, data di acquisizione. Più in profondità ancora ci sono i blocchi specifici del formato: chunk tEXt/iTXt del PNG, marcatori di commento del JPEG, a volte profili colore incorporati (ICC) e perfino miniature, che sono esse stesse piccole immagini.",
+          "Un visualizzatore legge questi strati senza toccare i pixel, che è esattamente il modo sicuro di ispezionare un file: nulla viene decodificato in un nuovo file, nulla viene riscritto e nulla può essere danneggiato nel processo. Ciò che vedi è ciò che il file porta davvero — comprese le parti di cui l'autore originale magari non sapeva ci fossero.",
+        ],
+      },
+      {
+        heading: "I dati GPS dell'EXIF: il titolo privacy",
+        paragraphs: [
+          "La maggior parte delle fotocamere dei telefoni incorpora coordinate GPS in ogni foto per impostazione predefinita. Le coordinate sono precise abbastanza da collocare una foto entro pochi metri — il che significa che un'istantanea qualunque può rivelare in silenzio la tua casa, la scuola di tuo figlio o la tua stanza d'albergo. Prima di condividere foto pubblicamente, controllare le etichette GPS è l'abitudine di metadati dal più alto valore.",
+          "Se i dati GPS sono presenti e pensi di pubblicare l'immagine, falla passare per il rimuometadata EXIF dopo. Visualizzatori e rimuovitori di metadati sono le due metà di un unico flusso: prima guarda per sapere cosa leakerebbe, poi rimuovi per assicurarti che non lo faccia. Nota che la condivisione via app di messaggistica spesso rimuove i metadati automaticamente, ma la condivisione diretta di file — email, link cloud, caricamenti — no.",
+        ],
+      },
+      {
+        heading: "Ispezione senza caricamento",
+        paragraphs: [
+          "Il file viene analizzato in locale nel tuo browser: i byte grezzi vengono letti dal disco in memoria e le tabelle di metadati vengono decodificate lì. Nulla viene trasmesso, quindi è sicuro ispezionare foto sensibili — prove per una disputa, foto di lavoro geolocalizzate, immagini sotto NDA — con rischio di esposizione zero.",
+          "Poiché non è coinvolto alcun caricamento, non c'è tetto di dimensione: un originale fotocamera da 50 megapixel si ispeziona esattamente con la stessa rapidità di una miniatura. Abbina il visualizzatore al rimuometadata EXIF per un ciclo completo di controllo-poi-pulizia, entrambi sul tuo dispositivo.",
+        ],
+      },
+    ],
   },
   "image-resizer": {
     name: "Ridimensiona immagini",
@@ -812,6 +1537,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le immagini PNG ridimensionate mantengono la trasparenza?",
         a: "Sì. Il ridimensionamento mantiene il formato originale, quindi la trasparenza PNG e il canale alpha WebP sopravvivono intatti. Solo la conversione in JPG appiattirebbe la trasparenza su uno sfondo bianco.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ridurre bene: quale direzione, quali predefiniti",
+        paragraphs: [
+          "Il ridimensionamento arriva in due direzioni con fisiche diverse. La riduzione rimuove pixel e, fatta bene, non perde quasi nulla di visibile — una foto ridotta a metà larghezza e vista a dimensione di pagina è indistinguibile dall'originale. L'ingrandimento inventa pixel mai catturati, motivo per cui può soltanto ammorbidire o sfocare.",
+          "Tieni il rapporto d'aspetto bloccato a meno che la destinazione non esiga davvero distorsione: le modifiche libere di larghezza e altezza stirano i cerchi in ovali e i volti in versioni da luna park. Le piattaforme di solito ritagliano o bordano da sole per imporre i loro rapporti, quindi distorcere a mano raramente è ciò che qualcuno vuole.",
+          "I predefiniti comuni si mappano su vincoli reali: 1920 px di larghezza sta bene agli schermi full-HD e alle colonne di contenuto della maggior parte dei blog, 1080 px si addice ai post social, 512 px e sotto serve avatar e icone. Ridimensionare alla dimensione di visualizzazione anziché spedire un originale fotocamera da 6000 px è il più grande guadagno di velocità di pagina disponibile.",
+        ],
+      },
+      {
+        heading: "Ordine delle operazioni: ridimensiona prima della compressione",
+        paragraphs: [
+          "Se un'immagine ha bisogno sia di ridimensionamento sia di compressione, ridimensiona prima. Ogni pixel rimosso è dato che il compressore non deve mai codificare, e la riduzione scala con l'area — dimezzare larghezza e altezza lascia un quarto dei pixel. Nessuna impostazione di qualità può eguagliare quell'ordine di grandezza.",
+          "Il ridimensionamento interagisce anche con i formati: ridimensionare uno screenshot PNG resta senza perdita, mentre ridimensionare un JPG lo ricomprime e aggiunge un giro di artefatti. Quando puoi, ridimensiona dalla fonte meno compressa che hai e lascia che il formato finale sia deciso per ultimo.",
+          "Un dettaglio che la gente perde: dopo la riduzione, una leggera nitidezza può ripristinare la crispness percepita che l'interpolazione lava via — ma sovra-affilare un'immagine ridimensionata crea aloni peggiori della morbidezza. La moderazione vale per la nitidezza più che per qualsiasi altra impostazione qui.",
+        ],
+      },
+      {
+        heading: "Ridimensionamento locale e privacy",
+        paragraphs: [
+          "I lavori di ridimensionamento toccano spesso le categorie più private di immagini: documenti d'identità ridimensionati per un modulo, foto di famiglia ridotte per la condivisione, scatti di prodotti non rilasciati preparati per un annuncio. Spedirli a un ridimensionatore basato su caricamento consegna l'originale a piena risoluzione all'archiviazione di uno sconosciuto.",
+          "Questo strumento ridimensiona interamente nel tuo browser: decodifica, scala e ricodifica avvengono sul tuo dispositivo, e l'output viene scaricato direttamente. Nulla viene trasmesso, quindi non esiste alcuna copia del tuo originale che viva altrove che non sulla tua macchina.",
+          "La modalità blocco si adatta al caso ricorrente — un set di foto che tutte richiedono la stessa larghezza web. Applica una dimensione alla cartella, scarica i risultati come ZIP, e tieni gli originali intatti come fonte di verità per ogni ridimensionamento futuro.",
+        ],
       },
     ],
   },
@@ -842,6 +1593,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Il JPEG non archivia mai la trasparenza, quindi nulla può essere recuperato — il tuo PNG convertito è completamente opaco. Per ritagliare uno sfondo serve uno strumento dedicato alla rimozione dello sfondo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che da JPG a PNG può e non può recuperare",
+        paragraphs: [
+          "Il primo fatto da accettare: convertire da JPG a PNG non migliora l'immagine. Il PNG è senza perdita, ma può solo conservare ciò che esiste — e ciò che esiste in un JPG è già il risultato di una compressione con perdita. Gli artefatti cotti nel file viaggiano nel PNG intatti.",
+          "Ciò che la conversione offre è un futuro sicuro. Un PNG tiene ogni pixel esattamente, quindi dal momento della conversione in poi, modificare, ritagliare e risalvare non costa nulla in qualità. Tenere un JPG come master di lavoro significa che ogni salvataggio ricomprime e compone il danno.",
+          "Quindi il giusto modello mentale è «stabilizzare»: la conversione vale la pena quando il JPG è la tua copia migliore e pensi di continuare a modificarla, archiviarla o riesportarla. È inutile come pretesa cosmetica — nessuno può guardare il PNG e vedere un miglioramento.",
+        ],
+      },
+      {
+        heading: "Aspettative di dimensione e comportamento del formato",
+        paragraphs: [
+          "Aspettati che il file cresca. L'abile compressione del JPEG scarta dati che il PNG deve conservare fedelmente, quindi la stessa immagine come PNG è tipicamente parecchie volte più grande del JPG — il PNG sta pagando l'esattezza, compresi tutti gli artefatti che il JPG ha lasciato.",
+          "Per i contenuti fotografici questa dimensione di solito non vale il prezzo, a meno che non ti serva: tieni le foto come JPG per la condivisione, e converti in PNG quando l'immagine entra in un flusso di editing dove i salvataggi ripetuti la degraderebbero altrimenti.",
+          "Dove la conversione brilla davvero è il caso misto: immagini con testo o grafica piatta salvate erroneamente come JPG. Sono già danneggiate, ma congelarle in PNG impedisce al danno di crescere a ogni modifica o salvataggio ulteriore.",
+        ],
+      },
+      {
+        heading: "Flussi di editing ed elaborazione locale",
+        paragraphs: [
+          "La regola pratica per le catene di editing: converti in PNG all'inizio, fai tutta la modifica in territorio senza perdita, ed esporta in JPG solo come ultimo passo di consegna. Così il passo con perdita avviene esattamente una volta, alla fine, anziché a ogni modifica.",
+          "Archivi e master traggono beneficio per un motivo diverso: i formati derivano e il software invecchia, ma i dati pixel senza perdita del PNG sono la rappresentazione più durevole di ciò che il file contiene davvero. Convertire la tua copia migliore in PNG è una piccola polizza assicurativa contro i futuri errori di ricompressione.",
+          "Come ovunque su questo sito, la conversione gira in locale nel tuo browser — decodifica, codifica e scaricamento avvengono sul tuo dispositivo senza caricamenti. Convertire foto personali o master di clienti quindi non li espone mai a un server di terzi.",
+        ],
+      },
+    ],
   },
   "merge-images": {
     name: "Unisci immagini",
@@ -863,6 +1640,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "L'ordine è importante?",
         a: "Sì — le immagini vengono piazzate nell'ordine della lista, da sinistra a destra e dall'alto in basso. Togli e riaggiungi per cambiarlo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Scegliere il layout: affiancate, impilate o a griglia",
+        paragraphs: [
+          "L'unione è una decisione di layout prima che tecnica. L'unione orizzontale si addice alle sequenze che si leggono da sinistra a destra — confronti prima/dopo, passaggio uno accanto al passaggio due. L'impilamento verticale si addice a elenchi e contenuti in stile chat, dove ogni immagine prosegue verso il basso. I layout a griglia si addicono a collage e confronti a più pannelli dove nessun ordine di lettura domina.",
+          "La variabile nascosta sono le dimensioni d'input diverse. Quando le immagini unite non condividono una dimensione, lo strumento deve decidere: stirare per allineare (deforma), bordare per allineare (letterbox con colore di sfondo), o allineare a un bordo e accettare l'asimmetria. Sapere quale comportamento ottieni evita la maggior parte delle sorprese.",
+          "Spaziatura e colore di sfondo sono lo strato di rifinitura: qualche pixel di gap con uno sfondo neutro trasforma due immagini accostate a forza in un composito intenzionale. Su sfondi trasparenti il gap resta trasparente nell'output PNG, cosa che conta per le sovrapposizioni.",
+        ],
+      },
+      {
+        heading: "Comportamento del formato durante l'unione",
+        paragraphs: [
+          "L'unione è di solito senza perdita nella struttura — è composizione, non compressione — ma il formato di output decide cosa succede dopo. L'output PNG conserva ogni pixel d'input esattamente e mantiene la trasparenza; è l'impostazione sicura per screenshot, grafica e tutto ciò che contiene testo.",
+          "L'output JPG cuoce il risultato unito in un rettangolo piatto: i gap trasparenti diventano un riempimento pieno, e l'intero composito prende un giro di compressione con perdita. Va bene per i compositi fotografici ed è richiesto in termini di dimensione quando molte foto grandi si fondono in un solo file.",
+          "Occhio alle dimensioni totali: l'unione verticale somma le altezze e tiene la larghezza massima, quindi una cartella di screenshot alti può produrre un risultato più alto di quanto molti lettori mostrino comodamente. Spezzare o scalare gli input prima dell'unione a volte batte un unico output enorme.",
+        ],
+      },
+      {
+        heading: "L'unione locale tiene i compositi privati",
+        paragraphs: [
+          "Le immagini unite spesso combinano contenuti sensibili: un confronto tra due dashboard interne, screenshot di documentazione che mostrano percorsi di file e nomi utente, foto personali prima/dopo. Un unificatore basato su caricamento vede ogni input per intero — il composito e tutte le sue parti.",
+          "Questo strumento compone interamente nel tuo browser: ogni immagine viene decodificata e disegnata su una canvas condivisa in locale, e il file unito viene scritto sul tuo disco. Nessun input lascia mai il tuo dispositivo, quindi le parti restano private quanto il risultato finale.",
+          "L'ordine conta per la riproducibilità: annota o conserva l'ordine in cui le immagini sono state aggiunte, perché un'unione invertita o rimescolata produce un file visivamente simile ma semanticamente diverso — fatale per i confronti prima/dopo dove la direzione è l'intero messaggio.",
+        ],
       },
     ],
   },
@@ -894,6 +1697,32 @@ export const it: Record<string, ToolCopy> = {
         a: "La precisione dell'OCR dipende moltissimo dalla sorgente: foto sfocate, pagine curve, font piccoli e sfondi affollati causano letture sbagliate. Usa l'immagine più nitida che hai, ritaglia solo l'area del testo e aspettati di rileggere — soprattutto numeri e caratteri simili.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come l'OCR trasforma i pixel in testo",
+        paragraphs: [
+          "Il riconoscimento ottico dei caratteri è una catena di montaggio, non un passo singolo: prima l'immagine viene pre-elaborata (regolazione del contrasto, riduzione del rumore, raddrizzamento), poi il layout viene analizzato per trovare le regioni che sembrano blocchi di testo, poi un modello di riconoscimento mappa ogni forma di carattere a una lettera, e infine i pezzi vengono riassemblati in righe e paragrafi.",
+          "L'accuratezza dipende fortemente dalla qualità della fonte. Scansioni pulite e ad alta risoluzione di testo dattiloscritto con buon contrasto possono avvicinarsi al riconoscimento perfetto; foto a bassa risoluzione, pagine storte, font ornati e scrittura a mano fanno cadere l'accuratezza di netto. La regola pratica è: più l'immagine somiglia a un documento fotocopiato, meglio va.",
+          "L'impostazione della lingua conta quanto la qualità dell'immagine: il riconoscitore deve sapere quale alfabeto e quali forme di parole aspettarsi. L'OCR su una ricevuta giapponese con un modello inglese produce assurdi sicuri di sé — abbina sempre il modello alla lingua del testo.",
+        ],
+      },
+      {
+        heading: "Ottenere risultati migliori da fonti imperfette",
+        paragraphs: [
+          "Poche abitudini alzano l'accuratezza in modo evidente. Ritaglia via l'ambiente irrilevante prima di eseguire il riconoscimento, raddrizza o rifai le pagine storte, e aumenta il contrasto se il testo è tenue — gli screenshot di testo di solito battono le foto di schermi, perché non hanno né prospettiva né riflesso.",
+          "Diffida delle confusioni di caratteri che i modelli sbagliano a bassa qualità: 0 e O, 1 e l e I, rn e m. I numeri in tabelle, codici e importi meritano un passaggio manuale — una cifra sbagliata in un conto bancario o in un prezzo è il classico fallimento dell'OCR.",
+          "Tratta l'output come una bozza, non una trascrizione: rileggi tutto ciò che incollerai in un documento, e conserva l'immagine originale. La combinazione di riconoscimento rapido della macchina più un breve controllo umano è molto più affidabile di uno dei due da solo.",
+        ],
+      },
+      {
+        heading: "La privacy è il motivo per cui l'OCR locale conta",
+        paragraphs: [
+          "I documenti che la gente passa all'OCR sono esattamente quelli sensibili: contratti, scansioni di documenti d'identità, buste paga, ricevute con numeri di carta, note manoscritte. I servizi OCR basati su caricamento ricevono l'immagine completa — e quindi il testo e qualunque dato personale in essa — su un'infrastruttura di qualcun altro.",
+          "Questo strumento esegue il riconoscimento interamente nel tuo browser: l'immagine viene elaborata sul tuo dispositivo e il testo estratto resta sul tuo schermo. Nulla viene trasmesso, quindi l'OCR su documenti riservati non porta alcun rischio di caricamento.",
+          "Una conseguenza pratica: puoi passare all'OCR documenti sotto NDA, pratiche mediche o registri interni senza prima controllare la policy privacy di nessuno, perché nel processo non è coinvolto alcun soggetto esterno.",
+        ],
+      },
+    ],
   },
   "png-to-jpg": {
     name: "PNG in JPG",
@@ -922,6 +1751,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Convertire cambia solo la codifica; non può aggiungere dettaglio. Se il PNG stesso sembra già morbido, il JPG apparirà altrettanto morbido (con un possibile fruscio di compressione a qualità molto basse).",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che accade quando il senza-perdita incontra il con-perdita",
+        paragraphs: [
+          "Il PNG memorizza ogni pixel esattamente: la compressione è senza perdita, quindi la decodifica restituisce l'immagine identica. Il JPEG scarta dati che l'occhio è meno propenso a notare, scambiando fedeltà esatta per file molto più piccoli. Convertire PNG in JPG significa quindi scegliere di perdere informazione in cambio di dimensione.",
+          "Per le fotografie lo scambio è quasi invisibile: una foto salvata da PNG a JPG ad alta qualità appare uguale e tipicamente si restringe di parecchie volte. Le perdite si concentrano dove il PNG proteggeva la precisione — bordi netti, testo, grafica a tinta piatta e gradienti uniformi — dove il JPEG produce aloni di ringing e bande.",
+          "Una perdita strutturale è totale: la trasparenza. Il canale alfa del PNG non può sopravvivere nel JPG, quindi le aree trasparenti vanno riempite con un colore di sfondo, di solito bianco. Se il tuo PNG ha regioni trasparenti e lo sfondo di destinazione non è bianco, aspettati una casella visibile a meno che tu non riempia prima col colore giusto.",
+        ],
+      },
+      {
+        heading: "Quando la conversione vale — e quando no",
+        paragraphs: [
+          "Converti quando dimensione o compatibilità lo esigono: piattaforme che respingono caricamenti PNG, moduli con limiti di dimensione dei file, gallerie di foto con centinaia di immagini. Un PNG fotografico è quasi sempre uno spreco di byte — le fotocamere non producono mai PNG, quindi un PNG fotografico di solito viene da una catena di screenshot o da un errore di esportazione, e il JPG lo dimezza senza cambiamento visibile.",
+          "Non convertire quando la precisione è il punto: loghi, screenshot di interfaccia, diagrammi, pixel art e tutto ciò che contiene testo dovrebbe restare PNG. Convertirli in JPG compra poca dimensione e costa bordi nitidi non recuperabili.",
+          "La questione del riempimento di sfondo merita una decisione anziché un predefinito: il bianco si addice alla maggior parte dei contesti di stampa e documento; un colore che corrisponde alla pagina di destinazione si addice alla grafica web. Scegliere il colore di riempimento con intenzione è la differenza tra una conversione pulita e una evidentissima.",
+        ],
+      },
+      {
+        heading: "La conversione locale tiene i file privati",
+        paragraphs: [
+          "La conversione gira interamente nel tuo browser: il PNG viene decodificato, composto sullo sfondo scelto, ricodificato come JPG e restituito — tutto sul tuo dispositivo. Nessuna fase di caricamento significa che gli screenshot di strumenti interni, i materiali dei clienti o i documenti personali non toccano mai un server.",
+          "L'elaborazione è istantanea, quindi il flusso pratico per i lotti misti è controllare prima il contenuto di ogni immagine: quelle fotografiche passano per la conversione, quelle grafiche restano PNG. Non esiste un'unica impostazione che faccia questa scelta per te — la risposta giusta dipende da ciò che contiene ogni file.",
+          "Conserva l'originale PNG dopo la conversione. Il JPG non può tornare indietro: una volta che il dettaglio ad alta frequenza e il canale alfa sono spariti, nessuno strumento può ripristinarli, e l'originale è la tua sola via verso un colore di sfondo diverso o una riesportazione senza perdita più avanti.",
+        ],
+      },
+    ],
   },
   "rotate-image": {
     name: "Ruota immagini",
@@ -948,6 +1803,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso specchiare una foto in orizzontale come uno specchio?",
         a: "Sì — usa il pulsante «Capovolgi orizzontale» per specchiare destra-sinistra, o «Capovolgi verticale» per alto-basso. Si possono combinare con qualsiasi rotazione.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La rotazione riorganizza i pixel — non li mai ricampiona",
+        paragraphs: [
+          "Una rotazione di 90 gradi è il caso pulito: ogni pixel si sposta a una nuova coordinata e non serve alcuna interpolazione, quindi il contenuto dell'immagine è identico al pixel dopo l'operazione. Le dimensioni semplicemente si scambiano — una foto 4000×3000 diventa 3000×4000.",
+          "Gli angoli arbitrari sono diversi: nessun rettangolo ruotato torna sulla griglia di pixel originale, quindi gli angoli vanno riempiti con un colore di sfondo e il contenuto va interpolato per cadere sui punti della griglia. Per questo un'inclinazione di 10 gradi mostra triangoli negli angoli e perché rotazioni pesanti su immagini piccole ammorbidiscono i bordi.",
+          "La conseguenza pratica è preferire i quarti di giro quando possibile e fare le rotazioni ad angolo libero dalla sorgente a più alta risoluzione disponibile. Se ti serve una correzione di 5 gradi, falle sull'originale, non su una copia già ridimensionata.",
+        ],
+      },
+      {
+        heading: "Perché le foto escono di lato: l'orientamento EXIF",
+        paragraphs: [
+          "Il classico problema della foto del telefono di lato non è un bug di rotazione — è un metadato. Le fotocamere registrano come era tenuto il sensore in un flag di orientamento EXIF e memorizzano i pixel in un orientamento fisso; i lettori che leggono il flag mostrano la foto dritta, e il software che lo ignora la mostra di lato.",
+          "Per questo una stessa immagine appare corretta sul tuo telefono e di lato in un vecchio strumento web o in un editor foto: i due non concordano se fidarsi del flag. I browser ormai lo rispettano in maggioranza, il che può confondere quando lo stesso file ruota inaspettatamente una volta scaricato e riaperto altrove.",
+          "Strumenti di rotazione come questo lavorano sui pixel reali e producono un file correttamente orientato, quindi il risultato è corretto ovunque a prescindere da come il software successivo tratta i metadati. Dopo una rotazione deliberata, il file non dipende più affatto dal flag.",
+        ],
+      },
+      {
+        heading: "Elaborazione locale e abitudini di rotazione sicure",
+        paragraphs: [
+          "La rotazione gira interamente nel tuo browser: l'immagine viene decodificata, trasformata e ricodificata sul tuo dispositivo senza caricamenti. Documenti, foto di famiglia o scatti non rilasciati ruotano senza che nessuno di essi viaggi verso un server.",
+          "Ruota dall'originale, salva il risultato come nuovo file, e tienili entrambi. La rotazione ad angoli arbitrari ricodifica l'immagine, e impilare operazioni simili — ruota, ritaglia, ridimensiona, ruota di nuovo — compone la perdita generazionale esattamente come i salvataggi JPEG ripetuti.",
+          "Un'altra abitudine: capovolgere e specchiare non sono rotazione. Un'immagine specchiata inverte destra e sinistra, cosa che conta per il testo, i loghi e le scene riconoscibilmente asimmetriche. Se una foto deve essere specchiata, usa uno strumento che lo dichiara — l'output è un'immagine davvero diversa, non semplicemente girata.",
+        ],
       },
     ],
   },
@@ -979,6 +1860,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Vengono toccati solo gli angoli — i pixel interni restano intatti. L'output PNG è senza perdita, mentre il JPG viene ricodificato ad alta qualità, il che può spostare leggermente il peso del file in una direzione o nell'altra.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come funzionano davvero gli angoli arrotondati",
+        paragraphs: [
+          "Le immagini sono rettangolari per natura, quindi un angolo arrotondato non è qualcosa che un'immagine «possiede» — è trasparenza scavata nei quattro angoli. L'arrotondamento si fa con un canale alfa: i pixel dentro il quarto di cerchio restano opachi, i pixel fuori diventano pienamente trasparenti, e i pochi pixel sull'arco stesso prendono una trasparenza parziale per smussare la curva.",
+          "Per questo l'output deve essere PNG (o WebP con alfa): il JPG non può memorizzare la trasparenza, quindi riempirebbe gli angoli scavati con un colore pieno e l'arrotondamento sarebbe finto — un bordo quadrato bianco o nero ben visibile su qualsiasi sfondo non corrispondente.",
+          "Il raggio decide il carattere: un raggio piccolo si legge come un tocco moderno sottile, un raggio di metà lato corto trasforma l'intera immagine in una pillola o un cerchio. Allineare il raggio ai valori di border-radius del design system tiene gli screenshot coerenti con l'interfaccia attorno.",
+        ],
+      },
+      {
+        heading: "Dove gli angoli arrotondati contano nei layout reali",
+        paragraphs: [
+          "I design system arrotondano quasi tutto: schede, pulsanti, avatar, tile di immagini. Uno screenshot ad angoli vivi calato in una scheda arrotondata appare come un artefatto d'altra epoca; arrotondare lo screenshot allo stesso raggio lo fa sentire nativo del layout.",
+          "Presentazioni e documentazione traggono beneficio allo stesso modo: gli screenshot arrotondati si leggono come design deliberato, mentre i quadrati si leggono come incollaggi grezzi. I pochi pixel di trasparenza lasciano inoltre trasparire lo sfondo della pagina o della slide, legando l'immagine al suo contesto.",
+          "Per i social e la messaggistica, gli angoli arrotondati prendono in prestito credibilità dall'interfaccia delle app — le immagini che sembrano uscite da un prodotto curato vengono prese più sul serio delle acquisizioni grezze dai bordi vivi. L'effetto è piccolo ma costante.",
+        ],
+      },
+      {
+        heading: "Elaborazione locale e note di flusso",
+        paragraphs: [
+          "L'arrotondamento gira interamente nel tuo browser: l'immagine viene decodificata, la maschera degli angoli viene applicata, e il PNG trasparente viene generato sul tuo dispositivo. Nulla viene caricato — rilevante quando gli screenshot da arrotondare mostrano strumenti interni, dati di clienti o contesto personale.",
+          "La modalità blocco gestisce il caso comune: un set di documentazione dove ogni screenshot richiede lo stesso raggio. Applica un raggio all'intera cartella e scarica i risultati, anziché ridigitare il valore per ogni immagine.",
+          "Conserva l'originale quadrato. I pixel degli angoli sono rimossi per sempre, quindi se la scelta del raggio cambia più avanti — un aggiornamento del design system, una piattaforma diversa — l'unica via è ri-arrotondare dalla sorgente non ritagliata, non dall'output già arrotondato.",
+        ],
+      },
+    ],
   },
   "screenshot-tool": {
     name: "Strumento screenshot",
@@ -1005,6 +1912,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Funziona su telefoni o tablet?",
         a: "No. I browser su iOS e Android non offrono la cattura dello schermo alle pagine web, quindi lo strumento spiega che lì non è disponibile. Su desktop lo supportano Chrome, Edge, Firefox e Safari.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Acquisisci negli appunti, poi vestila",
+        paragraphs: [
+          "Un'acquisizione dello schermo è raramente l'asset finale: le serve una cornice, angoli arrotondati, una regolazione di colore o dimensione prima di entrare in una slide, una segnalazione di bug o un post social. Acquisire direttamente nella vista di modifica fonde due passaggi in uno — cattura la regione, sistema, scarica — invece di saltare tra scorciatoia del sistema, editor e file manager.",
+          "Le cornici sono la vestizione più preziosa per gli screenshot: un bordo sottile in colore neutro separa l'immagine da qualunque sfondo su cui finisce, specialmente sulle pagine con lo stesso sfondo bianco dello screenshot stesso. Senza bordo, uno screenshot dal fondo bianco si dissolve semplicemente nella pagina.",
+          "Le annotazioni sbiadiscono presto dalla memoria, quindi l'abitudine che paga è acquisire, vestire e salvare subito — gli screenshot lasciati come dati grezzi negli appunti tendono a perdere contesto, e ri-acquisire uno stato effimero dell'interfaccia (un menu aperto, un suggerimento visibile) può essere impossibile minuti dopo.",
+        ],
+      },
+      {
+        heading: "Perché gli screenshot meritano il PNG senza perdita",
+        paragraphs: [
+          "Gli screenshot sono il caso da manuale per PNG contro JPG: contengono riempimenti piatti, bordi netti e testo — esattamente il contenuto che la compressione JPEG danneggia con aloni di ringing attorno alle lettere e bande nei gradienti piatti. Uno screenshot JPG sembra sottilmente sporco; uno PNG è identico al pixel a ciò che era a schermo.",
+          "L'unico posto dove il JPG vince sono gli screenshot di fotografie: una foto mostrata a schermo contiene dettaglio d'immagine naturale che si comprime bene. Per tutto il resto — finestre, terminali, documenti, elementi di interfaccia — il sovrapprezzo di dimensione del PNG compra pulizia visibile.",
+          "Se la dimensione del file conta (alcuni moduli limitano gli screenshot a poche centinaia di KB), la leva onesta è la regione di cattura: ritaglia stretto prima di toccare le impostazioni di qualità. Un PNG ritagliato stretto della finestra rilevante è sia più piccolo sia più utile di un JPG a tutto schermo.",
+        ],
+      },
+      {
+        heading: "Ciò che resta sul tuo dispositivo",
+        paragraphs: [
+          "Gli screenshot mostrano spesso contesto privato: dashboard interne, messaggi personali, nomi di file, schede del browser, dati di clienti. Caricare uno screenshot a un servizio di cattura invia tutto quel contesto al server di uno sconosciuto — un rischio del tutto evitato quando cattura e modifica avvengono in locale.",
+          "Questo strumento acquisisce ed elabora nel tuo browser: i pixel vengono dalla tua sessione schermo, i passaggi di vestizione girano sul tuo dispositivo e il file viene scritto direttamente sul tuo disco. Nulla viene trasmesso in nessun momento.",
+          "Un'abitudine privacy da adottare: prima di salvare qualsiasi screenshot per la condivisione, scansiona i bordi della cattura in cerca di contesto involontario — un secondo monitor, una notifica, una barra degli indirizzi. È più facile ri-acquisire un fotogramma pulito che annullare una perdita.",
+        ],
       },
     ],
   },
@@ -1035,6 +1968,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì. L'output è un PNG con alpha pieno, quindi la tua icona conserva la trasparenza esattamente come nell'SVG. Solo i font e le immagini esterne richiamati dall'SVG potrebbero dover essere incorporati nel file stesso per renderizzare.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché l'SVG scala all'infinito e i formati raster no",
+        paragraphs: [
+          "Un'immagine raster (JPG, PNG, WebP) è una griglia fissa di pixel: ingrandiscila e la griglia si stira, quindi i bordi sfocano e appaiono blocchi. Un SVG non è affatto una griglia — è un elenco di istruzioni di disegno (linee, curve, forme, riempimenti) che il renderer ricalcola alla dimensione richiesta. Zooma al 5000% e ogni bordo resta affilato come un rasoio, perché i bordi vengono ridisegnati, non ingranditi.",
+          "Per questo loghi, icone e diagrammi sono materiale SVG ideale: forme geometriche a colori piatti sopravvivono perfettamente alla descrizione vettoriale. Le fotografie sono il caso opposto — una foto descritta come vettori diventa o enorme o un'approssimazione brutta, motivo per cui i convertitori da foto a SVG tracciano le immagini in forme stilizzate anziché in rappresentazioni vere.",
+          "L'SVG è anche testo: un file XML che puoi aprire in un editor, versionare come codice e ritoccare a mano in colori o percorsi. Quella ispezionabilità è un superpotere silenzioso — il colore di un'icona può essere ridisegnato cambiando un attributo invece di riesportare.",
+        ],
+      },
+      {
+        heading: "Da raster a SVG contro da SVG a raster: due lavori molto diversi",
+        paragraphs: [
+          "Convertire da SVG a raster è uno scatto fedele: il renderer disegna le forme vettoriali alla dimensione scelta e mette a pixel il risultato. Scegli la dimensione giusta — il PNG/JPG renderizzato è fissato a quella risoluzione e da lì in poi si comporta come qualsiasi altra immagine raster.",
+          "Convertire da raster a SVG è interpretazione, non traduzione. Gli algoritmi di tracciamento approssimano le regioni di pixel con curve e aree di colore, quindi l'output è una ricostruzione stilizzata: eccellente per loghi e grafica semplice che necessita scalabilità, sbagliata per tutto ciò che deve apparire identico al pixel alla foto originale.",
+          "Scegli la direzione per necessità: se la tua sorgente è già vettoriale e la piattaforma di destinazione accetta solo raster, converti verso il basso e dimensiona generosamente per gli schermi retina. Se la tua sorgente è una grafica semplice intrappolata in PNG e ti serve scala infinita o file minuscoli, il tracciamento in SVG è l'upgrade.",
+        ],
+      },
+      {
+        heading: "Note pratiche ed elaborazione locale",
+        paragraphs: [
+          "I file SVG sono di solito minuscoli — un'icona descritta con pochi percorsi può pesare una frazione di kilobyte contro decine di kilobyte del PNG equivalente. Per le interfacce ricche di icone quella differenza si moltiplica su ogni asset e ogni caricamento di pagina.",
+          "Una nota di compatibilità: alcune superfici limitano l'SVG perché può contenere script. Se una piattaforma blocca i caricamenti SVG, esportare una versione PNG grande è la soluzione standard — generala a due o tre volte la dimensione di visualizzazione così resta nitida sugli schermi ad alta densità.",
+          "La conversione qui gira interamente nel tuo browser: renderizzazione e tracciamento avvengono sul tuo dispositivo, senza fase di caricamento. Convertire loghi di clienti, asset di marca o diagrammi interni non li spedisce mai a un server.",
+        ],
+      },
+    ],
   },
   "watermark-image": {
     name: "Filigrana immagini",
@@ -1056,6 +2015,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Funziona con i PNG trasparenti?",
         a: "L'output è JPG, quindi la trasparenza viene appiattita sul bianco. Se ti serve l'alpha, metti la filigrana al PNG originale con un colore di sfondo a tua scelta.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che una filigrana può e non può proteggere",
+        paragraphs: [
+          "Una filigrana è un deterrente e un'attribuzione, non una serratura. I marchi visibili rendono meno attraente il furto casuale — immagini scraffionate con un logo non valgono nulla per chi fa passare il lavoro altrui per proprio — ma non impediscono ritaglio, inpainting o rimozione determinata, e da sole non provano nulla sulla paternità.",
+          "Il posizionamento è tutto il gioco per la visibilità: un marchio in un angolo si ritaglia via banalmente, mentre un marchio ripetuto o centrato sopravvive al ritaglio ma cambia l'immagine di più. L'uso editoriale e di anteprima preferisce i marchi d'angolo, con l'assunzione onesta che l'acquirente ottenga la versione pulita; la protezione di immagini solo condivise preferisce posizionamenti più invasivi.",
+          "L'opacità è l'altra manopola: troppo sottile e il marchio sparisce sugli sfondi fitti, troppo forte e svaluta l'anteprima che dovrebbe pubblicizzare. Attorno al 40–60% di opacità con un colore che contrasta con la maggior parte dell'immagine è la gamma di lavoro abituale.",
+        ],
+      },
+      {
+        heading: "Marchi di testo contro loghi in immagine",
+        paragraphs: [
+          "Una filigrana di testo è rapida e flessibile — digita un nome, un handle o una riga di copyright e regola dimensione e posizione. Il suo punto debole è l'impersonalità: i marchi di testo semplici sono facili da imitare, quindi una filigrana di testo attribuisce ma marca appena.",
+          "Una filigrana basata su immagine (un logo PNG con trasparenza) porta identità di marca e sopravvive ai cambi di formato — chiunque copi la foto filigranata copia il tuo logo con essa. Richiede un asset preparato, ma quell'unico asset poi filigrana un intero lotto in un passaggio.",
+          "Per il lavoro in blocco la combinazione conta meno della coerenza: stessa posizione, stessa opacità, stessa dimensione su ogni immagine. Un portfolio filigranato appare professionale quando il marchio è prevedibile, e amatoriale quando saltella da fotogramma a fotogramma.",
+        ],
+      },
+      {
+        heading: "L'elaborazione locale protegge gli originali puliti",
+        paragraphs: [
+          "Filigranare significa dare a uno strumento le tue migliori immagini non marcate — proprio gli asset che più vorresti tenere fuori dai server altrui. Un servizio di filigranatura basato su caricamento riceve i tuoi originali puliti a piena risoluzione, il che rovescia lo scopo dell'esercizio.",
+          "Questo strumento elabora interamente nel tuo browser: l'immagine originale e l'asset della filigrana vengono composti in locale, e l'output viene scritto sul tuo disco. La versione pulita non lascia mai il tuo dispositivo, quindi fuori da esso esiste solo la versione marcata.",
+          "Conserva i master non marcati separatamente e con cura: se mai dovrai ri-filigranare a una nuova dimensione o posizione, l'originale pulito è l'unica fonte. E non pubblicare mai il file pulito per errore — la maggior parte delle perdite di immagini protette arriva dalla copia non protetta, non da qualcuno che cancella il marchio.",
+        ],
       },
     ],
   },
@@ -1084,6 +2069,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "La conversione in WebP è senza perdita?",
         a: "Decidi tu: WebP supporta sia la codifica senza perdita sia quella con perdita. Alla qualità predefinita 90 il risultato è indistinguibile a occhio ma molto più piccolo; abbassa il cursore per il massimo risparmio, oppure scegli output PNG per la rigorosa assenza di perdite.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché esiste WebP e cosa vince",
+        paragraphs: [
+          "WebP fu creato da Google per risolvere un problema specifico: il JPEG ha tre decenni e i file senza perdita del PNG sono grandi. WebP comprime meglio su entrambi i fronti — la sua modalità con perdita usa tecniche di codifica video VP8, e la sua modalità senza perdita di solito batte il PNG — supportando inoltre trasparenza e animazione, cosa che il JPEG non può.",
+          "La vittoria pratica è il peso della pagina. Le foto codificate come WebP a qualità visivamente equivalente escono comunemente di decine di percento più piccole del JPEG. Su una pagina ricca di immagini ciò si traduce direttamente in caricamenti più rapidi, meno banda e punteggi Core Web Vitals migliori, motivo per cui la maggior parte dei grandi siti ora serve WebP ai browser capaci.",
+          "L'aggancio è sempre stato il supporto. WebP funziona in tutti i browser moderni, ma alcune app native, sistemi operativi vecchi, certi editor di immagini e parecchie installazioni CMS lo rifiutano ancora — che è esattamente perché convertire WebP in JPG o PNG resta un bisogno comune e pratico.",
+        ],
+      },
+      {
+        heading: "Convertire fuori da WebP: cosa aspettarsi",
+        paragraphs: [
+          "Se il tuo WebP è stato salvato in modalità con perdita, convertirlo in JPG è una ricodifica di dati già compressi: la perdita di qualità è di solito minore alle alte impostazioni, ma passare per più formati con perdita compone artefatti, quindi converti una volta e conserva il risultato.",
+          "Convertire in PNG produce un file senza perdita che sarà notevolmente più grande del WebP — spesso parecchie volte per le foto. Non è un difetto: il PNG sta pagando la fedeltà esatta dei pixel, ed è la scelta giusta quando ti serve trasparenza o pensi di ri-modificare l'immagine.",
+          "Regola pratica: JPG per contenuti fotografici destinati a condivisione o moduli che non accettano WebP; PNG per grafica, screenshot, immagini trasparenti e tutto ciò che sarà ulteriormente modificato. Guarda la dimensione dell'output dopo la conversione — se il PNG si gonfia, la sorgente era fotografica e il JPG era probabilmente la destinazione migliore.",
+        ],
+      },
+      {
+        heading: "Conversione locale e note di flusso",
+        paragraphs: [
+          "Questo convertitore decodifica il WebP e lo ricodifica nel formato scelto interamente nel tuo browser — nessun caricamento, nessuna coda, nessuna attesa di un viaggio verso il server. Il file non lascia mai il tuo dispositivo, cosa che conta per design non rilasciati, asset di clienti o foto personali.",
+          "La modalità blocco si adatta allo scenario comune: hai scaricato un set di immagini WebP da un sito o da una consegna di design e uno strumento a valle — un CMS, un marketplace, un servizio di stampa — accetta solo JPG o PNG. Converti l'intera cartella una volta sola invece di litigare file per file.",
+          "In dubbio, conserva il WebP originale. Se la sorgente era un WebP con perdita, è già la versione di migliore qualità che possiedi; qualsiasi conversione può solo scendere in fedeltà da lì, quindi l'originale è la tua rete di sicurezza per future ricodifiche.",
+        ],
       },
     ],
   },
@@ -1116,6 +2127,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La conversione avviene in locale nel tuo browser con JavaScript — nulla viene inviato a nessun server.",
       },
     ],
+    deepDive: [
+      {
+        heading: "La mappatura dei casi non è semplice come sembra",
+        paragraphs: [
+          "Maiuscolo e minuscolo sono proprietà Unicode, e alcune lingue rompono l'assunzione ingenua uno-a-uno. L'esempio più famoso è il turco: la i senza punto (ı) passa a maiuscolo come I, e la I scende in minuscolo come ı, non i — per cui il software una volta spediva un bug soprannominato il «problema della I turca». Il ß tedesco non ha forma maiuscola tradizionale; la maggior parte del software lo mappa nelle due lettere SS, e benché Unicode abbia aggiunto una maiuscola ẞ nel 2008, dizionari e corpo testo preferiscono ancora SS.",
+          "Le lettere accentate come é, ñ, ü si convertono pulite perché sono punti di codice singoli, ma una lettera scritta come e seguita da un accento combinante si converte come due caratteri, e il caso dell'accento non cambia. Il sigma finale greco è un altro caso speciale: Σ alla fine di una parola mappa a ς anziché σ nella gestione corretta del testo.",
+          "Questo strumento converte lettera per lettera usando le regole Unicode standard e tiene gli accenti intatti, così il testo europeo sopravvive ai viaggi di andata e ritorno maiuscolo/minuscolo. Non implementa separatamente le regole locali turche — come farebbe un localizzatore consapevole della lingua — ma non scarterà mai in silenzio né mutilerà un carattere come fanno i script ingenui solo ASCII.",
+        ],
+      },
+      {
+        heading: "Title Case e la regola delle parole piccole",
+        paragraphs: [
+          "Lo stile dei titoli inglese mette in minuscolo le parole funzione brevi — articoli come a e the, preposizioni brevi come of, in e to, e congiunzioni coordinanti come and e but — a meno che non siano la prima o l'ultima parola del titolo. Le liste esatte di parole differiscono tra le guide di stile: il tetto dell'AP è più corto, Chicago mette in minuscolo più preposizioni a prescindere dalla lunghezza. La maggior parte degli strumenti web codifica una lista fissa; questo segue la convenzione editoriale comune di tenere articoli e preposizioni brevi in minuscolo a metà titolo.",
+          "La regola è genuinamente centrata sull'inglese. In spagnolo e francese i titoli di solito mantengono la maiuscola normale da frase, quindi applicare il Title Case inglese a una frase francese produce qualcosa che appare sbagliato a un lettore nativo. Il tedesco mette in maiuscolo i sostantivi invece. Il caso frase è l'impostazione più sicura per il testo multilingue, motivo per cui questo strumento ri-maiuscola anche dopo i segni di punteggiatura a larghezza piena — così una frase cinese seguita da una frase inglese viene gestita correttamente.",
+          "Nel dubbio su uno stile di casa, controlla la guida di stile contro cui scrivi e tratta l'output dello strumento come un punto di partenza. Un titolo di una parola come «The Shining» dimostra la regola del bordo: the è prima, quindi resta maiuscolo anche se sarebbe minuscolo a metà titolo.",
+        ],
+      },
+      {
+        heading: "Stili dei programmatori e ciò che resta locale",
+        paragraphs: [
+          "camelCase, PascalCase, snake_case, kebab-case e CONSTANT_CASE esistono perché lingue diverse hanno convenzioni di identificatore diverse: JavaScript e Java si appoggiano al camelCase, Python preferisce il snake_case, i nomi degli attributi CSS e HTML usano il kebab-case. Convertire tra loro non è solo rimuovere spazi — lo strumento spezza prima i confini del camelCase come parseHTMLValue in parole separate, così l'output non fonde un acronimo nella parola seguente.",
+          "Punteggiatura, cifre e caratteri CJK attraversano gli stili di codice invariati: non esiste versione maiuscola di un carattere cinese, e il caso alternato ribalta solo le lettere latine, lasciando al suo posto lo schema dei simboli. Questo rende l'output prevedibile quando incolli contenuti misti come «item-2: done».",
+          "Tutto gira nel tuo browser come JavaScript semplice. Il tuo testo non lascia mai la pagina — nessuna chiamata al server, nessun trucco con gli appunti, nulla da leakare. Convertire bozza proprietarie, identificatori interni o nomi di clienti è sicuro quanto incollare nel tuo editor.",
+        ],
+      },
+    ],
   },
   "character-counter": {
     name: "Contatore caratteri",
@@ -1142,6 +2179,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Quali piattaforme hanno limiti in caratteri?",
         a: "I post su X/Twitter, i meta titoli (circa 60) e le descrizioni (circa 160), i segmenti SMS (160) e la maggior parte delle piattaforme pubblicitarie — controlla sempre il campo specifico per cui stai scrivendo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Caratteri contro cluster di grafemi",
+        paragraphs: [
+          "La parola «carattere» nasconde una trappola: ciò che un utente percepisce come un carattere non sempre è un'unità di codice sola. Emoji con tonalità della pelle, bandiere e combinazioni di famiglia, lettere accentate scritte come base più segno combinante e congiunte devanagari sono tutte caratteri singoli all'occhio ma diversi punti di codice nella stringa.",
+          "Per questo i contatori seri riportano due numeri: unità di codice (ciò che conta la proprietà length di JavaScript, e ciò che la maggior parte dei limiti delle piattaforme storicamente misurava) e cluster di grafemi (ciò che gli umani vedono). Il divario è reale — un emoji bandiera è 1 cluster ma 4 unità di codice UTF-16.",
+          "A fini pratici: le piattaforme social oggi contano di solito più vicino ai cluster di grafemi, mentre i moduli vecchi e i database contano le unità di codice. Quando un limite sta proprio sul confine, la strategia sicura è lasciare margine pari al numero di emoji nel tuo testo.",
+        ],
+      },
+      {
+        heading: "Leggere correttamente i limiti rigidi",
+        paragraphs: [
+          "I limiti di caratteri sono raramente negoziabili, ma sono misurabili: segmenti SMS a 160 caratteri (70 quando compare un carattere non GSM, il che raddoppia il costo per segmento), bio delle piattaforme, obiettivi della meta description attorno ai 150–160 caratteri, meta title attorno ai 50–60. Sapere quale regime si applica al tuo testo batte l'indovinare.",
+          "Il caso SMS merita attenzione speciale perché è il più punitivo: una lettera accentata o un emoji ribalta l'intero messaggio in una codifica diversa e dimezza pressoché i caratteri per segmento. Un messaggio che sta in un segmento come inglese digitato può diventare tre segmenti con un singolo cuore emoji.",
+          "I contatori aiutano anche nella direzione inversa: quando scrivi per un minimo — una risposta di 300 caratteri, un pavimento per la descrizione di un prodotto — guardare un conteggio live elimina la fatica di contare a mano e il rischio di consegnare sotto il limite.",
+        ],
+      },
+      {
+        heading: "Conteggio locale per le bozze private",
+        paragraphs: [
+          "Il conteggio avviene interamente nel tuo browser: il testo viene analizzato in JavaScript locale e mai trasmesso. Questo lo rende adatto a manoscritti non pubblicati, email riservate, lettere di candidatura e a tutto ciò che non incolleresti in un servizio web casuale.",
+          "Il contatore si aggiorna a ogni tasto premuto anziché alla consegna, quindi il flusso è continuo: scrivi, getta un'occhiata al numero, sistema. Non c'è nessun pulsante da premere né viaggio di andata e ritorno da attendere.",
+          "Un'abitudine da adottare: conta la versione finale, non solo le bozze. Le modifiche, specialmente gli incollaggi da altre fonti, cambiano le lunghezze in silenzio, e la versione che consegni davvero è quella il cui conteggio conta.",
+        ],
       },
     ],
   },
@@ -1172,6 +2235,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Ogni emoji che copi viene ricordata nel localStorage del browser (fino a 16). Svuotare i dati del browser azzera l'elenco.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come gli emoji funzionano davvero sotto il cofano",
+        paragraphs: [
+          "Gli emoji non sono immagini — sono punti di codice Unicode renderizzati dal font che la piattaforma fornisce. Lo stesso punto di codice U+1F600 si renderizza come sorriso leggermente diverso su iOS, Android e Windows, motivo per cui un emoji perfetto sul tuo telefono può sembrare strano nello screenshot di un collega.",
+          "I modificatori estendono l'insieme: i modificatori di tonalità della pelle sono punti di codice combinanti che cambiano il carattere base che li precede, le sequenze ZWJ (zero-width joiner) incollano più emoji in uno — combinazioni di famiglia e professione — e i selettori di variante decidono tra resa in stile testo e in stile colore. Un emoji apparentemente semplice può essere una catena di cinque punti di codice.",
+          "Per questo cercare e copiare è più sicuro che comporre a mano: il selettore fornisce la sequenza completa e corretta, mentre le catene assemblate a mano sono una fonte comune di emoji rotti che si renderizzano come due facce separate o una casella vuota.",
+        ],
+      },
+      {
+        heading: "Scegliere e usare gli emoji con intenzione",
+        paragraphs: [
+          "Gli emoji funzionano meglio come punteggiatura del tono, non come sostituti delle parole: un pollice in alto ben collocato chiude un messaggio con calore, mentre un paragrafo stipato di simboli si legge come rumore. I contesti professionali premiano la moderazione — uno o due per messaggio tiene il segnale.",
+          "Occhio alla deriva di significato tra piattaforme: alcuni emoji portano significati secondari che variano per comunità e regione, e una manciata viene letta ampiamente come qualcosa d'altro dal proprio valore di facciata. Nel dubbio, in contesti formali o internazionali, scegli l'opzione letterale non ambigua.",
+          "Copia-incolla è l'interazione centrale perché le sequenze emoji sono fragili da modificare: cancellare un punto di codice a metà di una catena ZWJ rompe l'intero glifo. Modificare attorno agli emoji è più facile riscrivendo il testo attorno e incollando l'emoji fresca.",
+        ],
+      },
+      {
+        heading: "Elaborazione locale e copertura Unicode",
+        paragraphs: [
+          "Il selettore gira interamente nel tuo browser: ricerca, categorizzazione e copia avvengono in locale contro i dati dei nomi Unicode incorporati. Nulla di ciò che cerchi o copi viene trasmesso, cosa che conta quando componi messaggi privati o documenti di lavoro sensibili.",
+          "La ricerca funziona su nomi e parole chiave, quindi i risultati sono buoni quanto la nomenclatura: «sorriso», «fuoco», «stella» trovano le corrispondenze ovvie, mentre gli emoji meno battezzati richiedono la navigazione per categoria. Sfogliare i gruppi — facce, animali, cibo, oggetti, simboli — rispecchia come lo standard Unicode organizza l'insieme.",
+          "Poiché gli emoji sono testo, tutto ciò che copi viene incollato come testo: funziona in qualunque campo che accetta Unicode, dalle email ai commenti nel codice. Se una destinazione mostra una casella vuota, quel dispositivo o font semplicemente non ha un emoji più recente — il punto di codice è corretto anche quando il display non lo è.",
+        ],
+      },
+    ],
   },
   "fancy-text-generator": {
     name: "Generatore di testo fantasioso",
@@ -1198,6 +2287,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Cosa succede ai caratteri come le emoji o il cinese?",
         a: "Restano esattamente come scritti. Il generatore mappa solo lettere e cifre latine, quindi emoji, CJK e lettere accentate passano invariate invece di trasformarsi in caselle vuote.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Non sono font — sono caratteri sosia",
+        paragraphs: [
+          "Gli stili grassetto, corsivo e script che questo strumento produce non sono cambi di font. Mappano le tue lettere a punti di codice Unicode dedicati nel blocco dei Simboli Alfanumerici Matematici (circa U+1D400–U+1D7FF), aggiunti per la notazione matematica così che una A in grassetto in una formula potesse distinguersi da una normale. Il tuo testo resta della stessa dimensione e il font non cambia mai — stai passando a caratteri diversi che somigliano soltanto a lettere stilizzate.",
+          "Quella mappatura spiega sia la magia sia i limiti. Funziona in qualunque campo di testo — bio di Instagram, nomi in chat, titoli di YouTube — perché non è coinvolta alcuna installazione di font. Ma l'alfabeto è incompleto: non ci sono cifre in grassetto accoppiate a ogni stile, nessuna ı senza punto nell'insieme corsivo (mappa a una i con punto ostile al turco), e i glifi mancanti cadono su lettere normali, producendo le stringhe mezzi-fantasiose di cui la gente si lamenta.",
+          "I matematici usano questi punti di codice per semantica vera — 𝔸 può significare «l'insieme di A» in un articolo. Usarli decorativamente dirotta una notazione che i lettori di schermo e gli strumenti di ricerca leggono letteralmente, il che porta al punto successivo.",
+        ],
+      },
+      {
+        heading: "Dove il testo fantasioso si rompe",
+        paragraphs: [
+          "L'Unicode decorativo fallisce in posti prevedibili. I lettori di schermo annunciano 𝕭𝖔𝖑𝖉 come una serie di caratteri matematici in grassetto, il che suona come cose insensate anziché «grassetto» — un problema di accessibilità per ogni follower che si affidi a tecnologie assistive. I motori di ricerca confrontano con le lettere ordinarie, quindi un profilo o un titolo scritto in caratteri fantasiosi può diventare introvabile con il proprio nome.",
+          "Incollare in sistemi che igienizzano l'input può rimuovere in silenzio i caratteri riportandoli a lettere normali o respingerli. Database con codifiche vecchie, SMS (nessuna lettera GSM per questi punti di codice) e terminali vecchi li mutilano tutti. E poiché ogni glifo viene da un font matematico, la qualità della resa varia: su alcuni dispositivi le lettere sembrano a posto, su altri il peso dei tratti stona col testo attorno.",
+          "Usa il testo fantasioso dove il lettore lo vede e nessuno deve cercarlo, leggerlo a voce alta o processarlo: nomi visualizzati, didascalie estetiche, poster di eventi. Tieni i nomi utente che la gente cercherà, e tutto il corpo testo importante, in lettere ordinarie.",
+        ],
+      },
+      {
+        heading: "Istantaneo, offline e reversibile",
+        paragraphs: [
+          "La conversione è una consultazione di tabella per carattere che gira nel tuo browser — nessun server, nessuna chiamata di rete, e funziona senza connessione alcuna. Scrivi, confronta gli stili fianco a fianco, copia quello che vuoi.",
+          "Poiché l'output è testo Unicode ordinario, sopravvive a qualsiasi editor, e può essere invertito: incolla di nuovo la stringa fantasiosa e l'output normale dello strumento (o qualunque normalizzatore) recupera le lettere base. Nel frattempo nulla viene memorizzato da nessuna parte.",
+          "Rispetto alle app «generatore di font» che chiedono di installare un profilo o scaricare un font, questo approccio non ha nulla da installare e nulla da credere — ciò che vedi nell'anteprima è esattamente ciò che atterra dall'altra parte degli appunti.",
+        ],
       },
     ],
   },
@@ -1228,6 +2343,32 @@ export const it: Record<string, ToolCopy> = {
         a: "In modalità semplice sì — «$100» resta «$100». In modalità regex i pattern con $ sono speciali ($1 significa gruppo 1); scrivi \\$ se ti serve uno letterale.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Corrispondenza letterale contro espressioni regolari",
+        paragraphs: [
+          "Ci sono due modalità di corrispondenza fondamentalmente diverse. La modalità letterale tratta la tua stringa di ricerca come testo semplice: cercare «3.5» trova esattamente «3.5» e mai «335» o «365». La modalità espressioni regolari tratta il pattern come una grammatica: il punto significa «un carattere qualsiasi», quindi lo stesso pattern matcha 3.5, 3x5 e 395. Scegliere la modalità sbagliata è la causa più comune del «la sostituzione ha fatto qualcosa di strano».",
+          "Le espressioni regolari meritano la loro complessità quando ti serve struttura anziché stringhe: matchare qualunque anno a quattro cifre con \\d{4}, catturare un nome e riutilizzarlo nella sostituzione con parentesi e retro-riferimenti, o colpire un valore solo quando segue un'etichetta specifica usando lookaround. Se ti serve solo scambiare una stringa fissa, la modalità letterale è più rapida da ragionare e impossibile da sovra-matchare.",
+          "Un flusso sicuro per qualunque sostituzione non banale: esegui prima la ricerca con la sostituzione disattivata e leggi ogni colpo, poi attiva la sostituzione. Se il numero di corrispondenze ti sorprende, il pattern è più largo di quanto pensi — stringilo prima di sostituire, non dopo.",
+        ],
+      },
+      {
+        heading: "Le trappole classiche della sostituzione",
+        paragraphs: [
+          "La sensibilità alle maiuscole dimezza o raddoppia in silenzio il tuo numero di corrispondenze: «Apple» e «apple» sono stringhe diverse in modalità sensibile, che di solito è ciò che vuoi per il codice e non ciò che vuoi per la prosa. La corrispondenza a parola intera esiste per impedire a «cat» di matchare dentro «category» — senza di essa, una sostituzione ingenua può produrre «categoryegory».",
+          "Le stringhe di sostituzione hanno le loro trappole: in modalità regex, un $ o una barra rovescia nel testo di sostituzione possono essere interpretati come riferimento a gruppo o escape. Scrivere un importo in dollari letterale in una sostituzione regex richiede il dollaro sottoposto a escape, o può pescare un gruppo di cattura che non intendevi.",
+          "Il testo multilinea aggiunge la questione del ritorno a capo: pattern che sembrano a posto su una riga sovra-matchano attraverso le righe, perché un punto può consumare i ritorni a capo a seconda dei flag. Ancorare i pattern ai confini di parola o a una struttura di riga esplicita è la correzione affidabile.",
+        ],
+      },
+      {
+        heading: "Tutto avviene sulla pagina",
+        paragraphs: [
+          "Il matching e la sostituzione girano interamente in JavaScript del browser sul testo attualmente nella casella. Non c'è caricamento, nessun servizio di anteprima, nessun indice lato server dei tuoi contenuti — una bozza di contratto, un file di log o una nota personale viene elaborata dalla stessa macchina che la mostra.",
+          "Questo rende lo strumento una scelta ragionevole per testo che non incolleresti in un'app web casuale: documentazione interna, dati di clienti per una pulizia rapida, codice sorgente che stai per committare. Chiudi la scheda e non resta nulla.",
+          "Per file molto grandi, gli strumenti del browser prima o poi colpiscono i limiti di memoria — un log di mezzo megabyte è comodo, un dump di un gigabyte no. A quella scala un sed da riga di comando resta lo strumento giusto; per tutto ciò che sta sotto qualche megabyte questa pagina è più rapida da aprire di un terminale.",
+        ],
+      },
+    ],
   },
   "lorem-ipsum-generator": {
     name: "Generatore lorem ipsum",
@@ -1256,6 +2397,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Un lotto è limitato a 50 paragrafi per tenere la pagina veloce; premi di nuovo il pulsante ogni volta che ti serve un altro lotto fresco.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Duemila anni di Cicerone rimescolato",
+        paragraphs: [
+          "Il testo di riempimento non è latino inventato — è latino maltrattato. Le parole vengono dal «De finibus bonorum et malorum» (Sui limiti del bene e del male), un trattato filosofico scritto da Cicerone nel 45 a.C., sezioni 1.10.32–33. Il passo discute dolore e piacere; in un punto dell'era delle impaginazioni qualcuno lo rimescolò e troncò in «Lorem ipsum dolor sit amet, consectetur adipiscing elit…» — parole che non formano più frasi latine coerenti.",
+          "La storia popolare accredita ai fogli a trasferimento secco Letraset degli anni '60, dove i designer strofinavano testo di titolo predefinito sulle tavole, la diffusione del passo; il software di impaginazione Aldus lo portò nell'editoria digitale negli anni '80. Sopravvisse perché era già ovunque — l'equivalente, per i segnaposto, di un passo di vite standard.",
+          "Un dettaglio che la maggior parte della gente perde: le lunghezze delle parole e la distribuzione delle lettere del testo sono approssimativamente naturali per il latino, che è esattamente ciò che vuoi da un riempimento — un layout che regge col testo finto di solito regge col testo vero di lunghezza simile. «Qui va un po' di testo qui» non ha quella proprietà.",
+        ],
+      },
+      {
+        heading: "Perché il riempimento batte il testo finto-vero",
+        paragraphs: [
+          "Il testo genuino — un estratto di giornale, il paragrafo di un amico — invita il revisore a leggere, e leggere invita alla critica dei contenuti: «io non lo formulerei così». Il latino insensato ha esattamente la proprietà opposta: sembra lingua, occupa come la lingua, ma non porta alcun significato con cui discutere. I revisori valutano layout, tipografia e ritmo invece della copia.",
+          "Il controllo della lunghezza conta più di quanto la gente si aspetti. Una pagina approvata con 200 parole di riempimento strariperà nel momento in cui il testo vero arriva a 300; generare blocchi nelle dimensioni che ti aspetti davvero — un teaser di scheda a due righe, un paragrafo di cinque frasi — mette alla prova il layout contro variazioni realistiche, non un solo blocco fortunato.",
+          "La convenzione ha anche una funzione comunicativa: chiunque nel design e nell'editoria riconosce lorem ipsum a colpo d'occhio, quindi un mockup pieno di esso si legge come «layout in attesa» senza una sola annotazione.",
+        ],
+      },
+      {
+        heading: "Generato sul momento, spedito da nessuna parte",
+        paragraphs: [
+          "Questo generatore costruisce i suoi paragrafi da un elenco di parole lorem-ipsum incorporato, randomizzato fresco a ogni clic — le parole risalgono a Cicerone, ma la sequenza viene generata in locale, non scaricata da un'API lorem-ipsum. Nulla lascia il browser, e lo strumento funziona offline.",
+          "La variazione è deliberata: clic ripetuti producono testo diverso, così due mockup fianco a fianco non portano lo stesso riempimento — una piccola vittoria di realismo quando confronti layout. Le versioni che cominciano con «Lorem ipsum» sono disponibili quando vuoi l'apertura canonica.",
+          "Consiglio pratico per la consegna: quando consegni un design, dì al cliente per iscritto che il testo è segnaposto. Il guaio ricorrente di lorem ipsum è il riempimento spedito per sbaglio in produzione — una società di traduzione una volta lo stampò famosamente nella brochure di un cliente.",
+        ],
+      },
+    ],
   },
   "remove-duplicate-lines": {
     name: "Rimuovi righe duplicate",
@@ -1276,6 +2443,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Può trattare «Mela» e «mela» come duplicati?",
         a: "Attiva «Ignora maiuscole» e verranno trattate come la stessa riga; viene conservata la prima variante vista.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che conta come duplicato dipende dalla regola di confronto",
+        paragraphs: [
+          "Il rilevamento dei duplicati è una decisione di confronto, e tre decisioni cambiano il risultato. Corrispondenza esatta: «data» e «data» sono duplicati, ma «data » (spazio finale) e «Data» (maiuscola) no. Il confronto senza spazi e senza maiuscole tratta «Data » e «data» come la stessa riga — di solito ciò che vuoi quando l'input arriva da copia-incolla o esportazioni di moduli, dove gli spazi invisibili si intrufolano costantemente.",
+          "C'è anche una decisione semantica: conservare la prima occorrenza o l'ultima? Per log e ID, la prima occorrenza preserva l'ordine originale di arrivo. Per listini prezzi dove le righe successive aggiornano le precedenti, tenere l'ultima è la scelta corretta. Questo strumento tiene la prima occorrenza e preserva l'ordine delle righe, il che corrisponde alla maggior parte delle aspettative di deduplicazione.",
+          "Una trappola collegata è quella dei caratteri invisibili: tabulazioni, spazi unificatori e caratteri a larghezza zero fanno differire due righe visivamente identiche. Se una dedup gira pulita ma vedi ancora duplicati, esegui prima una pulizia degli spazi — lo strumento rimuovi-spazi-extra di questo sito esiste proprio per quel passo.",
+        ],
+      },
+      {
+        heading: "Perché deduplicare prima di ordinare e contare",
+        paragraphs: [
+          "La deduplicazione è di solito un passo di pre-elaborazione, non l'obiettivo. Prima di contare valori unici, deduplica — altrimenti il conteggio conta le ripetizioni due volte. Prima di ordinare, deduplica — ordinare un elenco con migliaia di righe identiche spreca l'attenzione del lettore e qualunque riferimento a numeri di riga a valle. Prima di costruire un import CSV o un elenco IN di SQL, deduplica — lì le chiavi duplicate causano o errori o doppie elaborazioni silenziose.",
+          "L'ordine classico di pulizia dei dati è: normalizza gli spazi, poi deduplica, poi ordina, poi trasforma. Farlo al contrario (prima ordini, deduplica dopo) funziona comunque, ma rende rumoroso il diff rispetto alla versione precedente: ogni duplicato rimosso appare come una cancellazione sparpagliata anziché un blocco ordinato.",
+          "Per i corpora di testo — elenchi di parole chiave, destinatari di email, inventari di tag — la deduplicazione è anche uno strumento di correttezza: un destinatario duplicato riceve l'email due volte, un tag duplicato sballa l'analisi di frequenza. Un clic qui batte una catena di formule da foglio di calcolo.",
+        ],
+      },
+      {
+        heading: "Elaborazione locale, ordine conservato",
+        paragraphs: [
+          "L'intero elenco viene elaborato in JavaScript del browser: spezza sui ritorni a capo, confronta, emette le righe uniche nell'ordine di prima occorrenza. Nessun caricamento, nessun viaggio di andata e ritorno, e lo strumento funziona offline dopo il caricamento della pagina.",
+          "Gli input grandi vanno bene — centinaia di migliaia di righe si processano in ben meno di un secondo su una macchina normale, dato che il confronto è una ricerca in hash-set per riga, non una scansione a coppie. Il confronto a coppie è ciò che rende lenta la dedup ingenua su larga scala; questo strumento non la fa.",
+          "Nulla viene memorizzato: ricarica la pagina e l'input è sparito. Per elenchi di clienti, inventari di ID interni o qualunque dataset con dati personali, questa è la forma sicura di strumento da usare — i dati non diventano mai la voce di log di qualcun altro.",
+        ],
       },
     ],
   },
@@ -1306,6 +2499,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì. Lo strumento tocca solo gli spazi bianchi orizzontali e le righe vuote; la struttura a righe del tuo testo resta intatta.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché gli spazi invisibili sono il difetto testuale più comune",
+        paragraphs: [
+          "Gli spazi extra raramente si annunciano. Un doppio spazio dopo un punto, uno spazio finale a fine riga, una tabulazione travestita da indentazione — tutti invisibili nell'editor, tutti reali nei dati. Rompono i confronti per riga (due righe «identiche» differiscono per uno spazio finale), rompono i conteggi di token (un doppio spazio può aggiungere una parola fantasma) e producono il classico match di stringa fallito dove due valori sembrano uguali e si confrontano come diversi.",
+          "Le fonti principali sono meccaniche: copia-incolla dai PDF (che inserisce ritorni a capo e spazi di riempimento), output OCR, campi di modulo con validazione lasca, ed editor che auto-indirizzano con tabulazioni e spazi mescolati. Nessuna di queste si mostra in una revisione visiva, motivo per cui la pulizia è un lavoro da strumento, non da rilettura.",
+          "Gli spazi unificatori meritano menzione speciale: gli editor HTML e i word processor adorano inserire U+00A0 al posto di uno spazio normale, e sopravvive invisibilmente alle operazioni di trim. Il testo pulito per un import CSV o una ricerca su database dovrebbe normalizzare anche questi, altrimenti le ricerche continuano misteriosamente a mancare.",
+        ],
+      },
+      {
+        heading: "Ciò che fa ciascuna regola di pulizia",
+        paragraphs: [
+          "Collassare gli spazi multipli trasforma qualunque sequenza di due o più spazi in una sola — sicuro per prosa ed elenchi, e la pulizia più richiesta dopo l'incollaggio dai PDF. Il trim dei bordi di riga rimuove gli spazi iniziali e finali per riga, che è ciò che rende prevedibili il diff e il rilevamento dei duplicati dopo.",
+          "La rimozione delle righe vuote gestisce gli schemi di gap: una riga bianca tra i paragrafi si legge bene, ma cinque righe bianche da una catena email incollata si leggono come rottura. Rimuovere del tutto i ritorni a capo unisce il testo in un solo paragrafo — utile per meta description e campi modulo a riga singola, distruttivo per tutto ciò che è strutturato per righe.",
+          "La conversione tabulazione-spazio conta per codice e file di configurazione: mescolare tabulazioni e spazi produce file dove l'allineamento cambia per editor. Scegli le regole che corrispondono alla tua destinazione — lo strumento le applica insieme, quindi un incollaggio da un PDF tipicamente vuole collassa + trim + rimuovi righe vuote in un solo passaggio.",
+        ],
+      },
+      {
+        heading: "Istantaneo, locale, preciso al byte",
+        paragraphs: [
+          "La pulizia gira carattere per carattere nel tuo browser. Nulla viene caricato — per contenuti sotto NDA, bozze non pubblicate o campioni di dati utente, questo è l'intero senso di uno strumento lato client.",
+          "La trasformazione è deterministica e di fatto reversibile: tieni l'originale in una scheda, pulisci nell'altra, e confronta. Poiché ogni regola è meccanica, lo stesso input produce sempre lo stesso output — nessun modello, nessuna casualità, nessuna sorpresa.",
+          "Una coppia pratica con gli strumenti fratelli: prima pulisci gli spazi, poi esegui la rimozione dei duplicati, poi il text-diff contro l'originale per vedere esattamente cosa è cambiato. Quel passaggio a tre step trasforma contenuti incollati e pasticciati in testo revisionabile e diffabile in pochi secondi.",
+        ],
+      },
+    ],
   },
   "reverse-text": {
     name: "Inverti testo",
@@ -1332,6 +2551,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso usarlo per controllare i palindromi?",
         a: "Indirettamente — incolla il testo, invertilo e confronta a occhio, oppure abbinalo allo strumento di confronto testo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Invertire i caratteri non è invertire il testo",
+        paragraphs: [
+          "Ci sono due tipi di inversione, e confonderli produce bug famosi. L'inversione di caratteri ribalta la stringa da carattere a carattere: «abc» diventa «cba». L'inversione di parole tiene ogni parola intatta e ribalta il loro ordine: «hello world» diventa «world hello». Chiedere una e ricevere l'altra è il lamento più comune sugli strumenti di inversione, quindi questo strumento le tiene separate.",
+          "L'inversione di caratteri ha una trappola Unicode: il testo memorizzato in UTF-16 — che è ciò che usa JavaScript — rappresenta emoji e alcuni alfabeti rari come coppie surrogate, due unità di codice che devono restare insieme. L'inversione ingenua spezza la coppia e produce spazzatura: l'emoji famiglia 👨‍👩‍👧 si rovescia in caselle rotte o glifi insensati. L'inversione corretta percorre i cluster di grafemi, non le unità di codice.",
+          "Anche le sequenze combinanti contano: «e» più un accento combinante, invertita, diventa accento-prima, che si renderizza male nella maggior parte dei font. L'inversione consapevole dei grafemi tiene l'accento attaccato alla sua lettera.",
+        ],
+      },
+      {
+        heading: "Dove il testo invertito è davvero utile",
+        paragraphs: [
+          "I palindrome sono l'uso classico: verificare se una parola si legge uguale in entrambe le direzioni — «racecar», «level» — è letteralmente un inverti-e-confronta. L'inversione dell'ordine delle parole ha usi editoriali pratici: girare elenchi di nomi «cognome nome» in «nome cognome», invertire elenchi puntati, annullare una colonna incollata dal basso da un foglio di calcolo.",
+          "L'inversione a livello di caratteri compare nel design di puzzle e giochi (scrittura speculare, messaggi nascosti che si leggono correttamente in uno specchio), nei test (dare stringhe invertite ai validatori per verificare che le respingano) e nell'aggirare i filtri ingenui di match di stringa — il che è anche perché il reverse-text è un classico trucco di pen-test che vale la pena conoscere.",
+          "L'inversione di righe — ribaltare l'ordine di righe intere — è il cavallo di battaglia silenzioso per i file di log: dal più recente al più vecchio sono a una inversione di distanza, e le esportazioni da foglio di calcolo che escono dal basso si sistemano in un clic.",
+        ],
+      },
+      {
+        heading: "Gira interamente sulla pagina",
+        paragraphs: [
+          "L'inversione è un'operazione di stringa pura eseguita in JavaScript del browser mentre scrivi — nessun server, nessuna memorizzazione, funziona offline. Per testi lunghi l'operazione resta comunque istantanea, dato che l'inversione è lineare nella lunghezza.",
+          "Lo strumento gestisce correttamente i casi limite Unicode sopra: i cluster di grafemi restano interi, gli emoji sopravvivono, i segni combinanti tengono le loro lettere base. Ciò che incolli di nuovo è testo valido, non una stringa di caratteri sostitutivi.",
+          "Nulla viene ricordato tra le sessioni: ricarica e la casella è vuota. Il testo vive solo nella memoria della scheda e, se lo copi, nei tuoi appunti. Se stai invertendo qualcosa di sensibile — una stringa tipo password, un identificatore interno — è esattamente il comportamento che vuoi, perché non esiste una copia server da preoccuparsi.",
+        ],
       },
     ],
   },
@@ -1362,6 +2607,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Le guide di stile suggeriscono di solito 2–5. Nessuna regola è scolpita nella pietra: usa il conteggio per scovare i muri di testo prima che lo facciano i tuoi lettori.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come viene rilevata una frase",
+        paragraphs: [
+          "Una frase è un concetto sfumato, e i contatori non concordano su dove finisca. La regola ingenua — spezzare a ogni punto, punto esclamativo e punto interrogativo — fallisce su «Il dott. Rossi arrivò alle 3.5 p.m.»: tre punti, zero fine di frase. Un rilevatore vero ha bisogno di consapevolezza delle abbreviazioni (dott., es.), gestione dei decimali, e logica per i puntini di sospensione e la punteggiatura multipla come «Davvero?!».",
+          "Questo strumento usa lo strato euristico: punteggiatura di fine frase seguita da spazio e lettera maiuscola conta come confine; le abbreviazioni di un elenco incorporato vengono saltate; i segni a larghezza piena (。！？) sono trattati come confini rigidi, che è ciò che serve al testo CJK dato che gli spazi non ci sono. Il testo misto cinese-inglese viene quindi contato correttamente in entrambi gli alfabeti.",
+          "Il conteggio è intrinsecamente approssimativo per i casi limite — dialoghi tra virgolette, frammenti puntati senza punteggiatura finale. Tratta il numero come una stima forte, non un assioma; se una frase specifica conta (legalmente o contrattualmente), contala tu quella.",
+        ],
+      },
+      {
+        heading: "Leggere la lunghezza dai conteggi delle frasi",
+        paragraphs: [
+          "La lunghezza media della frase è il numero più utile che il contatore produce. Sotto le 15 parole per frase si legge incisivo e facile; sopra le 25 di solito segnala un problema di comprensione, e gli editor puntano a circa 15–20 per un pubblico generale. Il conteggio per frase espone anche le frasi-fiume: una frase da 60 parole è quasi sempre un problema di punteggiatura, non una scelta di stile.",
+          "Il numero di frasi si converte in tempo di lettura con una regola grossolana: attorno alle 200–250 parole al minuto per un adulto che legge prosa, quindi parole ÷ 225 dà i minuti. Combinato con la media delle frasi, puoi dire se un testo è lungo ma leggibile, o corto ma denso.",
+          "Per traduttori e team di localizzazione i conteggi delle frasi contano perché la maggior parte dei prezzi e degli strumenti di memoria della traduzione lavora a granularità di frase — conoscere il conteggio in anticipo stima il volume di segmentazione.",
+        ],
+      },
+      {
+        heading: "Locale, senza limiti",
+        paragraphs: [
+          "L'analisi gira in JavaScript del browser mentre scrivi. Nessun account, nessun caricamento, nessun limite alla dimensione del documento — incolla un capitolo intero e i conteggi si aggiornano in tempo reale.",
+          "Nulla viene conservato: ricarica e tutto si azzera, e nessun server conserva mai una copia del tuo capitolo. Per manoscritti non pubblicati, bozze di clienti o materiali d'esame, quel modello interamente lato client è la forma più sicura per la privacy.",
+          "Abbinalo al contatore di parole per il rapporto parole-per-frase, e al convertitore di caso quando prepari i titoli. I tre insieme coprono la maggior parte dei controlli preflight editoriali senza alcun servizio esterno.",
+        ],
+      },
+    ],
   },
   "slug-generator": {
     name: "Generatore di slug",
@@ -1388,6 +2659,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Devo tenere le parole vuote come «il» e «di»?",
         a: "Molte guide SEO suggeriscono di scartarle per accorciare gli slug — modifica liberamente lo slug generato prima di copiarlo; lo strumento ti dà la base completa con i trattini.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "A cosa serve uno slug",
+        paragraphs: [
+          "Uno slug è la versione URL-safe di un titolo: «10 consigli per un ottimo caffè» diventa 10-consigli-per-un-ottimo-caffe. Gli slug contano per tre motivi: rendono gli URL leggibili agli umani prima del clic, portano parole chiave che i motori di ricerca usano come segnale di ranking, e tengono gli URL stabili e condivisibili — niente spazi, niente spazzatura di percent-encoding come %20 ovunque.",
+          "La meccanica: tutto in minuscolo, spazi sostituiti da un separatore (il trattino è la convenzione web), caratteri illegali o ambigui negli URL rimossi, ripetizioni collassate. Un buon generatore fa tutto questo in una volta anziché lasciarti correggere a mano sequenze come «%C3%A9» in un link condiviso.",
+          "Gli slug servono anche a lavori non-URL: nomi di file per asset esportati, nomi di branch git, ID di componenti. Le stesse regole valgono ovunque — l'insieme di caratteri che sopravvive a copia, codifica e terminali senza trasformarsi in escape.",
+        ],
+      },
+      {
+        heading: "Accenti, traslitterazione e il problema CJK",
+        paragraphs: [
+          "Il latino accentato è il primo punto decisionale. Due scuole esistono: traslitterare (café → cafe) o togliere gli accenti (café → caf). La traslitterazione preserva la leggibilità ed è ciò che questo strumento fa per i diacritici latini comuni — á diventa a, ü diventa u — usando le regole standard di piegatura Unicode.",
+          "Il testo CJK impone una scelta più dura: non c'è lettera latina in cui piegare una parola cinese. Le opzioni sono pinyin per il cinese, romanizzazione per il giapponese, o tenere i caratteri così come sono. I browser moderni gestiscono bene gli URL UTF-8, quindi tenere caratteri CJK in uno slug è tecnicamente valido e comune sulle piattaforme cinesi; la condivisione internazionale, tuttavia, preferisce pinyin o romanizzazione perché sopravvive a SMS, terminali e sistemi vecchi senza rumore di codifica.",
+          "Numeri e parole vuote sono decisioni di gusto: tenere «il» e «di» fa slug più lunghi e più leggibili; toglierli fa slug più corti. Il consiglio SEO ha cambiato bandiera negli anni; il consenso stabile è che uno slug che corrisponde al titolo importa più di uno slug corto.",
+        ],
+      },
+      {
+        heading: "Generato dal vivo, tenuto locale",
+        paragraphs: [
+          "La conversione gira a ogni tasto premuto nel tuo browser. Nessuna chiamata API, nessun limite di frequenza, funziona offline — a differenza dei servizi di slug che richiedono un viaggio di andata e ritorno per titolo.",
+          "L'output deterministico conta per i sistemi di contenuto: lo stesso titolo produce sempre lo stesso slug, quindi i link costruiti oggi non si rompono quando l'articolo viene rigenerato. Non c'è suffisso casuale a meno che tu non lo aggiunga (una piccola coda casuale è il modo standard di garantire unicità su migliaia di articoli).",
+          "Il controllo di unicità è deliberatamente non fatto qui — richiede conoscere il tuo intero inventario di URL, che vive nel tuo CMS. Lo strumento garantisce la correttezza del formato; l'evitamento delle collisioni resta nel tuo layer di routing, dove appartiene.",
+        ],
       },
     ],
   },
@@ -1418,6 +2715,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Nessuno strumento può conoscere con certezza le tue intenzioni. La casella di output mostra sempre prima il risultato, quindi rileggilo prima di sostituire l'originale.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Un passaggio per l'intera catena di pulizia",
+        paragraphs: [
+          "La maggior parte dei pasticci testuali arriva in pacchetto: il contenuto incollato dai PDF porta doppi spazi, ritorni a capo vaganti e parole con trattino spezzate tra le righe; il testo copiato dal web trascina spazi unificatori invisibili e caratteri a larghezza zero; i fogli di calcolo esportano con tabulazioni finali. Pulirli una regola alla volta significa cinque passaggi e passi dimenticati — un pulitore combinato applica l'intera catena in una volta.",
+          "L'ordine canonico conta: prima normalizza Unicode (piega gli spazi unificatori in normali, togli caratteri a larghezza zero e di controllo), perché le regole successive confrontano caratteri; poi collassa gli spazi, poi trim dei bordi di riga, poi sistema i ritorni a capo. Eseguire deduplicazione o confronto prima della normalizzazione produce risultati sbagliati — due righe visivamente identiche restano «diverse» perché un carattere invisibile sopravvive.",
+          "L'output dovrebbe essere noioso: nessun cambiamento che non puoi spiegare. Ogni regola di un pulitore è meccanica e previsualizzabile, che è esattamente ciò che distingue un pulitore da un «riscrittore» IA — lo stesso input produce sempre lo stesso output, e puoi verificare ogni trasformazione.",
+        ],
+      },
+      {
+        heading: "Ciò che viene rimosso e perché",
+        paragraphs: [
+          "L'Unicode invisibile è la categoria principale: spazi a larghezza zero (U+200B) e joiner, segni di direzione, caratteri di controllo. Sono invisibili in ogni editor ma rompono i confronti di stringa, gonfiano il testo SEO con byte senza senso, e possono perfino essere usati per nascondere filigrane o payload malevoli nel contenuto incollato. Toglierli è sicuro per quasi tutta la prosa.",
+          "La normalizzazione degli spazi copre doppi spazi, tabulazioni travestite da spazi, spazi finali e righe bianche orfane. È la cura per il testo che «sembra a posto ma il diff mostra cento cambiamenti» — la maggior parte di quei diff è spazio bianco puro.",
+          "La riparazione dei ritorni a capo gestisce gli artefatti dell'incollaggio da PDF: a-capo rigidi ogni 40 caratteri che rendono il testo non ricercabile e non riflussabile. Unire le righe spezzate (con attenzione — le interruzioni di paragrafo devono sopravvivere) ridà il testo estratto dai PDF alla forma di prosa fluida.",
+        ],
+      },
+      {
+        heading: "Deterministico, locale, verificabile",
+        paragraphs: [
+          "Tutte le regole girano in JavaScript del browser sul testo nella casella — nessun caricamento, funziona offline, e nulla viene memorizzato. Per bozze di contratti, copia di clienti e contenuti non pubblicati, un pulitore lato client è la scelta corretta per la privacy.",
+          "Il determinismo è la garanzia di design: stesso input, stesso output, ogni volta. Questo rende lo strumento sicuro dentro un flusso ripetibile — pulisci, deduplica, diff — dove un riscrittore generativo inietterebbe cambiamenti non revisionabili.",
+          "La catena naturale di compagni su questo sito: text-cleaner prima, rimozione dei duplicati seconda, text-diff contro l'originale per confermare che nulla di significativo sia cambiato. Tre passi, tutti in locale, tutti istantanei.",
+        ],
+      },
+    ],
   },
   "text-diff": {
     name: "Confronto testo",
@@ -1444,6 +2767,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "C'è un limite di dimensione?",
         a: "Solo la memoria del tuo browser — funzionano confronti lunghi quanto un libro, anche se testi molto grandi impiegano un istante a renderizzare.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Come il diff trova davvero i cambiamenti",
+        paragraphs: [
+          "Un diff non è una scansione carattere per carattere. Sotto quasi ogni strumento di diff c'è l'algoritmo della sottosequenza comune più lunga (LCS): trova la sequenza più lunga di righe (o caratteri) che appare in entrambi i testi, in ordine, e tutto ciò che sta fuori da quella sequenza è un'inserzione o una cancellazione. Per questo un buon diff allinea la parte intoccata in mezzo a due documenti e segnala solo ciò che è cambiato attorno.",
+          "La granularità è una scelta visibile all'utente. Il diff a livello di riga marca righe intere come aggiunte o rimosse — la modalità della code review, di git e del redlining legale, perché le righe sono l'unità di cui la gente parla. Il diff a livello di carattere (o di parola) allinea dentro una riga modificata e mostra che si sono mosse solo tre parole — la modalità per l'editing di prosa, dove riscrivere un intero paragrafo altrimenti identico come «tutto cancellato, tutto aggiunto» è illeggibile.",
+          "Quando un'inserzione e una cancellazione avvengono nello stesso punto, lo strumento le accoppia come modifica. Esistono alternative uguali — accoppiare diversamente produce lo stesso testo finale — e la convenzione è minimizzare il churn così l'umano legge meno blocchi.",
+        ],
+      },
+      {
+        heading: "Leggere un diff senza farsi ingannare",
+        paragraphs: [
+          "La cattiva lettura comune: un diff grande non significa grandi cambiamenti. Una riga inserita può spostare l'allineamento LCS e far apparire paragrafi successivi come cancellati e ri-aggiunti, quando dentro non è cambiato nulla. Le differenze di spazio bianco amplificano questo — uno spazio finale trasforma una riga in «modificata». Per questo normalizzare gli spazi prima del diff (il passaggio del text-cleaner) produce risultati sensibilmente più puliti.",
+          "La modalità a livello di parola è l'antidoto per la prosa: invece di «un paragrafo è cambiato», vedi «cresciuto → ampliato». Per contratti e codice, resta a livello di riga — le corrispondenze parziali di riga lì creano falsa fiducia che una clausola legale sia «praticamente la stessa».",
+          "Una seconda cattiva lettura è la direzione: quale testo è «prima» e quale «dopo». Lo strumento etichetta i pannelli, ma la disciplina conta nei flussi di revisione — un diff letto al rovescio trasforma le aggiunte in cancellazioni e cambia il significato dell'approvazione.",
+        ],
+      },
+      {
+        heading: "Confronto puramente lato client",
+        paragraphs: [
+          "Il confronto gira interamente nel tuo browser: LCS sui due testi, renderizzato come blocchi evidenziati. Nessun caricamento, nessun viaggio verso il server, funziona offline — l'architettura corretta quando i testi sono contratti, documenti personali o codice sorgente non pubblicato.",
+          "LCS è O(n × m) nel caso peggiore, motivo per cui alcuni strumenti rifiutano file grandi; le implementazioni con taglio del prefisso comune e hashing gestiscono comodamente documenti di centinaia di migliaia di righe. Per confronti davvero enormi, spezzare in sezioni è l'approccio pratico.",
+          "Nulla persiste: ricarica la pagina e entrambi i pannelli si svuotano. Questo lo rende uno strumento sicuro per l'uso sensibile classico — confrontare due versioni di una bozza legale, un file di configurazione o un elenco esportato di credenziali, senza che il testo lasci mai il dispositivo.",
+        ],
       },
     ],
   },
@@ -1474,6 +2823,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — l'input resta intatto e il risultato ordinato compare nella casella di output, così puoi sempre tornare indietro.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ordinare testo non è ordinare numeri",
+        paragraphs: [
+          "L'ordine numerico e quello lessicografico sono in disaccordo sulle basi: lessicograficamente, «10» viene prima di «9» perché «1» precede «9» carattere per carattere. Ordinare alfabeticamente un elenco di prezzi, versioni o numeri di capitolo produce il classico ordine 1, 10, 11, 2, 3 che nessuno vuole. L'ordinamento consapevole dei numeri lo sistema confrontando valori interi, non sequenze di caratteri.",
+          "Il caso è un altro bivio: l'ordine ASCII mette tutte le maiuscole prima di tutte le minuscole, quindi «Zebra» viene prima di «apple». Il confronto senza distinzione di maiuscole è ciò che la maggior parte della gente si aspetta da un elenco di parole. La direzione (crescente/decrescente) e l'unicità (tenere i duplicati o collassarli) completano l'insieme di opzioni.",
+          "Gli articoli iniziali sono una scelta genuinamente editoriale: i titoli dei libri che cominciano con «Il» di solito vengono catalogati sotto la seconda parola. Uno strumento di ordinamento che offre l'opzione batte uno che ti obbliga a modificare a mano ogni riga prima.",
+        ],
+      },
+      {
+        heading: "Confronto consapevole della lingua: perché é e å hanno opinioni",
+        paragraphs: [
+          "L'ordinamento per punti di codice grezzo tratta le lettere accentate come estranee: la «å» svedese si ordina come se fosse «a» seguita da spazzatura, la «ä» tedesca finisce lontano dalla «a», e lo spagnolo tradizionalmente tratta «ch» e «ll» come lettere del proprio alfabeto. La collazione consapevole della lingua (l'algoritmo di collazione Unicode, implementato in ogni runtime moderno) lo sistema: in svedese, å si ordina dopo z; nell'ordine degli elenchi tedeschi, ä sta accanto ad a.",
+          "Questo conta quando l'elenco contiene nomi veri — elenchi di clienti, nomi di città, indici di autori. Ordinare una directory spagnola o svedese per punti di codice grezzi produce un ordine che i locali riconoscono subito come sbagliato. Lo strumento applica le regole consapevoli della lingua, così i nomi si ordinano come si aspetta un parlante nativo.",
+          "Il CJK ha le sue convenzioni: il cinese si ordina per pinyin nella maggior parte dei contesti moderni e per numero di tratti nei dizionari. L'ordine dei kana giapponesi segue la sequenza gojūon. La collazione perfetta per ogni lingua è un pantano, ma sistemare i diacritici latini copre la maggior parte degli elenchi quotidiani.",
+        ],
+      },
+      {
+        heading: "Lato client per design",
+        paragraphs: [
+          "L'ordinamento avviene interamente nel tuo browser mentre le righe vengono spezzate, confrontate, riordinate. Nessun caricamento — per elenchi di clienti, dati HR o ruoli non pubblicati, una pagina di ordinamento che non spedisce nulla è l'unico tipo accettabile.",
+          "Le prestazioni non sono un problema alle scale realistiche: centomila righe si ordinano in un battito di ciglia, perché il confronto sottostante è codice nativo ottimizzato. La stabilità è preservata: le righe che si confrontano uguali tengono il loro ordine originale anziché rimescolarsi, cosa che conta quando il file è un log dove le righe successive portano stato più recente.",
+          "Nulla persiste tra i ricaricamenti: la pagina non possiede memorizzazione né invia nulla a un server. Ordina, copia il risultato, vai avanti — l'input non diventa mai un artefatto memorizzato da nessuna parte, il che rende la pagina adatta anche a elenchi riservati di personale o di clienti.",
+        ],
+      },
+    ],
   },
   "word-counter": {
     name: "Contatore parole",
@@ -1499,6 +2874,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "C'è un limite di lunghezza?",
         a: "Nessun limite rigido — il contatore è limitato solo dalla memoria del browser, che gestisce comodamente testi lunghi quanto un libro.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Come funziona davvero il conteggio delle parole",
+        paragraphs: [
+          "Ogni contatore sul web spezza il tuo testo in token e li conta, ma le regole di tokenizzazione differiscono più di quanto ti aspetteresti. Questo strumento conta come parola qualunque sequenza di caratteri separata da spazi o ritorni a capo — la stessa convenzione di Microsoft Word, così i limiti di parole scolastici e d'ufficio corrispondono a ciò che vedi qui. I composti con trattino come «state-of-the-art» contano come una parola; i numeri isolati contano ognuno come una parola quando separati da spazi.",
+          "I caratteri vengono contati in due modi perché nel mondo esistono due limiti diversi: con spazi (la maggior parte delle piattaforme social conta ogni tasto, spazi compresi) e senza spazi (i moduli di temi e alcuni limiti di caratteri dei CMS escludono gli spazi bianchi). Entrambi i numeri si aggiornano in tempo reale mentre scrivi, così puoi sorvegliare il limite contro cui stai scrivendo.",
+          "Il testo CJK — cinese, giapponese, coreano — è dove i contatori ingenui si rompono. Contare token separati da spazi in un paragrafo cinese restituisce quasi nulla, perché il cinese non usa spazi tra le parole. Questo strumento toglie i caratteri CJK dal passaggio delle parole, conta ogni carattere CJK singolarmente (la convenzione standard «caratteri ≈ parole» per il CJK), e somma i due numeri, così un passaggio cinese di 500 caratteri riporta ≈500 parole anziché 1.",
+        ],
+      },
+      {
+        heading: "Tempo di lettura, tempo di parlato e livello di difficoltà",
+        paragraphs: [
+          "Il tempo di lettura usa 220 parole al minuto per il testo in alfabeto latino e 300 caratteri al minuto per il CJK — le due velocità differiscono abbastanza che un documento in lingue miste ha bisogno di entrambe. Il tempo di parlato gira più lento (130 parole al minuto latino, 180 caratteri CJK) perché chi ascolta non può rileggere; usalo prima di registrare una voce fuori campo o di provare una relazione.",
+          "Il livello Flesch-Kincaid stima il grado scolastico statunitense necessario per leggere il tuo testo, dalla lunghezza delle frasi e dalle sillabe per parola. È un'euristica: il gergo tecnico con parole corte può punteggiare ingannevolmente basso, e una frase coreana di 300 caratteri è una «parola» per la formula. Trattalo come una direzione (più semplice vs. più difficile), non un verdetto.",
+          "Il flusso delle frasi spezza il tuo testo in quattro fasce — 1–6 parole (incisive), 7–14 (standard), 15–24 (lunghe), 25+ (molto lunghe) — ed evidenzia ogni frase per fascia. Una lunghezza di frase variata si legge meglio di una uniforme; se ogni frase cade nella stessa fascia, prova a spezzare la più lunga o a unire due corte.",
+        ],
+      },
+      {
+        heading: "Come si confronta con altri contatori",
+        paragraphs: [
+          "I word processor (Word, Google Docs) sono il riferimento per i limiti dei documenti ma richiedono un'app; i contatori del browser sono più rapidi per i flussi incolla-e-verifica. I contatori delle piattaforme social (X, Instagram) integrano le regole specifiche della piattaforma — questo strumento mantiene invece un pannello dedicato ai limiti delle piattaforme, così un solo input serve ogni piattaforma.",
+          "La privacy è la differenza strutturale: molti contatori online inviano il tuo testo a un server via POST per elaborarlo. Tutto qui gira nel JavaScript del tuo browser — il testo non lascia mai il tuo dispositivo, cosa che conta per bozze non pubblicate, copia di clienti o tutto ciò che sta sotto NDA.",
+        ],
       },
     ],
   },
@@ -1532,6 +2932,30 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Tutto gira nel tuo browser; la stringa non lascia mai il tuo dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Base64 è codifica, non cifratura",
+        paragraphs: [
+          "Il malinteso più comune su Base64 è che nasconda qualcosa. Non lo fa. Base64 è una codifica reversibile definita dalla RFC 4648: prende byte arbitrari e li riesprime usando 64 caratteri sicuri (A-Z, a-z, 0-9, + e /) così i dati binari sopravvivono ai canali che gestiscono solo testo, come gli allegati email o i campi JSON. Chiunque abbia la stringa può decodificarla in un passo — questo strumento lo fa istantaneamente, e così qualsiasi altro decoder. Se ti serve segretezza, ti serve cifratura (AES, RSA) con una chiave; Base64 non offre nulla del genere.",
+          "Perché 64 caratteri? Sei bit indicizzano esattamente 64 valori, quindi Base64 impacchetta ogni 3 byte (24 bit) in 4 caratteri (4 × 6 bit). I dati la cui lunghezza non è multiplo di 3 lasciano un resto, ed è lì che entra il padding =: un = significa che l'ultimo gruppo conteneva 2 byte, due = significano 1 byte. Il padding è tecnicamente informazione facoltativa — i decoder possono dedurla — ecco perché incontrerai stringhe Base64 con l'= finale tolto, e perché un decoder dovrebbe accettare entrambe.",
+          "Una variante collegata conta in pratica: il Base64 URL-safe sostituisce + e / con - e _, perché + e / causano problemi negli URL e nei nomi di file. I JWT usano questo alfabeto, motivo per cui un header o payload JWT si decodifica pulito qui anche se un decoder strict della RFC 4648 potrebbe respingere i caratteri -.",
+        ],
+      },
+      {
+        heading: "Ciò che ottieni, e ciò che significa output assurdo",
+        paragraphs: [
+          "La decodifica produce sempre byte; la domanda è come quei byte vengano interpretati. Questo strumento li fa passare per un TextDecoder UTF-8, così il testo codificato come UTF-8 torna esattamente come era partito — lettere accentate, emoji, caratteri CJK fanno tutti il viaggio di andata e ritorno, perché Base64 trasporta byte, non caratteri. Se l'output mostra simboli sostitutivi (�), l'input probabilmente non è mai stato testo UTF-8: può essere un'immagine, un PDF, o un file codificato in un'altra codepage. La decodifica ha comunque funzionato; semplicemente non c'è testo da mostrare.",
+          "Il Base64 reale è sporco, quindi lo strumento pulisce prima di decodificare: spazi e ritorni a capo vengono tolti (email e output PEM avvolgono Base64 a 76 caratteri, il che rompe i decoder strict), e un prefisso data URI come data:image/png;base64, viene rimosso così puoi incollare l'intero. La lunghezza è l'altro fallimento comune: la lunghezza del Base64 deve essere multiplo di 4, quindi una stringa troncata a metà da un copia-incolla o da una riga di log rompe la decodifica — controlla prima i bordi.",
+        ],
+      },
+      {
+        heading: "Locale per design, e il confronto con la riga di comando",
+        paragraphs: [
+          "Le stringhe codificate sono ovunque nei contesti sensibili: header Authorization, chiavi API dentro blob di configurazione, JWT contenenti identificatori di account, payload incorporati trovati nel traffico. Incollare una di quelle in un sito casuale che invia l'input a un server significherebbe spedire proprio i dati che stai ispezionando a un terzo. Questo decoder gira interamente nel tuo browser con JavaScript — nulla viene caricato, nulla viene registrato, e funziona offline una volta caricata la pagina.",
+          "Gli strumenti da riga di comando (openssl base64 -d, certutil, python base64) sono potenti ma schizzinosi con input avvolto, padding mancante e gestione dei file, e differiscono tra piattaforme. Per un momento «cosa è questa stringa?», uno strumento del browser che tollera prefissi e spazi, decodifica alfabeti URL-safe in stile JWT e mostra correttamente il testo multibyte è di solito più rapido — con la stessa garanzia di privacy e nessuna cronologia della shell che memorizza il tuo segreto codificato.",
+        ],
+      },
+    ],
   },
   "base64-encoder": {
     name: "Codificatore Base64",
@@ -1558,6 +2982,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Unicode ed emoji sono supportati?",
         a: "Sì. L'input viene convertito in byte UTF-8 prima della codifica, il che corrisponde a ciò che btoa-con-TextEncoder, Python, Java e Node producono per la stessa stringa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La matematica dietro l'alfabeto",
+        paragraphs: [
+          "Base64 come definito dalla RFC 4648 lavora a gruppi di 6 bit: 64 caratteri richiedono esattamente 6 bit, quindi ogni 3 byte (24 bit) vengono impacchettati in 4 caratteri (4 × 6 bit). Un input la cui lunghezza non è multiplo di 3 lascia 1 o 2 byte in avanzo, e il padding = segna di quanto il gruppo finale è corto — un = per 2 byte, due = per 1. Per questo un Base64 valido ha sempre una lunghezza divisibile per 4, e perché l'output è circa il 33% più grande dell'input. Quell'inflazione è il prezzo della sicurezza binaria, e conta quando incorpori immagini in data URI o stipi payload in cookie con limiti di dimensione.",
+          "Prima della codifica, il testo deve diventare byte, e la scelta della codifica cambia tutto. Questo strumento usa sempre UTF-8 tramite lo standard TextEncoder, che è il consenso moderno: il base64.b64encode(s.encode()) di Python, il Buffer.from(s).toString('base64') di Node e il Base64.getEncoder() di Java assumono tutti UTF-8 per la stessa stringa. Il legacy btoa() del browser invece si rompe sui caratteri fuori dal Latin-1 — la classica fonte di emoji corrotte — che è esattamente l'errore che la codifica UTF-8-first evita.",
+          "Due varianti di alfabeto coesistono. Quella standard usa + e / ed è ciò che l'HTTP Basic Auth e i data: URI richiedono. La variante URL-safe definita nella stessa RFC li scambia con - e _ così la stringa può viaggiare in parametri di query e nomi di file senza percent-encoding; i JWT la usano. Produrre la variante sbagliata è un bug comune — i dati si decodificano in ogni caso, ma i consumatori strict respingono i caratteri disallineati.",
+        ],
+      },
+      {
+        heading: "Codificare non è cifrare — e dove Base64 appartiene",
+        paragraphs: [
+          "Per quanto illeggibile appaia l'output, Base64 offre zero segretezza. Non c'è chiave, nessun giro di trasformazioni — solo una mappa di caratteri fissa che chiunque può invertire con una chiamata di funzione, incluso il decoder di questo strumento. Memorizzare password, token o chiavi di licenza «codificati» con Base64 è un pattern di vulnerabilità reale visto in sistemi mal configurati. Se l'obiettivo è riservatezza, usa un cifrario vero (AES-GCM per i dati, bcrypt/argon2 per le password); usa Base64 solo quando un canale solo-testo deve trasportare byte.",
+          "Dove appartiene davvero: HTTP Basic Auth (utente:password codificato una volta per richiesta), immagini in linea dentro CSS o HTML tramite data: URI, piccoli blob binari dentro JSON, allegati email sotto MIME, e segmenti JWT. In tutti questi l'obiettivo è il trasporto, non la protezione — il destinatario decodifica in modo deterministico, byte per byte.",
+          "Un test di andata e ritorno è il controllo di sanità più economico: codifica qui, poi incolla l'output nel decoder collegato e conferma di riottenere l'originale — spazi finali, emoji e testo multialfabeto compresi. Se un consumatore del tuo Base64 si comporta male, la differenza è quasi sempre padding tolto, avvolgimento di righe, o l'alfabeto URL-safe, non i byte stessi.",
+        ],
+      },
+      {
+        heading: "Codifica locale, niente trappole del terminale",
+        paragraphs: [
+          "Tutto gira nel tuo browser con JavaScript — il testo che incolla non lascia mai il tuo dispositivo, nulla viene caricato o registrato, e la pagina funziona offline una volta caricata. Questo conta più di quanto sembri per la codifica: credenziali Basic Auth, token API interni e dati di clienti passano di routine per un passo Base64, e spedirli a un sito di terzi per codificarli vanifica l'intero esercizio.",
+          "Rispetto alla riga di shell echo -n 'testo' | base64, questo strumento evita le trappole classiche: dimenticare -n così un ritorno a capo finisce codificato nell'output, errori di virgolettatura che mutilano gli spazi, e differenze tra piattaforme (il base64 di macOS avvolge a 76 caratteri, alcuni strumenti Windows richiedono flag per saltare le interruzioni di riga). L'output qui è una singola riga pulita che puoi incollare dritta in un header o in una configurazione — con la stessa garanzia di privacy e nulla memorizzato nella cronologia della shell.",
+        ],
       },
     ],
   },
@@ -1588,6 +3037,31 @@ export const it: Record<string, ToolCopy> = {
         a: "Da nessuna parte. La minificazione gira in locale nel tuo browser; nulla viene caricato o salvato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che un minificatore sicuro rimuove — e ciò che non deve",
+        paragraphs: [
+          "Un minificatore di fogli di stile cammina su un filo sottile. Le parti che può rimuovere in sicurezza: commenti, spazi bianchi tra le dichiarazioni, l'ultimo punto e virgola prima di una graffa di chiusura, e gli spazi attorno ai separatori come : e ,. Le parti che sembrano rimovibili ma non lo sono: qualunque spazio dentro una stringa (content: «a b» significa qualcosa di diverso da «ab»), tutto ciò che è dentro url(), e — la sottigliezza — gli spazi dentro i selettori. .a .b (combinatore di discendenza) e .a.b (stesso elemento con due classi) differiscono per esattamente uno spazio, quindi togliere lo spazio sbagliato cambia quali elementi vengono stilizzati.",
+          "Per questo un minificatore conservatore è per lo più un motore di spazi bianchi, non un riscrittore. I postprocessori aggressivi possono andare oltre — fondere regole duplicate, convertire #ffffff in #fff, scartare dichiarazioni aggirate — ma ciascuno di quei passi può cambiare comportamento in casi limite (ordine del cascade, interazioni di specificità, supporto successivo dei browser alle sintassi di colore). Uno strumento che garantisce zero cambiamento semantico scambia qualche byte con la certezza che il file minificato si renderizzi identico; per i fogli di stile di produzione, quello scambio di solito è quello giusto.",
+          "I commenti meritano una nota speciale: avvisi legali, header di licenza e annotazioni di hack per browser a volte vivono nei commenti. Se un foglio di stile porta un header di licenza che deve sopravvivere alla distribuzione, ri-aggiungilo dopo la minificazione — o tieni la sorgente non minificata come copia canonica, che è buona pratica comunque.",
+        ],
+      },
+      {
+        heading: "Minificazione contro gzip: si moltiplicano, non competono",
+        paragraphs: [
+          "Un malinteso comune è che attivare la compressione del server renda la minificazione inutile. Le due attaccano ridondanza diversa. La minificazione rimuove token di cui il linguaggio non ha bisogno; il gzip poi comprime i byte superstiti con un dizionario. Poiché gli spazi bianchi e i nomi di proprietà lunghi e ripetuti sono esattamente il tipo di contenuto prevedibile che il gzip mangia bene, minificato+gzipato è costantemente più piccolo di non-minificato+gzipato — i risparmi si compongono anziché sovrapporsi.",
+          "La lettura della dimensione qui riporta la differenza di byte grezzi, che è il tetto onesto del guadagno. La dimensione reale di trasferimento dipende anche dal livello di compressione del tuo server e dal fatto che il foglio di stile sia in cache. Il CSS scritto a mano perde tipicamente il 15-30% dal solo togliere spazi e commenti; il CSS generato o fortemente formattato può perdere di più, i file gonfiati dai vendor a volte di meno.",
+          "Un avvertimento che i minificatori non possono sistemare: il render-blocking. Un foglio di stile più piccolo scarica più in fretta ma blocca comunque il primo paint mentre viene analizzato. Se l'obiettivo è un primo render più veloce, la minificazione è il passo uno; le leve più grandi sono spezzare il CSS critico, differire gli stili non critici e rimuovere del tutto le regole morte — nessuna delle quali un minificatore sicuro farà per te.",
+        ],
+      },
+      {
+        heading: "Lavorare in locale è una funzionalità, non un ripiego",
+        paragraphs: [
+          "I fogli di stile sono meno evidentemente sensibili di un dump di database, ma leakano più di quanto la gente si aspetti: nomi di classe pre-rilascio e feature flag, valori interni di design token, esperimenti commentati con nomi di prodotto, URL assoluti di ambienti di staging. Incollare un tema non ancora spedito in un servizio web che memorizza gli input significa che quel materiale finisce sull'infrastruttura di qualcun altro prima che il codice abbia perfino una casa in git.",
+          "Questo minificatore gira interamente nel tuo browser con JavaScript — l'input non lascia mai la pagina, nulla viene memorizzato o registrato, e lo strumento continua a funzionare offline una volta caricato. C'è anche un angolo pratico: nessun tetto di dimensione imposto da un limite di caricamento, e nessuna attesa di un viaggio di rete. L'output si aggiorna alla velocità con cui incolli, il che rende la lettura della dimensione un ciclo di feedback usabile mentre decidi quanto pulizia valga la pena fare.",
+        ],
+      },
+    ],
   },
   "csv-to-json": {
     name: "CSV in JSON",
@@ -1616,6 +3090,31 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La conversione gira in locale nel tuo browser — i tuoi dati non lasciano mai il dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Inferenza dei tipi: le regole conservatrici che tengono i dati onesti",
+        paragraphs: [
+          "Le celle CSV sono testo; il JSON ha tipi. Colmare i due significa che il convertitore deve indovinare, e la qualità di un convertitore sta in come indovina. Le regole qui sono deliberatamente conservatrici: una cella diventa numero solo se è un letterale numerico pulito — niente zeri iniziali, niente spazi attorno. true e false diventano booleani, il letterale esatto null diventa null, e tutto il resto resta stringa. Questo significa che 007 resta «007», non 7; CAP, codici prodotto e numeri di telefono tengono i loro zeri; e date come 2024-03-04 non diventano silenziosamente altro.",
+          "L'impostazione conservatrice esiste perché un tipo sbagliato è un bug silenzioso. Un consumatore JSON che riceve 7 invece di «007» non può recuperare l'originale; uno che riceve una stringa dove voleva un numero almeno fallisce rumorosamente o si converte banalmente. Quando sai che una colonna è genuinamente numerica, forza il tipo a valle dove l'assunzione è esplicita — il convertitore non è il posto giusto per giocare d'azzardo con i tuoi identificatori.",
+          "La gestione delle intestazioni copre le due malattie classiche del CSV: nomi di colonna vuoti e duplicati. Le intestazioni vuote ricevono nomi generati (column1, column2, …) così ogni riga tiene tutti i suoi campi; i duplicati collassano sull'ultima occorrenza, perché gli oggetti JSON non possono portare chiavi ripetute. Se i duplicati contano per il tuo schema, sistema l'intestazione prima di convertire — nessun convertitore può inventare informazione che la fonte non aveva.",
+        ],
+      },
+      {
+        heading: "Analizzare il CSV correttamente: virgolette, a-capo e delimitatori",
+        paragraphs: [
+          "Spezzare il CSV sulle virgole è sbagliato nel momento in cui arriva un dataset vero. La RFC 4180, lo standard che il formato segue davvero in pratica, definisce i campi tra virgolette: un campo contenente una virgola, una virgoletta o un ritorno a capo deve essere avvolto in virgolette doppie, e una virgoletta dentro tale campo si protegge raddoppiandola. Un campo nome che legge «Ada, Contessa» è una cella; uno split ingenuo lo trasforma in due e sfalsa ogni colonna dopo di esso.",
+          "I fine riga sono la seconda trappola. I file CSV mescolano CRLF (Windows, esportazioni Excel) e LF (strumenti Unix), e un ritorno a capo dentro un campo tra virgolette è dato, non separatore di record — un indirizzo su più righe o un commento incollato deve sopravvivere come una cella sola. L'analisi corretta è una piccola macchina a stati, non una chiamata a split(); è ciò che gira qui.",
+          "I delimitatori variano per lingua: Excel in gran parte d'Europa e America Latina scrive file separati da punto e virgola, perché la virgola è il separatore decimale in quelle lingue. Lo strumento ti lascia scegliere virgola o punto e virgola esplicitamente anziché sniffare, così un file dove ogni campo capita di contenere punti e virgola non viene rilevato male. Se la tua fonte usa tabulazioni, lo strumento gemello da JSON a CSV gestisce il viaggio di ritorno.",
+        ],
+      },
+      {
+        heading: "Conversione locale per dati che nominano persone",
+        paragraphs: [
+          "I CSV diretti al JSON sono di solito diretti a un'API o a un database — e il loro contenuto è di solito del mondo reale: utenti, ordini, contatti, risposte. Convertire un tale file tramite un sito che processa caricamenti significa che le righe attraversano un confine di rete e tipicamente finiscono nei log o nell'archiviazione di qualcuno. Per dati su persone identificabili, quel passo è esattamente ciò che policy privacy e buon senso dicono entrambi di evitare.",
+          "Questo convertitore analizza e serializza interamente nel tuo browser con JavaScript — l'incollaggio, l'analisi, l'inferenza dei tipi e l'output avvengono tutti sulla tua macchina, senza alcun passo di caricamento nel percorso del codice. Funziona offline una volta caricato, non impone quota di righe o dimensioni oltre la memoria del browser, e nulla di ciò che converti viene mai scritto da qualche parte. Per un file seme una tantum con utenti di prova o un'esportazione clienti che non deve muoversi, è l'unica architettura che mantiene intatta la promessa dei dati.",
+        ],
+      },
+    ],
   },
   "hash-generator": {
     name: "Generatore di hash",
@@ -1642,6 +3141,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio testo e i miei file vengono caricati?",
         a: "Mai. L'hashing gira in locale nel tuo browser — perfino i file da più gigabyte vengono letti solo dal tuo stesso dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Un algoritmo per lavoro: la famiglia SHA-2 contro quelli rotti",
+        paragraphs: [
+          "Questo strumento offre deliberatamente cinque algoritmi perché lavori diversi ne richiedono diversi. SHA-256 e SHA-512 sono gli standard attuali — reggono i certificati TLS, la firma del codice e Bitcoin. SHA-384 è la stessa costruzione di SHA-512 con output troncato, ed è comune dove uno standard richiede un digest più corto. SHA-1 e MD5 compaiono qui non per raccomandarli ma perché il mondo reale continua a chiederli: checksum di archivi legacy, vecchi fornitori e vecchi verificatori.",
+          "La storia delle rotture vale la pena conoscerla con precisione. La resistenza alle collisioni di MD5 cadde a metà anni 2000, con il malware Flame del 2012 che falsificò un certificato Microsoft come dimostrazione di punta. SHA-1 durò di più: Google e la CWI di Amsterdam dimostrarono la prima collisione SHA-1 pratica (l'attacco SHAttered) nel 2017. Entrambi restano accettabili per l'integrità non avversariale — confermare che un file sia sopravvissuto a un trasferimento — ma entrambi vanno respinti ovunque un attaccante possa scegliere parte dell'input.",
+          "Una regola pratica: per tutto ciò che pubblichi oggi, genera SHA-256 (o SHA-512 per file grandi, dove le sue interiorità a 64 bit sono più veloci sulle CPU moderne). Quando devi verificare un vecchio MD5 o SHA-1, fallo qui una volta e genera anche un SHA-256 accanto, così il registro porta sia il controllo legacy sia uno a prova di futuro.",
+        ],
+      },
+      {
+        heading: "Lunghezze dei digest e forma dell'output corretto",
+        paragraphs: [
+          "L'output di ogni algoritmo ha una dimensione fissa, che rende l'output sbagliato immediatamente riconoscibile: MD5 sono 32 caratteri esadecimali, SHA-1 sono 40, SHA-256 sono 64, SHA-384 sono 96 e SHA-512 sono 128. Se un presunto SHA-256 ha 63 o 65 caratteri, qualcosa a monte è rotto — un troncamento, un lapsus di copia-incolla, o un algoritmo diverso con l'etichetta sbagliata. Controllare la lunghezza prima del confronto evita la confusione di cercare un mismatch che in realtà è un errore di formattazione.",
+          "Il caso esadecimale è un'altra trappola di confronto: alcuni strumenti stampano digest maiuscoli, altri minuscoli. I valori sono identici — l'esadecimale è solo notazione — quindi confronta senza distinguere maiuscole o normalizza prima entrambi i lati. E diffida degli spazi finali: fare l'hash di un testo con un ritorno a capo finale produce un digest diverso che senza, motivo per cui la modalità testo qui fa l'hash esattamente dei caratteri che fornisci e la modalità file fa l'hash dei byte grezzi del file.",
+          "La proprietà unidirezionale è ciò che fa funzionare tutto ciò: un digest a lunghezza fissa scarta informazione per design, e byte identici producono sempre digest identici. Quel determinismo è ciò che permette a un checksum pubblicato da un progetto in un paese di corrispondere a ciò che calcoli nel tuo browser in un altro — stessi byte, stesso digest, a prescindere da chi lo calcola o dove.",
+        ],
+      },
+      {
+        heading: "Fare l'hash dove vive il file",
+        paragraphs: [
+          "Un hash di solito si calcola proprio perché la fiducia è in dubbio — quindi l'ambiente di hashing conta tanto quanto l'algoritmo. Spedire un file a un server sconosciuto per farne l'hash è controproducente: trasmetti proprio i bytes la cui integrità stai cercando di verificare. Tutto qui gira nel tuo browser; il testo fa l'hash mentre scrivi e i file vengono letti in locale con l'API file del browser, mai caricati.",
+          "L'esecuzione locale rimuove anche i tetti pratici. Non c'è banda di caricamento, nessun limite di dimensione oltre la tua memoria, e nessuna coda — fare l'impronta di un ISO da più gigabyte richiede solo il tempo di leggerlo dal disco, e una volta caricata la pagina il flusso funziona offline.",
+          "Per il lavoro concentrato su un solo algoritmo, le pagine generatore SHA-256 e generatore MD5 danno a ciascun algoritmo una vista dedicata; questa pagina è lo strumento affiancato — un input, cinque digest, e la libertà di verificare somme vecchie e pubblicarne di nuove nello stesso posto.",
+        ],
       },
     ],
   },
@@ -1673,6 +3198,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Circa 70 delle più comuni — markup (&amp;, &lt;, &gt;, &quot;, &apos;), punteggiatura (&mdash;, &hellip;, &ldquo;), accenti latini e simboli (&copy;, &euro;) — più ogni riferimento numerico decimale ed esadecimale.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Cinque caratteri e la regola della e-commerciale prima di tutto",
+        paragraphs: [
+          "Rendere un testo sicuro per HTML richiede di proteggere esattamente cinque caratteri: &amp;, &lt;, &gt;, &quot; e &#39;. La e-commerciale viene prima perché ogni entità comincia con essa — una & non protetta seguita da lettere è il segnale che il browser usa per cominciare ad analizzare un riferimento. Per questo l'ordine conta quando si protegge: la & deve diventare &amp; prima di ogni altra cosa, o le entità appena create vengono ri-proteggere in &amp;lt;.",
+          "La direzione inversa ribalta l'ordine: quando si s-protegge, &amp; viene processata per ultima, non per prima. Processarla prima e &amp;lt; diventa &lt;, poi un vero < — un tag vivo dove l'autore voleva testo visibile. Quell'unico errore di ordinamento è l'intero meccanismo dietro i bug di doppia decodifica, ed è l'errore che la maggior parte delle righe singole di regex commette.",
+          "Se le virgolette debbano essere protette è una domanda di contesto. Nei nodi di testo sono innocue — <p>Ha detto «ciao»</p> è legale. Dentro i valori degli attributi, la virgoletta che delimita l'attributo va protetta, e le virgolette non protette negli attributi sono il classico vettore di iniezione: un valore che finisce con “ può chiudere l'attributo e aprirne uno nuovo. Proteggi le virgolette per i contesti di attributo; lasciale in pace nel testo semplice se vuoi un output leggibile.",
+        ],
+      },
+      {
+        heading: "Entità, XSS e il confine detto onestamente",
+        paragraphs: [
+          "La protezione è la prima linea di difesa XSS: un <script> inviato da un utente diventa &lt;script&gt;, che si renderizza come testo visibile anziché eseguirsi. I motori di template decenti lo fanno automaticamente per l'interpolazione del testo — ma la concatenazione manuale di stringhe, costruire HTML in JavaScript con +, o renderizzare contenuto utente negli attributi richiedono comunque la disciplina a mano.",
+          "Il confine merita una dichiarazione onesta: proteggere rende il contenuto inerte come markup, non rende il contenuto affidabile. Un documento protetto mostra ancora qualunque cosa l'autore abbia scritto — testo di phishing, istruzioni fuorvianti. La protezione affronta correttezza e sicurezza dall'iniezione, non la revisione dei contenuti.",
+          "Le entità numeriche come &#233; e &#x2019; esistono per la portabilità, non per la sicurezza. In un mondo UTF-8 sono per lo più inutili, ma le catene email legacy, i percorsi di codice vecchi con codifiche non UTF-8 e i sistemi che tolgono i byte alti ne traggono ancora beneficio. I riferimenti nominati che la direzione di decodifica riconosce coprono l'insieme quotidiano — markup, punteggiatura, accenti latini e simboli di valuta — più tutte le forme numeriche.",
+        ],
+      },
+      {
+        heading: "Proteggere i contenuti utente in locale",
+        paragraphs: [
+          "Il testo che va protetto è di solito parole di altri: messaggi di assistenza clienti, thread di commenti raccolti per analisi, bio di utenti dirette a un template di email. È esattamente il contenuto che non vuoi instradato attraverso un servizio web — e alcune versioni online di questo strumento inviano infatti il testo al loro backend.",
+          "Tutto qui gira nel JavaScript del tuo browser: la trasformazione è pura manipolazione di caratteri senza alcun coinvolgimento di rete in nessun passo. Incolla il messaggio completo di un cliente, un intero scarico di commenti, un template con campi di personalizzazione; nulla lascia il dispositivo, nulla viene registrato, e la lettura del numero di caratteri ti tiene onesto su quanto la protezione ha gonfiato il testo.",
+          "Abbinala alla codifica URL quando attraversi contesti: le entità HTML proteggono il contesto markup, il percent-encoding protegge il contesto URL, e nessuno dei due sostituisce l'altro — una & protetta per HTML dentro una stringa di query è cosa diversa da una codificata in percentuale. Fare entrambe le conversioni in locale, affiancate, è come i contesti restano non confusi.",
+        ],
+      },
+    ],
   },
   "html-formatter": {
     name: "Formattatore HTML",
@@ -1699,6 +3250,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "L'HTML viene inviato a un server?",
         a: "Mai. Il formattatore è un tokenizer JavaScript locale — il tuo markup resta nel tuo browser.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dove lo spazio bianco conta: l'eccezione di pre/textarea",
+        paragraphs: [
+          "La regola che governa qualunque formattatore HTML è che lo spazio bianco non è sempre libero. Tra elementi blocco, un ritorno a capo si collassa in uno spazio e il browser lo ignora quasi ovunque — ma non ovunque. Dentro pre e textarea, lo spazio bianco è il contenuto stesso. Dentro script e style, un ritorno a capo vagante può alterare il significato (un template literal in script, o un selettore di attributo in CSS, possono essere sensibili alla formattazione). Un abbellitore che indirizza ciecamente questi blocchi non fa solo codice brutto — può romperlo.",
+          "C'è un secondo caso, più sottile: gli elementi inline. Lo spazio bianco tra tag <a>, <b> o <img> dentro un paragrafo si renderizza come spazio visibile. Aggiungere ritorni a capo lì cambia l'output renderizzato in modi tecnicamente cosmetici ma visibilmente diversi. Per questo un formattatore accurato tiene il contenuto inline su una riga anziché spingere ogni figlio sulla propria riga — le differenze tra browser qui sono piccole ma reali.",
+          "Il formattatore rende queste decisioni esplicite: il contenuto di pre, textarea, script e style passa intoccato, e i tag sono classificati come blocco, inline o void (img, br, hr, input e compagni, che non hanno tag di chiusura affatto e non devono aprire un livello di indentazione). Questa classificazione è la stessa che usa la specifica HTML, e sbagliarla è ciò che distingue un formattatore da un mutilatore di markup.",
+        ],
+      },
+      {
+        heading: "Tag auto-chiusi: come l'HTML malformato si indirizza con senno",
+        paragraphs: [
+          "L'HTML reale — template di email, pagine salvate dai browser, output di CMS legacy — chiude raramente ogni tag. Lo standard HTML definisce un insieme di elementi con tag di fine facoltativi: un nuovo li chiude implicitamente il li precedente, un p viene chiuso dalla maggior parte degli elementi blocco che seguono, e un tag di chiusura per un antenato chiude implicitamente ogni discendente aperto. Un formattatore che ignora queste regole annida tutto dentro il primo tag non chiuso, e l'indentazione diventa una bugia.",
+          "L'approccio pratico qui rispecchia un parser di browser: tiene uno stack di elementi aperti, li chiude secondo le regole di fine implicita dello standard, e lascia che un tag di chiusura per un antenato spopi ogni elemento aperto dopo di esso. L'input malformato degrada con grazia — i tag non chiusi si indentano comunque, i tag di chiusura disallineati non fanno crashare l'esecuzione — ma lo strumento non inventa struttura che non può vedere, motivo per cui deliberatamente non riordina né «sistema» il tuo markup oltre gli spazi bianchi.",
+          "Quel contegno è una posizione di design. Esistono abbellitori che riordinano gli attributi, convertono la sintassi auto-chiusa o normalizzano le virgolette; utili per le guide di stile, pericolosi quando ti serve che l'output corrisponda a un diff o a un template strict. Quando l'obiettivo è leggere un template email minificato o una pagina salvata, la trasformazione a soli spazi bianchi è quella onesta: ciò che vedi è esattamente la tua struttura, solo disposta per essere visibile.",
+        ],
+      },
+      {
+        heading: "Perché la formattazione gira nel tuo browser",
+        paragraphs: [
+          "Il tipo di HTML che la gente incolla in un formattatore è spesso riservato: template di email transazionali con token di clienti, pagine amministrative interne con URL di API, la pagina di un concorrente salvata per studio. Spedire una qualsiasi di queste a un servizio di formattazione mette il tuo markup su un server di terzi dove può essere registrato o conservato. Questo strumento tokenizza e indirizza in locale in JavaScript — nulla attraversa la rete, non c'è passo di caricamento, e la pagina funziona perfino offline.",
+          "C'è anche un beneficio di affidabilità. La formattazione lato client significa nessuna latenza di andata e ritorno mentre scrivi, nessun limite di frequenza, nessun tetto di dimensione imposto da un piano di servizio. Una pagina salvata grande con migliaia di nodi si formatta nella stessa sessione senza colpire una quota.",
+          "Se ti servono funzionalità oltre gli spazi bianchi — avvolgimento in stile Prettier, ordinamento degli attributi, unità di indentazione configurabili — la via onesta è eseguire un formattatore vero nella toolchain del tuo progetto. Per il flusso incolla-e-leggi, il perimetro stretto di questo strumento è il punto: un solo lavoro, fatto in modo prevedibile, con il markup che non lascia mai la macchina.",
+        ],
       },
     ],
   },
@@ -1729,6 +3306,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Tutto gira in locale nel tuo browser; la pagina e il suo markup non lasciano mai il dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché lo spazio bianco in HTML è più subdolo di quanto sembri",
+        paragraphs: [
+          "Collassare lo spazio bianco suona banale, ma le regole di renderizzazione dell'HTML lo rendono sottile. Nel flusso normale, qualunque sequenza di spazi, tabulazioni e ritorni a capo si renderizza come uno spazio — motivo per cui un ritorno a capo tra due elementi inline come <a> o <em> produce un gap visibile, mentre uno tra due <div> non produce nulla. Un minificatore deve rispettare questa asimmetria: collassare i gap inline a uno spazio, cancellare del tutto i gap a livello blocco.",
+          "Alcuni elementi non perdonano mai i cambi di spazio bianco. Dentro <pre>, <textarea>, <script> e <style>, lo spazio bianco è contenuto letterale — collassalo e il tuo esempio di codice perde la formattazione, la tua textarea arriva con predefiniti mutilati, il tuo script o i tuoi fogli di stile possono perfino rompersi sintatticamente. Questo strumento lascia quelle zone intatte byte per byte.",
+          "Per questo la percentuale di risparmio può essere più bassa di quella che i minificatori aggressivi riportano: ogni scelta qui pende verso tenere la renderizzazione identica anziché spremere l'ultimo byte. Ciò che rimuove — commenti dell'autore, indentazione, spazio morto tra i blocchi — era comunque invisibile nel browser, quindi nulla di ciò che vedi può cambiare.",
+        ],
+      },
+      {
+        heading: "Ciò che un minificatore conservatore si rifiuta di fare",
+        paragraphs: [
+          "I minificatori aggressivi possono anche togliere le virgolette degli attributi, riordinare gli attributi, riscrivere gli attributi booleani e fondere i nodi di testo adiacenti. Ognuno di questi risparmia qualche byte in più ma alza la posta: la rimozione delle virgolette può collidere con valori di attributo contenenti spazi, il collasso aggressivo può cambiare i confini dei nodi di testo da cui CSS o script dipendono. Questo strumento deliberatamente non fa nessuna di queste cose.",
+          "Quel conservatorismo paga nei domini dove la minificazione HTML è più usata a mano: template email e contenuti di CMS legacy. I client email sono notoriamente incoerenti su quale HTML accettano, e i template vecchi spesso si affidano a quirk del markup che un minificatore ristrutturatore romperebbe in silenzio. Un minificatore che rimuove solo byte provabilmente invisibili è sicuro da eseguire su markup che non puoi testare appieno.",
+          "I commenti meritano una nota speciale. I commenti dell'autore sono sicuri da cancellare, ma alcuni commenti sono codice vivo: commenti condizionali IE, marcatori di template server-side, avvisi di licenza. Cancellarli tutti cambia comportamento. Questo strumento rimuove i commenti normali ma preserva i condizionali, che è il modo singolarmente più comune in cui i minificatori ingenui rompono pagine vere.",
+        ],
+      },
+      {
+        heading: "Minificare sul dispositivo, specialmente per markup privati",
+        paragraphs: [
+          "L'HTML che minifichi spesso non è pubblico: landing page non rilasciate, dashboard interne, template email con campi di merge dei clienti, markup di staging con commenti su prezzi non ancora spediti. Caricare tutto questo su un servizio web solo per togliere spazi bianchi è un rischio evitabile — molti minificatori online inviano infatti il documento al loro server.",
+          "Qui l'intera catena gira nel tuo browser: analisi, trasformazione e lettura della dimensione avvengono tutti in JavaScript locale, senza rete coinvolta. Template proprietari e pagine interne possono essere minificati senza lasciare la tua macchina, e lo strumento funziona offline — utile quando stai rifinendo una pagina prima che abbia un posto dove stare.",
+          "Per le distribuzioni vere, abbinalo ai minificatori CSS e JavaScript per i guadagni più grandi, poi affidati alla compressione di trasferimento (gzip o brotli sul server) che supera di gran lunga ciò che qualsiasi minificatore risparmia. Il lavoro del minificatore è togliere byte che il formato di trasmissione non può togliere; la compressione del server gestisce il resto.",
+        ],
+      },
+    ],
   },
   "http-status-codes": {
     name: "Codici di stato HTTP",
@@ -1755,6 +3358,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché 401 e 403 dicono entrambi che non posso entrare?",
         a: "Il 401 significa «chi sei?» — le credenziali mancano o sono sbagliate. Il 403 significa «so chi sei e ancora non puoi» — l'autenticazione è riuscita ma la risorsa è preclusa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Le cinque classi e come leggerle",
+        paragraphs: [
+          "La prima cifra di un codice di stato ti dice quale famiglia sta parlando. 1xx è informativo — chiacchiere interim come 100 Continue durante grandi caricamenti, mai una risposta finale. 2xx significa successo in qualche forma: 200 è il semplice OK, 201 dice che una risorsa è stata creata, 204 dice successo senza nulla da restituire. 3xx è redirezione — la risorsa vive altrove. 4xx è colpa del client, 5xx del server.",
+          "La divisione in classi conta per il debugging perché assegna subito la colpa. Un 4xx nei tuoi log di solito significa che il client ha spedito qualcosa di sbagliato — credenziali brutte (401), permessi mancanti (403), corpo della richiesta brutto (400), o chiedere qualcosa che non esiste (404). Un 5xx significa che il server ha colpito un problema interno — un'eccezione non gestita (500), un fallimento a monte (502 Bad Gateway), un sovraccarico (503). Leggere prima la classe trasforma un errore da mistero a direzione.",
+          "Due sottigliezze che vale la pena conoscere: 202 Accepted significa che la richiesta è stata ricevuta ma non ancora agita — comune con code di lavori asincroni — e un 3xx non sempre significa una redirezione che un browser seguirà, dato che 304 Not Modified è la risposta della negoziazione di cache senza alcun corpo.",
+        ],
+      },
+      {
+        heading: "Redirezioni, cache e i codici che la gente sbaglia",
+        paragraphs: [
+          "La famiglia 3xx è dove si concentrano gli errori del mondo reale. 301 è permanente: i motori di ricerca trasferiscono i ranking, e i browser possono cachare la redirezione aggressivamente. 302 è temporaneo ma ambiguo sul metodo — i client storicamente commutavano POST in GET dopo un 302, che è esattamente ciò che 307 vieta. Quando un POST deve sopravvivere a una redirezione intatto, 307 (temporaneo) o 308 (permanente) sono le risposte corrette; 303 See Other è l'istruzione deliberata «convertilo in un GET», classica dopo un POST di un modulo.",
+          "Il comportamento di cache è l'altra metà che la classe non ti dice. Un 200 può essere cacheabile o no a seconda degli header; 304 è esplicitamente l'handshake di cache; 410 Gone dice ai client di smettere di chiedere, e i motori di ricerca lo de-indicizzano più in fretta del 404. Il codice di stato fissa la cornice, ma gli header decidono i dettagli — motivo per cui un'API che «restituisce 200 con un oggetto errore nel corpo» rompe cache e retry ovunque: il codice dice successo, la semantica dice fallimento.",
+          "401 contro 403 merita una riga propria: 401 riguarda l'identità (non ti sei autenticato, riprova con credenziali, di solito con un header WWW-Authenticate), mentre 403 riguarda l'autorizzazione (identità stabilita, accesso negato). Restituire 403 per login mancante invece di 401 è uno dei bug di design API più comuni — il client non può dire se ri-autenticarsi aiuterebbe.",
+        ],
+      },
+      {
+        heading: "Un riferimento che resta sulla tua macchina",
+        paragraphs: [
+          "Questa pagina è un riferimento statico renderizzato in locale nel tuo browser: nessuna richiesta di ricerca viene fatta quando cerchi o clicchi, e una volta caricata funziona offline. Quel design si addice a come viene usata — a metà incidente, in una chiamata, con i log di produzione aperti e la rete a metà rotta. Il copia-al-clic esiste perché i codici di stato finiscono di solito incollati in segnalazioni di bug, runbook e code review, un tasto alla volta.",
+          "I codici di stato vengono dagli standard HTTP (le classi base nella RFC 9110 e compagne, i codici estensione di HTTP/2 come 425, e il 418 del pesce d'aprile finito riservato), e l'insieme cresce raramente — le ultime aggiunte adottate largamente sono state le diagnosi più specifiche della fascia 4xx. Questo riferimento copre l'insieme pratico e spiega ciascuno in linguaggio piano anziché in prosa di specifica.",
+          "Abbinala al parser URL quando fai debugging: un 301 o 302 non significa nulla finché non vedi dove punta l'header Location, e il parser mostra direttamente la struttura dell'URL di destinazione. Con i due affiancati la catena di causa si ricostruisce in un'unica pagina — stato, direzione e destinazione — senza consultare specifiche in mezzo a un incidente.",
+        ],
       },
     ],
   },
@@ -1785,6 +3414,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Tutto gira in locale nel tuo browser — il tuo sorgente non lascia mai il dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Minificare, gzip e ciò che risparmia davvero byte",
+        paragraphs: [
+          "Minificazione e compressione sono livelli diversi, e sapere quale fa il lavoro conta. La minificazione è una riscrittura testuale con perdita: commenti e spazi rimossi, nomi accorciati, istruzioni fuse. Gzip o Brotli è la compressione di trasporto senza perdita applicata dopo. Lo spazio bianco si comprime estremamente bene — il gzip da solo può restringere uno script verboso del 70-80% — quindi i risparmi marginali di un minificatore sono molto più piccoli di quanto la sua percentuale grezza suggerisca.",
+          "La ragione vera per minificare non è la ridondanza per il gzip ma il costo di analisi ed esecuzione: ogni commento e carattere di formattazione che un browser deve analizzare è tempo CPU sul dispositivo del visitatore, cosa che conta sui telefoni economici. Ricorda anche che togliere i commenti ha un costo nascosto se ti affidi alle annotazioni in linea — alcuni strumenti (mappe sorgente a parte, certi bundler e framework leggono direttive come /*#__PURE__*/ dai commenti) hanno bisogno che quei marcatori sopravvivano.",
+          "Questo strumento prende deliberatamente la corsia conservatrice: toglie i commenti e collassa le righe vuote ma tiene i ritorni a capo tra le istruzioni. Se servi l'output con gzip o Brotli attivi, catturi la maggior parte dei risparmi disponibili senza un passo di build — e senza alcun rischio delle riscritture che fondono, incorporano o rinominano facendo qualcosa che il tuo codice non si aspettava.",
+        ],
+      },
+      {
+        heading: "L'inserzione automatica del punto e virgola — la ragione per cui i ritorni a capo restano",
+        paragraphs: [
+          "JavaScript è l'unico linguaggio mainstream dove cancellare un ritorno a capo può cambiare il comportamento del programma. L'inserzione automatica del punto e virgola (ASI) inserisce punti e virgola in base ai confini di riga e a regole specifiche: un return seguito da un ritorno a capo restituisce undefined, non l'espressione della riga successiva; un a++ su riga propria, la continuazione di un assegnamento tra righe — tutto dipende da dove sono le interruzioni. Unire ciecamente tutto in una riga fonde questi confini e riscrive la semantica in silenzio.",
+          "Per questo i minificatori completi devono analizzare il file in un AST prima di toccarlo — riemettono codice dove i pericoli di ASI sono risolti esplicitamente. Qualsiasi strumento che si limita a cancellare lo spazio bianco senza analizzare (come i minificatori rapidi a base regex) può produrre codice che gira diversamente dalla sorgente. Questo strumento aggira l'intera classe di bug tenendo intatti i ritorni a capo ai confini delle istruzioni.",
+          "Il compromesso è onesto: ottieni un file un po' più grande dell'output di Terser, in cambio della garanzia che il comportamento sia equivalente alla struttura byte per byte. Per script incorporati in pagine, estensioni, stili utente o ambienti senza catena di build, quella garanzia di solito vale i byte.",
+        ],
+      },
+      {
+        heading: "Il tuo codice sorgente resta sul tuo dispositivo",
+        paragraphs: [
+          "Incollare codice sorgente non ancora rilasciato in uno strumento web è una decisione di fiducia, e una che la maggior parte degli sviluppatori prende troppo alla leggera. Il codice che stai per spedire può contenere nomi interni, endpoint di API, credenziali commentate o logica proprietaria. Caricarlo su un minificatore di terzi significa che il server di uno sconosciuto conserva una copia del tuo lavoro pre-rilascio — senza contratto, senza audit, senza garanzia di cancellazione.",
+          "Questo strumento processa tutto nel tuo browser: il minificatore è JavaScript che gira in locale sul tuo input, senza alcuna richiesta di rete che porti il tuo codice da qualche parte. La lettura del risparmio di byte viene calcolata sul posto. Una volta caricata la pagina, puoi disconnetterti e continuare a minificare.",
+          "Per i team con catene vere, continuate a usare Terser/esbuild in CI dove le mappe sorgente e i bundle sono gestiti a dovere. Per un file singolo, una verifica rapida di cosa la produzione servirà, o una base di codice senza sistema di build, questa è la via a zero-configurazione e zero-rischio.",
+        ],
+      },
+    ],
   },
   "json-formatter": {
     name: "Formattatore JSON",
@@ -1811,6 +3466,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio JSON viene caricato su un server?",
         a: "No. Tutto gira in locale nel tuo browser con JavaScript — i tuoi dati non lasciano mai il dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Formattare cambia gli spazi bianchi, mai il significato",
+        paragraphs: [
+          "L'abbellimento è puramente un'operazione di spazio bianco: l'input viene analizzato in una struttura dati, poi ri-serializzato con l'indentazione scelta. Chiavi, valori, profondità di annidamento e ordine delle chiavi escono esattamente come sono entrati — due documenti JSON che differiscono solo per gli spazi bianchi analizzano allo stesso valore e sono intercambiabili per qualunque programma li consumi.",
+          "Una sfumatura che vale la pena conoscere: la formattazione dei numeri può spostarsi nel display. I numeri JSON vengono analizzati come double IEEE-754, quindi gli interi molto grandi — qualsiasi cosa sopra 2^53, come gli ID snowflake — possono stamparsi con cifre arrotondate. Il valore era già con perdita all'analisi in ogni motore JavaScript; il formattatore non ha inventato l'arrotondamento. Quando le cifre esatte contano, gli ID dovrebbero viaggiare come stringhe nel tuo JSON.",
+          "Ciò che la formattazione non può fare è riordinare o rinominare qualcosa. Alcuni strumenti offrono l'ordinamento delle chiavi come extra facoltativo, comodo per fare diff di file di configurazione, ma trattalo come un passo separato e deliberato — un formattatore che riordina le chiavi in silenzio rende impossibile il confronto a livello di byte con l'originale.",
+        ],
+      },
+      {
+        heading: "Scegliere la larghezza dell'indentazione",
+        paragraphs: [
+          "Due spazi è lo standard di fatto nell'ecosistema JavaScript — i pacchetti npm, la maggior parte delle guide di stile e la maggioranza delle basi di codice frontend lo usano, quindi è l'impostazione più sicura quando incolli in una base di codice di team. Quattro spazi restano comuni nel vecchio codice aziendale e adiacente a Java. Le tabulazioni vincono in accessibilità: ogni lettore imposta la propria larghezza di visualizzazione, al costo di file misti tab/spazio che si renderizzano incoerentemente.",
+          "La larghezza conta più di quanto sembri perché i diff sono sensibili agli spazi bianchi. Se il linter del tuo team impone due spazi e tu formatti con quattro, ogni riga appare come modificata nella revisione anche se nulla di semantico si è mosso. Abbina la convenzione della destinazione del file prima di incollare l'output.",
+          "Per l'ispezione a gettare — leggere una risposta di API, controllare una riga di log — la scelta dell'indentazione è pura preferenza. Scegli quella che rende la profondità di annidamento più facile da seguire con gli occhi; lo strumento si aggiorna dal vivo, quindi cambiare non costa nulla.",
+        ],
+      },
+      {
+        heading: "Abbellisci per leggere, minifica per spedire, tutto sul dispositivo",
+        paragraphs: [
+          "Formattare e minificare sono le due estremità di un unico flusso. Pretty-print per gli umani: code review, debugging, confronto di payload. Minifica per le macchine: trasporto, archiviazione e cache, dove ogni byte di indentazione è peso morto. Questo strumento si abbina al minificatore JSON — abbellisci per ispezionare un payload in arrivo, minifica prima di spedirlo fuori.",
+          "A differenza dei formattatori degli editor, nulla deve essere installato o configurato: nessun progetto, nessun plugin, nessun salvataggio di file su disco solo per riformattarlo. Incolla, leggi, copia. Questo lo rende il ciclo più rapido per il caso più comune — un payload da una scheda del browser che chiuderai tra un minuto.",
+          "Il tuo JSON viene analizzato interamente in questa scheda del browser. Risposte da API di staging, righe di log con dati utente e file di configurazione contenenti segreti non toccano mai un server — lo strumento funziona anche offline, così un altalena di VPN o un volo non interrompe una sessione di debugging.",
+        ],
       },
     ],
   },
@@ -1841,6 +3522,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La minificazione gira interamente nel tuo browser — nulla viene caricato, registrato o salvato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Lo spazio bianco è gratis in JSON — tranne dentro le stringhe",
+        paragraphs: [
+          "La grammatica JSON definisce lo spazio bianco (spazi, tabulazioni, ritorni a capo) come ignorabile tra i token: tra le chiavi e i valori di un oggetto, tra gli elementi di un array, attorno alle parentesi. Toglierlo produce un documento che analizza allo stesso identico valore — motivo per cui la minificazione qui è una trasformazione senza perdita, a differenza della compressione di immagini o audio.",
+          "L'unico posto dove lo spazio bianco è sacro è dentro i valori stringa. «hello world» con lo spazio collassato è un valore diverso. Un minificatore corretto percorre la grammatica anziché applicare sostituzioni cieche di testo — per questo l'input deve prima essere JSON valido, e perché un documento invalido riceve un errore riga-colonna anziché un one-liner mutilato.",
+          "Una sottigliezza che la lettura della dimensione rende visibile: numeri e nomi di chiavi non vengono toccati. Un minificatore non arrotonda 3.14159, non riordina le chiavi né accorcia «someVeryLongKeyName» — tutte cose che cambierebbero i dati. Tutto ciò che viene salvato viene dalla sola formattazione, motivo per cui la percentuale varia così tanto tra un file indentato a quattro spazi e uno indentato a tabulazioni.",
+        ],
+      },
+      {
+        heading: "Ciò che la minificazione compra — e ciò che fa invece la compressione",
+        paragraphs: [
+          "Il JSON minificato si restringe tipicamente del 30–60% rispetto all'input pretty-printed, a seconda della profondità di indentazione. Per le risposte API quella cifra conta meno di quanto sembri, perché la compressione di trasporto mangia la maggior parte degli stessi byte: gzip e brotli collassano l'indentazione ripetuta e i nomi delle chiavi quasi gratis. La versione minificata vince comunque sopra — i rapporti di compressione migliorano una volta tolta la ridondanza — ma il guadagno marginale per risposta è modesto.",
+          "Dove la minificazione paga davvero: l'archiviazione su scala (log, archivi di eventi, fixture incorporate), lo scambio di file macchina-a-macchina dove ogni megabyte di trasferimento o disco conta, e il JSON incorporato dentro altri documenti — un tag script, un attributo data, una stringa di configurazione — dove l'indentazione si moltiplica su migliaia di ripetizioni.",
+          "Tieni la versione formattata come fonte di verità. Il JSON minificato è per le macchine; fare debugging di un muro di token su una riga a occhio è una partita persa. Abbina questo strumento al formattatore: tieni i file carini nel repository, minifica al punto d'uso, e riformatta ogni volta che un payload minificato va letto.",
+        ],
+      },
+      {
+        heading: "Stringere i payload senza spedirli da nessuna parte",
+        paragraphs: [
+          "Il JSON che minifichi prima di spedirlo è spesso sensibile: configurazione con endpoint e chiavi, file di traduzione per un prodotto non rilasciato, registri di clienti esportati per una migrazione. Un minificatore che carica documenti a un backend trasforma un passo puramente locale di risparmio di byte in un'uscita di dati — per questo questo gira interamente nel JavaScript del tuo browser.",
+          "L'esecuzione locale significa anche nessun tetto di dimensione e nessuna latenza: un'esportazione di più megabyte si minifica con la stessa facilità di uno snippet, e l'intero flusso funziona offline. Nulla viene registrato, quindi le iterazioni ripetute sullo stesso file non lasciano traccia.",
+          "Un flusso che ti tiene onesto: minifica una copia, mai l'originale. Lo strumento ti dà il risparmio di byte esatto così puoi decidere se la forma compatta vale la manutenzione — per la configurazione consumata dalle macchine di solito vale; per i file che gli umani modificano ancora, sorgente formattata più output minificato alla build batte i file minificati a mano ogni volta.",
+        ],
+      },
+    ],
   },
   "json-to-csv": {
     name: "JSON in CSV",
@@ -1867,6 +3574,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "I miei dati vengono caricati da qualche parte?",
         a: "No. La conversione avviene in locale nel tuo browser — nulla lascia il tuo dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Come funziona davvero il quoting del CSV",
+        paragraphs: [
+          "Il CSV sembra il formato più semplice del mondo, e le sue regole di protezione sono la ragione per cui ogni convertitore fatto a mano finisce per corrompere dati. La convenzione della RFC 4180: un campo contenente una virgola, una virgoletta doppia o un ritorno a capo deve essere avvolto in virgolette doppie, e ogni virgoletta dentro va raddoppiata — un valore come ha detto «ciao» diventa, nel file, una sequenza con virgolette raddoppiate. Qualsiasi altro trattamento viene letto diversamente dai diversi importatori.",
+          "I ritorni a capo dentro i campi sono la regola meno conosciuta. Una cella può legalmente contenere un ritorno a capo, purché sia tra virgolette — i fogli di calcolo lo gestiscono bene, ma i parser ingenui riga per riga lo trattano come tre record. Se il numero di righe convertite sembra sbagliato nel tuo strumento a valle, un ritorno a capo incorporato in un campo di testo è il primo sospettato.",
+          "Diffida della trappola della doppia conversione: incollare CSV attraverso un altro strumento che spezza pure sulle virgole può raddoppiare le protezioni, lasciando coppie di virgolette visibili dentro le celle. Quando un risultato appare strano, verificalo contro le regole sopra anziché dare per scontato che il convertitore sia rotto — la maggior parte delle volte i dati di origine contenevano una virgoletta o una virgola che non avevi notato.",
+        ],
+      },
+      {
+        heading: "Delimitatori, lingue e la trappola decimale di Excel",
+        paragraphs: [
+          "Il delimitatore non è universale. Le lingue inglese ed est-asiatiche aprono i file separati da virgola nativamente, ma gran parte d'Europa usa il punto e virgola perché la virgola è già il separatore decimale: un Excel tedesco che apre un file delimitato da virgola mette 1,5 e 2,5 in una colonna sola. Se i tuoi destinatari sono europei, scegli l'opzione punto e virgola prima di spedire.",
+          "Una trappola collegata avviene perfino col delimitatore giusto: Excel riformatta i valori all'apertura. Gli identificatori che sembrano numeri perdono gli zeri iniziali (CAP, prefissi SKU), gli ID numerici lunghi diventano 4.31202E+12, e le date vengono reinterpretate per la lingua della macchina. Il file CSV in sé è a posto — è l'indovinare i tipi del foglio di calcolo a mutilarlo. Importare attraverso una procedura guidata con tipi di colonna espliciti evita tutto ciò.",
+          "I tipi del JSON si mappano puliti per il resto: i booleani diventano testo true/false, i numeri passano come cifre, il null diventa una cella vuota. Nota la distinzione tra cella vuota e null — la maggior parte degli importatori le tratta identiche, ma alcuni database distinguono un NULL esplicito da una stringa vuota, quindi controlla la convenzione della tua destinazione se quella distinzione conta.",
+        ],
+      },
+      {
+        heading: "Convertire le esportazioni in locale, non nel cloud",
+        paragraphs: [
+          "Il JSON che converti in CSV è tipicamente un'esportazione di record veri: elenchi di clienti da un pannello amministrativo, storie di ordini da un'API, righe di analisi dirette al team finanziario. Sono esattamente i dataset che non dovrebbero passare per un servizio web casuale — e parecchi convertitori online caricano il tuo documento sul loro server.",
+          "Qui l'intera conversione gira nel tuo browser: analizzare l'array, unire le chiavi, proteggere le celle, tutto in JavaScript locale. Record con dati personali, metriche di prodotti non rilasciati o qualsiasi cosa sotto contratto possono essere convertiti senza mai attraversare la rete, e lo strumento funziona offline per quelle occasioni in cui la fonte dei dati è una macchina interna senza alcun accesso a internet.",
+          "Non c'è nemmeno un cancello sul numero di righe: un'esportazione di diecimila righe si converte con la stessa facilità del campione a due righe. Abbina il risultato a csv-to-json quando il flusso si inverte — il CSV che torna dal team finanziario verso la tua API — e il viaggio di andata e ritorno resta coerente perché entrambi i lati seguono le stesse regole di quoting.",
+        ],
       },
     ],
   },
@@ -1897,6 +3630,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La validazione avviene in locale nel tuo browser; nulla lascia il tuo dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che un validatore di sintassi può e non può dirti",
+        paragraphs: [
+          "Questo validatore risponde esattamente a una domanda: è questo documento JSON valido secondo la RFC 8259? Controlla la struttura — graffe e parentesi bilanciate, virgole tra gli elementi, stringhe e chiavi tra virgolette doppie, escape legali, esattamente un valore di primo livello. Non controlla se i dati abbiano senso.",
+          "I controlli di schema sono un lavoro diverso. Un documento come {«age»: «forty»} è JSON perfettamente valido qui — il valore è una stringa legale — anche se la tua API si aspetta un numero. Cogliere quel mismatch richiede JSON Schema o un validatore calibrato sul contratto della tua API, e mescolare i due lavori porta a risultati confusi. Usa prima questo strumento per confermare che il documento analizzi almeno; solo dopo preoccupati di cosa significano i campi.",
+          "Un modello mentale utile: la validazione sintattica è un controllo ortografico, la validazione di schema è un controllo grammaticale. Sistema ogni segnalazione rossa qui prima di far girare il payload contro uno schema o spedirlo a un endpoint vero, perché un validatore di schema non può nemmeno cominciare su input che non analizza.",
+        ],
+      },
+      {
+        heading: "Leggere il rapporto di riga e colonna",
+        paragraphs: [
+          "La posizione riportata indica il primo carattere che ha reso impossibile l'analisi, non la causa radice. Una virgola mancante prima della riga 7 viene di solito riportata come errore alla riga 7, dove il parser ha trovato qualcosa che non si aspettava. Quando sistemi un errore, ri-esegui: gli errori spesso si propagano a catena, e una parentesi mancante può mascherarne parecchie dietro di sé.",
+          "I colpevoli più comuni nel JSON modificato a mano sono la virgola finale dopo l'ultimo elemento, le virgolette singole al posto delle doppie (un'abitudine presa dal JavaScript), e caratteri invisibili incollati — uno spazio unificatore all'inizio di una riga viene riportato come token inatteso anche se non lo vedi. Cancellare e riscrivere la riga segnalata sistema il caso del carattere invisibile.",
+          "Un altro classico: ritorni a capo letterali dentro una stringa. Le stringhe JSON devono stare su una riga, con \\n scritto come sequenza di escape di due caratteri. Gli editor con avvolgimento morbido rendono difficile vederlo, motivo per cui il numero di colonna — non solo la riga — conta quando leggi il rapporto.",
+        ],
+      },
+      {
+        heading: "Perché la validazione locale conta",
+        paragraphs: [
+          "I payload che incolli in un validatore sono raramente pubblici: corpi di webhook contenenti email di utenti, risposte API da un ambiente di staging, file di configurazione con token, dump di database in transito. Spedirli a un server sconosciuto per validarli è un piccolo ma reale rischio di perdita di dati, e molti validatori online fanno esattamente questo.",
+          "Tutto qui gira nel JavaScript del tuo browser. Il documento viene analizzato sul tuo dispositivo e mai trasmesso, registrato o memorizzato — puoi validare segreti, payload di API interne e dati di clienti senza ripensamenti. Significa anche che lo strumento funziona offline: un aereo, una rete aziendale blindata o una VPN morta non ti impediscono di controllare una configurazione.",
+          "Non c'è nemmeno un cancello di dimensione — il limite è la memoria del tuo browser, non un tetto di caricamento. Grandi log convertiti in JSON, esportazioni complete di database e documenti generati dalle macchine validano con la stessa rapidità di uno snippet a due righe.",
+        ],
+      },
+    ],
   },
   "jwt-decoder": {
     name: "Decodificatore JWT",
@@ -1923,6 +3682,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "È sicuro incollare qui un token vero?",
         a: "Il token viene decodificato interamente nel tuo browser e non lascia mai il tuo dispositivo — non esiste upload. Restano comunque credenziali: evita di incollare token di produzione dove non ti serve davvero.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Decodificare non è verificare — il fatto di sicurezza che conta di più",
+        paragraphs: [
+          "I primi due segmenti di un JWT sono JSON codificato in Base64URL semplice, senza alcuna cifratura. Chiunque riceva un token può leggere ogni claim in esso, e qualunque token può essere costruito a mano in pochi secondi. È per design: i JWT sono firmati, non sigillati. La firma alla fine prova che il token è stato emesso da chi detiene la chiave e non è stato modificato da allora — non fa nulla per nascondere il contenuto.",
+          "La conseguenza che ogni sviluppatore deve interiorizzare: vedere un header ben formato, un payload plausibile e una stringa di firma non prova nulla sulla legittimità del token. Un attaccante può cambiare il payload — girare un ruolo da user a admin — ri-codificarlo e attaccare qualsiasi byte di firma; si decodifica splendidamente e non autentica da nessuna parte. Solo il server, che detiene il segreto HMAC o la chiave pubblica, può dire la differenza. Questo strumento deliberatamente non verifica mai: ti mostra ciò che un token dice, e ciò che dice non ha autorità finché il tuo server non ha controllato la firma.",
+          "Decodificare è anche una lente di audit su ciò che stai davvero spedendo. Incolla un token del tuo flusso di login e controlla i claim di cui magari non sapevi fossero esposti: ID utente interni, indirizzi email, nomi di tenant, elenchi di permessi. Tutto nel payload è leggibile dal client — incluso chiunque abbia i dev tool del browser aperti — quindi la regola è: mai mettere un segreto in un payload JWT. Se deve essere segreto, non appartiene al token; usa un ID di sessione opaco supportato da archiviazione lato server.",
+        ],
+      },
+      {
+        heading: "Leggere i claim standard: exp, iat e le trappole dell'orologio",
+        paragraphs: [
+          "I claim registrati (RFC 7519) hanno significati concordati: iss (emittente), sub (soggetto), aud (pubblico), exp (scadenza), nbf (non prima), iat (emesso alle). Tutte le date sono secondi dall'epoca Unix, non stringhe ISO — exp=1893456000 è una data, e questo strumento la renderizza nel tuo fuso orario così nessuno deve fare calcoli di epoca per sapere se un token è scaduto.",
+          "Il fallimento classico è lo sfasamento di orologio tra l'emittente del token e il verificatore: un server con l'orologio di un minuto indietro respinge token ancora validi dal punto di vista dell'emittente, e la cura è una piccola finestra di tolleranza (le librerie tipicamente espongono una tolleranza di 30-60 secondi). Un'altra trappola è exp che è un tempo assoluto, non un TTL — un token emesso con scadenza a 30 giorni non può essere accorciato senza riemissione, motivo per cui gli access token a breve vita accoppiati ai refresh token sono diventati lo schema standard.",
+          "Controlla anche aud e iss, non solo exp. Un token non scaduto ma emesso per un altro pubblico è esattamente tanto invalido quanto uno scaduto — i server che controllano solo exp accettano token coniati per un altro servizio. Quando fai debugging di un 401, decodifica prima il token qui: più spesso che no la risposta è visibile nel payload prima che tu tocchi qualunque log del server.",
+        ],
+      },
+      {
+        heading: "Perché il token non lascia mai il tuo browser",
+        paragraphs: [
+          "Un JWT è una credenziale portatore: chi la detiene può agire come te finché scade. Incollare un token vivo in un decoder lato server consegnerebbe esattamente quel potere all'operatore del server — il peggiore risultato possibile per uno strumento di debugging. Questo strumento analizza i segmenti Base64URL solo con JavaScript del browser; il token non viene mai trasmesso, registrato o memorizzato, e una volta caricata la pagina funziona tutto offline.",
+          "Per così, tratta la casella di incollaggio come tratteresti qualunque posto dove va una credenziale. Preferisci incollare token scaduti o di ambiente di test; se devi ispezionare un token di produzione, fallo una volta e lascialo scadere anziché rigenerarne uno a lunga vita per l'occasione.",
+          "La stessa filosofia locale e senza verifica continua sul sito: gli strumenti base64 decodificano i segmenti grezzi se vuoi scendere di livello, e gli strumenti di hash ti permettono di fare l'impronta di un token per confrontare se due token emessi differiscono senza mai esporne il contenuto.",
+        ],
       },
     ],
   },
@@ -1953,6 +3738,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Interamente nel tuo browser — il Markdown non lascia mai il tuo dispositivo, nemmeno quando copi l'HTML generato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "GFM contro CommonMark: perché le tue tabelle si renderizzano",
+        paragraphs: [
+          "Markdown non è un'unica lingua. CommonMark è il nucleo specificato rigorosamente — titoli, elenchi, enfasi, link — che esiste perché l'implementazione Perl originale del 2004 era così ambigua che non c'erano due renderer d'accordo. GitHub Flavored Markdown (GFM) è CommonMark più estensioni: tabelle, barrato ~~come questo~~, liste di compiti, autolink e blocchi di codice recintati con un tag di lingua.",
+          "L'anteprima renderizza il sapore GFM perché è ciò che la gente scrive davvero: i README su GitHub, le issue, le descrizioni delle pull request e la maggior parte dei siti di documentazione si aspettano che tabelle e liste di compiti funzionino. Se porti lo stesso documento su un renderer CommonMark strict, le tabelle usciranno come testo grezzo — una sorpresa di porting da anticipare, non un bug.",
+          "Le differenze restanti tra sapore sono più sottili: le regole di interruzione di riga nei paragrafi, come si annidano le liste lasche contro quelle strette, e casi limite dell'enfasi tra parole. Quando uno snippet si renderizza diversamente su questa pagina che su un altro sito, la causa è quasi sempre il sapore, non un errore nel tuo Markdown — controlla quali estensioni attiva l'altro renderer.",
+        ],
+      },
+      {
+        heading: "L'igienizzatore è la storia della sicurezza",
+        paragraphs: [
+          "Un'anteprima Markdown esegue ciò a cui il Markdown si espande, e l'HTML grezzo nel Markdown è legale — il che significa che un documento incollato può portare <script>, attributi onclick o link javascript:. Renderizzare quello senza igienizzazione è esattamente come avviene l'XSS nei sistemi di commenti, nelle pagine wiki e nei campi CMS che accettano Markdown dagli utenti.",
+          "Questa anteprima applica una whitelist prima che qualsiasi cosa raggiunga la pagina: sopravvivono solo i tag di formattazione standard e i valori di attributo sicuri. Tag script, gestori di eventi in linea e URL javascript: vengono rimossi. La conseguenza pratica è che puoi incollare contenuto non fidato — un documento di uno sconosciuto, un thread di commenti raccolto — e l'anteprima non eseguirà nulla di ostile.",
+          "Lo stesso igienizzatore protegge la via di copia in uscita. L'HTML che copi è già pulito, quindi incollarlo in un CMS o in un editor di blog non introduce script di contrabbando. Nota il confine onestamente: l'igienizzazione rimuove il contenuto attivo, non audita ciò che il testo visibile dice — un documento può essere privo di script e contenere comunque consigli sbagliati.",
+        ],
+      },
+      {
+        heading: "Dove vivono le tue bozze",
+        paragraphs: [
+          "Le bozze di documentazione sono lavori in corso: changelog non rilasciati, runbook interni con dettagli di infrastruttura, descrizioni di PR che discutono correzioni di sicurezza. Un'anteprima Markdown che carica le bozze su un server metterebbe esattamente quello in transito — quindi tutto qui gira in locale: il motore e l'igienizzatore eseguono entrambi nel JavaScript del tuo browser.",
+          "L'elaborazione in locale significa che nessuna bozza persiste da qualche parte, nessun viaggio di rete rallenta la renderizzazione dal vivo, e lo strumento funziona offline. Scrivere documentazione su un aereo o in un ambiente senza accesso esterno alla rete si comporta identicamente alla tua scrivania.",
+          "Evita anche l'attrito abituale di incolla-e-formatta: nessun plugin dell'editor da installare, nessun passo di build da eseguire, nessun file da salvare prima. Incolla da Slack, da un commento nel codice, da un ticket — vedi renderizzato in un secondo, copia HTML pulito se ti serve.",
+        ],
+      },
+    ],
   },
   "md5-generator": {
     name: "Generatore MD5",
@@ -1979,6 +3790,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio testo e i miei file vengono inviati a un server?",
         a: "No. Tutto gira nel tuo browser; perfino i file vengono letti e hashati interamente sul tuo dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché MD5 è rotto — e perché sopravvive ancora",
+        paragraphs: [
+          "MD5 fu progettato da Ron Rivest nel 1991 come digest di messaggio a 128 bit rapido, e per un decennio fu l'hash predefinito del web. Quella velocità era il suo punto di forza — e alla fine la sua rovina. Poiché processa i dati in fretta, gli attaccanti possono provare numeri enormi di input al secondo, e poiché la sua struttura interna ha debolezze note, non gli serve nemmeno la forza bruta per rompere la resistenza alle collisioni.",
+          "La resistenza alle collisioni di MD5 collassò a stadi a metà anni 2000: i ricercatori dimostrarono tecniche di collisione pratiche, e il malware Flame del 2012 usò famosamente una collisione MD5 per falsificare un certificato di firma del codice Microsoft. Da allora, nessun protocollo di sicurezza serio accetta MD5 per firme, certificati o autenticazione.",
+          "Eppure MD5 non è scomparso, e va bene purché tu capisca la distinzione: un attacco a collisione permette a un attaccante di costruire due input diversi con lo stesso hash, ma non lo aiuta a invertire un hash o a manomettere un file senza essere rilevato in ogni contesto. Verificare che un grande download corrisponda a un checksum pubblicato dalla stessa fonte fidata è non-avversariale — nessuno sta costruendo collisioni contro di te. Per quel lavoro MD5 resta perfettamente utilizzabile; per tutto ciò dove un attaccante sceglie parte dell'input, no.",
+        ],
+      },
+      {
+        heading: "Usare i checksum correttamente",
+        paragraphs: [
+          "Un confronto di checksum è affidabile quanto la fonte del valore atteso. Quando un progetto pubblica un MD5 accanto a un download, il checksum serve a rilevare la corruzione in transito — un trasferimento troncato, un mirror brutto, un disco graffiato. Se il checksum stesso arriva da un canale non fidato, un attaccante che può scambiare il file può scambiare anche il checksum, e MD5 confermerà felice il falso.",
+          "La sensibilità al caso fa inciampare la gente più del dovuto: alcuni strumenti stampano esadecimale maiuscolo, altri minuscolo. I digest sono identici — A3F… e a3f… sono lo stesso numero in notazione diversa — quindi confronta senza distinguere il caso o normalizza prima di dichiarare un mismatch. Un ritorno a capo finale nell'input è l'altro classico inciampo: fare l'hash di un file di testo che finisce con un ritorno a capo dà un digest diverso che senza, motivo per cui la nostra modalità testo fa l'hash esattamente dei caratteri che fornisci.",
+          "Per le chiavi di deduplicazione e i cache buster, la velocità di MD5 è una caratteristica, non un compromesso. Generare una chiave a 32 caratteri da un blob di contenuto è economico e stabile tra esecuzioni, linguaggi e piattaforme — lo stesso algoritmo RFC 1321 produce lo stesso output che tu lo chiami dal JavaScript qui, dal md5sum su Linux, o da una libreria nel tuo backend.",
+        ],
+      },
+      {
+        heading: "Tutto gira sul tuo dispositivo",
+        paragraphs: [
+          "Fare l'hash è esattamente il tipo di operazione che non vuoi esternalizzare: il senso stesso di controllare un file spesso è che non ti fidi appieno della rete da cui è arrivato. Spedire quello stesso file a un server web sconosciuto per farne l'hash vanificherebbe lo scopo. Per questo questo strumento calcola MD5 interamente nel tuo browser — il testo fa l'hash mentre scrivi, e i file vengono letti in locale con l'API file del browser, mai caricati.",
+          "Quel design locale ha benefici pratici oltre la privacy: nessun tempo di caricamento, nessun cancello di dimensione e nessuna coda sul server. Un'immagine ISO di più gigabyte richiede solo quanto la lettura dal disco e funziona offline una volta caricata la pagina.",
+          "Per tutto ciò che è critico per la sicurezza, abbina questo strumento a SHA-256 — il nostro generatore SHA-256 usa lo stesso flusso locale, e la pagina hash-generator ti permette di calcolare più algoritmi affiancati così puoi pubblicare entrambi i digest per i tuoi utenti.",
+        ],
       },
     ],
   },
@@ -2009,6 +3846,31 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Il matching gira dal vivo nel tuo browser — nulla viene caricato o salvato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Backtracking catastrofico: perché alcuni pattern congelano",
+        paragraphs: [
+          "Un motore regex che fa backtracking prova ogni modo in cui i sottopattern potrebbero spezzare l'input, e alcune combinazioni esplodono esponenzialmente. Il reo classico è un quantificatore annidato come (a+)+ contro una lunga stringa di «a» che fallisce alla fine: il motore ri-spezza la sequenza in più modi di quanti siano gli atomi dell'universo. Un input di poche decine di caratteri può appeso per ore un thread del server — questo è il meccanismo dietro i disservizi reali, dove un pattern o campo fornito da un utente colpisce un validatore costruito su un tale pattern.",
+          "Il lookahead è spesso la cura raccomandata. Trasformare (a+)+ in (?=(a+))a+ o ancorare con ^ e $ pota l'albero di ricerca perché l'asserzione non consuma nulla e il motore si impegna prima. I gruppi atomici (?>...) e i quantificatori possessivi a++ rimuovono pure punti di backtracking, ma JavaScript RegExp non supporta nessuno dei due — in JS li emuli con lookahead o ristrutturi il pattern.",
+          "Come riconoscere un pattern pericoloso prima della produzione: quantificatori annidati ((.+)*, (\\w+)+), alternanza dentro quantificatori ((a|a?)+), e code facoltative che si sovrappongono a una testa greedy. Mettili alla prova contro una lunga stringa non corrispondente, non solo contro una corrispondente — un pattern che passa i test felici può richiedere comunque tempo esponenziale sull'input che è destinato a respingere. Le librerie di indurimento ReDoS e le regole di lint (come la famiglia safe-regex) codificano esattamente questi controlli.",
+        ],
+      },
+      {
+        heading: "Lookahead, lookbehind e corrispondenze a larghezza zero",
+        paragraphs: [
+          "Le asserzioni lookaround controllano ciò che circonda una posizione senza consumarla, il che le rende lo strumento per la logica «contiene ma non preceduto da». Per esempio, \\d+(?= dollars) afferra il numero solo quando la parola dollars segue, e foo(?!bar) matcha foo ovunque tranne prima di bar. Il negative lookbehind (?<!@)\\w+ è diventato disponibile in JavaScript solo intorno al 2018 (era V8 6.2), quindi Node e Safari vecchi respingono pattern che i browser recenti accettano.",
+          "Le corrispondenze a lunghezza zero sono l'altro angolo sottile. Un pattern come a* può riuscire senza consumare nulla, quindi un ciclo ingenuo girerebbe per sempre allo stesso indice. La cura della specifica JavaScript: quando una corrispondenza è vuota, il motore avanza di una posizione prima di continuare. Questo tester segue quella regola, motivo per cui a* contro «baa» produce una corrispondenza vuota all'indice 0, poi corrispondenze vere a 1 e 2 — in linea con ciò che String.prototype.match col flag g restituisce.",
+          "Lettura pratica: i gruppi di cattura di un lookahead catturano comunque. (?=(a+)) ti dà la sequenza di «a» come gruppo 1 mentre matcha posizionalmente. I gruppi nominati (?<year>\\d{4}) rendono l'estrazione auto-documentante e sopravvivono al riordino del pattern. Quando un gruppo può non partecipare, rendilo facoltativo e controlla undefined anziché dare per scontato che ogni gruppo sia presente a ogni corrispondenza.",
+        ],
+      },
+      {
+        heading: "Differenze di dialetto e perché questo gira in locale",
+        paragraphs: [
+          "Regex non è un'unica lingua. JavaScript supporta \\d, \\w e \\s ma non le classi POSIX come [[:alpha:]]; PCRE aggiunge ricorsione e \\K; Python aggiunge (?P<name>...) per i gruppi nominati mentre JS usa (?<name>...). Il flag unicode cambia cosa significano . e \\w per i caratteri astrali, e il flag s fa matchare il punto anche i ritorni a capo. Quando porti un pattern tra linguaggi, testa il porting — la maggior parte dei disallineamenti si nasconde nel lookbehind, nella ricorsione e negli escape di proprietà unicode (\\p{Script=Greek}, che in JS richiedono il flag u).",
+          "Tutto qui esegue nel tuo browser con il RegExp proprio di JavaScript — le tue stringhe di test, che possono essere righe di log, payload di API o dati di clienti, non lasciano mai il dispositivo. Questo è il vantaggio strutturale rispetto ai servizi regex che inviano il tuo pattern e i dati di campione a un server, dove un incollaggio di dati di produzione in una sessione di debugging diventa una copia nei log di qualcun altro. Nulla qui viene caricato, memorizzato o condiviso; chiudi la scheda e sparito.",
+        ],
+      },
+    ],
   },
   "sha256-generator": {
     name: "Generatore SHA-256",
@@ -2035,6 +3897,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio testo e i miei file vengono caricati?",
         a: "No. L'hashing gira in locale nel tuo browser con WebCrypto — i tuoi dati non lasciano mai il dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La famiglia SHA-2 e le sue dimensioni di output",
+        paragraphs: [
+          "SHA-256 è un membro della famiglia SHA-2, che il NIST statunitense standardizzò all'inizio degli anni 2000 come sostituto di SHA-1. Il nome della famiglia codifica la dimensione dell'output in bit: SHA-224, SHA-256, SHA-384 e SHA-512 producono 224, 256, 384 e 512 bit — cioè 64, 64, 96 e 128 caratteri esadecimali. Un digest «SHA-256» che non sia esattamente 64 caratteri esadecimali non è SHA-256, qualunque cosa dica l'etichetta.",
+          "Le varianti differiscono anche internamente, non solo nel troncamento. SHA-512 lavora su parole a 64 bit ed è in realtà più veloce di SHA-256 sulle CPU a 64 bit moderne quando fa l'hash di file grandi; SHA-256 usa parole a 32 bit ed è la scelta per la compatibilità più larga. SHA-224 e SHA-384 sono semplicemente varianti troncate definite per standard specifici che volevano digest più corti.",
+          "Non confondere SHA-2 con SHA-3 (Keccak), una costruzione diversa standardizzata un decennio dopo, né con SHA-1, un predecessore a 160 bit rotto per gli attacchi a collisione e da non usare nei nuovi design. Quando una pagina di download dice «verifica con SHA-256», questo strumento ti dà esattamente quel digest, calcolato dal WebCrypto del tuo browser.",
+        ],
+      },
+      {
+        heading: "Leggere e confrontare i digest",
+        paragraphs: [
+          "Due digest o corrispondono esattamente o i file differiscono — non c'è credito parziale. Confrontare a occhio su 64 caratteri è prone a errori, quindi automatizzalo: fai passare il file scaricato per sha256sum, shasum -a 256 o CertUtil, poi confronta le stringhe programmaticamente o con un diff. Un singolo carattere divergente significa corruzione o sostituzione, mai un artefatto di arrotondamento.",
+          "L'effetto valanga è la proprietà che rende i checksum fidabili: ribalta un bit ovunque in un file di più gigabyte e il digest diventa un valore a 256 bit dall'aspetto casuale e imparentato. Questo significa anche che non puoi dedurre nulla sul contenuto dal digest — due file che appaiono identici in un file manager possono differire nei metadati e fare hash diverso.",
+          "Sorveglia la pipeline dell'input, non l'algoritmo. La codifica è il solito colpevole: fare l'hash del testo «café» come UTF-8 e come Latin-1 dà digest diversi, perché i byte differiscono. Questo strumento fa l'hash esattamente dei byte di ciò che digiti (UTF-8 per il testo) o dei byte esatti del file, che è ciò che qualunque flusso standard di checksum si aspetta.",
+        ],
+      },
+      {
+        heading: "Perché calcolare gli hash nel browser",
+        paragraphs: [
+          "L'hash di un file ha significato solo se l'ambiente di hashing è fidabile, e un server web casuale non lo è. Questo strumento usa WebCrypto — la libreria crittografica incorporata nel browser stesso e su cui si affida TLS — quindi il digest che ottieni viene da codice nativo auditato, calcolato in locale; testo e file non lasciano mai il tuo dispositivo.",
+          "Il calcolo locale rimuove anche i tetti pratici: nessuna banda di caricamento, nessun limite di dimensione oltre la memoria disponibile, nessuna attesa in coda. Fare l'impronta di un grande archivio è vincolato alla velocità di lettura del disco, e una volta caricata la pagina l'intero flusso funziona offline.",
+          "WebCrypto non offre MD5, motivo per cui il generatore MD5 di questo sito usa un'implementazione in JavaScript puro mentre SHA-256 cavalca quella nativa. Per tutto ciò che è nuovo, preferisci SHA-256 o più forte — la pagina hash-generator calcola l'intera famiglia SHA-2 affiancata quando ti servono più digest insieme.",
+        ],
       },
     ],
   },
@@ -2065,6 +3953,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La formattazione gira in locale nel tuo browser — il tuo SQL non lascia mai il dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché le convenzioni di stile SQL esistono affatto",
+        paragraphs: [
+          "SQL viene eseguito come un unico flusso di token a prescindere dal layout, quindi ogni regola di formattazione del mondo è puramente per gli umani. È esattamente per questo che le convenzioni ripagano: le query vivono per anni, vengono incollate in ticket, revisioni e documentazione, e un JOIN su 40 righe in una riga sola costa a ogni futuro lettore più tempo di quanto la formattazione ne sia mai costata. Uno stile coerente trasforma una query da artefatto da decodificare a documento da leggere.",
+          "La convenzione più vistosa è il caso delle parole chiave. Mettere in maiuscolo SELECT, FROM, JOIN e WHERE separa a colpo d'occhio lo scheletro strutturale di una query dai suoi dati — gli occhi atterrano prima sulle parole chiave e dopo sugli identificatori. Alcuni team preferiscono parole chiave minuscole con identificatori tra virgolette; la scelta specifica conta meno che applicare una scelta ovunque. Questo strumento mette in maiuscolo le parole chiave, la convenzione più adottata.",
+          "La formattazione non cambia nulla sull'esecuzione: cambiano solo spazi bianchi e caso, i letterali di stringa e gli identificatori tra virgolette sono preservati esattamente, e la query che ricoppi è semanticamente identica a quella incollata. Quella garanzia è ciò che rende sicuro formattare query generate, output di ORM o lo scarico non formattato di un collega prima di leggerlo.",
+        ],
+      },
+      {
+        heading: "Dialetti: dove SQL non è un'unica lingua",
+        paragraphs: [
+          "SQL è una famiglia di dialetti che condividono un nucleo, e un formattatore non deve mutilare le parti che differiscono. La formattazione qui lavora su SQL standard, e il motore sql-formatter sottostante capisce anche la sintassi specifica dei dialetti — PostgreSQL, MySQL, T-SQL, PL/SQL, BigQuery, Snowflake e altri — così le strutture comuni si formattano correttamente tra loro.",
+          "I dialetti differiscono in modi che un lettore dovrebbe conoscere, oltre la formattazione. Il quoting delle stringhe diverge: SQL standard usa solo virgolette singole, MySQL per impostazione predefinita accetta anche virgolette doppie per le stringhe mentre PostgreSQL tratta le virgolette doppie come identificatori. Il quoting degli identificatori differisce pure — apici inversi in MySQL, virgolette doppie in PostgreSQL, parentesi quadre in T-SQL. Colonne auto-incrementanti, sintassi upsert e funzioni di data hanno tutte ortografie specifiche del fornitore.",
+          "Una regola sicura quando formatti SQL sconosciuto: se l'output appare strutturalmente sbagliato — una parola chiave spezzata stranamente o un letterale disturbato — controlla il dialetto prima di assumere un bug. La formattazione non cambia mai la semantica per design, ma può farlo solo quando la sintassi che vede è riconosciuta; e per il lavoro tra database, verifica la query formattata su un database di sviluppo prima che tocchi qualcosa di reale.",
+        ],
+      },
+      {
+        heading: "Formattare le query in locale",
+        paragraphs: [
+          "Le query sono tra i testi più sensibili che uno sviluppatore gestisca: rivelano nomi di tabelle, layout di colonne, logica di business, e a volte credenziali letterali incorporate negli esempi di connessione. I formattatori online che inviano la query a un server trasformano ogni incollaggio in una potenziale divulgazione; questo formatta interamente nel tuo browser, così le query di produzione, gli schemi interni e il SQL dei clienti possono passare senza lasciare il dispositivo.",
+          "L'essere locale rimuove anche l'attrito che impedisce alla formattazione di avvenire affatto. Nessuna attesa di caricamento, nessun cancello di dimensione oltre la memoria del browser, e il risultato appare mentre scrivi — il che rende pratico formattare una query lunga, leggerla, sistemarla e incollarla indietro, tutto in una sessione. Funziona offline, quindi è utilizzabile in ambienti ristretti dove uno strumento web non lo sarebbe.",
+          "Un flusso da tenere: valida la logica su un database di sviluppo, formatta qui per revisione e documentazione, e memorizza la versione formattata come copia canonica nel tuo repository o nei tuoi documenti. I futuri lettori — incluso te — ereditano la versione leggibile, e la conversazione di revisione avviene contro una struttura che tutti possono analizzare.",
+        ],
+      },
+    ],
   },
   "url-decoder": {
     name: "Decodificatore URL",
@@ -2091,6 +4005,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Viene caricato qualcosa?",
         a: "No. La decodifica gira in locale nel tuo browser — nulla lascia il tuo dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Gli errori di decodifica sono informazione, non ostacoli",
+        paragraphs: [
+          "Un decoder strict si rifiuta di tre cose: un % solo non seguito da due cifre esadecimali, una sequenza multibyte tronca come %E4%BD che comincia un carattere ma non lo finisce mai, e sequenze di byte che non sono affatto UTF-8 valido. Ognuna di queste è un segnale genuino sui dati che stai guardando, motivo per cui questo strumento le riporta anziché sostituire un segnaposto.",
+          "Il caso della sequenza tronca merita attenzione nell'analisi dei log. Un carattere multibyte come 日 sono tre byte (%E6%97%A5); se una riga di log fu tagliata a larghezza fissa, l'ultimo carattere può sopravvivere come solo due dei suoi tre byte. Un decoder permissivo stampa spazzatura; uno strict ti dice che il log fu troncato — spesso il bug reale che stavi cacciando.",
+          "La sostituzione silenziosa è peggiore di un errore proprio perché nasconde il problema: un carattere sostitutivo U+FFFD nel tuo output di solito significa che i byte di origine furono danneggiati da qualche parte a monte, e trovare dove è molto più facile quando il decoder segnala la posizione esatta anziché seppellirla in testo dall'aspetto leggibile.",
+        ],
+      },
+      {
+        heading: "Errori di modalità e la convenzione del +",
+        paragraphs: [
+          "Le due modalità del decoder esistono perché decodificare un valore con la modalità full-URI è il classico fallimento silenzioso: %3D (=) e %26 (&) assomigliano a struttura URL, quindi decodeURI li lascia intatti e il valore arriva ancora mezzo codificato — solo per spezzarsi male quando analizzi la stringa di query. Decodificare un intero URL con la modalità component, al contrario, decodifica separatori che magari volevi tenere visibili.",
+          "L'interruttore del + esiste per la storia split-brain del carattere spazio. Nelle stringhe di query codificate da modulo (application/x-www-form-urlencoded), il + significa davvero uno spazio; nei percorsi e negli URL strict della RFC 3986, il + è solo un più. Decodifica una stringa di ricerca costruita da modulo con l'interruttore spento e vedrai segni più sparsi nel tuo testo dove dovrebbero stare gli spazi.",
+          "Un'altra trappola che vale la pena conoscere: la doppia codifica. Un segno di percento stesso si codifica come %25, quindi una stringa codificata due volte porta %253D dove dovrebbe esserci %3D. Se un risultato decodificato contiene ancora sequenze %, decodificalo di nuovo — la maggior parte degli URL di redirezione «rotti» è semplicemente codificata due volte da due layer diversi che ciascuno assumeva l'altro l'avesse fatto.",
+        ],
+      },
+      {
+        heading: "Leggere URL codificati senza spedirli da nessuna parte",
+        paragraphs: [
+          "Gli URL che devi decodificare sono raramente pubblici: parametri di tracking da una piattaforma pubblicitaria, token di sessione dentro catene di redirezione, URL firmati con data di scadenza, endpoint interni dai log di accesso. Spedirli a un decoder online che fa da proxy verso un server significa consegnare quei token a un partito sconosciuto — inutile per un compito che un browser può fare da solo.",
+          "Tutto qui gira nel JavaScript del tuo browser. La stringa codificata viene analizzata sul tuo dispositivo, le sequenze invalidi vengono riportate in locale, e nessuna cronologia di ciò che hai incollato viene memorizzata da nessuna parte. Funziona anche offline — incollare un URL dalla pagina del portale captivo di una rete blindata o da un'esportazione di una macchina isolata funziona esattamente uguale.",
+          "Un consiglio di flusso pratico: abbinalo al codificatore URL. Decodifica un URL sospetto, sistema la parte sbagliata, ri-codifica solo quella parte, e assembla il link finale a mano. Quel ciclo coglie la maggior parte dei bug URL del mondo reale — doppia codifica, modalità sbagliata, ambiguità del + — in meno di un minuto, interamente sulla tua macchina.",
+        ],
       },
     ],
   },
@@ -2121,6 +4061,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì — i caratteri fuori da ASCII vengono prima codificati UTF-8, poi in percentuale, esattamente come fanno i browser.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Caratteri riservati e le due modalità di codifica",
+        paragraphs: [
+          "Un URL è costruito da caratteri con un lavoro: / separa i segmenti del percorso, ? comincia la query, & separa i parametri, = unisce una chiave al suo valore, : e // ancorano lo schema. La RFC 3986 li chiama riservati perché sono parte della grammatica dell'URL, ed è esattamente lì che le due modalità divergono. La codifica component tratta il tuo intero input come un unico valore inerte — ogni carattere riservato viene protetto, così a=b&c=d diventa a%3Db%26c%3Dd e viaggia come un parametro singolo anziché riscrivere la stringa di query.",
+          "La codifica full URI assume di avere un URL completo, già strutturato, che vuole solo essere sicuro per il trasporto: i caratteri strutturali restano letterali, e tutto ciò che è fuori dall'insieme non riservato (lettere, cifre, - . _ ~) viene protetto. Codificare un intero URL con la modalità component è l'errore classico — ottieni %3A%2F%2F ovunque e il link smette di essere un link.",
+          "La regola pratica sicura: codifica ogni valore separatamente con la modalità component, poi uniscili nell'URL a mano. Se ti sorprende a codificare un URL dentro un altro URL — una destinazione di redirezione, un parametro di callback — quello interno è un valore, quindi prende la codifica component anche se sembra un URL.",
+        ],
+      },
+      {
+        heading: "L'ambiguità più-spazio e l'UTF-8 dietro ogni %XX",
+        paragraphs: [
+          "Gli spazi hanno due codifiche nel mondo, e mescolarle è una fonte perenne di bug. La forma basata sugli standard è %20: la RFC 3986 codifica in percentuale lo spazio come ogni altro byte. La forma + viene dall'invio dei moduli HTML sotto application/x-www-form-urlencoded, una convenzione più vecchia che precede il lavoro attento sulle specifiche. Alcuni server e framework decodificano il + di nuovo in uno spazio — ma solo nei corpi codificati da modulo e nelle stringhe di query sotto quella convenzione; in un segmento di percorso, un + letterale di solito significa più.",
+          "Questo strumento emette sempre %20, che si decodifica correttamente ovunque. La conseguenza pratica: se incolli una stringa codificata da modulo contenente + in un decoder di percentuale semplice, puoi ottenere segni più anziché spazi — non è un bug, sono le due convenzioni che collidono.",
+          "Il testo non ASCII ha uno strato in più: i caratteri vengono prima convertiti in byte UTF-8, poi ogni byte viene protetto in percentuale. Per questo é diventa %C3%A9 — due byte — e perché un singolo carattere giapponese può trasformarsi in nove sequenze di escape. I browser moderni ti mostrano l'URL Unicode carino nella barra degli indirizzi, ma ciò che viaggia sul filo è sempre la forma protetta.",
+        ],
+      },
+      {
+        heading: "La codifica avviene in locale, byte per byte",
+        paragraphs: [
+          "Gli URL spesso trasportano dati che preferiresti non condividere: parametri di tracking, token di sessione, URI di redirezione OAuth, endpoint interni con identificatori. Incollarne uno in un codificatore online casuale che fa da proxy verso un server è un'esposizione inutile. Qui la conversione gira nel JavaScript del tuo browser — l'input non lascia mai il tuo dispositivo, e non c'è server che lo registri.",
+          "L'essere locale significa anche essere offline e istantaneo. Nessuna latenza di andata e ritorno, nessun tetto di dimensione imposto da un'API, nessun limite di frequenza quando codifichi un lotto di parametri uno alla volta. Abbinalo al decoder URL per verificare: codifica, decodifica, e conferma di riottenere i byte originali — un viaggio di due secondi che coglie gli errori di scelta della modalità prima che arrivino in produzione.",
+          "Un'abitudine di debugging da adottare: quando un link si comporta male, decodificalo completamente e ispeziona ciò che è effettivamente arrivato. La maggior parte degli URL rotti è doppio-codificata (il %25 del segno di percento che compare una volta di troppo) o codificata con la modalità sbagliata — entrambe visibili subito una volta guardata la forma decodificata.",
+        ],
+      },
+    ],
   },
   "url-parser": {
     name: "Parser URL",
@@ -2147,6 +4113,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "E le chiavi duplicate nella query come ?tag=a&tag=b?",
         a: "Ogni occorrenza ha la sua riga, e l'esportazione JSON le elenca come coppie chiave/valore separate così nulla viene sovrascritto in silenzio.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Anatomia di un URL: le parti che contano",
+        paragraphs: [
+          "Un URL ha più struttura di quanto sembri. Nello standard URL WHATWG che i browser implementano, un URL come https://example.com:8443/shop/shoes?color=red#reviews si spezza in scheme (https), host (example.com), port (8443 — https per impostazione predefinita è 443, quindi l'URL è equivalente senza), path (/shop/shoes), query (?color=red) e fragment (#reviews). Il fragment è speciale: non viene mai spedito al server, esiste solo nel browser — motivo per cui le applicazioni a pagina singola lo usano, e perché non puoi rilevarlo lato server.",
+          "Il percorso non è un'unica stringa opaca ma una gerarchia di segmenti. Mettere ogni segmento sulla propria riga rende visibili i pattern di routing: /shop/shoes è una collezione con un elemento, e redirezioni o riscritture di solito operano sui segmenti anziché sull'intero percorso. Vederli separatamente espone anche stranezze come doppi slash o segmenti vuoti che una stringa unica nasconde.",
+          "Porte, userinfo (la forma utente:pass@host, deprecata ma ancora analizzata) e perfino host IPv6 tra parentesi quadre fanno tutti parte della grammatica standard. L'API URL del browser gestisce tutto — che è esattamente perché questo strumento delega a quella API anziché a una regex fatta a mano: la scomposizione che vedi è la scomposizione che vede il server.",
+        ],
+      },
+      {
+        heading: "Codifica, decodifica e le trappole classiche del %",
+        paragraphs: [
+          "Il percent-encoding è dove l'analisi degli URL diventa sottile. Un valore come a%2Fb si decodifica in a/b — ma se quel valore era codificato perché contiene davvero uno slash, decodificarlo per il display è corretto, mentre trattarlo come separatore di percorso sarebbe sbagliato. Questo strumento decodifica chiavi e valori esattamente come farà il server destinatario, quindi ciò che leggi è ciò che l'applicazione vede.",
+          "La differenza tra + e %20 coglie molti. Nella convenzione application/x-www-form-urlencoded (moduli, alcuni framework), uno spazio si scrive come +; nello standard URL vero e proprio, il + è solo un più. La stessa stringa ?q=a+b significa quindi q=a b oppure q=a+b a seconda del framework. Nel dubbio, incolla il parametro qui e confronta con ciò che il tuo backend registra nei log.",
+          "La codifica è anche uno strumento di audit: utm_source, fbclid, gclid e compagni in un elenco analizzato rendono impossibile perdere di vista i parametri di tracking. Toglierli da un link prima di condividerlo è una piccola vittoria di privacy — i parametri esistono per attribuirti a una campagna, e viaggiano dentro ogni URL copiato a meno che tu non li noti.",
+        ],
+      },
+      {
+        heading: "L'analisi avviene nel tuo browser",
+        paragraphs: [
+          "Gli URL che ispezioni non sono sempre innocui: link firmati (URL pre-firmati S3, callback OAuth con code=… o token=…) portano credenziali nella stringa di query. Incollarne uno in un parser basato su server trasmetterebbe una credenziale funzionante a chi lo gestisce. Questo strumento analizza con l'API URL nativa del tuo browser, interamente in locale — nulla lascia il dispositivo.",
+          "L'analisi locale significa anche che puoi lanciargli spazzatura in sicurezza. Un URL quasi malformato (schema mancante, spazi vaganti, caratteri non codificati) viene accettato o spiegato, non respinto con uno stack trace — perché il parser URL del browser è più permissivo di un validatore strict e corrisponde a ciò che un server riceverà davvero.",
+          "Incatena il decoder URL quando devi ispezionare manualmente segmenti codificati, o il codificatore quando costruisci stringhe di query — analizza, sistema, ri-codifica è un ciclo più rapido che modificare URL grezzi a mano e sperare.",
+        ],
       },
     ],
   },
@@ -2177,6 +4169,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Nascono dal generatore casuale crittografico del tuo stesso browser e non lasciano mai il tuo dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Quanto è casuale davvero un UUID v4",
+        paragraphs: [
+          "Un UUID di versione 4 porta 122 bit casuali; gli altri 6 sono fissati dal formato — il nibble di versione è sempre 4 e due bit del terzo gruppo sono il marcatore di variante. Quella disposizione (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx, con y in 8, 9, a o b) è la verifica visiva rapida di se un identificatore sia un v4 ben formato, ed è anche il motivo per cui un UUID v4 non può essere compresso oltre quello che già è.",
+          "La questione delle collisioni si presenta ogni volta che qualcuno genera ID in massa. Con 122 bit, la matematica del limite del compleanno dice che servirebbero dell'ordine di 10^36 UUID generati perché un duplicato diventi plausibile — ben oltre qualunque carico realistico. Le collisioni pratiche nei sistemi veri risalgono a casualità rotta, non al formato: un generatore pseudo-casuale con seme riusato tra server, o un ID hardcodato in una fixture. Il formato è sicuro; la fonte di casualità è ciò che deve esserlo.",
+          "Questo strumento genera tramite crypto.randomUUID, la fonte crittograficamente sicura del browser — la stessa piscina che protegge le sessioni HTTPS — quindi ogni identificatore è imprevedibile e sicuro da usare come ID di risorsa non indovinabile. Quella proprietà conta più dell'unicaità grezza in certi design: un ID che nessuno può enumerare è controllo di accesso per oscurità fatto bene, finché il server controlla comunque l'autorizzazione.",
+        ],
+      },
+      {
+        heading: "v4 contro le altre versioni",
+        paragraphs: [
+          "La famiglia di versioni risponde a domande diverse. v1 incorpora una data e spesso l'indirizzo MAC della macchina generante — ordinabile, ma leaka dove e quando è stato creato, e un indirizzo MAC pubblicato nell'ID di un documento è un piccolo difetto di privacy. v4 non porta né data né identità hardware e non leak nulla, motivo per cui è diventato il predefinito per gli identificatori rivolti al pubblico.",
+          "Le versioni più recenti ordinate nel tempo — v6 e v7, aggiunte dalla RFC 9562 nel 2024, con v7 che usa una data Unix più casualità — esistono proprio per il problema dei database: la casualità di v4 frammenta gli indici, mentre gli ID ordinati nel tempo raggruppano gli inserimenti come fanno gli ULID. Se le tue chiavi vivono in una grande tabella indicizzata, v7 o ULID batte v4 sulla località di scrittura; se i tuoi identificatori compaiono in URL, token o qualsiasi cosa gli utenti vedano, l'opacità di v4 è la caratteristica.",
+          "Una regola pratica: v4 come predefinito ovunque, e cambia deliberatamente quando un requisito — ordinabilità, incorporabilità, un parser legacy che accetta solo v1 — ti spinge verso un'altra versione. Mescolare versioni in uno spazio di identificatori è legale (il nibble di versione le distingue) ma rende la validazione a valle più strict, poiché i consumatori non possono più assumere una sola forma.",
+        ],
+      },
+      {
+        heading: "Generati sul tuo dispositivo, in qualsiasi quantità",
+        paragraphs: [
+          "Gli identificatori vengono dal generatore casuale crittografico del tuo browser e non toccano mai un server: lotti fino a 500 appaiono istantaneamente, funzionano offline, e nulla viene registrato o memorizzato. Quella località ha un angolo di privacy pratico — generare un ID per un documento, un caso di assistenza o un prodotto non pubblicato sul sito di qualcun altro legherebbe quell'oggetto ai log di un terzo; qui la generazione non lascia traccia fuori dal tuo dispositivo.",
+          "La generazione in massa è il flusso comune: fixture di test, semi di database, nomi di file, ID di richiesta, bozze di chiavi API da distribuire più avanti. Genera il lotto, copialo in un clic, e tratta l'elenco come un segreto monouso — incollalo dove serve e cancellalo. Poiché la generazione è locale e senza log, un lotto non transita mai per il server di un terzo sulla strada verso i tuoi dati.",
+          "Un'avvertenza che vale per qualunque generatore: la casualità da un browser è forte ma non è una fonte hardware certificata, e le giurisdizioni con requisiti di conformità strict a volte esigono entropia certificata per il materiale delle chiavi. Per gli identificatori ordinari, gli ID di richiesta e le fixture — la stragrande maggioranza degli usi — la fonte del browser è più che sufficiente.",
+        ],
+      },
+    ],
   },
   "xml-formatter": {
     name: "Formattatore XML",
@@ -2205,6 +4223,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La formattazione avviene interamente nel tuo browser; nulla viene inviato da nessuna parte.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che la formattazione cambia davvero — e ciò che non deve",
+        paragraphs: [
+          "L'XML ha un filo tagliente verso cui la formattazione cammina dritto: lo spazio bianco è significativo dentro il contenuto di testo. Un formattatore deve normalizzare lo spazio bianco tra gli elementi per rendere leggibile l'albero, mentre preserva lo spazio bianco dentro gli elementi — un blocco <code>, un verso di poesia, un'istruzione SQL dentro un file di configurazione perdono tutti significato se i loro spazi interni vengono riflussati. Questo strumento tiene il contenuto di testo intatto (trim solo ai bordi) e tiene le sezioni CDATA byte per byte.",
+          "Tutto il resto viene preservato anziché inventato: i commenti stanno dove sono, le sezioni CDATA sopravvivono così come sono, le istruzioni di elaborazione e le dichiarazioni DOCTYPE passano. Il formattatore si limita a re-indentare — annidamento a 2 spazi, testo corto tenuto su una riga con i suoi tag — così ciò che ricoppi analizza allo stesso identico albero di ciò che hai incollato.",
+          "Un'avvertenza appartiene alle scritte fini di ogni formattatore onesto: per i rari documenti che trattano lo spazio tra gli elementi come dato (contenuto misto dove uno spazio vagante tra gli elementi è significativo), qualunque re-indentazione cambia il documento. Per sitemap, RSS, file di configurazione e SOAP — la stragrande maggioranza dell'XML reale — lo spazio tra gli elementi è ignorato da ogni consumatore, e la formattazione è sicura.",
+        ],
+      },
+      {
+        heading: "Leggere l'XML come la sua struttura intende",
+        paragraphs: [
+          "Un documento XML su una riga è tecnicamente corretto e praticamente illeggibile — lo stato abituale di sitemap generate dalle macchine, risposte API ed esportazioni di configurazione minificate. Ciò che l'indentazione ti compra è la capacità di vedere l'albero: quali elementi sono fratelli, quali annidano dentro quali, dove una struttura ripetuta si ripete. Una volta che puoi vederla, le domande di debugging rispondono da sole — questo elemento è dentro il giusto genitore, il <item> del feed si è ripetuto come previsto, perché c'è questo elemento vuoto.",
+          "I documenti lunghi traggono beneficio da un secondo passaggio: dopo la formattazione, controlla la profondità. Strutture che annidano più di quattro o cinque livelli di solito indicano un errore di mappatura — documenti XML così profondi sono difficili da consumare e difficili da validare a occhio. Vale anche la pena scandire gli elenchi di attributi nello stesso momento; attributi duplicati o attributi che sarebbero dovuti essere elementi compaiono chiaramente una volta che il documento ha una forma.",
+          "La formattazione serve anche come controllo di integrità economico: se il formattatore si rifiuta del tuo input, qualcosa è rotto prima che tu spenda tempo a fare debugging a valle. Abbinalo al validatore per un messaggio d'errore preciso, poi formatta per leggere, poi passa il documento formattato al consumatore — analizza identico, e il prossimo umano che lo apre parte da una base leggibile.",
+        ],
+      },
+      {
+        heading: "Formattato in locale, nulla caricato",
+        paragraphs: [
+          "La formattazione gira interamente nel tuo browser: il tuo XML non lascia mai il dispositivo, funziona offline, e non ha tetto di caricamento oltre la memoria. I documenti che formatti sono spesso del tipo sensibile — configurazioni di servizi interni, risposte SOAP con dati di sessione, payload di API privati, file sotto NDA. Spedirne qualcuno a un formattatore online per farlo stampare carino è una piccola divulgazione evitabile; la formattazione locale rimuove la domanda del tutto.",
+          "Rende anche lo strumento adatto all'iterazione: incolla, leggi, sistema la sorgente, incolla di nuovo — ogni ciclo è istantaneo perché nulla attraversa una rete. Per i documenti grandi questo conta praticamente: la formattazione è un singolo passaggio rapido, e i file di più megabyte che sarebbero un'attesa di caricamento su uno strumento basato su server vengono gestiti sul posto, delimitati solo dal tuo dispositivo.",
+          "Il flusso si completa con gli altri strumenti XML del sito: valida prima per un errore preciso, formatta per leggere, converti con XML in JSON quando il consumatore parla JSON. Poiché tutti e tre girano in locale, l'intero ciclo — controlla, leggi, trasforma — può avvenire su una macchina senza accesso alla rete, che è spesso esattamente dove questi documenti vivono.",
+        ],
+      },
+    ],
   },
   "xml-validator": {
     name: "Validatore XML",
@@ -2231,6 +4275,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio XML viene inviato da qualche parte?",
         a: "No. Il controllo gira nel tuo browser con il DOMParser nativo — i tuoi dati non lasciano mai il dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Forma corretta: le regole che ogni consumatore impone",
+        paragraphs: [
+          "Un validatore qui risponde a una domanda — è questo documento XML di forma corretta? — usando il parser XML proprio del browser, che impone esattamente ciò che impone il tooling XML reale. L'elenco delle regole è corto ma assoluto: ogni tag aperto deve chiudersi, e in ordine; gli attributi devono essere tra virgolette e apparire una volta per elemento; i riferimenti a entità devono essere definiti; un documento ha esattamente un elemento radice; i caratteri illegals (caratteri di controllo, < o & vaganti nel testo) vengono respinti.",
+          "Queste non sono regole di stile ma i muri portanti del formato. Un tag disallineato non è un avviso — rende il documento non analizzabile per ogni consumatore a valle, dal browser al lettore di feed allo stack SOAP. Per questo fallire la validazione ferma la catena: non esiste «per lo più ben formato» con cui un parser possa lavorare. Il rovescio è che passare è un'affermazione forte: qualsiasi libreria XML ovunque potrà aprire il documento.",
+          "Ciò che passare non significa: che il documento sia valido contro uno schema. Un documento il cui <price> contiene «free» anziché un numero, o che omette un elemento richiesto, può essere perfettamente di forma corretta e comunque sbagliato. La validazione di schema (XSD o DTD) è un lavoro separato e più strict che ha bisogno della tua definizione di schema — questo strumento ti dice che il documento analizza; solo tu puoi dire se significa qualcosa.",
+        ],
+      },
+      {
+        heading: "Leggere gli errori: i soliti sospettati",
+        paragraphs: [
+          "I fallimenti più comuni sono banali. Un tag non chiuso — di solito da un tag di chiusura cancellato o rinominato — si propaga a catena: il parser lo riporta dove la struttura finalmente si rompe, che può essere lontano dall'errore vero. Gli attributi non tra virgolette (id=7 anziché id=\"7\") sono illegali ovunque; le abitudini HTML come <br> e <img …> senza auto-chiusura vengono respinte pure, perché l'XML non ha chiusura facoltativa.",
+          "I guai con le entità sono la seconda famiglia. Una & nuda nel testo comincia un riferimento a entità e va scritta &amp;; un < vagante deve diventare &lt;. Incollare contenuto da HTML o da word processor è la fonte abituale — quegli ambienti tollerano ciò che l'XML non tollera. Le entità invalidi o non definite (&nbsp; in un documento senza la dichiarazione del namespace XHTML, per esempio) falliscono pure.",
+          "Il ciclo di debugging pratico è corto: sistema il primo errore riportato, ri-esegui, ripeti. Gli errori si propagano a catena, quindi il primo è di solito la causa radice e i successivi sono echi. Quando l'input veniva da conversione o generazione anziché da modifica a mano, la posizione dell'errore di solito punta al bug del codice generante, non ai dati.",
+        ],
+      },
+      {
+        heading: "Perché validare nel tuo browser",
+        paragraphs: [
+          "Il controllo gira sul DOMParser nativo del browser — il tuo XML non lascia mai il dispositivo, e non c'è caricamento, né limite di frequenza, né traccia. I documenti che validi sono spesso del tipo riservato: payload di servizi interni, sitemap non ancora pubblicate, envelope SOAP con credenziali, file sotto fermo legale. Un validatore che li carica trasforma ogni controllo in una divulgazione; la validazione locale rimuove quel rischio del tutto.",
+          "Locale significa anche che si adatta all'iterazione: incolla, leggi l'errore, sistema, incolla di nuovo — ogni ciclo richiede secondi, funziona offline, e gestisce documenti di più megabyte delimitati solo dalla memoria. Si abbina naturalmente al formattatore (un'analisi pulita più una struttura leggibile) e a XML in JSON (valida prima di convertire, così un errore di forma dello schema non si maschera mai da bug di conversione).",
+          "Un confine che vale la pena dichiarare chiaramente: il parser del browser impone la forma corretta con alta fedeltà, ma non carica DTD esterni né esegue validazione di schema. Se la tua catena richiede validazione XSD, questo strumento è il primo cancello economico — cogli qui ogni errore strutturale, e manda al validatore di schema solo documenti puliti, dove i fallimenti allora significano davvero violazioni dello schema.",
+        ],
       },
     ],
   },
@@ -2264,6 +4334,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Usa un redirect 301 quando il duplicato deve mandare gli utenti altrove, noindex quando deve restare accessibile ma fuori dai risultati, e canonical quando entrambe le versioni devono rimanere vive e scansionabili.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché esistono gli URL duplicati e cosa significa consolidare",
+        paragraphs: [
+          "Gli URL duplicati non sono un errore — sono un prodotto naturale di come funzionano i siti. La stessa pagina è raggiungibile con slash finale e senza, su http e https, con e senza www, con parametri UTM aggiunti da ogni link di campagna, con parametri di ordinamento e filtro sulle pagine di elenco, e attraverso viste di stampa o amp. Il server risponde a tutti con contenuto identico; i motori di ricerca, non vedendo istruzioni, li indicizzano come documenti separati.",
+          "rel=canonical è l'istruzione: dice «questi indirizzi sono copie; fonda i loro segnali in questo». Il consolidamento conta perché i segnali di ranking — link, clic, stime di qualità — si attaccano all'URL su cui sono stati guadagnati. Divisi su cinque duplicati, una pagina compete contro se stessa; consolidata, compete con la pagina che volevi davvero battere.",
+          "Il tag è un indizio forte, non un comando. Google lo combina con i pattern di link interni, le voci di sitemap e il comportamento delle redirezioni, e rimpiazza in silenzio un canonical che è in disaccordo con tutto il resto del sito. Ecco perché un tag canonical che combatte la tua stessa sitemap o navigazione di solito perde — l'accordo tra segnali batte la correttezza su un segnale solo.",
+        ],
+      },
+      {
+        heading: "Gli usi impropri classici, e l'auto-referenza come impostazione",
+        paragraphs: [
+          "I classici dell'audit: un URL relativo anziché assoluto, un #fragment che i server non vedono mai, un canonical che punta a una redirezione 301 (i motori devono risolvere la catena, e alcuni non lo faranno), un canonical mirato a una pagina noindex (istruzioni contraddittorie — scegline una), e canonical verso la homepage su ogni elenco paginato, che di fatto chiede che le pagine 2+ siano rimosse dall'indice.",
+          "L'abitudine più efficace è l'auto-referenza per impostazione: ogni pagina si dichiara canonica, perfino le uniche. Non costa nulla e immunizzati contro le varianti che nessuno ha ancora notato — un parametro aggiunto da un plugin il mese prossimo, un'incoerenza di slash finale introdotta da un upgrade del framework. Il tag auto-referenziale è ciò che rende la prima variante innocua anziché una scoperta.",
+          "Scegliere tra gli strumenti è una decisione ciascuno: 301 quando il duplicato deve fisicamente mandare gli utenti altrove, noindex quando deve restare raggiungibile ma fuori dai risultati (navigazione a faccette, ricerca interna), canonical quando entrambe le versioni devono restare vive e scansionabili. Mescolarli — una pagina noindex il cui canonical punta altrove — spedisce segnali contraddittori e ritarda tutto.",
+        ],
+      },
+      {
+        heading: "Dettagli di normalizzazione che questo generatore gestisce per te",
+        paragraphs: [
+          "Un URL canonical deve essere assoluto — schema e host inclusi — e ogni pagina ne può portare esattamente uno. Il generatore mette in minuscolo schema e host (gli host sono case-insensitive sul filo, ma un canonical con maiuscole miste è un altro quasi-duplicato per i motori), impone una sola decisione di slash finale su tutto il sito, tiene i parametri di query solo quando sono deliberati, e toglie i fragment, che sono solo lato client.",
+          "L'ordine dei parametri è la sottigliezza: ?b=1&a=2 e ?a=2&b=1 sono la stessa risorsa ma stringhe diverse, e alcuni crawler le trattano come separate. I canonical lo lo risolvono in un secondo tempo; la cura più pulita è ordinare e tagliare i parametri lato server. Se devi tenere parametri in un canonical, tieni anche la forma canonica della stringa dei parametri.",
+          "La verifica appartiene alla URL Inspection di Search Console, che riporta quale URL Google ha effettivamente selezionato per la pagina — il tag, la sitemap e i link interni possono essere giusti ciascuno singolarmente e perdere comunque contro una catena di redirezioni. Tutto qui gira nel tuo browser: nessun URL che digiti viene caricato da qualche parte.",
+        ],
+      },
+    ],
   },
   "hreflang-generator": {
     name: "Generatore hreflang",
@@ -2290,6 +4386,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "hreflang sostituisce un tag canonical?",
         a: "No. Ogni versione linguistica continua a servirsene di un canonical autoreferenziale. hreflang sceglie tra pagine tradotte equivalenti; il canonical risolve i duplicati dentro una sola lingua.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Reciprocità e x-default: le due regole che decidono tutto",
+        paragraphs: [
+          "I cluster hreflang vengono validati come grafo, non come tag singoli. I motori di ricerca raccolgono ogni link rel=alternate hreflang da ogni pagina, e un cluster funziona solo se è chiuso: la pagina A elenca B e se stessa, B elenca A e se stessa, e così via per ogni membro. Un link di ritorno mancante — di solito una pagina il cui <head> non è mai stato aggiornato — e i motori trattano il cluster come incompleto, scontando esattamente le pagine che cercavi di instradare.",
+          "Per questo il fallimento è silenzioso in modo sgradevole: nulla va in errore, le pagine semplicemente non si scambiano nei risultati come dovrebbero. L'audit significa strisciare tutti i membri e fare il diff dei loro cluster — noioso, motivo per cui generare l'intero blocco da un solo input e incollare l'insieme identico ovunque è il flusso affidabile.",
+          "x-default è la risposta del cluster al «nessuna delle precedenti»: l'utente la cui lingua e regione non corrispondono a nessuna versione dichiarata ottiene questo URL. Puntilo a un selettore di lingua o alla homepage in lingua predefinita. È facoltativo, ma senza di esso i visitatori senza corrispondenza ottengono una scelta arbitraria — spesso la versione inglese, che piaccia o no al tuo pubblico.",
+        ],
+      },
+      {
+        heading: "Leggere BCP 47 come si deve: lingua prima, regione solo quando conta",
+        paragraphs: [
+          "I valori sono tag di lingua BCP 47, e i sottotag portano significati diversi. Il sottotag primario è la lingua (en, pt, zh); il sottotag di regione (GB, BR, CN) seleziona un pubblico per geografia; il sottotag di scrittura (Hans, Hant) seleziona un sistema di scrittura. Un en nudo corrisponde a ogni anglofono ovunque; en-GB mira specificamente agli utenti britannici.",
+          "L'errore comune è la sovra-segmentazione con regioni: tag en-US, en-GB, en-AU, en-CA che puntano tutti allo stesso contenuto. Se il contenuto è identico, dichiara un en e lascialo corrispondere a tutti — i tag di regione sono per contenuto che differisce davvero, come l'ortografia e la valuta di pt-BR contro pt-PT, o fr-CA contro fr-FR. Varianti di regione extra con contenuto identico creano i quasi-duplicati che hreflang doveva risolvere.",
+          "Il cinese è il caso classico di scrittura: zh da solo è sotto-specificato, zh-Hans e zh-Hant scelgono semplificato e tradizionale. E nota cosa hreflang non è: instrada il pubblico tra pagine equivalenti, ma non consolida i segnali di ranking — ogni versione linguistica ha ancora bisogno del suo canonical auto-referenziale e dei suoi link guadagnati.",
+        ],
+      },
+      {
+        heading: "Dove vivono le annotazioni, e cosa hreflang non fa",
+        paragraphs: [
+          "Tre collocazioni portano la stessa annotazione: elementi <link> nel head (il più facile da auditare pagina per pagina, ciò che questo generatore emette), header HTTP Link (giusto per file non HTML come i PDF), e una colonna nella sitemap XML (l'unica via pratica a migliaia di URL, dove i link nel head diventano ingestibili). Scegli un canale per pagina — duplicare tra canali invita all'incoerenza.",
+          "Sii anche onesto sul perimetro: hreflang influenza quale versione viene servita a quale pubblico; non è un boost di ranking, non è un'istruzione a tradurre qualcosa, e non sostituisce le basi invisibili a hreflang — link di ritorno corretti, URL scansionabili, e canonical per versione. Google valida ogni tag in modo strict: un solo valore malformato (un trattino mancante, un codice paese sbagliato) può contaminare il cluster a cui appartiene, motivo per cui emettere il formato esatto da un generatore batte scriverlo a mano.",
+        ],
       },
     ],
   },
@@ -2320,6 +4441,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Senza un vero segmentatore, il testo CJK viene contato per carattere per i token singoli e per coppia di caratteri per le frasi di due parole — una buona approssimazione per scovare i termini strausati, non un'analisi linguistica.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Il mito superato: la densità di parole chiave come obiettivo di ranking",
+        paragraphs: [
+          "La densità di parole chiave era un'idea plausibile negli anni '90 e '00: classificare i documenti per quanto spesso le parole della query comparivano in essi, e i webmaster calibravano le pagine verso una supposta soglia magica — 2%, 3%, qualsiasi cosa dichiarasse il forum SEO della settimana. Quel mondo è sparito. I sistemi di ranking moderni usano embedding, modelli di argomento e segnali di qualità che valutano se una pagina copre bene un soggetto, non se una frase supera una linea numerica.",
+          "Peggio, inseguire la soglia oggi si legge come segnale negativo. Il testo che ripete una frase oltre i livelli naturali è esattamente ciò che i filtri antispam, i valutatori di qualità e le formule di leggibilità sono costruiti per cogliere. Una pagina stipata al 5% ha più probabilità di essere retrocessa che promossa; la frase che la gente sovra-calibra è proprio quella che gli algoritmi sorvegliano.",
+          "Allora a cosa serve davvero questo strumento? Alla modalità di fallimento che esiste ancora: una pagina che non dichiara mai chiaramente il suo argomento, o che deriva a metà bozza verso vocabolario collegato ma diverso. Se le frasi in cima del checker sono quelle per cui vuoi posizionarti, bene; se la frase obiettivo non compare nelle prime trenta, la pagina ha un problema reale che nessuna regola di densità avrebbe sistemato.",
+        ],
+      },
+      {
+        heading: "Il denominatore, le stopwords e gli n-grammi",
+        paragraphs: [
+          "La densità è una frazione, e il denominatore decide tutto. Contata sui token grezzi, dominano le parole funzione: nella prosa inglese ordinaria, the, of e to sono sempre i termini in cima, e il tuo argomento affoga. Togliere le stopwords trasforma il conteggio in quota delle parole di contenuto, che è la versione capace di dirti qualcosa sulla pagina.",
+          "Le parole singole sono anche l'unità sbagliata per la maggior parte delle ricerche. Le query sono frasi — migliori scarpe da corsa, hotel a londra — quindi questo strumento conta bigrammi e trigrammi accanto ai token singoli. Nota l'interazione con le stopwords: tolte le stopwords, hotel a londra collassa nel bigramma hotel londra, che spesso è più vicino alla forma reale della query. Confronta entrambe le viste anziché fidarti di una.",
+          "Il testo CJK viene contato onestamente ma in modo approssimato: senza vera segmentazione in parole, i token singoli di cinese e giapponese vengono contati per carattere e le frasi di due parole per coppie di caratteri adiacenti. È abbastanza per notare un carattere o una frase sovra-usati — il lavoro reale del checker — ma non è segmentazione linguistica, quindi tratta le percentuali come un diagnostico, non una misura.",
+        ],
+      },
+      {
+        heading: "Un flusso di lettura pratico",
+        paragraphs: [
+          "Usa la cima dell'elenco a una parola come controllo di sanità dell'argomento: i termini lì dovrebbero nominare il tuo soggetto. Scansiona gli elenchi a due e tre parole per le frasi che stai mirando; se mancano, scrivile naturalmente anziché ripetere un moncone della frase altre volte.",
+          "Sorveglia i vincitori accidentali. Le bozze scritte attorno a un titolo di lavoro spesso portano una frase dominante inattesa — un nome in codice di prodotto, un nome di cliente, una frase fatta ripetuta. Sapere che la tua pagina «si legge per argomento» come qualcosa di leggermente diverso dall'intenzione vale più di qualunque obiettivo percentuale.",
+          "E tieni tutto proporzionale: gli strumenti di densità leggono il tuo testo in isolamento, mentre i motori di ricerca lo leggono contro l'intero corpus e la storia del tuo sito. Un conteggio locale, nel browser, che gira istantaneamente e non carica mai la tua bozza non pubblicata è uno strumento da fase bozza — i numeri sono per te, il giudizio resta tuo.",
+        ],
+      },
+    ],
   },
   "meta-tag-generator": {
     name: "Generatore di meta tag",
@@ -2346,6 +4493,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Cosa controlla il meta tag robots?",
         a: "index/noindex decide se la pagina può comparire nei risultati; follow/nofollow se i suoi link passano autorevolezza. Deve stare nella pagina stessa — robots.txt non può noindexare nulla.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La lunghezza del title si misura in pixel, non in caratteri",
+        paragraphs: [
+          "Il consiglio dei «50–60 caratteri» è una regola empirica che sta per il vincolo reale: la pagina dei risultati desktop tronca il title a un budget di pixel — circa 580px al font che Google renderizza. Gli stessi 60 caratteri coprono larghezze molto diverse a seconda dell'alfabeto: un title latino tutto maiuscolo brucia pixel in fretta, mentre i glifi CJK sono quasi quadrati e un title giapponese di 30 caratteri può superare la larghezza di uno inglese da 55.",
+          "Il troncamento non è fatale — Google legge comunque il tag completo — ma la parte visibile è tutto ciò che chi cerca vede prima di decidere il clic, quindi le parole che contano devono stare prima del taglio. Il posto peggiore per un nome di marca è la fine di un title lungo, dove è la prima cosa cancellata.",
+          "Un secondo troncamento, più silenzioso, governa le description: Google riscrive la maggior parte dei title e delle description quando sono mal dimensionate o duplicate, tirando frasi dal corpo della pagina invece. Una description attorno ai 150–160 caratteri è una richiesta, non una garanzia; scriverne una che corrisponde al contenuto reale della pagina rende la riscrittura, quando avviene, meno dannosa.",
+        ],
+      },
+      {
+        heading: "Robots meta contro robots.txt — livelli diversi, lavori diversi",
+        paragraphs: [
+          "Il meta tag robots e robots.txt vengono spesso confusi perché entrambi dicono «robot» nel nome, ma controllano fasi diverse. robots.txt governa il prelievo: un URL disallow non viene strisciato. Il meta tag governa l'indicizzazione: index/noindex decide se la pagina prelevata può apparire nei risultati, follow/nofollow se i suoi link passano autorevolezza. Una pagina bloccata da robots.txt può comunque comparire nei risultati se altre pagine la linkano — bloccare non è noindex.",
+          "Il riscontro d'audit classico è l'errore inverso: una pagina noindex che robots.txt blocca. Il crawler non preleva mai la pagina, non vede mai il noindex, e l'istruzione resta non letta. Se una pagina deve lasciare l'indice, il meta tag deve prima essere raggiungibile.",
+          "Dentro il tag stesso, i valori si combinano: index,follow è il predefinito e di solito si omette, noindex,follow tiene una pagina fuori dai risultati lasciando strisciare i suoi link, e noarchive, nosnippet e compagni regolano specifiche caratteristiche del risultato. Un solo robots meta per pagina — i duplicati nel head si risolvono in modo imprevedibile.",
+        ],
+      },
+      {
+        heading: "Ciò che un generatore dovrebbe e non dovrebbe emettere",
+        paragraphs: [
+          "Il meta keywords è l'esposto ammonitore: Google lo ignora dal 2009, Bing può trattarlo come segnale di spam, e tenerlo vivo nei template segnala per lo più un sito non mantenuto agli auditor. Questo generatore lo include solo perché alcuni motori di nicchia e piattaforme di ricerca interne lo chiedono ancora — lascialo vuoto a meno che qualcosa non lo esiga esplicitamente.",
+          "Il tag viewport, al contrario, è il cavallo di battaglia silenzioso: la sua assenza è il più comune fallimento di usabilità mobile, e un solo tag mancante può segnalare ogni pagina di un sito nei controlli di compatibilità mobile. I tag autore e altri descrittivi portano poco peso di ranking ma non costano nulla e completano il head.",
+          "L'escaping degli attributi conta più di quanto sembri: una description contenente una virgoletta rompe in silenzio un template non protetto, troncando il head a metà attributo. Tutto ciò che questo strumento produce è protetto per HTML, e i campi vuoti vengono omessi anziché emessi come tag vuoti — un head che non dice nulla due volte è un head che resta coerente. Tutta la generazione gira in locale nel tuo browser.",
+        ],
       },
     ],
   },
@@ -2376,6 +4549,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Usa website per homepage e pagine generiche, article per notizie e post di blog (aggiungi article:published_time se puoi), e product per le schede di e-commerce. Il tipo cambia come alcune piattaforme categorizzano il link.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come le piattaforme consumano davvero questi tag",
+        paragraphs: [
+          "Il namespace Open Graph nacque su Facebook attorno al 2010 come modo di trasformare qualunque pagina in un ricco oggetto a grafo, e il resto dell'industria lo adottò come vocabolario di fatto per le card di condivisione: X, LinkedIn, WhatsApp, Slack, Discord e iMessage leggono tutti prima og:title, og:description e og:image. Twitter tenne il proprio namespace ma cade sui valori og: per tutto ciò che non è esplicitamente fornito.",
+          "Il consumo è da crawler, non da utenti: quando qualcuno incolla il tuo URL, il bot della piattaforma preleva la pagina una volta e mette la card in cache. Per questo modificare i tag non fa nulla finché non forzi un aggiornamento nel debugger della piattaforma — lo Sharing Debugger di Facebook, il Card Validator di X, il Post Inspector di LinkedIn — e perché cambiare un'immagine senza cambiarne il nome di file spesso continua a servire la vecchia immagine dalla cache.",
+          "La proprietà og:url fa più di quanto sembri: dichiara l'identità canonica dell'oggetto condiviso, e la maggior parte delle piattaforme la tratta come la chiave sotto cui i contatori di like e le aggregazioni di condivisione vengono raggruppati. Tenerla identica al tuo rel=canonical evita di spaccare l'engagement tra varianti URL della stessa pagina.",
+        ],
+      },
+      {
+        heading: "L'immagine 1200×630 e le sue modalità di fallimento",
+        paragraphs: [
+          "Il rapporto 1.91:1 esiste perché la miniatura dei link di Facebook lo stabilì, e tutto il resto seguì; 1200×630 è la dimensione che si ritaglia pulita su ogni superficie importante. Le immagini fuori rapporto vengono ritagliate al centro, e il ritaglio è ciò che perde il tuo testo — tieni le parole sull'immagine dentro l'area centrale sicura anziché abbracciare i bordi.",
+          "In pratica il peso conta più delle dimensioni: molte piattaforme semplicemente rifiutano di prelevare immagini sopra pochi MB, e un'immagine lenta fa uscire la card con un segnaposto vuoto. Un URL assoluto è obbligatorio — il crawler preleva la pagina e poi l'immagine, e un percorso relativo si risolve nel contesto sbagliato o non si risolve affatto.",
+          "og:image:alt è la vittoria più saltata e più economica: è ciò che i lettori di schermo annunciano quando la card viene condivisa, e alcune piattaforme la espongono come testo di riserva se l'immagine non si carica. Scriverla è una frase; saltarla significa che ogni utente assistivo di ogni condivisione ottiene una descrizione vuota.",
+        ],
+      },
+      {
+        heading: "Perché entrambi i namespace, e cosa l'anteprima non promette",
+        paragraphs: [
+          "Il minimo onesto è l'insieme og: più twitter:card, twitter:site e facoltativamente twitter:creator — twitter:title, twitter:description e twitter:image sono pura duplicazione sulla maggior parte dei siti. L'unico tag twitter: che porta informazione irrinunciabile è twitter:card: sceglie summary_large_image (una card fotografica larga) contro summary (un quadrato piccolo), cosa che nessun equivalente og: decide.",
+          "og:type conta per la categorizzazione più che per il display: article segnala contenuti di notizie/blog (abbinalo a article:published_time quando ce l'hai), product marca le pagine di dettaglio e-commerce, e website è il predefinito per tutto il resto. Le piattaforme lo usano per scegliere come contestualizzare il link nei feed e nelle app di messaggistica.",
+          "L'anteprima dal vivo approssima una card a immagine grande e una summary con renderizzazione locale, ma ogni piattaforma tronca, ritaglia e dispone diversamente — trattala come un controllo di sanità per la lunghezza del testo e la presenza dell'immagine, poi conferma la cosa reale nel debugger ufficiale di ciascuna piattaforma prima che la pagina spedisca.",
+        ],
+      },
+    ],
   },
   "robots-txt-generator": {
     name: "Generatore robots.txt",
@@ -2402,6 +4601,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché la mia pagina resta indicizzata dopo il Disallow?",
         a: "Bloccare la scansione non è bloccare l'indicizzazione: se altre pagine linkano l'URL, Google può indicizzarlo comunque senza il contenuto. Per togliere una pagina dai risultati, permetti la scansione e usa un meta tag noindex.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Come robots.txt viene davvero analizzato: gruppi e matching per prefisso",
+        paragraphs: [
+          "Il protocollo è abbastanza piccolo da stare in testa una volta viste le sue due regole. Prima, il raggruppamento: un bot legge solo il singolo gruppo più specifico le cui righe User-agent lo includono — non tutti i gruppi combinati. Se GPTBot compare in un blocco e anche sotto il wildcard *, le regole del wildcard spariscono per GPTBot. Per questo questo generatore fonde gli user-agent che condividono una regola in un solo gruppo anziché emettere blocchi paralleli che si annullano a vicenda in silenzio.",
+          "Seconda, il matching: i percorsi sono corrispondenze per prefisso sensibili al caso, valutate dal più lungo, con esattamente due caratteri di pattern — * come wildcard e $ come ancoraggio di fine. Disallow: /search blocca /search, /searching e /search/x allo stesso modo; Disallow: /search$ blocca solo il percorso esatto. E un Disallow: nudo senza valore significa permetti tutto, cosa che fa inciampare i file scritti a mano.",
+          "Due fatti strutturali completano il quadro: solo il file alla radice di un hostname si applica — le regole su example.com non coprono mai blog.example.com, che ha bisogno del proprio file — e un file che si dichiara robots.txt altrove è solo testo. Né la direttiva sitemap né crawl-delay fanno parte dello standard originale: crawl-delay è onorato da alcuni crawler (Bing) e ignorato dal più grande (Google ti indirizza alle impostazioni di Search Console invece).",
+        ],
+      },
+      {
+        heading: "Strisciare non è indicizzare: l'abbinamento con noindex",
+        paragraphs: [
+          "Il malinteso più consequenziale su robots.txt è che Disallow rimuova una pagina dai risultati di ricerca. Fa l'opposto della rimozione in un caso comune: l'URL non viene prelevato, quindi il crawler non ne vede mai il contenuto — ma se altre pagine lo linkano, il motore può comunque elencare l'URL come voce senza snippet. Hai bloccato lo strisciamento e ottieni un URL indicizzato senza modo di attaccare un noindex.",
+          "Gli abbinamenti corretti: per tenere i crawler fuori da una sezione del tutto, Disallow e accetta che gli URL linkati possano comunque affiorare nudi. Per rimuovere pagine dai risultati, lasciale scansionabili e usa il meta tag noindex o l'header HTTP X-Robots-Tag. Per rimuoverle in fretta, lo strumento di rimozione di Search Console, non robots.txt.",
+          "La stessa logica spiega perché Disallow più noindex è una contraddizione: il bot bloccato dal prelievo non può mai leggere il tag che gli chiede di delistare. Ogni distribuzione di noindex dovrebbe cominciare da un controllo che la pagina sia effettivamente raggiungibile.",
+        ],
+      },
+      {
+        heading: "I crawler IA, e i limiti onesti del file",
+        paragraphs: [
+          "Il menu di policy per i crawler IA esiste perché gli user agent sono nuovi e i compromessi sono davvero diversi: i crawler adiacenti alla ricerca come OAI-SearchBot e PerplexityBot possono portarti visitatori, quelli focalizzati sull'addestramento come GPTBot, ClaudeBot, Google-Extended e CCBot non contribuiscono nulla al traffico di riferimento, e Bytespider è stato osservato da alcuni operatori di siti ignorare del tutto le istruzioni. Le decisioni per bot sono esattamente il caso per cui il singolo blocco * non fu mai progettato.",
+          "La conformità è volontaria su tutta la linea. Gli operatori che documentano il supporto di robots.txt per lo più lo onorano, ma nulla impone il file, e l'identità è auto-dichiarata — un crawler può rivendicare qualsiasi nome. Per una garanzia dura, il punto di imposizione è il tuo CDN o firewall, con matching sull'user-agent sapendo che gli header sono falsificabili, o sui pattern di comportamento.",
+          "Infine, ricorda cosa è il file: un annuncio pubblico. Chiunque può leggere /robots.txt, ed elenca i percorsi che consideri privati — un classico aiuto di ricognizione. Le aree sensibili richiedono autenticazione; il file aiuta con i crawler educati e il tuo budget di strisciamento, non con le persone.",
+        ],
       },
     ],
   },
@@ -2432,6 +4657,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. La validità rende la pagina idonea a una funzionalità; Google decide per query e per superficie se mostrarla. Non promettere mai stelle o breadcrumb nei report basandoti solo sul markup.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Idoneità, non diritto: come funzionano davvero i rich result",
+        paragraphs: [
+          "La relazione tra dati strutturati e display di ricerca è un cancello a due stadi, e confondere gli stadi è la radice della maggior parte delle promesse eccessive. Stadio uno è la validità: il markup analizza, le proprietà richieste esistono, i valori corrispondono ai formati attesi. Stadio due è l'idoneità, che Google da solo decide per query, per superficie e per sito — e può declinare perfino markup immacolato.",
+          "I dati strutturati non sono nemmeno un fattore di ranking. Ciò che fanno è cambiare come una pagina può essere presentata: l'idoneità apre la porta a stelle, prezzi, breadcrumb e box di eventi, e quelle presentazioni possono spostare sensibilmente i tassi di clic. L'effetto sul traffico è indiretto, mediato da se Google sceglie il display ricco per una data query.",
+          "Le policy di Google stesse si spostano, e si sono inasprite di recente esattamente nelle aree per cui la gente genera markup: i rich result FAQ ora appaiono quasi esclusivamente per siti governativi e sanitari noti, e il display HowTo è stato ritirato su mobile. Quindi scrivi copia conservatrice: riporta il markup come distribuito e validato, non promettere mai che una funzionalità specifica appaia. Gli strumenti che garantiscono rich snippet descrivono un mondo che non esiste più.",
+        ],
+      },
+      {
+        heading: "Perché ha vinto JSON-LD, e cosa esige ciascun tipo",
+        paragraphs: [
+          "Tre sintassi esprimono schema.org: gli attributi microdata tessuti nei tuoi elementi HTML, gli attributi RDFa, e JSON-LD — un blocco script autonomo di puri dati. La documentazione di Google preferisce JSON-LD, e le ragioni pratiche corrispondono alla preferenza: il blocco non tocca il tuo markup, può essere generato e iniettato da template o da uno strumento come questo, e sopravvive ai restyling perché vive accanto al contenuto anziché dentro.",
+          "Ogni tipo porta proprietà richieste da cui dipende la validità. Un Article richiede headline e author; un Product richiede name e, per le offerte, price in numeri semplici con una valuta; le date sono stringhe ISO 8601, non il formato che il tuo CMS stampa. Una proprietà richiesta mancante fallisce la validazione a prescindere dal resto perfetto — motivo per cui il generatore omette i campi vuoti anziché emettere null che i validatori segnalerebbero.",
+          "Uno script per entità diventa rumoroso sulle pagine ricche; il costrutto @graph lascia che più entità condividano un unico blocco, con riferimenti tra loro espressi da @id. È la forma raccomandata per una pagina con un Article più la sua Organization editrice più una BreadcrumbList.",
+        ],
+      },
+      {
+        heading: "La trappola del markup auto-servente, e la disciplina di validazione",
+        paragraphs: [
+          "Il rischio di penalità non è teorico: markup che analizza ma smentisce la pagina — stelle di recensione su una pagina senza recensioni vere, un Product con un prezzo diverso da quello mostrato, risposte FAQ invisibili ai visitatori — viola le linee guida e può guadagnare un'azione manuale che sopravvive a qualunque beneficio il rich result avrebbe portato. La regola pratica è semplice: il markup deve descrivere ciò che il visitatore può vedere, senza scorrere fino al markup.",
+          "La validazione ha due livelli che vale la pena tenere separati. Un validatore di sintassi ti dice che il JSON è ben formato; il Rich Results Test di Google ti dice se il markup si qualifica per qualche funzionalità. Passare il primo è il minimo sindacale — questo generatore gestisce l'escaping così le virgolette e le e-comerciali non possono rompere il blocco script — e solo il secondo significa qualcosa per il display.",
+          "La disciplina di distribuzione chiude il cerchio: incolla il blocco, esegui il test, poi sorveglia i report di miglioramento di Search Console, che portano in superficie gli errori su scala dopo che i template cambiano. Il markup è codice spedito a un consumatore che non controlli — trattalo con le stesse abitudini di versionamento e revisione del resto della pagina. Tutto qui viene generato localmente nel tuo browser; nulla viene caricato.",
+        ],
+      },
+    ],
   },
   "serp-preview": {
     name: "Anteprima SERP",
@@ -2458,6 +4709,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché Google sostituirebbe il mio titolo?",
         a: "Quando pensa che un'altra stringa si adatti meglio alla query, Google può sostituire con l'H1, il testo d'ancora dei link interni o il nome del sito. L'anteprima mostra il caso migliore: i tuoi tag, invariati.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Pixel, non caratteri",
+        paragraphs: [
+          "La pagina dei risultati di Google dispone i title in un font proporzionale e taglia quando la riga esaurisce i pixel — circa 580–600 su desktop — non quando si raggiunge un numero di caratteri. Poiché le lettere differiscono in larghezza, IIIIIIII e MMMMMMMM sono otto caratteri ciascuna e di larghezza selvaggiamente diversa; qualunque regola espressa in caratteri è un'indovinazione in vestito elegante.",
+          "La description segue la stessa logica con un limite più morbido: circa 155–160 caratteri è il soffitto comune desktop prima dei puntini di sospensione, ma a parità di conteggio le lettere larghe tagliano prima di quelle strette. Il mobile disegna un budget leggermente diverso di nuovo, motivo per cui controllare entrambi i layout batte fidarsi di uno.",
+          "Questa anteprima misura il testo con metriche di pixel modellate sui font che Google usa e taglia dove taglierebbe la pagina dei risultati — il numero che sorvegli è quello che sorveglia il renderer di Google, non un'approssimazione di esso.",
+        ],
+      },
+      {
+        heading: "Google ti riscriverà comunque — pianifica di conseguenza",
+        paragraphs: [
+          "L'anteprima mostra il caso migliore: il tuo tag title, alla lettera. In pratica Google rimpiazza title e description per una larga quota di query — tirando fuori l'H1, il testo di ancora dei link interni, il nome del sito, o la sua riscrittura delle tue parole quando giudica che un'altra stringa si adatta meglio alla query.",
+          "La difesa non sono trucchetti ma prove: le pagine i cui title corrispondono al contenuto e alla query vengono riscritte meno. Una meta description precisa e specifica alza le probabilità che la tua sia usata alla lettera; una frase di marketing vaga invita un sostituto su misura per chi cerca.",
+          "Quindi tratta l'anteprima come la posizione negoziale, non il risultato garantito: metti le parole che devono sopravvivere — marca, parola chiave primaria, l'offerta — all'inizio del title, così perfino uno snippet troncato o riscritto le conserva.",
+        ],
+      },
+      {
+        heading: "Un flusso che finisce prima che la pagina spedisca",
+        paragraphs: [
+          "Digita il title, la description e l'URL, guarda entrambi i misuratori riempirsi, cambia desktop/mobile, taglia. Le modifiche che comprano spazio sono prevedibili: sposta la marca alla fine, taglia gli avverbi di riempimento, sostituisci le frasi verbose con il sostantivo semplice.",
+          "I plugin dei CMS anticipano la stessa idea, ma la saldano a una dipendenza di piattaforma; un controllo autonomo funziona per qualunque template, qualunque stack e qualunque fase — compresa la revisione di pagine che non toccano mai il CMS, come landing page generate.",
+          "Tutto viene calcolato localmente nel tuo browser — i title in bozza per prodotti non annunciati possono passare senza essere spediti da nessuna parte. Quando la copia sopravvive a entrambi i budget di pixel, i generatori di meta-tag e Open Graph portano le stringhe finite fino in fondo.",
+        ],
       },
     ],
   },
@@ -2488,6 +4765,32 @@ export const it: Record<string, ToolCopy> = {
         a: "50.000 URL o 50 MB non compressi per file. Oltre, dividila in più sitemap ed elencale in un file indice di sitemap, poi presenta l'indice.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Un'indicazione, non una promessa",
+        paragraphs: [
+          "Una sitemap fa esattamente una cosa: elenca URL così i crawler possono scoprirli più in fretta. Non impone lo strisciamento, non garantisce l'indicizzazione e non porta alcun peso di ranking — la documentazione di Google stessa è esplicita su tutti e tre i punti. Pensala come consegnare al crawler una mappa del tuo sito invece di fargli trovare ogni corridoio camminando.",
+          "Il protocollo che segue — sitemaps.org 0.9 — nacque come proposta di Google nel 2005 e fu adottato congiuntamente da Yahoo e Microsoft poco dopo; Google, Bing e Yandex lo accettano ancora invariato. Quella longevità è il motivo per cui un file valido generato oggi si comporta allo stesso modo su ogni motore importante.",
+          "La scoperta paga ancora sui siti grandi o appena lanciati, dove il linking interno non ha ancora raggiunto l'inventario degli URL: una sitemap consegna al crawler l'elenco completo dal primo giorno invece di attendere che i link si accumulino.",
+        ],
+      },
+      {
+        heading: "Quali tag fanno davvero qualcosa",
+        paragraphs: [
+          "Dei tre tag di contenuto, solo lastmod ha un effetto documentato: Google lo legge per decidere quando vale la pena programmare un nuovo strisciamento — e solo quando il valore è accurato e coerente nel tempo. changefreq e priority sono documentati come ignorati; i crawler di Google si programmano da soli.",
+          "Il problema di onestà di lastmod è strutturale: le catene di build stampano la data di oggi su ogni URL che il contenuto sia cambiato o no, e i crawler imparano che il segnale è rumore — dopo di che perfino valori lastmod veritieri vengono scontati. La cura è noiosa: aggiorna lastmod solo quando il contenuto è cambiato in modo significativo, nel formato W3C Datetime (YYYY-MM-DD va bene).",
+          "loc e il namespace XML fanno il lavoro strutturale: ogni URL deve essere assoluto, tutte le voci devono condividere un prefisso di host, e la & nelle stringhe di query si protegge come &amp; per tenere l'XML valido. La deduplicazione conta pure — lo stesso URL elencato due volte spreca due volte il budget di strisciamento.",
+        ],
+      },
+      {
+        heading: "Limiti di dimensione e il flusso che li rispetta",
+        paragraphs: [
+          "Il protocollo limita un singolo file a 50.000 URL o 50 MB non compressi — chi arriva prima. Questo generatore raggruppa le voci per primo segmento di percorso proprio così un sito grande si spezza pulito in file per sezione: /blog/*, /products/*, /docs/* diventano ognuno la propria sitemap, elencati insieme in un indice di sitemap.",
+          "Il raggruppamento ripaga due volte: Search Console riporta gli errori per sitemap, così un file che fallisce ti dice quale sezione si è rotta invece di un file gigante che non ti dice nulla; e la gestione di lastmod per sezione corrisponde alla realtà — i documenti cambiano ogni giorno, le pagine «chi siamo» mai.",
+          "Il rituale di hosting è corto: scarica sitemap.xml, caricala alla radice del tuo dominio, referenziala da robots.txt con una riga Sitemap: o sottomettila direttamente in Search Console, e lascia che il primo strisciamento la confermi. Come ogni strumento qui, l'XML viene assemblato interamente nel tuo browser — il tuo inventario di URL non viene caricato da nessuna parte.",
+        ],
+      },
+    ],
   },
   "utm-builder": {
     name: "Costruttore di link UTM",
@@ -2514,6 +4817,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le maiuscole nei valori UTM sono significative?",
         a: "Sì — utm_campaign=Spring e utm_campaign=spring contano come due campagne nella maggior parte degli strumenti di analisi. Standardizza sul minuscolo e i tuoi report restano puliti.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Il sistema di parametri, decodificato",
+        paragraphs: [
+          "UTM sta per Urchin Tracking Module — un fossile di Urchin Software, la cui analisi web Google comprò nel 2005 e trasformò in Google Analytics. I cinque parametri standard sono sopravvissuti a ogni restyling da allora: utm_source nomina da dove è venuto il visitatore (google, newsletter, twitter), utm_medium nomina il canale (cpc, email, social, referral), utm_campaign nomina l'iniziativa, e gli optional utm_term e utm_content separano parola chiave a pagamento e variante A/B.",
+          "utm_id merita una menzione speciale: GA4 lo usa per legare link diversi a un unico ID di campagna — la via pulita per fondere traffico che arriva con nomi di campagna leggermente diversi. Se la tua organizzazione assegna già ID di campagna, metti lo stesso valore su ogni link della campagna.",
+          "I parametri sono normali voci di stringa di query — aggiunti dopo il percorso, prima del #fragment — e questo builder codifica in percentuale ogni valore, così gli spazi diventano %20 e sopravvivono a client di posta, generatori di QR e redirezioni delle piattaforme pubblicitarie senza rompere l'URL.",
+        ],
+      },
+      {
+        heading: "Le convenzioni di denominazione sono il prodotto vero",
+        paragraphs: [
+          "Il builder garantisce link ben formati; solo la disciplina garantisce report utili. L'analisi tratta i valori come stringhe sensibili al caso, quindi utm_campaign=Spring_Sale e utm_campaign=spring_sale frammentano una campagna in due — e ogni report futuro dovrà riunirli a mano.",
+          "Le convenzioni che invecchiano bene sono noiose: tutto minuscolo, trattini o sottolineature invece degli spazi, niente date dentro i nomi di campagna (spezzano un'iniziativa in quasi-duplicati settimanali), e un vocabolario stabile di sorgenti e mezzi condiviso da chiunque possa creare link. Alcuni team tengono quell'elenco in un foglio di calcolo; altri limitano chi costruisce link affatto.",
+          "Il ri-etichettaggio è l'altra trappola: una volta che un URL con parametri UTM è stato condiviso, indicizzato o stampato, la sua storia è saldata al suo posto. Cambiare i tag più avanti non sistema il passato — taglia la serie temporale. Decidi la tassonomia prima della prima campagna, non dopo la terza.",
+        ],
+      },
+      {
+        heading: "UTM e SEO, vicini non nemici",
+        paragraphs: [
+          "Gli URL etichettati possono frammentare lo strisciamento: example.com/pagina e example.com/pagina?utm_source=newsletter sembrano due documenti a un crawler finché un tag canonical non dice altro. Un canonical auto-referenziale su ogni pagina è la difesa standard — motivo per cui il generatore canonical di questo site si abbina naturalmente a questo.",
+          "I link interni in genere non dovrebbero portare parametri UTM (in alcune configurazioni di analisi inquinano i dati di riferimento); UTM appartiene ai link che controlli fuori dal sito — annunci, newsletter, post social, codici QR. Far sì che quei link in uscita siano corretti è il lavoro del builder; tenerli fuori dalla tua navigazione è il tuo.",
+          "Come per tutto sul sito, l'URL assemblato non lascia mai il tuo browser — nessun account, nessuna registrazione. Incolla una destinazione, riempi i campi, copia il risultato nella piattaforma pubblicitaria o nel generatore di QR, e la catena di attribuzione comincia da un link che si decodifica allo stesso modo ovunque viaggi.",
+        ],
       },
     ],
   },
@@ -2549,6 +4878,30 @@ export const it: Record<string, ToolCopy> = {
         a: "I resolver includono l'intera catena: se www.example.com è un CNAME verso example.com, una query A restituisce l'alias più il record A finale. Le righe extra mostrano esattamente come si risolve il nome.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che avviene tra la tua query e la risposta",
+        paragraphs: [
+          "DNS è una gerarchia, e una singola ricerca può toccare parecchi server. Quando non c'è nulla in cache, un resolver chiede prima a un server radice, che lo punta ai nameserver del dominio di primo livello (.com, .org), che lo puntano ai nameserver autoritativi del dominio — quelli che tengono davvero la risposta. Ogni livello risponde con un rimando, e il resolver scende la catena finché ottiene un record da restituire.",
+          "La cache accorcia questo cammino. Ogni record porta un TTL (time to live) in secondi, che dice ai resolver per quanto possono riusare la risposta. Un TTL basso come 300 significa che i cambiamenti si propagano entro minuti ma ogni ricerca colpisce il server autoritativo più spesso; un TTL alto come 86400 tiene le risposte in cache per un giorno, il che è economico e stabile ma lento ad aggiornarsi. Quando abbassi un TTL prima di una migrazione pianificata, stai programmando con che rapidità il mondo dimenticherà la vecchia risposta.",
+          "Una sfumatura che questo strumento rende visibile: il tuo browser o sistema operativo può avere la propria cache davanti al resolver pubblico, e alcuni resolver restituiscono risposte cacheate senza controllare se la zona è cambiata. Se un record appare stantio qui, di solito è il TTL ancora in conto alla rovescia — non un errore nella query.",
+        ],
+      },
+      {
+        heading: "Scegliere il giusto tipo di record per il lavoro",
+        paragraphs: [
+          "La maggior parte del debugging comincia col tipo di record sbagliato. I problemi di posta non sono quasi mai un problema del record A: controlla prima MX, poi i record TXT per SPF, DKIM e DMARC. SPF vive come un'unica stringa TXT sul dominio stesso, DKIM su un sottodominio di selettore come s1._domainkey.example.com, e DMARC su _dmarc.example.com. Poiché DoH restituisce la risposta grezza con i segmenti fusi, puoi leggere qui l'intera stringa di policy e notare gli errori di sintassi che rompono silenziosamente la consegna della posta.",
+          "A, AAAA, NS e CNAME rispondono a domande diverse: il sito si risolve? E su IPv6? Chi gestisce il DNS? Questo nome è un alias? Una risposta CNAME a una query A è normale e attesa — i resolver includono l'intera catena — ma un dominio non può avere un CNAME accanto ad altri record allo stesso nome, motivo per cui i domini apex usano spesso ALIAS o record appiattiti presso il fornitore.",
+        ],
+      },
+      {
+        heading: "Perché DNS-over-HTTPS, e cosa questo strumento non fa",
+        paragraphs: [
+          "Le query DNS tradizionali viaggiano come UDP in chiaro sulla porta 53, visibili a chiunque sul percorso di rete — il router del bar, l'ISP, i middlebox. DNS-over-HTTPS avvolge la stessa query in una connessione TLS normale, quindi la ricerca è privata dalla rete locale e attraversa reti che bloccano o dirottano la porta 53. Per questo questo strumento funziona in ambienti dove dig fallisce.",
+          "È uno strumento di ricerca, non un servizio di monitoraggio in diretta: mostra una risposta puntiforme da un resolver, valori cacheati compresi, e non interroga direttamente i server autoritativi né confronta le risposte tra resolver. Per i cambi che controlli, il flusso pratico è: abbassa il TTL in anticipo, fai il cambio, poi ri-verifica qui finché il nuovo valore appare.",
+        ],
+      },
+    ],
   },
   "email-validator": {
     name: "Validatore email",
@@ -2576,6 +4929,29 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché un indirizzo valido ha fallito il controllo MX?",
         a: "Qualche dominio non pubblica record MX e fa affidamento sul proprio record A (instradamento implicito); lo strumento te lo dice quando è così. Altri pubblicano un MX nullo, dicendo esplicitamente «qui niente posta». Domini aziendali o appena creati possono anche mancare dalle cache dei resolver pubblici per un po' — riprova tra un minuto.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Valido nel formato non è la stessa cosa che raggiungibile",
+        paragraphs: [
+          "Le RFC permettono formalmente indirizzi molto più strani di quanto il mondo reale faccia: parti locali tra virgolette come «nome strano»@example.com, domini letterali IP, commenti in mezzo a un indirizzo. I server di posta veri respingono la maggior parte di questo, quindi un validatore che implementi l'intera grammatica RFC darebbe il via libera a indirizzi che nessuno può davvero usare. Questo strumento controlla il sottoinsieme pratico — la sintassi che Gmail, Outlook e i grandi fornitori accettano davvero — che è la barretta giusta per un modulo di registrazione.",
+          "Persino un indirizzo perfettamente formato non dice nulla sulla casella dietro. Può essere piena, cancellata, una catch-all che ingoia tutto, o una spam trap che avvelena la reputazione del tuo mittente. Per questo il formato da solo è un segnale debole: la domanda significativa è se il dominio sia configurato per ricevere posta, e quella è rispondibile con una query DNS pubblica.",
+        ],
+      },
+      {
+        heading: "Ciò che il controllo MX può e non può dirti",
+        paragraphs: [
+          "Un record MX è una promessa pubblica: la posta per questo dominio dovrebbe andare a questi server, in quest'ordine di priorità. Nessun MX di solito significa niente posta, ma ci sono due eccezioni oneste — alcuni piccoli domini ricevono posta tramite il record A per routing implicito, e un MX nullo è una dichiarazione esplicita di «non accettiamo nulla». Lo strumento distingue questi casi anziché collassarli in un unico fallimento, perché significano cose diverse per un funnel di registrazione.",
+          "Ciò che nessuna query DNS può dirti è se una casella specifica esista. I server di posta deliberatamente non lo pubblicizzano — sondare con comandi RCPT TO è come operano gli spammer che raccolgono indirizzi, e molti server accettano tutti i destinatari e rimbalzano dopo per evitare di confermare qualcosa. La verifica SMTP completa appartiene ai servizi in blocco lato server; uno strumento del browser che dichiara di verificare caselle sta promettendo troppo. Formato più MX più rilevamento dei refusi è il tetto onesto per il controllo lato client.",
+        ],
+      },
+      {
+        heading: "Refusi e la privacy della divisione",
+        paragraphs: [
+          "Una gran quota delle registrazioni fallite è di un refuso di una lettera: gmial.com, hotmial.com, hitmail.com, o .cm invece di .com. Controllare il dominio contro un elenco dei fornitori più comuni coglie la maggior parte di questi prima che l'utente colpisca mai un rimbalzo — molto più economico che pulire l'elenco dopo. Cogliere i refusi all'ingresso è anche più gentile: l'utente sistema un carattere invece di non ricevere mai l'email di conferma che aspetta.",
+          "Il design della privacy è deliberato: la validazione della parte locale — spesso la parte che contiene il tuo nome o handle — gira interamente offline, e solo il dominio attraversa la rete, come una normale query DNS. Il dominio di un indirizzo identifica raramente una persona; la parte locale di solito sì. Tieni presente quella divisione quando incolli indirizzi che non vorresti fossero registrati nei log.",
+        ],
       },
     ],
   },
@@ -2607,6 +4983,30 @@ export const it: Record<string, ToolCopy> = {
         a: "Solo l'IP che vuoi cercare, in una richiesta HTTPS a ipwho.is. Cercare il tuo stesso IP rivela necessariamente il tuo indirizzo a quell'API — la stessa che vedrebbe qualsiasi servizio di geolocalizzazione.",
       },
     ],
+    deepDive: [
+      {
+        heading: "La geolocalizzazione IP è dati di registrazione, non un puntino sulla mappa",
+        paragraphs: [
+          "Il malinteso più comune sulla ricerca IP è che trovi un dispositivo. Non lo fa. Un database di geolocalizzazione è costruito dai registri di quale organizzazione abbia registrato un blocco di indirizzi, dove siede l'infrastruttura di rete di quell'organizzazione, e correzioni degli utenti. Il risultato che vedi è dove l'hardware di routing dell'ISP è registrato — un centro dati, un hub regionale — non il telefono o il portatile che realmente usa l'indirizzo.",
+          "Le modalità di fallimento ne derivano. I gestori mobili instradano il traffico attraverso gateway regionali, quindi un telefono in una città può mostrarne un'altra. Le grandi aziende registrano tutti i loro blocchi alla sede centrale, quindi ogni filiale geolocalizza allo stesso edificio. Gli indirizzi di hosting e VPN si risolvono al centro dati, per design. L'internet satellitare può sbagliare di un intero paese. I risultati a livello città sono una stima senza garanzia di accuratezza.",
+          "I campi affidabili sono paese, ASN e ISP: vengono dritti dai dati di registro e mentono raramente. Un ordine di lettura pratico è ASN prima — ti dice se l'indirizzo appartiene a un ISP residenziale, a un'azienda di hosting o a una rete mobile — e solo dopo i campi di posizione, ponderati di conseguenza.",
+        ],
+      },
+      {
+        heading: "Ciò che l'ASN aggiunge al quadro",
+        paragraphs: [
+          "Ogni blocco instradato di spazio IP appartiene a un sistema autonomo: una rete — o un gruppo di reti — con una singola policy di routing, identificata da un ASN. Conoscere l'ASN cambia la domanda da «dov'è questo indirizzo» a «che tipo di rete è», che spesso è la risposta di cui hai davvero bisogno.",
+          "Concretamente: un rapporto di abuso è più utile contro un ASN di hosting che contro uno residenziale, perché le aziende di hosting agiscono sui rapporti e gli ISP devono tracciare un cliente. Anche l'analisi dei log si appoggia a esso — un login da un ISP residenziale in un paese insolito e un login da un ASN di un fornitore cloud nello stesso paese sono due segnali molto diversi. Le decisioni di blocco prese sulla geolocalizzazione a livello città falliscono di routine; le decisioni prese su ASN e tipo di rete reggono meglio.",
+        ],
+      },
+      {
+        heading: "Usi quotidiani e limiti onesti",
+        paragraphs: [
+          "I casi quotidiani sono controllare cosa sia davvero una voce di log, fare un controllo di sanità alle regole di firewall o CDN prima di una distribuzione, e confermare che una VPN abbia davvero cambiato il tuo indirizzo visibile — cerca il tuo IP prima e dopo la connessione, e confronta ASN e paese. Quell'ultimo è il test VPN più economico che esista.",
+          "I limiti onesti: questa è informazione a livello di rete e non può identificare una persona; la query stessa è visibile all'API di geolocalizzazione, incluso quando cerchi il tuo IP; e i prodotti commerciali di intelligence aggiungono punteggi di frode e rilevamento di proxy che un database gratuito non porta. Usalo per ciò che fa bene — identificazione di rete e geografia approssimata — non come punto d'arrivo investigativo.",
+        ],
+      },
+    ],
   },
   "password-generator": {
     name: "Generatore di password",
@@ -2634,6 +5034,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Potete recuperare una password che ho generato qui?",
         a: "No. La generazione avviene interamente nella memoria del tuo browser. Nulla viene caricato, registrato o salvato — ricarica la pagina e la password è sparita per sempre, quindi salvala subito in un gestore di password.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché l'entropia è la misura onesta della forza",
+        paragraphs: [
+          "L'entropia misura lo spazio di ricerca che un attaccante dovrebbe percorrere, in bit: log2 della dimensione dell'insieme di caratteri, per il numero di caratteri. Un attacco a forza bruta che provi cento trilioni di ipotesi al secondo — la capacità dell'hardware di cracking dedicato attuale — richiederebbe secoli per superare 80 bit. Per questo la lettura qui è un numero reale calcolato dalle tue impostazioni, non una vaga etichetta forte/debole.",
+          "L'aritmetica spiega anche perché la lunghezza batte la complessità. Ogni carattere in più moltiplica lo spazio di ricerca per la dimensione della piscina, mentre scambiare una «a» per una «@» dentro una password corta muove appena l'ago. Le regole classiche di composizione — una cifra, un simbolo, una maiuscola — spingono la gente verso schemi prevedibili come Password1!, che i dizionari d'attacco già conoscono a memoria. L'attuale guida NIST (SP 800-63B) ha abbandonato quelle regole in favore della lunghezza e della casualità genuina.",
+          "Un limite onesto: l'entropia misura la casualità del processo di generazione, non la resistenza a ogni attacco. Un generatore perfetto non protegge una password riusata su un altro sito che ha subito una violazione, né un segreto digitato su una macchina infettata da malware. Riuso e phishing — non la forza bruta — sono responsabili della maggior parte delle takeover di account in pratica.",
+        ],
+      },
+      {
+        heading: "CSPRNG contro Math.random, e perché conta",
+        paragraphs: [
+          "Ogni generatore di password vale esattamente quanto la sua fonte di casualità. Math.random(), l'utilità quotidiana di JavaScript, è un generatore pseudo-casuale ottimizzato per velocità e riproducibilità nelle simulazioni: osserva alcuni output e puoi predire quelli che seguono. Una password costruita con esso appare casuale e non lo è — precisamente il tipo di scorciatoia che ha rotto veri siti di generazione password.",
+          "Questo strumento usa crypto.getRandomValues, la fonte crittograficamente sicura del browser. È seminata dal sistema operativo — entropia hardware, tempistiche di interruzioni, tempistiche del disco — e progettata così che nessun osservatore possa predire il byte seguente anche dopo aver visto tutti i precedenti. Quei byte vengono poi mappati uniformemente sui tuoi insiemi di caratteri scelti, così nessun carattere esce più spesso di un altro: una mappatura distorta ridurrebbe in silenzio l'entropia reale sotto il numero mostrato.",
+          "La stessa fonte guida la modalità passphrase, ma anziché byte sceglie indici in un elenco di 273 parole corte e non ambigue — circa 8,1 bit per parola. Cinque parole casuali danno ≈40 bit e una frase che puoi realmente digitare; otto o più raggiungono il territorio delle password a 16 caratteri. L'elenco è filtrato specificamente per evitare coppie confondibili quando detti o leggi ad alta voce.",
+        ],
+      },
+      {
+        heading: "Ciò che generare nel browser cambia in pratica",
+        paragraphs: [
+          "I siti che generano password lato server vedono ogni password che producono — il segreto attraversa la rete e, qualunque sia la policy di conservazione, esiste in un log sulla macchina di qualcun altro. Generare nel browser rovescia questo: i byte casuali nascono sul tuo dispositivo e la password non lo lascia mai. Ricaricare la pagina cancella tutto; non c'è account, cronologia né sincronizzazione da cui leakare.",
+          "Il flusso raccomandato ne deriva: genera qui, copia, incolla dritto nel modulo di registrazione o cambio password, e salva in un gestore di password nello stesso fiato. Il gestore ricorda; il generatore garantisce che il segreto sia nato casuale e locale. Insieme coprono entrambi i punti di fallimento — password prevedibili alla nascita e password dimenticate alla conservazione.",
+        ],
       },
     ],
   },
@@ -2665,6 +5090,31 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Le librerie e i dizionari di zxcvbn si caricano nel tuo browser e ogni calcolo gira in locale. Nessuna richiesta di rete porta il tuo input.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come zxcvbn differisce dai misuratori che contano le classi",
+        paragraphs: [
+          "Le familiari barre verde-rosse di forza contano le classi di caratteri: una maiuscola, una cifra, un simbolo, punteggio verde. Quel modello non fu mai una misura di forza — è una misura di conformità a una regola. zxcvbn lavora diversamente: scompone il tuo input nell'insieme più economico di pattern noti — parole del dizionario, passeggiate da tastiera come qwerty, ripetizioni, sequenze, date, sostituzioni l33t — e riporta il numero di ipotesi di cui un attaccante che segua la stessa strategia avrebbe bisogno.",
+          "Per questo Tr0ub4dor&3 punteggia male pur sembrando complesso: le sostituzioni sono le prime regole che i dizionari di cracking applicano, quindi il costo reale di indovinarlo è il costo di indovinare «troubador» più un po' di decorazione. Lo stesso motore spiega perché quattro parole comuni casuali sono molto più difficili da forzare di una password corta imbottita di ogni tipo di simbolo.",
+          "Una cosa che zxcvbn esplicitamente non è: un verdetto sulla presenza della tua password in una violazione specifica. Lo approssima confrontando elenchi di password leakate noti, ma l'unico controllo autorevole è interrogare un database di violazioni. Tratta il punteggio come un modello del costo dell'attaccante, non un certificato.",
+        ],
+      },
+      {
+        heading: "Leggere onestamente i tre scenari di attacco",
+        paragraphs: [
+          "Il tempo di cracking è privo di significato senza un modello di attacco. Un attacco online con throttling (attorno a cento ipotesi l'ora) è ciò che un modulo di login beneducato permette; un attacco offline contro un hash lento come bcrypt (grossomodo diecimila ipotesi al secondo) è ciò che accade quando un database correttamente hashed leaka; un attacco offline contro hash veloci o senza salt (miliardi di ipotesi al secondo sulle GPU) è il caso peggiore, ed è molto più comune di quanto dovrebbe.",
+          "L'abitudine utile è giudicare una password dallo scenario peggiore, non dal migliore. Una password che sopravvive una settimana nella colonna hash-veloce va bene per un sito ben gestito ed è pericolosamente sottile per quello violato e trascurato. Poiché non puoi controllare quale sito abbia hashato bene, la lettura conservatrice è la colonna hash-veloce — specialmente per tutto ciò che riusi.",
+          "Nota anche cosa assume la stima: l'attaccante conosce il tuo schema di generazione. È l'assunzione giusta — gli attacchi a dizionario sono costruiti proprio attorno ai pattern umani comuni — ma significa che i numeri sono un pavimento del costo per l'attaccante sulle password fatte da umani, non un tetto.",
+        ],
+      },
+      {
+        heading: "La forza non è la sicurezza, e il controllo è locale",
+        paragraphs: [
+          "La verità scomoda dalle analisi delle violazioni: la maggior parte delle takeover di account non coinvolge il cracking di nulla. Coinvolgono password riusate da una violazione precedente, o credenziali consegnate a una pagina di phishing. Un punteggio perfetto di 4/4 non protegge una password che riusi tra i siti — nessuna metrica può. Le difese realistiche sono una password unica per sito e un gestore di password, con il controllo di forza come terza gamba.",
+          "Il controllo stesso è sicuro qui: la libreria zxcvbn e i suoi dizionari si caricano nel tuo browser e ogni computazione gira sul tuo dispositivo. Nessuna richiesta di rete trasporta mai ciò che digiti, quindi è ragionevole testare perfino password vere — benché digitare qualunque segreto su una macchina di cui non ti fidi sia un rischio che nessuno strumento nel browser può rimuovere.",
+        ],
+      },
+    ],
   },
   "random-number": {
     name: "Generatore di numeri casuali",
@@ -2692,6 +5142,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "I numeri vengono salvati da qualche parte?",
         a: "No. Tutto viene calcolato nella memoria del tuo browser da crypto.getRandomValues; ricaricare la pagina cancella i risultati, e nulla viene mai caricato online.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Distorsione del modulo: il bug che la maggior parte delle pagine di numeri casuali ha",
+        paragraphs: [
+          "I computer producono interi casuali come valori a 32 bit, ma quasi nessun intervallo utile divide 2^32 uniformemente. L'approccio ingenuo — prendi un numero casuale a 32 bit e applica il modulo della dimensione dell'intervallo — impila il resto avanzato sull'estremo basso dell'intervallo: con un intervallo di 10, alcuni numeri diventano misurabilmente più probabili di altri. Per un gioco è invisibile; per un'estrazione a premi con premi attaccati è un bug di correttezza.",
+          "La cura è il campionamento per rigetto: estrai un valore a 32 bit, e se cade nel resto avanzato in cima allo spazio, scartalo ed estrai di nuovo. I valori accettati coprono allora l'intervallo in una finestra esattamente uniforme, così ogni intero da min a max porta precisamente la stessa probabilità 1/(max−min+1). Costa qualche estrazione in più in media e compra correttezza matematica.",
+          "Questo strumento applica quel passaggio e lo dice chiaramente, perché «casualità crittografica» da sola non garantisce uniformità — la mappatura dai byte grezzi al tuo intervallo è dove la distorsione si intrufola. Quando pubblichi i risultati di un'estrazione, la lettura dell'entropia (log2 della dimensione dell'intervallo, sommata sull'estrazione) documenta quanta casualità genuina ha deciso l'esito.",
+        ],
+      },
+      {
+        heading: "CSPRNG contro Math.random e l'orologio",
+        paragraphs: [
+          "Math.random() è un generatore pseudo-casuale calibrato per velocità: il suo stato interno è finito, e osservare abbastanza output rivela quello stato, dopo di che ogni numero «futuro» è calcolabile. Seminare dall'orologio di sistema è peggiore — gli orologi si muovono in modo prevedibile, quindi un attaccante che sappia grossomodo quando hai cliccato può riprodurre la tua estrazione. Nessuno dei due fallimenti è ipotetico; sono le ragioni standard per cui le estrazioni online vengono contestate.",
+          "crypto.getRandomValues è la fonte crittograficamente sicura del browser: il suo output è progettato per essere imprevedibile perfino per un attaccante che ha visto tutti gli output precedenti, ed è seminata dal sistema operativo dall'entropia hardware. Questo strumento la usa esclusivamente — la stessa fonte su cui si affidano la generazione di password e chiavi.",
+          "Una conseguenza pratica: i risultati qui non sono riproducibili da nessuno, incluso te. Se ti servono estrazioni verificabili, il flusso onesto è pubblicare i tuoi limiti e il conteggio prima dell'estrazione, generare davanti a testimoni o in diretta, e copiare l'output subito — la pagina non conserva alcun registro, che è una proprietà di privacy, non una limitazione da aggirare.",
+        ],
+      },
+      {
+        heading: "Con o senza reimmissione, e dove ognuna si adatta",
+        paragraphs: [
+          "Due modalità di campionamento corrispondono a due domande diverse. Con reimmissione — ogni estrazione indipendente, duplicati ammessi — risponde a «dammi N numeri casuali»: dati di test, campionamento in stile Monte-Carlo, dadi. Senza reimmissione — come pescare palline numerate da una ciotola — risponde a «scegli N vincitori da M partecipanti»: estrazioni a premi, giveaway, ordinamento casuale di un elenco.",
+          "Senza reimmissione c'è una regola dura: non puoi estrarre più numeri unici di quanti l'intervallo ne contenga. Uno strumento che in quel caso cicli in silenzio o distorca è rotto; questo si rifiuta e spiega invece. Ordinare l'output dopo un'estrazione unica cambia solo la presentazione — l'insieme dei vincitori è lo stesso — ma per un'estrazione a più premi dove il posto conta, preserva l'ordine di estrazione e tratta il primo numero come primo premio.",
+        ],
       },
     ],
   },
@@ -2723,6 +5198,31 @@ export const it: Record<string, ToolCopy> = {
         a: "Le cause più comuni: un algoritmo sbagliato (la maggior parte dei servizi usa SHA-1), il periodo sbagliato, o un orologio del dispositivo fuori sincrono di più di qualche secondo. Controlla i tre selettori con la pagina di configurazione del servizio e sincronizza l'orologio di sistema.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come funziona la finestra di 30 secondi, e perché perdona gli orologi",
+        paragraphs: [
+          "TOTP (RFC 6238) trasforma un segreto condiviso più il tempo attuale in un codice. Il tempo non è usato grezzo: entrambi i lati computano un contatore — tempo Unix diviso per il periodo, 30 secondi per impostazione predefinita — e lo HMACano col segreto. Il server accetta un codice dalla finestra attuale e di solito una o due finestre su entrambi i lati, così pochi secondi di deriva di orologio tra il tuo dispositivo e il server non ti chiudono fuori.",
+          "Quella tolleranza è anche il budget di sicurezza. Un codice è valido per grossomodo 30 a 90 secondi, il che è abbastanza stretto che intercettarne uno è quasi inutile ma abbastanza largo per umani che digitano lentamente. Sei cifre danno un milione di possibilità per finestra; con un tipico rate limiting di una manciata di ipotesi per finestra, forzare a bruta un codice vivo è senza speranza — la superficie di attacco è il segreto stesso, non le cifre.",
+          "Quando il tuo codice non corrisponde, la causa è quasi sempre una di tre impostazioni, non un algoritmo rotto: l'hash sbagliato (praticamente tutto usa SHA-1 nonostante il nome suoni datato), il periodo sbagliato (30 vs. 60 secondi), o un orologio che deriva oltre le finestre di accettazione. Sincronizza prima l'orologio di sistema; sistema la maggior parte dei disallineamenti.",
+        ],
+      },
+      {
+        heading: "Il segreto è un segreto condiviso — trattalo come una password",
+        paragraphs: [
+          "La stringa base32 che incolli è l'intero materiale crittografico del tuo secondo fattore: chiunque la detenga può generare codici validi per sempre, su qualsiasi dispositivo, senza conoscere il tuo telefono. Si chiama segreto «condiviso» perché sia il tuo autenticatore che il servizio detengono lo stesso valore. Per questo incollarlo in un sito TOTP online casuale equivale a consegnare il tuo 2FA.",
+          "Questo strumento computa tutto con WebCrypto dentro il tuo browser: nessuna chiamata di rete, nessuna memorizzazione in localStorage o cookie, nulla scritto su disco. Chiudi la scheda e il segreto è sparito dalla memoria. Questo rende la pagina una via di recupero legittima — la stessa computazione che fa l'app del tuo telefono, solo da un posto dove il tuo telefono non è.",
+          "L'igiene di base resta: memorizza il segreto solo in un gestore di password o nei codici di recupero del servizio, mai in screenshot o log di chat. Un link otpauth:// è comodo da incollare qui proprio perché impacchetta il segreto con i suoi parametri — tratta un link incollato come una password incollata e svuota i tuoi appunti dopo.",
+        ],
+      },
+      {
+        heading: "TOTP contro SMS, e dove un codice del browser si adatta",
+        paragraphs: [
+          "I codici SMS viaggiano sulla rete telefonica e vengono memorizzati dai gestori, il che li rende intercettabili — gli attacchi di scambio SIM esistono proprio perché il canale è il gestore, non perché le cifre siano deboli. I codici TOTP non lasciano mai il dispositivo che li computa, quindi l'angolo di intercettazione sparisce del tutto. Quello, più il funzionamento offline e l'indipendenza dal numero di telefono, è il motivo per cui ogni guida di sicurezza seria preferisce le app autenticatrici agli SMS.",
+          "Una pagina del browser che genera codici non è un rimpiazzo dell'app sul tuo telefono — è lo stesso algoritmo in un secondo posto. Il suo angolo onesto: recuperare quando il telefono è rotto o sostituito, effettuare il login su una macchina dove l'app non è installata, e verificare i parametri di un link di configurazione. Tieni il segreto fuori dalle macchine condivise; sul tuo dispositivo, la pagina è tanto sicura quanto la computazione che esegue, che non è affare di nessuno.",
+        ],
+      },
+    ],
   },
   "whois-lookup": {
     name: "Ricerca WHOIS",
@@ -2750,6 +5250,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Cosa viene inviato sulla rete?",
         a: "Solo il nome di dominio, in una richiesta HTTPS a rdap.org, che può reindirizzare all'endpoint RDAP ufficiale del registry. I dati di registrazione sono pubblici per costruzione; nulla di personale su di te viene trasmesso.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Protezione della privacy e ciò che RDAP mostra davvero",
+        paragraphs: [
+          "I dettagli di contatto del registrante che il WHOIS classico una volta stampava per intero — nome, via, email — sono stati censurati sulla maggior parte dei TLD generici da anni, spinti dall'applicazione del GDPR e dai servizi privacy dei registrar. Ciò che vedi oggi è tipicamente lo strato di astrazione del registrar, a volte un indirizzo di servizio privacy, a volte semplicemente «REDACTED FOR PRIVACY». Aspettarsi un nome personale da una ricerca .com moderna è un errore rimasto dagli anni 2000.",
+          "Ciò che resta genuinamente utile è tutto ciò che il registro stesso registra: date di creazione e scadenza, registrar di riferimento, codici di stato EPP e nameserver. La censura ha cambiato i campi della persona; i campi operativi sono rimasti. È ancora abbastanza per i lavori comuni — controllare l'età di un dominio prima di fidarsi, vedere quando scade un dominio occupato, confermare un lucchetto di trasferimento.",
+          "I registri con codice paese stabiliscono le proprie regole di divulgazione, quindi copertura e verbosità variano ampiamente per TLD: alcuni pubblicano più dettaglio di contatto di qualunque .com, altri meno. RDAP normalizza anche il JSON, motivo per cui questo strumento può presentare i risultati di .com, .app e .dev negli stessi campi benché i loro registri non siano imparentati.",
+        ],
+      },
+      {
+        heading: "Leggere date e codici di stato come un analista",
+        paragraphs: [
+          "Le date raccontano storie. Un dominio creato tre settimane fa che pubblicizza «attivo dal 1995» è una bandiera rossa; un dominio che scade la prossima settimana detenuto da un'azienda vera è probabilmente una svista, ed email prima che cada. Anche le abitudini di registrazione contano — un dominio auto-rinnovato in blocchi pluriennali segnala un asset mantenuto, mentre storie di lapse-e-ri-registrazioni accennano a domini scaduti raccolti da reseller.",
+          "I codici di stato meritano un piccolo vocabolario. clientTransferProhibited e clientHold sono lucchetti impostati dal registrar; serverHold significa che il registro ha tolto il dominio dalla zona (spesso un'azione di conformità); redemptionPeriod e pendingDelete sono gli stadi di grazia di 30 giorni e 5 giorni dopo la cancellazione, dopo i quali il dominio può essere ri-registrato da chiunque. Una ricerca che mostra pendingDelete è di fatto un conto alla rovescia.",
+          "Un'abitudine che vale la pena formare: incrocia qui i nameserver con lo strumento DNS. Un dominio il cui WHOIS dice registrar X ma i cui NS puntano a un fornitore di hosting imparentato è comune e benigno — ma quando la registrazione è fresca e l'NS è un host blindato, la combinazione è il classico pattern di un dominio monouso.",
+        ],
+      },
+      {
+        heading: "Perché RDAP ha rimpiazzato il WHOIS sulla porta 43",
+        paragraphs: [
+          "Il WHOIS classico è un protocollo degli anni '80: testo libero non strutturato su TCP in chiaro porta 43, con un formato che differisce per registro, nessuna autenticazione e nessun contratto di rate limiting. RDAP — definito come il rimpiazzo dall'IETF — risponde a tutti e tre: risposte JSON su HTTPS, un modello di dati uniforme tra registri, e supporto per controllo di accesso, limiti di frequenza e nomi di dominio internazionalizzati. ICANN lo esige a tutti i registri di TLD generici.",
+          "Per uno strumento del browser la differenza è strutturale: le risposte RDAP sono JSON scaricati come qualunque chiamata API, quindi i risultati possono essere normalizzati anziché analizzati a regex da zuppa di testo. Questo strumento chiede a rdap.org, che instrada ogni query al server RDAP autoritativo del TLD del dominio e segue la redirezione per te.",
+          "La nota onesta di copertura: eseguire un server RDAP pubblico è una decisione di ciascun registro, quindi i TLD generici sono coperti quasi universalmente mentre molti codici di paese no. Per quei TLD, una ricerca WHOIS legacy è ancora possibile altrove — ma aspettati output di testo libero e una query non cifrata, esattamente i problemi che RDAP fu costruito per ritirare.",
+        ],
       },
     ],
   },
@@ -2784,6 +5310,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Da dove venne l'acro",
+        paragraphs: [
+          "L'acro non è un'invenzione metrica ordinata — è aritmetica contadina medievale. Un acro era l'area che una squadra di buoi poteva arare in un giorno: una striscia lunga come un solco (un furlong, circa 220 iarde) larga come una catena (22 iarde), che dà i 43.560 piedi quadrati che sopravvivono oggi. Le unità nate dal lavoro quotidiano spiegano perché tante misure di terra sono stranamente specifiche — codificano ciò che una giornata lavorativa poteva compiere, non ciò che l'aritmetica decimale avrebbe scelto.",
+          "L'ettaro è la risposta metrica alla stessa domanda: 100 metri per 100 metri, esattamente 10.000 m², adottato col sistema metrico dopo la Rivoluzione francese come parte della riforma di misura razionalizzata. Un ettaro è 2,471 acri — il fattore scomodo è il residuo storico di due sistemi che rispondono a un bisogno.",
+          "Questo strumento instrada ogni unità attraverso fattori SI esatti anziché approssimazioni a coppie: il piede internazionale è definito esattamente 0,3048 m da un accordo del 1959 tra paesi anglofoni, quindi il piede quadrato è esattamente 0,09290304 m². Il vecchio piede di rilievo statunitense differiva di circa 2 parti per milione — ben sotto ciò che gli annunci immobiliari richiedono, ma la ragione per cui i documenti di rilievo mostrano a volte una quinta cifra decimale di differenza.",
+        ],
+      },
+      {
+        heading: "Leggere le dimensioni di terra tra i sistemi",
+        paragraphs: [
+          "Gli ancoraggi quotidiani da memorizzare: un ettaro è circa due acri e mezzo; un campo di calcio è grossomodo 0,7 ettari (vicino a 1,8 acri); un lotto residenziale cittadino tipico va da qualche centinaio a qualche migliaio di metri quadrati. Gli annunci immobiliari negli USA quotano i piedi quadrati, nella maggior parte del mondo i metri quadrati, per i parcelle di terra acri o ettari — lo stesso appartamento si legge molto diversamente tra queste unità, che è esattamente dove gli errori di conversione nelle decisioni d'acquisto avvengono.",
+          "Diffida della confusione quadrato-vs-lineare: raddoppiare la lunghezza di un lato quadruplica l'area. Un lotto di 20 m × 20 m è 400 m², non 200 — un lapsus che ha prodotto più di una disputa immobiliare. Similmente, prezzo al metro quadrato e prezzo al piede quadrato differiscono per un fattore di circa 10,76, non 3,28.",
+          "Per pavimenti e pittura, la conversione è la metà facile; la metà dura è la tolleranza di spreco — i professionisti aggiungono il 5-10% per tagli e difetti. Il convertitore ti dà l'area vera; la quantità d'ordine è un giudizio sopra.",
+        ],
+      },
+      {
+        heading: "Fattori esatti, tutto calcolato in locale",
+        paragraphs: [
+          "Ogni conversione moltiplica per il fattore ufficiale esatto nel tuo browser e mostra sei cifre significative, così 1 acro appare come 4.046,86 m² — non un 4.000 arrotondato. Tutte le unità si aggiornano dal vivo da un unico input, il che trasforma lo strumento in una tabella di confronto senza ri-selezionare nulla.",
+          "La piena precisione double viene usata internamente; l'arrotondamento avviene solo al display. Le conversioni a catena — acri in ettari in metri quadrati — quindi non accumulano errore, perché nessun valore intermedio arrotondato viene mai riusato.",
+          "Nulla viene spedito da nessuna parte: le aree di terra e le dimensioni di proprietà restano sul tuo dispositivo. Per un acquirente che confronta annunci o un agricoltore che negozia un contratto d'affitto, quel modello locale significa anche che lo strumento funziona sul campo, offline, senza connessione alcuna.",
+        ],
+      },
+    ],
   },
   "data-converter": {
     name: "Convertitore di dati",
@@ -2811,6 +5363,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le conversioni sono precise?",
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La disputa tra 1000 e 1024, risolta dagli standard",
+        paragraphs: [
+          "Due tradizioni collidono nelle unità di dati. Hardware e telecomunicazioni usano prefissi decimali: 1 KB = 1.000 byte, perché le capacità dei dischi e le velocità di rete sono progettate in potenze di dieci. Memoria e sistemi operativi storicamente usavano il binario: 1 K = 1.024 byte, perché la memoria è indirizzata in potenze di due. La collisione produsse il famoso scarto — un disco da «500 GB» mostra circa 465 «GB» nel sistema operativo, perché il disco intende 500 × 10⁹ byte e il sistema operativo divide per 1024³.",
+          "Lo standard IEC del 1998 risolse la denominazione: i prefissi binari sono KiB, MiB, GiB (1 KiB = 1.024 byte), e KB, MB, GB appartengono al sistema decimale (1 MB = 1.000.000 byte). Windows riporta ancora in stile binario etichettandolo GB, perpetuando la confusione; macOS passò al conteggio decimale anni fa, motivo per cui lo stesso file «si restringe» quando si muove tra piattaforme.",
+          "Questo strumento mostra entrambe le interpretazioni affiancate così puoi controllare quella che il sistema di destinazione usa: le quote di banda, le capacità dei dischi e le specifiche di RAM seguono tutte convenzioni diverse, e lo stesso numero è genuinamente due dimensioni diverse a seconda di quale sia intesa.",
+        ],
+      },
+      {
+        heading: "Quale unità usare quando",
+        paragraphs: [
+          "La banda di rete è decimale, sempre: una connessione da «100 Mbps» sposta 100 × 10⁶ bit al secondo — circa 12,5 MB decimali al secondo, non 12,5 MiB. Le stime di tempo di scaricamento che ignorano questo corrono circa il 5% ottimistiche alla scala del megabyte, e peggio più in alto.",
+          "Le dimensioni dei file nella maggior parte dei sistemi operativi moderni e delle interfacce cloud sono decimali (o miste); la RAM è binaria senza eccezioni, perché i chip di memoria sono costruiti in potenze di due. Quando una specifica dice «16 GB di RAM», sono 16 × 2³⁰ byte — il tipo di dettaglio che conta quando si pianificano macchine virtuali o limiti di memoria.",
+          "La pianificazione dello storage è dove i soldi veri incontrano lo scarto: un centro dati che fornisce «1 PB» di disco grezzo ottiene circa il 10-12% in meno di capacità binaria usabile di quanto un calcolo ingenuo suggerisca, prima di qualsiasi overhead del filesystem. Quote e tetti di trasferimento nei contratti vanno letti tenendo presente la convenzione delle unità — «1 TB di traffico mensile» decimale è circa il 7,4% in meno di 1 TiB.",
+        ],
+      },
+      {
+        heading: "Preciso, doppia convenzione, locale",
+        paragraphs: [
+          "Ogni input si converte attraverso fattori esatti a potenza di dieci e a potenza di due — 1 KiB è esattamente 1.024 byte, 1 KB esattamente 1.000 — e i risultati mostrano abbastanza cifre significative che le due convenzioni non si fondono mai in un solo numero.",
+          "Lo strumento copre anche i bit oltre i byte, perché la banda viene quotata in bit: la relazione 8× tra un byte e un bit è l'altro lapsus classico (una linea da «25 Mbps» non scarica mai 25 MB in un secondo — un ottavo di quello).",
+          "Tutta la computazione gira nel tuo browser; nessun file o conteggio di byte viene trasmesso. Per i fogli di pianificazione della capacità e i controlli dei contratti, il display doppio significa che non devi mai ricordare quale fornitore conti in quale modo.",
+        ],
       },
     ],
   },
@@ -2842,6 +5420,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Il joule e la bolletta nella tua casella",
+        paragraphs: [
+          "Il joule è l'unità SI: un newton di forza su un metro, o un watt sostenuto per un secondo. È minuscolo alla scala domestica, motivo per cui le bollette elettriche parlano chilowattora — e il chilowattora è un fascio di joule con una definizione esatta: 1 kWh = 3,6 MJ, sempre, perché i wattora sono solo joule per 3.600.",
+          "Quell'esattezza rende l'aritmetica dell'energia un po' speciale: la colonna elettrica non contiene affatto costanti misurate. Un riscaldatore da 2.000 W che gira un'ora consuma 2 kWh = 7,2 MJ, e la conversione non può derivare perché entrambi i lati sono quantità definite.",
+          "Leggere le bollette tra i paesi è il dividendo quotidiano: l'Europa quanta kWh, il gas a volte MJ, e confrontare un riscaldatore in BTU con un condizionatore in watt richiede esattamente questo ponte. Sei cifre significative sono molto più di quanto una bolletta richieda, ma tengono le somme a livello di audit oneste.",
+        ],
+      },
+      {
+        heading: "Il doppio carattere della caloria",
+        paragraphs: [
+          "La caloria fu definita in stile ottocentesco: il calore che alza un grammo d'acqua di un grado Celsius. La capacità termica dell'acqua deriva leggermente con la temperatura, quindi la definizione vaga si biforcò in parecchie calorie — questo strumento usa la caloria termochimica, ora fissata esattamente a 4,184 J, la convenzione dietro la maggior parte delle tabelle di chimica e alimenti.",
+          "La Caloria alimentare con la maiuscola è una chilocaloria: 1.000 piccole calorie, 4.184 J. Le etichette UE mostrano kJ e kcal fianco a fianco; le etichette USA dicono Calories intendendo kcal. Il lapsus del fattore 1.000 è l'errore classico delle app per la dieta — inserisci 1 kcal → cal sopra e guarda lo scarto.",
+          "La fisica ha ritirato la caloria per una buona ragione, ma cucine e palestre non lo faranno mai: l'unità sopravvive perché quanto calore riscalda un grammo d'acqua è l'immagine dell'energia più intuitiva che sia mai stata inventata. Portati dietro solo il rapporto 1:1.000.",
+        ],
+      },
+      {
+        heading: "BTU e l'unità della fisica su cui nessuno emette bollette",
+        paragraphs: [
+          "La BTU — British thermal unit — è la caloria del mondo della libbra: il calore che alza una libbra d'acqua di un grado Fahrenheit, circa 1.055 J col valore standard ISO. La capacità HVAC viene quotata in BTU all'ora, quindi un condizionatore da 10.000 BTU eroga circa 2,93 kWh di raffreddamento all'ora — e consuma un po' più di elettricità di quello per farlo.",
+          "La fisica tiene i suoi conti invece negli elettronvolt: 1 eV è esattamente 1,602176634 × 10⁻¹⁹ J, un'esattezza garantita dalla ridefinizione SI del 2019. Gli acceleratori di particelle e la chimica delle batterie parlano eV; i supermercati e le bollette del gas mai.",
+          "Questo convertitore allinea i mondi fianco a fianco — joule, calorie, kWh, BTU e eV da un unico input, tutto calcolato localmente nel tuo browser. Le sei cifre significative contano di più dove le magnitudini collidono: uno snack da 200 kcal sono 836.800 J, e vedere quel numero accanto ai megajoule di un riscaldatore è il modo più rapido di sentire cosa significa l'energia del cibo.",
+        ],
+      },
+    ],
   },
   "length-converter": {
     name: "Convertitore di lunghezza",
@@ -2869,6 +5473,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le conversioni sono precise?",
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ogni fattore su questa pagina è una definizione",
+        paragraphs: [
+          "La conversione pollice-centimetro non porta alcun errore di misura perché non è una misura: 1 in = 2,54 cm esattamente, fissato dall'accordo internazionale sul yard e il pound del 1959, che riconciliò le piccole differenze accumulate tra le copie statunitense e britannica dello yard. Lo stesso accordo pinnò lo yard a 0,9144 m e la libbra a 0,45359237 kg, così l'intera scala di lunghezza imperiale pende da un solo rapporto esatto.",
+          "Il lato metrico è altrettanto esatto. Il metro fu un tempo una barra metallica in una volta di Parigi, ma dal 1983 è definito attraverso la velocità della luce: la distanza che la luce percorre in 1/299.792.458 di secondo, col secondo stesso bloccato alla transizione atomica del cesio. Questo fa della velocità della luce un numero esatto per definizione, e di ogni fattore metrico di lunghezza esatto con essa.",
+          "Poiché entrambi i lati sono definizioni, le conversioni a catena non accumulano arrotondamento: pollici a piedi a metri non perdono nulla per quanto lunga sia la catena. L'arrotondamento appare solo al display, dove i risultati sono formattati a sei cifre significative — abbastanza per il lavoro di ingegneria senza stampare cifre che sono puro rumore.",
+        ],
+      },
+      {
+        heading: "Sei cifre, e il miglio che non è l'altro miglio",
+        paragraphs: [
+          "Fermarci a sei cifre significative è deliberato. 1 mi è esattamente 1.609,344 m, quindi stamparne di più sarebbe onesto ma inutile — metro da sarto, ricevitori GPS e segnali stradali non raggiungono mai quella precisione. Le conversioni quotidiane richiedono tre o quattro cifre; sei lascia margine per costruzione e lavorazione meccanica, dove l'ultima cifra significa ancora qualcosa.",
+          "La trappola classica sono i due miglia. Il miglio terrestre è 1.609,344 m; il miglio nautico è 1.852 m — circa l'8% più lungo. Aviazione e navigazione marittima usano esclusivamente il miglio nautico, quindi una rotta pianificata con miglia terrestri sottostima distanza e carburante di quel margine. Questo strumento elenca nmi separatamente proprio per questo.",
+          "Il valore del miglio nautico non è arbitrario: approssima un minuto d'arco di latitudine lungo un meridiano, che è come sopravvisse a secoli di pratica di navigazione. La Conferenza Idrografica Internazionale del 1929 lo fissò esattamente a 1.852 m, e il nodo — un miglio nautico all'ora — ereditò quell'esattezza.",
+        ],
+      },
+      {
+        heading: "Dove le conversioni mordono davvero",
+        paragraphs: [
+          "I moduli delle compagnie aeree chiedono centimetri mentre le valigie si vendono in pollici; le specifiche di mobili, gli sbocchi delle porte e le nicchie degli elettrodomestici mescolano sistemi dentro un unico progetto; i piani di falegnameria arrivano dagli USA in piedi e frazioni mentre il legname si vende in millimetri. In tutti questi, vedere l'intera tabella di unità insieme batte digitare coppie in una casella di ricerca.",
+          "I convertitori dei motori di ricerca gestiscono una coppia alla volta e spesso arrotondano a due o tre cifre — va bene per una distanza a piedi, troppo grezzo per controlli ripetuti. Qui un unico input aggiorna ogni unità simultaneamente, e la riga del fattore mostra il rapporto esatto usato, così un risultato può essere verificato anziché semplicemente fidato.",
+          "Dal 1959 il pollice è identico negli USA e nel Regno Unito, ma i documenti vecchi — i registri fondiari specialmente — possono portare valori di rilievo pre-accordo che differiscono alla sesta cifra significativa. Tutto viene calcolato localmente nel tuo browser; le aree e i volumi costruiti su queste lunghezze sono coperti dai convertitori di area e volume sotto la stessa politica a fattori esatti.",
+        ],
       },
     ],
   },
@@ -2900,6 +5530,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Una quantità, una dozzina di corporazioni",
+        paragraphs: [
+          "La pressione ha così tante unità perché ogni industria congelò la propria prima che gli organismi di standard potessero arbitrare: l'ingegneria statunitense tenne lo psi, l'industria europea standardizzò il bar, la medicina tenne i millimetri di mercurio che venivano dal manometro a mercurio, e la meteorologia tenne il millibar — rinominato ettopascal, numericamente identico. Il pascal, un newton per metro quadrato, è l'arbitro SI attraverso cui tutte si convertono.",
+          "Gli ancoraggi sono esatti dove gli standard lo garantiscono: l'atmosfera standard è esattamente 101.325 Pa, il bar esattamente 100.000 Pa (dal greco baros, peso), e lo psi si riduce attraverso le definizioni esatte di pollice e libbra. Il mmHg è l'eccezione — un valore convenzionale (circa 133,322 Pa) legato alla densità del mercurio e alla gravità standard.",
+          "Con i fattori pinnati, le conversioni a catena non vacillano: bar → psi → kPa → mmHg atterra sullo stesso numero a prescindere dal percorso, mostrato a sei cifre significative. Ciò che vacilla è la convenzione in cui ogni numero è stato scritto — è il problema della prossima sezione.",
+        ],
+      },
+      {
+        heading: "Relativa e assoluta: il classico errore di pressione",
+        paragraphs: [
+          "La maggior parte dei manometri legge zero alla pressione atmosferica — riportano pressione relativa, la parte sopra l'ambiente. La pressione assoluta conta dal vero zero (vuoto). A livello del mare, uno pneumatico a 32 psi relativi è circa 47 psi assoluti; una scheda tecnica che non dice quale convenzione usa è una scheda da diffidare.",
+          "Gli incidenti veri avvengono qui: un recipiente tarato 150 psi (relativi) alimentato attraverso un manometro dell'altra convenzione, o la bombola di un sub letta come assoluta, produce un errore di esattamente un'atmosfera — un margine fatale in profondità. Le tabelle di subacquea, i codici delle caldaie e le specifiche di processo dichiarano tutti la loro convenzione; porta la convenzione insieme al numero.",
+          "Il convertitore mostra la conversione grezza di unità, quindi il giudizio è tuo: stabilisci se ogni numero che incontri sia relativo o assoluto prima di confrontare qualcosa. Le carte meteo usano un caso speciale di assoluto — la pressione di superficie di circa 1013 hPa è essa stessa il peso di un'atmosfera.",
+        ],
+      },
+      {
+        heading: "I numeri dietro le pressioni quotidiane",
+        paragraphs: [
+          "Uno pneumatico a 32 psi è circa 2,21 bar — esattamente ciò che una pompa europea mostra, salvo il suo arrotondamento. I 120/80 mmHg della pressione sanguigna sono grossomodo 16/10,7 kPa, e la medicina non è mai cambiata perché i numeri in mmHg sono corti e universali al letto del paziente.",
+          "I sub vivono in bar o psi: una bombola piena a 200 bar è circa 2.900 psi, e l'acqua di mare aggiunge un'atmosfera ogni 10 metri di profondità — lì la conversione di pressione è aritmetica di sicurezza, non curiosità.",
+          "Come ovunque sul sito, la matematica gira nel tuo browser e nulla di ciò che inserisci viene memorizzato. Le sei cifre significative tengono le piccole differenze visibili: tra 2,0 e 2,2 bar in uno pneumatico giacciono circa 3 psi — abbastanza pochi da perdersi in conversazione, abbastanza da contare per carburante e usura.",
+        ],
+      },
+    ],
   },
   "speed-converter": {
     name: "Convertitore di velocità",
@@ -2927,6 +5583,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le conversioni sono precise?",
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Il nodo: un'unità nata da una corda",
+        paragraphs: [
+          "Prima dei registri meccanici di velocità, i marinai buttavano fuori bordo un pannello di legno attaccato a una linea annodata, contavano un intervallo fisso con una clessidra, e misuravano la velocità da quanti nodi correvano tra le dita — l'unità tenne il nome. La definizione odierna: un nodo è un miglio nautico all'ora, e poiché il miglio nautico è esattamente 1.852 m (fissato dalla Conferenza Idrografica Internazionale del 1929), 1 kn è esattamente 1,852 km/h.",
+          "Il meteo aeronautico e marittimo, i piani di volo e le rotte di navigazione riportano tutti in nodi, mentre i segnali stradali passano a km/h o mph — motivo per cui il pilota che converte le velocità di avvicinamento e il marinaio che legge gli avvisi di burrasca usano questa conversione più di qualunque altra.",
+          "Poiché 1 kn = 1,852 km/h è esatto, le conversioni da e verso i nodi non portano alcun errore di arrotondamento fino al passo di display. Le sei cifre significative tengono il numero onesto: 100 km/h sono 62,1371 mph, non un 62 arrotondato.",
+        ],
+      },
+      {
+        heading: "Mach non è un'unità che si può pinnare",
+        paragraphs: [
+          "La velocità del suono non è costante: dipende dalla temperatura dell'aria, scendendo da circa 340 m/s a livello del mare a grossomodo 295 m/s ad altitudine di crociera, dove l'aria sta a −50 °C o meno. Qualunque singolo fattore Mach è quindi un'approssimazione. Il sito usa il valore a livello del mare (1 Mach = 340,29 m/s) e lo dice proprio nel nome dell'unità.",
+          "Quell'etichettatura conta: un jet in crociera a Mach 0,8 a 11 km si muove in realtà di circa 236 m/s (grossomodo 850 km/h), non 272 m/s — applicare il fattore a livello del mare sopravvaluta la sua velocità al suolo di circa il 15%. Usa la riga Mach solo per confronti grezzi a livello del mare, e leggi le velocità degli aerei in nodi o km/h quando la precisione conta.",
+          "La colonna m/s è l'ancora: i metri al secondo sono l'unità coerente SI, e km/h, mph, ft/s e nodi si riducono tutti a essa attraverso definizioni esatte di lunghezza. Per questo una catena come nodi → m/s → mph non deriva mai.",
+        ],
+      },
+      {
+        heading: "Il ritmo è la velocità capovolta",
+        paragraphs: [
+          "I corridori pensano in minuti per chilometro, che non è un'unità di velocità ma il suo reciproco: 5:00 min/km sono 12 km/h, e 6:00 min/km sono 10 km/h. L'inversione è il motivo per cui il ritmo non si converte moltiplicando — dividi 60 per la velocità invece. Questo convertitore elenca solo unità di velocità; per ottenere il ritmo, converti in km/h e dividi 60 per esso (un tapis roulant a 12 km/h è 5:00 min/km).",
+          "L'altro uso quotidiano è la guida oltre confine: 120 km/h contro un limite di 65 mph, o un'autostrada statunitense a 70 mph letta come 113 km/h. Poiché 1 mph = 1,609344 km/h esattamente (il miglio stesso è esatto), il confronto è fidabile fino a ogni cifra mostrata.",
+          "Le velocità del vento attraversano lo stesso scarto: i servizi meteorologici nazionali riportano km/h o m/s mentre le previsioni marittime usano nodi — una brezza di 10 m/s è 19,4 kn, esattamente il tipo di controllo a colpo d'occhio per cui questa pagina è costruita. Tutte le computazioni girano nel tuo browser, quindi la pagina continua a funzionare offline, in volo o in mare, quando i dati mobili sono spariti.",
+        ],
       },
     ],
   },
@@ -2958,6 +5640,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tre scale, tre punti zero",
+        paragraphs: [
+          "La temperatura è l'eccezione tra le unità: le scale non condividono uno zero, quindi ogni conversione è una formula con scostamento, non una moltiplicazione. Celsius si ancora sull'acqua — 0 °C congelamento, 100 °C ebollizione a pressione standard. Fahrenheit si ancora diversamente — 32 °F congelamento, 212 °F ebollizione. Kelvin si ancora sulla fisica stessa: 0 K è lo zero assoluto, −273,15 °C, dove il moto molecolare raggiunge il suo minimo.",
+          "Poiché i punti zero differiscono, le formule portano sia un rapporto sia uno scostamento: °F = °C × 9/5 + 32 e K = °C + 273,15. Le dimensioni del grado sono in rapporto 9/5, ma lo scostamento è il motivo per cui 0 °C non è 0 °F — e perché la scorciatoia ingenua moltiplica-per-1,8 dà risposte sbagliate per ogni input tranne −40.",
+          "−40 è l'unico punto dove le scale si incontrano: −40 °C = −40 °F esattamente. La curiosità cade dritta dalle formule e fa anche da controllo di sanità rapido — se la tua matematica mentale colloca l'incrocio altrove, lo scostamento è caduto per strada.",
+        ],
+      },
+      {
+        heading: "Da dove vennero le scale",
+        paragraphs: [
+          "Fahrenheit, all'inizio del XVIII secolo, fissò il suo zero a un riferimento gelido che poteva riprodurre — una miscela di ghiaccio, acqua e sale — e collocò la temperatura corporea vicino alla cima del suo intervallo originale (96 gradi nella prima versione, ricalibrata più avanti). I bizzarri ancoraggi 32 e 212 sono residui di quelle scelte, non eleganza deliberata.",
+          "La proposta di Celsius del 1742 correva in realtà al contrario di quella odierna: 0 all'ebollizione, 100 al congelamento. La forma invertita che usiamo fu adottata poco dopo la sua morte, e la definizione fu poi ri-ancorata allo zero assoluto e al punto triplo dell'acqua anziché al punto di ebollizione, perché l'ebollizione si sposta con la pressione.",
+          "Kelvin, proposto nel XIX secolo, buttò via del tutto gli ancoraggi arbitrari: lo zero è la cosa più fredda possibile. Questo fa di Kelvin l'unità SI e la lingua della fisica — leggi dei gas, termodinamica e temperatura di colore parlano tutti essa — mentre Celsius sopravvive come Kelvin spostato di 273,15 per il meteo quotidiano.",
+        ],
+      },
+      {
+        heading: "Leggere le temperature nel mondo reale",
+        paragraphs: [
+          "Lo stesso numero significa livelli di comfort diversi per dominio: un forno a 180 °C sono 356 °F mentre i quadranti statunitensi marcano 350 °F, quindi le conversioni in quella fascia non atterrano mai in pieno; la temperatura corporea si centra su 37 °C / 98,6 °F, e un grado di febbre sono 1,8 gradi Fahrenheit; il meteo da −10 a 40 °C si mappa a 14–104 °F.",
+          "Sorveglia la trappola della differenza: un cambiamento di 1 grado Celsius equivale a un cambiamento di 1,8 gradi Fahrenheit, quindi le differenze di temperatura si convertono col rapporto da solo, senza lo scostamento. «Si è fatto 10 °C più caldo» significa 18 °F più caldo, non 50 °F. Questo strumento converte letture assolute; le differenze richiedono il rapporto nudo.",
+          "Le formule con scostamento sono esatte, quindi i risultati sono limitati solo dal display a sei cifre. Tutto viene calcolato nel tuo browser — banalmente vero per un'aritmetica così leggera, ma porta un bonus: la pagina funziona offline, in una cucina senza segnale, convertendo le impostazioni del forno da un telefono.",
+        ],
+      },
+    ],
   },
   "time-converter": {
     name: "Convertitore di unità di tempo",
@@ -2985,6 +5693,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le conversioni sono precise?",
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Il secondo: l'unico orologio che la fisica certifica",
+        paragraphs: [
+          "Tutto ciò che sta sopra il secondo su questa pagina è aritmetica esatta: un minuto sono 60 s per definizione, un'ora 3.600, un giorno 86.400. Il secondo stesso non è più legato alla rotazione terrestre ma alla fisica atomica — 9.192.631.770 periodi della radiazione di un atomo di cesio-133, una definizione adottata nel 1967 che tiene gli orologi onesti anche mentre la rotazione del pianeta vacilla.",
+          "Quell'esattezza è il motivo per cui le conversioni a scala non derivano mai: nanosecondi → millisecondi → ore è pura moltiplicazione per interi definiti. L'arrotondamento entra solo al display, limitato a sei cifre significative dal formattatore di numeri del sito.",
+          "La rotazione terrestre è il motivo per cui il tempo atomico e il tempo solare lentamente disagreeano — i secondi intercalari esistono per rattoppare lo scarto, e «un giorno è esattamente 86.400 secondi» è una convenzione della matematica delle durate, non una garanzia astronomica. Le domande che attraversano date vere appartengono al calcolatore di date; questa pagina gestisce durate pure.",
+        ],
+      },
+      {
+        heading: "Mesi e anni sono medie, apposta",
+        paragraphs: [
+          "I mesi del calendario vanno da 28 a 31 giorni, quindi la matematica delle durate richiede una convenzione. Questo strumento usa i valori medi gregoriani: 30,436875 giorni per mese (365,2425 ÷ 12) e 365,2425 giorni per anno — la media sull'intero ciclo gregoriano di 400 anni, i cui 97 anni bisestili sono esattamente il motivo per cui l'anno medio non è 365,25.",
+          "La scorciatoia di 365,25 («anno giuliano») differisce dalla media gregoriana di circa un giorno ogni 2.800 anni — trascurabile per un piano di progetto, non per la meccanica orbitale o la programmazione a lungo termine. In ogni caso è una media: convertire «3 mesi» qui dà 91,31 giorni, mentre tre mesi calendariali veri possono coprire da 89 a 92.",
+          "La regola pratica: quando l'input è una durata (la durata di un abbonamento, un tempo di build, un'emivita), le medie sono la risposta giusta; quando l'input coinvolge date reali (una scadenza contrattuale, un compleanno), usa invece un calcolatore di date — i calendari aggiungono giorni interi in modo irregolare, e nessun fattore singolo sopravvive a quello.",
+        ],
+      },
+      {
+        heading: "Dove la matematica delle durate rende",
+        paragraphs: [
+          "Gli sviluppatori vivono qui: timeout in millisecondi, intervalli cron, finestre di rate limit — 1.500 ms sono 1,5 s sono 0,000417 h, e vedere l'intera scala insieme batte ripetere una divisione mentale. Il lavoro audio e video gira sullo stesso riflesso: 90 minuti sono 5.400 secondi, non un incidente di arrotondamento.",
+          "La pianificazione aziendale colpisce subito le medie: una «prova di 90 giorni» sono 0,247 anni, la fatturazione mensile × 12 non è esattamente un anno, e un mese di 30 giorni in un contratto differisce da febbraio di circa il 7%. Scrivere le durate in giorni quando conta aggira l'intera questione — e questo convertitore mostra l'equivalente in giorni di ogni unità affiancato.",
+          "Tutto gira localmente nel tuo browser, quindi la pagina risponde istantaneamente e funziona offline. Ciò che mostra sono convenzioni di durate dichiarate ad alta voce anziché contrabbandate. Timestamp e conteggi alla rovescia costruiti su date reali sono il lavoro dei correlati strumenti per timestamp e date.",
+        ],
       },
     ],
   },
@@ -3016,6 +5750,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Due galloni, un solo nome",
+        paragraphs: [
+          "Il gallone si spaccò quando si spaccarono gli imperi. Gli USA tennero il vecchio gallone da vino inglese di 231 pollici cubi (standardizzato da una legge britannica all'inizio del XVIII secolo), che ora fa esattamente 3,785411784 litri ora che il pollice ha la sua definizione metrica del 1959. Il Weights and Measures Act britannico del 1824 lo rimpiazzò con un gallone imperiale definito come il volume di dieci libbre d'acqua: 4,54609 litri esatti. Stessa parola, circa il 20% di distanza.",
+          "Il disallineamento si propaga: un quarto USA è 0,946 L, un quarto imperiale 1,137 L; una pinta USA è 473 mL mentre la pinta imperiale — quella del pub britannico — è 568 mL. Ricette, cifre di carburante e prodotti per piscine vanno tutti male attraversando l'Atlantico quando ci si fida del nome dell'unità invece che del sistema.",
+          "Questo strumento etichetta il sistema di ogni unità — gal (US), gal (UK), qt (US), pt (US) — proprio perché i nomi da soli mentono. Se una fonte dice semplicemente gallone, scopri da quale lato dell'Atlantico è stata scritta prima di convertire.",
+        ],
+      },
+      {
+        heading: "Anche le unità di cucina sono definizioni legali",
+        paragraphs: [
+          "La cup qui è la cup legale statunitense, esattamente 236,5882365 mL, e l'oncia liquida esattamente 29,5735295625 mL — entrambe frazioni fisse del gallone USA (un gallone sono 16 cup), non convenzioni di comodità.",
+          "Le ricette sono la trappola principale: la cup di un libro britannico e la pinta di uno americano si riferiscono ciascuna a un volume legale diverso. Converti le unità prima di scalare, o il rapporto farina-liquido si rompe. I liquidi specialmente non mentono mai — una cup USA d'acqua sono 236,6 g, quindi l'errore può venire solo dall'unità sbagliata.",
+          "Le unità cubiche servono l'altro mondo: la cilindrata in pollici cubi e litri, gli acquari e le vasche in piedi cubi, i condotti HVAC in metri cubi. 1 ft³ è esattamente 28,316846592 L, e il lato metrico si allinea come potenze di dieci pulite.",
+        ],
+      },
+      {
+        heading: "Leggere la tabella, e dove rende",
+        paragraphs: [
+          "Il consumo di carburante stesso si divide per paese: mpg USA e mpg UK portano lo stesso scarto del 20% del gallone, motivo per cui una specifica britannica da 50 mpg appare impossibile accanto ai numeri americani. Qualsiasi cifra basata su galloni eredità quella crepa.",
+          "Il dosaggio degli acquari e la clorazione delle piscine sono il caso serio: le dosi scalano col volume reale, e un errore del 20% è un sovradosaggio. Converti una volta in litri e dosa da quel numero — da solo lo previene.",
+          "Come ovunque sul sito, la matematica gira nel tuo browser e nessun numero viene caricato. Le sei cifre significative si leggono chiaramente per ricette e specifiche allo stesso modo senza impilare cifre che nessuno legge. Quando il volume attraversa i sistemi, leggi il nome del sistema come parte del nome dell'unità — è l'abitudine che questa pagina vuole lasciare.",
+        ],
+      },
+    ],
   },
   "weight-converter": {
     name: "Convertitore di peso",
@@ -3043,6 +5803,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Le conversioni sono precise?",
         a: "I fattori di conversione seguono le definizioni standard internazionali (SI e NIST). I risultati vengono mostrati con fino a 8 cifre significative.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La libbra che smise di muoversi",
+        paragraphs: [
+          "Prima del 1959, le libbre statunitense e britannica differivano attorno alla sesta cifra decimale — minuscolo, ma reale quando pesi un carico di nave. L'accordo internazionale sul yard e il pound pinnò la libbra avoirdupois esattamente a 0,45359237 kg, chiudendo la deriva. Ogni conversione libbra-chilogrammo da allora gira su un solo numero congelato.",
+          "Il chilogrammo cambiò per una via diversa: dal 1889 era definito da un cilindro di platino-iridio in una volta di Sèvres (le Grand K), l'ultima unità base SI definita da un artefatto. Nel 2019 fu ridefinito attraverso la costante di Planck — un valore esatto fissato dalla natura, al posto di un oggetto che poteva guadagnare o perdere atomi.",
+          "Il dividendo pratico è lo stesso in entrambi i casi: nessun arrotondamento tra i sistemi, mai. La stone (esattamente 14 lb), l'oncia (1/16 lb) e la tonnellata si riducono tutte a frazioni esatte, così l'intera tabella di questo convertitore pende dalle due costanti congelate — 0,45359237 e la definizione del chilogrammo — non da medie misurate.",
+        ],
+      },
+      {
+        heading: "Troy, avoirdupois, e l'oncia che non è un'oncia",
+        paragraphs: [
+          "L'oncia ordinaria è avoirdupois: 28,349523125 g. L'oncia troy — quella che quotano i mercati dell'oro, dell'argento e delle gemme — è 31,1034768 g, circa il 10% più pesante. L'oro è prezzato per oncia troy, sempre; cibo e affrancamento sono avoirdupois. Mescolarli sballa il pricing dei metalli del dieci percento.",
+          "La stone è una sopravvissuta: esattamente 14 libbre, e ancora l'unità quotidiana del peso corporeo in Gran Bretagna e Irlanda — una persona che pesa 11 stone fa 69,85 kg. La maggior parte del mondo non la incontra mai, che è esattamente perché è elencata qui anziché omessa silenziosamente.",
+          "Il carato appartiene alle gemme, esattamente 200 mg per convenzione internazionale — e misura la massa, non la purezza. La purezza è karat con la k (oro a 24 karat). Le due parole sono cugine, e confonderle è costato a compratori soldi veri al banco dei gioielli.",
+        ],
+      },
+      {
+        heading: "Massa, peso, e la bilancia che mente educatamente",
+        paragraphs: [
+          "La fisica distingue massa (quanta materia, in chilogrammi) da peso (la forza che la gravità applica, in newton). Le bilance quotidiane misurano la forza e mostrano un numero di massa — a posto a una gravità, rotto in orbita. L'assenza di peso di un astronauta è la perdita del peso apparente, non della massa.",
+          "Questa pagina tratta solo massa: kg, g, lb, oz, stone e il carato sono tutti unità di massa, e nessuna unità di forza si mescola. Per questo la stessa conversione funziona per una ricetta a San Paolo e per una specifica di carico, mentre la lettura di una bilancia a molla richiederebbe la gravità locale per concordare.",
+          "Tolleranze dei bagagli, classi di peso atletiche e prezzi dei pacchi vivono tutti dentro queste unità, e tutto viene calcolato nel tuo browser — il numero della tua bilancia del bagno resta tuo. Le sei cifre significative coprono dalle molle degli anelli (carati) fino al carico (tonnellate) senza cambiare strumento.",
+        ],
       },
     ],
   },
@@ -3076,6 +5862,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I giorni totali vissuti sono la cifra usata per le ricorrenze in stile «giorni sulla Terra» e per i sistemi che conservano le età in giorni. Si calcola dalle date del calendario in UTC, così le variazioni dell'ora legale non possono farla scartare di uno.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché «età» non è un numero solo",
+        paragraphs: [
+          "Chiedi a tre sistemi l'età di qualcuno e puoi ottenere tre risposte, perché l'età è una convenzione prima che una computazione. La convenzione più comune — quella che usa questo calcolatore — è l'età compiuta: quanti anni, mesi e giorni interi sono effettivamente trascorsi dalla nascita. I documenti ufficiali nella maggior parte dei paesi usano questo taglio «solo anni» dello stesso numero, motivo per cui una persona il cui compleanno è domani resta oggi legalmente un anno più giovane.",
+          "Altre convenzioni esistono per ragioni storiche e culturali. Parecchi sistemi est-asiatici contavano tradizionalmente una persona come un anno alla nascita e invecchiavano tutti insieme a capodanno, il che aggiunge uno o due anni alla cifra occidentale; la Corea del Sud adottò formalmente lo standard internazionale per la maggior parte degli scopi legali nel 2023, chiudendo molta di quell'ambiguità. Alcuni contesti medici e assicurativi usano invece età corrette o arrotondate.",
+          "C'è anche una sottigliezza dell'ora del giorno che questo strumento ignora deliberatamente: qualcuno nato alle 23:50 è, a rigor di termini, qualche ora più giovane in una data qualunque di qualcuno nato alle 00:10 dello stesso giorno. Poiché il calcolatore lavora su date calendariali intere senza ora di nascita, entrambi ottengono la stessa età — la convenzione che quasi ogni modulo e registro segue comunque.",
+        ],
+      },
+      {
+        heading: "Giorni bisestili, lunghezze dei mesi e fusi orari",
+        paragraphs: [
+          "La ripartizione anni/mesi/giorni è vera aritmetica calendariale, non divisione per una media. I mesi vengono consumati interi dalla data di nascita in avanti, e i giorni residui vengono misurati contro la lunghezza effettiva del mese che rimane — così un arco attraverso un mese di 31 giorni, un febbraio di 28 o l'anno bisestile del 2024 escono tutti esatti. Una data di nascita del 29 febbraio viene trattata come invecchiamento al 1 marzo negli anni comuni, secondo la convenzione che la maggior parte delle giurisdizioni usa.",
+          "I giorni totali aggirano il calendario del tutto: sottrae numeri di giorno UTC, che sono semplicemente un conteggio di giorni assoluti. Questo rende la cifra immune alle transizioni dell'ora legale, che altrimenti possono far atterrare una differenza di tempo locale un giorno corto o lungo. Non importa dove sulla Terra esegui la pagina, «giorni vissuti» è lo stesso numero.",
+          "Il conto alla rovescia del prossimo compleanno cammina in avanti dall'età alla data fino alla prossima occorrenza del mese e giorno di nascita, e riporta il giorno della settimana su cui atterra — utile per pianificare la festa prima di fare aritmetica. In un anno non bisestile, un compleanno del 29 febbraio viene mirato al 1 marzo per la stessa ragione di sopra.",
+        ],
+      },
+      {
+        heading: "Rispetto ai fogli di calcolo, e la privacy",
+        paragraphs: [
+          "I fogli di calcolo possono computare scarti di età con le funzioni di differenza tra date, ma la loro aritmetica dei mesi è una fonte frequente di errori — le funzioni sono documentate incoerentemente tra i prodotti, ed è facile sbagliare un confine inclusivo-esclusivo senza notarlo. Questo strumento mostra la ripartizione, i totali e il conto alla rovescia insieme così puoi verificare l'uno contro l'altro a colpo d'occhio.",
+          "Per gli scopi ufficiali — visti, iscrizioni scolastiche, regole di pensionamento — i documenti e la convenzione della giurisdizione applicabile sono autorevoli, non qualunque calcolatore. Regole come «età al 1 gennaio per i cicli scolastici» prevalgono sul puro tempo trascorso, e questo strumento non le modella.",
+          "La privacy è strutturale qui: la data di nascita viene inserita solo nel tuo browser, l'aritmetica gira in JavaScript locale, e nulla viene caricato, registrato o memorizzato. Questo conta perché una data di nascita completa più un contesto bastano a identificare una persona, quindi un calcolatore che tiene gli input in locale è l'unico tipo in cui incollare date di nascita vere.",
+        ],
+      },
+    ],
   },
   "aspect-ratio-calculator": {
     name: "Calcolatrice di proporzioni",
@@ -3102,6 +5914,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso usare proporzioni decimali o insolite?",
         a: "Sì. Entrambi i campi della proporzione accettano qualsiasi numero positivo, quindi il CinemaScope 2,39:1, l'1,85:1, i ritagli social 4:5 in verticale o sensori come 1,5:1 funzionano tutti — la matematica delle proporzioni è identica.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rapporti del cinema: 1,85:1 contro 2,39:1",
+        paragraphs: [
+          "Hollywood si stabilì su due standard widescreen dopo decenni di formati in competizione. Il rapporto «flat» 1,85:1 riempie uno schermo da teatro standard ed è usato per la maggior parte dei film mainstream e del lavoro adiacente alla TV; il rapporto «scope» 2,39:1 è l'aspetto ampio e letterboxato di epos e film d'azione. Quando un film scope viene mostrato su una TV 16:9, le barre nere che vedi non sono un bug — sono la geometria onesta della differenza tra 2,39:1 e 1,78:1.",
+          "La conseguenza pratica per i creator: gira o ritaglia a 2,39:1 e ogni piattaforma lo letterboxerà; ritaglia a 1,85:1 o 16:9 e conservi più immagine verticale ma perdi l'incorniciatura cinematografica. Usa questo calcolatore prima di impegnarti — inserisci 3840 come larghezza per il 2,39:1 e vedrai che il fotogramma richiede circa 1607 pixel di altezza, il che ti dice subito quanta risoluzione verticale scarta un ritaglio scope.",
+          "I formati vecchi affiorano ancora nei flussi moderni: il 4:3 viene dalla televisione e dalla fotografia 35mm, il 3:2 dai fotogrammi 35mm, e l'1:1 dai formati di stampa quadrati ben prima di Instagram. Conoscere la discendenza aiuta quando restauri vecchi filmati o riproduci un look vintage, perché il rapporto stesso porta con sé l'epoca.",
+        ],
+      },
+      {
+        heading: "Da dove venne il 16:9 e perché atterrò",
+        paragraphs: [
+          "Il 16:9 non fu scelto per estetica. Fu un compromesso derivato negli anni '80 così che un solo display potesse mostrare sia la TV 4:3 esistente sia i contenuti widescreen del cinema col minor spreco: il 16:9 è la media geometrica che divide la differenza tra il 4:3 (1,33) e i rapporti cinematografici comuni attorno al 2,35, minimizzando il letterboxing in entrambi i sensi. Quando la TV HD fu standardizzata, il 16:9 arrivò con essa, e 1920×1080, 1280×720 e 3840×2160 ereditano tutti la stessa forma.",
+          "Quell'eredità è il motivo per cui il 16:9 è l'impostazione sicura per il video su ogni piattaforma importante oggi, mentre il 16:10 (1920×1200) sopravvive per lo più su portatili e monitor mirati al lavoro su documenti e codice — il decimo verticale extra di schermo tiene una riga di testo in più o una barra degli strumenti senza scorrere.",
+          "L'aritmetica è esatta, non casuale: 1920÷16 = 120 e 1080÷9 = 120, quindi ogni risoluzione 16:9 è un multiplo pulito. È anche il motivo per cui questo calcolatore riduce 1920×1080 esattamente a 16:9 tramite il massimo comun divisore anziché approssimare — l'MCD di 1920 e 1080 è 120, e dividendo entrambi i lati ottieni il rapporto canonico.",
+        ],
+      },
+      {
+        heading: "Errori comuni quando si ridimensiona",
+        paragraphs: [
+          "L'errore più comune è inserire il rapporto come decimale in un campo e come intero nell'altro — 1,7778:1 non è lo stesso impegno del 16:9 per il lavoro pixel-esatto, perché l'arrotondamento si accumula. Digita rapporti a numeri interi quando li hai e lascia che lo strumento mostri il decimale per riferimento, anziché il contrario.",
+          "Il secondo errore è arrotondare la dimensione di output a un numero «bello». Se 2,39:1 con larghezza 1920 computa un'altezza di circa 803, agganciarsi a 800 cambia il rapporto di quasi mezzo percento — invisibile su un'anteprima grezza, visibile come deriva in un montaggio multiplo. Quando il pixel esatto è frazionario, decidi deliberatamente: arrotonda per il display, o tieni il valore esatto per il file master.",
+          "Infine, ricorda che object-fit: cover in CSS ritaglia anziché scalare — un'immagine 4:3 dentro un contenitore 16:9 perde cima e fondo, non si strizza. Dimensionare l'immagine sorgente con questo calcolatore per corrispondere al rapporto del contenitore prima evita di scartare contenuto in silenzio.",
+        ],
       },
     ],
   },
@@ -3132,6 +5970,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Il download è un SVG vettoriale, quindi si scala a qualsiasi DPI senza sfocature. Mantieni intatte le zone quieti (i margini vuoti ai lati) quando lo sistemi — tagliarle è la causa più comune di scansioni illeggibili.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Code128 contro EAN-13: due lavori, due simbologie",
+        paragraphs: [
+          "Questi formati esistono per lavori diversi e non sono intercambiabili. EAN-13 e UPC-A sono simbologie retail GS1: lunghezza fissa, solo numerici, legate a un prefisso aziendale che licenzi da un'organizzazione membro GS1, e capite da ogni scanner di cassa del mondo. CODE128 è una simbologia logistica: lunghezza variabile, ASCII completo, libera per qualsiasi uso interno — casse di magazzino, tag di asset, numeri di serie, riferimenti di spedizione.",
+          "La differenza appare in densità e tolleranza. CODE128 commuta automaticamente tra i suoi sottoinsiemi A (maiuscole + controllo), B (alfanumerico completo) e C (coppie di cifre), quindi una lunga sequenza di cifre viene impacchettata a due per parola di codice — per questo un'etichetta CODE128 che contiene lo stesso numero di un EAN-13 esce notevolmente più stretta. EAN-13, al contrario, fissa le larghezze dei moduli per standard così che qualsiasi scanner di cassa possa decodificarlo a velocità a prescindere da chi l'ha stampato.",
+          "Una regola pratica: se un rivenditore o un marketplace ti assegnerà un numero di prodotto, stampalo come EAN-13/UPC-A e non ricodificarlo mai in un altro formato, perché i loro sistemi corrispondono sul numero GS1. Per tutto ciò che non lascia mai la tua operazione, CODE128 è più semplice e più flessibile.",
+        ],
+      },
+      {
+        heading: "La cifra di controllo e perché l'input viene corretto",
+        paragraphs: [
+          "Le simbologie retail finiscono con un carattere di controllo modulo-10 computato da una somma pesata delle altre cifre. Per EAN-13, le cifre sono pesate 1 e 3 alternandosi da destra; la cifra di controllo è ciò che fa raggiungere al totale il successivo multiplo di 10. Questo coglie i due fallimenti più comuni del mondo reale: una cifra digitata male e due cifre adiacenti trasposte (le cifre trasposte differiscono per peso 3−1=2, quindi molti ma non tutti gli scambi vengono colti).",
+          "Questo generatore accetta o 12 cifre e computa la 13ª, o un 13 completo con verifica — così un input con l'ultima cifra sbagliata viene respinto anziché ristampato in silenzio. Se stai trascrivendo un numero da documenti cartacei, inserire 12 cifre e lasciare che lo strumento computi la cifra di controllo è il flusso più sicuro: non validerà, ma rivelerà un disallineamento.",
+          "La stessa famiglia modulo-10 si estende ai codici logistici GS1, motivo per cui l'abitudine di verificare l'ultima cifra si trasferisce: se un codice scansionato fallisce costantemente alla cassa o nella tua app di inventario mentre l'etichetta appare a posto, una cifra di controllo corrotta è una delle prime cose da sospettare.",
+        ],
+      },
+      {
+        heading: "Zone tranquille, larghezza delle barre e dimensioni di stampa",
+        paragraphs: [
+          "Ogni simbologia riserva zone tranquille — margini bianchi su entrambi i lati delle barre che gli scanner usano per trovare l'inizio del simbolo. GS1 specifica larghezze minime in dimensione assoluta, non in pixel; quando ritagli o collochi un codice a barre a filo contro testo o bordo di scatola, il codice può diventare illeggibile benché ogni barra appaia perfetta. Lascia più margine di quanto sembri necessario, specialmente sulle etichette piccole.",
+          "Larghezza e altezza delle barre scambiano contro la capacità dello scanner. Barre strette alzano le richieste sulla risoluzione di stampa e sull'ottica dello scanner; barre più alte danno agli scanner una banda verticale più lunga da colpire ad angolo. Per scansioni portatili e da cassa, segui la guida sulle dimensioni di stampa del tuo standard anziché restringere le etichette per farle stare nel layout — un codice che si scansiona 200 volte al giorno paga lo spazio di etichetta che occupa.",
+          "Poiché l'output è SVG vettoriale, lo stesso file resta nitido a qualsiasi dimensione; ciò che non scala è la fisica. Testa-scansiona ogni nuovo formato col tuo scanner reale e la tua cartamina di stampa reale prima di impegnarti in una tiratura, e nulla deve lasciare il tuo browser mentre itera — la renderizzazione avviene in locale.",
+        ],
+      },
+    ],
   },
   "binary-converter": {
     name: "Convertitore binario",
@@ -3158,6 +6022,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Sono supportati numeri negativi o frazioni?",
         a: "No — questa griglia converte valori interi non negativi, che è ciò che sono pattern di bit, hash e indirizzi di memoria. I formati con segno e frazionari dipendono da scelte di codifica (complemento a due, IEEE 754) che renderebbero ambigua la corrispondenza.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché esadecimale e binario sono la stessa lingua",
+        paragraphs: [
+          "Una cifra esadecimale codifica esattamente quattro bit: 0–9 più a–f coprono i sedici valori di un gruppo a 4 bit. Non è una comodità scelta da qualcuno — è il motivo per cui ogni cifra esadecimale si mappa a un pattern binario a quattro bit fisso (F = 1111, 8 = 1000) senza ambiguità in nessuna direzione. Lo stesso vale per l'ottale a tre bit per cifra, motivo per cui i vecchi sistemi (permessi dei file, computing dell'era PDP) raggruppavano a tre.",
+          "Questa è la ragione per cui il display raggruppa il binario per 4 e l'esadecimale per 2: ogni gruppo è esattamente un byte, quindi un valore a 32 bit appare come otto cifre esadecimali o quattro nibble binari e puoi leggere i confini dei byte direttamente dallo schermo. Quando controlli una maschera di bit o un header di protocollo, quell'allineamento trasforma «conta i bit con attenzione» in «getta un'occhiata ai gruppi».",
+          "La conversione stessa è posizionale: un numero in base b è la somma di ogni cifra per b elevato alla sua posizione. L'esadecimale semplicemente ripacchetta il binario — 0xFF è 11111111 — quindi convertire tra esadecimale e binario è meccanico, mentre la conversione decimale richiede vera divisione. Tutte e quattro le viste restano sincronizzate mentre digiti, con BigInt che porta il valore esatto a qualsiasi dimensione.",
+        ],
+      },
+      {
+        heading: "Complemento a due: il mondo con segno che questa griglia esclude deliberatamente",
+        paragraphs: [
+          "L'hardware non memorizza segni meno. Gli interi con segno usano il complemento a due, dove il bit più alto fa da segno e i numeri negativi si formano ribaltando tutti i bit e aggiungendo uno — motivo per cui −1 su 8 bit è 11111111 e perché una lettura senza segno dello stesso pattern mostra 255. Un pattern di bit, due valori: la mappatura dai bit al significato dipende dall'interpretazione, ed è esattamente perché questo strumento converte solo valori senza segno.",
+          "La regola solo-senza-segno aggira anche l'altra ambiguità: le frazioni. I numeri in virgola mobile seguono IEEE 754, dove i bit si spaccano in campi segno, esponente e mantissa — convertire quel pattern di bit come intero semplice dà un numero enorme senza relazione col valore decimale. I dump esadecimali dei float hanno senso solo con la codifica in mano.",
+          "Quindi tieni questo convertitore per ciò per cui serve: pattern di bit, hash, colori impacchettati in interi, indirizzi di memoria e flag. Quando porti un valore fuori da C, Rust o assembly, controlla prima se la variabile di origine era con segno — se lo era, interpreta tu il bit più alto prima di fidarti del decimale qui.",
+        ],
+      },
+      {
+        heading: "Da dove viene il limite di 2^53 e perché BigInt conta",
+        paragraphs: [
+          "I numeri ordinari di JavaScript sono float a 64 bit, e IEEE 754 spende 53 di quei bit per la mantissa. Questo significa che ogni intero fino a 2^53 — circa 9 quadrilioni — è esatto, e oltre, i numeri cominciano ad arrotondarsi al float rappresentabile più vicino: aggiungi 1 a 2^53 in JavaScript normale e nulla cambia. ID, hash e valori crittografici superano di routine quella linea, motivo per cui le stringhe esadecimali a 64 bit incollate storicamente tornavano sbagliate dai convertitori ingenui.",
+          "BigInt aggira il problema rappresentando i numeri come interi a precisione arbitraria anziché float, così un hash a 256 bit o un decimale a 40 cifre si converte esattamente a qualsiasi dimensione. Il costo è trascurabile per questo carico — la conversione resta istantanea — e il risultato è che tutti e quattro i campi concordano tra loro anziché arrotondare ciascuno indipendentemente.",
+          "Un controllo di sanità rapido quando sospetti problemi di precisione altrove: converti il valore qui e confronta con ciò che un altro strumento ha riportato. Se le cifre basse differiscono, l'altro strumento stava arrotondando attraverso i float — questa griglia mostra il valore vero.",
+        ],
       },
     ],
   },
@@ -3188,6 +6078,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Il muscolo è più denso del grasso, quindi le persone molto muscolose possono risultare «sovrappeso» pur portando poco grasso in eccesso. Tratta il BMI come uno screening rapido a livello di popolazione e abbinalo alla circonferenza vita o alla composizione corporea per un quadro più completo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che il BMI può e non può dirti",
+        paragraphs: [
+          "Il BMI si è guadagnato il posto in medicina perché è economico, coerente e — su grandi popolazioni — correla ragionevolmente bene col grasso corporeo. Funziona meglio come passo di screening: segnala chi merita uno sguardo più da vicino, non cosa lo sguardo più da vicino trovi. Un atleta muscoloso al 6% di grasso corporeo e una persona sedentaria al 35% possono condividere un BMI di 27; il numero è identico, il quadro di salute no.",
+          "Deriva anche ai bordi dell'altezza. Le persone molto alte leggono leggermente alte e le molto corte leggermente basse, perché il BMI scala il peso con l'altezza al quadrato mentre il volume del corpo non scala così pulito. Per questo alcuni ricercatori preferiscono alternative più recenti per gli individui — ma ogni grande organizzazione sanitaria pubblica ancora le soglie in termini di BMI, il che lo tiene come lingua comune dello screening del peso.",
+          "Tratta la categoria come punto di partenza per una conversazione, non un verdetto. Le tendenze contano più delle letture singole: lo stesso metodo, la stessa bilancia, la stessa ora del giorno, tracciati su mesi ti dicono molto più di quanto un numero potrebbe mai.",
+        ],
+      },
+      {
+        heading: "Da dove vengono le soglie",
+        paragraphs: [
+          "Le soglie 18,5 / 25 / 30 non sono costanti naturali — sono decisioni di comitato con una storia. Adolphe Quetelet derivò l'indice negli anni '30 dell'800 dalle medie di popolazione; Ancel Keys lo chiamò «body mass index» nel 1972; e le fasce attuali furono standardizzate dall'OMS negli anni '90, in gran parte da studi che legavano le curve di mortalità all'indice. Le curve sono a U: il rischio sale a entrambe le estremità, che è il motivo per cui esiste anche la soglia bassa.",
+          "Le popolazioni asiatiche mostrano rischio cardiometabolico elevato a BMI più bassi delle popolazioni europee, quindi parecchie linee guida nazionali usano soglie di sovrappeso più basse — 23 invece di 25 è comune. Se stai confrontando il tuo risultato con una tabella di un altro paese, controlla quale standard usa; la formula è identica, le fasce di interpretazione no.",
+          "Bambini e adolescenti sono un caso separato del tutto: il BMI cambia con età e sesso durante la crescita, quindi le tabelle pediatriche usano percentili per età e sesso, non numeri fissi. Questo calcolatore segue lo standard adulto e non è appropriato per chiunque sotto i 18 anni.",
+        ],
+      },
+      {
+        heading: "Usare il BMI accanto ad altri numeri",
+        paragraphs: [
+          "Il compagno più utile è la circonferenza vita, perché cattura l'adiposità centrale — lo schema di distribuzione del grasso più associato al rischio metabolico. L'abbinamento comune è BMI per la massa complessiva e vita per la distribuzione: una persona a BMI 27 con una vita piccola si legge molto diversamente da una a 27 che lo porta centralmente.",
+          "La percentuale di grasso corporeo, misurata con pinze, bilance a bioimpedenza o DEXA, risponde direttamente a ciò che il BMI non può: quanto del tuo peso è grasso. È più difficile da misurare coerentemente, che è la sua debolezza — lo stesso corpo può punteggiare 22% su una bilancia a bioimpedenza e 26% su un'altra a seconda dell'idratazione e dell'ora del giorno.",
+          "Una routine pratica: pesati in condizioni coerenti, registra il BMI qui, e lascia che un professionista misuri vita e grasso corporeo periodicamente. La combinazione ti dà tendenza, composizione e contesto clinico senza sovra-fidarti di un numero solo.",
+        ],
+      },
+    ],
   },
   "color-converter": {
     name: "Convertitore di colori",
@@ -3216,6 +6132,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Le tinte (mescolate con il bianco) fanno sfondi hover, badge e card; le ombre (mescolate con il nero) fanno stati premuti, bordi e superfici dark-mode. Derivare entrambe da un solo colore del marchio tiene ogni stato dell'interfaccia visivamente coerente.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché la conversione RGB→HSL perde informazione",
+        paragraphs: [
+          "Hex e RGB descrivono la stessa cosa — tre valori di canale — quindi convertire tra loro è solo contabilità in base 16, senza perdita in entrambe le direzioni. HSL è diverso: è una ri-descrizione del colore in coordinate cilindriche (tonalità come angolo, saturazione e luminosità come percentuali). Il viaggio di andata e ritorno hex → HSL → hex restituisce comunque lo stesso colore, ma la tripletta HSL leggibile dagli umani è stata quantizzata, motivo per cui due colori che differiscono sottilmente possono condividere una tonalità HSL.",
+          "La questione più profonda è percettiva. La luminosità dell'HSL non è luminosità percettiva: hsl(60, 100%, 50%) — giallo puro — appare molto più brillante di hsl(240, 100%, 50%) — blu puro — benché entrambi rivendichino il 50% di luminosità. I designer che generano palette ruotando la tonalità a luminosità HSL fissa ottengono palette in cui ogni colore si sente diversamente pesante. Questo convertitore riporta la matematica onesta anziché fingere che la luminosità HSL sia ciò che il tuo occhio vede.",
+          "Consiglio pratico: usa l'HSL per ciò in cui è bravo — ritoccare una tonalità, costruire una scala di tinte prevedibile attorno a un colore — e verifica i rapporti di contrasto con valori di luminanza reali anziché fidarti del numero L. La riga tinta-e-ombra qui mescola con bianco e nero nello spazio RGB, il che tiene la scala coerente con come i browser compositano i colori.",
+        ],
+      },
+      {
+        heading: "OKLCH e gli spazi percettivamente uniformi: ciò che questo convertitore non è",
+        paragraphs: [
+          "Il CSS moderno supporta OKLCH, uno spazio percettivamente uniforme dove muoversi di una distanza fissa nello spazio delle coordinate cambia il colore percepito di roughly la stessa quantità ovunque — giallo e blu allo stesso valore L appaiono genuinamente ugualmente chiari. Questo convertitore resta deliberatamente nella triade sRGB classica di hex, RGB e HSL, perché sono ciò che i design system legacy, le linee guida di marca e i token di stile specificano ancora.",
+          "La differenza conta di più nella generazione di palette. In HSL, avanzare la tonalità attorno a un cerchio a L costante produce colori di intensità percettiva selvaggiamente variabile; in OKLCH la stessa camminata produce una rampa uniforme. Similmente, la «saturazione 50%» dell'HSL non significa metà del chroma percepito. Se costruisci una nuova scala di design token da zero, vale la pena generare in uno spazio uniforme — ma tradurre i valori hex di marca esistenti in esso cambia i numeri che il tuo team ha già memorizzato.",
+          "Anche fuori da questo modello: il colore a gamut largo. I valori qui sono sRGB, lo spazio che ogni browser e la maggior parte degli schermi punta; gli schermi Display-P3 possono mostrare verdi e rossi più saturi di quanto sRGB possa esprimere. Un colore scelto qui si renderizzerà correttamente ovunque ma lascia inutilizzato il gamut extra — un'impostazione sicura e compatibile per il lavoro UI.",
+        ],
+      },
+      {
+        heading: "Come si costruiscono davvero tinte e ombre",
+        paragraphs: [
+          "Una tinta è il colore mescolato col bianco, un'ombra mescolato col nero, ciascuno a frazioni fisse. In termini RGB è un'interpolazione lineare canale per canale: una tinta al 40% di rgb(0, 113, 227) alza ogni canale del 40% del cammino verso 255, e un'ombra al 40% abbassa ciascuno del 40% verso 0. I passi qui sono 20/40/60/80%, dando cinque fermate utilizzabili sopra e sotto il colore base.",
+          "Questo mescolamento semplice è intenzionalmente diverso dal blending gestito a colori negli spazi basati su Lab, che cerca di tenere la tonalità percepita costante mentre la luminosità cambia. Il mescolamento RGB semplice scurisce i colori saturi in modo leggermente ineguale — un comportamento noto e accettato nella maggior parte dei design system, dove la scala viene generata una volta e controllata a occhio.",
+          "Per il flusso di lavoro, generare la scala dallo stesso valore sorgente ogni volta batte scegliere le varianti a mano: gli stati hover, i pulsanti disabilitati e le superfici dark-mode restano riproducibili, e chiunque nel team può rigenerare l'esatto stesso set dall'unico hex che ha memorizzato. Tutto viene calcolato localmente nel browser — il colore non lascia mai la pagina.",
+        ],
+      },
+    ],
   },
   "color-picker": {
     name: "Selettore colori",
@@ -3242,6 +6184,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il campionamento dello schermo è privo di rischi per la privacy?",
         a: "Sì. L'API EyeDropper mostra un selettore di sistema e restituisce solo il singolo pixel su cui clicchi; la lettura avviene nel tuo browser e nessuno screenshot, cronologia o valore viene trasmesso o salvato.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "L'API EyeDropper: cosa può e non può fare",
+        paragraphs: [
+          "EyeDropper è un contrasto deliberato alle API vecchie di cattura schermo. Non richiede fotocamera, permesso di registrazione dello schermo né accesso persistente: il browser mostra la lente di ingrandimento di sistema, tu clicchi un pixel, e l'API si risolve con esattamente una stringa hex. Non c'è nulla da revocare più avanti perché nulla viene conservato — nessuno stream resta aperto tra le chiamate, quindi una pagina non può spiare il tuo schermo mentre lavori.",
+          "I suoi limiti derivano da quel design. Legge solo ciò che è attualmente compositato sul tuo display, alla risoluzione del tuo display — zooma prima in un'immagine se ti serve un pixel preciso da una grande area. Ed è solo-clic: nessuna anteprima al passaggio dei valori prima di confermare, e nessun modo di campionare una regione programmaticamente. Per il lavoro pixel-preciso su un mockup, i designer aprono ancora il file in un editor; per afferrare un colore di marca da una pagina viva, un clic batte il flusso screenshot-e-inspeziona ogni volta.",
+          "Il supporto è l'altro confine pratico: i browser Chromium lo hanno spedito dal 2022; Firefox e Safari non lo espongono ancora. Questo strumento fa feature-detection e semplicemente nasconde l'opzione schermo dove manca, così il selettore degrada a solo-swatch senza rompere nulla.",
+        ],
+      },
+      {
+        heading: "Perché i colori campionati a volte si spostano leggermente",
+        paragraphs: [
+          "Un colore campionato attraversa più passi di quanto sembri: la sorgente è stata scritta in un qualche spazio colore, renderizzata al profilo del tuo display, compositata, e poi restituita a JavaScript come tripletta hex sRGB. Se l'originale viveva in un gamut più largo di sRGB — un colore Display-P3 su un Mac, per esempio — il viaggio di andata e ritorno lo clipa al valore sRGB più vicino, e l'hex che ottieni è la migliore approssimazione sRGB, non l'originale.",
+          "La gestione del colore spiega il resto. I sistemi operativi mappano i valori sRGB ai profili dei display, e gli schermi con modalità vivide o regolazioni tipo night-shift possono alterare ciò che è fisicamente mostrato senza cambiare il valore memorizzato. Il campionamento riporta quindi ciò che è sul vetro nello spazio standard; due monitor possono mostrare lo stesso hex diversamente mentre il valore sottostante è identico.",
+          "Per il lavoro di marca la salvaguardia è semplice: tratta un campione di schermo come punto di partenza, poi conferma contro il valore della fonte ufficiale se esiste. I tre formati qui — hex, rgb(), hsl() — restano matematicamente coerenti tra loro comunque, poiché la conversione avviene in locale dal singolo valore campionato.",
+        ],
+      },
+      {
+        heading: "Un flusso di selettore che sopravvive a un design system",
+        paragraphs: [
+          "Ottenere un colore è la parte facile; tenerlo utilizzabile è la disciplina. Dopo il campionamento, fissa prima il formato canonico — la maggior parte dei design system usa hex come token, con rgb()/hsl() come viste derivate — e memorizza un valore, non tre che possano divergere. Questo strumento copia tutti e tre, ma quello che incolli nel tuo file di token è quello che diventa verità.",
+          "Poi costruisci gli stati dalla singola fonte: hover leggermente più chiaro, premuto leggermente più scuro, disabilitato a opacità fissa. Derivarli aritmeticamente dalla base campionata (come fa il convertitore di colori correlato con la sua riga tinta-e-ombra) tiene ogni stato rigenerabile, invece di accumulare valori hex monouso che nessuno può spiegare.",
+          "Infine, nota dove il colore apparirà. Uno sfondo scuro campionato con testo bianco dovrebbe essere ri-controllato per contrasto prima che spedisca; campionare e convertire non valida mai l'accessibilità, riproducono solo ciò che hai visto. Tutto gira localmente nel browser — i valori campionati non vengono registrati da nessuna parte.",
+        ],
       },
     ],
   },
@@ -3273,6 +6241,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — il risultato è crescita nominale al tasso che inserisci. Le tasse sugli interessi, i costi del conto e l'inflazione riducono tutti il rendimento reale, quindi tratta il saldo finale come un tetto su ciò che manterresti davvero.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché la frequenza di capitalizzazione cambia la risposta",
+        paragraphs: [
+          "La frequenza di capitalizzazione decide quanto spesso gli interessi maturati si uniscono al capitale e cominciano a maturare i propri. Il tasso periodico è il tasso annuale diviso per il numero di periodi, quindi la capitalizzazione mensile all'8% usa 0,667% al mese — e poiché quell'interesse viene accreditato dodici volte l'anno invece che una, il rendimento annuo effettivo striscia sopra l'8%. Il giornaliero batte il mensile, il mensile batte il trimestrale, il trimestrale batte l'annuale, sempre in quell'ordine a parità di tasso nominale.",
+          "Ciò che sorprende la gente è quanto piccolo sia lo scarto ai tassi di consumo. Al 5% nominale, la capitalizzazione annuale rende 5,00% e quella mensile circa 5,12% — un decimo di punto che diventa soldi seri solo su decenni o su saldi grandi. Il marketing lo sfrutta: una banca può quotare un tasso nominale che appare identico a quello di un concorrente mentre la sua frequenza di capitalizzazione fa la differenza in silenzio.",
+          "La frequenza cambia la risposta solo se il nominale è ciò che confronti. Una volta che tutto è convertito in rendimento annuo effettivo, la frequenza è già ripiegata dentro e due conti con lo stesso APY sono genuinamente equivalenti — esattamente il motivo per cui il calcolatore APY di questo sito esiste accanto a questo.",
+        ],
+      },
+      {
+        heading: "L'incrocio, e perché il tempo domina il tasso",
+        paragraphs: [
+          "La tabella anno per anno esiste per mostrare un momento specifico: l'incrocio, dove gli interessi maturati in un anno superano i tuoi stessi versamenti. A tassi moderati questo richiede decenni, motivo per cui la capitalizzazione appare poco impressionante per i primi dieci anni e assurda dopo trenta. La curva è piatta, poi piega — e quasi tutti sottostimano quanto tardi arriva la piega.",
+          "Questo spiega anche perché l'importo di partenza conta più di quanto suggerisca l'istinto dell'ottimizzatore. Un punto di tasso in più è lineare; un decennio in più di capitalizzazione è esponenziale. Tra cominciare dieci anni prima a un tasso modesto e cominciare oggi a un tasso un punto più alto, l'inizio anticipato di solito vince di un margine scomodo — la tabella ti permette di testare quella tesi sui tuoi numeri invece di prenderla sulla fiducia.",
+          "Due avvertenze oneste: lo strumento versa i contributi all'inizio di ogni periodo, che è la convenzione ottimistica, e assume che il tasso non cambi mai, cosa che nessun investimento reale onora. L'output è uno scenario, non una previsione — l'anno dell'incrocio specialmente va letto come «grossomodo quando», non una data da cerchiare.",
+        ],
+      },
+      {
+        heading: "Crescita nominale, potere d'acquisto reale",
+        paragraphs: [
+          "Tutto ciò che il calcolatore mostra è nominale: il tasso che hai digitato applicato al saldo che hai digitato, senza tasse, senza commissioni, senza inflazione. Ciascuna di quelle forze taglia da un lato diverso — le tasse sugli interessi riducono il tasso accreditato, le commissioni del conto sottraggono importi fissi, e l'inflazione restringe in silenzio ciò che il saldo finale compra. Il numero a schermo è un tetto su ciò che realmente terresti.",
+          "Un esercizio di sanità utile: sottrai la tua inflazione annuale attesa dal tasso prima di inserirlo. Un rendimento nominale del 5% con inflazione del 2,5% capitalizza allo stesso modo ma racconta una storia molto più onesta sul futuro potere d'acquisto del saldo. La matematica è identica; cambia solo l'interpretazione.",
+          "E come per ogni strumento qui, la proiezione gira interamente nel tuo browser: saldi, tassi e importi dei versamenti non lasciano mai il tuo dispositivo, quindi è sicuro modellare cifre che non incolleresti in un modulo che spedisce dati a un server.",
+        ],
+      },
+    ],
   },
   "currency-converter": {
     name: "Convertitore di valute",
@@ -3299,6 +6293,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Questi sono i tassi che mi darà la banca?",
         a: "Questi sono tassi di riferimento a metà mercato — il punto medio tra prezzi di acquisto e vendita a cui le banche scambiano. Le carte di pagamento e le banche aggiungono di solito uno spread o una commissione dell'1–3% sopra questa cifra.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tassi mid-market: il numero equo che la banca non ti quoterà",
+        paragraphs: [
+          "Ogni valuta ha due prezzi vivi: a quanto i dealer la comprano e a quanto la vendono, e il tasso mid-market è il punto medio tra loro. Quel punto medio è il numero che vedi nei titoli e nei motori di ricerca — è anche il miglior tasso che un cliente di banca non può mai davvero ottenere. Le conversioni retail impilano uno spread sopra: l'1–3% è tipico per le carte, di più ai banchi dell'aeroporto.",
+          "Quella struttura spiega come leggere l'output di questo strumento: la cifra mostrata è un riferimento equo, e il tasso che la tua carta addebita davvero atterrerà leggermente peggiore. Per un acquisto da 1.000 unità uno spread del 2% sono 20 unità — abbastanza piccolo da ignorare una volta, costoso come abitudine sui viaggi frequenti o sui pagamenti aziendali.",
+          "I tassi arrivano dal servizio open.er-api.com, che pubblica valori mid-market di riferimento, e questo strumento mette la tabella in cache sul tuo dispositivo per un'ora prima di ri-scaricarla. È onesto su ciò che significa: questo è un riferimento per le decisioni, non un prezzo di esecuzione garantito. Controlla il tasso reale dell'emittente della tua carta quando un grande acquisto dipende dalla differenza.",
+        ],
+      },
+      {
+        heading: "Come vengono computati i tassi incrociati",
+        paragraphs: [
+          "Non esiste una tabella di cambio pubblicata per ogni coppia sulla Terra — con oltre 160 valute sarebbero decine di migliaia di quote. Invece, i servizi pubblicano una tabella base (qui in USD: quanto di ciascuna valuta compra un dollaro) e ogni altra coppia è derivata: da JPY a GBP significa dividere yen-per-dollaro per sterline-per-dollaro. Questo triangolo è come lavorano anche le reti di carte e gli schermi forex.",
+          "Il tasso derivato è esattamente accurato quanto la tabella base, né più né meno: entrambe le gambe si muovono col mercato, quindi durante un forte movimento dello yen l'incrocio JPY/GBP qui si muove di passo con qualunque terminale professionale che usi la stessa convenzione. Le piccole differenze tra fornitori vengono dal momento dello snapshot, non dal metodo.",
+          "La cache di un'ora conta nei tempi tranquilli come in quelli affollati. Di notte per la maggior parte delle coppie il tasso si muove appena e la cache è indistinguibile dal fresco; durante l'alta volatilità il pulsante di aggiornamento ti dà uno snapshot più recente. In ogni caso, l'aritmetica non arrotonda mai a tuo favore — la moltiplicazione avviene in locale sulla tabella a piena precisione.",
+        ],
+      },
+      {
+        heading: "Ciò che non lascia mai il tuo dispositivo",
+        paragraphs: [
+          "Una conversione di valuta sembra una domanda sulle tue finanze, motivo per cui molti convertitori online registrano importi e coppie. Questo strumento traccia una linea dura: l'unico traffico di rete è lo scaricamento anonimo della tabella dei tassi pubblica. Gli importi che digiti, le coppie che controlli e i risultati non toccano mai un server — la moltiplicazione gira nel tuo browser, e la tabella cacheata continua a funzionare offline.",
+          "Quel design di privacy spiega anche il profilo di velocità dello strumento: dopo il primo caricamento non c'è nulla da attendere, nessun viaggio per query, nessuna pubblicità bloccata su ogni conversione. Le conversioni ripetute costano letteralmente zero richieste.",
+          "Flusso pratico: controlla il tasso prima di un viaggio, aggiorna prima di impegnare un grande cambio, e ricorda lo spread quando confronti con ciò che la tua banca quota. Il numero qui è la linea di base equa; ciò che negozia contro di essa è il margine.",
+        ],
       },
     ],
   },
@@ -3329,6 +6349,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Entrambe le modalità girano interamente nel tuo browser con l'aritmetica delle date di JavaScript; nulla viene caricato e nulla viene salvato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché «giorni tra» è più insidioso di quanto sembri",
+        paragraphs: [
+          "Contare i giorni tra due date è banale per i computer e sorprendentemente ambiguo per gli umani. Questo strumento dà tre letture apposta: la ripartizione calendariale (anni, mesi, giorni), il totale grezzo di giorni, e settimane più giorni residui — perché contratti, anniversari e contratti d'affitto quotano ciascuno uno diverso. Un affitto di «1 anno 6 mesi» e un affitto di «547 giorni» possono descrivere archi diversi a seconda della convenzione che la clausola usa.",
+          "L'aritmetica dei mesi segue la stessa convenzione che la gente usa per gli anniversari: gli anni e i mesi interi vengono contati prima, e il resto viene misurato contro le lunghezze reali dei mesi coinvolti. Per questo «un mese dopo il 31 gennaio» atterra al 28 febbraio in un anno comune — un caso limite vero che fece inciampare parecchie librerie di date precoci.",
+          "La modalità aggiungi-e-sottrai cammina invece giorni interi, il che aggira del tutto le domande sui confini dei mesi: aggiungere 90 giorni calendariali al 31 gennaio dà sempre la stessa risposta a prescindere da come la tua libreria gestisce le fini mese. Quando una scadenza dice «giorni», quasi sempre intende questi giorni calendariali — la questione dei giorni lavorativi è coperta nella FAQ sopra.",
+        ],
+      },
+      {
+        heading: "Anni bisestili e la regola gregoriana",
+        paragraphs: [
+          "Gli anni bisestili seguono la regola gregoriana completa, non quella scolastica «ogni quattro anni»: un anno è bisestile quando divisibile per 4, tranne i secoli, che devono essere divisibili per 400. Per questo il 2000 fu bisestile ma il 1900 no, e perché il 2100 non lo sarà. Qualunque arco che attraversi uno di quei confini di secolo viene computato correttamente senza gestione speciale da parte tua.",
+          "Il 29 febbraio stesso viene trattato come ultimo giorno di febbraio, così una differenza che attraversi un giorno bisestile non viene gonfiata di un giorno, e una data che non esiste in un anno di destinazione (29 febbraio in un anno comune) si risolve al 28 febbraio anziché scivolare nel marzo. Queste due decisioni tengono i risultati stabili tra software che non concordano sui dettagli.",
+          "Tutta l'aritmetica gira sui numeri di giorno UTC, quindi le transizioni dell'ora legale non possono spostare un risultato di un giorno. Questo conta attorno ai cambi di orologio di marzo e novembre: la matematica delle date fatta in tempo locale può atterrare un giorno corto o lungo in alcuni ambienti, mentre il conteggio di giorni UTC interi dà la stessa risposta ovunque sulla Terra.",
+        ],
+      },
+      {
+        heading: "Flussi pratici e privacy",
+        paragraphs: [
+          "Le clausole di scadenza, le finestre di validità dei visti, i periodi di prova e i termini di garanzia sono gli utenti quotidiani di questa pagina. Una buona abitudine: computa l'arco in entrambe le letture — ripartizione calendariale e giorni grezzi — e quota i giorni grezzi nel contratto accanto alle parole. I numeri sono più difficili da contestare dei nomi dei mesi.",
+          "Per anniversari e commemorazioni, il giorno della settimana risultante è spesso la vera risposta cercata — «che giorno della settimana sarà il nostro 10º anniversario?» — motivo per cui viene mostrato insieme alla data anziché nascosto. Per archi lunghi, ricorda la regola del secolo: un contratto che va oltre il 2100 attraverserà un anno di secolo non bisestile, e questo strumento ne tiene già conto.",
+          "Tutto viene calcolato localmente: le date non lasciano mai il tuo browser, nulla viene caricato o registrato, e la pagina funziona offline. Le date di contratti, mediche e personali sono sensibili proprio perché identificano quando combinate con qualsiasi altra cosa — un calcolatore che tiene gli input in locale è il tipo giusto in cui incollarle.",
+        ],
+      },
+    ],
   },
   "discount-calculator": {
     name: "Calcolatrice di sconti",
@@ -3355,6 +6401,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Tiene conto di IVA o tasse di vendita?",
         a: "No — lavora sui prezzi che scrivi. Se il cartellino mostra un prezzo tasse incluse, anche il risultato dello sconto sarà tasse incluse. Per combinarlo con la tassazione, passa il prezzo scontato nella calcolatrice IVA o GST.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tipi di sconto, e perché l'etichetta raramente corrisponde alla matematica",
+        paragraphs: [
+          "Gli sconti retail arrivano in parecchie forme che si comportano diversamente: una percentuale di ribasso («30% di sconto»), un importo fisso di ribasso («20 $ di sconto»), offerte impilate («extra 15% per i membri»), e offerte a soglia («50 $ di sconto sopra 300 $»). Una percentuale e un importo fisso coincidono solo a un punto di prezzo — sopra di esso l'importo fisso è più debole, sotto più forte — così la stessa campagna può favorire dimensioni diverse di carrello.",
+          "Le percentuali impilate sono la trappola classica, e il secondo campo di questo strumento esiste proprio per quel caso. Poiché il secondo sconto si applica al prezzo già ridotto, il tasso effettivo è uno meno il prodotto dei resti: 20% poi 10% lascia 0,8 × 0,9 = 0,72, un effettivo 28% di sconto. I rivenditori sanno che gli acquirenti arrotondano a 30%, che è esattamente perché l'offerta è formulata come due sconti anziché uno.",
+          "L'ordine non cambia mai il risultato per le pile di pura percentuale — la moltiplicazione commuta — ma può contare quando uno sconto a importo fisso si mescola: togliere 20 $ prima del 30% di sconto lascia un prezzo diverso del contrario. Quando un checkout ti lascia scegliere l'ordine, applica prima la percentuale e l'importo fisso dopo se le regole lo permettono; esegui entrambi gli ordini qui se non sei sicuro.",
+        ],
+      },
+      {
+        heading: "La domanda del prezzo di listino dietro ogni sconto",
+        paragraphs: [
+          "Ogni percentuale qui è calcolata contro il prezzo che inserisci, il che assume in silenzio che quel prezzo sia un riferimento onesto. La contromossa comune è il gonfiaggio del prezzo di riferimento: alzare il prezzo «originale» prima di un'offerta così lo sconto appare più grande. Le regolazioni in molti mercati esigono che un prezzo precedente sia stato realmente praticato per un periodo ragionevole, ma l'applicazione varia e i negozi trans-frontalieri giocano con regole diverse.",
+          "Una difesa pratica non richiede fiducia alcuna: traccia il prezzo nel tempo. Se il prezzo «era» non è mai comparso nei mesi prima della campagna, la percentuale di sconto è aritmetica su una finzione. Gli strumenti di storia dei prezzi e i semplici screenshot fanno il lavoro; il ruolo di questo calcolatore è la metà onesta — dato un prezzo originale vero, computare esattamente quanto vale l'affare.",
+          "Il calcolo inverso è l'altro uso quotidiano: dividere il prezzo di vendita per (1 − sconto ÷ 100) recupera l'originale implicito, il che ti permette di verificare se due offerte scontate diversamente sono in realtà lo stesso affare vestito di numeri diversi.",
+        ],
+      },
+      {
+        heading: "Le tasse, e perché il totale ti sorprende ancora",
+        paragraphs: [
+          "Lo sconto viene computato sul prezzo che digiti, quindi il suo trattamento fiscale segue quel prezzo: nei mercati IVA inclusa il risultato contiene già l'imposta, nei mercati IVA esclusa l'imposta viene aggiunta dopo. La trappola quotidiana è mescolare i due — un prezzo scontato pre-imposta cui viene poi aggiunta l'imposta sulle vendite può finire più alto di uno sconto in evidenza più piccolo su un cartellino IVA inclusa.",
+          "I codici voucher aggiungono un secondo strato di sorprese: soglie di spesa minima, esclusioni su articoli già scontati, e tetti sullo sconto massimo si applicano spesso prima delle percentuali che vedi pubblicizzate. Se un codice rende meno al checkout, confronta il suo risultato effettivo qui contro l'alternativa di comprare semplicemente allo sconto da scaffale.",
+          "Come per ogni strumento su questo sito, l'aritmetica gira interamente nel tuo browser — prezzi, percentuali e confronti restano sul tuo dispositivo, e nessun dato di acquisto viene trasmesso da nessuna parte.",
+        ],
       },
     ],
   },
@@ -3385,6 +6457,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Spese di pratica, assicurazioni e eventuali variazioni di tasso variabile sono escluse — il risultato è la pura rata di ammortamento per il tasso che inserisci. La lettera di delibera del tuo istituto mostra l'importo finale da pagare.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Il metodo a saldo decrescente, e il sosia a tasso piatto",
+        paragraphs: [
+          "La formula qui è lo standard a saldo decrescente: gli interessi di ogni mese vengono addebitati sul saldo che rimane, motivo per cui gli interessi totali calano così nettamente quando la durata si accorcia. Il suo impostore è la quotazione a tasso piatto, comune nella pubblicità della finanza al consumo: gli interessi dell'intera durata vengono computati una volta sola, sul capitale originale, e divisi uniformemente sui mesi.",
+          "I due non sono vicini. Un tasso piatto quotato a un numero simile a un tasso a saldo decrescente costa in termini reali quasi il doppio, perché il capitale non si restringe mai davvero nel calcolo piatto. Quando un annuncio vanta un tasso dall'aspetto piccolo, la prima domanda è sempre: è sul saldo decrescente, o piatto? Se la cartella cita solo un tasso piatto, converti prima di confrontare qualsiasi cosa.",
+          "Questo strumento computa solo l'EMI a saldo decrescente, che è la stessa equazione che le banche usano per mutui, auto e prestiti personali. Non modella commissioni di istruttoria, assicurazioni o reset del tasso — non perché siano piccoli, ma perché sono specifici del prodotto, e ripiegarli dentro cambierebbe silenziosamente il tuo input invece di mostrartelo.",
+        ],
+      },
+      {
+        heading: "Durata, tasso, e lo scambio interessi/tempo",
+        paragraphs: [
+          "Gli interessi totali crescono grossomodo con il tempo in cui il saldo resta vivo, quindi un mutuo a 20 anni allo stesso tasso paga molto più del doppio degli interessi di uno a 10 anni per lo stesso capitale — la rata scende, ma gli anni moltiplicano. Quando confronti durate qui, tieni gli occhi sulla riga degli interessi totali anziché sulla riga dell'EMI: l'EMI è ciò che puoi permetterti, gli interessi totali sono ciò che costa.",
+          "I movimenti di tasso contano meno della durata su orizzonti corti ma si compongono su quelli lunghi: su un mutuo lungo, perfino mezzo punto percentuale si accumula in una differenza a cinque cifre. Per questo le decisioni di rifinanziamento dovrebbero usare questo calcolatore due volte — una con il saldo residuo e la durata residua del tuo mutuo attuale, non le cifre originali — e la differenza negli interessi totali è il tetto realistico su quanto valga pagare una commissione di rifinanziamento.",
+          "L'estinzione anticipata interagisce con entrambe le leve insieme. Capitale extra accorcia la durata effettiva senza toccare quella contrattuale, quindi il modo onesto di valutare un'offerta con penali di estinzione anticipata è computare gli interessi risparmiati contro la penale, entrambi da programmi come quello che questa formula genera.",
+        ],
+      },
+      {
+        heading: "Ciò che il numero dell'EMI non include",
+        paragraphs: [
+          "L'EMI è capitale più interessi e nient'altro. I prestiti veri aggiungono commissioni di istruttoria addebitate all'inizio, assicurazione obbligatoria in alcuni prodotti, oneri di documentazione e — nei mutui a tasso variabile — reset periodici che cambiano l'EMI in corsa. Nessuno di questi appare in un calcolo di ammortamento puro, quindi tratta l'output come la linea di base pulita che il programma del tuo prestatore poi modificherà.",
+          "La convenzione EMI è anche un artefatto culturale: domina i mercati dove le rate uguali sono standard, ma la struttura alternativa a capitale uguale, con pagamento decrescente, addebita meno interessi totali al prezzo di pagamenti iniziali più alti. Se un prestatore offre entrambe, esegui entrambe qui con gli stessi input e confronta gli interessi totali col tuo budget del primo anno.",
+          "E come ovunque su questo sito, i numeri non lasciano mai il tuo browser. Dimensione del mutuo, contesto di stipendio e tasso restano sul tuo dispositivo — utile quando stai confrontando offerte che non hai ancora accettato.",
+        ],
+      },
+    ],
   },
   "fuel-cost-calculator": {
     name: "Calcolatrice costi carburante",
@@ -3411,6 +6509,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "La calcolatrice include pedaggi o manutenzione?",
         a: "No — prezza solo il carburante. Per un costo reale al chilometro, aggiungi i pedaggi e divide a parte le voci di usura (gomme, revisioni, svalutazione); molti automobilisti budgetano 5–10 centesimi al km in più oltre al carburante.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Due linguaggi di efficienza, una relazione inversa",
+        paragraphs: [
+          "Il mondo misura il consumo di carburante in due direzioni opposte. I litri per 100 km rispondono a «quanto carburante costa coprire una distanza fissa?», quindi meno è meglio. I miglia per gallone rispondono a «quanto lontano ti porta una quantità fissa di carburante?», quindi più è meglio. Poiché uno è un tasso e l'altro il suo reciproco, convertire tra loro è una divisione, non uno spostamento lineare.",
+          "La costante di conversione per i galloni USA è 235,2: dividila per la cifra MPG e ottieni L/100 km — 30 MPG sono circa 7,8 L/100 km, e un sobrio 6 L/100 km sono circa 39,2 MPG. (Per i galloni imperiali UK la costante differisce.) Dalla scala inversa segue una trappola sottile: andare da 10 a 20 MPG risparmia molto più carburante per miglio che andare da 30 a 40 MPG, benché entrambi siano «+10 MPG».",
+          "Questo strumento accetta qualunque numero mostri il tuo cruscotto o la tua scheda tecnica, così nessuna conversione manuale si interpone tra te e la stima — e mescolare distanza metrica con MPG o miglia con L/100 km produrrebbe silenziosamente risposte sbagliate, motivo per cui la scelta dell'unità si applica a distanza, efficienza e prezzo insieme.",
+        ],
+      },
+      {
+        heading: "Perché le stime e le ricevute non concordano",
+        paragraphs: [
+          "Le cifre di consumo ufficiali e da cruscotto sono misurate in condizioni idealizzate — velocità costanti, temperature miti, nessun carico. La guida vera spinge il numero su: traffico con arresti e ripartenze, avviamenti a freddo (un motore si scalda lentamente, bruciando carburante extra per i primi chilometri), portabagagli e box sul tetto, accelerazioni aggressive, e il condizionatore aggiungono tutti consumo, e un'auto pienamente carica che sale strade di montagna aggiunge di più.",
+          "Un'abitudine di calibrazione pratica: riempi il serbatoio, azzera il contachilometri parziale, guida normalmente, e dividi i litri per la distanza vera al prossimo rifornimento. Uno o due cicli di questo danno una cifra di consumo personale molto più onesta di qualunque scheda tecnica — inseriscila nel calcolatore e le stime di costo cominciano a corrispondere a ciò che la pompa ti addebita.",
+          "Tratta il totale dello strumento come una stima centrale per autostrada e guida mista, e come un pavimento per i viaggi a forte presenza urbana. Pedaggi, parcheggi e i costi di esercizio non-carburante (gomme, manutenzione, perdita di valore) sono deliberatamente fuori dalla matematica; mettili in budget separatamente per un vero costo per chilometro.",
+        ],
+      },
+      {
+        heading: "Costruito per le decisioni prima del viaggio",
+        paragraphs: [
+          "I momenti utili sono tutti pre-partenza: mettere in budget una settimana di pendolarismo, dividere il carburante di un viaggio su strada tra i passeggeri (costo totale diviso per le persone), o prezzare una deviazione — il supermercato più economico a 15 km è davvero più economico una volta che il viaggio lì costa carburante? L'interruttore di andata e ritorno esiste perché dimenticare di raddoppiare la distanza è l'errore di input più comune.",
+          "Il costo per chilometro (o miglio) viene mostrato accanto al totale perché è il numero di confronto: rotte, auto e abitudini differiscono nella distanza totale, quindi il costo per unità è ciò che rende il confronto significativo.",
+          "Il calcolo gira localmente nel browser — utile alle pompe rurali senza segnale, e significa che i prezzi del carburante, le rotte e gli schemi di guida che inserisci non lasciano mai il tuo dispositivo.",
+        ],
       },
     ],
   },
@@ -3441,6 +6565,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Entrambe sono imposte sul valore aggiunto applicate a ogni fase, ma la GST indiana è un'unica imposta unificata che assorbe accisa centrale, imposta sui servizi e IVA statale, divisa in CGST + SGST (intra-Stato) o IGST (inter-Stato). Altri Paesi chiamano il loro equivalente semplicemente IVA.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Aliquote e la trappola della sottrazione",
+        paragraphs: [
+          "La GST indiana è organizzata come struttura di aliquote — attualmente i tassi operativi sono 0–5% per gli essenziali, 12% e 18% per la maggior parte dei beni e servizi, e 28% per beni di lusso o peccato, a volte con una cess aggiuntiva sopra. Lo strumento espone le quattro aliquote standard come scelte a un tocco, il che corrisponde a come le fattorie sono realmente scritte: il tasso è un insieme piccolo, non un decimale libero.",
+          "La direzione di estrazione è la trappola classica. La GST dentro un prezzo IVA inclusa è lordo × tasso ÷ (100 + tasso), non lordo × tasso ÷ 100. Al 18%, un prezzo lordo di 1.180 contiene 180 di imposta — dividendo 1.180 per 1,18 — mentre il naive 18% di 1.180 dà 212,40, sovrastando in silenzio l'imposta.",
+          "Un rapido controllo di sanità per qualunque numero GST: netto + imposta deve eguagliare il lordo esattamente. Se le tue tre cifre non si chiudono, una di esse viene dalla base sbagliata — di solito una percentuale applicata al lordo invece della formula di divisione.",
+        ],
+      },
+      {
+        heading: "Un'imposta, divisa tra due livelli di governo",
+        paragraphs: [
+          "La GST unificò un mosaico di accise centrali, imposta sui servizi e IVA dei singoli stati in un'imposta unica, motivo per cui una fattura può mostrare lo stesso importo come due componenti: CGST più SGST per le vendite intra-stato, o IGST per quelle inter-stato. Il tasso aritmetico che scegli qui è lo stesso in ogni caso — la divisione è questione di come l'imposta viene versata, non di come viene computata.",
+          "Questa è anche la differenza pratica dall'IVA come usata nella maggior parte degli altri paesi: meccanicamente entrambe tassano il valore aggiunto a ogni stadio e finiscono sul consumatore, ma la versione indiana instrada le entrate tra governo centrale e stati anziché a un'unica autorità.",
+          "Lo strumento resta deliberatamente all'aritmetica. Se la classificazione HSN di un prodotto lo tiri in un'altra aliquota, se una cess si applica sopra, o come la fatturazione a carico inverso venga contabilizzata sono domande di classificazione e adempimento — confermale contro le notifiche attuali del GST Council per il tuo articolo.",
+        ],
+      },
+      {
+        heading: "Dove si inserisce in un flusso di lavoro",
+        paragraphs: [
+          "L'uso quotidiano più comune è leggere i prezzi in stile MRP: un prezzo del cartellino è IVA inclusa, quindi «rimuovi imposta» risponde a quanto di ciò che hai pagato è davvero imposta — utile quando confronti prodotti tra categorie con aliquote diverse, poiché un prezzo di cartellino più alto può nascondere un prezzo netto più basso.",
+          "Per i venditori, la direzione di aggiunta costruisce una fattura da un prezzo netto: scegli l'aliquota, leggi lordo e imposta, e le tre cifre corrispondono al layout della fattura senza aver bisogno di un foglio di calcolo separato. Contratti annuali e bozze di pricing traggono beneficio dall'esecuzione locale nel browser, senza dati che lasciano il dispositivo.",
+          "Abbinalo al calcolatore IVA quando lavori tra paesi — stessa aritmetica, aliquote e convenzioni di etichettatura diverse — e al calcolatore di profitto quando la cifra netta ha bisogno di un margine sopra prima che l'imposta venga aggiunta. Così la catena prezzo netto, margine e imposta resta in un unico flusso locale, senza ricopiare cifre a mano tra le pagine.",
+        ],
+      },
+    ],
   },
   "loan-calculator": {
     name: "Calcolatrice prestito",
@@ -3467,6 +6617,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il piano assume che il tasso non cambi mai?",
         a: "Sì. Modella un prestito a tasso fisso per il tasso che inserisci. Per i prodotti a tasso variabile, ricalcola ogni volta che il parametro di riferimento si adegua — ogni aggiustamento cambia sia la rata sia il piano.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rata totale uguale contro capitale uguale",
+        paragraphs: [
+          "I prestiti al consumo usano quasi sempre il metodo a rendita che questo strumento implementa: un pagamento costante per l'intera durata, con la quota di interessi che si restringe e la quota di capitale che cresce man mano che il saldo cala. L'alternativa principale, l'ammortamento a capitale uguale, tiene fissa la quota di capitale e lascia che la rata calga ogni mese. A parità di tasso e durata, il capitale uguale addebita meno interessi totali, perché il saldo viene estinto più in fretta dal primo giorno.",
+          "Meno interessi non rendono il capitale uguale «migliore». Le sue prime rate sono marcatamente più alte, che è esattamente ciò che la maggior parte dei budget familiari non può sostenere, e per questo i prestatori passano per impostazione alla struttura a rendita. Giudica i due per la sostenibilità dei primi anni e per gli interessi totali — mai confrontando una prima rata di un metodo contro una rata successiva dell'altro.",
+          "Una trappola di confronto merita un avviso: alcuni mercati quotano «tassi piatti», dove gli interessi dell'intera durata vengono computati sul capitale originale anziché sul saldo decrescente. Un tasso piatto costa quasi il doppio del tasso equivalente a saldo decrescente. Prima di confrontare qualsiasi coppia di offerte, conferma che entrambe siano quotazioni a saldo decrescente; altrimenti i numeri non sono affatto comparabili.",
+        ],
+      },
+      {
+        heading: "Dove l'estinzione anticipata paga davvero",
+        paragraphs: [
+          "Gli interessi di ogni periodo eguagliano il saldo in essere per il tasso mensile, quindi estinguere capitale presto rimuove interessi esattamente al tasso del tuo mutuo — un «rendimento» senza rischio a quel tasso. Poiché il saldo è massimo nei primi anni, lo stesso pagamento extra risparmia più interessi lì, e visibilmente meno un decennio dopo. La tabella annuale rende concreta la differenza invece di lasciarla a una regola empirica.",
+          "Due controlli pratici prima di estinguere anticipatamente: conferma che l'importo extra venga applicato al capitale anziché contabilizzato come anticipo sulle rate future, e chiedi se il contratto porta una commissione di estinzione anticipata — alcuni prodotti a tasso fisso la portano. Una commissione che mangia la maggior parte degli interessi risparmiati trasforma una buona mossa in una neutra.",
+          "L'alternativa onesta: se puoi guadagnare affidabilmente di più, dopo tasse e rischio, del tasso del tuo mutuo altrove, investire l'eccedenza batte l'estinzione anticipata; se non puoi, estinguere è la versione garantita di quel rendimento. Questo strumento non predice i mercati — mostra precisamente quanti interessi ogni scenario lascia sul tavolo.",
+        ],
+      },
+      {
+        heading: "Leggere il programma senza mal leggerlo",
+        paragraphs: [
+          "La tabella raggruppa dodici mesi per riga, quindi le colonne capitale e interessi sono totali annui e la colonna del saldo è la cifra di fine anno. Non confrontare una riga annua contro una riga mensile dell'estratto — la scala differisce per design. L'incrocio, dove il capitale annuo finalmente supera gli interessi annui, appare di solito solo nella seconda metà di un mutuo lungo.",
+          "Il programma modella un tasso fisso, pagamenti puntuali e nessuna commissione. Reset del tasso, rate mancate, assicurazioni ripiegate nel mutuo o termini ristrutturati cambiano tutti il percorso reale, quindi tratta la tabella come lo scenario di base e ricalcola dopo qualsiasi modifica agli input.",
+          "Come tutto su questo sito, la computazione gira interamente nel tuo browser: nessun importo di mutuo, tasso o durata viene trasmesso da nessuna parte, quindi è sicuro esplorare quote vere di banche vere.",
+        ],
       },
     ],
   },
@@ -3497,6 +6673,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì. Entrambi gli input accettano negativi e decimali, quindi «−5% di 80» o i punti percentuali su una variazione di temperatura funzionano senza problemi.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Base di chi? La domanda che ogni percentuale nasconde",
+        paragraphs: [
+          "Una percentuale non è mai assoluta — è sempre un rapporto contro una qualche base, e la maggior parte della confusione sulle percentuali viene dal scegliere la base sbagliata. In «X% di Y», Y è la base e il risultato è (X ÷ 100) × Y. In «A è che percentuale di B», l'ordine delle parole fissa i ruoli: A è il numeratore e B il denominatore, quindi «30 è che percentuale di 150» dà 20% mentre «150 è che percentuale di 30» dà 500% — stessi due numeri, risposte opposte.",
+          "La variazione percentuale ha la sua regola di base: il valore vecchio sta nel denominatore, e se ne usa il valore assoluto così i segni restano significativi. Una salita da 480 a 610 è +27,08% (130 ÷ 480); la discesa di ritorno da 610 a 480 è −21,31% (−130 ÷ 610). Entrambe descrivono lo stesso movimento di 130 unità, e nessuna è sbagliata — misurano contro punti di partenza diversi.",
+          "Percentuali e punti percentuali sono anche animali diversi. Se un tasso di risparmio passa dal 3% al 4%, è un punto percentuale ma un aumento relativo del 33% — i titoli e le schede dei fondi scelgono spesso quale suoni più grande. Quando un confronto conta, dichiara la base esplicitamente: «dal 3% al 4%» batte «più 33%».",
+        ],
+      },
+      {
+        heading: "Perché le percentuali non si sommano",
+        paragraphs: [
+          "Le variazioni percentuali si moltiplicano anziché sommarsi, perché ciascuna agisce sul risultato della precedente. Guadagni il 20% e possiedi ×1,2; perdi il 20% e possiedi ×0,8; combinati, ×0,96 — una perdita netta del 4% benché +20 e −20 sembrino doversi cancellare. Pensare in moltiplicatori dissolve il paradosso all'istante.",
+          "L'asimmetria cresce con la dimensione: +50% poi −50% ti lascia al 75% di dove eri partito (×1,5 × 0,5 = 0,75). Per questo «il mercato è sceso del 10% quindi deve salire del 10% per riprendersi» è falso — gli serve +11,1%. Traders e gestori di fondi vivono con questa aritmetica ogni giorno.",
+          "L'impilamento degli sconti si comporta allo stesso modo. Uno sconto del 20% seguito da un ulteriore 10% è ×0,8 × 0,9 = ×0,72 — 28% di sconto, non 30%. Ovunque le percentuali si incatinino (movimenti di prezzo, interessi, ricarichi e sconti), converti ciascuna in un fattore e moltiplica; sommare i numeri grezzi dà sempre la risposta sbagliata.",
+        ],
+      },
+      {
+        heading: "Dove un calcolatore dedicato batte un foglio di calcolo",
+        paragraphs: [
+          "Le tre domande — X% di Y, A come quota di B, e la variazione tra due valori — coprono i casi quotidiani: controlli di mance e sconti, valutazioni, IVA delle fatture, crescita delle vendite, punteggi dei test. Un foglio di calcolo gestisce tutte e tre ma ciascuna richiede la sua formula digitata correttamente; qui cambiare formulazione è un clic e la formula si adatta.",
+          "L'output della variazione con segno ed etichetta è la differenza deliberata: una discesa da 500 a 400 stampa −20% (una diminuzione del 20%) anziché un numero senza etichetta che devi interpretare tu, che è dove le celle dei fogli di calcolo e la matematica mentale sbagliano più spesso.",
+          "Tutto gira localmente nel tuo browser — nessun input viene trasmesso, quindi bozze di prezzi, schede di valutazione o cifre di stipendio possono essere controllate senza un account. Abbinalo al calcolatore di profitto per margine e ricarico o al calcolatore IVA quando la percentuale vive dentro un prezzo IVA inclusa.",
+        ],
+      },
+    ],
   },
   "profit-calculator": {
     name: "Calcolatrice di profitto",
@@ -3525,6 +6727,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Lavora sui due numeri che inserisci, quindi commissioni di pagamento, spedizioni e tasse di vendita compaiono solo se li incorpori prima nel costo o nel prezzo. Per i prezzi tasse incluse, passa il numero nella calcolatrice IVA o GST.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Margine contro ricarico: lo stesso profitto, due denominatori",
+        paragraphs: [
+          "Entrambi i rapporti descrivono lo stesso profitto, ma dividono per cose diverse. Il margine divide il profitto per il prezzo di vendita — risponde a «quale frazione di ogni dollaro di ricavo è profitto?» ed è il numero per cui vivono contabili e investitori. Il ricarico divide il profitto per il costo — risponde a «quanto ho aggiunto sopra ciò che ho pagato?» ed è il numero con cui lavorano acquirenti e autori di listini.",
+          "Poiché i denominatori differiscono, i due non corrispondono mai, e divergono di più man mano che i margini crescono. Un margine del 20% è un ricarico del 25%; un margine del 33,3% è un ricarico del 50%; al 100% di margine il ricarico è infinito — hai venduto al doppio del costo, ma il profitto è l'intero prezzo, quindi il ricarico dal lato costo non ha più nulla per cui dividere. La conversione è margine = ricarico ÷ (1 + ricarico) e ricarico = margine ÷ (1 − margine).",
+          "Il fallimento classico è un pubblico misto: un acquirente chiede «25% sul costo», il proprietario prezza così, poi riporta il risultato a una banca come «margine del 25%» — che non è. Prezzare a un margine del 25% richiede costo ÷ 0,75, non costo × 1,25; quest'ultimo eroga solo un margine del 20%. Controlla sempre quale denominatore intende la persona con cui parli.",
+        ],
+      },
+      {
+        heading: "Ciò che le formule semplici lasciano deliberatamente fuori",
+        paragraphs: [
+          "Profitto = ricavo − costo appare autoevidente, ma entrambe le parole nascondono decisioni. Il «costo» per un'attività vera è più del prezzo d'acquisto: nolo per spedizione, commissioni di elaborazione dei pagamenti di qualche percento, imballaggio, i resi che rimborsi, e il tuo stesso tempo. Se inserisci solo il costo della fattura, il margine mostrato lusinga la realtà; ripiega le commissioni nel costo e sottrai gli sconti dal prezzo prima di giudicare se una linea di prodotti valga la pena.",
+          "Le tasse sono un altro confine. Lo strumento computa aritmetica pre-imposta sui due numeri dati; imposta sulle vendite, IVA e imposta sul reddito cambiano entrambi i lati diversamente, quindi il pricing IVA inclusa appartiene a un calcolatore IVA/GST dedicato. Tenere il modello semplice è una funzionalità — rende chiaro quali numeri hai fornito e quali no.",
+          "Un numero che questo calcolatore non può darti è il punto di pareggio: i costi fissi come l'affitto si condividono su tutte le vendite, quindi il profitto per articolo significa qualcosa solo dopo che i costi fissi sono coperti. Usa questi margini per confrontare i prodotti tra loro, poi usa una vera analisi di break-even o di margine quando la domanda è se l'attività nel suo insieme sopravvive.",
+        ],
+      },
+      {
+        heading: "Dove si inserisce in un flusso di pricing",
+        paragraphs: [
+          "I template da foglio di calcolo gestiscono questo bene per un articolo ma sono goffi per i rapidi what-if al banco: «il fornitore ha alzato il prezzo dell'8%, cosa fa al mio margine a parità di prezzo da scaffale?» Questo strumento risponde dal vivo senza formule da mantenere, e il display accoppiato significa che il numero che citi a un cliente e il numero nei tuoi conti non possono disaccordare in silenzio.",
+          "Rispetto agli strumenti di pricing a margine obiettivo, questo mostra entrambi i rapporti su ogni risultato, che è il punto: l'errore non è computare male uno dei due rapporti — è computarne uno e chiamarlo l'altro. Come rapido controllo prima di spedire un preventivo, vedere 25% e 33,3% affiancati rende esplicita la convenzione.",
+          "Come altrove su questo sito, tutta la computazione avviene localmente nel tuo browser. Costi, prezzi e margini sono tra i numeri più sensibili che una piccola azienda abbia; non vengono mai trasmessi o memorizzati, quindi il calcolatore è sicuro a metà negoziazione anche su una macchina condivisa o pubblica.",
+        ],
+      },
+    ],
   },
   "qr-generator": {
     name: "Generatore di codici QR",
@@ -3551,6 +6779,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio testo o URL viene caricato da qualche parte?",
         a: "No. La libreria qrcode gira dentro il tuo browser e renderizza su una canvas locale; né il testo né l'immagine generata lasciano mai il tuo dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Livelli di correzione d'errore e il compromesso del logo sovrapposto",
+        paragraphs: [
+          "I codici QR sopravvivono ai danni tramite la correzione d'errore Reed–Solomon: i dati codificati vengono arricchiti con parole di codice di ridondanza, e lo scanner può ricostruire il messaggio da qualunque frazione sopravviva. Lo standard definisce quattro livelli — L recupera il 7% delle parole di codice, M il 15%, Q il 25%, H il 30% — e ogni punto percentuale di resilienza extra costa spazio del simbolo, così lo stesso URL a livello H produce una griglia più densa che a livello L.",
+          "Il trucco del logo sovrapposto sfrutta esattamente quel budget: stampa un logo al centro di un codice di livello H e la regione danneggiata cade dentro il 30% che la correzione può ricostruire. La stessa sovrapposizione su un codice di livello M frequentemente lo uccide. La regola pratica: copri il centro solo quando il livello è H, tieni l'area coperta modesta, e non oscurare mai i tre pattern di localizzazione d'angolo — gli scanner localizzano il simbolo per mezzo loro, e nessuna correzione d'errore aiuta se gli angoli sono spariti.",
+          "Per l'uso ordinario a schermo, i livelli più alti non sono qualità gratis: la griglia più densa richiede più pixel per modulo e si scansiona peggio alla stessa dimensione immagine. Scegli L o M per un URL su un sito web, sali a Q o H solo quando il mezzo fisico è ruvido, piccolo o parzialmente occludibile.",
+        ],
+      },
+      {
+        heading: "Codici statici, tracciamento e cosa significherebbe perfino «scadere»",
+        paragraphs: [
+          "Un codice QR è solo un'immagine di dati: l'URL o il testo è codificato nel pattern dei moduli stesso, e qualunque telefono lo decodifica direttamente senza alcun server coinvolto. Ecco perché questi codici non scadono mai e perché non c'è tracciamento — nessun servizio si nasconde dietro l'immagine, quindi nulla da contare di scansioni né da chiudere. I servizi di QR «dinamici», al contrario, codificano un URL di redirezione corto e tengono la mappatura sui loro server; quando l'abbonamento cade, ogni codice stampato muore di colpo.",
+          "Lo statico è la scelta giusta per tutto ciò che si intaglia nel mondo fisico: menu di ristoranti, badge di conferenze, etichette di attrezzatura. Il dinamico si giustifica solo se devi cambiare la destinazione dopo la stampa o vuoi davvero l'analitica delle scansioni — e allora pesa ciò a cui sottoscrivi.",
+          "Una precauzione taglia in entrambe le direzioni: poiché nulla si nasconde dietro un codice statico, un attore malevolo può stampare il proprio codice statico che punta a un sito ostile e incollarlo sopra uno legittimo. Gli scanner mostrano un URL grezzo per ottime ragioni; controlla dove un codice pretende di andare prima di aprirlo, e quando distribuisci codici, valuta di codificare il dominio completo visibile anziché un abbreviatore.",
+        ],
+      },
+      {        heading: "Colore, contrasto e realtà della stampa",
+        paragraphs: [
+          "Gli scanner leggono il contrasto tra moduli e sfondo, non i colori stessi. Moduli scuri su sfondo chiaro con forte contrasto è la disposizione affidabile; i codici invertiti (moduli chiari su fondo scuro) falliscono su molti lettori, e le coppie a basso contrasto come azzurro su bianco spariscono del tutto nella luce ambiente. Tieni il colore dei moduli scuri vicino al nero a meno che vincoli di marca non esigano altro, e prova sempre con una vera fotocamera del telefono.",
+          "La zona tranquilla — il bordo vuoto attorno al simbolo — fa parte dello standard per una ragione: gli scanner la usano per trovare il bordo del simbolo. Ritagliare un QR a filo del bordo di un volantino o sovrapporlo a una fotografia affollata rimuove la zona e degrada lo scansionamento anche quando ogni modulo è intatto.",
+          "Per il formato di output, l'SVG vince per la stampa perché scala senza bordi seghettati a qualsiasi dimensione; PNG a 768 px è abbondante per schermi e piccole stampe. E l'intera catena gira localmente nel tuo browser — il testo che codifichi, sia una password Wi-Fi sia un URL interno, non viene mai caricato da nessuna parte.",
+        ],
       },
     ],
   },
@@ -3582,6 +6835,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Qualsiasi codice QR standard: URL, testo semplice, numeri di telefono, stringhe di connessione WiFi, contatti vCard, stringhe di pagamento UPI o PIX e altro. Lo strumento mostra il contenuto decodificato grezzo — per i codici WiFi o di pagamento, copia il testo nell'app che consuma quel formato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Permessi della fotocamera: perché il browser chiede e cosa significa",
+        paragraphs: [
+          "L'API getUserMedia dietro la modalità fotocamera è sorvegliata da due canceli che impone il browser, non la pagina. Primo, un prompt di permesso: il sito può solo richiedere, e tu puoi concedere o rifiutare — un rifiuto viene memorizzato e può essere cambiato dall'icona nella barra degli indirizzi. Secondo, una regola di contesto sicuro: l'accesso alla fotocamera è permesso solo su pagine https, quindi un mirror non sicuro di questo strumento non potrebbe nemmeno chiedere.",
+          "Ciò che il permesso non concede è altrettanto importante: non c'è accesso in background. Una pagina può leggere i fotogrammi solo finché uno stream video è vivo, i browser indicano visivamente la fotocamera attiva con un marcatore, e fermare lo stream (cosa che questo strumento fa automaticamente a decodifica riuscita) termina ogni accesso. Nessun fotogramma può essere catturato in silenzio sullo sfondo.",
+          "Questa è la ragione per cui la modalità di fallimento è così specifica: una fotocamera che non parte è quasi sempre un permesso bloccato, un problema di contesto https, o genuinamente nessuna fotocamera sul dispositivo. Lo strumento distingue questi casi anziché mostrare un errore generico, perché ciascuno ha una cura diversa.",
+        ],
+      },
+      {
+        heading: "Come la decodifica QR trova davvero il codice",
+        paragraphs: [
+          "Un simbolo QR si ancora con tre grandi pattern di localizzazione — i quadrati negli angoli alto-sinistro, alto-destro e basso-sinistro. Un decoder scansiona la griglia di pixel cercando esattamente quelle forme, usa le loro posizioni per stabilire rotazione e prospettiva del simbolo, e solo allora legge i moduli di dati ed esegue la correzione d'errore. Per questo un codice fotografato di angolo può comunque decodificare: i pattern di localizzazione forniscono la geometria.",
+          "La qualità dell'immagine guida l'esito più di ogni altra cosa. I fallimenti classici sono il riverbero sopra un pattern di localizzazione, un codice che occupa troppo pochi pixel dopo la riduzione, e il basso contrasto tra moduli e sfondo. Una foto più nitida, un ritaglio più ravvicinato o un angolo più dritto sistema la maggior parte delle letture sbagliate — il decoder è deterministico, non probabilistico.",
+          "Il payload decodificato viene mostrato come testo grezzo deliberatamente. I codici QR possono codificare stringhe di connessione Wi-Fi, vCard e formati di pagamento, ma il codice stesso non annuncia il suo tipo; mostrare la stringa grezza ti lascia verificare ciò che un codice contiene davvero prima che qualunque app lo consumi — che è l'intero senso di ispezionare un codice da un poster o da una confezione prima di aprire il suo link.",
+        ],
+      },
+      {
+        heading: "Ispezionare i codici prima di fidarsi",
+        paragraphs: [
+          "Le app della fotocamera dei telefoni aprono sempre più spesso i link QR subito, il che è comodo ed è esattamente ciò su cui conta un exploit con adesivo malevolo. Un codice QR è dati non autenticati: chiunque può stamparne uno che punti ovunque. Leggere prima il testo decodificato — come fa questo strumento prima di offrire il pulsante di apertura — inserisce una pausa deliberata tra vedere un codice e agire su di esso.",
+          "Le abitudini pratiche: controlla che il dominio dell'URL corrisponda a ciò che il contesto promette (un parchimetro, un menu di un ristorante), diffida degli abbreviatori che nascondono la destinazione, e non inserire mai credenziali su una pagina raggiunta da un codice non verificato. Per i codici di pagamento, verifica la stringa del beneficiario carattere per carattere anziché fidarti dell'etichetta.",
+          "La privacy regge per entrambe le vie: la decodifica di immagini legge solo i pixel locali del file che hai trascinato, e i fotogrammi della fotocamera vengono analizzati in memoria e scartati. Nulla viene caricato, registrato o memorizzato — l'ispezione resta interamente sul tuo dispositivo.",
+        ],
+      },
+    ],
   },
   "random-name-picker": {
     name: "Estrattore di nomi casuale",
@@ -3609,6 +6888,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Posso estrarre più vincitori di fila?",
         a: "Sì. Attiva «Togli il vincitore dopo ogni estrazione» e ogni scelta esce automaticamente dall'elenco, così nessuno viene pescato due volte. Il pannello della cronologia qui sotto registra ogni estrazione della sessione, in ordine, con la data e l'ora.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che rende un'estrazione provabilmente equa",
+        paragraphs: [
+          "La modalità di fallimento sottile dei selettori casuali è la distorsione del modulo. Uno script ingenuo fa Math.floor(Math.random() * n) — ma Math.random() produce un valore in virgola mobile in un intervallo fisso, e quando quell'intervallo non si divide uniformemente per il numero di voci, i primi nomi vengono estratti misurabilmente più spesso. Con 100 nomi, alcune voci possono risultare un percento o due più probabili di altre: invisibile in un giro, decisivo attraverso un semestre di estrazioni in classe.",
+          "Questo strumento evita il problema due volte. Usa crypto.getRandomValues — la fonte casuale crittografica del browser, lo stesso generatore dietro le chiavi di sicurezza — e applica il campionamento per rigetto: i valori che distorcerbbero la distribuzione vengono scartati e ri-estratti, così ciascuna delle n voci ottiene esattamente probabilità 1/n. L'estrazione critica avviene prima che l'animazione cominci, il che significa che la ruota non può influenzare l'esito in alcun modo.",
+          "Quella separazione tra estrazione e display è ciò che ti lascia provare l'equità a un pubblico: il risultato esiste nell'istante in cui premi il pulsante, l'animazione lo rivela soltanto. Nulla dei colori dei segmenti, della velocità della ruota o di dove comincia il puntatore influenza chi vince — e poiché l'estrazione è crittografica anziché seminata dal tempo, perfino chi gestisce lo strumento non può predire né guidare l'esito.",
+        ],
+      },
+      {
+        heading: "Turni, eliminazione e il pannello della cronologia",
+        paragraphs: [
+          "Due opzioni fanno la maggior parte del lavoro pratico. Rimuovere i duplicati conta più di quanto sembri: un elenco incollato da un foglio di calcolo spesso porta ripetizioni nascoste — spazi finali, ordini di nome capovolti, righe doppie accidentali — e ogni duplicato raddoppia la possibilità di quella persona. Deduplica prima dell'estrazione a meno che le ripetizioni non siano deliberate.",
+          "Rimuovere il vincitore dopo ogni estrazione trasforma la ruota in una coda di eliminazione pulita. È così che fai passare una classe così che ogni studente presenti esattamente una volta, o distribuisci premi in ordine senza tracciare su carta. Il pannello della cronologia qui sotto registra ogni scelta con la sua data, in ordine, così contestazioni come «li hai estratti due volte» si sistemano scorrendo anziché a memoria.",
+          "Un limite onesto: la cronologia vive solo in questa sessione del browser. Ricaricare la pagina la svuota. Se ti serve un registro verificabile — un giveaway con premi veri, per esempio — copia i vincitori man mano anziché fidarti che la sessione sopravviva.",
+        ],
+      },
+      {
+        heading: "Dove vive l'elenco — e dove no",
+        paragraphs: [
+          "Tutto gira localmente nel tuo browser. L'elenco che incolli non viene mai trasmesso, memorizzato o registrato da nessuna parte; nessun server è coinvolto nell'estrazione affatto. Questo rende lo strumento sicuro per elenchi che non incolleresti in un sito web casuale — nomi di dipendenti per un'estrazione di turni, iniziali di pazienti in un esercizio formativo, nomi dei membri di un gruppo privato.",
+          "Significa anche che lo strumento continua a funzionare senza rete: un'aula con Wi-Fi brutto può comunque eseguire l'estrazione, e la stessa pagina continua a funzionare offline una volta caricata. L'unico dato che lascia mai una scheda è ciò che copi deliberatamente tramite il pulsante di copia.",
+          "Per le estrazioni pesate o seminate — tombola dove il numero di biglietti debba cambiare le probabilità, o scelte riproducibili per i test — questo strumento è deliberatamente quello sbagliato: un nome, una possibilità, nessun peso. Quel vincolo è una funzionalità quando l'equità è il punto; quando le probabilità devono essere ineguali, usa uno strumento di tombola dedicato anziché piegare questo.",
+        ],
       },
     ],
   },
@@ -3639,6 +6944,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì — input come mcmxciv viene messo in maiuscolo automaticamente e convertito in 1994. L'output viene sempre mostrato in maiuscolo, come tradizionalmente le iscrizioni.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Un sistema senza zero — e perché ciò modella tutto",
+        paragraphs: [
+          "I numeri romani sono una notazione additiva-sottrattiva, non posizionale: ogni simbolo ha un valore fisso ovunque stia, e non c'è né zero né valore di posizione. Quel singolo fatto spiega sia i punti di forza sia i limiti del sistema. L'addizione è banale — basta raccogliere i simboli — ma moltiplicazione e divisione sono laboriose, motivo per cui i mercanti romani calcolavano sul boule e scrivevano i risultati in numeri.",
+          "L'assenza di zero limita anche l'intervallo. Il simbolo più grande della notazione classica è M (1000), e la convenzione contro scrivere una lettera più di tre volte fa sì che il numero più grande strettamente ben formato sia MMMCMXCIX — 3999. Gli scrittori medievali inventarono poi il vinculum, una barra sopra che moltiplica un numero per 1.000, per raggiungere valori più grandi, ma non entrò mai nel canone classico, quindi i convertitori che restano classici si fermano dove si ferma questo.",
+          "Le regole strict sono modernità ordinata tanto quanto pratica antica. Le coppie sottrattive (IV, IX, XL, XC, CD, CM) erano usate incoerentemente sulle vere iscrizioni romane — IIII compare accanto a IV sulle porte del Colosseo — e la regex canonica contro cui questo strumento valida riflette la forma classica standardizzata su cui tipografi e designer di caratteri si stabilirono più tardi.",
+        ],
+      },
+      {
+        heading: "La tradizione del IIII sui quadranti",
+        paragraphs: [
+          "Guarda quasi qualunque quadrante tradizionale e vedrai IIII dove la regola classica dice IV. È una delle convenzioni varianti più vecchie e più persistenti, e gli orologiai hanno usato la forma additiva per secoli — su meridiane, orologi di chiese e quadranti di orologi da polso allo stesso modo.",
+          "Nessuna ragione singola è documentata senza dubbio, e le spiegazioni plausibili si impilano anziché competere. Equilibrio visivo: IIII sta di fronte a VIII sul quadrante e i loro tratti combinati si armonizzano; con IV la metà sinistra del quadrante appare più pesante. Fabbricazione: fondere quattro punzoni di I identici era più economico che tagliare uno stampo separato per IV. Leggenda reale: le storie raccontano che un re obiettò a IV come troppo vicino al dio Giove (scritto IVPITER in latino), benché quella storia sia tradizione anziché storia verificata.",
+          "Qualunque sia l'origine, il messaggio per l'utente del convertitore è che IIII è una forma storica legittima che la validazione classica strict respinge. Questo strumento impone il sistema canonico — IV, mai IIII — perché il lavoro di un convertitore è una risposta coerente, non un'enciclopedia di varianti. Quando incontri IIII su un quadrante, leggilo come 4; quando scrivi un numero, scrivi la forma canonica.",
+        ],
+      },
+      {
+        heading: "Validazione strict e le varianti che respinge",
+        paragraphs: [
+          "Il parser accetta esattamente un'ortografia canonica per numero e respinge le altre, con la regola spiegata. Questo significa che VIIII (additivo 9), IIM (sottrattivo oltre un passo giù), IC (sottrazione attraverso due ranghi) e VX vengono tutti segnalati anziché indovinati. La strictness è deliberata: l'input ambiguo è dove vivono gli errori silenziosi, e un convertitore che indovina non insegna nulla.",
+          "L'uso storico era più lasco del canone. Le vecchie iscrizioni e i manoscritti mostrano forme additive, sottrattivi irregolari e perfino lettere i cui valori si spostarono nel tempo — i numeri medievali a volte correvano su forme completamente non standard. Se stai trascrivendo una fonte originale, aspettati di incontrare forme che questo strumento respinge; il validatore aiuta comunque lì, dicendoti esattamente quale regola classica rompe ciascuna variante.",
+          "L'input minuscolo viene accettato e normalizzato in maiuscolo, secondo come le iscrizioni venivano tradizionalmente incise. Tutto gira localmente nel browser — incolla liberamente anni di film, numeri di capitoli o iscrizioni di monumenti; nulla viene spedito da nessuna parte, ed entrambe le direzioni restano vive così puoi verificare l'uno contro l'altro.",
+        ],
+      },
+    ],
   },
   "scientific-calculator": {
     name: "Calcolatrice scientifica",
@@ -3667,6 +6998,32 @@ export const it: Record<string, ToolCopy> = {
         a: "I risultati vengono arrotondati a 12 cifre significative per nascondere il rumore della virgola mobile come 0,30000000000000004. Una precisione oltre le 12 cifre è comunque raramente significativa sull'hardware binario a virgola mobile.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Precedenza degli operatori e perché −2² eguaglia −4",
+        paragraphs: [
+          "Il lavoro di una calcolatrice non è l'aritmetica — è decidere cosa significa un'espressione. Questo valutatore segue la convenzione matematica che hai imparato a scuola: prima le parentesi, poi il meno unario, poi le operazioni postfisse come % e x², poi le potenze, poi moltiplicazione e divisione, poi addizione e sottrazione. Comporre bene quest'ordine è esattamente la differenza tra una calcolatrice e un giocattolo.",
+          "Una convenzione sorprende la gente: 2^3^2 significa 2^(3^2) = 512, non (2^3)^2 = 64. L'elevamento a potenza lega a destra, seguendo la pratica matematica standard — le potenze impilate si leggono dall'alto verso il basso. Correlato: −2² è −4, non 4, perché il quadrato si applica al 2 prima che lo faccia il meno unario. I fogli di calcolo a volte disaccordano con queste convenzioni; questa calcolatrice corrisponde al libro di testo.",
+          "La moltiplicazione implicita funziona tra valori adiacenti — 2π, 3(4+1), (1+2)(3+4) moltiplicano tutti senza un segno × esplicito. Una sottigliezza deliberata: la moltiplicazione implicita lega più strettamente della divisione nella stessa corsa, così 1/2π si legge come 1/(2π) anziché (1/2)×π — la lettura che fisici e ingegneri intendono quando la scrivono in linea.",
+        ],
+      },
+      {
+        heading: "Perché non c'è eval, e l'onestà della virgola mobile",
+        paragraphs: [
+          "La maggior parte delle calcolatrici web passa la tua espressione a eval di JavaScript o al costruttore Function — il browser analizza la stringa come codice e la esegue. È rapido da costruire, ma significa che una stringa artificiata può eseguire codice arbitrario, e fa dipendere il comportamento dello strumento dalle stranezze di JavaScript anziché dalle regole delle calcolatrici. Questo valutatore è un piccolo tokenizer più un parser a discesa ricorsiva scritto per la pagina: input invalido produce un messaggio d'errore, mai un'esecuzione.",
+          "I numeri sono float a doppia precisione IEEE 754, che è la descrizione onesta di ciò che ogni motore di calcolatrice mainstream sotto lo strato di display fa. Questo produce artefatti come 0,1 + 0,2 = 0,30000000000000004 — il decimale 0,1 non ha rappresentazione binaria esatta, quindi la somma porta rumore di rappresentazione. I risultati qui vengono arrotondati a 12 cifre significative per sopprimere il rumore, che è anche il motivo per cui le operazioni ripetute non accumulano sporcizia visibilmente.",
+          "Due limiti onesti: arrotondare oltre 12 cifre è privo di senso su hardware binario, quindi pretendere più precisione non compra nulla; e i risultati trigonometrici ereditano qualche unità nell'ultimo posto perfino per angoli esatti, così la tangente di un angolo quasi retto esplode per natura — la calcolatrice riporta il vero comportamento in virgola mobile anziché coprirlo.",
+        ],
+      },
+      {
+        heading: "Gradi, radianti e il flusso di concatenamento",
+        paragraphs: [
+          "L'interruttore DEG/RAD è la singola più grande fonte di risposte trigonometriche sbagliate ovunque, quindi merita una regola: DEG è il predefinito perché la maggior parte delle persone che arrivano a una calcolatrice lavora in gradi; RAD è per la matematica in stile calcolo e per tutto ciò che si esprime con π. tan(π/4) in modalità DEG dà una risposta sbagliata con piena fiducia — la calcolatrice non può sapere quale intendevi, quindi controlla l'interruttore prima di incolpare il risultato.",
+          "L'anteprima dal vivo significa che l'espressione è sempre modificabile: sistema un termine centrale e l'intero risultato si ricalcola, invece di ridigitare in una calcolatrice a stack. Premendo = il risultato si ripiega di nuovo nella riga dell'espressione, così il concatenamento — prendere un risultato, moltiplicarlo, poi prendere un log — avviene su una sola riga editabile anziché attraverso registri di memoria.",
+          "Tutto gira localmente nel tuo browser: nessuna espressione o risultato viene trasmesso, e la pagina funziona offline una volta caricata. Per calcoli che coinvolgono qualcosa di privato — pricing, buste paga, problemi d'esame — questo significa che la computazione è solo tua. Il calcolatore di percentuali e il convertitore binario correlati gestiscono i due lavori (aritmetica percentuale e conversione di base) che un tastierino scientifico fa con fatica.",
+        ],
+      },
+    ],
   },
   "timestamp-converter": {
     name: "Convertitore di timestamp Unix",
@@ -3693,6 +7050,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Lo stesso timestamp si decodifica diversamente in altri fusi orari?",
         a: "Il numero grezzo non cambia mai — codifica un istante assoluto. Cambia solo la resa leggibile dall'umano, ed è per questo che lo strumento mostra il tuo ora locale e UTC affiancate.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché il tempo Unix ignora orologi e calendari",
+        paragraphs: [
+          "Il tempo Unix è un singolo intero che conta i secondi dal 1970-01-01 00:00:00 UTC — l'epoca Unix. Non ci sono fusi orari, ora legale né lunghezze dei mesi dentro il numero stesso; tutto quello è presentazione, applicata solo quando un renderer trasforma l'intero in una data umana. È esattamente per questo che ogni API, database e sistema di log memorizza il tempo così: confrontare due momenti è una sottrazione di interi, e ordinare è ordinamento di interi.",
+          "I secondi intercalari sono deliberatamente esclusi. Il numero 1.700.000.000 non marca 1,7 miliardi di secondi fisici — marca 1,7 miliardi di secondi SI dall'epoca più il numero di secondi intercalari assorbiti dal sistema nel frattempo. Per la schedulazione e il logging questa semplificazione è una funzionalità; per la precisione astronomica no, motivo per cui i sistemi scientifici tengono le proprie scale (TAI, UTC) invece.",
+          "I timestamp negativi sono legali: contano all'indietro prima del 1970, così il 1969-07-20 (l'allunaggio) sta attorno a −14182940 secondi. Alcuni sistemi a 32 bit vecchi rifiutavano i negativi, motivo per cui poche librerie legacy gestiscono male le date prima del 1970 benché lo standard non abbia mai detto di farlo.",
+        ],
+      },
+      {
+        heading: "Secondi, millisecondi e il problema del 2038",
+        paragraphs: [
+          "Le cifre svelano l'unità. Dieci cifre coprono il 1973 attraverso il 2286 in secondi; tredici cifre coprono l'era moderna in millisecondi. Lo strumento legge per magnitudine e ti dice quale interpretazione ha applicato, perché un'assunzione sbagliata di unità produce date dall'aspetto plausibile — un valore a 13 cifre letto come secondi atterra nell'anno 55.000, difficile da perdere, ma due librerie che disaccordano sulle unità dentro una stessa base di codice producono invece bug sottili fuori di mille.",
+          "L'intero con segno a 32 bit che i sistemi Unix precoci usavano per memorizzare i secondi trabocca in gennaio 2038, quando il conteggio raggiunge 2.147.483.647. I sistemi a 64 bit moderni sono al sicuro per i prossimi ~290 miliardi di anni, ma i dispositivi embedded, i formati di file legacy e alcuni database portano ancora campi timestamp a 32 bit. La lezione pratica non è preoccuparsi del 2038 oggi, ma notare quali tipi di dati usa un sistema quando ti integri con esso.",
+          "Una trappola più sottile non è l'unità ma il produttore: alcuni sistemi emettono secondi-con-decimali come 1700000000.123, e i parser ingenui troncano o arrotondano diversamente. Quando fai debugging di un disallineamento di timestamp, conferma prima che entrambi i lati concordino sull'unità, poi sulla precisione, poi sulla renderizzazione del fuso — in quest'ordine.",
+        ],
+      },
+      {
+        heading: "Lavorare con i timestamp quotidianamente",
+        paragraphs: [
+          "Il contatore dal vivo è uno strumento di debugging tanto quanto una comodità: prima di cacciare un bug di schedulazione, getta un'occhiata per confermare che l'orologio del tuo dispositivo sia grossomodo giusto — una macchina con l'orologio storto produce timestamp che avvelenano tanto i log quanto i controlli di scadenza dei token. La copia a un clic significa che puoi incollare un timestamp attuale in una richiesta curl o in una fixture di test senza digitare cifre.",
+          "Ricorda che il numero grezzo è senza fuso per definizione. Il difetto di produzione classico è memorizzare i timestamp correttamente ma renderizzarli con un server impostato su UTC mentre gli utenti vivono altrove — tutto appare otto ore fuori. Abbina sempre i timestamp a un fuso orario esplicito allo strato di renderizzazione; la lettura affiancata locale e UTC qui esiste per rendere visibile quell'abbinamento.",
+          "Tutto gira localmente nel tuo browser: i timestamp incollati, le date scelte e l'orologio dal vivo non lasciano mai il tuo dispositivo, il che conta quando decodifichi timestamp da log, dati di incidenti o qualsiasi cosa sensibile. Non c'è limite di frequenza né cronologia — decodifica quanti valori ti servono mentre cerchi per bisezione quando un bug è apparso la prima volta.",
+        ],
       },
     ],
   },
@@ -3724,6 +7107,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Gli orari delle città vengono dal database dei fusi orari integrato nel tuo browser e dall'orologio del tuo dispositivo — nulla viene scaricato e nessuna posizione viene condivisa.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché il database IANA conta",
+        paragraphs: [
+          "I fusi orari non sono scostamenti statici; sono insiemi di regole che cambiano nel tempo. Lo scostamento di una città si è spostato con le leggi sull'ora legale, le politiche di guerra e i decreti governativi — a volte retroattivamente. Il database dei fusi orari IANA (il tz database) è il registro mantenuto dalla comunità di queste regole, con un identificatore di zona come America/New_York che codifica non solo uno scostamento ma l'intera storia di quando e come cambia.",
+          "Il tuo browser spedisce una copia di questo database e la espone attraverso l'API Intl standard, che è ciò che questo strumento usa. Quella scelta ha due conseguenze: le conversioni non richiedono chiamate di rete — la pagina funziona in modalità aereo — e le regole sono aggiornate quanto il tuo browser. I cambi governativi recenti compaiono quando il tuo browser aggiorna il suo tzdata, non istantaneamente.",
+          "Usare zone nominati anziché scostamenti fissi evita anche una categoria di bug: «+5:30» descrive l'India oggi, ma «Asia/Kolkata» descrive l'India attraverso decenni senza ora legale con i suoi scostamenti storici una-tantum intatti. Le tabelle a scostamento fisso che circolano come cheat sheet derivano fuori data; una zona nominata non può.",
+        ],
+      },
+      {
+        heading: "Ora legale: le transizioni che rompono la matematica ingenua",
+        paragraphs: [
+          "L'ora legale è il motivo per cui non puoi semplicemente sottrarre due scostamenti e fidarti del risultato. Gli scostamenti di due città possono essere 7 ore oggi e 6 o 8 la prossima settimana, perché l'ora legale commuta in date diverse in luoghi diversi — gli USA cambiano a marzo, l'Europa più tardi a marzo, alcuni paesi dell'emisfero australe commutano attorno a ottobre. Persino dentro un singolo paese, una regione può osservare l'ora legale mentre un'altra no.",
+          "Le transizioni stesse hanno bordi affilati: l'avanzare di primavera salta un orologio a muro di un'intera ora — gli orari alle 2:30 semplicemente non esistono quel giorno — e il retrocedere d'autunno fa sì che un'ora si verifichi due volte, così «1:30» è ambiguo senza la zona. I paesi hanno anche abolito l'ora legale del tutto, come fece il Messico per la maggior parte del paese nel 2022, motivo per cui le regole datate anziché gli scostamenti costanti sono l'unica codifica sicura.",
+          "Per le riunioni ricorrenti, la tabella delle ore rende attorno a quelle date di commutazione: controlla lo stesso giorno della settimana attraverso la settimana in cui avviene una transizione e vedrai l'ora pratica della riunione saltare di un'ora su un solo lato. Quell'unico sguardo previene la classica deriva dell'invito ricorrente che cammina lentamente una chiamata dal mattino alla sera.",
+        ],
+      },
+      {
+        heading: "Leggere la tabella e restare privati",
+        paragraphs: [
+          "La tabella a 24 righe viene generata per la data che selezioni, non solo per oggi — il che conta perché la riunione che stai programmando avviene il mese prossimo, possibilmente dopo una commutazione dell'ora legale. Le righe dove la data della destinazione differisce da quella dell'origine sono etichettate esplicitamente: le 9:00 di lunedì a Shanghai che sono le 21:00 di domenica a New York sono esattamente il tipo di dettaglio che una conversione a mano perde.",
+          "Scostamenti di mezz'ora e 45 minuti esistono nel mondo — India a +5:30, parti dell'Australia a +9:30, Nepal a +5:45 — quindi non assumere che la differenza tra due città sia un numero intero. La tabella legge le regole reali, quindi gli scostamenti strani appaiono semplicemente nell'aritmetica.",
+          "Tutto viene calcolato localmente: l'API Intl del browser e l'orologio del tuo dispositivo, nessuna richiesta di rete, nessuna condivisione di posizione, nessuna cronologia memorizzata. Lo strumento è di natura in sola lettura — non cambia mai il fuso orario del tuo dispositivo — quindi è sicuro esplorare orari di riunione ipotetici per un viaggio prima di cambiare realmente qualcosa.",
+        ],
+      },
+    ],
   },
   "tip-calculator": {
     name: "Calcolatrice mancia",
@@ -3750,6 +7159,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "La cifra a testa assume una divisione equa?",
         a: "Sì — il conto più la mancia viene diviso uniformemente per il numero di persone. Per quote disuguali (qualcuno ha preso solo l'insalata), calcola prima i piatti condivisi come subtotale e aggiungi i singoli sopra.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "La cultura della mancia varia più della matematica",
+        paragraphs: [
+          "L'aritmetica è banale; la cultura no. Negli Stati Uniti, i lavoratori dei servizi con mancia spesso ricevono una paga base che assume che le mance costituiscano la maggior parte del loro reddito, così il 15–20% ai ristoranti è un'aspettativa sociale anziché un bonus. In gran parte d'Europa e America Latina un servizio è spesso già sul conto, e il 10% o l'arrotondamento è un gesto amichevole anziché un obbligo.",
+          "Altrove l'impostazione si rovescia: in Giappone la mancia può genuinamente confondere il personale, e in Cina è in larga parte assente — lasciare contanti sul tavolo può significare che un cameriere ti rincorra per restituirli. Le guide di viaggio e i locali sono la migliore fonte per la norma attuale in ogni dato posto; anche le usanze si spostano nel tempo, motivo per cui questo strumento tiene i predefiniti modificabili anziché hardcodare le regole di qualunque paese.",
+          "Una strategia pratica all'estero: controlla se una riga «servizio incluso» esista già sul conto, e tratta le percentuali di questo calcolatore come un vocabolario — sapere cosa significano 10%, 15% e 20% in valuta locale ti lascia rispondere appropriatamente ovunque tu sia.",
+        ],
+      },
+      {
+        heading: "Predefiniti, basi pre-imposta e la divisione",
+        paragraphs: [
+          "I predefiniti includono le risposte comuni — 10% per il servizio modesto o al banco, 15% come tradizionale punto medio, 18–20% per un buon servizio completo al tavolo, 25% per l'eccezionale — e il campo personalizzato copre qualunque convenzione locale. Un rapido controllo mentale: il 10% è la virgola spostata di un posto a sinistra, il 20% è quel valore raddoppiato, e il 15% è a metà strada tra i due.",
+          "La risposta tradizionale di galateo dice la mancia sull'importo pre-imposta, poiché l'imposta non è un servizio che hai ricevuto; in pratica la maggior parte della gente lascia la mancia sul totale della ricevuta della carta, che lascia un leggero eccesso e viene raramente contestato. Se la differenza conta per te, inserisci la cifra pre-imposta come conto.",
+          "La divisione riparte il totale con mancia uniformemente per dimensione del gruppo, il che corrisponde a come i gruppi di solito si sistemano ma nasconde le differenze di consumo. Per ordinazioni disuguali, somma gli articoli condivisi, lascia la mancia su quel sottoinsieme, poi aggiungi gli articoli individuali di ciascuno — un due passi che il calcolatore supporta eseguendolo due volte.",
+        ],
+      },
+      {
+        heading: "Progettato per il tavolo, non per il foglio di calcolo",
+        paragraphs: [
+          "A fine pasto le domande utili sono esattamente tre: quanta mancia, quale totale, quanto per persona. Un calcolatore di percentuali generico può rispondere, ma uno alla volta e con ridigitazioni; qui conto, tasso e dimensione del gruppo sono tutti modificabili insieme e ogni cifra si ricalcola dal vivo mentre ne regoli una.",
+          "Gira inoltre interamente sul tuo dispositivo senza dipendenze di rete, il che non è un ornamento di marketing — i scantinati dei ristoranti, le zone morte in roaming e le SIM straniere sono precisamente quando ne hai bisogno, e nulla del conto lascia il tuo telefono.",
+          "Funziona con qualunque valuta perché la matematica non ne assume mai una: digita l'importo come appare sul conto e leggi gli output nelle stesse unità. Per prezzi IVA inclusa o controlli di sconto prima di ordinare, il calcolatore di percentuali e il calcolatore IVA coprono i casi vicini.",
+        ],
       },
     ],
   },
@@ -3780,6 +7215,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Quella che si applica ai tuoi beni o servizi e alla tua giurisdizione: le aliquote standard vanno dal 0% al 27% nel mondo, e la maggior parte dei Paesi ha anche aliquote ridotte per alimenti, libri o medicinali. Nel dubbio, controlla la tabella aggiornata della tua autorità fiscale.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Le due direzioni, e perché 120 non è 100 più 24",
+        paragraphs: [
+          "Aggiungere l'IVA è facile: netto × (1 + tasso) — al 20%, un prezzo netto di 100 diventa 120 lordo. Estrarre l'IVA è dove vivono gli errori. Non puoi moltiplicare il lordo per il 20% per trovare l'imposta, perché il 20% si applica alla base netta, non al lordo. Il passo corretto è dividere: netto = lordo ÷ (1 + tasso).",
+          "Quindi un prezzo lordo di 120 al 20% contiene esattamente 20 di IVA, non 24 — il naive 120 × 20% sovrastima l'imposta di un quinto. Al 25%, lo scarto è ancora più grande: un prezzo lordo di 125 ne contiene 25, non 31,25. La modalità «rimuovi imposta» esegue la divisione e mostra netto, IVA e lordo affiancati così l'errore non può nascondersi.",
+          "Quel «trucco della divisione» è la formula più usata in assoluto nella contabilità UE e UK per gli acquisti registrati IVA inclusa: la ricevuta mostra un numero, e il libro mastro ne richiede tre. La stessa aritmetica risponde alla domanda speculare del pricing — se vuoi che 100 netti vengano ricevuti, quota 120 lordi, non 125.",
+        ],
+      },
+      {
+        heading: "Un'imposta, molti nomi e tassi",
+        paragraphs: [
+          "L'IVA è valore aggiunto a ogni stadio: un produttore la addebita sulle vendite e accredita ciò che ha pagato sugli acquisti, versando solo la differenza, così il consumatore finale sopporta l'intero importo. I tassi standard nel mondo vanno grossomodo dallo 0% alla metà dei 20 in percento, e la maggior parte dei sistemi aggiunge tassi ridotti per cibo, libri o medicine — motivo per cui questo strumento accetta qualunque tasso decimale anziché un elenco fisso che invecchierebbe male.",
+          "Il nome cambia più della meccanica: la maggior parte d'Europa, il Regno Unito e gran parte di Africa e Asia dicono IVA; l'India chiama la sua versione unificata GST; altre giurisdizioni usano le proprie etichette. Ai fini del calcolo sono lo stesso design a valore aggiunto, quindi le stesse formule attraversano i confini.",
+          "Ciò che l'aritmetica non può decidere è quale tasso attragga una fornitura, se si applichi il reverse charge, o dove stia una soglia di registrazione — quelle sono domande legali che cambiano con la legislazione. Tratta lo strumento come un aiuto aritmetico e conferma il trattamento con la tua autorità fiscale o il tuo contabile prima della dichiarazione.",
+        ],
+      },
+      {
+        heading: "Costruito per preventivi, fatture e privacy",
+        paragraphs: [
+          "Aziende e consumatori quottano i prezzi in direzioni opposte: i consumatori vedono prezzi IVA inclusa, le fatture mostrano netto più IVA. Uno strumento bloccato alla tabella dei tassi di un paese gestisce solo metà di questo; un input di tasso libero copre entrambe le direzioni per qualunque giurisdizione il cui tasso conosci.",
+          "Tutto viene calcolato localmente nel tuo browser — nessun caricamento, nessun account — così bozze di fatture non pubblicate, preventivi di clienti e pricing interno possono essere elaborati senza che le cifre lascino mai il dispositivo.",
+          "Si abbina naturalmente al calcolatore GST per il sistema di aliquote indiano, al calcolatore di profitto quando il pricing richiede un margine sopra la cifra netta, e al calcolatore di percentuali per i più piccoli controlli percentuali in mezzo.",
+        ],
+      },
+    ],
   },
   /* ------------------------------------------------------------------ */
   /* Sviluppo / Utilità — CSV ⇄ Excel, contrasto, voti                   */
@@ -3808,6 +7269,31 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Il delimitatore viene rilevato contando i candidati fuori dai campi tra virgolette; puoi anche sceglierlo a mano. Virgole interne, virgolette raddoppiate e a-capo nelle celle sono conservati integralmente.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché un vero .xlsx batte rinominare un .txt",
+        paragraphs: [
+          "Un trucco comune per «convertire» CSV in Excel è rinominare il file e sperare che l'app del foglio di calcolo indovini. A volte funziona; più spesso ottieni un'unica colonna gigante, mojibake sul testo accentato, o zeri iniziali tolti da CAP e numeri di telefono. Un vero .xlsx è un archivio ZIP di parti XML con tipi di cella espliciti — stringhe condivise per il testo, celle numeriche per i numeri, stili per le date — e scriverlo significa che le decisioni di tipo avvengono una volta sola, al momento della conversione, invece di essere ri-indovinate da ogni programma che apre il file.",
+          "La decisione di tipo è dove vive l'onestà. Una cella che legge 9,5 viene scritta come cella numerica così SUM e i grafici funzionano su di essa immediatamente; una cella che legge 007 viene deliberatamente tenuta come testo, perché convertirla in 7 distruggerebbe informazione. Le forme ambigue come 1e3 o 0,500 restano anche esse testo — analizzano come numeri, ma la conversione cambierebbe in silenzio ciò che la cella mostra. Questa policy segue una regola semplice: non lasciare mai che il convertitore indovini in un modo che perde dati.",
+          "I delimitatori sono l'altro gioco di indovinare. Lo strumento conta i delimitatori candidati (virgola, punto e virgola, tabulazione) fuori dai campi tra virgolette e sceglie il vincitore, il che gestisce sia l'impostazione a virgola in stile USA sia la convenzione europea a punto e virgola che Excel stesso produce in parecchie lingue. I campi tra virgolette con virgole incorporate, virgolette raddoppiate e ritorni a capo vengono analizzati secondo la RFC 4180, così una cella d'indirizzo su più righe arriva in Excel come una cella, non cinque righe.",
+        ],
+      },
+      {
+        heading: "Ciò che il CSV non può trasportare, e come la conversione lo gestisce",
+        paragraphs: [
+          "Il CSV non ha tipi, né stili né struttura oltre righe di testo, quindi il convertitore deve prendere decisioni che il formato non ha mai registrato. La prima riga viene trattata come intestazione per impostazione predefinita — la maggior parte dei CSV viene esportata con una, ma non tutti, motivo per cui l'interruttore esiste. Formule, grafici e formattazione delle celle semplicemente non esistono nella sorgente; se un flusso si aspetta un report stilizzato, il CSV è solo lo strato dei dati e qualcuno deve applicare la presentazione dopo.",
+          "La codifica è il fallimento silenzioso classico. I byte CSV non portano etichetta di codifica; Excel su Windows notoriamente legge male i file UTF-8 senza BOM, trasformando nomi e indirizzi in spazzatura. I dati generati dalla catena qui vengono scritti internamente come UTF-8, e il formato xlsx stesso memorizza il testo come XML con codifica esplicita, quindi ciò che incolli è ciò che atterra nelle celle — caratteri accentati, testo CJK ed emoji compresi.",
+          "Un confine in più che vale la pena conoscere: i CSV estremamente grandi sono vincolati dalla memoria del browser durante la conversione, non da alcun limite del server. File nelle centinaia di migliaia di righe si convertono bene su una macchina normale; le esportazioni da più gigabyte appartengono a uno script o a un importatore di database, non a una scheda del browser.",
+        ],
+      },
+      {
+        heading: "Le righe sensibili meritano un convertitore locale",
+        paragraphs: [
+          "I CSV di cui la gente ha bisogno in forma di foglio di calcolo sono raramente anonimi: elenchi di clienti, esportazioni di buste paga, risposte di sondaggi con campi di contatto, voci finanziarie. Caricarne uno su un sito convertitore significa che ogni riga transita e spesso persiste sull'archiviazione di qualcun altro — per dati coperti da un NDA, una policy aziendale o una normativa privacy, non è uno scambio che valga la pena per una comodità di formattazione.",
+          "Questo strumento analizza il CSV e costruisce la cartella di lavoro interamente nel tuo browser con SheetJS, una libreria di fogli di calcolo JavaScript ampiamente usata. Il file che trascini viene letto dal disco locale, l'.xlsx viene assemblato in memoria e consegnato direttamente al link di download; non c'è passo di caricamento nell'architettura, non solo una promessa che non venga registrato. Una volta caricata la pagina funziona offline, e non c'è quota sul numero di righe oltre la memoria della tua macchina.",
+        ],
+      },
+    ],
   },
   "excel-to-csv": {
     name: "Da Excel a CSV",
@@ -3831,6 +7317,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Cosa succede a formule e formattazione?",
         a: "Ottieni gli ultimi valori calcolati così come la cella li mostra — non le formule. Una cella che mostra 1.234,50 viene esportata con quel valore, e i formati come i simboli valutari restano come visualizzati.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "RFC 4180: perché esistono le regole di quoting del CSV",
+        paragraphs: [
+          "Il CSV sembra banale e famosamente non lo è. Il formato su cui database e programmi di fogli di calcolo interoperano davvero è descritto nella RFC 4180, e le sue tre regole coprono quasi ogni bug che hai incontrato in un import CSV. Regola uno: un campo contenente il delimitatore, una virgoletta o un ritorno a capo deve essere racchiuso tra virgolette doppie. Regola due: una virgoletta dentro un campo tra virgolette si protegge raddoppiandola. Regola tre: i ritorni a capo dentro un campo tra virgolette sono dati, non separatori di record.",
+          "I bug vengono tutti da strumenti che ignorano una di queste. Uno scrittore ingenuo unisce le celle con virgole e produce un file che esplode in colonne extra nel momento in cui un campo indirizzo contiene una virgola. Un lettore ingenuo spezza su ogni ritorno a capo e trasforma una cella multilinea in cinque record. Questo strumento scrive strettamente per le regole: virgolette solo quando necessario, virgolette incorporate raddoppiate, ritorni a capo interni preservati — così i parser a valle che seguono le stesse regole (la maggior parte dei moderni) ricostruisce il foglio esattamente.",
+          "Un'altra decisione silenziosa: la riga di intestazione. Il CSV non ha un concetto formale di intestazione — la RFC 4180 tratta ogni riga allo stesso modo — ma praticamente ogni consumatore assume che la prima riga siano nomi. Esportare senza aggiustamenti di solito è giusto; lo strumento occasionale che la vuole disattivata è l'eccezione, non la regola.",
+        ],
+      },
+      {
+        heading: "Ciò che si perde nella conversione: formule, tipi e fogli",
+        paragraphs: [
+          "Il CSV memorizza testo e nient'altro, quindi la conversione è intrinsecamente con perdita in tre modi specifici. Le formule diventano i loro ultimi valori computati — una cella con =SUM(A1:A5) esporta come il numero che attualmente valuta, e gli aggiornamenti in Excel non fluiscono mai di nuovo nel CSV. Anche la formattazione del display viene cotta: una cella formattata come valuta esporta col simbolo o separatore di valuta esattamente come mostrato, il che a volte produce valori come $1,234.50 che i parser a valle vedono poi come testo.",
+          "I tipi di dati spariscono: le date escono come stringhe nel formato che il foglio mostra (03/04/2024 è ambiguo tra le lingue), gli zeri iniziali dei codici si conservano solo se la cella è memorizzata come testo, e tutto diventa stringa al ri-importo. I database che vogliono colonne tipizzate richiedono un passo di import che indovina o che viene istruito sui tipi. Se la fedeltà esatta conta, tieni il foglio di calcolo come fonte di verità e tratta il CSV come un'esportazione a senso unico.",
+          "Fogli, grafici, celle unite e colori non hanno alcuna rappresentazione CSV. Una cartella con più fogli richiede un CSV per foglio — non è un limite di questo strumento ma del formato, che non ha modo di memorizzare più di una tabella. Le celle unite esportano col valore nella cella in alto a sinistra e stringhe vuote altrove; se ti affidi alle unioni per la semantica, appiattiscile prima di esportare.",
+        ],
+      },
+      {
+        heading: "Codifiche, BOM e processare i file in locale",
+        paragraphs: [
+          "Il famigerato mojibake al doppio clic è una storia di codifica. Il CSV è byte, non testo, e Excel su Windows indovina la codifica di un file senza BOM — spesso atterrando su una codepage legacy e trasformando caratteri cinesi o café in spazzatura. Il file scaricato qui comincia con un BOM UTF-8, i tre byte che Excel usa per rilevare UTF-8 all'apertura. I programmi che consumano il file programmaticamente (script, database) di solito preferiscono UTF-8 senza BOM, motivo per cui il pulsante di copia fornisce esattamente quello.",
+          "I fogli di calcolo sono tra i file più sensibili che vengono trascinati nei convertitori online: elenchi di clienti, buste paga, proiezioni finanziarie, dati di dipendenti. Caricarne uno su un server convertitore significa che le righe atterrano sull'infrastruttura di qualcun altro, possibilmente registrate o cachate. Questo strumento analizza la cartella interamente nel tuo browser usando una libreria JavaScript — il file viene letto dal disco in locale, convertito in memoria, e mai trasmesso da nessuna parte; non c'è alcun passo di elaborazione lato server affatto.",
+          "Questo significa anche che non c'è limite di dimensione imposto dall'esterno — il tetto è la memoria del tuo browser, che gestisce comodamente fogli con centinaia di migliaia di righe. Se lavori con dati regolati o personali, il design solo-locale non è una comodità ma il requisito che rende il flusso permissibile affatto.",
+        ],
       },
     ],
   },
@@ -3858,6 +7370,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Ogni colore è linearizzato da sRGB e combinato nella luminanza relativa L = 0.2126·R + 0.7152·G + 0.0722·B; il rapporto è (L chiaro + 0.05) / (L scuro + 0.05), la formula esatta della specifica WCAG 2.x. Un alfa rgba() inferiore a 1 viene appiattito sul bianco prima del calcolo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che 4,5:1 e 3:1 significano davvero",
+        paragraphs: [
+          "Il rapporto di contrasto è un confronto di luminanza definito dalla WCAG: misura la luminanza relativa di primo piano e sfondo, aggiunge un piccolo scostamento a ciascuno, e divide il più chiaro per il più scuro. Il risultato va da 1:1 (colori identici) a 21:1 (nero su bianco). La formula viene dal modo in cui gli occhi umani percepiscono la luminosità in modo non lineare, motivo per cui il calcolo converte i colori in luminanza lineare anziché confrontare i valori grezzi dei canali — due grigi che «sembrano vicini» nel selettore possono differire misurabilmente in luminanza.",
+          "La WCAG 2.x fissa due soglie. Livello AA: 4,5:1 per il testo normale del corpo, 3:1 per il testo grande — definito come 18pt (24px) regolare o 14pt (grossomodo 18,5px) grassetto e più grande. Il livello AAA alza la barretta a 7:1 per il testo normale e 4,5:1 per il grande. Gli oggetti grafici e i confini dei componenti UI (icone, bordi degli input) cadono anch'essi sotto il requisito 3:1 nella WCAG 2.1.",
+          "Le soglie sono pavimenti, non obiettivi di design. Un sito può passare a 4,5:1 pur restando difficile da leggere al sole o su display economici; la maggior parte della ricerca sulla leggibilità sostiene di puntare ben sopra il minimo per il testo del corpo.",
+        ],
+      },
+      {
+        heading: "I modi comuni in cui i designer sbagliano a giudicare il contrasto",
+        paragraphs: [
+          "Il fallimento classico è testo colorato su sfondi tinta: un grigio medio su un pastello può misurare sotto 4,5:1 benché entrambi i colori sembrino «morbidi». L'occhio compensa; la matematica no. Seconda: assumere che la dark mode risolva il contrasto — testo grigio scuro su sfondi grigio scuro fallisce con esattamente la stessa formula, solo invertita.",
+          "Il testo sopra immagini è la trappola ricorrente: il contrasto contro un pixel della foto può passare mentre un altro pixel fallisce. La soluzione pratica è uno scrim (strato di sovrapposizione) o una pillola piena dietro il testo, poi ri-controllare il colore di sfondo effettivo — lo strumento accetta due colori qualsiasi, quindi prova il pixel di sfondo del caso peggiore.",
+          "L'opacità è matematica invisibile: un testo nero al 60% di opacità su bianco non è «quasi nero», è una miscela computata — grossomodo un grigio medio — e il rapporto va controllato sul risultato fuso, non sul colore sorgente.",
+        ],
+      },
+      {
+        heading: "Computare in locale, iterare istantaneamente",
+        paragraphs: [
+          "Il rapporto viene calcolato nel tuo browser a ogni cambio di colore — nessuna API, nessun viaggio di andata e ritorno. Incolla valori hex dal tuo design system, o regola dal vivo, e i badge passato/fallito si aggiornano a ogni tasto.",
+          "Tutto è locale, il che conta perché i colori di design sono spesso riservati prima del lancio: palette non rilasciate ed esplorazioni di marca non lasciano mai la pagina. Ricarica e gli input si svuotano.",
+          "Abbinalo al generatore di gradienti quando controlli testo posto sopra gradienti — campiona il punto più chiaro del gradiente come sfondo e prova contro quello, poiché le garanzie di contrasto si applicano solo al caso peggiore, non alla media.",
+        ],
+      },
+    ],
   },
   "grade-calculator": {
     name: "Calcolatore di voti",
@@ -3881,6 +7419,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "E se i miei pesi non fanno 100%?",
         a: "Nessun problema. La media attuale è normalizzata sui pesi inseriti davvero, quindi anche un corso valutato a metà mostra un numero giusto. Il calcolo del finale impila il peso dell'esame sopra il peso già valutato, come prevede il programma. Sopra il 100% l'obiettivo è irraggiungibile, sotto zero è già assicurato.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Medie pesate: l'aritmetica dietro il risultato",
+        paragraphs: [
+          "Il voto di un corso non è quasi mai la media semplice delle sue parti: compiti, prova intermedia ed esame finale contribuiscono con pesi diversi, tipicamente stabiliti dal programma. La media pesata moltiplica ogni punteggio per il suo peso e divide per il peso totale — matematicamente identica a come un GPA accredita i corsi per ore di credito, solo un livello più giù.",
+          "Il peso totale dovrebbe eguagliare il 100%. Quando le parti non sono ancora valutate, il numero significativo è la situazione attuale: la tua media pesata sulle parti valutate finora, più quale punteggio ti serve sul lavoro rimasto per raggiungere un voto obiettivo. La formula del punteggio richiesto è (obiettivo × peso totale − somma pesata attuale) ÷ peso residuo — questo è il calcolo «cosa mi serve all'esame finale» che ogni studente esegue a dicembre.",
+          "Diffida della trappola del denominatore: mediare le parti valutate senza pesarle per i loro pesi reali dà un numero diverso ogni volta che i pesi differiscono — ed è quasi sempre quello sbagliato. Un 100% su un compito da 10% non compensa un 60% su un esame da 50%.",
+        ],
+      },
+      {
+        heading: "Le convenzioni di scala differiscono — controlla il tuo programma",
+        paragraphs: [
+          "La maggior parte delle istituzioni USA mappa le lettere su scala 4,0 (A = 4,0, B = 3,0), ma la gestione di più/meno varia: alcune scuole danno A− = 3,7, altre 3,67, poche arrotondano A− giù a 3,0. Le soglie percentuale-lettera derivano anche tra corsi — 89,5% può essere una A o una A− a seconda del professore. Il calcolatore applica una mappatura convenzionale; la tabella della tua segreteria è quella autorevole.",
+          "Dettagli di pesatura da verificare: se il punteggio del compito più basso viene scartato, se la presenza o la partecipazione portano un peso, e se l'esame finale può rimpiazzare punteggi precedenti. Queste politiche cambiano l'aritmetica in modo significativo e vivono nel programma, non in qualunque calcolatore.",
+          "Quando simuli esiti, inserisci punteggi futuri plausibili, non ottimistici — il punto del calcolo è conoscere il punteggio che ti serve, e pianificare per lo scenario minimo di promozione è più utile che pianificare per un miracolo.",
+        ],
+      },
+      {
+        heading: "Matematica dei voti locale e privata",
+        paragraphs: [
+          "Tutto viene calcolato nel tuo browser mentre digiti. I voti sono tra i dati personali più sensibili che esistano — uno strumento che li carica sarebbe lo strumento sbagliato. Nulla viene memorizzato, registrato o trasmesso; ricarica e il foglio si azzera.",
+          "Il calcolatore gestisce le righe parziali in modo sicuro: un corso con punteggi mancanti non contribuisce nulla anziché contare come zero, il che punirebbe in silenzio il lavoro non ancora fatto. Così la media riflette solo ciò che è davvero stato valutato, e il punteggio richiesto sul resto resta calcolato contro la realtà del calendario, non contro degli zeri immaginari.",
+          "Per il GPA cumulativo tra semestri, abbinalo al calcolatore GPA — i due strumenti coprono rispettivamente le domande a livello di corso e a livello di trascritto, ed entrambi girano interamente sul tuo dispositivo. Con i due affiancati puoi passare dal «cosa mi serve in questo corso» al «dove atterrerà la mia media generale» senza mai far uscire i punteggi dalla pagina.",
+        ],
       },
     ],
   },
@@ -3915,6 +7479,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Il JPG non può memorizzare la trasparenza — salvando, la cornice diventerebbe bianca. Lo strumento passa automaticamente al PNG quando è selezionato il riempimento trasparente; scegli l'opzione Colore se vuoi un JPG.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bordo contro scala: perché la canvas cresce verso l'esterno",
+        paragraphs: [
+          "La confusione più comune con i bordi immagine è ciò che accade ai pixel sotto. Alcuni editor applicano un bordo come sovrapposizione che mangia l'immagine, restringendo di fatto ciò che è visibile. Questo strumento fa l'opposto: espande la canvas verso l'esterno, così un bordo di 20 px su una foto 1000×800 produce un risultato 1040×840 con i pixel originali intatti al centro.",
+          "Zero ricampionamento è il beneficio pratico. Nulla viene stirato, scalato o ricodificato a nuova dimensione, quindi un bordo non ammorbidisce mai l'immagine come può fare un ingrandimento aggressivo. I pixel che avevi sono i pixel che tieni; il bordo è spazio puramente nuovo attorno a loro.",
+          "Poiché la larghezza del bordo si applica su tutti e quattro i lati, la dimensione totale cresce del doppio del valore del cursore in ogni direzione. Guardare l'anteprima dal vivo mentre trascini il cursore rende ovvio il compromesso: i bordi larghi mangiano spazio di layout circostante, il che conta quando incastra uno screenshot in una colonna di blog a larghezza fissa.",
+        ],
+      },
+      {
+        heading: "Bordo trasparente, alfa PNG e l'eccezione JPG",
+        paragraphs: [
+          "La trasparenza in un bordo suona esotica ma risolve un problema reale: adesivi, ritagli e asset di sovrapposizione devono stare su qualunque sfondo senza un rettangolo visibile bianco o nero attorno. Il PNG memorizza un canale alfa, quindi un bordo trasparente resta genuinamente trasparente dopo il salvataggio.",
+          "Il JPG semplicemente non ha canale alfa — fu progettato per le fotografie, dove ogni pixel ha un colore. Salvare un bordo trasparente come JPG lo forzerebbe a un colore pieno, di solito bianco. Per questo lo strumento passa a PNG automaticamente quando si seleziona il bordo trasparente, e perché l'opzione JPG resta disponibile solo quando scegli un colore pieno.",
+          "Un trucco collegato per i post social: invece del trasparente, scegli un bordo pieno nel colore di sfondo della pagina o del feed dove pubblichi. Un bordo che corrisponde allo sfondo di destinazione si legge come spazio bianco generoso anziché come cornice, e tiene intatto il flusso JPG.",
+        ],
+      },
+      {
+        heading: "Flussi in blocco, cornici cotte e privacy",
+        paragraphs: [
+          "Incorniciare screenshot per documentazione o una galleria di prodotti è lavoro ripetitivo: ogni immagine richiede la stessa larghezza, lo stesso colore. La modalità blocco applica un valore di cursore a ogni file caricato e restituisce ciascun risultato più un ZIP opzionale, che trasforma un compito di editor per-immagine in un singolo clic.",
+          "Una cornice cotta sopravvive anche ai posti in cui un bordo CSS non sopravvive. Le piattaforme che ri-renderizzano le immagini caricate, le app di chat che tolgono lo stile, e i renderer markdown tengono tutti i pixel del file stesso — così la cornice viaggia con l'immagine ovunque venga pubblicata.",
+          "Come per tutto su questo sito, l'elaborazione avviene interamente nel tuo browser. Nessuna immagine viene caricata su un server: i file vengono decodificati e ricodificati in locale, il che conta per foto di prodotto sotto NDA, lavori di clienti o qualsiasi cosa tu semplicemente non voglia lasciare il tuo dispositivo.",
+        ],
+      },
+    ],
   },
   "image-splitter": {
     name: "Dividi immagine",
@@ -3944,6 +7534,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Il PNG è senza perdita: le tessere conservano i pixel esatti della sorgente. Conta quando i pezzi verranno ricomposti o usati come sprite.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come funziona uno spezzamento pulito — e perché la matematica dei pixel conta",
+        paragraphs: [
+          "Spezzare un'immagine è senza perdita solo quando la griglia divide le dimensioni uniformemente. Una foto 1600×1200 spezzata in tile 2×2 dà quattro pezzi puliti da 800×600; la stessa foto spezzata in 3 colonne lascia un resto di 4 pixel su cui qualcuno deve decidere — bordare, stirare o restringere. Questo strumento arrotonda la dimensione del tile per difetto e tiene ogni taglio su un confine di pixel esatto, così nessun tile viene ricampionato.",
+          "Quella regola del confine di pixel è il motivo per cui la modalità griglia chiede righe e colonne anziché una dimensione di tile di destinazione in centimetri o pollici: le coordinate delle immagini vivono in pixel, e qualunque conversione attraverso unità fisiche introduce coordinate frazionarie che forzano interpolazione e ammorbidiscono i bordi.",
+          "La modalità strisce è la stessa idea in una dimensione: taglia l'immagine in bande orizzontali di altezza in pixel uguale. È il flusso standard per trasformare uno screenshot di pagina intera alto in slide per carosello o immagini di documentazione passo-passo che si leggono in ordine.",
+        ],
+      },
+      {
+        heading: "Scegliere il layout: griglia, strisce e predefiniti social",
+        paragraphs: [
+          "La modalità griglia (righe × colonne) si adatta a collage e post in stile puzzle dove i pezzi si riassemblano visivamente. La modalità strisce si adatta ai contenuti con un ordine di lettura — tutorial, ricevute lunghe, log di chat — dove ogni banda prosegue la precedente. Scegliere la modalità sbagliata è l'errore più comune: uno screenshot di chat tagliato in una griglia 3×3 si legge nell'ordine sbagliato su un carosello.",
+          "Per i caroselli social, pensa prima nel rapporto d'aspetto della piattaforma: una tela quadrata 1080×1080 significa che uno screenshot largo dovrebbe di solito essere tagliato in strisce di quell'altezza, non stipato in una griglia. Alcune piattaforme ri-ritagliano i caricamenti fuori rapporto, così tenere i tile al rapporto nativo evita artefatti di doppio ritaglio.",
+          "I tagli sovrapposti meritano considerazione per la leggibilità: quando una riga di testo sta esattamente su una linea di taglio viene affettata a metà. Tagliare tile leggermente più alte, o ri-ritagliare la sorgente così le righe cadono tra i tagli, sistema ciò che nessun algoritmo di spezzamento può.",
+        ],
+      },
+      {
+        heading: "Formato di output ed elaborazione locale",
+        paragraphs: [
+          "L'output PNG tiene il testo e i bordi netti nitidi — screenshot e documenti dovrebbero quasi sempre restare PNG, perché la compressione con perdita del JPG aggiunge artefatti di ringing attorno alle lettere a ogni risalvataggio. L'output JPG si adatta ai tile fotografici dove la dimensione conta più dei bordi perfetti al pixel.",
+          "I nomi contano quando i tile devono riassemblarsi: nomi di file numerati coerenti (in ordine di riga) permettono a te e al tuo pubblico di ricostruire l'originale. Uno spezzamento 3×2 di un diagramma senza nomi ordinati è una cartella di frammenti misteriosi.",
+          "Ogni taglio avviene nel tuo browser: l'immagine viene decodificata su una canvas, affettata e ricodificata in locale. Nulla viene caricato — utile quando spezzi dashboard interne, screenshot di clienti o qualsiasi documento che non consegneresti a un servizio di terzi.",
+        ],
+      },
+    ],
   },
   "crop-circle-image": {
     name: "Ritaglio circolare",
@@ -3971,6 +7587,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "La mia immagine viene ricodificata e degrada?",
         a: "I pixel dentro il cerchio vengono copiati così come sono in un PNG senza perdita. Sparisce solo l'area esterna; nulla all'interno viene riscalato o ricompresso.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Come un ritaglio circolare differisce da uno rettangolare",
+        paragraphs: [
+          "Un ritaglio rettangolare si limita a muovere una finestra sui pixel e tenerci ciò che sta dentro. Un ritaglio circolare non può farlo da solo, perché le immagini sono griglie rettangolari: il cerchio va disegnato aggiungendo trasparenza fuori dal suo bordo. Per questo un avatar circolare viene sempre salvato come PNG — il JPG non ha canale alfa e trasformerebbe l'esterno del cerchio in un quadrato pieno di colore.",
+          "Il cerchio inscritto nell'immagine tocca il mezzo di ogni lato, quindi il diametro eguaglia il minore tra larghezza e altezza. Le regioni d'angolo vengono semplicemente scartate. Se il tuo soggetto non è centrato, muovi o ritaglia prima la sorgente — nessuno strumento a cerchio può recuperare pixel che cadono fuori dal suo raggio.",
+          "Anche i bordi contano: un cerchio tagliato senza anti-aliasing appare seghettato a schermo. Smussare il bordo con trasparenza parziale su qualche pixel è ciò che separa un risultato pulito da uno evidentemente fatto in casa, e funziona solo in PNG.",
+        ],
+      },
+      {
+        heading: "Dove i ritagli circolari sono attesi",
+        paragraphs: [
+          "Avatar e immagini profilo sono il grande caso d'uso: la maggior parte delle piattaforme social, dei forum e delle app di messaggistica mostra le immagini profilo come cerchi, e molte le ritagliano esse stesse a cerchio se carichi un quadrato. Ritagliare a cerchio prima di caricare significa che ciò che vedi è ciò che viene mostrato — nessuna sorpresa di ri-ritaglio lato piattaforma che ti taglia la cima della testa.",
+          "Loghi e badge traggono beneficio per la stessa ragione. Un marchio di logo circolare collocato su una pagina colorata appare intenzionale; un logo quadrato con sfondo disallineato appare come un adesivo schiaffato. I design system specificano sempre più slot avatar circolari proprio perché il cerchio si legge neutro su qualsiasi sfondo.",
+          "Stampa e merchandise lo usano diversamente: template di adesivi circolari, spille e sottobicchieri hanno tutti bisogno del design delimitato da un cerchio. Produrre il PNG con trasparenza al diametro giusto risparmia un giro di mascheratura manuale più avanti.",
+        ],
+      },
+      {
+        heading: "Privacy ed elaborazione locale",
+        paragraphs: [
+          "Le foto profilo sono personali per natura — spesso volti tuoi, di famiglia o di colleghi. Eseguire il ritaglio localmente nel tuo browser significa che quei pixel non lasciano mai il tuo dispositivo; non c'è passo di caricamento che possa registrare, cacheare o conservare l'immagine.",
+          "Il modello di elaborazione è semplice e ispezionabile: l'immagine viene decodificata su una canvas, una maschera circolare viene applicata con un canale alfa, e il risultato viene codificato di nuovo in PNG nella stessa sessione. Nulla viene memorizzato tra le visite.",
+          "Un piccolo consiglio di flusso: conserva la foto quadrata originale salvata da qualche parte prima del ritaglio. Il cerchio scarta gli angoli per sempre, e l'unico modo di cambiare l'incorniciatura più avanti è ripartire dalla sorgente non ritagliata.",
+        ],
       },
     ],
   },
@@ -4004,6 +7646,31 @@ export const it: Record<string, ToolCopy> = {
         a: "Tutto ciò che il tuo browser sa mostrare come immagine: PNG, JPEG, GIF, WebP, SVG, BMP, AVIF e altri. Lo strumento verifica che il payload sia base64 valido, che il MIME dichiarato sia di tipo immagine e ti avvisa quando i magic byte del file non corrispondono al tipo dichiarato.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché base64 gonfia le immagini di circa il 33%",
+        paragraphs: [
+          "Base64 impacchetta ogni 3 byte in 4 caratteri di testo, quindi il payload finisce sempre per un terzo più grande del file binario — 4/3 è il rapporto fisso, indipendente dal formato o dal contenuto. Aggiungi il prefisso data:image/…;base64, e qualunque avvolgimento di riga che un consumatore applichi, e l'overhead effettivo striscia un po' più su. Nulla viene compresso o scartato; gli stessi byte vengono semplicemente riespressi in un alfabeto sicuro per il testo così possono viaggiare dentro CSS, HTML o JSON.",
+          "Quell'inflazione è il motivo per cui il confronto delle dimensioni in questo strumento conta più della conversione stessa. La decisione classica: incorporare risparmia una richiesta HTTP, ma costa banda e blocca la cache. Un'icona da 1 KB incorporata nel CSS di solito è una vittoria; una foto da 100 KB come data URL quasi mai — gonfia il foglio di stile di ~133 KB, viene ri-scaricata con ogni pagina che la referenzia, e non può essere cachata indipendentemente. Le foto JPEG e WebP in particolare comprimono i dati binari così efficientemente che il testo base64 annulla gran parte della compressione.",
+          "Una sottigliezza che la gente perde: SVG è già testo, quindi codificare un SVG in base64 spesso spreca spazio rispetto a un SVG incorporato con URL-encoding o grezzo. D'altra parte, il gzip comprime ragionevolmente bene il testo base64, quindi quando un server serve il payload compresso il costo effettivo di trasferimento è più vicino alla dimensione originale di quanto il +33% grezzo suggerisca.",
+        ],
+      },
+      {
+        heading: "Decodificare in sicurezza: tipi MIME, byte magici e fiducia",
+        paragraphs: [
+          "Un data URL si auto-descrive in apparenza — data:image/png;base64, pretende di essere un PNG — ma la pretesa è solo una stringa. Questo decoder controlla i byte reali: i file PNG cominciano con una firma distintiva di 8 byte, il JPEG comincia con FF D8, il GIF con GIF8, e così via. Quando il tipo MIME dichiarato e i byte magici disaccordano, ottieni un avviso anziché un'immagine silenziosamente rotta — utile quando ispezioni payload da fonti sconosciute o fai debugging di perché un <img> si rifiuta di renderizzare.",
+          "La decodifica fallisce anche rumorosamente sull'input malformato: caratteri base64 invalidi, padding sbagliato, o un tipo dichiarato che non è affatto un'immagine. Questo conta per la sicurezza. Un data: URL che pretende di essere text/html può eseguire script in certi contesti, motivo per cui i browser limitano i data URL nella navigazione di primo livello. Trattare un data URL incollato come input non fidato — validare prima di renderizzare — è l'impostazione sicura, ed è esattamente ciò che questo strumento fa per te.",
+          "Nota ciò che l'anteprima non può dirti: se l'immagine è ben formata oltre i byte dell'header, o cosa raffigura. Si renderizza nel browser, quindi tutto ciò che il tuo browser sa mostrare (PNG, JPEG, GIF, WebP, SVG, AVIF e più) funziona, e ciò che non sa mostra come apparterebbe in una pagina.",
+        ],
+      },
+      {
+        heading: "La conversione locale come baseline di privacy",
+        paragraphs: [
+          "Le immagini sono esattamente il tipo di asset che non vuoi caricare solo per ispezionarlo: screenshot con dati personali, comp di design sotto NDA, documenti scansionati, immagini di prodotto interne. Molti convertitori base64 online inviano il file via POST al loro server, il che significa che la tua immagine viaggia, viene memorizzata dall'infrastruttura di qualcun altro, e può essere cachata o registrata. Questo strumento fa la conversione nel tuo browser con JavaScript — il file non lascia mai il tuo dispositivo, non c'è quota di dimensione impostata da un server, e la pagina funziona offline.",
+          "Il flusso che rimpiazza è quello di andata e ritorno attraverso il terminale: base64 -i image.png per codificare, incollare il muro di testo in un file, cucire il prefisso del data URI a mano. Qui trascini il file, copi l'URL finito, e la direzione inversa è altrettanto rapida — incolla un data URL da un foglio di stile o da una risposta API e riottiene l'immagine, validata e scaricabile.",
+        ],
+      },
+    ],
   },
   "html-to-markdown": {
     name: "HTML in Markdown",
@@ -4030,6 +7697,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Il mio HTML esce dal browser?",
         a: "No. La conversione gira in locale con turndown nel tuo browser — nulla viene caricato, nemmeno quando scarichi il file .md.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dialetti Markdown: perché le opzioni esistono",
+        paragraphs: [
+          "Markdown non è un formato ma una famiglia. La descrizione della sintassi originale di John Gruber del 2004 lasciò molti comportamenti non specificati, così le implementazioni diversero: CommonMark ora fornisce una specifica rigorosa che la maggior parte dei renderer moderni (GitHub, per esempio) segue, GFM aggiunge tabelle e barrato sopra, e i sapori più vecchi differiscono in come gestiscono le interruzioni di riga, l'enfasi con underscore e gli elenchi annidati. Per questo convertire HTML in Markdown è una decisione di stile, non una mappatura meccanica.",
+          "Le due opzioni di questo strumento affrontano la divisione più visibile. Stile dei titoli: ATX (# Titolo) funziona ovunque e supporta tutti e sei i livelli, mentre Setext (una riga di = o - sotto il testo) raggiunge solo il livello due e si legge meglio ad alcuni editor. Marcatore di elenco: -, * e + sono tutti elenchi CommonMark validi, ma le guide di stile (e la leggibilità dei diff) spesso preferiscono uno. Scegliere la giusta combinazione all'inizio batte un passaggio di trova-e-sostituisci dopo.",
+          "Ciò che non ha equivalente Markdown viene appiattito anziché finto: tabelle, moduli e widget interattivi si riducono al loro contenuto di testo. Le tabelle in stile GFM richiederebbero un convertitore consapevole del dialetto; emettere tabelle con sintassi a pipe da HTML arbitrario produrrebbe output che molti renderer non possono analizzare. L'onestà sui limiti batte la spazzatura dall'aspetto plausibile.",
+        ],
+      },
+      {
+        heading: "I casi duri: escape, markup in linea e output pulito",
+        paragraphs: [
+          "La parte difficile di qualunque conversione da HTML a Markdown non è mappare i tag — è proteggere i caratteri che il Markdown tratta in modo speciale. Il testo contenente asterischi letterali, underscore, cancelletti o parentesi quadre richiede escape con barra rovescia, oppure si renderizzerà come enfasi, titoli o link quando il Markdown viene consumato. Un convertitore che salta l'escape produce testo che appare a posto finché qualcuno non lo incolla in un editor e la formattazione muta.",
+          "La struttura in linea richiede anche giudizi. Enfasi e forte si mappano a asterischi (o underscore, a seconda della configurazione); lo spazio bianco attorno conta perché il Markdown in alcuni sapori ignora l'enfasi che aderisce ai caratteri delle parole. Le interruzioni di riga dure da <br> diventano due spazi finali o una barra rovescia a seconda del sapore — uno dei dettagli dove CommonMark e le implementazioni vecchie differiscono genuinamente.",
+          "Il codice è l'altra trappola classica: il codice in linea con apici inversi dentro richiede una recinzione più lunga, e i blocchi di codice conservano il contenuto alla lettera così nessun ulteriore escape viene applicato dentro. Il risultato che ottieni qui segue queste regole tramite turndown, motivo per cui i documenti incollati — post di blog, README, esportazioni CMS — di solito escono pronti da committare anziché richiedere un passaggio di pulizia.",
+        ],
+      },
+      {
+        heading: "Conversione locale per documenti privati",
+        paragraphs: [
+          "I documenti che la gente converte sono spesso privati: pagine wiki interne, documenti non pubblicati, risposte di assistenza contenenti dettagli di clienti, un post di blog aziendale in bozza. Caricarne qualcuno a un endpoint convertitore spedisce l'intero testo a un'infrastruttura che non controlli, dove può essere cachato o registrato. Questo strumento fa girare turndown interamente nel tuo browser — l'HTML non lascia mai il dispositivo, non c'è passo di caricamento, e lo scaricamento del file .md avviene dalla memoria locale.",
+          "La scelta della libreria conta quanto l'architettura: turndown è lo standard di fatto per HTML→Markdown in JavaScript, con anni di gestione di casi limite accumulata tra i progetti, così l'output corrisponde a ciò che l'ecosistema più largo si aspetta. Abbinare un convertitore ben testato all'esecuzione locale dà la stessa qualità che otterresti da un servizio hostato, meno l'esposizione dei dati.",
+          "Per le conversioni in blocco o automatizzate, la stessa libreria è installabile in uno script Node; questa pagina è il front end interattivo per lo stesso lavoro. In ogni caso il flusso resta sulla tua macchina — appropriato sia che la sorgente sia un changelog pubblico sia un documento che nessun altro dovrebbe vedere.",
+        ],
       },
     ],
   },
@@ -4060,6 +7753,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No. Il parsing avviene in locale nel tuo browser con fast-xml-parser — nulla lascia il tuo dispositivo.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come le funzionalità XML si mappano alle chiavi JSON",
+        paragraphs: [
+          "Convertire XML in JSON significa appiattire un formato più ricco in uno più semplice, e ogni scelta è una convenzione. La più consequenziale sono gli attributi: <book id=\"7\" lang=\"en\"> tiene id e lang accanto all'elemento, e perdere quella distinzione cambierebbe silenziosamente i tuoi dati. Questo convertitore la preserva prefissando ogni attributo con @ — {«@id»:«7»,«@lang»:«en»} — una convenzione condivisa con il nostro strumento da JSON a XML, così i dati possono viaggiare in entrambe le direzioni e tornare identici.",
+          "La ripetizione è la seconda convenzione. L'XML permette un numero qualsiasi di elementi fratelli con lo stesso nome — un feed con un <item> o cinquanta analizza identico — mentre il JSON richiede una decisione: è <item> un valore o un array? La regola qui è che i fratelli ripetuti diventano un array JSON e un elemento singolo resta un valore semplice. È la lettura naturale, ma ha un filo affilato: un feed che di solito ha molti item ma ne capita ad averne uno si converte a scalare, e un consumatore che si aspetta un elenco si rompe. Controlla sempre l'array-ness a valle.",
+          "Quando un elemento ha sia attributi sia testo, il testo non può restare nudo — si sposta sotto «#text», così <price currency=\"usd\">19.99</price> diventa {«@currency»:«usd»,«#text»:19.99}. Gli elementi puramente testuali tengono il loro valore direttamente, il che tiene l'output leggibile invece di avvolgere ogni foglia in un oggetto #text.",
+        ],
+      },
+      {
+        heading: "Coercizione dei tipi e limiti della mappatura",
+        paragraphs: [
+          "L'XML non ha tipi — ogni valore è testo finché tu non decidi altro. Il convertitore applica una leggera coercizione: il testo che assomiglia a un numero diventa un numero JSON, true/false diventa booleano, e tutto il resto resta stringa. I valori degli attributi restano stringhe deliberatamente, perché gli attributi portano quasi sempre identificatori, codici e date dove «07» e 7 sono cose diverse. Se il tuo consumatore richiede un numero lì, convertilo esplicitamente anziché fidarti dell'indovinello.",
+          "Alcuni costrutti XML semplicemente non hanno una casa JSON. I namespace sopravvivono come prefissi sui nomi dei tag ma i loro legami URI si perdono, quindi due documenti che usano prefissi diversi per lo stesso namespace non faranno il viaggio di andata e ritorno identico. Commenti, istruzioni di elaborazione e DOCTYPE vengono scartati — nessuno di essi porta dati. CDATA viene fusa col testo ordinario, il che conta solo se il tuo consumatore si affida alla distinzione, cosa che quelli beneducati non dovrebbero.",
+          "Questi limiti sono intrinseci al divario dei formati, non a questo strumento: qualunque convertitore da XML a JSON deve prendere lo stesso tipo di decisioni, e la maggior parte ne prende di peggiori. Il flusso affidabile è testare il viaggio di andata e ritorno su un campione rappresentativo dei tuoi documenti veri — converti in JSON, di nuovo in XML, e confronta — prima di impegnare una catena alla mappatura.",
+        ],
+      },
+      {
+        heading: "Valida prima, converti in locale",
+        paragraphs: [
+          "L'XML malformato è il fallimento più comune, e merita un errore migliore di uno stack trace. Il convertitore valida il documento prima di toccarlo e riporta i problemi con un puntatore alla riga colpevole, così un tag di chiusura mancante è una correzione di una riga invece di un pomeriggio. Quando l'input viene da una fonte modificata a mano, falla prima passare per il validatore XML — il suo rapporto è più strict e coglie attributi duplicati ed entità illegali che la conversione potrebbe ignorare.",
+          "La conversione gira interamente nel tuo browser con fast-xml-parser, una libreria di analisi fidata da molti strumenti di build. Il tuo XML non viene mai caricato: feed con dati di iscritti, risposte SOAP contenenti token di sessione, esportazioni di configurazione interne — tutto resta sul tuo dispositivo. Per esattamente questi payload, la conversione locale nel browser non è una comodità ma il punto.",
+          "L'essere locale rende anche lo strumento adatto al lavoro iterativo: incolla un campione, ispeziona la forma, aggiusta le aspettative del tuo consumatore, incolla di nuovo. Nel ciclo non c'è viaggio di caricamento, quindi ogni iterazione richiede secondi, e tutto funziona offline — utile quando fai debugging di un feed su una macchina che non può raggiungere la rete.",
+        ],
+      },
+    ],
   },
   "json-to-xml": {
     name: "JSON in XML",
@@ -4088,6 +7807,32 @@ export const it: Record<string, ToolCopy> = {
         a: 'Vengono convertite: i caratteri illegali diventano underscore e una chiave che inizia con una cifra prende un underscore iniziale ("2fa" → <_2fa>). Le lettere CJK e accentate sono già nomi XML legali e restano così come sono.',
       },
     ],
+    deepDive: [
+      {
+        heading: "Attributi contro elementi — la decisione di design",
+        paragraphs: [
+          "L'XML ti lascia esprimere gli stessi dati in due modi: <book id=\"1\"/> (attributo) oppure <book><id>1</id></book> (elemento figlio). La semantica differisce più di quanto la sintassi suggerisca. Gli attributi non sono ordinati, unici per elemento e non possono ripetersi né annidarsi; gli elementi figli possono ripetersi, portare i loro attributi e apparire in ordine. I metadati — identificatori, lingue, date — vanno tradizionalmente negli attributi; il payload va negli elementi.",
+          "Il JSON non ha tale dualità, motivo per cui i convertitori necessitano una convenzione. Questo strumento segue la convenzione ampiamente usata del prefisso @: un membro chiamato @id diventa un attributo, un membro chiamato #text diventa il contenuto testuale dell'elemento. La stessa convenzione è ciò che il nostro strumento da XML a JSON emette durante l'analisi, così un documento può andare JSON → XML → JSON e tornare riconoscibile.",
+          "La scelta non è solo cosmetica. Alcuni consumatori XML (certi stack SOAP, validatori XSD) insistono che i dati vivano in un modo o nell'altro; i documenti ricchi di attributi sono leggermente più compatti ma più difficili da estendere dopo, perché aggiungere struttura a un attributo significa convertirlo in elemento e toccare ogni consumatore. Se progetti un nuovo formato XML anziché abbinarne uno vecchio, preferisci gli elementi per tutto ciò che potrebbe crescere.",
+        ],
+      },
+      {
+        heading: "Escape e coercizione dei nomi: perché l'output è sempre ben formato",
+        paragraphs: [
+          "L'XML è più strict del JSON riguardo ai caratteri. Cinque caratteri sono speciali — & < > \" ' — e i primi due corromperebbero il documento se emessi grezzi. Ogni valore di testo e attributo qui viene protetto con le entità standard, così una stringa JSON contenente <script> diventa un innocuo &lt;script&gt; nell'output. Esiste anche la trappola inversa: sequenze come &#xHHHH; (riferimenti numerici di carattere) sono XML validi ma non possono essere prodotte da viaggi di andata e ritorno arbitrari del JSON.",
+          "I nomi degli elementi sono ancora più strict: devono cominciare con una lettera o underscore e non possono contenere spazi né parecchi caratteri di punteggiatura. Le chiavi JSON, al contrario, sono stringhe arbitrarie. Lo strumento le coercese — i caratteri illegali diventano underscore, una cifra iniziale prende un underscore di prefisso — così il documento è sempre analizzabile. I caratteri CJK e le lettere latine accentate sono nomi XML legali e sopravvivono intatti.",
+          "Queste coercizioni significano che la mappatura non è iniettiva: due chiavi JSON diverse possono sfumare nello stesso nome XML, e una volta accaduto, convertire indietro non può ripristinare l'originale. Se le tue chiavi contengono spazi, slash o cominciano con cifre, tratta il lato XML come una proiezione con perdita e tieni il JSON come fonte di verità.",
+        ],
+      },
+      {
+        heading: "Conversione locale per payload sensibili",
+        paragraphs: [
+          "I payload JSON diretti all'XML sono spesso dati aziendali: fatture, registri di utenti, richieste API con identificatori di clienti. Darli in pasto a un convertitore basato su server spedisce quei dati a un terzo la cui policy di conservazione non conosci. Questo convertitore gira interamente nel tuo browser — la conversione avviene mentre digiti, nessuna richiesta viene fatta, e la pagina funziona offline una volta caricata.",
+          "Il flusso bidirezionale conta per il lavoro di migrazione: converti il tuo JSON in XML con questo strumento, incolla l'XML nello strumento da XML a JSON, e confronta — se il risultato corrisponde strutturalmente al tuo input, le convenzioni della mappatura (attributi @, #text) sono compatibili con i tuoi consumatori. Scoprire un disallineamento in locale batte scoprirlo dopo che l'endpoint SOAP respinge la tua prima richiesta.",
+          "Abbinalo al formattatore XML quando il consumatore richiede un'indentazione diversa o quando vuoi gettare un occhio sull'output — e ricorda i limiti documentati: null e array vuoti collassano in elementi vuoti, quindi uno schema che si aspetta xsi:nil richiederà un passo di post-elaborazione.",
+        ],
+      },
+    ],
   },
   "cron-explainer": {
     name: "Spiegatore di espressioni cron",
@@ -4111,6 +7856,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Ho indicato giorno del mese e giorno della settimana: perché gira più spesso del previsto?",
         a: "Il cron classico li combina con un OR: quando entrambi i campi sono vincolati (nessuno è *), un giorno che corrisponde a uno qualsiasi dei due fa scattare il job. «0 0 1 * MON» gira il giorno 1 e ogni lunedì. Per esigere entrambe le condizioni insieme l'espressione va costruita diversamente — guardare qui le prossime esecuzioni rende il comportamento subito evidente.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "I cinque campi e la regola OR che nessuno ricorda",
+        paragraphs: [
+          "Il cron standard valuta cinque campi da sinistra a destra: minuto (0-59), ora (0-23), giorno del mese (1-31), mese (1-12) e giorno della settimana (0-7, dove sia 0 che 7 sono domenica). Ogni campo può essere un valore, un intervallo (9-17), un elenco (0,15,30), o un passo (*/5, cioè ogni 5º valore a partire dal pavimento del campo). Un lavoro parte quando tutti i campi corrispondono — con una famosa eccezione: quando sia il giorno-del-mese sia il giorno-della-settimana sono ristretti, il lavoro gira in un giorno che corrisponde a UNO DEI DUE.",
+          "Quella regola OR risale all'implementazione cron Unix originale, ed esiste perché combinazioni come «il primo del mese più ogni lunedì» restino esprimibili in cinque campi. La trappola è che la maggior parte della gente che scrive «0 0 1 * 1» intende «il primo lunedì del mese» — ciò che ottiene è il 1º E ogni lunedì, il doppio delle volte. Se ti serve semantica AND, la soluzione abituale è un test dentro il lavoro (confronta date +%d con l'obiettivo) o passare a uno scheduler con trigger più ricchi.",
+          "L'altra sorpresa è 0 0 * * 7 contro 6: la numerazione dei giorni della settimana comincia da domenica (0), non da lunedì, e alcuni dialetti cron accettano 7 come secondo nome per domenica mentre altri lo respingono. Scrivere nomi — MON, SUN — al posto dei numeri rimuove l'ambiguità del tutto, a costo zero nel cron standard.",
+        ],
+      },
+      {
+        heading: "Fusi orari e ora legale: dove gli orari si rompono in silenzio",
+        paragraphs: [
+          "Il cron non ha fuso orario proprio — parte nel fuso in cui è impostato l'orologio del server. Un lavoro definito «0 3 * * *» gira alle 3 del mattino ora del server, che sono le 11 se in UTC+8 il server sta su UTC. I team che distribuiscono su macchine virtuali cloud spesso dimenticano l'impostazione della piattaforma: la maggior parte delle VM parte su UTC a prescindere da dove sieda l'azienda, e il primo segno è un lavoro che parte a quella che localmente è metà giornata lavorativa. Verifica con date o timedatectl sull'host, o leggi la riga TZ di /etc/default/cron dove è impostata.",
+          "L'ora legale peggiora il problema due volte l'anno. Nelle zone che osservano l'ora legale, un lavoro alle 2:30 può non partire affatto nella notte di avanzamento (le 2:30 non esistono mai), e nella notte di arretramento parte due volte — a un'ora di distanza. I lavori pinnati su UTC non hanno questo problema ma vanno scritti in UTC: «0 3 * * *» in un crontab UTC significa le 3 UTC, non le 3 locali. L'anteprima del prossimo avvio di questo strumento è consapevole del fuso proprio così puoi vedere quale dei due farà davvero il tuo server.",
+          "La difesa pratica è verificare, non assumere: incolla qui l'espressione, commuta il display al fuso del server, e controlla i prossimi cinque tempi di avvio contro l'aspettativa. Un orario che sopravvive a quel controllo merita anche un'annotazione nel commento del crontab — la persona che farà il debugging tra due anni sarai tu.",
+        ],
+      },
+      {
+        heading: "Casi limite: mesi corti, passi e trappole adiacenti all'ora legale",
+        paragraphs: [
+          "Due valori di giorno-del-mese sono responsabili di una gran quota delle esecuzioni mancate: 31 e 30 in combinazione con i passi. «0 0 */31 * *» non gira l'ultimo giorno di ogni mese — gira solo nei mesi che hanno un 31 (gennaio, marzo, maggio…), saltando in silenzio aprile e giugno. Similmente «0 0 30 2 *» è un no-op permanente perché febbraio non ha mai 30 giorni. Il cron non avverte; valuta e trova nessuna corrispondenza. Vedere i prossimi cinque tempi di avvio vuoti o bucati è la via più rapida per cogliere questo.",
+          "L'aritmetica dei passi comincia dal pavimento del campo, non da uno scostamento che scegli: */10 nel campo dei minuti è 0,10,20,30,40,50, non 5,15,25. Per ancorare diversamente scrivi l'intervallo esplicitamente — 5-59/10. Anche il quoting conta dentro i file crontab: i segni di percento (%) vengono trattati come ritorni a capo dal cron classico, quindi un comando come date +«%Y» deve proteggere il percento come \\% o la riga si spezza a metà comando.",
+          "Anticipare i tempi di avvio reali batte leggere l'espressione perché queste regole interagiscono: un passo su un mese di 30 giorni più una restrizione di giorno della settimana può produrre un buco di settimane. Gli strumenti che si limitano a tradurre i campi (spiegare cosa significa */31) non possono portare in superficie questo; solo iterare il calendario in avanti mostra quando il lavoro girerà davvero. Quell'iterazione è esattamente ciò che questo strumento fa, nel tuo browser, senza dati di orario spediti da nessuna parte.",
+        ],
       },
     ],
   },
@@ -4137,6 +7908,32 @@ export const it: Record<string, ToolCopy> = {
         a: "È la direzione in cui il gradiente avanza, misurata in senso orario dall'alto: 0deg va dal basso verso l'alto, 90deg da sinistra a destra, 180deg dall'alto in basso. Lo strumento normalizza qualunque angolo (−45 diventa 315) e la convenzione di direzione opposta della vecchia sintassi è già sistemata nella riga -webkit-.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Angoli, direzioni e l'asse di un gradiente",
+        paragraphs: [
+          "In CSS, l'angolo di un gradiente lineare descrive la direzione verso cui viaggiano i colori, misurata da una linea che punta in alto: 0deg va dal basso all'alto, 90deg va da sinistra a destra, 180deg va dall'alto al basso. La direzione opposta richiede l'angolo più 180, che è lo scivolone mentale numero uno nel lavoro sui gradienti — un tramonto che dovrebbe sfumare verso l'alto ma sfuma di lato di solito è un angolo fuori di 90 gradi.",
+          "I fermi di colore sono posizioni lungo quell'asse, in percentuali o lunghezze. La distribuzione uniforme predefinita è spesso sbagliata per i fini del design: collocare un fermo presto (per esempio il colore al 20%) tiene quel colore più a lungo, mentre la posizione di un fermo marca dove il colore è pienamente raggiunto. Un «fermo duro» — due fermi alla stessa posizione — produce un bordo netto anziché una fusione, la tecnica dietro strisce nette e barre segmentate costruite interamente da gradienti.",
+          "I gradienti a due fermi interpolano in sRGB per impostazione predefinita, il che può produrre un centro fangoso: fondere dal giallo al blu passa attraverso grigio desaturato anziché attraverso il verde. I designer a cui importa aggirano con un terzo fermo centrale nella tonalità che vogliono, o scegliendo estremità più vicine in tonalità.",
+        ],
+      },
+      {
+        heading: "Leggere e scrivere la sintassi dei gradienti",
+        paragraphs: [
+          "L'output CSS corrisponde direttamente a una dichiarazione linear-gradient: linear-gradient(90deg, #ff0000 0%, #0000ff 100%). I gradienti radiali rimpiazzano l'angolo con una forma e una posizione — cerchio o ellisse, centrato o ancorato a un angolo — utili per riflettori, vignettature e bagliori morbidi.",
+          "I fallimenti di debugging comuni: dimenticare l'unità deg (i numeri nudi sono invalidi), usare virgole dove il browser si aspetta spazi dentro le funzioni di colore, e annidare il gradiente come background-image mentre un background-color sta dietro — il colore si vede solo dove il gradiente ha trasparenza.",
+          "Una nota di prestazioni che raramente conta ma ogni tanto sì: i gradienti si renderizzano sulla GPU e sono economici, ma animare le posizioni dei fermi forza repaint. Animare opacità o transform di un elemento sovrapposto è la via fluida.",
+        ],
+      },
+      {
+        heading: "Feedback visivo, zero caricamenti",
+        paragraphs: [
+          "L'anteprima si renderizza dal vivo mentre muovi i fermi e cambi i colori, e il CSS è pronto da copiare — incollalo in qualunque foglio di stile senza pulizia. Tutto viene calcolato e renderizzato nel tuo browser; lo strumento funziona offline e non memorizza nulla.",
+          "La disciplina del contrasto si applica anche qui: il testo sopra un gradiente va controllato contro il fermo più chiaro del gradiente, non contro la sua media, usando il controllo di contrasto. Un gradiente che appare splendido senza testo può fallire la leggibilità nel momento in cui un titolo atterra sulla sua estremità brillante.",
+          "Per l'esplorazione rapida, parti da due estremità vicine in tonalità e aumenta la separazione gradualmente — la maggior parte dei lamenti «gradiente fangoso» sono estremità dai lati opposti della ruota dei colori, non un generatore rotto.",
+        ],
+      },
+    ],
   },
   "compress-image-to-size": {
     name: "Comprimere immagine a dimensione",
@@ -4160,6 +7957,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Meglio JPEG o WebP?",
         a: "A pari qualità visiva WebP risulta tipicamente dal 20 al 30% più leggero di JPEG, quindi con un budget stretto spesso entra con meno perdita. JPEG è la scelta sicura quando il file deve aprirsi ovunque, compresi software datati senza supporto WebP.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché colpire una dimensione esatta del file richiede iterazione",
+        paragraphs: [
+          "Non esiste una formula che mappi direttamente un valore di qualità a una dimensione risultante del file: la dimensione dell'output JPEG dipende dalla complessità propria dell'immagine — dettaglio, rumore, texture — quindi la stessa impostazione di qualità può produrre 200 KB su un diagramma piatto e 2 MB su una foto granulosa. L'unico modo affidabile di atterrare sotto un limite è comprimere, misurare, aggiustare e ripetere.",
+          "Questo strumento automatizza quel ciclo. Dichiarai una dimensione obiettivo, esso codifica a una qualità di partenza, controlla il conteggio reale di byte e itera — aggiustando la qualità finché il file entra o si raggiunge il pavimento di qualità. Il risultato è un file che passa davvero il controllo di caricamento, non uno che «dovrebbe andarci circa».",
+          "Un pavimento di qualità esiste per una ragione: inseguire un obiettivo aggressivo di 20 KB su una foto dettagliata può spingere la qualità così in basso che appaiono artefatti a blocchi. Se il ciclo si ferma sopra il tuo obiettivo, la lettura onesta è che l'immagine deve essere più piccola in pixel, non solo più spremuta.",
+        ],
+      },
+      {
+        heading: "Leggere il compromesso: qualità, dimensioni e formato",
+        paragraphs: [
+          "Controlli due leve e un vincolo. Le leve sono la qualità (quanto aggressivamente i pixel vengono scartati durante la codifica) e le dimensioni (quanti pixel ci sono da codificare). Quando un obiettivo di dimensione non può essere raggiunto, restringere le dimensioni di solito preserva meglio la qualità percepita che schiacciare la qualità — un'immagine larga 1200 px a qualità 70 appare di solito meglio di una da 2000 px a qualità 25.",
+          "L'ordine delle operazioni conta: ridimensiona prima, poi lascia che la qualità trovi gli ultimi percenti. Dimezzare entrambe le dimensioni taglia il conteggio dei pixel di circa quattro volte, il che supera qualsiasi cosa il cursore di qualità possa ottenere.",
+          "Anche il formato conta: se la destinazione accetta WebP, la stessa qualità percepita atterra spesso a un conteggio di byte notevolmente più piccolo del JPEG. Tieni al sicuro il file originale prima di comprimere — la compressione qui è a senso unico, e non esiste impostazione di qualità che recuperi informazione già scartata.",
+        ],
+      },
+      {
+        heading: "Da dove vengono i limiti rigidi di dimensione — e la privacy",
+        paragraphs: [
+          "I limiti rigidi ti circondano nei flussi reali: i portali governativi e di richiesta visti, i sistemi di ammissione universitaria, gli annunci dei marketplace e gli allegati email impongono tutti massimi esatti (spesso 100 KB, 200 KB, 500 KB o 1 MB), e i loro moduli di caricamento respingono qualsiasi cosa più grande senza negoziare.",
+          "Il trucco per passare questi controlli senza dolore è mirare leggermente sotto il limite anziché esattamente su di esso: alcuni server misurano la dimensione dopo la loro ri-elaborazione, o arrotondano diversamente, e un file che atterra il 5% sotto il tetto sopravvive a quelle stranezze.",
+          "Tutto qui gira localmente nel tuo browser — l'immagine viene decodificata, ridimensionata, codificata e misurata sul tuo dispositivo, e mai caricata. Questo conta per scansioni del passaporto, documenti d'identità e foto di candidatura, che sono esattamente i tipi di file che questi portali strict tendono a esigere.",
+        ],
       },
     ],
   },
@@ -4194,6 +8017,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Ogni mese gli interessi si calcolano sul saldo residuo, massimo all'inizio. Il piano di ammortamento mostra il ribaltamento: le rate iniziali sono quasi tutto interesse, negli ultimi anni quasi tutto capitale. Ammortizzare capitale presto risparmia quindi molti più interessi.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che il tasso dell'annuncio non include",
+        paragraphs: [
+          "Il tasso che digiti in qualunque calcolatore di mutuo è il tasso nominale — guida capitale e interessi e nient'altro. Il costo reale di un mutuo nasconde anche commissioni di istruttoria, punti, perizia e costi di chiusura, che i prestatori riassumono in una figura separata spesso chiamata APR. Poiché l'APR ripiega le commissioni in un numero annualizzato, due offerte con lo stesso tasso nominale possono differire sensibilmente in APR, e quella differenza sono le commissioni che parlano.",
+          "Questo strumento modella deliberatamente solo ciò che il tasso guida: capitale+interessi dalla formula di ammortamento, più le righe PITI che inserisci tu per imposta, assicurazione e HOA. Quella separazione è onesta — imposte e assicurazioni non sono interessi, e raggrupparle in un'unica figura di «costo» rende impossibile vedere quale leva si è mossa. Quando confronti prestatori, confronta i loro fogli di commissioni accanto ai loro tassi.",
+          "L'escrow è l'altra variabile silenziosa. In molti mercati il prestatore raccoglie un dodicesimo mensile di imposta fondiaria e assicurazione e le paga per te; in altri paghi queste bollette direttamente. Il PITI mensile qui è lo stesso in entrambi i casi, ma il tuo ritmo di cassa no — e alcuni prestatori esigono l'escrow proprio quando l'acconto è piccolo.",
+        ],
+      },
+      {
+        heading: "Acconto, durata, e lo scambio 15/30",
+        paragraphs: [
+          "Un acconto più grande restringe il mutuo, gli interessi e spesso il tasso stesso, poiché i prestatori prezzano il rischio in parte sul rapporto prestito/valore. In parecchi mercati un acconto sotto il 20% attiva anche l'assicurazione mutuo, una riga mensile extra che questo strumento ti lascia approssimare aggiungendola al campo assicurazione. La cifra del 20% non è magica — è la soglia storica a cui quell'assicurazione tipicamente smette di essere richiesta.",
+          "La scelta tra 15 e 30 anni appare una domanda di tasso ma è per lo più una domanda di durata: le durate corte portano tassi più bassi e molto meno interesse totale, perché il saldo viene estinto in metà del tempo. La tabella di ammortamento annuale mostra la meccanica — su un mutuo a 30 anni, gli interessi dominano ancora i pagamenti in piena seconda decade, mentre un programma a 15 anni si rovescia verso il capitale entro pochi anni.",
+          "Ciò che il confronto non può dirti è il costo opportunità. La rata più bassa della durata a 30 anni lascia cassa mensile libera per emergenze, conti pensionistici o estinzione anticipata a volontà — flessibilità che un contratto a 15 anni toglie con la forza. Esegui entrambi gli scenari qui, guarda lo scarto di interessi totali, poi decidi se comprare quella flessibilità valga per te.",
+        ],
+      },
+      {
+        heading: "Leggere il PITI come fa un prestatore",
+        paragraphs: [
+          "I prestatori giudicano la sostenibilità con rapporti, non sensazioni: spesa abitativa (il PITI che vedi qui) contro reddito lordo, e debiti mensili totali contro reddito lordo — la misura debito/risorse. La guida comune tiene l'abitazione sotto grossomodo il 28% del reddito lordo e i debiti totali sotto la metà dei 30 in percento, benché i programmi varino; queste sono euristiche di pianificazione, non regole che un solo regolatore impone ovunque.",
+          "La tabella annuale è anche una mappa di estinzione anticipata. Poiché gli interessi vengono addebitati sul saldo residuo, un pagamento extra all'anno mirato al capitale può togliere anni a un mutuo a 30 anni — ma solo se il prestatore lo applica al capitale, quindi dillo per iscritto quando paghi. La tabella ti lascia schizzare l'effetto accorciando la durata e confrontando i saldi anno per anno.",
+          "Tutti i numeri qui sono stime: il tasso è quello che digiti, non un'offerta, e gli importi reali di escrow, premi assicurativi e imposte cambiano negli anni. Il calcolo gira localmente nel tuo browser — prezzo della casa, cifre di reddito e tasso non lasciano mai il tuo dispositivo.",
+        ],
+      },
+    ],
   },
   "salary-to-hourly": {
     name: "Calcolatrice stipendio in paga oraria",
@@ -4223,6 +8072,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — tutte le cifre sono lorde, prima di imposta sul reddito, contributi sociali e altre trattenute. Il netto dipende dal tuo scaglione e dal luogo, quindi tratta questi risultati come valori lordi di confronto.",
       },
     ],
+    deepDive: [
+      {
+        heading: "La base di 2.080 ore e ciò che assume",
+        paragraphs: [
+          "Dividere per 40 × 52 = 2.080 ore è la convenzione standard dietro la maggior parte delle offerte di lavoro, e incorpora due assunzioni che vale la pena nominare: che tu sia pagato per tutte le 52 settimane (ferie pagate incluse) e che l'orario settimanale nominale rifletta le ore realmente lavorate. Per un ruolo a stipendio con ferie pagate e straordinari moderati, 2.080 è un denominatore equo.",
+          "Il denominatore cambia la risposta drammaticamente. Lo stesso stipendio di 65.000 è 31,25 all'ora su un anno da 2.080 ore, 35,75 se lavori davvero settimane da 45 ore, e oltre 40 se ferie non pagate restringono l'anno pagato. Per questo i campi di orario contano più di quanto sembrino — il tasso orario non è una proprietà dello stipendio, è una proprietà dello stipendio diviso per le ore.",
+          "La convenzione dei 2.080 ha anche un'eco legale negli USA: i test di esenzione per le regole sugli straordinari storicamente referenziano livelli di stipendio anziché importi orari, che è una delle ragioni per cui i ruoli a stipendio vengono quotati annualmente anche quando il lavoro sottostante si misura in ore. Riconvertire all'orario ripristina l'unità di cui i confronti hanno realmente bisogno.",
+        ],
+      },
+      {
+        heading: "Ciò che il tasso orario corretto rivela",
+        paragraphs: [
+          "Il tasso orario di copertina e quello corretto possono differire sensibilmente, e lo scarto è il prezzo del tempo libero non pagato. Ogni giorno non pagato toglie un quinto di settimana lavorativa dal denominatore, così dieci giorni non pagati restringono l'anno a circa 50 settimane e spingono il tasso orario effettivo su di circa il 4%. Lo stipendio resta fisso; cambiano solo le tue ore lavorate.",
+          "Quella cifra corretta è la base onesta per confrontare un lavoro a stipendio contro uno a ore. Un ruolo a stipendio che appare equivalente al tasso di copertina spesso perde una volta che entrano in scena straordinari non pagati pesanti o un contratto senza ferie pagate — la vista per ora-effettiva espone ciò che il numero annuale nasconde.",
+          "Nota ciò che il tasso corretto non fa: non valuta le ferie stesse. Il tempo libero pagato ha valore oltre l'aritmetica — è reddito durante giorni in cui non lavori. Il tasso corretto restringe il confronto alle ore realmente lavorate, che è esattamente ciò che vuoi per i confronti di sforzo ed esattamente ciò che non dovresti usare da solo per le decisioni di qualità della vita.",
+        ],
+      },
+      {
+        heading: "Malintesi comuni e come usarlo",
+        paragraphs: [
+          "Il malinteso più comune è trattare la cifra oraria come un'offerta che potresti realmente ottenere. Uno stipendio di 52.000 «equivale» a 25,00 all'ora sulla carta, ma pochi datori di lavoro assumerebbero quelle stesse ore a 25,00 orarie — la retribuzione a stipendio impacchetta ferie pagate, giorni di malattia e reddito prevedibile. Usa la cifra oraria per confrontare, non per rinegoziare.",
+          "Il secondo è dimenticare che la busta paga mensile divide uniformemente. Annuo ÷ 12 paga lo stesso a febbraio che a luglio a prescindere dai giorni lavorativi; i cicli settimanali o bisettimanali no. Se il tuo budget è settimanale, usa la cifra settimanale, non un dodicesimo dell'annuo.",
+          "Tutto viene calcolato localmente nel tuo browser — il tuo stipendio non lascia mai il dispositivo, il che conta quando testi numeri per un'offerta in discussione. Un buon flusso: esegui il tuo stipendio attuale, poi un'offerta concorrente col suo orario vero (giorni non pagati inclusi), e confronta i tassi orari corretti anziché le cifre annuali di copertina.",
+        ],
+      },
+    ],
   },
   "hourly-to-salary": {
     name: "Calcolatrice paga oraria in stipendio",
@@ -4249,6 +8124,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché la mia busta paga reale è diversa?",
         a: "Le cifre sono lorde. Imposta sul reddito, previdenza e trattenute riducono il netto, e molti lavori salariati spalmano la paga su 12 mesi anche se lavori meno settimane. Usa il risultato annuale per confrontare offerte, non come stima del netto.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché 52 settimane — e quando mente",
+        paragraphs: [
+          "Le 40 × 52 = 2.080 ore pagate predefinite sono una convenzione contabile, non la descrizione di un lavoro vero. Assume che tu sia pagato per ogni settimana dell'anno, comprese quelle che prendi libero. Per un dipendente a stipendio con ferie pagate, è grossomodo vero — lo stipendio copre l'intero anno, quindi dividerlo per 2.080 ore dà l'equivalente orario onesto.",
+          "Per un lavoratore a ore l'assunzione si rompe. Nessun lavoro, nessuna paga: due settimane di ferie non pagate fanno dell'anno reale 50 settimane, e 2.080 ore sovrastimano il tuo reddito del 4% in silenzio. Per questo il campo settimane-anno è modificabile — impostalo alle settimane per cui sarai realmente pagato, e la cifra annuale diventa ciò che vedrai davvero.",
+          "Il lavoro stagionale è il caso estremo: un lavoro solo estivo può coprire 14–18 settimane. Inserire 40 ore e 52 settimane per un tale ruolo gonfierebbe il risultato quasi di quattro volte. La regola pratica è semplice — il campo settimane dovrebbe rispondere a «per quante settimane arriveranno davvero soldi», non a «quanto dura un anno».",
+        ],
+      },
+      {
+        heading: "Leggere i cinque output insieme",
+        paragraphs: [
+          "Tutte e cinque le cifre sono lo stesso numero annuale affettato diversamente, e sapere quale fetta confrontare con cosa conta più dell'aritmetica. L'annuale è la cifra che offerte di lavoro e richieste di mutuo usano. Il mensile — annuo ÷ 12 — è ciò che richieste d'affitto e budget di abbonamenti sorvegliano, ma nota che la maggior parte delle buste paga mensili divide uniformemente perfino nei mesi con meno giorni lavorativi.",
+          "Il settimanale (annuo ÷ 52 per impostazione) è l'unità su cui i lavoratori a ore vivono realmente, il bisettimanale lo raddoppia e corrisponde al ciclo di paga USA più comune, e il giornaliero assume una settimana di 5 giorni. Quando confronti un lavoro a ore contro un'offerta a stipendio, converti entrambi allo stesso ciclo prima — uno stipendio mensile «più alto» può nascondere meno settimane pagate.",
+          "Ogni numero qui è lordo. Tasse, contributi sociali e deduzioni di benefit escono dopo, a tassi che dipendono dal tuo paese e scaglione, quindi 60.000 annuali non significano mai 5.000 in arrivo ogni mese. Trattali come lo strato di confronto pre-imposta; il reddito netto è un calcolo separato.",
+        ],
+      },
+      {
+        heading: "Usi pratici ed errori comuni",
+        paragraphs: [
+          "L'uso più comune è confrontare offerte con strutture di paga diverse: un orario da 30,00 contro uno stipendio da 60.000 smette di essere un'indovinella una volta che entrambi sono espressi come annuali. Le richieste di mutuo e appartamento sono il secondo — chiedono quasi sempre cifre annuali o mensili, non orarie, e questo convertitore le produce nella forma esatta che i moduli si aspettano.",
+          "L'errore più comune è dimenticare che gli straordinari sono esclusi. La moltiplicazione semplice prezza ogni ora al tuo tasso base; se il tuo contratto paga 1,5× oltre le 40 ore e le lavori regolarmente, il tuo annuale reale supererà questa stima — aggiungi deliberatamente ore tipiche di straordinario al campo ore se vuoi che siano prezzate.",
+          "Tutto gira localmente nel tuo browser: il tasso e l'orario non lasciano mai il dispositivo, il che conta quando stai valutando un'offerta che non hai ancora accettato. Cambia un input alla volta e guarda quanto è sensibile la cifra annuale — rende immediatamente visibile lo scambio tra un piccolo aumento di tasso e una settimana pagata in più all'anno.",
+        ],
       },
     ],
   },
@@ -4280,6 +8181,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Modella un solo prodotto con economia unitaria costante — il classico caso da manuale. Per un mix di prodotti usa la tua media ponderata di prezzo meno costo variabile; per sconti di volume o costi fissi a gradini, ricalcola ogni scenario.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Costi fissi contro variabili: la divisione che decide tutto",
+        paragraphs: [
+          "L'intera analisi poggia su una decisione di classificazione: quali costi siano fissi e quali variabili. I costi fissi — affitto, personale stipendiato, assicurazioni, abbonamenti software — non si muovono col volume nel periodo che stai analizzando. I costi variabili — materiali, imballaggio per unità, commissioni di elaborazione dei pagamenti, spedizioni per ordine — scalano direttamente con ogni unità venduta. Il margine di contribuzione, prezzo meno costo variabile, è onesto quanto questa divisione.",
+          "I costi reali raramente cadono puliti in un solo secchio. L'elettricità ha una base fissa più una parte variabile per macchina; un venditore a provvigione mescola i due. La convenzione pratica è classificare per ciò che cambia quando vendi un'unità in più: se un costo salirebbe con la prossima vendita, appartiene a V; se no, appartiene a F. Nel dubbio, mettilo nel costo variabile — questo rende la tua stima di pareggio conservatrice anziché ottimistica.",
+          "Questa divisione è anche il motivo per cui la formula funziona affatto: i costi fissi vanno ripagati per intero a prescindere, mentre ogni vendita contribuisce col suo margine verso quel mucchio. Una volta che 500 vendite hanno ciascuna contribuito 20, i 10.000 di costo fisso sono coperti e ogni unità dopo contribuisce profitto puro. È il modello mentale dietro la tabella dei profitti sotto il numero.",
+        ],
+      },
+      {
+        heading: "Leggere il margine e la tabella dei profitti",
+        paragraphs: [
+          "Il rapporto di margine — margine di contribuzione diviso per prezzo — ti dice quanto di ogni dollaro di vendita è disponibile per combattere i costi fissi. Un margine del 40% significa che 60 centesimi di ogni vendita vengono consumati dai costi variabili. Le attività a basso margine richiedono volume alto per pareggiare; quelle ad alto margine possono sopravvivere con meno vendite ma spesso portano costi fissi più pesanti (software, R&S), che spingono il loro pareggio di nuovo su. Il rapporto rende visibile quello scambio.",
+          "La tabella dei profitti a 0,5×, 1,5× e 2× del pareggio mostra la forma del rendimento. Sotto il punto, le perdite si accumulano linearmente — a metà del pareggio stai perdendo esattamente metà del costo fisso. Sopra, il profitto si accumula alla stessa pendenza costante. La simmetria è il punto: mostra che una volta fissate le economie unitarie, l'unica leva verso il punto di pareggio è il volume, e oltre, ogni unità guadagna lo stesso margine.",
+          "Usa la tabella per verificare gli obiettivi: se 2× il pareggio è il rialzo realistico nel primo anno, il ribasso a 0,5× ti dice quanto cassa l'attività può bruciare prima di dover ri-prezzare o tagliare costi. Quello scarto tra le due righe è la tua busta di pianificazione.",
+        ],
+      },
+      {
+        heading: "Dove il modello da libro di testo piega",
+        paragraphs: [
+          "La formula assume che prezzo e costo variabile siano linee piatte, e la realtà è curva. Gli sconti sul volume dei materiali abbassano V man mano che il volume cresce; le paghe di straordinario, i limiti di capacità e le spedizioni accelerate lo alzano. Il prezzo stesso spesso scende su scala mentre spingi in segmenti di mercato meno desiderosi. Ciascuno di questi piega le linee rette in curve, e il singolo numero di pareggio diventa un intervallo. Ri-esegui il calcolo per scenario invece di estrapolare una risposta.",
+          "Le attività multiprodotto affrontano lo stesso problema: la formula copre un prodotto, quindi un mix di prodotti richiede un margine di contribuzione misto pesato per la quota di vendite attesa — e il mix stesso si sposta man mano che il volume cresce. Anche i costi fissi possono avere forma a gradini: il secondo magazzino o il decimo assunto salta F, non cresce dolcemente.",
+          "Niente di questo rende il modello inutile — resta il controllo di fattibilità al primo passaggio più rapido per un prodotto, un cambio di prezzo o una stallo a un mercato. Tratta semplicemente l'output come una baseline di pianificazione, ri-eseguilo con input pessimistici e ottimistici, e ricorda l'avvertenza del denominatore: se il margine è vicino a zero, un piccolo scivolone di costo può spostare il pareggio da raggiungibile a impossibile.",
+        ],
+      },
+    ],
   },
   "bmr-calculator": {
     name: "Calcolatrice metabolismo basale",
@@ -4307,6 +8234,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "È un consiglio medico?",
         a: "No — è una stima, non un consiglio medico. Malattie, farmaci, gravidanza e composizioni corporee inusuali spostano tutte la spesa energetica reale: discuti ogni cambio alimentare con un professionista sanitario.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mifflin-St Jeor contro le equazioni più vecchie",
+        paragraphs: [
+          "Questo strumento usa l'equazione Mifflin-St Jeor, pubblicata nel 1990: per gli uomini, 10 × peso (kg) + 6,25 × altezza (cm) − 5 × età + 5, e per le donne la stessa espressione meno 161 invece del +5. Fu calibrata sul dispendio energetico a riposo misurato e validata contro la calorimetria indiretta, lo standard d'oro di laboratorio che misura direttamente il consumo di ossigeno.",
+          "L'alternativa che incontrerai più spesso è Harris-Benedict, pubblicata originariamente nel 1919 e revisionata nel 1984. Un confronto ampiamente citato del 2005 dell'American Dietetic Association trovò Mifflin-St Jeor più accurata per le popolazioni moderne, motivo per cui questo calcolatore si standardizza su di essa. Una terza opzione, Katch-McArdle, usa la massa magra anziché il peso e può essere più precisa per le persone che conoscono la loro percentuale di grasso corporeo — ma richiede un numero che la maggior parte delle persone non ha.",
+          "Il messaggio pratico: le differenze tra queste equazioni sono tipicamente di decine di kilocalorie, più piccole della variazione giorno per giorno del tuo stesso dispendio. Se due calcolatori disaccordano leggermente, la scelta della formula è di solito la ragione, e nessuna delle due è sbagliata.",
+        ],
+      },
+      {
+        heading: "Leggere il numero: il BMR non è il tuo dispendio giornaliero",
+        paragraphs: [
+          "Il BMR è il pavimento, non il budget. Copre respiro, circolazione, riparazione cellulare e regolazione della temperatura a riposo completo — grossomodo il 60–70% di ciò che la maggior parte degli adulti sedentari brucia in un giorno. Il tuo dispendio energetico giornaliero totale reale (TDEE) è il BMR moltiplicato per un fattore di attività, da circa 1,2 per una giornata da scrivania a circa 1,9 per lavoro fisico pesante o allenamento intenso quotidiano.",
+          "Quella moltiplicazione conta più della formula stessa. Due persone con BMR identico possono bruciare oltre 800 kcal di differenza al giorno purely dallo stile di vita. Questo calcolatore riporta deliberatamente solo il BMR; il calcolatore calorico di questo sito fa il passo successivo e applica il fattore di attività e un obiettivo per te.",
+          "Un utile controllo di sanità: il BMR scala principalmente con peso, altezza ed età, quindi se il risultato si sposta di netto dopo un piccolo cambiamento di input, ri-controlla le unità — kg contro lb è il lapsus classico.",
+        ],
+      },
+      {
+        heading: "Errori comuni e limiti onesti",
+        paragraphs: [
+          "Ogni equazione predittiva porta errore individuale. Mifflin-St Jeor atterra entro grossomodo ±10% della misura di laboratorio per la maggior parte degli adulti, ma gli individui con massa muscolare molto alta o bassa, condizioni tiroidee, o certi farmaci possono stare ben fuori quella banda. Tratta l'output come punto di partenza per la pianificazione, non come fatto fisiologico.",
+          "Non usare il BMR per giustificare di mangiare sotto di esso. Il metabolismo basale è già coperto dal tessuto magro che ti tiene vivo; i deficit aggressivi sotto il BMR sono una decisione per un professionista sanitario, non per un calcolatore. Allo stesso modo, l'adattamento metabolico significa che il numero che hai calcolato a 90 kg smette di essere accurato a 80 kg — ricalcola man mano che il peso cambia.",
+          "Come tutto su questo sito, il calcolo gira interamente nel tuo browser: nessun input viene spedito da nessuna parte, quindi non c'è motivo di esitare nell'inserire cifre vere. Peso, altezza ed età restano sul tuo dispositivo, e la pagina continua a funzionare offline — utile quando ricalcoli il tuo fabbisogno tra un allenamento e l'altro.",
+        ],
       },
     ],
   },
@@ -4338,6 +8291,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — è una stima, non un consiglio medico. Se sei incinta, gestisci una condizione cronica, prendi farmaci o hai una storia di disturbi alimentari, fissa gli obiettivi con un professionista sanitario.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Come viene costruito il numero di mantenimento",
+        paragraphs: [
+          "Il calcolo è una catena a due passi. Primo, il BMR viene dall'equazione Mifflin-St Jeor (1990): uomini 10 × peso (kg) + 6,25 × altezza (cm) − 5 × età + 5, donne la stessa espressione meno 161. Secondo, quel BMR viene moltiplicato per uno dei cinque fattori di attività standard: 1,2 sedentario, 1,375 leggermente attivo, 1,55 moderatamente attivo, 1,725 molto attivo, 1,9 extra attivo.",
+          "I cinque fattori risalgono alla tradizione Harris-Benedict e sono sopravvissuti perché si mappano puliti su come la gente vive davvero: i soli allenamenti non definiscono l'attività — un operaio edile senza tempo in palestra atterra più in alto di un impiegato d'ufficio con tre sessioni alla settimana.",
+          "Gli aggiustamenti per obiettivo applicano poi l'euristica classica: 1 kg di grasso corporeo memorizza grossomodo 7.700 kcal, quindi circa ±500 kcal al giorno corrisponde a grossomodo 0,5 kg di cambiamento settimanale. Il calcolatore sottrae 500 per perdere, aggiunge 500 per aumentare, e lascia il mantenimento intoccato.",
+        ],
+      },
+      {
+        heading: "Interpretare l'obiettivo: aspettati una curva, non una linea",
+        paragraphs: [
+          "La perdita di peso precoce supera sempre la matematica: la prima settimana o due calano per lo più acqua e glicogeno, non grasso. Dopo di che, i risultati rallentano perché il tuo dispendio scende man mano che diventi più leggero — una persona che pesava 90 kg brucia meno a 82 kg, quindi il deficit che produceva mezzo chilo alla settimana nel primo mese spesso ne produce un terzo entro il terzo mese.",
+          "Il flusso pratico è trattare l'obiettivo come un'ipotesi: pesati in condizioni coerenti, confronta con una media mobile su due settimane anziché col rumore quotidiano, e aggiusta di 100–200 kcal quando la tendenza si ferma per parecchie settimane.",
+          "Ricalcola dopo ogni pochi chili di cambiamento, e ricorda che lo stesso numero di mantenimento sostiene esiti molto diversi a seconda di cosa mangi — proteine, fibre e tempistica dei pasti non cambiano la matematica delle calorie, ma cambiano quanto il deficit risulta vivibile.",
+        ],
+      },
+      {
+        heading: "Errori comuni",
+        paragraphs: [
+          "L'errore più frequente è gonfiare il livello di attività. La gente conta un allenamento come «moderatamente attivo» e poi seduta comunque dieci ore al giorno; se ti alleni 3–5 volte alla settimana ma lavori a una scrivania, 1,55 è di solito già generoso. Nel dubbio, scegli il fattore più basso e aggiusta dai risultati misurati.",
+          "Non impilare l'aggiustamento di ±500 oltre la ragione. Deficit ben sotto il tuo BMR o aumenti di +1.000 kcal al giorno producono per lo più fatica e aumento di grasso rispettivamente; i tassi sostenibili per la maggior parte degli adulti sono 0,25–0,75 kg alla settimana in entrambe le direzioni. Chiunque sia incinta, gestisca una condizione cronica, o abbia una storia di alimentazione disordinata dovrebbe fissare gli obiettivi con un clinico invece.",
+          "Infine, tratta ogni output qui come una stima da media di popolazione: il metabolismo reale varia di grossomodo ±10% tra gli individui, e solo la tua stessa tendenza misurata sulle settimane chiude la questione.",
+        ],
+      },
+    ],
   },
   "body-fat-calculator": {
     name: "Calcolatrice grasso corporeo",
@@ -4365,6 +8344,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché il risultato è uscito negativo o impossibile?",
         a: "La formula è stampata senza limiti, quindi input impossibili — per esempio una vita non più grande del collo — producono output impossibili. Tratta qualunque valore sotto il livello di grasso essenziale o sopra circa il 60% come errore di misura e rimisura. E come sempre, questa stima non è un consiglio medico.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dentro il metodo delle circonferenze della Marina",
+        paragraphs: [
+          "La formula stima il grasso corporeo dai rapporti di circonferenza. Per gli uomini usa 495 / (1,0324 − 0,19077·log10(vita − collo) + 0,15456·log10(altezza)) − 450, tutte le misure in centimetri; per le donne il termine di circonferenza diventa log10(vita + fianchi − collo) coi coefficienti femminili dello stesso lavoro. I termini logaritmici sono il motivo per cui centimetri attorno alla vita muovono la stima molto più di centimetri di altezza.",
+          "Il metodo fu sviluppato da James Hodgdon e Jack Beckett nel 1984 per la Marina statunitense, che aveva bisogno di uno screening annuale della composizione corporea per decine di migliaia di marinai senza accesso ad attrezzatura di laboratorio. Fu validato contro la pesata subacquea (densitometria idrostatica), allora lo standard di riferimento — e la Marina lo usa ancora oggi, che è una prova sul campo forte quanto ne riceva una formula.",
+          "La logica sottostante è che il grasso si accumula in modo prevedibile in siti specifici (addome per gli uomini, fianchi e cosce per le donne) mentre il collo resta magro, quindi la differenza vita-collo porta informazione reale sulla massa grassa che una bilancia da sola non può vedere.",
+        ],
+      },
+      {
+        heading: "Leggere le categorie — e la tendenza",
+        paragraphs: [
+          "Il calcolatore colloca il tuo risultato nelle bande standard citate dall'American Council on Exercise: per gli uomini, 2–5% grasso essenziale, 6–13% atleti, 14–17% fitness, 18–24% media, 25%+ obesi; per le donne, 10–13% essenziale, 14–20% atlete, 21–24% fitness, 25–31% media, 32%+ obese. Le donne portano più grasso essenziale perché la funzione ormonale e riproduttiva dipende da esso.",
+          "Aspettati un'accuratezza assoluta di grossomodo ±3–4% contro una scansione DXA. Suona molto finché non noti ciò in cui il metodo è davvero bravo: la coerenza. Misurato negli stessi siti, alla stessa ora, dalla stessa persona, le stime col metro tracciano i cambiamenti reali della composizione corporea notevolmente bene.",
+          "Quindi l'uso pratico è direzionale: un mese di allenamento che ti sposta dal 24% al 22% è un risultato reale benché entrambe le letture portino un errore di ±3%, perché l'errore è in larga parte sistematico e si annulla quando confronti due misure dello stesso corpo.",
+        ],
+      },
+      {
+        heading: "Dove le stime col metro vanno male",
+        paragraphs: [
+          "La tecnica di misura domina il budget dell'errore. Il collo va sotto il laringe col metro che pende leggermente verso il basso davanti; la vita sta all'ombelico per gli uomini e al punto più stretto per le donne; i fianchi nella loro parte più piena. Tira il metro aderente ma mai comprimendo la pelle, respira fuori normalmente, e misura mai subito dopo un pasto abbondante o una sessione pesante.",
+          "Gli output impossibili segnalano input impossibili: poiché la formula è stampata senza limiti, una vita misurata più piccola del collo può produrre una percentuale di grasso negativa. Qualsiasi cosa sotto il livello di grasso essenziale o sopra grossomodo il 60% significa ri-misurare, non festeggiare né panicare.",
+          "Gli individui muscolosi e magri possono spingere i metodi sul campo ai loro limiti, e le persone il cui grasso si distribuisce in modo insolito (per esempio viscerale-dominante) possono essere letti male da un modello basato su circonferenze. Per scopi medici, assicurativi o competitivi, una scansione clinica resta il riferimento — questo strumento è per tracciare la tua stessa tendenza.",
+        ],
       },
     ],
   },
@@ -4396,6 +8401,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — è una stima, non un consiglio medico. Atleti e persone molto muscolose stanno sopra la fascia in piena salute, e alcune condizioni spostano l'intervallo sano. Discuti un peso obiettivo con un professionista sanitario.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Da dove viene la formula di Devine",
+        paragraphs: [
+          "La formula di Devine fu pubblicata dal dottor B. J. Devine nel 1975 — ma non come obiettivo di fitness. Emerge da lavori sul dosaggio dei farmaci, prima la digossina e poi altri medicinali la cui dose sicura dipende dalla dimensione del corpo: 50 kg per i primi 5 piedi di altezza più 2,3 kg per ogni pollice aggiuntivo per gli uomini, 45,5 kg per le donne.",
+          "I clinici avevano bisogno di una stima rapida basata sull'altezza di un «peso di dosaggio», e quella di Devine divenne l'equazione di peso ideale più citata nella letteratura medica — così ampiamente ristampata che generazioni di lettori assunsero che definisse quanto una persona dovrebbe pesare. Non lo fece mai.",
+          "Il secondo numero che questo calcolatore mostra è la banda di BMI sano: la tua altezza in metri al quadrato moltiplicata per 18,5 e per 24,9, i limiti della fascia normale nella classificazione OMS. Questo ancora la risposta nei dati di salute di popolazione anziché in una scorciatoia di dosaggio.",
+        ],
+      },
+      {
+        heading: "Perché la risposta è un intervallo, non un numero",
+        paragraphs: [
+          "I due metodi disaccordano di solito di qualche chilogrammo, e il disaccordo è il messaggio: non esiste un peso ideale unico. La struttura, la massa muscolare, l'età e le differenze etniche nella composizione corporea spostano tutti ciò che è sano per una data altezza, che è esattamente perché l'OMS definisce una banda anziché un obiettivo.",
+          "Leggi i due output insieme come una staffa: la maggior parte degli adulti il cui peso sta tra la cifra di Devine e i bordi della banda BMI è nell'intervallo che i clinici considererebbero ragionevole. Se il tuo peso attuale sta fuori da entrambi, lo scarto ti dice la direzione del cambiamento, non quanto in fretta inseguirlo.",
+          "Nota anche ciò che il numero non cattura: allo stesso BMI, chi si allena porta più tessuto magro di chi non si allena, e la ricerca sugli anziani suggerisce che un peso leggermente più alto possa perfino proteggere. Il peso sano è abbastanza personale che una conversazione con un professionista batte qualunque formula.",
+        ],
+      },
+      {
+        heading: "Usi impropri comuni",
+        paragraphs: [
+          "L'uso improprio più vecchio è trattare Devine come uno standard estetico — un numero da dieta. Fu progettato per calcolare dosi di farmaci; usarlo come obiettivo corporeo importa una comodità di dosaggio in una decisione che non era mai destinata a informare.",
+          "Atleti e persone molto muscolose stanno ben sopra la banda BMI mentre perfettamente sani, perché la banda assume una composizione corporea media. Se ti alleni seriamente, ignora entrambi i numeri come obiettivi e giudica dalla tendenza del grasso corporeo e dalla prestazione invece.",
+          "Infine, le rapide tabelle altezza-peso che circolano online risalgono spesso a tabelle di compagnie assicurative di metà Novecento, costruite dai dati auto-dichiarati dei richiedenti — una base più debole di entrambi i metodi mostrati qui. Questo calcolatore gira localmente nel tuo browser e non memorizza nulla; usalo per orientarti, non per diagnosticare.",
+        ],
+      },
+    ],
   },
   "water-intake-calculator": {
     name: "Calcolatrice acqua giornaliera",
@@ -4423,6 +8454,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "È un consiglio medico?",
         a: "No — è una stima generale. Le persone con condizioni di cuore, reni o fegato, e chi è stato messo a restrizione di liquidi, spesso necessitano di meno della quantità calcolata: segui le indicazioni del tuo medico.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Da dove vengono i numeri",
+        paragraphs: [
+          "La baseline usa l'euristica dei liquidi di mantenimento insegnata attraverso la pratica clinica: 35 ml d'acqua per chilogrammo di peso corporeo al giorno (la guida per gli adulti viene spesso quotata come intervallo 30-35 ml/kg). Originò nella gestione dei fluidi pediatrici, dove dosare i liquidi per peso è di routine, e venne trasportata agli adulti come regola rapida.",
+          "L'aggiunta per l'esercizio di grossomodo 350 ml per 30 minuti riflette i tassi di sudorazione tipici di 0,5-1 litro all'ora di attività moderata; lo sforzo pesante nel caldo può superare il litro all'ora. Il calcolatore mostra baseline e bonus di esercizio separatamente così puoi vedere che il secondo numero è quello incerto — l'output di sudore varia enormemente tra le persone e le condizioni.",
+          "Per il contesto, l'Autorità europea per la sicurezza alimentare fissa l'assunzione adeguata di acqua totale a 2,0 L/giorno per le donne e 2,5 L/giorno per gli uomini — cifre che includono l'acqua dal cibo, che normalmente fornisce il 20-30% dell'assunzione totale.",
+        ],
+      },
+      {
+        heading: "Quanto del totale dovrebbe essere acqua pura?",
+        paragraphs: [
+          "Meno del numero in evidenza. Cibo, caffè, tè, latte e succo contribuiscono tutti — le bevande caffeinate moderate idratano anziché disidratare, un malinteso che è sopravvissuto a decenni. La cifra calcolata è una guida per i liquidi totali sopra una dieta normale, quindi una persona tipica potrebbe bere forse due terzi di essa come acqua pura.",
+          "Il tuo corpo fornisce anche feedback in tempo reale che supera qualunque formula: la sete, e il colore delle urine. Giallo paglierino pallido significa che stai bene; ambra scuro significa bevi ora. Questi segnali tracciano il tuo stato reale, mentre il calcolatore traccia i tuoi input.",
+          "Aspettati che il bisogno si muova giorno per giorno. Caldo, umidità, altitudine, malattia con febbre, e l'alcool alzano tutti le perdite; un giorno di riposo all'aria condizionata le abbassa. Il numero computato è un riferimento da giornata tranquilla, non una quota da colpire a prescindere dalle circostanze.",
+        ],
+      },
+      {
+        heading: "Variazione individuale e chi non dovrebbe seguire un calcolatore",
+        paragraphs: [
+          "Il peso corporeo è un proxy grezzo. Il tasso di sudorazione è in parte allenabile e fortemente individuale — due persone di peso identico possono perdere quantità radicalmente diverse di sodio e liquido nella stessa sessione. Gli atleti di resistenza seri alla fine si pesano prima e dopo le sessioni: il peso perduto (per lo più sudore) è il numero d'acqua più personale che esista.",
+          "Il bere troppo è un rischio reale, non solo teorico: forzare litri oltre la sete può diluire il sodio del sangue (iponatriemia associata all'esercizio), che ha causato danni seri in finisher lenti di maratona che bevevano a ogni stazione. Più non è meglio; accompagnare le perdite è l'obiettivo.",
+          "Chiunque abbia insufficienza cardiaca, malattia renale o epatica viene spesso messo a restrizione dei liquidi, e alcuni farmaci influenzano l'equilibrio dei fluidi. Se ti è stato detto di limitare i liquidi, il numero del tuo clinico prevale su questo calcolatore — nessuna formula generale può rendere conto di una restrizione medica.",
+        ],
       },
     ],
   },
@@ -4453,6 +8510,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì. Le distanze personalizzate accettano entrambe le unità, e i risultati sono sempre mostrati in entrambi i modi: passo al km e al miglio, velocità in km/h e mph. La conversione usa il miglio internazionale esatto di 1,609344 km.",
       },
     ],
+    deepDive: [
+      {
+        heading: "L'aritmetica del ritmo — e l'1,06 di Riegel",
+        paragraphs: [
+          "Il ritmo stesso è divisione semplice: tempo su distanza, mostrato per chilometro e per miglio dallo stesso input, con le conversioni computate esattamente (un miglio internazionale = 1,609344 km). Un 10K in 45:00 è 4:30/km e 7:14/miglio — nessun gioco di arrotondamenti, nessuna matematica mentale alla pista.",
+          "Il predittore di gare è la metà interessante. Peter Riegel, un ingegnere di ricerca, pubblicò T₂ = T₁ × (D₂/D₁)^1,06 su Runner's World nel 1977 dopo aver analizzato centinaia di risultati di gara registrati. L'esponente 1,06 cattura il declinare del ritmo con la distanza: raddoppiare la distanza di gara richiede circa il 9% in più di quanto il doppio del tempo suggerirebbe.",
+          "Quell'esponente è una media di popolazione calibrata su veri finisher, non fisiologia. Assume un allenamento adeguato per la distanza obiettivo — estrapola ciò che i corridori allenati fecero, estrapolerà felicemente stupidaggini per qualcuno che non ha mai corso lungo.",
+        ],
+      },
+      {
+        heading: "Interpretare le predizioni",
+        paragraphs: [
+          "Le predizioni degradano con la distanza dalla tua gara di input. Proiettare un 10K da una mezza maratona di solito è vicino; proiettare una maratona da un 5K è fantasia a meno che i lunghi non esistano nell'allenamento. Più grande lo scarto, più la proiezione assume sulla tua base di resistenza.",
+          "Usa le predizioni per piani di ritmo anziché promesse: una mezza maratona sotto le 2:00 richiede circa 5:41/km, e vedere ciò che implica per una maratona completa ti dice se l'obiettivo è realistico questa stagione o richiede un altro ciclo di allenamento.",
+          "Un controllo pratico: se hai corso due distanze di recente, puoi verificare la formula contro te stesso — quando il tuo rapporto devia da 1,06, il tuo punto di forza o debolezza a quella distanza si sta mostrando, e quella è informazione di coaching utile.",
+        ],
+      },
+      {
+        heading: "Dove i dati del mondo reale mentono",
+        paragraphs: [
+          "Gli orologi GPS accumulano deriva: copertura arborea, edifici alti e curve strette possono distorcere un percorso registrato di un percento o più, abbastanza da spostare il ritmo mostrato di secondi per chilometro. I tapis roulant sono peggiori — la maggior parte è ottimistica se non calibrata, e perfino quelli calibrati differiscono biomeccanicamente dalla corsa all'aperto.",
+          "I percorsi di gara stessi variano: profilo di elevazione, curve, meteo e affollamento alla linea di partenza spostano tutti i tempi finali di minuti. Confrontare un 10K in collina contro un 10K piatto come se fossero lo stesso numero avvelenerà qualunque predizione.",
+          "Quindi il flusso è: inserisci risultati di gara, non allenamenti; preferisci percorsi piatti e certificati; e tratta il risultato più recente come l'ancora. Questa pagina gira interamente nel tuo browser — i tuoi tempi non lasciano mai il dispositivo.",
+        ],
+      },
+    ],
   },
   "one-rep-max-calculator": {
     name: "Calcolatrice 1RM",
@@ -4481,6 +8564,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Perché lì le formule smettono di avere senso. Oltre le ~12 ripetizioni il risultato è dominato dalla resistenza locale più che dalla forza, e il denominatore di Brzycki (37 − reps) collassa verso lo zero. Le serie ad alte ripetizioni misurano il condizionamento; per una stima di massimo da esse, usa una formula pensata per il lavoro di resistenza.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Epley contro Brzycki: due formule, una staffa",
+        paragraphs: [
+          "Entrambe le formule stimano il peso che potresti sollevare esattamente una volta da una serie che hai realmente completato. Epley, pubblicata nel 1985, computa w × (1 + reps/30); Brzycki, del 1993, computa w × 36/(37 − reps). Le due concordano strettamente fino a circa 10 ripetizioni e poi divergono — Epley corre leggermente ottimista ai conteggi più alti, Brzycki leggermente conservativa.",
+          "Quella divergenza è il motivo per cui questo calcolatore mostra entrambe anziché scegliere un vincitore. Quando le due stime atterrano entro un paio di chili, hai un numero affidabile; quando si aprono, la tua serie sta nella zona dove la predizione submassimale è traballante e una serie di prova più pesante e più corta affinerebbe la stima.",
+          "L'accuratezza è migliore da serie di grossomodo 1-6 ripetizioni pulite. Oltre la dozzina, il sollevamento diventa una prova di resistenza locale anziché forza, e nessuna formula di forza può salvarlo — motivo per cui l'input si limita a 20 ripetizioni.",
+        ],
+      },
+      {
+        heading: "Usare la tabella delle percentuali",
+        paragraphs: [
+          "La tabella di allenamento inverte l'equazione di Epley: il massimo che puoi sollevare per n ripetizioni è grossomodo 1RM × 30/(30 + n). Dieci ripetizioni fa il 75% del 1RM, cinque circa l'86%, tre circa il 91%. I coach di forza programmano esattamente da queste percentuali — blocchi pesanti di forza attorno all'85-95% per basse ripetizioni, lavoro di ipertrofia attorno al 65-80% per 6-12 ripetizioni, resistenza ancora più alta.",
+          "Le percentuali sono la parte trasferibile della stima: una volta conosciuto il tuo 1RM, non devi mai più testare per impostare i pesi di allenamento. Cambia il programma, non il massimo — e ricalcola il massimo stesso solo ogni un paio di mesi man mano che i tuoi numeri di allenamento salgono.",
+          "Sappi che la prestazione reale deriva per esercizio: gli squat tollerano più ripetizioni a una data percentuale delle pressioni o degli stacchi, perché il riflesso di stiramento e il tempo di preparazione differiscono. Tratta la tabella come dose di partenza e aggiusta da come si sentivano realmente le ultime ripetizioni.",
+        ],
+      },
+      {
+        heading: "Perché non dovresti testare un vero 1RM",
+        paragraphs: [
+          "Un massimo stimato esiste proprio così che tu non debba mai testare quello vero. Un tentativo di vero 1RM esige assistenti, tecnica fresca sotto carico massimo e un riscaldamento correttamente progresso; il rischio di infortunio è reale, e l'informazione guadagnata sopra una serie da 3 ripetizioni ben eseguita è marginale.",
+          "La stima perde poco: una serie dura da 3-5 ripetizioni predice il 1RM entro pochi percento di un vero singolo per la maggior parte dei sollevatori allenati. I competitori in picco per una gara sono l'eccezione, e lavorano con coach e allestimenti di sicurezza appropriati.",
+          "Un'altra trappola: inserire ripetizioni sbagliate. Le formule assumono ripetizioni pulite e a range completo — trascinare l'ultima ripetizione con forma brutta gonfia la stima. Ricorda anche che il massimo è specifico dell'esercizio: un 1RM di squat non dice nulla sul tuo bench.",
+        ],
+      },
+    ],
   },
   "sleep-calculator": {
     name: "Calcolatrice sonno",
@@ -4507,6 +8616,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Di quanti cicli ho bisogno?",
         a: "La maggior parte degli adulti sta bene con 5 cicli (7,5 ore) e molti ne hanno bisogno di 6 (9 ore); 4 cicli (6 ore) tengono alcune persone a breve, raramente a lungo. La regolarità del ritmo conta quanto il totale — gli stessi 6 cicli con coricate fortemente variabili ti lasciano peggio.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Quanto è solida davvero la teoria del ciclo di 90 minuti",
+        paragraphs: [
+          "Il sonno si alterna tra sonno leggero, sonno profondo e REM, e quell'ampia architettura è un reperto fermo della ricerca sul sonno — la polisonnografia (PSG) può osservare direttamente le firme elettriche di ogni stadio. Che una notte contenga parecchi di tali cicli, che si ripetono in sequenza, non è nemmeno in discussione.",
+          "Ciò che è contestato è il numero tondo «90 minuti». Viene dalle medie di popolazione dei vecchi studi di laboratorio, ma misure successive collocano la lunghezza del ciclo da grossomodo 80 a 110 minuti, e i cicli della stessa persona variano dentro una singola notte: la prima metà è ricca di sonno profondo con cicli più lunghi, la seconda metà si sposta verso il REM e una struttura diversa. Far atterrare la sveglia su un confine calcolato inclina solo le probabilità verso il sonno leggero — non è un interruttore biologico esatto.",
+          "Quindi tratta questo strumento come un aiuto di pianificazione, non un consiglio medico: allinea il risveglio al confine che il modello medio produce, osserva come si sentono i mattini per una settimana o due, poi sposta l'ora di andare a letto di 15 minuti per trovare il tuo ritmo. L'insonnia persistente, i risvegli notturni frequenti o la grave sonnolenza diurna sono sintomi per un medico da valutare, non qualcosa da risolvere con la posizione della sveglia.",
+        ],
+      },
+      {
+        heading: "Il budget dei 15 minuti di insonnolamento e come leggere i risultati",
+        paragraphs: [
+          "La prima colonna di bedtime porta 15 minuti in più di ciò che sottrarre N cicli darebbe: un cuscinetto di insonnolamento. Il primo ciclo comincia solo quando ti addormenti davvero, e la maggior parte della gente impiega 10–20 minuti dopo essersi messa a letto. Lo strumento usa 15 come valore mediano; calibralo sulla tua esperienza — se ti addormenti scrollando il telefono, togli 10; se la mente corre a letto, aggiungine qualcuno.",
+          "In modalità inversa, i risultati sono ordinati come «bedtime + 15 minuti + cicli interi», quindi coricarsi alle 23:30 fa delle 01:15 la prima candidata. La cattiva lettura comune è trattare quei tempi come una garanzia di risveglio; sono i punti dove il risveglio sarebbe più leggero se un ciclo si completesse. In pratica, imposta una sveglia leggermente più tarda come argine e lascia che il risveglio naturale avvenga vicino a un confine.",
+          "Entrambe le modalità elencano fino a 3 cicli (4,5 ore), e comparire nell'elenco non è una raccomandazione. Meno di 4 cicli è privazione acuta di sonno, con giudizio e tempo di reazione chiaramente degradati; la riga esiste perché un volo notturno o una notte bianca porti con sé un prezzo onesto.",
+        ],
+      },
+      {
+        heading: "Le sveglie sui cicli non ripagano un debito di sonno",
+        paragraphs: [
+          "Allineare i cicli migliora come si sente l'istante del risveglio; non fa nulla sulle ore totali. Il debito accumulato da settimane di notti da 5 ore non viene ripagato dormendo fino tardi nel weekend. La regolarità della schedulazione — un'ora di risveglio fissa sopra tutto — contribuisce più dell'allineamento dei cicli per notte all'energia quotidiana, un punto che la letteratura di medicina del sonno ripete spesso.",
+          "Rispetto a wearable e materassi intelligenti, questo strumento non raccoglie alcun dato. Il tracciamento dei consumatori degli stadi del sonno non è molto accurato per cominciare, e tutto qui viene calcolato localmente nel tuo browser — nessun orario viene spedito o memorizzato. Funziona bene come punto di partenza gratuito; gli appassionati che vogliono misurare la reale lunghezza del loro ciclo possono valutare un dispositivo dopo.",
+        ],
       },
     ],
   },
@@ -4538,6 +8672,32 @@ export const it: Record<string, ToolCopy> = {
         a: "L'aritmetica delle date in ora locale può deviare di un giorno intorno ai passaggi dell'ora legale — un intervallo che attraversa il cambio di novembre o marzo può uscire di un giorno più corto o lungo in alcuni browser. Contare in giorni UTC interi aggira del tutto il problema: da venerdì a lunedì sono 2 giorni lavorativi ovunque sulla Terra.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Cosa conta come «giorno lavorativo» — e cosa no",
+        paragraphs: [
+          "La risposta onesta è che il giorno lavorativo è una convenzione, e le convenzioni differiscono. Questo strumento conta da lunedì a venerdì (o da venerdì a sabato se commuti l'impostazione del weekend) e nient'altro per impostazione: non porta alcun calendario integrato di festivi pubblici, perché le festività sono stabilite per paese, per regione e a volte per anno in modi che nessun elenco statico azzecca. Invece incolli le tue righe di festivi, così il conteggio è esattamente quello che la tua azienda o il tuo contratto intendono.",
+          "Due decisioni cambiano un conteggio drammaticamente e vale la pena controllarle ogni volta. Prima, le estremità: questo conteggio include entrambe le date, così da lunedì a venerdì in una settimana sono 5, non 3 — alcuni sistemi contano il gap strictamente in mezzo e restituirebbero 3. Seconda, se la data di inizio venga consumata nella modalità aggiungi/sottrai: qui non lo è, così venerdì più un giorno lavorativo è lunedì.",
+          "Se il tuo contratto o SLA dice «giorni lavorativi» senza definirli, la convenzione è di solito i giorni lavorativi locali della giurisdizione che governa — che può avere weekend diversi da sab/domenica e festività di cui questo strumento non ha mai sentito parlare. Il flusso sicuro: incolla l'elenco dei festivi di quella giurisdizione, controlla qui, e metti la data calendariale risultante per iscritto.",
+        ],
+      },
+      {
+        heading: "Come viene davvero computato il conteggio",
+        paragraphs: [
+          "La modalità tra-date cammina il calendario reale giorno per giorno, marcando ogni data come lavorativa o meno secondo la tua definizione di weekend e le tue righe di festivi. Poiché cammina date reali, la risposta corrisponde sempre a ciò che otterresti puntando un calendario — e le righe di festivi vengono abbinate per data esatta, così una festività di sabato non rimuove nulla di extra, visto che quel giorno era già escluso dalla regola del weekend.",
+          "La modalità aggiungi/sottrai avanza o arretra di un giorno lavorativo alla volta, saltando i giorni non lavorativi senza consumarli. Per questo sabato più un giorno lavorativo atterra a lunedì anziché a domenica: i giorni di riposo vengono scavalcato, non contati. Le query ripetute sono economiche — l'aritmetica è un ciclo semplice sui numeri di giorno UTC.",
+          "Tutto gira sui numeri di giorno UTC, immuni alle transizioni dell'ora legale. La matematica delle date in tempo locale vicino al cambio di marzo o novembre può derivare un giorno in certi ambienti; contare giorni UTC interi dà la stessa risposta da-venerdì-a-lunedì-sono-2 ovunque sulla Terra, in ogni stagione.",
+        ],
+      },
+      {
+        heading: "Dove si inserisce questo strumento, e la privacy",
+        paragraphs: [
+          "Utenti tipici: periodi di preavviso contrattuali, tempi di lead di build e spedizioni, finestre di risposta SLA, scadenze di buste paga e code di appuntamenti per visti. Per qualsiasi cosa ricorrente, salva l'elenco dei festivi una volta e riutilizzalo per l'anno — incollare dieci o quindici date richiede secondi e trasforma un'indovinazione in un numero difendibile.",
+          "Rispetto alle funzioni workday dei fogli di calcolo, le differenze sono trasparenza e controllo: i fogli di calcolo nascondono quale giorno fu saltato e perché, e molti richiedono di caricare una tabella di festivi da un altro foglio. Qui gli input — definizione del weekend e righe dei festivi — sono visibili sulla pagina, e la data di arrivo più il giorno della settimana mostra esattamente dove il conteggio si fermò.",
+          "Nessun dato di festività viene scaricato e nessuna data viene caricata: il conteggio gira nel tuo browser e funziona offline. Le scadenze contrattuali e le date del personale sono sensibili per natura, il che è un'altra ragione per cui la computazione non lascia mai il tuo dispositivo.",
+        ],
+      },
+    ],
   },
   "cooking-conversion": {
     name: "Convertitore di cucina",
@@ -4565,6 +8725,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché 350 °F fanno 175 °C e non 176,7 °C?",
         a: "La conversione esatta è (350 − 32) × 5/9 = 176,7 °C, ma i forni sono graduati a passi di 5–10 gradi e chi scrive le ricette arrotonda all'impostazione famigliare più vicina, quindi 175 °C è l'abbinamento standard. La tabella mostra quelle coppie convenzionali; la vera temperatura della manopola del forno è comunque approssimativa.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché una cup non è un numero solo",
+        paragraphs: [
+          "Il volume misura spazio; il peso misura materia, e il ponte tra loro è la densità — che varia enormemente tra gli ingredienti. Una cup di miele (340 g) pesa quasi tre volte una cup di fiocchi d'avena (90 g), eppure entrambe riempiono gli stessi 240 ml. Qualsiasi convertitore che offra un fattore singolo «cups in grammi» assume in silenzio una densità per tutto, che è esattamente l'assunzione che rovina il dolcetto.",
+          "Questo strumento tiene una tabella per ingrediente invece. La farina sta a 120 g per cup — la cifra cucchiaiato-e-rasato usata da King Arthur e dalla maggior parte delle cucine di prova statunitensi — mentre zucchero (200), burro (227) e miele (340) portano i loro valori pubblicati. La distinzione conta di più per la farina perché è comprimibile: la stessa cup fisica può pesare 110 g se gonfiata o 150 g se presa dritta dal sacchetto.",
+          "Il messaggio pratico: tratta gli output in grammi come medie ben documentate, non costanti da laboratorio. I pasticceri professionali convertono le ricette in grammi una volta, poi pesano tutto permanentemente — una bilancia da cucina rimuove la varianza di ±15% del prelievo che nessun calcolatore può vedere. Usa questo strumento per fare quella prima conversione, e per tradurre le ricette a volume nell'abitudine della pesatura.",
+        ],
+      },
+      {
+        heading: "Le dimensioni della cup nel mondo",
+        paragraphs: [
+          "La parola «cup» non è standardizzata globalmente, e la differenza è abbastanza grande da sentirsi al gusto. Questo strumento usa la cup da cucina consuetudinaria USA di 240 ml, la convenzione dietro le ricette americane e le etichette nutrizionali — costruita da 16 cucchiai da 15 ml o 48 cucchiaini da 5 ml. Le ricette australiane usano cup da 250 ml, così perfino le fonti anglofoni disaccordano.",
+          "Se la tua ricetta fu scritta per misurini metrici (250 ml, comuni in Europa, Giappone e gran parte dell'America Latina), ogni cifra di volume qui gira circa il 4% più piccola della tua cup. Le cup imperiali UK (284 ml) corrono nell'altro verso. Gli ingredienti basati sul peso come la farina si spostano di qualche grammo per cup; con i liquidi l'errore è proporzionale e raramente conta. La cura sicura è convertire una volta in grammi, poi lavorare a peso.",
+          "I cucchiai nascondono una seconda trappola: il cucchiaio statunitense è 15 ml, quello australiano 20 ml, e le ricette UK vecchie possono assumere 17,7 ml. Piccolo per cucchiaio, ma una ricetta con sei cucchiai d'olio deriva sensibilmente. Quando una ricetta dice «cucchiaio» senza paese, assumi 15 ml a meno che la fonte non sia australiana.",
+        ],
+      },
+      {
+        heading: "Temperature del forno ed esecuzione locale",
+        paragraphs: [
+          "La tabella °F↔°C applica la formula esatta °C = (°F − 32) × 5⁄9, ma arrotonda alle impostazioni che i forni hanno realmente: 350 °F diventa 175 °C anziché il letterale 176,7 °C, perché i quadranti passano a passi di 5–10 gradi e ogni autore di ricette arrotonda al segno familiare più vicino. Altre coppie standard seguono la stessa logica — 300 °F ≈ 150 °C, 400 °F ≈ 200 °C, 425 °F ≈ 220 °C.",
+          "Ricorda che la marcatura su un quadrante è essa stessa un'approssimazione: i forni domestici derivano di routine di 10–25 gradi dal loro punto impostato, motivo per cui le ricette serie raccomandano un termometro da forno indipendente prima di incolpare una conversione. La tabella risolve il problema delle unità; non può sistemare un forno mal calibrato.",
+          "Tutto qui — la tabella di densità, la matematica delle unità, la formula della temperatura — gira interamente nel tuo browser. Nessun elenco di ingredienti, nessuna quantità e nessuna ricerca viene spedito da nessuna parte, motivo per cui lo strumento resta istantaneo senza spinner di caricamento. Funziona anche offline una volta caricato, utile per telefoni appoggiati a un piano infarinato.",
+        ],
       },
     ],
   },
@@ -4596,6 +8782,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Viene inviato qualcosa a un server?",
         a: "No. L'SVG è costruito da un template di stringa nel tuo browser e le versioni raster sono disegnate su una canvas locale. Nulla lascia la pagina: funziona offline ed è sicuro per design non ancora pubblicati.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "SVG come formato sorgente: testo che scala",
+        paragraphs: [
+          "Un segnaposto non ha bisogno di un file raster — ha bisogno di un rettangolo con un'etichetta. Esprimerlo come SVG significa che l'output è poche righe di markup leggibile: un rect, un elemento text, magari un attributo fill. Quel testo è la ragione per cui l'SVG copia pulito in HTML, JSX, Figma o un README, e perché può essere ri-modificato dopo — cambia l'etichetta o il colore hex nel markup e l'immagine si aggiorna. Un PNG della stessa cosa è pixel congelati che nessuno può aggiustare senza rigenerare.",
+          "SVG scala anche: lo stesso file da 1 KB si renderizza nitido a 64×64 in uno slot avatar e a 1200×630 in un mockup hero, perché un disegno vettoriale non ha risoluzione. I segnaposto raster o appaiono sfocati quando stirati o sprecano byte quando sovradimensionati. Per wireframe e documentazione — gli habitat principali dei segnaposto — la via vettoriale è di solito strictamente migliore.",
+          "I due formati raster si guadagnano il posto in nicchie specifiche. PNG si adatta alle piattaforme che igienizzano o mutilano l'SVG in linea (alcuni CMS, client email e app di chat lo tolgono o lo rompono), e JPG vince quando il segnaposto imita una foto, poiché la compressione JPEG gestisce gradienti e rumore meglio dell'approccio a palette del PNG. Stessa anteprima, tre formati di consegna — la scelta appartiene alla piattaforma di destinazione, non al gusto.",
+        ],
+      },
+      {
+        heading: "Le dimensioni che contano nei layout reali",
+        paragraphs: [
+          "Certain dimensioni si ripetono perché le piattaforme le fissano. Il rettangolo 1200×630 è la dimensione canonica della card open-graph/anteprima social — il rapporto in cui la maggior parte delle piattaforme ritaglia le anteprime dei link. 256×256 e simili potenze di due corrispondono agli slot avatar e icone. I rettangoli 16:9 (1280×720) si allineano agli incorporamenti video. Scegliere un segnaposto col rapporto d'aspetto dell'asset finale significa che il mockup non si sposta mai quando l'immagine vera arriva, perché il reflow del layout è il bug costoso che queste immagini esistono per prevenire.",
+          "Il tetto di 1–5000 pixel non è arbitrario. Sotto 1 pixel un'immagine non può renderizzare significativamente; sopra qualche migliaio, i browser e gli strumenti di design cominciano a soffocare sulle allocazioni di canvas — un PNG 5000×5000 a piena qualità è già decine di megabyte di dati pixel grezzi prima della compressione. I generatori di segnaposto raramente richiedono di più, e respingere dimensioni estreme con un messaggio chiaro batte produrre un file che non si aprirà da nessuna parte.",
+          "Un'abitudine da adottare: tieni il testo dell'etichetta dentro l'immagine ma tieni le dimensioni reali nel markup attorno. Un tag img con attributi width e height espliciti più un segnaposto allo stesso rapporto ti dà una casella di layout stabile ora e un rimpiazzo a caduta più avanti — nessuna chirurgia CSS quando l'asset vero atterra.",
+        ],
+      },
+      {
+        heading: "Perché la generazione resta sulla tua macchina",
+        paragraphs: [
+          "Le immagini segnaposto compaiono al più presto nella vita di un progetto — wireframe di prodotti non rilasciati, mockup di funzionalità sotto NDA, dashboard interne che nessuno fuori dall'azienda dovrebbe vedere. Questo rende scomodo il flusso abituale del generatore online: digiti le tue dimensioni in un servizio e la richiesta (spesso con un'etichetta che rivela il progetto) colpisce il server di qualcun altro e può essere registrata. Questo strumento costruisce l'SVG da un template di stringa e disegna le versioni raster su una canvas locale — nessuna richiesta di rete trasporta il tuo design in nessun momento.",
+          "La generazione locale rimuove anche l'economia di account-e-watermark che circonda molti servizi di segnaposto: nessuna registrazione, nessun limite di frequenza giornaliero, nessuna marca cotta nell'angolo del tuo mockup. Il file che scarichi è esattamente il file che hai specificato, e il markup SVG che copi è tuo da modificare.",
+          "Funziona anche offline una volta caricata la pagina, il che conta più di quanto suoni: designer e sviluppatori spesso lavorano in transito o su reti ristrette, e uno strumento che muore senza connettività è inutile proprio nelle situazioni dove serve rapidamente un segnaposto. Genera, scarica, chiudi la scheda — non è mai stato trasmesso nulla.",
+        ],
       },
     ],
   },
@@ -4630,6 +8842,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Il FLSA calcola gli straordinari sulla «tariffa normale», che può includere più della retribuzione base — ad esempio i differenziali di turno e i bonus non discrezionali. Questa calcolatrice usa solo la tariffa base: se ricevi quegli extra, la tua tariffa legale di straordinario può essere più alta di quella mostrata qui.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Da dove viene il moltiplicatore 1,5× — e dove varia",
+        paragraphs: [
+          "La convenzione di tempo-e-mezzo è più codificata nel Fair Labor Standards Act statunitense, che esige almeno 1,5 volte il tasso regolare per i dipendenti non esenti oltre le 40 ore in una settimana lavorativa. Molti altri paesi regolano gli straordinari diversamente — alcuni fissano un tetto generale sulle ore settimanali con premi negoziati per settore o contratto, altri si affidano per lo più all'accordo tra datore e dipendente.",
+          "Per questo questo calcolatore ti lascia scegliere il moltiplicatore anziché hardcodarne uno: 1,5× è il predefinito comune, ma il doppio tempo esiste in alcuni stati USA per festività o turni giornalieri lunghi, e i contratti collettivi altrove fissano premi da 1,25× in su. Tratta l'output del calcolatore come un modello dei termini del tuo contratto, non un'affermazione su ciò che qualunque legge garantisce.",
+          "La lettura conservatrice: controlla ciò che il tuo contratto di lavoro, l'accordo del tuo settore o la tua autorità del lavoro locale dicono realmente sulle ore oltre la settimana lavorativa standard, poi inserisci il moltiplicatore e la soglia che corrispondono. La matematica stessa — tasso × moltiplicatore × ore — non cambia mai; cambiano solo gli input.",
+        ],
+      },
+      {
+        heading: "La trappola del tasso regolare: cosa conta come base",
+        paragraphs: [
+          "L'errore più comune nello stimare la paga degli straordinari è usare una base troppo bassa. Sotto regole come quelle del FLSA, gli straordinari si devono sul «tasso regolare» — una media fusione che deve includere la maggior parte dei bonus non discrezionali, le differenze di turno e le provvigioni, non solo la paga base. Un dipendente il cui vero tasso regolare è 27,00 ma che computa gli straordinari da una base di 25,00 perde soldi a ogni ora di straordinario.",
+          "Questo calcolatore usa deliberatamente un tasso base semplice che inserisci, il che tiene il modello trasparente: vedi esattamente tasso × moltiplicatore × ore, senza nulla aggiunto o nascosto. Se la tua paga include extra che legalmente appartengono al tasso regolare, il tuo diritto reale è più alto di quello mostrato — inserisci un tasso mediato manualmente per approssimarlo.",
+          "Per i dipendenti a stipendio, la base va prima derivata: lo stipendio annuale diviso per le ore regolari a settimana per le settimane all'anno, che è ciò che fa la modalità stipendio qui. Il risultato è accurato quanto l'orario che inserisci — una persona a stipendio che lavora realmente 45 ore alla settimana ha un tasso orario derivato più basso, e un quadro di straordinari diverso, di ciò che suggerisce l'orario nominale da 40 ore.",
+        ],
+      },
+      {
+        heading: "Leggere la divisione e pianificarci sopra",
+        paragraphs: [
+          "La divisione settimanale — paga regolare contro il premio di straordinario — è il numero da sorvegliare, non il totale. La riga del premio è reddito marginale puro: mostra ciò che ogni ora extra vale realmente al margine, e per simmetria ciò che ogni ora di straordinario negata o non pagata ti costa. Una settimana di cinque ore a 1,5× su un tasso di 25,00 aggiunge 187,50 di premio — visibile, negoziabile, da tracciare.",
+          "La cifra annualizzata moltiplica il totale settimanale per le settimane all'anno che lavori. Leggila come un tetto, non una promessa: gli straordinari sono raramente garantiti ogni settimana, quindi un intervallo realistico usa le tue settimane tipiche di straordinario anziché 52. Fare budget da una proiezione di straordinari sull'intero anno è come la gente finisce corta quando le ore extra si seccano.",
+          "Tutto gira localmente nel tuo browser e nulla viene memorizzato o spedito — utile quando testi numeri prima di una conversazione sulla paga. Porta la divisione, non solo il totale: «la mia settimana regolare è 1.000,00 e le cinque ore che mi hai chiesto valgono 187,50 a tempo e mezzo» è una richiesta più chiara di qualunque cifra a mucchio.",
+        ],
+      },
+    ],
   },
   "rent-affordability-calculator": {
     name: "Calcolatrice affitto sostenibile",
@@ -4657,6 +8895,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Cosa significa qui la percentuale debiti/reddito?",
         a: "È la quota del tuo reddito assorbita dall'affitto massimo più i debiti e le assicurazioni elencate. I finanziatori in generale apprezzano un DTI totale sotto il 36%; sopra il 43% circa diventa difficile ottenere un mutuo. Una cifra alta significa che il tetto di affitto è troppo aggressivo rispetto ai tuoi altri impegni.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Da dove viene la regola del 30% — e cosa dimentica",
+        paragraphs: [
+          "Il benchmark del 30% ha un'origine legislativa statunitense: il Brooke Amendment del 1969 limitava l'affitto nell'edilizia pubblica al 25% del reddito, e il tetto fu alzato al 30% nel 1981. Le agenzie abitative usano ancora la linea del 30% per definire una famiglia «sgravata di costi», e da lì trapelò nel consiglio generale sull'affitto. Conoscere la provenienza conta perché il numero era una regola di sussidio, non un reperto su ciò che qualunque famiglia possa realmente permettersi.",
+          "La regola fu progettata attorno ai redditi lordi e alle strutture familiari di metà Novecento. Non dice nulla sul resto del budget: un inquilino con prestiti universitari e una rata dell'auto al 30% del lordo è più stretto di uno senza debiti al 35%. Ignora anche la linea più flessibile del budget — nulla nella regola rende conto della cura dei figli, del pendolarismo o dei costi medici, che variano molto più dell'affitto.",
+          "Per questo questo calcolatore offre tre predefiniti invece di una sola verità: 30% del lordo per la lettura classica, 33% per un allungamento modesto, e 40% del netto per le città ad alto costo dove il 30% del lordo può non prezzare alcun appartamento vero. Qualunque predefinito scegli, sottrai debiti e assicurazioni dopo — il budget residuo è il numero che risponde a «posso viverci sopra», non il tetto stesso.",
+        ],
+      },
+      {
+        heading: "Lordo o netto: scegliere una base e restare coerenti",
+        paragraphs: [
+          "La regola classica è dichiarata sul reddito lordo, il che la lusinga in silenzio: il 30% del lordo può essere il 38–40% del netto dopo tasse e deduzioni da busta, a seconda del paese e dello scaglione. Pianificare dal netto appare più onesto perché la busta paga è ciò che realmente arriva — ma i rapporti basati sul netto devono essere più alti per atterrare nello stesso posto, da qui il 40% del netto come predefinito per le città ad alto costo.",
+          "L'errore da evitare è commutare base a metà analisi. Un budget d'affitto costruito sul 30% del lordo, poi confrontato ogni mese contro gli accrediti netti, produce un deficit fantasma permanente che appare come overspending. Scegli una base, annotala, e tieni ogni controllo successivo su quella base — il calcolatore etichetta lordo contro netto proprio così il tetto e il tuo estratto bancario parlano degli stessi soldi.",
+          "I locatori aggiungono il loro screening sopra: multipli di reddito di due e mezzo a tre volte l'affitto mensile sono comuni, insieme a controlli creditizi e referenze. Quei filtri riguardano il loro rischio, non il tuo budget — passarli a un rapporto affitto/reddito del 45% resta comunque un budget tirato, e la cifra DTI qui rende visibile ciò prima che tu firmi.",
+        ],
+      },
+      {
+        heading: "Debito/reddito e leggere i residui",
+        paragraphs: [
+          "La percentuale debito/reddito mostrata all'affitto massimo è la stessa misura che usano i prestatori: obblighi mensili totali su reddito mensile totale. Come bussola grossolana, un DTI totale attorno al 36% è generalmente considerato comodo, e salire verso la metà dei 40 è dove le approvazioni di mutui e affitti cominciano a faticare — queste sono pratiche di settore comuni, non limiti legali fissi, e le soglie differiscono per paese e prestatore.",
+          "Leggi il budget residuo prima del tetto. Due redditi possono produrre lo stesso rapporto affitto/reddito lasciando importi molto diversi per cibo, trasporti e risparmi — 4.500 di reddito con 1.350 di affitto lascia il doppio di ciò che 2.600 di reddito lascia. Il resto assoluto è ciò che coglie le spese non pianificate; il rapporto si limita a normalizzare.",
+          "Infine, la riga negativa è una funzionalità: quando affitto più debiti superano il reddito, lo strumento lo dice anziché smussarlo. È il segnale onesto per restringere il predefinito del rapporto, cercare un affitto più economico o estinguere prima un debito — il calcolatore gira interamente nel tuo browser e non memorizza nulla, quindi le cifre reali del reddito sono sicure da inserire.",
+        ],
       },
     ],
   },
@@ -4688,6 +8952,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Questa calcolatrice usa 365 periodi all'anno, la convenzione che seguono la maggior parte dei conti di risparmio per consumatori. Alcuni prodotti finanziari annualizzano su base a 360 giorni, il che sposta leggermente il tasso effettivo — se le clausole dicono 360, considera il risultato come una buona approssimazione e non come una quotazione esatta.",
       },
     ],
+    deepDive: [
+      {
+        heading: "APR, APY, e chi trae beneficio dalla confusione",
+        paragraphs: [
+          "APR è un tasso annuale nominale: ciò che il saldo guadagnerebbe, o dovrebbe, se gli interessi venissero addebitati una volta all'anno. APY è il risultato annuale effettivo una volta ripiegata la capitalizzazione. L'identità che li lega, APY = (1 + r/n)^n − 1, dice che lo stesso tasso nominale produce un rendimento effettivo più alto quanto più spesso capitalizza — la differenza è precisamente gli interessi che i tuoi interessi guadagnano.",
+          "L'asimmetria nella pubblicità segue l'incentivo: i risparmi vengono quotati in APY perché è il numero più grande, i mutui in APR perché è il più piccolo. Nessuna delle due pratiche è disonesta in sé — entrambe le cifre sono standardizzate nella maggior parte dei mercati — ma confrontare un APY di risparmio direttamente contro un APR di mutuo, o due tassi con frequenze di capitalizzazione diverse, è confrontare unità diverse.",
+          "La regola di una riga che questo strumento automatizza: per i depositi, confronta APY contro APY, che già normalizza la frequenza; per i debiti, confronta APR contro APR e poi controlla quanto spesso ciascun contratto capitalizza realmente. Solo tatti sulla stessa base possono classificare due offerte.",
+        ],
+      },
+      {
+        heading: "La nota del 365 contro 360, e le altre convenzioni che muovono il numero",
+        paragraphs: [
+          "Questo strumento usa 365 periodi per la capitalizzazione giornaliera, la convenzione che la maggior parte dei conti di risparmio dei consumatori segue. Ma le scritte fini dei prodotti finanziari hanno più di un calendario: alcuni prodotti annualizzano su base di 360 giorni, e alcuni contratti di mutuo computano gli interessi sul numero reale di giorni nell'anno. Ogni convenzione sposta il tasso effettivo di un piccolo importo — piccolo per anno, significativo nel corso della vita di un grande saldo.",
+          "La tempistica dei pagamenti muove il numero pure. Un deposito che guadagna interessi dal giorno in cui arriva cresce leggermente più in fretta di uno accreditato a fine periodo; se un mutuo capitalizza gli interessi mensilmente o giornalieri cambia il suo costo effettivo perfino allo stesso tasso nominale. Quando due quote differiscono di qualche centesimo di punto, la causa è quasi sempre una convenzione come queste, non un errore aritmetico di qualcuno.",
+          "Per questo conta anche la direzione inversa: dato un APY pubblicizzato, questo strumento recupera l'APR nominale che lo produrrebbe, così puoi vedere il tasso grezzo dietro il numero del marketing e confrontare contratti che quotano in unità diverse. Il viaggio di andata e ritorno è esatto perché è la stessa equazione risolta in entrambi i modi.",
+        ],
+      },
+      {
+        heading: "Ciò che la proiezione aggiunge, e dove si ferma",
+        paragraphs: [
+          "Il deposito e l'orizzonte opzionali trasformano un confronto di tassi in un confronto di soldi: la stessa frazione di punto tra due APY è banale su un piccolo fondo d'emergenza e quattro cifre su un decennio su un grande deposito. La proiezione capitalizza al tasso effettivo, quindi risponde alla domanda pratica — cosa mi compra questa differenza sul mio orizzonte reale — anziché ristatare i tassi.",
+          "Ciò che non fa è modellare tasse o commissioni. Il reddito da interessi è tassabile nella maggior parte delle giurisdizioni, e le commissioni del conto sottraggono direttamente dal saldo, quindi l'APY dopo tasse e commissioni che realmente esperisci è più basso di quello quotato. Converti i tuoi numeri in modo conservativo e tratta il saldo proiettato come un tetto, non una promessa.",
+          "Come per il resto di questo sito, la conversione e la proiezione girano localmente nel tuo browser. I tatti che stai ancora negoziando e le dimensioni dei depositi non lasciano mai il tuo dispositivo — il che conta più di quanto suoni quando sei a metà confronto tra due banche.",
+        ],
+      },
+    ],
   },
   "gpa-calculator": {
     name: "Calcolatore GPA",
@@ -4715,6 +9005,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Perché una riga senza voto né crediti non cambia il mio GPA?",
         a: "Un corso conta solo quando crediti e voto in lettere sono entrambi presenti — tutto ciò che è compilato a metà viene scartato invece di valere zero, così il GPA riflette i corsi che hai davvero completato. Completa la riga e i totali si aggiornano subito.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché la scala 4,0 non si traduce pulita",
+        paragraphs: [
+          "La scala 4,0 è una convenzione istituzionale statunitense, non uno standard internazionale. La tabella più comune dà A+ e A = 4,0, A− = 3,7, B+ = 3,3 e passi di 0,3–0,33 giù per le lettere, ma le scuole differiscono in modi reali: alcune limitano A+ a 4,0, altre gli assegnano 4,3; alcune pesano corsi honors o AP sopra 4,0; poche omettono del tutto i voti con meno. Due trascritti che leggono «3,7» possono quindi descrivere prestazioni leggermente diverse.",
+          "Convertire da o verso un sistema percentuale è peggio che con perdita — è spesso irreversibile. Un 85/100 cinese può mappare a una A− su una tabella di valutazione delle credenziali e a una B su un'altra; un 2,0 tedesco non corrisponde a nessuna singola lettera statunitense con fiducia. Le valutazioni ufficiali (WES e servizi simili) eseguono le proprie formule documentate proprio perché non esiste una conversione universale.",
+          "La regola pratica: per il tuo tracciamento e pianificazione, qualunque tabella coerente funziona, e questa usa la più diffusa. Per le domande — ammissioni post-laurea, borse di studio, processi di visto o credenziali — la tabella ufficiale della scuola e il trascritto stesso decidono, quindi verifica sempre quale scala una domanda si aspetta prima di citare un numero.",
+        ],
+      },
+      {
+        heading: "Ponderazione dei crediti e quanto può muovere un semestre",
+        paragraphs: [
+          "Il GPA è una media pesata per crediti, non una media dei voti. La formula Σ(punti × crediti) ÷ Σcrediti significa che una A da 4 crediti contribuisce 12 punti qualità mentre una B+ da 3 crediti ne contribuisce 9,9 — così i corsi con più crediti governano di più il tuo GPA. Quando pianifichi un semestre, spingere il corso ad alto credito da una B a una A− di solito batte perfezionare un seminario da 1 credito.",
+          "La fusione cumulativa funziona allo stesso modo un livello sopra: (GPA del semestre × crediti del semestre + GPA precedente × crediti precedenti) ÷ crediti totali. L'aritmetica spiega una frustrazione che ogni tardi fiorito colpisce — con 60 crediti di 3,00 alle spalle, un brillante semestre da 3,60 su 7 crediti alza il cumulativo solo a circa 3,06. I semestri precoci muovono molto il numero; quelli tardivi appena lo spostano.",
+          "Quella stessa matematica è il motivo per cui un semestre leggero appena ammaccava il registro, e perché abbandonare un corso da 3 crediti a metà semestre ha un effetto più grande di quanto la gente intuisca — rimuovere quei crediti cambia sia numeratore sia denominatore. Se modelli scenari, inserisci i corsi esattamente come apparirebbero dopo l'abbandono, non come zeri.",
+        ],
+      },
+      {
+        heading: "Righe incomplete, Pass/Fail e privacy",
+        paragraphs: [
+          "Una riga conta solo quando sia i crediti sia un voto in lettera sono riempiti. I corsi mezza-inseriti vengono saltati anziché punteggiati come zero — punteggiarli come zero punirebbe in silenzio corsi che non hai ancora preso, che è il modo più comune in cui i calcolatori GPA ingenui producono numeri sbagliati. I corsi Pass/Fail appartengono fuori da questo strumento: la maggior parte delle segreterie li esclude dal GPA del tutto.",
+          "Tutto gira nel tuo browser. Voti e nomi dei corsi non lasciano mai il tuo dispositivo — non c'è account, nessun viaggio verso il server, nessuna cronologia salvata. Questo conta più di quanto suoni: le bozze di GPA spesso precedono i risultati ufficiali, e incollare trascritti in un modulo web sconosciuto è un'esposizione inutile. Ricarica la pagina e il foglio è di nuovo vuoto.",
+        ],
       },
     ],
   },
@@ -4746,6 +9061,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Prendila al mattino, appena sveglio e prima di alzarti dal letto: conta il polso per 60 secondi (o 30 secondi × 2) e ripeti per qualche giorno per mediare il rumore. Va bene anche la media a riposo su 7 giorni di un wearable. Un adulto tipico sta tra 60 e 80 bpm; gli atleti endurance ben allenati spesso si aggirano sui 40 o 50. Se la tua frequenza a riposo supera il massimo stimato — o un farmaco come i beta-bloccanti influenza la tua frequenza — inserisci entrambi i numeri manualmente.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Due formule che lavorano insieme: Karvonen e FC massima",
+        paragraphs: [
+          "Il metodo Karvonen definisce l'intensità come percentuale della tua riserva di frequenza cardiaca: bpm = FC a riposo + % × (FC max − FC a riposo). Scalare la riserva anziché il massimo è l'intero punto — un corridore con frequenza a riposo di 45 ha un intervallo allenabile molto più grande di uno a 70, e le zone basate sulla riserva lo rispettano.",
+          "La frequenza cardiaca massima stessa viene qui stimata come 206,9 − 0,67 × età, una regressione calibrata su massimi misurati in laboratorio da Gellish e colleghi nel 2007. La famosa regola 220 − età risale a una tabella di convenienza grezza degli anni '70 e sovrastima sistematicamente la FC massima negli adulti più vecchi; le regressioni moderne (inclusa la 208 − 0,7 × età di Tanaka) calibrano i dati misurati molto meglio.",
+          "Le zone poi spaccano la riserva alle soglie classiche — Z1 al 50%, Z2 al 60%, Z3 al 70%, Z4 all'80%, Z5 al 90% — dando cinque bande dal corsa di recupero attraverso il lavoro a soglia fino agli intervalli VO2-max.",
+        ],
+      },
+      {
+        heading: "Come usare ciascuna zona",
+        paragraphs: [
+          "Le zone descrivono intento fisiologico, non velocità. Z1-Z2 costruisce la base aerobica e dovrebbe sentirsi genuinamente facile — la maggior parte dei corridori ricreativi si allena troppo duramente qui, motivo per cui i piani di allenamento polarizzato sottolineano di restare onesti nelle zone facili. Z3 sta attorno allo sforzo costante comodo; Z4 è lavoro a soglia che puoi sostenere per grossomodo 20-60 minuti; Z5 è intervalli corti e duri vicino al tuo tetto.",
+          "Controlla i numeri contro una fascia toracica o un orologio con HR ottico nelle prime settimane. Se il tuo sforzo percepito dice Z3 mentre la fascia dice Z2, fida dello sforzo e sonno e stress spiegheranno lo scarto — la frequenza cardiaca deriva con fatica, caldo, altitudine e idratazione, giorno per giorno.",
+          "Conosci la tua vera massima da un test di laboratorio o da un arrivo di gara a tutto? Inseriscila manualmente — un valore misurato batte sempre un'equazione, perché i massimi individuali si spargono di grossomodo ±10 bpm attorno a qualunque linea di regressione.",
+        ],
+      },
+      {
+        heading: "Dove le stime si rompono",
+        paragraphs: [
+          "I beta-bloccanti e gli altri farmaci limitanti la frequenza appiattiscono l'intero modello: limitano la frequenza cardiaca ben sotto ciò che qualunque equazione predice, quindi l'allenamento a zone su questi farmaci dovrebbe seguire la guida di un clinico o fisiologo, non di un calcolatore.",
+          "La regressione è anche più debole agli estremi — atleti molto giovani e adulti ben oltre i settant'anni stanno fuori dai dati su cui le equazioni furono calibrate. E i sensori ottici da polso ritardano sugli intervalli; per il lavoro Z4-Z5 la fascia toracica merita.",
+          "Infine, la FC a riposo va misurata, non indovinata: prendila al mattino prima di alzarti, per parecchi giorni. Usare un valore a riposo gonfiato comprime ogni zona verso il basso e rende silenziosamente i tuoi giorni facili troppo duri.",
+        ],
+      },
+    ],
   },
   "shoe-size-converter": {
     name: "Convertitore taglie scarpe",
@@ -4768,6 +9109,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Come misuro i miei piedi?",
         a: "Stai su un foglio di carta a fine giornata, traccia entrambi i piedi e misura dal tallone al dito più lungo in centimetri. Usa il piede più grande.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché le taglie di scarpe sono un caos di convenzioni",
+        paragraphs: [
+          "I numeri di taglia sono arbitrari, e ogni regione inventò la propria scala. I sistemi USA e UK numerano le taglie da una scala a base orzo — ogni passo di taglia intera vale circa un terzo di pollice (grossomodo 8,5 mm) — mentre la scala EU divide la lunghezza del piede per una figura base col proprio arrotondamento, e il Giappone usa Mondopoint, che è semplicemente la lunghezza del piede in centimetri. Nessuna delle scale condivide uno zero comune, motivo per cui lo stesso piede fisico può leggere 9 in un sistema e 42 in un altro.",
+          "Le scale uomo e donna negli USA e UK sono scostate l'una dall'altra — una 8 donna USA corrisponde a grossomodo una 6,5 uomo — perché la tagliatura femminile storicamente corse sulla propria scala circa 1,5 taglie sopra quella maschile. Per questo un convertitore unisex richiede il selettore di genere: convertire una taglia femminile attraverso la scala maschile senza lo scostamento ti lascia fuori di due taglie, uno degli errori più comuni quando si comprano stili unisex.",
+          "Ancorarsi alla lunghezza del piede in centimetri aggira la maggior parte di questo: la lunghezza è il fatto fisico, i numeri di taglia sono etichette. Mezza taglia vale grossomodo 4–5 mm di lunghezza, quindi quando una tabella ti colloca tra due taglie, i tuoi centimetri misurati ti dicono su quale lato del gap il tuo piede sta realmente.",
+        ],
+      },
+      {
+        heading: "Come usare una conversione onestamente",
+        paragraphs: [
+          "I piedi si gonfiano nel corso della giornata — stare in piedi, camminare e il caldo spingono sangue nel tessuto — così una misura mattutina può leggere mezza taglia sotto la scarpa che ti servirà davvero la sera. Misura a fine giornata, in piedi col peso pieno sul piede, e traccia o misura entrambi i piedi: i piedi della maggior parte delle persone differiscono leggermente, e la scarpa deve stare al più grande.",
+          "I marchi costruiscono scarpe su forme diverse — lo stampo a forma di piede attorno a cui la scarpa si forma — e una forma stretta al tallone o ampia alla punta cambia la vestibilità senza cambiare il numero di taglia stampato. Una US 10 di un marchio che sta come una 9,5 di un altro è normale, non un errore di tabella. I rivenditori online pubblicano le loro note sulla taglia («calza stretta», «prendi mezza taglia in più»); quelle note prevalgono su qualunque tabella universale.",
+          "Quando la tua taglia convertita sta tra due opzioni, prendi la più grande per le scarpe chiuse — il cuoio si stira, i calzini occupano spazio, e una scarpa leggermente larga si aggiusta meglio di una che stringe. Per cinghie, sandali e stili aperti, ridurre è più sicuro. Tratta ogni conversione qui come il centro di un intervallo, poi lascia che la tabella del marchio stesso la restringa.",
+        ],
+      },
+      {
+        heading: "I sistemi nel dettaglio e l'esecuzione locale",
+        paragraphs: [
+          "Mondopoint (la misura della lunghezza del piede referenziata ISO, usata dal Giappone e dagli scarponi da sci in tutto il mondo) è il più razionale dei sistemi: un giapponese 25,0 significa un piede di 25 cm, nessuno scostamento e nessuna divisione di genere in linea di principio. La scala EU è la più lasca — imposta dalla pratica anziché da uno standard stretto, e le fonti francese e tedesca disaccordano di una taglia in certi punti. Le tabelle USA e UK sono precise ma divise per genere, e UK corre esattamente una taglia sotto quella uomo USA nella maggior parte dei punti della scala.",
+          "La tagliatura dei bambini è un mondo proprio — convenzioni di spazio di crescita come un'intera larghezza di pollice extra sono comuni, e le scale infantili USA e UK differiscono da quelle adulte. Questo convertitore copre le tabelle adulte uomo e donna; le conversioni per bambini richiedono una tabella dedicata.",
+          "L'intera tabella gira nel tuo browser da grafiche pubblicate statiche — nessun account, nessun caricamento di misure, nulla memorizzato. Riaprila ogni volta che la tabella di un marchio ti sorprende; confrontare i suoi numeri contro l'ancora standard di solito basta per vedere se il marchio calza stretto o la tabella usa semplicemente un arrotondamento diverso.",
+        ],
       },
     ],
   },
@@ -4794,6 +9161,32 @@ export const it: Record<string, ToolCopy> = {
         a: "No — come un cronometro fisico, il reset o il ricaricamento cancella la sessione. Tieni aperta la scheda per conservare i giri.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché i cronometri accumulano errore — e perché questo no",
+        paragraphs: [
+          "Un cronometro costruito su setInterval accumula un secondo per callback, e quel design porta tre fonti distinte di errore: i callback partono in ritardo quando il thread principale è occupato, i browser throttano le schede in background (a volte a una volta al secondo o molto peggio), e ogni piccolo ritardo viene aggiunto al totale accumulato anziché corretto. Su una corsa di dieci minuti, secondi di deriva sono realistici; su un'ora, minuti.",
+          "Questo cronometro computa il tempo trascorso come Date.now() meno un timestamp di partenza fisso. L'orologio di sistema del browser è l'unica fonte di verità, quindi per quanto la scheda diventi laggy o venga throttata aggressivamente, il prossimo repaint mostra il vero tempo trascorso. Le pause sono gestite allo stesso modo — il riprendere registra un nuovo segmento ancorato anziché fidarsi di un valore contato.",
+          "Il display mostra centesimi di secondo perché l'orologio sottostante li risolve facilmente, ma l'onestà conta anche qui: ciò che le cifre garantiscono è l'aritmetica, non i riflessi di chi ha premuto Start. Un tempo di reazione umano di un decimo o due supera qualsiasi errore computazionale in questo design — motivo per cui gli organismi arbitrali usano ancora hardware dedicato con contatto fisico o sensori fotografici.",
+        ],
+      },
+      {
+        heading: "Come giri e split restano coerenti",
+        paragraphs: [
+          "Ogni giro timbra lo stesso orologio ancorato nel momento in cui premi Lap: il suo split è il tempo dall'ultimo timbro di giro, e il suo totale è il tempo dall'inizio. Poiché entrambi vengono da sottrazioni di timestamp reali — mai da somme di intervalli — ogni colonna è auto-coerente per quanti giri tu faccia o quanto ritardato sia stato il clic.",
+          "Quella coerenza merita di essere controllata quando confronti cronometri: in un timer che accumula, gli split potrebbero non sommare esattamente al totale, e il disallineamento cresce con throttling e carico. Qui la somma degli split eguaglia il totale finale per costruzione — i numeri non possono disaccordare tra loro.",
+          "Chiudere o ricaricare la scheda svuota la sessione, ed è deliberato: nessuna memorizzazione significa niente da leakare e niente da azzerare male. Se ti servono i numeri, leggili (o fai uno screenshot) prima di chiudere — lo strumento si comporta come un dispositivo fisico, non un database.",
+        ],
+      },
+      {
+        heading: "Dove un cronometro da browser si adatta",
+        paragraphs: [
+          "Buoni adattamenti: intervalli di allenamento dove l'atleta legge il proprio tempo, prove di riunioni e presentazioni, cronometrare build o render, dimostrazioni in classe, passi di cucina che richiedono cronometraggio per passo. Le cifre tabulari grandi esistono proprio perché il lettore è spesso a metà sforzo e getta uno sguardo di mezzo secondo.",
+          "Cattivi adattamenti: arbitraggio di competizioni, esperimenti di tempo di reazione, tracciamento del tempo a livello di fatturazione. In quelle impostazioni il display al centesimo promette troppo — la pressione del pulsante stessa è il componente meno preciso — e attrezzatura dedicata o software con cattura di eventi a livello tastiera è lo strumento migliore.",
+          "Come tutto su questa pagina, il cronometraggio gira interamente nel tuo browser: nulla viene registrato, trasmesso o condiviso, e il cronometro funziona offline. I dati della sessione vivono solo nella memoria della pagina, quindi un utente avanzato che cronometra qualcosa di sensibile non deve mai chiedersi dove siano finiti i numeri.",
+        ],
+      },
+    ],
   },
   "countdown-timer": {
     name: "Timer",
@@ -4816,6 +9209,32 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "Sentirò la campanella?",
         a: "È un breve tono sintetizzato via WebAudio. Tieni la scheda non silenziata e il volume del dispositivo alzato; non c'è nessun file audio da scaricare.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché i countdown derivano — e come questo lo evita",
+        paragraphs: [
+          "Il modo ingenuo di costruire un timer è un setInterval che sottrae un secondo per tick. Fallisce per una ragione strutturale: setInterval è una richiesta, non una promessa. I browser throtano i timer nelle schede in background — storicamente attorno a una volta al secondo o molto più grossolano — quindi un timer da 10 minuti in una scheda inattiva può contare silenziosamente per molto più di dieci minuti. Gli allarmi basati su timer nei browser sono una fonte ben nota di bug «suonò in ritardo».",
+          "Questo strumento prende l'approccio opposto: quando premi Start registra una scadenza di orologio a muro, e ogni aggiornamento del display ricalcola il tempo residuo come scadenza meno adesso. Il tick che vedi può mettersi in pausa mentre la scheda è throttata, ma l'obiettivo sottostante non si muove mai, così nel momento in cui la pagina si ridisegna, l'anello e le cifre sono già corretti. Semplicemente: il timer può essere in ritardo a renderizzare, mai in ritardo a essere giusto.",
+          "Lo stesso ancoraggio è il motivo per cui display addormentati e carichi CPU pesanti non accumulano errore — non c'è nulla da accumulare, poiché nessun contatore viene incrementato. Il compromesso è che il rintocco stesso dipende ancora dalla scheda abbastanza viva da eseguire il suo callback; per i timer dove un allarme tardivo è inaccettabile (esami, cotture a tempo preciso), un timer hardware resta la scelta più difensiva.",
+        ],
+      },
+      {
+        heading: "Il rintocco, i browser e la policy audio",
+        paragraphs: [
+          "Il rintocco è sintetizzato con l'API Web Audio — un oscillatore che genera il tono a runtime anziché un file audio scaricato. Questo tiene la pagina leggera e fa funzionare il suono offline. Spiega anche un vincolo: i browser esigono un gesto utente (un clic o tasto sulla pagina) prima che l'audio possa suonare, una policy mirata a bloccare la pubblicità che si avvia da sola. Premere Start una volta la soddisfa, motivo per cui il primo avvio conta.",
+          "Se la scheda finisce muta o il volume del dispositivo è a zero, il rintocco è silenziato e non c'è suono di riserva — i browser non lasciano che una page superi il mute di sistema. I segnali visivi vengono tenuti come secondo canale: l'anello che diventa verde a zero è lo stato che puoi colpire a colpo d'occhio anche quando il suono non è passato.",
+          "Nulla del timer tocca un server: durata, predefiniti e stato vivono nella memoria della pagina, e chiudere la scheda termina tutto. Non c'è prompt di permesso di notifica, nessun service worker, nessun push in background — il countdown vive esattamente quanto la scheda.",
+        ],
+      },
+      {
+        heading: "Scegliere una durata e usare i predefiniti",
+        paragraphs: [
+          "I predefiniti da 1 a 25 minuti esistono perché la maggior parte dei countdown veri si raggruppa in quella banda: infusione del tè (2–5 minuti), blocchi di concentrazione in stile Pomodoro (25), timebox di riunioni (5–15), allenamenti e intervalli di riposo. Toccare un predefinito è più rapido che digitare minuti e secondi ed evita il classico errore di inserire minuti nel campo dei secondi.",
+          "Per qualsiasi cosa più lunga di un'ora, un countdown è di solito la forma sbagliata — una scadenza ancorata a un orologio (a che ora finisce?) sopravvive alle chiusure di schede meglio di un display di durata trascorsa. Questo strumento gestisce archi corti, a colpo d'occhio; per la pianificazione su scala di giorni, uno strumento di date o countdown-a-data è l'abbinamento migliore.",
+          "L'essere puramente locale ha anche un beneficio silenzioso negli spazi condivisi: nessun account, nessuna pubblicità a banner che si aggiorna accanto al tuo timer, e nulla su ciò che stai cronometrando lascia il dispositivo — il che conta quando il timer sta su uno schermo visibile a un'aula o a una sala riunioni.",
+        ],
       },
     ],
   },
@@ -4845,6 +9264,30 @@ export const it: Record<string, ToolCopy> = {
         a: "Sì — un solo campione non può dimostrare l'opzionalità, quindi tutto è richiesto. Segna tu i campi opzionali dove la tua API consente null o chiavi assenti.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che l'inferenza di tipi da un campione può e non può dirti",
+        paragraphs: [
+          "Generare tipi da un campione JSON è deduzione da un punto dato, ed è onesto sapere dove quella deduzione si ferma. Tutto ciò che il campione mostra può essere tipizzato fedelmente: gli oggetti annidati diventano interfacce nominati, gli array di oggetti fondono le loro chiavi in un'unica forma, e gli array di tipo misto diventano unioni come string | number. Ma tutto ciò che il campione non mostra è invisibile — un campo null nel payload appare come null, mentre un campo che a volte manca appare richiesto, perché l'assenza non può comparire in una singola osservazione.",
+          "La conseguenza è che l'output è un punto di partenza, non un contratto. I payload delle API veri derivano: un campo tipizzato string può occasionalmente restituire null, un oggetto può essere assente nelle risposte d'errore, e un array che per caso teneva un elemento non prova che lo terrà sempre. Il flusso pragmatico è generare i tipi, poi rilassare i campi che sai essere nullable o opzionali con un ? o un'unione con null — qualche minuto di revisione manuale batte errori del compilatore in produzione.",
+          "I tipi unione sono un altro confine onesto. Se due elementi di array hanno forme diverse, fondere ogni chiave in un'interfaccia (tutta opzionale) o emettere un'unione sono entrambi difendibili; questo strumento fonde, il che corrisponde a come un revisore umano di solito collassa i payload d'esempio ma può nascondere chiavi che mai co-occorrono. Quando la precisione conta, JSON Schema o un'unione discriminata scritta a mano sono lo strumento più forte — il codegen copre veloce il caso del 90%, e stringi il resto.",
+        ],
+      },
+      {
+        heading: "Perché i client API tipizzati colgono la deriva prima",
+        paragraphs: [
+          "Il valore reale delle interfacce generate appare dopo che le hai incollate: il compilatore diventa un verificatore di forma per ogni sito di chiamata. Se il backend rinomina un campo, spezza un oggetto o restringe un valore a null, TypeScript segnala gli accessi che non corrispondono più — i controlli di proprietà in eccesso colgono refusi nei letterali di oggetto, e strictNullChecks forza ogni campo potenzialmente assente a essere gestito. Un ciclo campione-a-tipi trasforma «l'API è cambiata in silenzio» in un errore di build con file e numero di riga.",
+          "Per questo lo strumento emette dichiarazioni di interfaccia semplici senza helper a runtime: i tipi esistono solo al compile time, quindi l'output aggiunge zero byte al tuo bundle e funziona con qualunque compilatore moderno e qualunque bundler. Non c'è nulla da importare, configurare o bloccare in versione — cancella i tipi e il tuo codice a runtime è intoccato.",
+        ],
+      },
+      {
+        heading: "Generazione locale e confronto con strumenti più pesanti",
+        paragraphs: [
+          "Incolla una risposta campione e le interfacce vengono generate nel tuo browser — il JSON non lascia mai il tuo dispositivo. Questo conta perché i payload che più vuoi tipizzare sono spesso quelli sensibili: risposte API autenticate, endpoint amministrativi interni, registri di clienti o dati di staging con email vere dentro. Spedirli a un servizio web per convertirli vanifica la cura di tenerli fuori dai log.",
+          "I generatori generici come quicktype puntano a una dozzina di linguaggi, JSON Schema e validatori a runtime, e sono la scelta giusta per una grande superficie API governata da un'unica fonte di verità. Questo strumento risponde velocemente alla domanda stretta: come appare questo payload come tipi? Combinato con la privacy della generazione locale, si adatta al ciclo quotidiano di ispezionare un endpoint e ottenere uno stub client tipizzato in pochi secondi.",
+        ],
+      },
+    ],
   },
   "json-diff": {
     name: "Confronto JSON",
@@ -4867,6 +9310,31 @@ export const it: Record<string, ToolCopy> = {
       {
         q: "L'ordine delle chiavi conta?",
         a: "No — gli oggetti vengono confrontati per chiavi, non per ordine di inserimento. Due documenti con le stesse chiavi in ordine diverso sono identici.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Diff semantico contro diff di caratteri",
+        paragraphs: [
+          "Un diff a livello di caratteri (git diff, strumenti di diff testo semplice) risponde a «quali byte sono cambiati», e quella non è quasi mai la domanda con il JSON. Due risposte API che differiscono solo perché una è stata pretty-printed con 4 spazi e l'altra con 2, o perché un encoder ha riordinato le chiavi dell'oggetto, sono semanticamente identiche — eppure un diff di testo mostra centinaia di righe cambiate. Questo strumento analizza prima entrambi i documenti e confronta i valori, così il rumore di formattazione non può produrre falsi positivi.",
+          "La conseguenza è un'asimmetria deliberata: l'ordine delle chiavi dell'oggetto viene ignorato, perché gli oggetti JSON sono mappe non ordinate per specifica e ogni consumatore le legge per chiave — {«a»:1,«b»:2} eguaglia {«b»:2,«a»:1}. L'ordine degli array, al contrario, è significativo, perché gli array sono elenchi ordinati e i consumatori leggono le posizioni degli indici; [1,2,3] contro [3,2,1] riporta ogni elemento cambiato. Abbinare la semantica che i consumatori applicano è ciò che rende affidabile l'output del diff.",
+          "Ogni cambiamento riportato porta un percorso a punti completo nello stile $.a.b[0].c usato da JSONPath e dal JSON Patch della RFC 6902. Quella notazione non è decorazione: una riga di diff può essere trasformata in un'asserzione di test (aspettati che payload.user.role eguagli «admin») o in un'operazione di patch senza alcuna traduzione mentale tra la vista del diff e il codice che lo consuma.",
+        ],
+      },
+      {
+        heading: "Leggere il diff: aggiunto, rimosso, cambiato — e cosa implica ciascuno",
+        paragraphs: [
+          "Le chiavi aggiunte nel nuovo documento sono quelle da controllare per la retrocompatibilità: una risposta API che ha guadagnato un campo è di solito sicura per i vecchi client, ma un file di configurazione che ha guadagnato una chiave può significare che un predefinito è cambiato da qualche parte. Le chiavi rimosse sono l'opposto — sono ciò che rompe i consumatori che leggono quei campi. I valori cambiati con vecchio e nuovo mostrati affiancati rendono visibile il delta comportamentale reale, che è precisamente ciò che serve alla code review di un cambio di configurazione e ciò che i messaggi di commit catturano raramente.",
+          "Gli array vengono confrontati per indice, quindi inserire un elemento a metà di un elenco sfalsa ogni indice seguente e riporta una cascata di cambiamenti. Se i tuoi dati sono concettualmente un insieme o una collezione chiavata, confrontalo con gli elementi ordinati o come oggetto chiavato per ID — il diff mostrerà allora il vero delta anziché lo sfalsamento. Quella decisione di pre-elaborazione appartiene al flusso di lavoro, non allo strumento, motivo per cui lo strumento tiene la regola semplice e prevedibile.",
+          "Il formato a elenco piatto funziona anche come checklist di distribuzione: incolla il prima e il dopo di una risposta API, e ogni riga è qualcosa che un consumatore dipendente gestisce o no. I team che fanno snapshot dei payload API prima dei rilasci usano esattamente questo ciclo, e farlo in locale significa che i payload non lasciano mai la macchina.",
+        ],
+      },
+      {
+        heading: "Confronto locale per payload che non puoi incollare altrove",
+        paragraphs: [
+          "I documenti che fai diff in pratica non sono campioni da giocattolo: risposte API di produzione con registri di utenti, configurazioni di ambiente con credenziali e hostname interni, esportazioni di clienti. Incollare uno dei lati in un servizio diff web casuale significa spedire quei dati a un terzo — lo strumento diventa l'anello più debole nel confronto stesso che stavi eseguendo per proteggere la correttezza.",
+          "Tutto qui gira nel JavaScript del tuo browser: analisi, la passeggiata ricorsiva e la costruzione dei percorsi avvengono tutti sulla tua macchina, e nulla viene trasmesso, memorizzato o registrato. Funziona anche offline una volta caricato, il che conta perché i diff di configurazioni di ambiente tendono ad avvenire su macchine di staging e reti limitate da VPN dove gli strumenti esterni sono comunque irraggiungibili. Il limite onesto è la memoria del browser — documenti ben dentro le decine di megabyte si confrontano bene, e qualsiasi cosa oltre appartiene a una catena scriptata.",
+        ],
       },
     ],
   },
@@ -4893,6 +9361,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Ottieni il motivo esatto: quale chiave mancava o quale indice era fuori intervallo. Niente si rompe.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che la notazione di percorso può e non può esprimere",
+        paragraphs: [
+          "Il sottoinsieme supportato è deliberatamente piccolo: $ per la radice, .chiave per i membri dell'oggetto, [0] per gli indici degli array, e chiavi tra virgolette come $['chiave strana'] per i nomi che contengono punti, parentesi o spazi. Copre la stragrande maggioranza delle ricerche reali — puntare a un valore concreto in una struttura nota.",
+          "Ciò che non copre è il lato dichiarativo di JSONPath: wildcard $..prezzo, espressioni di filtro $[?(@.attivo==true)], slice $[1:5], unioni. Quegli operatori esistono per documenti la cui forma non conosci in anticipo. Quando conosci la forma — che è la maggior parte del lavoro di debugging e test — un percorso diretto è più rapido da scrivere e da ragionare di un'espressione di filtro.",
+          "Le chiavi tra virgolette sono il dettaglio che la gente perde. Un'API che restituisce una chiave come user.name o order[0] come nome di chiave letterale rompe la notazione a punti — il percorso scenderebbe in silenzio nel nodo sbagliato. Avvolgere la chiave tra virgolette dice al valutatore «questa intera stringa è una chiave», il che risolve l'ambiguità senza trucchetti di escape.",
+        ],
+      },
+      {
+        heading: "Perché gli errori si leggono come frasi",
+        paragraphs: [
+          "La valutazione dei percorsi guidata dalla libreria tipicamente fallisce in uno di due modi spiacevoli: un accesso undefined che restituisce «undefined» senza spiegazione, o un'eccezione con uno stack trace che punta dentro la libreria. Entrambi ti lasciano ricostruire a ritroso il fallimento dalla stringa del percorso da sola.",
+          "Questo valutatore cammina il percorso passo per passo e si ferma alla prima discrepanza, riportando esattamente quale passo è fallito e perché — «chiave \"indirizzo\" non trovata a $.utente» o «indice 3 fuori intervallo, l'array ha 2 elementi». Questo trasforma il debugging dei percorsi da prova-e-ripeti a lettura: l'errore nomina il nodo dove la realtà diverge dalla tua assunzione.",
+          "La garanzia di non-crash conta più di quanto suoni. I percorsi lunghi contro payload API profondamente annidati falliscono di solito parecchie volte mentre sonda la struttura; uno strumento che degrada in messaggi in linguaggio piano tiene il ciclo rapido, mentre un'eccezione per tentativo trasforma la stessa esplorazione in un tribolato.",
+        ],
+      },
+      {
+        heading: "Sondare payload senza caricarli",
+        paragraphs: [
+          "I payload che interroghi sono frequentemente riservati: risposte API di produzione con registri di clienti, dump d'errori contenenti dati di account, file di configurazione con credenziali. Uno strumento che invia documenti e percorsi via POST a un backend esporrebbe tutto; qui la query esegue interamente nel JavaScript del tuo browser contro un documento analizzato sul tuo dispositivo.",
+          "Non c'è nemmeno nulla da configurare: nessun runtime da installare, nessun binario jq, nessun progetto. Incolla una risposta, digita un percorso, leggi il valore — il che lo rende lo strumento giusto per le indagini una-tantum dove allestire un ambiente di scripting costa più della domanda stessa.",
+          "Combinalo col formattatore quando un payload è troppo grande da scorrere: formatta una volta per vedere la struttura, poi estrai i valori esatti che ti servono con percorsi anziché scorrere. E poiché tutto è locale, puoi sondare in sicurezza la risposta fallita reale di un cliente copiata dritta dalla produzione.",
+        ],
+      },
+    ],
   },
   "json-yaml-converter": {
     name: "Convertitore JSON ⇄ YAML",
@@ -4917,6 +9411,32 @@ export const it: Record<string, ToolCopy> = {
         a: "Nella maggior parte dei casi è una tabulazione nell'indentazione YAML (lì vietata) o chiavi duplicate nel JSON. Il messaggio d'errore indica il problema.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Perché JSON e YAML non possono mai fare un viaggio di ritorno perfetto",
+        paragraphs: [
+          "JSON e YAML non sono due ortografie dello stesso modello di dati — YAML è un superset per ambizione. YAML porta informazione per cui JSON non ha slot: ancore e alias lasciano che un nodo venga referenziato da parecchi posti, documenti multipli possono stare in un file separati da ---, e tag personalizzati possono marcare un valore come timestamp, blob binario o tipo specifico di dominio. Un convertitore che modella solo JSON non può rappresentare nessuna di queste fedelmente.",
+          "Questo strumento si restringe intenzionalmente allo schema core — mappe annidate, sequenze e scalari — così tutto ciò che emette può essere rianalizzato senza perdita. Le ancore sono deliberatamente fuori perimetro: convertire un file YAML che usa alias in JSON dovrebbe incorporare ogni riferimento, e convertire indietro non recupererebbe mai la struttura di ancore originale.",
+          "La stessa cura si applica ai file multi-documento. Un .yaml contenente parecchi documenti separati da --- è davvero un elenco di file, non un oggetto; convertire silenziosamente solo il primo documento o fonderli corromperebbe il significato. Dai allo strumento un documento alla volta e il viaggio di ritorno resta esatto.",
+        ],
+      },
+      {
+        heading: "Le trappole di coercizione dei tipi che YAML 1.1 lasciò dietro",
+        paragraphs: [
+          "I parser YAML decidono il tipo di uno scalare guardandolo. Nelle regole legacy 1.1 a cui la maggior parte dei parser fa ancora riferimento, la parola nuda Norway è un booleano false (un acronimo di N-o-r-w-a-y, della famiglia yes/no/on/off), numeri di versione come 1.20 possono collassare a 1,2, e una chiave che comincia con uno spazio è facile da perdere del tutto. Non sono casi limite esotici — rompono configurazioni CI veri ogni anno.",
+          "L'incidente di sicurezza classico è il codice paese norvegese: un campo paese di un utente che legge NO diventa false nel documento analizzato. Il quoting è la difesa — scrivi «NO», «on», «1,0» come stringhe ogni volta che un valore significa testo, non un tipo. Quando incolli YAML qui e converti in JSON, lo schema core di js-yaml decide quelle coercizioni, e l'output JSON rende visibili i tipi risultanti così puoi colgerli.",
+          "Il vantaggio del JSON è che non ha tale indovinare: ogni valore deve dichiarare il suo tipo strutturalmente — «false» tra virgolette è una stringa, 2,0 resta un numero. È una ragione per cui il JSON resta il formato di trasporto più sicuro perfino quando la destinazione finale è YAML: converti attraverso il JSON e ogni tipo è stato forzato in aperto.",
+        ],
+      },
+      {
+        heading: "Un flusso di conversione che resta locale",
+        paragraphs: [
+          "I file di configurazione sono tra i testi più sensibili che un progetto possieda: segreti Kubernetes (perfino codificati base64), blocchi di ambiente docker-compose, variabili CI. Incollarli in un convertitore che spedisce l'input a un server li leakerebbe a chi lo gestisce. Tutto qui gira nel tuo browser — nessun caricamento, nessuna registrazione, e la pagina continua a funzionare offline una volta caricata.",
+          "Il flusso pratico attorno a cui lo strumento è costruito è l'incatenamento direzionale: converti JSON in YAML, ritocca una riga o due a mano, poi scambia direzione e riconverti in JSON per validare che la tua modifica analizzi ancora. L'indentazione brutta e le tabulazioni proibite vengono riportate alla riga colpevole anziché come fallimento generico, così un manifest modificato a mano si rilegge in pochi secondi.",
+          "Abbinalo al formattatore JSON e al validatore JSON quando fai debugging: formatta il lato JSON per la leggibilità, validalo prima della conversione, e usa l'output YAML direttamente come tuo file di configurazione — esce in stile blocco, indentato come un manifest scritto a mano anziché come uno scarico da macchina.",
+        ],
+      },
+    ],
   },
   "sha1-generator": {
     name: 'Generatore SHA-1',
@@ -4928,6 +9448,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "SHA-1 nel 2024: rotto per le firme, vivo in Git",
+        paragraphs: [
+          "SHA-1 produce un digest a 160 bit — 40 caratteri esadecimali minuscoli — standardizzato in FIPS 180-4. Per anni è stato l'hash predefinito del web: certificati TLS, firma del codice, controllo di versione. Quell'era finì a stadi: NIST deprecò SHA-1 per le firme nel 2011 e lo vietò lì entro il 2013, dopo che i ricercatori dimostrarono che gli attacchi a collisione diventavano pratici.",
+          "Il colpo definitivo fu SHAttered nel 2017: due file PDF deliberatamente diversi con lo stesso digest SHA-1, prodotti con un sforzo computazionale grande ma fattibile. Dopo di che, usare SHA-1 ovunque un avversario potesse influenzare l'input — firme, certificati, promesse di integrità — divenne indefendibile. I browser moderni respinsero i certificati SHA-1, e l'ecosistema si mosse verso SHA-256.",
+          "SHA-1 non è morto però, perché sopravvive dove la resistenza alle collisioni non è la promessa fatta. Git identifica ancora commit e oggetti con SHA-1 — ora accoppia l'hash con rilevamento di collisione, e la migrazione a un hash più forte è in corso upstream. I vecchi checksum di download e le impronte di file da sistemi che non aggiornano mai sono l'altro incontro comune. Usa questo strumento per riprodurre e verificare quelle impronte legacy; scegli SHA-256 per qualsiasi cosa nuova.",
+        ],
+      },
+      {
+        heading: "Collisione contro preimmagine: leggere la minaccia con precisione",
+        paragraphs: [
+          "«SHA-1 è rotto» richiede di smontare la frase, perché esistono due attacchi diversi e non sono ugualmente gravi. Un attacco a collisione trova due input qualsiasi con lo stesso digest — l'attaccante controlla entrambi, e quello rompe firme e certificati, dove una parte firma ciò che l'altra fornì. È ciò che SHAttered dimostrò, ed è il motivo per cui la firma SHA-1 è finita.",
+          "Un attacco a preimmagine è diverso: dato un digest, trova un input che lo produca. Per SHA-1 questo resta ben fuori portata — lo spazio a 160 bit è ancora effettivamente non ricercabile. Quell'asimmetria è esattamente perché l'uso di Git sopravvive al scrutinio: gli ID di commit non sono payload di firma controllati dall'avversario nello stesso modo, e il rilevamento di collisione rafforzato di Git segnala gli input artificiati.",
+          "La traduzione pratica: non accettare un digest SHA-1 come prova di autenticità da una parte di cui non ti fidi, e non costruire mai su di esso nuovi flussi di firma o certificati. Come impronta di contenuto che hai ottenuto attraverso un canale di cui già ti fidi — riproducendo ciò che un sistema legacy pubblica — resta utilizzabile, e quello è il ruolo di questo strumento.",
+        ],
+      },
+      {
+        heading: "Hashing locale con WebCrypto nativo",
+        paragraphs: [
+          "Il digest viene computato nel tuo browser attraverso l'API SubtleCrypto nativa del WebCrypto — lo stesso percorso di codice auditato che il tuo browser usa per TLS. Incolla testo e il digest a 40 caratteri si aggiorna dal vivo; passa alla modalità file e trascina un file che viene hashed in locale, senza caricamento e senza tetto di dimensione oltre il tuo dispositivo. Per la verifica di checksum legacy quella località è il punto: il file da verificare viene di solito da un posto non fidato, quindi spedirlo a un altro servizio di rete per farne l'hash vanificherebbe l'intero esercizio.",
+          "La precisione dell'input governa se un confronto possa riuscire affatto. Il testo viene hashed come byte UTF-8, quindi fai l'hash del file stesso anziché ridigitare il suo contenuto quando verifichi download; un editor di testo che converte i fine riga o aggiunge un ritorno a capo cambia ogni byte del digest. L'output è esadecimale minuscolo, che corrisponde a sha1sum, openssl e ai valori che i sistemi legacy pubblicano — copialo e confronta programmaticamente anziché a occhio su 40 caratteri.",
+          "Per i nuovi design la risposta è uniforme: SHA-256 tramite il generatore sha256 di questo sito, o l'intera famiglia affiancata nel generatore di hash. Tieni SHA-1 strictamente per le interfacce e gli archivi che già lo parlano.",
+        ],
+      },
+    ],
   },
   "sha384-generator": {
     name: 'Generatore SHA-384',
@@ -4938,6 +9484,31 @@ export const it: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "Dove SHA-384 sta nella famiglia SHA-2",
+        paragraphs: [
+          "SHA-2 non è un algoritmo ma una famiglia standardizzata in FIPS 180-4, definita da due motori interni: SHA-224 e SHA-256 girano sul motore a 256 bit (parole a 32 bit), mentre SHA-384 e SHA-512 girano sul motore a 512 bit (parole a 64 bit). Gli output sono rispettivamente 224, 256, 384 e 512 bit — 56, 64, 96 e 128 caratteri esadecimali. SHA-384 è ciò che ottieni quando il motore a 512 bit viene inizializzato con costanti diverse e il suo output viene troncato a 384 bit.",
+          "Quel troncamento è il motivo per cui SHA-384 non è semplicemente «SHA-512 tagliato corto». I valori iniziali diversi ne fanno un algoritmo distinto con la propria specifica: nessun attacco noto su SHA-512 si trasferirebbe all'output più corto di SHA-384, e al contrario non puoi verificare un digest SHA-384 hashing con SHA-512 e affettando. Gli strumenti devono concordare sull'algoritmo, non solo sulla famiglia.",
+          "In termini di sicurezza, tutte e quattro le varianti SHA-2 si crede offrano vicino alla loro lunghezza di output in resistenza alle collisioni — SHA-384 dà un livello di sicurezza a 192 bit contro le collisioni, ben oltre qualunque bisogno pratico. La ragione abituale per sceglierne una anziché un'altra è la compatibilità dell'infrastruttura: ciò che la tua suite TLS, la tua catena di firma del codice o il verificatore della tua controparte si aspetta già.",
+        ],
+      },
+      {
+        heading: "Leggere l'output e controllarlo correttamente",
+        paragraphs: [
+          "Il digest è di 96 caratteri esadecimali, emesso qui in minuscolo — il confronto esadecimale non distingue maiuscole, ma alcuni strumenti verificatori confrontano le stringhe letteralmente, così un disallineamento di caso può apparire come un mismatch di hash. Il digest è deterministico: gli stessi byte di input producono sempre lo stesso output su ogni implementazione corretta, che è esattamente perché funziona come checksum.",
+          "Diffida della trappola di codifica quando confronti con un valore di riferimento: fare l'hash del testo «ciao» come UTF-8, come UTF-16 o con un ritorno a capo finale produce tre digest diversi. Gli strumenti da riga di comando notoriamente aggiungono un ritorno a capo all'output di echo a meno che tu non usi echo -n o printf. Quando il tuo digest non corrisponde, i dati quasi certamente differiscono — stesso algoritmo, byte diversi.",
+          "Per i file, il digest identifica il contenuto, non i metadati: copiare il file preserva l'hash, mentre ri-codificare, convertire i fine riga o risalvare attraverso un editor lo cambia. Quella proprietà è ciò che rende i digest SHA-384 utili come prova di manomissione per installer e certificati — e perché un hash corrispondente prova solo che i byte sono identici, non che il mittente sia affidabile.",
+        ],
+      },
+      {
+        heading: "Crittografia nativa, elaborazione locale",
+        paragraphs: [
+          "L'hashing passa per la SubtleCrypto nativa del WebCrypto del tuo browser, non per codice JavaScript scritto da questo sito — la stessa implementazione auditata che il tuo browser usa per TLS. L'output corrisponde a sha384sum, OpenSSL e ogni altro strumento conforme a FIPS 180-4 byte per byte, e gira più rapido di qualunque hash in JavaScript puro per i file grandi.",
+          "Gli input di testo e file non lasciano mai il tuo dispositivo: il digest viene computato nella memoria del tuo browser e nulla viene caricato, memorizzato o registrato. Questo conta per l'uso tipico — verificare installer, fare l'hash di segreti interni per la configurazione, o computare il digest di un documento che non hai ancora pubblicato.",
+        ],
+      },
+    ],
   },
   "sha512-generator": {
     name: 'Generatore SHA-512',
@@ -4947,6 +9518,32 @@ export const it: Record<string, ToolCopy> = {
     faqs: [
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "SHA-512: il digest più largo della famiglia SHA-2",
+        paragraphs: [
+          "SHA-512 è il più grande membro standard della famiglia SHA-2, standardizzato in FIPS 180-4: digest a 512 bit scritti come 128 caratteri esadecimali minuscoli. Internamente processa blocchi a 1024 bit attraverso 80 round di parole a 64 bit — una pipeline più larga delle parole a 32 bit di SHA-256, che è ciò che gli dà il suo carattere.",
+          "Quel design a 64 bit ha una conseguenza pratica famosa: sulle CPU a 64 bit moderne, SHA-512 fa l'hash dei file grandi effettivamente più in fretta di SHA-256, nonostante produca più output. Se stai facendo le impronte di installer, immagini disco o archivi di backup, il digest SHA-2 più forte è di solito anche il più rapido — un raro caso in cui la scelta paranoica e quella pragmatica sono la stessa.",
+          "Nessun attacco pratico a collisione o preimmagine è noto contro SHA-512. Quel margine è il motivo per cui ancora impegni di integrità di lunga vita: firme API HMAC-SHA512, voci di password nei moderni /etc/shadow di Linux, e manifest di archivio destinati a restare verificabili tra decenni. Per i nuovi design senza vincoli esterni, SHA-256 è il predefinito convenzionale e SHA-512 è l'upgrade convenzionale.",
+        ],
+      },
+      {
+        heading: "Leggere, confrontare e fidarsi di un digest a 128 caratteri",
+        paragraphs: [
+          "Prima il controllo di lunghezza: un digest SHA-512 è esattamente 128 caratteri esadecimali. Valori di altre lunghezze in un campo di configurazione chiamato sha512 sono un algoritmo diverso con l'etichetta sbagliata, e il disallineamento affiorerà come un fallimento d'integrazione più avanti. Questo strumento produce la forma canonica minuscola, corrispondente a sha512sum, OpenSSL e ogni altra implementazione conforme.",
+          "Il confronto è tutto-o-nulla: due digest o corrispondono esattamente o gli input differiscono. Un singolo bit ribaltato ovunque in un file di più gigabyte produce un valore a 512 bit imparentato — l'effetto valanga che rende i checksum fidabili. Confronta programmaticamente (diff, ==, o un'utilità di checksum) anziché rileggere 128 caratteri a occhio, dove una coppia trasposta è invisibile.",
+          "Ricorda ciò che un digest promette e non promette. Prova che i byte sono invariati da quando il digest fu computato, a condizione che il digest stesso ti sia arrivato attraverso un canale che un attaccante non potesse riscrivere. Non dice nulla su chi abbia prodotto l'input, e — poiché l'hashing è a senso unico — non può essere invertito per recuperare il contenuto. Pubblicare un checksum accanto a un download è una misura di integrità, non una firma.",
+        ],
+      },
+      {
+        heading: "Perché fare l'hash dei file in locale affatto",
+        paragraphs: [
+          "Un hash ha significato solo se l'ambiente di hashing è fidabile, e un servizio web casuale non lo è. Questo strumento computa attraverso la SubtleCrypto nativa del WebCrypto del browser — codice auditato che già trasporta il tuo traffico TLS — e nulla lascia il dispositivo: il testo fa l'hash mentre scrivi, e la modalità file fa l'hash dei byte esatti del file in locale senza caricamento e senza tetto oltre la memoria disponibile.",
+          "Per i carichi di lavoro tipici dello strumento quella località non è un lusso. Le immagini disco e gli installer sono gigabyte che nessuno vuole caricare solo per farne l'impronta; i manifest di archivio spesso coprono file con vincoli di licenza o privacy; e il materiale di firma delle API non dovrebbe mai transitare per la pagina di un terzo. Una volta caricata la pagina, l'intero flusso gira offline.",
+          "La precisione dell'input completa il quadro: il testo viene hashed come byte UTF-8, quindi le conversioni dei fine riga o un ritorno a capo aggiunto dall'editor cambiano ogni carattere dell'output. Quando verifichi un download, fai l'hash del file stesso anziché del contenuto ridigitato, poi confronta programmaticamente col valore dell'editore — quella coppia di abitudini coglie essenzialmente ogni falso allarme di mismatch.",
+        ],
+      },
     ],
   },
   "text-to-binary": {
@@ -4962,6 +9559,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "Il binario è byte, non magia",
+        paragraphs: [
+          "Ciò che questo strumento produce non è «testo trasformato in 01» da un processo astratto — è l'esatta sequenza di byte UTF-8 che un computer già memorizza per il tuo testo, resa come cifre binarie. La lettera «A» è un byte, 01000001, che è il numero 65 — il codice ASCII che significa A dagli anni '60. Non c'è passo di traduzione né interpretazione: i bit a schermo sono i bit nel file.",
+          "UTF-8 è il dettaglio chiave. I caratteri ASCII (A-Z, cifre, punteggiatura comune) prendono un byte ciascuno, quindi il loro binario è corto. I caratteri fuori ASCII prendono da due a quattro byte: «é» è 0xC3 0xA9 (11000011 10101001), l'emoji 😀 sono quattro byte. Per questo la stessa parola produce lunghezze binarie diverse a seconda dei caratteri — e perché una riga di testo cinese è grossomodo tre volte più lunga in byte dello stesso significato in inglese.",
+          "La decodifica funziona correttamente solo se il lettore assume la stessa codifica. Byte che formano UTF-8 valido sono privi di senso come EBCDIC o come Latin-1 — il fenomeno «mojibake» di leggere il testo attraverso la codifica sbagliata è la versione visibile di quell'assunzione che fallisce.",
+        ],
+      },
+      {
+        heading: "Perché gruppi a 8 bit e cosa significano i bit in testa",
+        paragraphs: [
+          "I byte si raggruppano a 8 perché quella è stata l'unità pratica di carattere dai giorni dei mainframe, e UTF-8 è progettato attorno ad essa. Le sequenze multibyte sono auto-descrittive: un byte che comincia con 110 comincia un carattere a due byte, 1110 ne comincia uno a tre, 11110 uno a quattro, e i byte di continuazione cominciano sempre con 10. Quella struttura è il motivo per cui UTF-8 si risincronizza dopo errori di trasmissione e perché è diventata la codifica dominante del web.",
+          "Leggere un byte a mano: 01000001 si spezza come 0 (ASCII, un byte), poi 1000001 = 65 = A. Per 11000011, il prefisso 110 annuncia una sequenza a due byte e il byte seguente deve cominciare con 10. Una volta visto lo schema, il binario smette di essere rumore.",
+          "Spazi, ritorni a capo e perfino la convenzione di raggruppamento sono scelte di display — i dati sottostanti sono la stringa di cifre. Alcuni strumenti raggruppano per 8, alcuni per carattere, alcuni emettono un flusso continuo; tutti codificano gli stessi byte.",
+        ],
+      },
+      {
+        heading: "Casi d'uso e privacy",
+        paragraphs: [
+          "Usi pratici: insegnare e fare debugging delle codifiche, controllare esattamente quali byte riceverà una regex o un'API, generare puzzle binari, e verificare i viaggi di andata e ritorno — testo → binario → testo deve riprodurre l'originale byte per byte. Qualsiasi disallineamento significa che qualcuno ha cambiato la codifica per strada.",
+          "Per gli sviluppatori, è la via più rapida di rispondere a «questo carattere è un byte o quattro?» senza aprire un debugger. Per gli studenti, convertire il proprio nome e vedere quali lettere restano di un byte e quali si allargano rende UTF-8 concreto in un modo che nessuna lezione fa.",
+          "La conversione gira localmente in JavaScript mentre scrivi — nulla viene caricato, e funziona offline. Il testo che incolli resta sulla tua macchina, che sia un frammento di codice sorgente o una bozza di messaggio.",
+        ],
+      },
+    ],
   },
   "text-to-unicode": {
     name: 'Testo → Unicode',
@@ -4975,6 +9598,31 @@ export const it: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che la conversione Unicode mostra davvero",
+        paragraphs: [
+          "Ogni carattere che digiti è un numero. Unicode assegna a ciascuno un punto di codice — «A» è U+0041, il simbolo dell'euro € è U+20AC, un emoji sta da qualche parte nell'intervallo U+1F300. Questo strumento mostra quella mappatura: mostra il punto di codice in parecchie notazioni (U+XXXX, decimale, esadecimale) e, per i caratteri oltre il BMP, la coppia surrogata UTF-16 che JavaScript tiene realmente in memoria.",
+          "Lo scarto tra «ciò che vedi» e «ciò che è memorizzato» è la ragione per cui questo strumento esiste. Un carattere che appare singolo — é, un emoji bandiera, un ideogramma CJK — può essere un punto di codice, due metà surrogate, o un carattere base più segni combinanti. Incollare il testo mostra di quale caso si tratta, il che conta quando uno script conta male le lunghezze o un database tronca al confine sbagliato.",
+          "I punti di codice non sono la stessa cosa dei byte: U+00E9 è il concetto «e con acuto», che diventa i due byte 0xC3 0xA9 in UTF-8. Se ti servono byte anziché punti di codice, il convertitore binario è lo strumento gemello per quella domanda.",
+        ],
+      },
+      {
+        heading: "Escape e codifiche: é, &#, e compagni",
+        paragraphs: [
+          "Lo stesso carattere porta molte ortografie secondo il contesto. Nelle stringhe JSON e JavaScript, é può scriversi come \\u00e9 (o \\u{e9} nella sintassi più recente). In HTML, &#233; oppure &eacute;. In CSS, \\00e9. Negli URL, UTF-8 codificato in percentuale: %C3%A9. Nessuna è un carattere diverso — sono sistemi di notazione diversi per lo stesso numero, e questo strumento produce le varianti che puoi incollare direttamente in ciascun contesto.",
+          "Due modalità di fallimento comuni che questo previene: il doppio codificamento (\\u00e9 incollato in un sistema che protegge di nuovo la barra rovescia, producendo testo letterale «\\u00e9»), e lo sfasamento di codifica (una pagina dichiara un set di caratteri mentre il file si salva in un altro, quindi ogni carattere non ASCII si rende come riquadri sostitutivi).",
+          "Il confine del BMP a U+FFFF è la trappola classica: i caratteri sopra — la maggior parte degli emoji — non stanno in una sola unità UTF-16, quindi i loro escape appaiono come coppie surrogate anziché come un singolo \\uXXXX. I sistemi vecchi che gestiscono solo gli escape \\uXXXX non riescono a esprimerli affatto.",
+        ],
+      },
+      {        heading: "Decodifica locale, nessun viaggio",
+        paragraphs: [
+          "Tutto gira in JavaScript del browser: i punti di codice vengono letti direttamente dalla stringa in memoria. Nessun caricamento, nessuna API, funziona offline — rilevante perché l'uso più comune è fare debugging di una stringa che hai ottenuto da un log o da una risposta API che magari non vorresti incollare in un servizio web arbitrario.",
+          "L'output si aggiorna a ogni tasto, così puoi scandire una stringa sospetta carattere per carattere e guardare quale punto di codice appare dove. Il carattere sostitutivo U+FFFD nell'output significa che il testo sorgente era già corrotto prima di arrivare allo strumento.",
+          "Abbinalo al convertitore binario per le domande a livello di byte e al convertitore di caso quando fai debugging del comportamento di mappatura dei casi su caratteri esotici — i tre coprono il flusso quotidiano di debugging Unicode.",
+        ],
+      },
     ],
   },
   "text-to-nato-alphabet": {
@@ -4993,6 +9641,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Anche le cifre vengono convertite?', a: 'Sì. Da 0 a 9 diventano Zero, One (Wun), Two, Tree, Fower, Five, Six, Seven, Eight, Nine — la pronuncia standard ICAO è mostrata accanto a ogni parola.' },
         { q: 'Accenti ed emoji?', a: 'Le lettere accentate tornano alla lettera base (É → Echo); emoji e caratteri fuori alfabeto vengono segnalati così come sono, perché non sillababili.' },
     ],
+    deepDive: [
+      {
+        heading: "Perché esiste Alfa, Bravo, Charlie",
+        paragraphs: [
+          "Sillabare un nome durante una telefonata è un incubo: B e P suonano quasi identici, M e N si fondono, e una linea brutta cancella la differenza tra F e S. Gli alfabeti di sillabazione lo sistemano assegnando a ogni lettera una parola non ambigua — B diventa Bravo, M diventa Mike — scelte così che nessuna due parole suoni allo stesso modo perfino sui canali rumorosi.",
+          "L'alfabeto NATO (ufficialmente l'alfabeto di sillabazione ICAO) è lo standard che ha vinto. Crescette da decenni di sperimentazione militare e aeronautica: gli alfabeti britannico e americano precedenti usavano parole come Able, Baker, Charlie, ma i test trovarono che gli operatori radio internazionali le sentivano male. La revisione ICAO degli anni '50 provò le parole candidate con parlanti di molte lingue e scelse l'insieme — Alfa (deliberatamente non «Alpha», così i parlanti delle lingue senza il suono «ph» lo scrivono correttamente), Bravo, Charlie fino a Zulu — che sopravvisse a quelle prove.",
+          "Ora vive ben oltre il militare: compagnie aeree, call center, supporto IT che leggi numeri di serie, e chiunque dia un codice di conferma a voce. Quando un agente di supporto dice «S come Sierra», sta usando lo stesso sistema.",
+        ],
+      },
+      {
+        heading: "Cifre e lettere insidiose",
+        paragraphs: [
+          "Lo standard copre anche le cifre, pronunciate per distinguerle dalle parole confondibili: il 9 diventa «Niner» (evitando la confusione col tedesco «nein» e col cinque dal suono piatto), il 3 è «Tree», il 5 è «Fife». Quelle pronunce vengono dalle stesse prove di intelligibilità che formarono le lettere.",
+          "Le lettere che fanno inciampare di più in pratica: la coppia E/K (Echo, Kilo), la coppia M/N (Mike, November) e la coppia S/F (Sierra, Foxtrot) — precisamente le coppie per separare cui l'alfabeto fu costruito. Le parole con ortografie multiple comuni furono evitate per design; l'ortografia di Alfa è l'esempio più chiaro di una parola ingegnerizzata anziché scelta.",
+          "Quando sillabi codici misti — un numero d'ordine con lettere e cifre — sillaba ogni carattere separatamente e tienili in ordine: «C-O-D-E-4» si legge Charlie Oscar Delta Echo Fower… Fower è la cifra 4. Le pause contano quanto le parole; l'alfabeto non aiuta se l'ascoltatore perde il raggruppamento.",
+        ],
+      },
+      {
+        heading: "Consultazione istantanea, nulla spedito",
+        paragraphs: [
+          "La conversione gira carattere per carattere nel tuo browser mentre scrivi — nessuna chiamata al server, funziona offline. Il caso è ignorato (l'alfabeto non ha minuscole), e i caratteri non lettera passano invariati così i codici tengono la loro forma.",
+          "È lo strumento a cui arrivare prima di una chiamata di supporto: incolla il numero di serie, leggi l'output ad alta voce. Fa anche da sussidio didattico per la procedura radio e per i bambini che imparano i nomi delle lettere.",
+          "Nulla viene memorizzato o trasmesso — un numero di serie, una chiave di licenza o un codice d'ordine incollati qui restano sul tuo dispositivo. L'intera tabella viaggia con la pagina, quindi la consultazione funziona senza alcuna connessione.",
+        ],
+      },
+    ],
   },
   "hmac-generator": {
     name: 'Generatore HMAC',
@@ -5008,6 +9682,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Il mio segreto è al sicuro qui?', a: 'Sì — tutto il calcolo avviene nel WebCrypto del tuo browser. Segreto e messaggio non lasciano mai il dispositivo; nulla viene registrato o trasmesso. Comunque, per abitudine, ruota i segreti che incolli su qualsiasi sito.' },
         { q: 'HMAC-SHA-256 o HMAC-SHA-512?', a: 'SHA-256 è lo standard universale. SHA-512 offre più margine ed è persino più veloce su CPU a 64 bit; usalo quando la specifica lo consente. Evita SHA-1 salvo sistemi legacy.' },
     ],
+    deepDive: [
+      {
+        heading: "Come HMAC funziona davvero: due passaggi, una chiave",
+        paragraphs: [
+          "Combinare una chiave con un hash in modo ingenuo — SHA-256(chiave + messaggio) — ha debolezze note: accodare dati e ri-computare può essere possibile se lo stato interno dell'hash leak, e le collisioni di chiavi al confine del blocco sono scomode. HMAC, standardizzato nella RFC 2104 (1997) e poi nel NIST FIPS 198, evita entrambi facendo l'hash della chiave due volte in una struttura fissa: prima il messaggio viene hashed con la chiave in XOR con una costante di padding (opad), poi quel risultato viene hashed di nuovo con la chiave in XOR con un'altra costante (ipad).",
+          "La doppia costruzione significa che l'output non rivela nulla sulla chiave perfino quando l'attaccante controlla i messaggi, e la divisione interno/esterno blocca gli attacchi di estensione di lunghezza che affliggono gli hash Merkle-Damgård nudi. Per questo HMAC-SHA-256 resta sicuro benché il SHA-256 grezzo abbia stranezze strutturali note — l'avvolgitore, non l'hash da solo, fornisce la proprietà di autenticazione.",
+          "I dettagli di implementazione contano più di quanto la gente si aspetti. La chiave viene bordata o hashed alla dimensione del blocco (64 byte per SHA-256, 128 per SHA-512); una chiave più corta viene bordata a zeri, una più lunga viene prima hashed. Chiavi sostanzialmente più lunghe della dimensione del blocco o più corte di pochi byte degradano entrambe la costruzione — il punto dolce pratico è una chiave di 32 a 64 byte casuali, esattamente ciò che la maggior parte dei fornitori di webhook distribuisce.",
+        ],
+      },
+      {
+        heading: "Verificare i webhook senza spararti al piede",
+        paragraphs: [
+          "Il fallimento di verifica che riempie i ticket di supporto è un disallineamento di byte, non un algoritmo rotto. I servizi firmano il corpo grezzo della richiesta — i byte esatti come spediti. Se il tuo framework ri-serializza il JSON (riordinando le chiavi, cambiando gli spazi, convertendo i fine riga) prima che tu verifichi, la firma ricalcolata non corrisponderà mai. Confronta contro il corpo non analizzato, e diffida dei proxy o dei parser del corpo che lo «aiutano» a normalizzarlo prima.",
+          "Alcuni fornitori (Stripe essendo l'esempio noto) firmano una stringa costruita di data più payload anziché il corpo da solo, e accodano una data all'header così puoi respingere i messaggi stantii — un attacco di replay è altrimenti possibile poiché HMAC non dà freschezza da solo. Leggi sempre la guida di verifica del fornitore anziché assumere che il testo firmato sia solo il corpo. Sorveglia anche la codifica dell'output: hex contro Base64 è la seconda fonte più comune di mismatch falsi.",
+          "Quando confronti firme, usa un confronto a tempo costante anziché l'uguaglianza di stringa dove il timing può leakare — la maggior parte dei linguaggi ne spedisce una (crypto.timingSafeEqual in Node, hmac.compare_digest in Python). Un controllo di firma che rivela quanti byte in testa hanno corrisposto lascia un attaccante forgiare firme byte per byte. È un piccolo dettaglio, ma è la differenza tra una verifica e un oracolo.",
+        ],
+      },
+      {
+        heading: "Perché la computazione locale conta per uno strumento di firma",
+        paragraphs: [
+          "Uno strumento di firma gestisce la credenziale più sensibile che uno sviluppatore abbia in volo: il segreto condiviso per un fornitore di pagamenti o un controllo di sorgente. Questo modella l'architettura. Tutto qui gira attraverso l'API WebCrypto del browser — il segreto e il messaggio vengono processati dentro il tuo stesso processo, e nessuna richiesta di rete li trasporta da qualche parte. Non esiste un equivalente lato server che potrebbe registrarli, cacheare o citarli in giudizio.",
+          "La conseguenza pratica è che puoi verificare un segreto webhook di produzione contro un payload reale senza che venga mai digitato nel log di qualcun altro. Tieni comunque la regola di igiene: un segreto incollato in qualunque strumento del browser ha attraversato la cronologia degli appunti e possibilmente la memoria di un'estensione, quindi ruotare periodicamente i segreti webhook è buona pratica perfino quando lo strumento stesso non li trasmette mai.",
+          "Per l'automazione di lunga vita, preferisci le stesse primitive nel tuo codice (l'API Web Crypto o una funzione HMAC nella libreria standard del tuo linguaggio) col segreto letto da una variabile d'ambiente o da un gestore di segreti. Uno strumento del browser come questo è per la verifica interattiva e il debugging — riprodurre una firma per capire perché una richiesta fu respinta — piuttosto che per l'incorporamento in una catena di distribuzione.",
+        ],
+      },
+    ],
   },
   "unlock-pdf": {
     name: 'Sblocca PDF',
@@ -5020,6 +9720,32 @@ export const it: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Può rimuovere una password di apertura?', a: "Solo se il tuo lettore l'ha memorizzata e mostra il contenuto senza chiederla. Un file che richiede davvero una password per aprirsi è cifrato con essa, e questo strumento non tenta forzature né decifratura." },
         { q: 'Posso anche proteggere un PDF con password qui?', a: "No. Una crittografia AES affidabile per i PDF non è realizzabile con un'implementazione leggera solo browser, quindi il sito non offre l'aggiunta di password — solo la rimozione di restrizioni da file leggibili." },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che la protezione a password del PDF blocca davvero — e cosa può fare l'unlock",
+        paragraphs: [
+          "La cifratura PDF ha due strati distinti, e confonderli causa la maggior parte della confusione. La password di apertura (user password) presidia l'intero file: senza di essa, il contenuto non è affatto leggibile. La password dei permessi (owner password) presidia le azioni — stampare, copiare testo, modificare — mentre il file si apre liberamente. Un file ristretto da owner-password è pienamente leggibile; è semplicemente marcato «non permettere la copia».",
+          "Questo strumento serve il secondo scenario e il primo con la password in mano: file che puoi legittimamente aprire ma che portano restrizioni, o file la cui password conosci e puoi fornire. Sbloccare rimuove lo strato di cifratura e produce una copia non cifrata — dopo di che, nessun lettore chiede nulla e nessuna restrizione si applica.",
+          "Il confine va dichiarato chiaramente: non è uno strumento di forzatura di password, e non può aprire un file la cui password non hai. Se hai perso la password di un documento che possiedi, la via è il recupero della password, non la rimozione della cifratura. Togliere restrizioni a un file che sei autorizzato ad aprire — le tue stesse esportazioni, documenti ricevuti legittimamente — è l'uso previsto.",
+        ],
+      },
+      {
+        heading: "Da dove vengono le restrizioni owner-password, e quando la rimozione è legittima",
+        paragraphs: [
+          "Le owner password compaiono nel mondo più spesso come incidenti che come protezione. Le finestre di esportazione PDF lasciano agli autori spuntare «restringi la modifica» o «restringi la copia» con una owner password generata casualmente che l'autore può non aver mai registrato — così la restrizione sopravvive alla conoscenza che ne ha l'autore. Altre fonti comuni: aziende di template che chiudono i loro file alla modifica, e vecchi flussi che restringevano la stampa per prassi.",
+          "La rimozione è legittima quando hai il diritto di leggere il file. Le restrizioni operano su persone che possono già aprire il documento — sono una policy d'uso, non segretezza. Se hai ricevuto un documento legittimamente e puoi leggerlo, togliere le restrizioni di copia per il tuo uso (citare una clausola nelle tue note, stampare un modulo) è l'aspettativa normale del possesso del documento; se la licenza del documento dice altro, onora la licenza.",
+          "Ciò che sbloccare non cambia: il contenuto stesso. Nessuna ri-elaborazione avviene — pagine, testo, font e immagini vengono decifrati e ri-avvolti senza alcuna conversione. Per questo sbloccare è senza perdita e rapido perfino per i file grandi, e perché l'output è bit-equivalente nel contenuto a ciò che vedevi nel lettore.",
+        ],
+      },
+      {
+        heading: "La logica privacy dello sblocco in locale",
+        paragraphs: [
+          "Pensa a ciò che richiederebbe un servizio di sblocco: forniresti il file bloccato — e spesso, in pratica, la sua password — a un terzo. Una password è una credenziale, non solo dati; la combinazione di un file e della sua password di apertura sul server di qualcun altro è una compromissione completa della riservatezza di quel documento, registrata nei log, per togliere una flag.",
+          "Questo strumento decifra nel tuo browser: il file e la password vengono gestiti sul tuo dispositivo, la decifratura avviene in memoria, e la copia non cifrata viene salvata dal tuo browser direttamente. La password non viene mai trasmessa o memorizzata da nessuna parte — non c'è alcun server coinvolto in nessun momento, e l'operazione funziona completamente offline.",
+          "Una nota pratica per lo sblocco in blocco: gli archivi esportati da sistemi vecchi spesso portano una password comune su parecchi file. Poiché lo strumento processa in locale senza limiti di frequenza né code di caricamento, sbloccare un intero insieme è rapido quanto sbloccarne uno — e nessuno di quei file, o della loro password condivisa, lascia mai la tua macchina.",
+        ],
+      },
     ],
   },
   "flatten-pdf": {
@@ -5034,6 +9760,32 @@ export const it: Record<string, ToolCopy> = {
         { q: "Le pagine si vedono identiche dopo l'appiattimento?", a: 'Sì. I valori dei campi vengono disegnati al loro posto, quindi il risultato visivo corrisponde a ciò che vedi nel lettore. La differenza è sotto: il file non contiene più oggetti campo interattivi.' },
         { q: 'Il modulo può essere modificato di nuovo dopo?', a: "No, ed è proprio lo scopo. L'appiattimento è irreversibile nell'output — i valori diventano normale contenuto di pagina. Conserva il file interattivo originale se potresti doverlo correggere in seguito." },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che l'appiattimento sistema davvero",
+        paragraphs: [
+          "Un PDF può portare strati interattivi sopra il suo contenuto stampato: campi di modulo con valori che qualcuno ha digitato, oggetti annotazione (evidenziazioni, commenti, timbri), e gruppi di contenuto facoltativo (livelli). Nessuno di questi è inchiostro. Un campo di modulo è un widget che legge il suo valore dalle strutture dati del documento al momento del display; un'annotazione è un oggetto separato collocato sopra la pagina. I lettori e le stampanti dovrebbero renderizzarli, ma non tutto lo fa — una stampante che ignora i campi di modulo produce una pagina con caselle vuote dove dovrebbero stare le risposte.",
+          "L'appiattimento brucia questi strati nella pagina permanentemente. Il valore attuale di ogni campo viene disegnato come contenuto di pagina ordinario, ogni annotazione viene rasterizzata o convertita in grafica di pagina, e la macchina interattiva viene rimossa dall'output. Il risultato appare identico in qualunque lettore, si stampa identico su qualunque stampante, e non può più essere modificato come modulo.",
+          "Il fallimento classico che questo previene: riempi un modulo, lo salvi, lo invii per email — e il destinatario lo apre in un lettore che mostra campi vuoti, o la sua app «rispondi con firma» toglie i campi all'esportazione. Appiattire prima di inviare congela le tue risposte nella pagina stessa, così ciò che vedevi è ciò che ottengono.",
+        ],
+      },
+      {
+        heading: "Quando appiattire, quando no",
+        paragraphs: [
+          "Appiattisci quando il documento è finito e in uscita: un modulo di domanda completato, un contratto firmato che viene spedito, una bozza revisionata i cui commenti devono sopravvivere a una stampante distratta. Appiattire è anche la mossa standard prima di combinare: unire due file dove uno ha campi di modulo può produrre nomi di campo in conflitto, e gli input appiattiti si uniscono come pagine inerti.",
+          "Non appiattire i documenti di lavoro. Una volta appiattito, i valori dei campi sono pixel e testo sulla pagina — non puoi riaprire il modulo e cambiare una voce; dovresti conservare la copia interattiva originale. Allo stesso modo, le annotazioni che un collega deve ancora risolvere come commenti perdono la loro natura di commento e diventano parte della pagina.",
+          "Una sottigliezza: l'appiattimento cuoce lo stato attuale. Se un campo mostra «seleziona…» perché nessuno l'ha riempito, quel segnaposto è ciò che viene bruciato. Riempi tutto ciò che intendi riempire prima, poi appiattisci — l'operazione cattura il documento esattamente come appare in quel momento.",
+        ],
+      },
+      {
+        heading: "Appiattimento locale e riservatezza del documento",
+        paragraphs: [
+          "I documenti appiattiti sono, per natura, le versioni più finite e più sensibili: il contratto d'affitto firmato, il modulo fiscale riempito, la lettera d'offerta finale. Sono esattamente i file che la gente carica sui siti «riparatore PDF gratuito», e quei siti processano i tuoi documenti legali e finanziari completi sui loro server come spesa ordinaria di gestione del sito.",
+          "Qui l'intera operazione avviene nel tuo browser: il documento viene analizzato e ri-renderizzato in locale, campi e annotazioni vengono composti nella grafica della pagina in memoria, e il file appiattito viene scritto dritto nei tuoi download. Nulla viene caricato, messo in coda o conservato da qualche parte, e non esiste scenario in cui i valori riempiti esistano fuori dal tuo dispositivo.",
+          "Un consiglio pratico per i davvero prudenti: dopo l'appiattimento, apri il risultato e prova a cliccare dove stava un campo. Nulla dovrebbe essere selezionabile o modificabile — è la tua conferma che lo strato interattivo è sparito. Se vuoi anche il testo non copiabile, è un'operazione diversa (rasterizzare, come fa lo strumento di compressione), non appiattire; l'appiattimento rimuove l'interattività, non lo strato di testo.",
+        ],
+      },
+    ],
   },
   "pdf-crop": {
     name: 'Ritaglia PDF',
@@ -5046,6 +9798,32 @@ export const it: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Il ritaglio è distruttivo?', a: 'No. La crop box cambia solo quale area viene mostrata e stampata; il contenuto sottostante resta nel file. Un lettore che riporta la crop box al media box mostra di nuovo la pagina originale intera.' },
         { q: "Perché l'anteprima mostra solo la pagina 1?", a: 'Il rettangolo è definito in percentuali della pagina, quindi si scala su ogni pagina di destinazione anche se le dimensioni differiscono. La pagina 1 è renderizzata in tempo reale con pdf.js, e i quattro campi numerici danno controllo esatto quando il trascinamento non è abbastanza preciso.' },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che ritagliare un PDF cambia davvero — e ciò che non cambia",
+        paragraphs: [
+          "Ritagliare un PDF non cancella nulla per impostazione — cambia la casella di ritaglio della pagina, il rettangolo che dice ai lettori quale porzione della pagina mostrare e stampare. L'intero contenuto esiste ancora fuori dall'area visibile; un lettore con strumenti, o un copia-incolla aggressivo, può raggiungere contenuto che credevi di aver tagliato via. Questo è fondamentalmente diverso dal ritaglio di immagini, dove i pixel fuori dalla cornice spariscono davvero.",
+          "Per nascondere margini sensibili (un'intestazione di fax, un'annotazione scansionata sul bordo), un cambio di casella di ritaglio è cosmetico. Per gli usi quotidiani — rifilare i bordi dello scanner, togliere spazio bianco dalle slide, corrispondere all'area stampabile di una stampante — è esattamente lo strumento giusto, perché conserva tutto mentre cambia come la pagina viene incorniciata.",
+          "Quando hai davvero bisogno che il contenuto sparire, il ritaglio non basta: rasterizza la pagina (come fa lo strumento di compressione) dopo il ritaglio, o elimina la pagina del tutto. Il modello mentale sicuro: il ritaglio nasconde, la rasterizzazione brucia, l'eliminazione rimuove. Scegli per intenzione, e ricorda la distinzione quando il documento va a un destinatario non fidato.",
+        ],
+      },
+      {
+        heading: "Margini, coerenza e come scegliere il rettangolo",
+        paragraphs: [
+          "Il lavoro di ritaglio più comune sono i truciolatura dello scanner: bordi neri, margini storti, e la linea d'ombra del coperchio dello scanner. Per una scansione multipagina, ritagliare ogni pagina individualmente è tedioso e produce dimensioni di pagina incoerenti — un documento le cui pagine differiscono sottiglie nella dimensione si stampa e si legge peggio. Ritagliare tutte le pagine con un rettangolo condiviso tiene il documento uniforme; il ritaglio per pagina ha senso solo quando le pagine differiscono davvero, come i lotti a orientamento misto.",
+          "Un trucco utile per i documenti di testo: ritaglia conservativamente anziché strettamente. Tagliare un po' di spazio bianco esterno non costa nulla, ma tagliare nell'area viva clipa le ascendenti, le note a piè di pagina o il testo dell'intestazione. Zooma prima al contenuto più stretto della pagina peggiore, poi aggiungi un piccolo margine di sicurezza — i documenti hanno quasi sempre una pagina il cui contenuto si estende più degli altri.",
+          "Ricorda che il ritaglio interagisce anche con la stampa: i lettori PDF di solito adattano la pagina ritagliata al foglio, quindi una pagina A4 strettamente ritagliata stampata su carta A4 si ingrandisce leggermente, cambiando la dimensione del testo. Se l'output deve stamparsi alla scala originale esatta, tieni abbastanza margine che la dimensione ritagliata corrisponda a un formato carta standard.",
+        ],
+      },
+      {
+        heading: "Ritagliare in locale quando le pagine sono private",
+        paragraphs: [
+          "I documenti che richiedono il ritaglio sono di solito scansioni di originali che detieni: contratti, lettere, attestati, ricevute. Caricarli su un ritagliatore online consegna l'intera immagine non ritagliata — compreso ciò che intendi tagliare via — a quel servizio. È una piccola ironia del lavoro di privacy: il passo pensato per rifinire un documento diventa il passo che lo espone più completamente.",
+          "Questo strumento applica le caselle di ritaglio interamente nel tuo browser: le pagine vengono analizzate in locale, i nuovi rettangoli vengono scritti nella struttura del documento, e il risultato viene salvato dal tuo stesso dispositivo. Nulla viene trasmesso, e il file originale su disco non viene mai toccato — tieni sempre la sorgente non ritagliata nel caso tu debba aggiustare il rettangolo più avanti.",
+          "Poiché il ritaglio qui è a livello di metadati e senza perdita, è anche istantaneo perfino per i file grandi — non c'è passaggio di ricodifica. Questo rende pratico iterare: ritaglia, guarda, raffina, ri-ritaglia, senza attendere. Abbinalo allo strumento di eliminazione pagine per un flusso completo di «pulisci una scansione» che non lascia mai la tua macchina.",
+        ],
+      },
     ],
   },
   "eta-calculator": {
@@ -5062,6 +9840,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Che unità usare per il volume?', a: 'Qualsiasi unità coerente: ticket, articoli, chilometri di strada, righe di database. Conta solo il rapporto tra volume e ritmo, quindi entrambi i lati devono usare la stessa unità.' },
         { q: 'Posso impostare un orario di inizio futuro o passato?', a: "Sì. Per impostazione predefinita il conto parte da adesso, ma puoi attivare un orario personalizzato — utile per stimare un lavoro che inizia lunedì o verificare quando finirà un'attività cominciata la settimana scorsa." },
     ],
+    deepDive: [
+      {
+        heading: "L'aritmetica dietro un ETA",
+        paragraphs: [
+          "Al cuore la proiezione è una divisione: carico di lavoro residuo diviso per tasso effettivo. La sottigliezza è cosa significhi «effettivo». Un tasso orario viene usato così com'è; un tasso giornaliero viene proiettato sulla tua impostazione di ore lavorative, così un lavoro da 40 ore a 8 ore al giorno copre cinque giorni calendariali, non uno; un tasso settimanale assume una settimana lavorativa di cinque giorni, così si estende su sette giorni calendariali. Ogni scelta muove il timestamp di fine, motivo per cui lo strumento chiede.",
+          "Il conto alla rovescia e la durata umanizzata sono la stessa proiezione resa in due modi: il countdown è il tempo dal punto di partenza alla fine, e «3 giorni 4 ore» è quello stesso arco riformulato in unità attorno a cui la gente programma. Poiché tutti e tre gli output derivano da una formula, cambiare il tasso aggiorna tutto insieme — che è la via più rapida di vedere quanto valga realmente accelerare o rallentare.",
+          "Un limite onesto: il modello è lineare. Assume che ogni unità di lavoro richieda lo stesso tempo dell'ultima, senza rampa, senza rifacimenti e senza interruzioni. Le code reali tendono alla coda — l'ultimo 10 percento spesso richiede più tempo per unità del primo 90 — quindi tratta un ETA di fase tarda come ottimistico per impostazione e rinfrescalo man mano che il progresso reale arriva.",
+        ],
+      },
+      {
+        heading: "Scegliere il tasso: la più grande fonte di errore",
+        paragraphs: [
+          "La maggior parte degli ETA sbagliati è sbagliata per il tasso, non per la matematica. L'errore classico è inserire un tasso del caso migliore — ciò che ottieni in un pomeriggio pulito e ininterrotto — e lasciare che stia per il tasso medio compresi riunioni, cambi di contesto e giornate brutte. Un tasso che sia metà del tuo caso migliore di solito predice il completamento reale molto meglio del caso migliore stesso.",
+          "Una seconda trappola è il disallineamento di unità: inserire ticket al giorno contro un carico di lavoro in pagine, o un tasso orario con un carico giornaliero. Lo strumento richiede entrambi i lati nella stessa unità, e il controllo più sicuro è ricalcolare un piccolo blocco già finito e vedere se la formula ne avrebbe predetto la durata.",
+          "Anche ore lavorative e calendari interagiscono: un tasso giornaliero non salta i weekend automaticamente, e le festività non vengono sottratte a meno che il tuo tasso non ne tenga già conto. Se la data di fine atterra di sabato e non lavorerai quel giorno, abbassa il tasso o estendi la timeline manualmente — lo strumento modella le tue assunzioni dichiarate, non il tuo calendario privato.",
+        ],
+      },
+      {
+        heading: "Usare gli ETA senza farsene bruciare",
+        paragraphs: [
+          "Il flusso più affidabile è il ri-previsione: inserisci il carico di lavoro, esegui la stima, poi — man mano che il lavoro procede — aggiorna il carico residuo e il tasso che stai realmente ottenendo. Un ETA ricalcolato al 25 percento di completamento è molto più accurato di uno fatto a zero, perché il tasso realizzato è misurato anziché indovinato.",
+          "Quando la stima è per qualcun altro (un cliente, uno stakeholder), la durata leggibile è l'output da condividere, e l'imbottitura appartiene al tasso, non a un cuscinetto inspiegato sopra: «12 unità alla settimana, non 20» è un'affermazione difendibile, mentre un numero nudo con un pad nascosto del 40 percento invita a prendere la schedulazione alla lettera.",
+          "Come tutto su questa pagina, il calcolo gira localmente nel tuo browser — nessun dato di carico o tasso viene caricato, registrato o condiviso. Questo lo rende utilizzabile tanto per i piani di personale interni quanto per i preventivi ai clienti, senza che quei numeri lascino mai il tuo dispositivo.",
+        ],
+      },
+    ],
   },
   "mime-types": {
     name: 'Tabella dei tipi MIME',
@@ -5076,6 +9880,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'È il registro completo dei tipi media IANA?', a: "No — l'IANA elenca oltre mille tipi registrati, molti specifici di un fornitore o storici. Questa tabella si concentra su circa 120 voci realmente incontrate nello sviluppo web, nelle configurazioni di deploy e nella posta, con i valori corretti attuali." },
         { q: 'Perché .ts compare due volte con categorie diverse?', a: "L'estensione è genuinamente ambigua: il sorgente TypeScript (text/x.typescript) e i flussi di trasporto MPEG (video/mp2t) usano entrambi .ts. I server decidono dal contesto della directory, quindi verifica quale riguarda il tuo caso." },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che un tipo MIME è realmente",
+        paragraphs: [
+          "Un tipo MIME è un'etichetta a due parti — tipo/sottotipo, come text/html o image/png — che dice a un destinatario come interpretare un payload. Il registro è mantenuto dall'IANA, e i tipi discendono dal sistema di allegati email da cui il formato prese il nome (Multipurpose Internet Mail Extensions). Browser, server e client email fanno tutti affidamento a quella singola riga di metadato.",
+          "I tipi di primo livello sono pochi: text, image, audio, video, application, più alcuni speciali come multipart e font. Il sottotipo porta l'informazione vera — application/json significa dati strutturati, application/pdf significa un documento, application/octet-stream significa «byte opachi, buona fortuna». Le convenzioni di +suffisso (application/+json, +xml) indicano la struttura interna del sottotipo.",
+          "I parametri seguono dopo un punto e virgola: text/html; charset=utf-8 dichiara la codifica dei caratteri. È lì che vive un numero sorprendente di bug — una pagina servita senza charset può renderizzarsi bene in un browser e sgarbugliarsi in un altro.",
+        ],
+      },
+      {
+        heading: "Perché i browser sniffano, e ciò che ti costa",
+        paragraphs: [
+          "I server sbagliano spesso i tipi MIME: host mal configurati spediscono testo semplice con estensione .css, o tutto come application/octet-stream. Anziché rompersi, i browser storicamente indovinavano dal contenuto — «MIME sniffing» — leggendo i byte magici (un PNG comincia con 89504E47, un PDF con %PDF) e renderizzando di conseguenza. Il comportamento causò vulnerabilità reali: servire contenuto caricato dagli utenti come text/html lascia un attaccante eseguire script sul tuo origine, motivo per cui esiste tooling di sicurezza per disattivare lo sniffing per risposta.",
+          "Il contratto moderno: imposta il Content-Type corretto per tutto ciò che servi, aggiungi header nosniff per il contenuto degli utenti, e non servire mai i caricamenti degli utenti come text/html. Il database qui serve a controllare quel contratto — prima di servire un tipo di file, cerca il suo tipo canonico anziché inventarne uno.",
+          "La mappatura estensione→MIME è convenzione, non legge: un file .dat può essere qualsiasi cosa, e parecchi formati condividono estensioni (.mp4 per contenitori sia audio sia video). Nel dubbio, sniffa tu stesso i byte magici del file prima di dichiarare un tipo.",
+        ],
+      },
+      {
+        heading: "Tabella di riferimento offline",
+        paragraphs: [
+          "La tabella è un riferimento statico spedito con la pagina — le ricerche avvengono istantaneamente nel tuo browser senza richiesta di rete. Questo la rende utilizzabile in ambienti isolati dalla rete e abbastanza rapida da tenere aperta accanto a un file di configurazione che stai modificando.",
+          "Per il lavoro di configurazione dei server, le ricerche più comuni sono le coppie lato server: tipi di contenuto per i font (font/woff2), i manifest (application/manifest+json) e i media in streaming. Azzeccarli previene i sintomi classici — font che falliscono silenziosamente i controlli CORS, fogli di stile che si rifiutano di caricarsi sotto controlli MIME strict.",
+          "Nulla riguardante il tuo traffico o i tuoi file viene registrato; la pagina è un dizionario, non un servizio. Abbinala agli strumenti JSON quando fai debugging di risposte API i cui header Content-Type sono sospetti.",
+        ],
+      },
+    ],
   },
   "keycode-info": {
     name: 'Codici dei tasti',
@@ -5089,6 +9919,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Perché event.key ed event.code differiscono per lo stesso tasto?', a: 'event.key riporta il carattere prodotto con layout e modificatori attuali ("A", "á", "1"), mentre event.code riporta la posizione fisica (KeyA, Digit1) indipendente dal layout. Le scorciatoie dovrebbero confrontare code; la gestione del testo dovrebbe leggere key.' },
         { q: 'keyCode è deprecato?', a: 'Sì — è ereditato e mantenuto solo per compatibilità con vecchio codice che testa numeri come 13 (Invio) o 27 (Escape). Il codice nuovo dovrebbe usare event.key o event.code; questo strumento lo mostra per mappare le vecchie costanti durante la migrazione.' },
         { q: 'Perché lo stesso valore si ripete mentre tengo premuto un tasto?', a: 'Tenere premuto fa sì che l\'OS invii keydown ripetuti con repeat a true. Attiva "ignora auto-repeat" per mostrare solo la pressione iniziale; disattivala se devi verificare che il tuo handler riceva gli eventi ripetuti.' },
+    ],
+    deepDive: [
+      {
+        heading: "keyCode è deprecato — ecco il panorama",
+        paragraphs: [
+          "I codici numerici di tasto che questo strumento mostra vengono dal keyCode e dal which originali di KeyboardEvent, introdotti negli anni '90 e ora formalmente deprecati. Restano gli identificatori di tasto più conosciuti perché decenni di tutorial, librerie e risposte su Stack Overflow sono costruiti su di essi — ma lo standard che li rimpiazzò è KeyboardEvent.key (il carattere, come «a» o «ArrowLeft») e KeyboardEvent.code (il tasto fisico, come «KeyA» o «ArrowLeft»).",
+          "La distinzione conta: key rispetta il layout della tastiera (premere il tasto accanto a Tab su un AZERTY francese produce un valore key diverso che su un QWERTY statunitense), mentre code identifica sempre la stessa posizione fisica. Per i controlli dei giochi e i sistemi di scorciatoie, code di solito è giusto; per la gestione del testo, key è giusto.",
+          "L'altro problema di keyCode è l'incoerenza: i tasti freccia, i tasti funzione e alcuni tasti del tastierino numerico avevano valori dipendenti da browser e piattaforma, e la gestione legacy dei tasti morti e dell'input IME varia. Il codice nuovo dovrebbe trattare i numeri di questo strumento come riferimento per leggere il codice vecchio, non come ciò che scrivere.",
+        ],
+      },
+      {
+        heading: "Leggere gli identificatori di tasto in pratica",
+        paragraphs: [
+          "Le tre proprietà rispondono a domande diverse: keyCode (deprecato) dà un numero, key dà ciò che la pressione significa, code dà dove sta il tasto. La stessa pressione fisica può riportare key «a» con code «KeyA»; con Shift tenuto, key diventa «A» mentre code resta «KeyA». Tenere un modificatore cambia key ma mai code.",
+          "Il tasto Escape è un caso stabile (key «Escape», code «Escape», keyCode 27 — l'unico numero legacy che quasi tutti memorizzarono). Lo spazio è una trappola: il suo valore key è « » (uno spazio letterale), non «Space», il che ha rotto parecchi switch ingenui.",
+          "Per le scorciatoie, ascolta code quando l'associazione è posizionale (movimento WASD) e key quando è tipografica (Ctrl+Maiusc+P dovrebbe funzionare anche su AZERTY). E usa e.repeat per ignorare l'auto-ripetizione quando una scorciatoia deve partire una volta per pressione.",
+        ],
+      },
+      {
+        heading: "Consultazione di riferimento, offline",
+        paragraphs: [
+          "Lo strumento mostra il codice numerico accanto ai valori moderni di key e code, così puoi tradurre il keyCode 188 di un vecchio frammento nei suoi equivalenti moderni senza aprire un debugger del browser e premere tasti uno per uno.",
+          "Tutto è una tabella statica renderizzata nel tuo browser — nessuna richiesta di rete, funziona senza connessione, e nulla riguardante la tua tastiera viene riportato da qualche parte. La pagina è leggera di proposito: apri, cerca il tasto, chiudi, senza account né traccia in nessun log.",
+          "Quando scrivi nuovi gestori di eventi, prova su una tastiera reale del layout dei tuoi utenti obiettivo, perché i valori dipendenti dal layout differiscono più di quanto qualunque tabella possa mostrare. Questa pagina è il dizionario; la tua tastiera è la prova sul campo.",
+        ],
+      },
     ],
   },
   "ipv4-subnet-calculator": {
@@ -5105,6 +9961,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Le classi IP hanno ancora senso?', a: 'Non per il routing — internet usa CIDR senza classi da decenni. La lettera A/B/C/D/E è mostrata solo come riferimento, perché documentazione datata, esami e vecchi dispositivi parlano ancora in termini di classi.' },
         { q: 'Come si calcola il CIDR minimo che copre due IP?', a: 'I due indirizzi vengono combinati con XOR per individuare i bit bassi che differiscono; il prefisso è la prima posizione in cui coincidono e il blocco si allinea a quel confine. Ad esempio 10.1.2.3 e 10.1.9.200 cadono insieme in 10.1.0.0/20.' },
     ],
+    deepDive: [
+      {
+        heading: "CIDR e la maschera di sottorete, dai principi primi",
+        paragraphs: [
+          "Un indirizzo IPv4 è di 32 bit, e il prefisso CIDR dice quanti bit in testa identificano la rete: /24 significa che i primi 24 bit sono fissi e gli ultimi 8 appartengono agli host. La maschera puntata è proprio quella regola scritta in notazione IP — 255.255.255.0 ha esattamente 24 uni. La maschera wildcard è l'inverso bit a bit, che la sintassi ACL dei firewall chiede invece: dove la maschera dice «deve corrispondere», la wildcard dice «non importa».",
+          "I valori standard cadono meccanicamente una volta fissato il confine: l'indirizzo di rete ha tutti i bit di host azzerati, l'indirizzo di broadcast li ha tutti impostati, e gli host usabili vanno da rete+1 a broadcast−1. Il conteggio usabile è 2^(32−n) − 2 perché rete e broadcast sono riservati — un /24 tiene 256 indirizzi ma 254 host usabili, e quel fuori-di-due è la ragione più comune per cui un piano di rete è corto di un host.",
+          "Due eccezioni sono onorate deliberatamente: i collegamenti punto-punto /31 della RFC 3021 usano entrambi gli indirizzi senza rete né broadcast riservati, e il /32 è per definizione una rotta a host singolo. Se il tuo modello mentale dice «sottrai sempre due», questi due casi sono dove le configurazioni reali divergono dal libro di testo.",
+        ],
+      },
+      {
+        heading: "Intervalli privati e il classico errore di firewall",
+        paragraphs: [
+          "Non ogni indirizzo è globalmente unico. La RFC 1918 riserva 10.0.0.0/8, 172.16.0.0/12 e 192.168.0.0/16 per le reti private; 127.0.0.0/8 è loopback, 169.254.0.0/16 è link-local, e 100.64.0.0/10 è lo spazio condiviso CGNAT che i gestori usano tra modem e core. Lo strumento segnala tutti questi così sai che tipo di indirizzo stai realmente guardando.",
+          "L'errore che le segnalazioni prevengono: scrivere una regola di permesso firewall per un intervallo che credi pubblico, quando in realtà sta dentro la RFC 1918 — per esempio permettere per sbaglio il vicinato di 172.16.0.0/12. Al contrario, trattare una sorgente CGNAT come visitatore pubblico lascia che lo stesso indirizzo del gestore appaia da milioni di abbonati, il che rompe i limiti di frequenza per IP e le assunzioni di logging.",
+          "Un'altra trappola vive proprio nell'intervallo 172: 172.16/12 copre da 172.16.0.0 a 172.31.255.255, quindi 172.20.x.x è privato ma 172.32.x.x è pubblico. La memoria dice «il 172 è privato», la realtà dice che solo una fetta larga 16 bit dello spazio 172 lo è. È il singolo più comune errore di ricerca di intervallo privato in pratica, ed è esattamente ciò che la colonna delle segnalazioni chiude all'istante.",
+        ],
+      },
+      {
+        heading: "Il più piccolo CIDR coprente e perché la fusione a mano fallisce",
+        paragraphs: [
+          "Dati due IP, il blocco minimo contenente entrambi si trova confrontando i bit: fai l'XOR dei due indirizzi, e la posizione del bit differente più alto ti dice quanti bit bassi variano. Il prefisso è tutto ciò che sta sopra quella posizione, e il blocco si allinea giù a quel confine — così 10.1.2.3 e 10.1.9.200 condividono un /20 ma non condividerebbero un /21, perché la loro differenza raggiunge l'intervallo del bit 20.",
+          "La fusione a mano fallisce perché gli umani ragionano in decimale. 10.1.2.3 «sembra» appartenere con 10.1.2.x, e un /24 lo contiene — ma accoppiarlo con 10.1.9.200 forza un blocco il cui terzo ottetto copre 0–15, cosa che nessuno intuisce dalle stringhe decimali. Il metodo XOR trasforma un problema di intuizione in aritmetica di bit che o funziona o non funziona provabilmente.",
+          "Il risultato di contenimento ti dice anche il costo della sintesi: fondere due host in una regola può tirarci dentro 2.048 indirizzi che non intendevi includere. Leggi il conteggio di host usabili del blocco risultante prima di incollarlo in un firewall, e preferisci due regole specifiche a una larga quando gli indirizzi extra contano. Tutto qui viene calcolato localmente nel browser — i piani di indirizzamento interni non lasciano mai la pagina.",
+        ],
+      },
+    ],
   },
   "json-viewer": {
     name: 'Visualizzatore JSON',
@@ -5119,6 +10001,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Gestisce documenti grandi?', a: 'Sì per payload API e config tipici — decine di migliaia di nodi si renderizzano senza problemi. Il troncamento a 60 caratteri riguarda solo la visualizzazione; il pannello grezzo e il pulsante copia conservano sempre i dati completi.' },
         { q: 'I miei dati lasciano il dispositivo?', a: 'No. Analisi e rendering avvengono interamente nella memoria del browser. Nulla viene inviato a un server — sicuro per risposte API interne e configurazioni.' },
     ],
+    deepDive: [
+      {
+        heading: "Ciò che una vista ad albero cambia nel leggere il JSON",
+        paragraphs: [
+          "Il JSON grezzo è ottimizzato per le macchine: impacchetta la struttura in punteggiatura e spazi bianchi, così un payload profondamente annidato si legge come un muro di parentesi. Una vista ad albero rovescia questo — ogni oggetto e array diventa un nodo che puoi collassare, così il primo livello risponde a «cosa contiene questa risposta?» a colpo d'occhio e il dettaglio appare solo dove espandi. Per una risposta API di 200 righe, è la differenza tra scorrere e navigare.",
+          "La colorazione per tipo non è decorazione. Nei payload veri i bug si ammassano ai confini: un numero arrivato come stringa («42»), un false che è in realtà la stringa «false», un null che sarebbe dovuto essere un oggetto. Quando stringhe, numeri, booleani e null hanno ciascuno il proprio colore, queste anomalie spuntano visivamente — puoi scandire un'intera risposta per tipi sospetti senza leggere un solo nome di chiave.",
+          "Il troncamento delle stringhe lunghe è il terzo trucco di leggibilità. Blob base64, frammenti HTML e descrizioni lunghe allungano di routine un singolo valore su centinaia di caratteri e seppelliscono la struttura. Troncare il display a 60 caratteri tiene ogni valore su una riga — mentre il pannello grezzo e il pulsante di copia portano sempre il testo completo, così nulla si perde. Il troncamento è presentazione, non dati.",
+        ],
+      },
+      {
+        heading: "Leggere gli errori di analisi: riga, colonna e i soliti sospettati",
+        paragraphs: [
+          "Il JSON è impietoso in modi specifici e ripetitivi, e gli errori del parser vi si mappano. I fallimenti classici: una virgola finale dopo l'ultimo elemento di un oggetto o array (legale nei letterali JavaScript, illegale nel JSON), chiavi non quotate o tra virgolette singole, virgolette singole attorno alle stringhe, una parentesi mancante che affiora solo centinaia di righe dopo, e i commenti — // va bene in JS, non è mai valido nel JSON. Conoscere quell'elenco trasforma la maggior parte dei messaggi d'errore in correzioni di un secondo.",
+          "I numeri di riga e colonna contano perché il punto del fallimento è spesso lontano dal punto dell'errore: una graffa di chiusura mancante alla riga 10 può essere riportata solo quando il parser colpisce un token contraddittorio alla riga 40. Sistema il primo errore riportato e ri-analizza anziché inseguire tutto insieme — i parser recuperano male dagli errori a catena, e il primo messaggio è quello affidabile.",
+          "Questo visualizzatore riporta l'errore col messaggio del parser più la posizione, poi ri-renderizza l'albero nell'istante in cui l'input diventa valido. Il ciclo — incolla, vedi l'errore, sistema, vedi l'albero — è abbastanza rapido che fare debugging di un file di configurazione malformato batte passare a un editor con linter JSON per un controllo una-tantum.",
+        ],
+      },
+      {
+        heading: "Analisi locale, e quando arrivare a uno strumento diverso",
+        paragraphs: [
+          "Tutto gira nel tuo browser: analisi, costruzione dell'albero e renderizzazione avvengono in JavaScript sul tuo dispositivo, e nulla viene trasmesso o memorizzato. Questo conta di più per i payload che incolli davvero — risposte API autenticate, configurazione interna, registri di clienti estratti da un database. Spedirli a un servizio JSON online per farli stampare carini crea una copia lato server che né controlli né ti serve.",
+          "La scala è il confine onesto. Decine di migliaia di nodi si renderizzano bene; un'esportazione di parecchie centinaia di megabyte affatica la scheda del browser a prescindere da quale visualizzatore la renderizzi, e uno strumento in streaming o da riga di comando è la risposta migliore lì. Per l'intervallo quotidiano — risposte API, payload di webhook, file di configurazione — un albero nel browser è la via più rapida da «cosa c'è qui dentro?» a una risposta.",
+          "Abbinalo agli strumenti attorno per i passi successivi: il formattatore normalizza l'indentazione prima di committare una correzione, il validatore conferma la conformità strict, e json-path-query estrae un sottoalbero senza cacciare nell'albero a mano. Il visualizzatore è lo strumento di lettura; gli altri fanno la scrittura e l'interrogazione.",
+        ],
+      },
+    ],
   },
   "chmod-calculator": {
     name: 'Calcolatore chmod',
@@ -5132,6 +10040,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Cosa significa esattamente 755?', a: "Proprietario: lettura+scrittura+esecuzione (7=4+2+1); gruppo: lettura+esecuzione (5=4+1); altri: lettura+esecuzione (5). È l'impostazione tipica di directory e script eseguibili condivisi." },
         { q: 'A cosa serve lo sticky bit?', a: 'Su una directory impedisce di cancellare i file altrui — è la «t» di /tmp (drwxrwxrwt). Su un eseguibile teneva il programma in memoria — oggi soprattutto storico.' },
         { q: 'Cosa fanno setuid e setgid?', a: "Su un eseguibile, setuid lo esegue con l'identità del proprietario (setgid: del gruppo) — ecco perché vanno usati con cautela. Su una directory, setgid impone la proprietà di gruppo ai nuovi file." },
+    ],
+    deepDive: [
+      {
+        heading: "Da dove vengono 755 e 644: l'aritmetica 4-2-1",
+        paragraphs: [
+          "Ciascuna delle tre classi di permesso — proprietario, gruppo, altri — tiene tre bit: lettura, scrittura, esecuzione. La cifra ottale è la somma dei bit attivati pesati 4-2-1, motivo per cui la cifra può essere solo 0-7 e ogni valore si mappa a esattamente una stringa rwx. 7 è rwx (4+2+1), 6 è rw- (4+2), 5 è r-x (4+1), 4 è r-- (4). Nessuna combinazione può produrre, per esempio, un 3 che significhi qualcosa d'altro da -wx, quindi la notazione è non ambigua una volta interiorizzati i pesi.",
+          "Quell'aritmetica spiega le due modalità di lavoro. 755 (rwxr-xr-x) significa che il proprietario fa tutto mentre chiunque altro può entrare e leggere ma non modificare — la modalità naturale per le directory e per gli script che altri devono eseguire. 644 (rw-r--r--) toglie del tutto l'esecuzione dal quadro: leggibile da tutti, scrivibile solo dal proprietario, il che sta ai file regolari. La ragione per cui i server web vogliono 644 sui file e 755 sulle directory è semplicemente che entrare in una directory è un'operazione di esecuzione, non di lettura.",
+          "La umask completa il quadro. Una umask tipica di 022 viene sottratta dai predefiniti 666/777 al momento della creazione, che è precisamente perché i nuovi file atterrano a 644 e le nuove directory a 755. Quando un file continua a «perdere» il suo bit di esecuzione o la scrittura di gruppo continua a sparire, il colpevole è di solito la umask o uno strumento di sincronizzazione troppo zelo, non chmod stesso — controllare la modalità con stat prima di ri-concedere risparmia parecchi grattacapi.",
+        ],
+      },
+      {
+        heading: "I bit speciali: setuid, setgid e sticky",
+        paragraphs: [
+          "Oltre i nove bit di permesso stanno altri tre. setuid (ottale 4000) fa eseguire un eseguibile con l'identità del proprietario del file anziché quella del chiamante — il meccanismo dietro passwd, che deve scrivere su file di proprietà root stando eseguibile da tutti. setgid (2000) fa lo stesso col gruppo, e sulle directory fa sì che i nuovi file ereditino il gruppo della directory, che è come le cartelle condivise del team tengono una proprietà coerente.",
+          "Il bit sticky (1000) è per lo più storico per i file, ma sulle directory significa che solo il proprietario del file (o root) può cancellare o rinominare le voci dentro. /tmp è l'esempio canonico: 1777, scrivibile da tutti, eppure gli utenti non possono rimuovere i file degli altri. Il COPY --chmod di Docker e gli script CI a volte richiedono queste cifre scritte esplicitamente, che è esattamente quando la forma a quattro cifre conta — la cifra in testa è l'ottale dei bit speciali, 0 quando assente.",
+          "La notazione simbolica codifica lo stato al posto della x: s minuscolo significa bit speciale più esecuzione (rws), S maiuscolo significa bit speciale senza esecuzione — di solito un errore, poiché un file setuid non eseguibile non fa nulla. La stessa logica vale per t contro T sulle directory. Vedere rwS o rwT in un elenco è un segnale di concedere l'esecuzione o di azzerare il bit speciale.",
+        ],
+      },
+      {
+        heading: "Insidie pratiche e come controllare le modalità in sicurezza",
+        paragraphs: [
+          "L'errore operativo più comune è chmod -R 777 come cura di un errore di permessi. Fa sparire il problema immediato e lascia dietro un albero scrivibile da tutti — un vero buco di sicurezza su qualsiasi host multi-utente, e inutile come diagnosi poiché distrugge l'evidenza di quale fosse la modalità reale. Quando un servizio non riesce a leggere un file, scendi invece per il percorso: ogni directory lungo la via richiede esecuzione (e di solito lettura) per l'utente del servizio, e il fallimento è spesso una directory genitore, non il file.",
+          "Una trappola collegata: chmod 644 su una directory le toglie il bit di esecuzione (r--r--r--), e nessuno — compreso il proprietario — può poi entrarvi, perché attraversare una directory è un'esecuzione. Le directory vogliono quasi sempre almeno 755 o 700, mai 644. Quando ripristini modalità da documentazione, preferisci la forma a cifre esplicite (chmod 755) alle espressioni simboliche come +x il cui effetto dipende dalla modalità corrente e dalla umask.",
+          "Un calcolatore come questo è deliberatamente di sola-verifica e offline: computa le cifre nel tuo browser e ti consegna un comando da rivedere prima di eseguirlo. Questo tiene il flusso dove appartiene — incollerai il comando nel tuo terminale, sui tuoi file, e nulla riguardante il tuo filesystem o la struttura delle directory lascia mai la macchina.",
+        ],
+      },
     ],
   },
   "ulid-generator": {
@@ -5148,6 +10082,32 @@ export const it: Record<string, ToolCopy> = {
         { q: "Cos'è Crockford Base32?", a: "Un alfabeto di 32 caratteri (cifre più A-Z senza I, L, O, U) pensato per sopravvivere alla trascrizione umana: niente coppie simili lettera/cifra, insensitive alle maiuscole. Il 25% più denso dell'esadecimale e senza +, / o = — sicuro in URL, nomi di file e XML." },
         { q: 'Due ULID nello stesso millisecondo collidono?', a: 'In pratica no: 80 bit casuali danno ~1,2 × 10²⁴ possibilità per millisecondo. La specifica definisce anche la generazione monotona (incrementare la parte casuale nello stesso millisecondo), che la modalità batch rispetta per costruzione.' },
     ],
+    deepDive: [
+      {
+        heading: "Ordinabilità: la differenza che cambia il tuo indice",
+        paragraphs: [
+          "Una chiave primaria UUIDv4 disperde le nuove righe a posizioni casuali nell'indice. Sull'archiviazione B-tree questo significa split di pagine, cache miss e un indice sempre più frammentato man mano che la tabella cresce — un dolore operativo ben noto sulle tabelle ad alta scrittura. Una chiave ULID atterra sempre a destra di ogni chiave precedente, così gli inserimenti restano in stile append e l'indice resta compatto.",
+          "L'ordinabilità cambia anche quali query puoi scrivere. Con chiavi ULID, «dammi tutto ciò che è stato creato tra le 14:00 e le 15:00» è una semplice scansione di intervallo sulla chiave primaria — niente indice created_at separato necessario per le finestre grossolane. Log, tabelle di eventi e code di messaggi traggono il massimo beneficio, perché i loro pattern di accesso sono dominati dal tempo.",
+          "Il compromesso va dichiarato onestamente: gli ULID espongono il loro tempo di creazione a chiunque veda l'identificatore, e gli ID consecutivi sono prevedibili nello stesso millisecondo. Se gli identificatori devono essere opachi (condividere ID pubblicamente dove l'enumerazione conta), tieni UUIDv4. Per le chiavi interne nei log e nei database, l'ordinamento dell'ULID vince.",
+        ],
+      },
+      {
+        heading: "Crockford Base32 e leggere gli identificatori ad alta voce",
+        paragraphs: [
+          "I 26 caratteri di un ULID usano Crockford Base32: cifre 0-9 più lettere A-Z senza I, L, O, U. Quelle quattro sono escluse perché nella trascrizione quotidiana collidono con 1 e 0 — ticket di supporto, passaggi di consegne a voce e runbook stampati implicano tutti umani che copiano identificatori a occhio, e ogni confusione è un bug di record sbagliato.",
+          "La codifica è anche case-insensitive per convenzione (I e l decodificano entrambi come 1), il che perdona incollaggi minuscoli da terminali e URL. Rispetto all'hex, Base32 impacchetta il 25% di informazione in più per carattere, motivo per cui un valore a 128 bit richiede 26 caratteri invece di 32. Rispetto al base64, non c'è né + né / né = — quindi l'identificatore è sicuro negli URL, nei nomi di file, negli attributi XML e nei contesti adiacenti al DNS senza alcuno strato di escape.",
+          "La decodifica chiude il cerchio: poiché i primi 10 caratteri sono puro timestamp, qualunque ULID che trovi in un vecchio log si riconverte al millisecondo esatto in cui nacque. Questo rende le sessioni di debugging considerevolmente più amichevoli — l'identificatore stesso risponde a «quando è nato questo record?».",
+        ],
+      },
+      {
+        heading: "Casualità, l'orologio, e ciò che resta sul tuo dispositivo",
+        paragraphs: [
+          "La generazione qui usa due fonti: la metà timestamp viene dall'orologio del tuo dispositivo, gli 80 bit casuali da crypto.getRandomValues — la fonte casuale crittografica del browser, la stessa primitiva dietro le chiavi di sessione TLS. Nessuna tabella pre-computata, nessun contatore condiviso con un server, e nessuna dipendenza dalla disponibilità di un servizio online.",
+          "Questo significa anche che la generazione è offline e illimitata. Preparare dati seme per database, fixture per una suite di test o un lotto di migliaia di identificatori per una migrazione funziona identicamente su un aereo e in un centro dati blindato; nulla viene caricato, registrato o limitato, e decodificare un ULID esistente tocca solo il tuo orologio e il tuo JavaScript.",
+          "Un'avvertenza pratica che vale la pena conoscere: gli identificatori derivati da un orologio di dispositivo ereditano la sua accuratezza. Se l'orologio di una macchina è sbagliato, gli ULID che produce si ordinano correttamente tra loro ma stanno nel punto sbagliato del tempo assoluto. Per la stragrande maggioranza delle applicazioni è irrilevante — ma tienilo presente quando correla ULID con sistemi esterni con requisiti di tempo strict.",
+        ],
+      },
+    ],
   },
   "user-agent-parser": {
     name: 'Analizzatore User-Agent',
@@ -5162,6 +10122,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Perché Chrome dice di essere Safari e Mozilla?', a: "Compatibilità storica. I siti compatibili Netscape venivano serviti ai browser che annunciavano «Mozilla», e Chrome ha ereditato quel travestimento per ottenere gli stessi contenuti — ecco perché l'UA moderno di Chrome legge «Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/…». Gli analizzatori leggono dalla fine della catena (il token Chrome), non dall'inizio." },
         { q: 'Come si distinguono i bot dagli utenti reali?', a: "I crawler noti pubblicano il loro token esplicitamente — Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit compaiono letteralmente nell'UA. Questo analizzatore li nomina per firma invece di indovinare; ciò che non è riconosciuto resta un browser normale, non marcato come bot." },
         { q: "Lo sniffing dell'UA basta per decidere funzionalità?", a: "Non nei percorsi critici — le stringhe UA mentono per progetto e sono facili da falsificare. Usa l'analisi UA per analytics, log e decisioni non di sicurezza (mostrare layout mobile, contare il traffico bot); per il funzionamento, fai feature-detect nella pagina. Questo strumento legge gli UA, non li certifica." },
+    ],
+    deepDive: [
+      {
+        heading: "Perché le stringhe User-Agent mentono, e per design",
+        paragraphs: [
+          "Ogni stringa UA dei browser moderni comincia con Mozilla/5.0, a prescindere da qualsiasi collegamento con il Mozilla di Netscape. È storia di compatibilità competitiva, non malfunzionamento: negli anni '90 i browser pubblicizzavano «Mozilla» per ricevere il contenuto buono, e ogni nuovo arrivato copiò l'intero prefisso per evitare di essere servito la versione degradata. L'UA di Chrome poi pretende di essere AppleWebKit (che pretende Gecko), i token compatibili Safari viaggiano insieme, e i browser successivi si accodano al mucchio.",
+          "Il risultato è una catena di pretese ereditate: «Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/… Safari/…». Analizzarla al rovescio è la tecnica affidabile — il token più specifico è di solito il più vero, motivo per cui Edge (Edg/), Opera (OPR/) e Samsung Internet ricevono le proprie voci dopo il match generico Chrome, e perché il rilevamento della famiglia Chrome deve girare prima del fallback generico anziché dopo.",
+          "La corsa agli armamenti non è finita: con la riduzione dell'UA, i browser stanno congelando e rifilando queste stringhe, e alcuni ora spediscono stringhe UA essenzialmente identiche a prescindere dalla versione. Quella traiettoria vale la pena conoscerla prima di costruire qualsiasi cosa sopra l'analisi degli UA — il segnale è affidabile per progettazione e sta diventando più silenzioso. Leggi gli UA per analitiche e logging; non presidiare mai su uno la sicurezza o funzionalità critiche.",
+        ],
+      },
+      {
+        heading: "Ciò che un'analisi può e non può dirti",
+        paragraphs: [
+          "Un parser recupera ciò che la stringa dichiara: famiglia e versione del browser, motore di renderizzazione (Blink, Gecko, WebKit), sistema operativo, classe del dispositivo (desktop, mobile, tablet), e — quando il token compare alla lettera — il bot. I crawler noti si identificano esplicitamente: Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit e compagni, motivo per cui vengono abbinati per nome anziché indovinati dai campi mobile o desktop.",
+          "Ciò che un'analisi non può recuperare è la verità dietro una pretesa falsificata. Le stringhe UA si impostano banalmente dal client — curl spedisce la propria, le librerie ti lasciano passare qualsiasi stringa, e le app mobili spesso spediscono WebView con identità prestate. Quindi un'analisi è un registro di ciò che il client ha detto di sé, non un risultato di autenticazione; tratta la flag bot allo stesso modo, poiché qualsiasi cosa non riconosciuta resta etichettata come browser normale anziché segnalata.",
+          "Gli usi pratici si allineano a quei limiti: dashboard di analitiche (distribuzione browser e OS), analisi dei log (scorgere un WebView o un crawler nel traffico reale), debugging del perché un controllo di funzionalità sia fallito, e classificare il traffico in un dataset. Per qualsiasi cosa funzionale dentro una pagina — attivare una funzionalità, scegliere un layout — la risposta standard è il feature detection nel client, con l'analisi UA come indizio anziché cancello.",
+        ],
+      },
+      {
+        heading: "Analisi locale, inclusa la tua UA",
+        paragraphs: [
+          "Tutto qui gira nel tuo browser: la stringa che incolli non lascia mai il dispositivo. Questo conta perché le stringhe che indaghi sono spesso artefatti operativi — header da un log interno, una richiesta sospetta catturata da un firewall, una UA da una timeline di incidente. Spedirle a un servizio di terzi per farle analizzare trasforma un diagnostico privato nel dataset di qualcun altro.",
+          "L'UA del tuo browser è disponibile come esempio a un clic, che è la via più rapida di vedere la forma dell'output del parser e di verificare i significati dei campi contro una verità nota — sai quale browser e OS stai eseguendo, così un'analisi corretta è verificabile all'istante.",
+          "L'analisi in blocco è l'altro flusso naturale: incolla stringhe una dopo l'altra da un estratto di log e leggi i risultati come una tabella di browser/motore/OS/dispositivo. Poiché le regole girano lato client senza viaggio verso il server, analizzare decine di stringhe è istantaneo, funziona offline, e nessun contenuto del log viene trasmesso — che di solito è esattamente ciò che un estratto di log non deve essere.",
+        ],
+      },
     ],
   },
   "token-generator": {
@@ -5178,6 +10164,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Quanto dovrebbe essere lungo il mio token?', a: 'Per chiavi interne e ID di sessione, 32 caratteri alfanumerici (~190 bit) sono ben oltre la forza bruta. I token esadecimali piacciono perché corrispondono esattamente ai byte: 32 caratteri hex = 16 byte casuali. I simboli aggiungono entropia per carattere ma rompono i sistemi che non fanno URL-encoding — usali solo se chi li consuma li gestisce.' },
         { q: 'Token, UUID o ULID?', a: "Usa token casuali opachi (questo strumento) quando l'identificatore non deve essere indovinabile: chiavi API, sessioni, segreti webhook. UUID/ULID servono per identificatori generati in parallelo o ordinabili nel tempo — rivelano ritmo o conteggio e non devono portare peso di sicurezza. Per un ID ordinabile, usa il generatore ULID." },
     ],
+    deepDive: [
+      {
+        heading: "Lunghezza del token e l'aritmetica della forza bruta",
+        paragraphs: [
+          "La sicurezza di un token è la sua entropia, e l'entropia è aritmetica semplice: log2 della dimensione dell'insieme di caratteri, per la lunghezza. L'insieme alfanumerico di 62 caratteri dà circa 5,95 bit per carattere, così 32 caratteri sono ~190 bit — uno spazio di ricerca che nessun hardware concepibile può percorrere. Perfino 16 caratteri alfanumerici (~95 bit) stanno comodamente oltre l'indovinare online e la maggior parte degli scenari offline.",
+          "Ciò che la lunghezza ti compra davvero è margine contro due realtà: il token leak parzialmente (un log, un header referrer, uno screenshot) e gli algoritmi migliorano. Un token a 128 bit con 30 bit leakati ne conserva ancora 98 — a posto; un token a 40 bit leakato di 10 è quasi speso. Per questo la raccomandazione onesta è «più di quanto pensi di aver bisogno»: l'entropia è economica, le rotazioni dopo l'esposizione sono costose.",
+          "Un'avvertenza che la lettura non può vedere: l'entropia misura il processo di generazione, non la gestione. Un token perfettamente casuale a 190 bit incollato in un ticket, committato in un repository o registrato da un proxy ha una forza effettiva di zero finché non viene ruotato. La lunghezza protegge dall'indovinare; l'igiene protegge da tutto il resto.",
+        ],
+      },
+      {
+        heading: "Token opachi contro UUID: non è lo stesso lavoro",
+        paragraphs: [
+          "È tentante trattare qualunque stringa dall'aspetto casuale come segreto, ma gli identificatori si dividono in due famiglie con requisiti opposti. UUID e ULID sono progettati per essere generati ovunque, in parallelo, e (per ULID) ordinati nel tempo — il che significa che codificano deliberatamente informazione: bit di versione, timestamp, a volte un contatore. L'indovinabilità non è la loro preoccupazione.",
+          "Un token casuale opaco è l'opposto: non codifica nulla ed esiste solo per essere non indovinabile. È la primitiva giusta per chiavi API, token bearer, identificatori di sessione e segreti webhook. Usare un UUID v1 come ID di sessione, per esempio, leaka l'indirizzo MAC della macchina e il tempo di generazione — una classe di vulnerabilità storica reale, non teorica.",
+          "L'hex merita una nota: si mappa esattamente ai byte (32 caratteri esadecimali = 16 byte casuali), motivo per cui tanti protocolli mostrano i segreti così, ma porta solo 4 bit per carattere — metà della densità dell'alfanumerico. I simboli alzano la densità ma rompono i consumatori che non fanno URL-encoding degli header; scegli l'insieme che il tuo consumatore accetta realmente.",
+        ],
+      },
+      {
+        heading: "Perché Math.random fallisce i segreti, e la generazione locale",
+        paragraphs: [
+          "Math.random() è un generatore pseudo-casuale il cui stato interno è finito e ricostruibile: un attaccante che osserva abbastanza output — o che sa grossomodo quando il token fu generato — può riprodurlo. Token costruiti su di esso sono apparsi casuali e stati predetti in incidenti reali; la scorciatoia sopravvive nei tutorial e nelle risposte di Stack Overflow, che è esattamente perché continua ad accadere.",
+          "crypto.getRandomValues è la fonte crittograficamente sicura del browser, seminata dal sistema operativo dall'entropia hardware e progettata così che nessun osservatore possa predire l'output seguente dai precedenti. Questo strumento attinge da essa e mappa i byte sul tuo insieme di caratteri scelto senza distorsione, poi mostra l'entropia risultante così il numero è verificabile anziché affermato.",
+          "La generazione è anche locale: i token nascono nella memoria del tuo browser e non vengono mai trasmessi, così un segreto di produzione nato qui non appare mai nel log di un server di terzi. Ricarica la pagina e sono spariti — copiali nel tuo archivio di segreti nella stessa sessione. Per le credenziali di lunga vita, quell'archivio è la casa permanente; il generatore è il luogo di nascita, non l'archivio.",
+        ],
+      },
+    ],
   },
   "extract-audio": {
     name: 'Video in MP3',
@@ -5193,6 +10205,32 @@ export const it: Record<string, ToolCopy> = {
         { q: 'Perché la prima conversione è lenta?', a: "La prima esecuzione scarica il motore WebAssembly (~31 MB) — un costo una tantum; dopo, la cache del browser lo serve all'istante. Le conversioni in sé girano quasi in tempo reale: codificare audio è molto più leggero che ricodificare video." },
         { q: 'Quale qualità scegliere?', a: "320 kbps è trasparente per la musica; 192 kbps è il punto giusto per la maggior parte dei contenuti, podcast e lezioni inclusi; 128 kbps tiene piccoli i file di voce. Nota: l'MP3 non supera la qualità della sorgente — un video a basso bitrate resta basso a prescindere." },
         { q: 'Lo strumento dice che non ha trovato una traccia audio — perché?', a: 'Alcuni video sono davvero muti; pochi contenitori (stream .ts grezzi, alcuni .flv) non sono gestiti dal demuxer rapido. Convertili prima in MP4 o verifica che il file suoni nel tuo player.' },
+    ],
+    deepDive: [
+      {
+        heading: "Ciò che accade realmente al tuo file",
+        paragraphs: [
+          "Il video non lascia mai la tua macchina. ffmpeg.wasm — la codebase FFmpeg da desktop compilata in WebAssembly — si carica una volta (circa 31 MB, cacheato dopo), e da lì in poi tutto avviene dentro la scheda: il file viene letto in un filesystem virtuale in memoria, demuxato per separare gli stream, lo stream audio viene decodificato e ri-codificato in MP3 con libmp3lame, e il risultato torna come download.",
+          "Il demuxing è il motivo per cui l'estrazione è rapida: i fotogrammi del video non vengono mai toccati. Lo strumento legge il contenitore (MP4, MOV, WebM, MKV…), sceglie la traccia audio — di solito AAC nei file della famiglia MP4, Opus o Vorbis nei WebM — e solo quella traccia viene decodificata e ri-codificata. La codifica solo-audio gira alla velocità reale o oltre, motivo per cui una lezione di 2 ore finisce in minuti.",
+          "La build a thread singolo non richiede SharedArrayBuffer, quindi la pagina gira in qualunque browser moderno senza header speciali del server — la stessa ragione per cui il file non ha mai bisogno di essere caricato: la potenza di elaborazione che richiede sta comodamente in una scheda.",
+        ],
+      },
+      {
+        heading: "Contenitori, codec, e l'errore nessuna-traccia-audio",
+        paragraphs: [
+          "Le estensioni dei file nominano contenitori, non audio: un .mp4 può tenere AAC, MP3, o nulla affatto, e un .mov da una fotocamera è solo QuickTime che avvolge ciò che il registratore ha prodotto. Per questo lo strumento ispeziona gli stream anziché fidarsi dell'estensione — e perché un video genuinamente muto (registrazioni di schermo senza microfono) riceve il messaggio nessuna-traccia-audio onestamente.",
+          "Pochi contenitori fanno inciampare il demuxer rapido: gli stream broadcast .ts grezzi e certi file .flv falliscono l'ispezione benché portino suono. La soluzione è meccanica — converti il file in MP4 prima con qualunque strumento desktop, poi estrai qui. Se un file suona col suono nel tuo lettore e fallisce comunque, appartiene a quel secchio.",
+          "Estrazione contro transcodifica è la distinzione chiave: ri-codificare l'audio in MP3 è inevitabile (i browser non possono consegnarti lo stream AAC grezzo come file), ma lo stream video viene scartato intoccato e mai decodificato una seconda volta — questa è tutta la storia della velocità.",
+        ],
+      },
+      {
+        heading: "Scegliere il bitrate, onestamente",
+        paragraphs: [
+          "Il bitrate MP3 limita ciò che sopravvive alla codifica: 320 kbps è trasparente per la musica, 192 kbps è il punto dolce pratico per podcast e lezioni, e 128 kbps tiene i file parlanti piccoli. La qualità della sorgente è un tetto duro — una traccia AAC a 96 kbps non migliora venendo scritta in file più grandi.",
+          "Quel tetto è anche il motivo per cui l'estrazione non può mai restaurare l'audio: ciò che la compressione aggressiva di una videochiamata ha mutilato resta mutilato. Se la qualità d'archivio conta, torna alla registrazione originale, non a un video che è sopravvissuto a una piattaforma di riunioni.",
+          "I video lunghi sono il principale costo di tempo, e la barra di progresso riporta il progresso ffmpeg reale anziché un'animazione cosmetica. Tutto gira in locale — lezioni con dati personali, chiamate riservate, registrazioni non rilasciate non raggiungono mai un server; e una volta cacheato il motore, lo strumento funziona offline.",
+        ],
+      },
     ],
   },
 };

@@ -36,6 +36,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Birleştirme JavaScript ile tarayıcında yerel olarak yapılır. Hiçbir şey sunucuya gönderilmez ve birleştirilmiş PDF kendi cihazında üretilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Birleştirme yeniden çizim değil, sayfa ağacı cerrahisidir",
+        paragraphs: [
+          "PDF birleştirmeye dair yaygın korku, aracın sayfaları «yeniden işlediğidir» — görselleri yeniden kodladığı, metni yeniden çizdiği, kaliteyi sessizce düşürdüğü söylenir. Düzgün yazılmış bir birleştiricide bunların hiçbiri olmaz. Her PDF'nin sayfaları içsel bir başvuru ağacında yaşar; birleştirme o ağaçları yeni belgeye diker: sayfa sıraları uç uca eklenir, çarpışmayı önlemek için başvurular yeniden numaralanır ama sayfa içerik akışları, yazı tipleri ve görseller bayt bayt kopyalanır.",
+          "Bu yüzden iyi bir birleştirme yapısal olarak kayıpsızdır. Metin seçilebilir kalır, görsel çözünürlüğü olduğu gibi kalır, vektör grafikler eğrilerini korur. Çıktı sayfaları içerik düzeyinde girdi sayfalarından ayırt edilemez — değişen tek şey, öyle söyleyelim, kapsayıcının içindekiler sayfasıdır.",
+          "Bilinmesi iyi olan iki yapısal gerçek var. Birincisi, numaralandırma yeniden başlar: B belgesinin 1. sayfası, basılı etiketlere bakılmaksızın, A belgesinin son sayfasını izler. İkincisi, yer imleri, bağlantılar ve adlandırılmış hedefler, birleştiricinin iç başvuruları ne kadar özenli yeniden eşlediğine göre kalabilir ya da kalmayabilir — yalnızca sayfa ağacını diker araçlar iç bağlantıları havada bırakabilir.",
+        ],
+      },
+      {
+        heading: "Sıra, yinelenenler ve birleştirme öncesi kontrol listesi",
+        paragraphs: [
+          "Birleştirme sırası dosyaları eklediğin sıradır ve en sık hata da budur: kapağı ekten sonra eklemek. Güvenilir alışkanlık, kaynak dosyaları sayı önekleriyle adlandırmaktır (01-sozlesme.pdf, 02-ek.pdf); böylece istenen sıra ilk bakışta görünür ve hiçbir dosya seçici sıralamasına yenik düşmez. Dağıtmadan önce birleşik çıktıda sırayı doğrula — iki saniyelik bir yapraklama, bir saatlik utanç durumunu yakalar.",
+          "Karışık sayfa boyutları PDF'de yasal ve temizce birleşir ama alıcıyı düşün: A4 sayfalarının Letter sayfalarla iç içe geçtiği bir belge her yerde kötü basılır. Kaynaklar farklıysa, birleştirmeden önce boyutu sonradan mı tekdüzleştireceğine yoksa karışımı mı kabul edeceğine karar ver.",
+          "Listenin bir maddesi daha: formlar. Her biri form alanı taşıyan iki PDF'yi birleştirmek alan adlarını çarpıştırabilir — ikisi de «imza» adını taşıyan alanlar tek değeri paylaşabilir; birine yazınca ikisi de dolar. Standart çare, birleştirmeden önce girdileri düzleştirmektir; düzleştirilmiş sayfalar hiçbir alan mekanizması taşımaz.",
+        ],
+      },
+      {
+        heading: "Belgeleri hiçbirini yüklemeden birleştirmek",
+        paragraphs: [
+          "Birleştirme, çoğu zaman hiçbir şekilde yüklenmemesi gereken dosyaların tam üzerinden yapılır: sözleşme ve ekleri, başvuru ve kimlik taraması, tıbbi rapor ve görüntü özeti. İkisini de çevrimiçi bir birleştiriciye göndermek, tek bir birleşik belgeyi bir başkasının sunucusunda yaratmak demektir — evrakının en eksiksiz, en duyarlı sürümü, tek bir kullanışlı dosya hâlinde, onların günlüklerinde.",
+          "Bu araç dikme işlemini tamamen tarayıcında yapar. İki kaynak PDF de cihazında JavaScript ile çözümlenir, sayfa ağaçları bellekte birleştirilir ve birleşik dosya doğrudan indirmelerine yazılır. Belgelerin hiçbir parçası iletilmez, kuyruğa girmez, hiçbir yerde saklanmaz; birleştirme ağ kablosu çekiliyken de aynı çalışır.",
+          "Verim kazancı da vardır: yükleme ve indirme gidiş dönüşleri olmadan, büyük dosyaları birleştirmek bile — 100 MB'lık taranmış bir dosya artı 50 MB'lık bir ek — saniyeler içinde biter; sınır yalnızca yerel bellektir. Bu da her çalışma oturumunun sonunda birleştirmeyi pratik kılar; parçaları gelen kutulara savurmak yerine proje başına tek derli toplu ana dosya tutarsın.",
+        ],
+      },
+    ],
   },
   "split-pdf": {
     name: "PDF Bölme",
@@ -62,6 +88,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bölmek sayfalarımın kalitesini değiştirir mi?",
         a: "Hayır. Sayfalar yeni belgelere bayt bayt kopyalanır; metin seçilebilir kalır, görseller özgün kalitesini korur.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bölmek birleştirmenin ayna görüntüsü — o kadar da kayıpsız",
+        paragraphs: [
+          "Bir PDF'yi bölmek, her biri özgün belgenin bir sayfa alt kümesini taşıyan yeni belgeler üretir. Birleştirmede olduğu gibi işlem sayfa ağacında çalışır: her çıktı belgesi, olduğu gibi kopyalanan özgün sayfa nesnelerine işaret eden bir başvuru listesi alır. Sayfa içeriği asla yeniden çizilmez ya da yeniden sıkıştırılmaz; her çıktı kaynağın kalitesini birebir korur — seçilebilir metin, gömülü yazı tipleri, görsel çözünürlüğü, ek notlar.",
+          "Yaygın iki bölme kipi farklı sezgiler taşır. Aralık bölmesi («1-5, 6-12. sayfalar») dağıtım için adlandırılmış parçalar üretir — her alıcıya bir bölüm, her birime bir kesit. Her N sayfada bir bölme («her 10 sayfada bir») uzun bir taramayı ya da dışa aktarmayı işlenebilir birimlere ayıran yığın aracıdır; örneğin başka bir yerdeki yükleme boyut sınırını karşılamak için.",
+          "Bölmenin yapmadığı şey: sayfa içinden içerik çıkarmak. Yarısı gizli yarısı halka açık içerik taşıyan bir sayfa, hangi çıktıya düşerse orada bütün kalır. Paylaşılabilir içerikle aynı sayfayı paylaşan duyarlı içerik, bölmeden önce sayfa düzeyinde yeniden düzenleme (ya da karartma — daha zorlu ayrı bir işlem) ister.",
+        ],
+      },
+      {
+        heading: "Kesimleri planlamak: aralıklar, sınırlar ve dosya adları",
+        paragraphs: [
+          "Bir bölmenin kalitesi, tıklamadan önce belirlenir: sınırları nereye çizeceğinle. Yapısal dikişlerden kes — bölüm başları, kesit geçişleri, boş ayraç sayfaları — keyfi sayfa sayılarından değil. Bir bölümün ortasında başlayan bölüm, hafif dengesiz bir dağıtımdan daha can sıkıcıdır. Önce belgenin içindekilerini ya da yer imi listesini gezinmek, doğal kesim noktalarını bulmanın en hızlı yoludur.",
+          "Adlar beklenenden fazla önemlidir. Bölme çıktıları çoğalma eğilimindedir — ve «output_1.pdf»den «output_6.pdf»ye adlandırılmış altı dosya, bir hafta sonra kesin kafa karışıklığıdır. Parçaları üretirken içeriğe göre adlandır («sozlesme-imzalar.pdf», «ek-A.pdf»); bölme tam da her parçanın ne taşıdığını en iyi bildiğin andır.",
+          "Yinelenen bölmeler için bir alışkanlık: aynı uzun belgeyi hep aynı biçimde bölüyorsan (aylık ekstrelerin müşteriye göre bölünmesi, bölüm bölüm bölünen bir kılavuz), aralık listesini bir notta tut ve yeniden kullan. Kaynağın sayfa sayısı değişmediği sürece aralıklar kalıcıdır — ve o not, koleksiyonun nasıl düzenlendiğinin belgesi olarak da iş görür.",
+        ],
+      },
+      {
+        heading: "Aracı kopya olmadan belge dağıtmak",
+        paragraphs: [
+          "Bölme çoğu zaman dağıtımdan önce gelir: birinci bölümü gözden geçirenlere, fatura sayfalarını muhasebeye, kamusal özeti müşteriye. Bölünen belgenin kendisi tipik olarak eksiksiz ve duyarlı ana belgedir — bu da onu bölme hizmetine yüklemeyi özellikle ters düşürür: seçmeli dağıtacağın parçaları üretmek için belgenin tamamını teslim edersin.",
+          "Bu araç bölmeyi tamamen tarayıcında yapar: kaynak PDF yerelde çözümlenir, çıktı belgeleri bellekte seçtiğin sayfa başvurularından birleştirilir ve her dosya cihazınca doğrudan kaydedilir. Ana belge makineni hiç terk etmez; gizli tuttuğun parçalar da dağıttığın parçalar da tam aynı gizlilik koşullarında doğar.",
+          "Faydalı bir sonuç: çıktılar özgün sayfaların bayt sadık kopyaları olduğundan, bir bölmeyi herhangi bir çıktıyı açıp sayfalarının kaynak sayfalarla piksel piksel aynı olduğunu kontrol ederek doğrulayabilirsin. Kalite denetimi gerekmez — bölme yapısal bir işlemdir, üretken değil; baştan yozlaşabilecek bir şey yoktur.",
+        ],
       },
     ],
   },
@@ -92,6 +144,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Yalnızca döndürme bayrağı değişir; sayfa içeriğine dokunulmaz, kalite aynı kalır ve metin seçilebilir kalır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Döndürme piksel değil, üst veri işidir",
+        paragraphs: [
+          "PDF'deki her sayfa bir döndürme bayrağı taşır — görüntüleyicilere sayfayı çevrilmiş göstermesini söyleyen, 90 derecelik adımlarla artan basit bir değer. Bu araçla bir sayfayı döndürmek o bayrağı değiştirir, sayfanın içeriğini değil: metin, görseller ve vektörler dosyada oldukları yerde kalır. Bu yüzden döndürme anlıktır ve yüz megabyte'lık dosyalar için bile tam anlamıyla kayıpsızdır.",
+          "Bayrak mekanizması tanıdık bir garip durumu açıklar: bir sayfa dik içerik taşıyıp yana yatmış görünebilir (ya da tersi), rotasyon bayrağına bağlı olarak. Bazı tarayıcılar ve bazı PDF üreticileri içeriği gerçekten döndürmek yerine bayrağı ayarlar. Böyle bir sayfayı döndürmek bayrağı tersine çevirir; altta yatan içerik her iki durumda da dokunulmamıştır.",
+          "Bilinmesi iyi bir sonuç: döndürme bir bayrakta yaşadığı için onu yok sayan araçlar — bazı temel çözümleyiciler, bazı küçük resim üreticileri — «ham» yönde gösterebilir. Ve sayfayı sonradan rasterleştirirsen (örneğin sıkıştırırsan), çizim döndürülmüş yönde yapılır ve bayrağın işi kalıcılaşır. Doğru sıra bu yüzden önce döndürme, sonra rasterleştirmedir.",
+        ],
+      },
+      {
+        heading: "Taramalar, karışık yönler ve pratik düzeltmeler",
+        paragraphs: [
+          "En sık döndürme işi taramaları düzeltmektir: çift yüzlü tarayıcı arka yüzleri çevirir, telefon kamerası yana yatmış bir fiş üretir, yığın dönüşümlü yönlerle çıkar. Bunları sayfa sayfa düzeltmek tam olarak bu aracın işidir — tuhaf olanları seç ve çevir. Orada her şeyi döndürmek yanlış hamledir; doğruları bozarak düzeltir.",
+          "Basılacak ya da ciltlenecek belgelerde, döndürmeden sonra cilt kenarının hangi kenar olacağını düşün. 90 derece döndürülmüş bir sayfa ekranda doğal okunur ama yazdırıldığında «üstü» kâğıdın kısa kenarına düşebilir; bu, kenar boşluklarının nasıl düştüğünü değiştirir. Tüm yığını çalıştırmadan bir sayfayı yazdırıp kontrol etmek kâğıt da sinir tasarrufu sağlar.",
+          "Bazı sayfaların neden «döndürmesi geri alınmış» göründüğüne dair bir not: bir görüntüleyici bayrağı hatırlar, başka bir araç dosyayı bayrağı taşımadan yeniden kaydederse yön sıfırlanır. Düzenleme zincirini bayrağı koruyan araçlar içinde tutmak (bu araç gibi) sıfırlamayı önler; bir sayfa her düzeltmeden sonra yana yatıyorsa, zincirindeki bir adım bayrağı düşürüyordur.",
+        ],
+      },
+      {
+        heading: "Sayfaları sıfır maliyetle yerelde çevirmek",
+        paragraphs: [
+          "Döndürme genelde zaten sahibi olduğun ve güvendiğin belgelere uygulanan bir düzeltmedir: kendi taramaların, meslektaşların gönderdiği dosyalar. Yerel işlemde ısrar etmenin nedeni ilkenin tutarlılığıdır — hiçbir işlem için üçüncü tarafa gitmeyen bir belge, maruziyet yüzeyini tamamen kontrol ettiğin belgedir. Gizli dosyalarla yükleme alışkanlığı kurmayı hak edecek kadar önemsiz işlem yoktur.",
+          "Bu araç döndürmeyi tarayıcında yapar: PDF yerelde okunur, sayfa bayrakları bellekte güncellenir ve çıktı cihazınca kaydedilir. Yükleme olmaz; yalnızca bayraklar değiştiği için işlem çok büyük dosyalarda bile fiilen anlıktır — hiçbir tür yeniden kodlama beklemesi yoktur.",
+          "Bayrak düzeyindeki doğa, döndürmenin burada güvenle geri alınabilir olduğu anlamına da gelir: 90 derece dört kez döndür ve bire bir özgün haline dönersin. Özgürce deneyebilirsin — sayfayı çevir, bak, geri çevir — dosyaya hiçbir risk olmadan; tam da yerel araçların parladığı düşük riskli iş türü budur.",
+        ],
+      },
+    ],
   },
   "delete-pdf-pages": {
     name: "PDF Sayfa Silme",
@@ -118,6 +196,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Sayfa numaralandırmasına ne olur?",
         a: "Sayfalar otomatik olarak kayar: 2–4. sayfalar silindikten sonra eski 5. sayfa 2. sayfa olur. Silinen sayfalara işaret eden iç bağlantılar çalışmayı bırakabilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sayfa silmek içeriğe değil, sayfa ağacına dokunur",
+        paragraphs: [
+          "Bir PDF'nin içinde bir sayfa ağacı vardır: her biri bir sayfa nesnesine işaret eden, o nesnenin de kendi içerik akışlarını, yazı tiplerini ve görsellerini işaret ettiği sıralı bir başvuru listesi. Sayfa silmek bu ağaç üzerinde bir işlemdir — başvuru listeden çıkarılır — silinen sayfanın akışları, yazı tipleri ve görselleri ise basitçe sahipsiz kalıp bırakılır. Ayakta kalan sayfalarda hiçbir şey yeniden çizilmez, yeniden kodlanmaz, hiçbir biçimde değiştirilmez.",
+          "Bilinmesi gereken pratik sonuç şu: sayfa silmek, tuttuğun sayfalar için tam anlamıyla kayıpsız bir işlemdir. Yazı tipleri olduğun gibi gömülü kalır, görsel çözünürlüğüne dokunulmaz, metin seçilebilir kalır; hatta kalan sayfaların iç nesne numaraları bile genelde aynıdır. Sıkıştırmadan farklı olarak burada kalite kadranı yoktur, çünkü hiçbir şey yeniden işlenmez.",
+          "Tersi de geçerlidir: silinen sayfalarda yaşayan her şey tamamen kaybolur. İhtiyacın olan bir ek not ya da gizli katman varsa, onun tuttuğun bir sayfada olduğundan emin ol — araç sayfa ayrıntı düzeyinde çalışır, içeriği bir sayfadan diğerine taşıyamaz. Böyle bir şey için çıkarma ya da birleştirme akışına geçmen gerekir.",
+        ],
+      },
+      {
+        heading: "Sayfa silerken düşülen klasik tuzaklar",
+        paragraphs: [
+          "En sık yapılan hata, bir görüntüleyicinin gösterdiğiyle gerçek sayfa sırası arasındaki uyuşmazlıktan doğan sayma yanılgısıdır. Sayfa etiketleri — PDF'nin köşesine basılan «1, 2, iii, A-4» — gerçek dizinin üstüne yerleştirilmiş bir görüntü katmanıdır; etiketleri her bölümde birden başlayan bir belgenin altında yine tek bir doğrusal sayfa sırası vardır. Araç her zaman 1'den N'e numaralanmış gerçek sıra üzerinde çalışır: basılı etikete değil içeriğe güven.",
+          "İkinci tuzak, diğer sayfaların bağımlı olduğu sayfaları silmektir. «12. sayfaya bakın» diyen bir içindekiler, düz metin bir başvuru taşır (ya da daha özenli belgelerde bir sayfa nesnesine işaret eden bağlantı). 12. sayfayı sildiğinde düz metin başvuru sessizce bozulur, bağlantı da kırılabilir ya da yanlış yere atlayabilir. Hiçbir araç bunu güvenilir biçimde uyarlayamaz; büyük bir silmeden önce belgeyi çapraz başvurular açısından gezin.",
+          "Son olarak, bazı görüntüleyicilerin eski dosyayı önbelleğe aldığını unutma. Kısaltılmış sürüm değişmemiş gibi görünüyorsa PDF'yi kapatıp yeniden aç ya da dosya boyutunu karşılaştır — yenisi daha küçük olmalıdır. Bir form ise ve sonraki sayfaları öncekilerde çağrılan alan tanımları taşıyorsa, düzenlemeden sonra formu da sına.",
+        ],
+      },
+      {
+        heading: "Dosya neden cihazından asla çıkmıyor",
+        paragraphs: [
+          "Sayfalar en çok gizlilik için silinir: kişisel veri taşıyan bir sayfayı, maaş ekini, asla dolaşmaması gereken bir taslağı çıkarmak için. Aynı işi bir web hizmetine havale etmek amacı boşa düşürür — yok etmek istediğin sayfa, kimsenin işleme kuyruğuna ve günlüklerine düşer. Bu araç düzenlemeyi yerelde, tarayıcında yapar; dosya hiçbir noktada ağı geçmez.",
+          "Her şey istemci tarafında olur: PDF JavaScript ile çözümlenir, seçtiğin sayfaların başvuruları ağaçtan çıkarılır ve yeni bir dosya indirmelerine yazılır. Hesap yok, yükleme çubuğu yok, inanca dayalı saklama politikası yok. Çevrimdışında da birebir aynı çalışır.",
+          "Sildikten sonra faydalı bir refleks: sonuçta, silinen sayfalarda geçen terimleri arat. On saniye, duyarlı içeriğin üretilen dosyadan gerçekten kalktığını doğrulamaya yeter — ve bu, aracın sayfanın içindeki seçilmiş kelimeleri değil bütün sayfaları sildiğini de hatırlatır.",
+        ],
       },
     ],
   },
@@ -148,6 +252,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hiç etkilemez. Sayfalar yeni belgeye değişmeden kopyalanır — yalnızca sıraları farklıdır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Yeniden sıralamak saf sayfa ağacı işlemidir",
+        paragraphs: [
+          "Bir PDF'de sayfaları yeniden sıralamak tam olarak tek bir şeyi değiştirir: belgenin sayfa ağacındaki girdilerin sırasını. Sayfa içerik akışları, yazı tipleri, görseller, ek notlar — hepsi bayt bayt aynı kalır. Hiçbir şey yeniden çizilmez, hiçbir şey yeniden sıkıştırılmaz; işlem en katı anlamıyla kayıpsızdır: sayfaları sıralayıp geri eski sıraya koymak, özgün belgeye eşdeğer bir belge verir.",
+          "Bu, yeniden sıralamayı devasa dosyalar için bile anlık kılar, çünkü hiçbir sayfa verisine dokunulmaz — yalnızca «önce bu sayfa, sonra şun» diyen küçük dizin değişir. Dosya boyutu neredeyse hiç değişmez ve kalite tanım gereği aynıdır.",
+          "Yeniden sıralamanın dokunmadığı şey: iç bağlantılar ve yer imleri çoğunlukla konumlara değil sayfa nesnelerine işaret eder, bu yüzden tipik olarak hedef sayfalarını izlerler — «3. bölümü içeren sayfa»ya giden bir bağlantı sıralamadan sonra da doğrudur. Ama konuma atıf yapan her şey (basılı bir «12. sayfaya bakın») kendini güncellemez. Çapraz başvuru kontrol listesi, silmede geçerli olduğu gibi burada da geçerlidir.",
+        ],
+      },
+      {
+        heading: "Küçük resim öncelikli akışlar ve kaçınılması gereken hatalar",
+        paragraphs: [
+          "Sayfa numaraları yerine küçük resimlerle çalışmak, yeniden sıralamadaki en büyük kullanılabilirlik iyileştirmesidir. Görüntüleyicideki sayfa etiketleri gerçek diziyle sıkça çelişir (roma rakamlı ön bölümü olan belgeler, bölüm başına sıfırlanan numaralar), ama küçük resimler içeriği doğrudan gösterir. Hesapladığın numarayı değil, gördüğün sayfayı sürükle.",
+          "Klasik hatalar: sürükledikten sonra çift bir sayfa çifti bırakmak (bir ek iki kez eklenmiş) ve boş ayraç sayfalarının kasti olabileceğini unutmak. Son sıranın hızlı bir yapraklaması ikisini de saniyeler içinde yakalar. Birden çok kaynaktan derlenen belgelerde sayfa boyutu tutarlılığını da orada iken doğrula — yeniden sıralama, A4'lerin arasında yalnız bir Letter sayfayı fark edeceğin doğal andır.",
+          "Bir iş akışı ipucu: sırasız beslenmiş bir taramayı düzeltirken (kağıt besleyiciye sırasız verilen sayfalar) düzeltme genelde tam bir karıştırma değil, birkaç komşu takasıdır. Komşu çiftleri düzeltmek hızlı ve düşük risklidir; bir taramayı baştan sona yeniden sıralamak, bir dahaki sefere besleyici ayarlarını düzeltmeye değip değmeyeceğini de sormalı kılar.",
+        ],
+      },
+      {
+        heading: "Dosyayı hiçbir yere sevk etmeden sıra düzeltmek",
+        paragraphs: [
+          "Sayfaları yeniden düzenlenmesi gereken belgeler rutin olarak eksiksiz ve duyarlıdır: tamamlanmış sözleşmeler, eksiksiz başvuru dosyaları, derlenmiş kanıt demetleri. Bunlar tam da kozmetik bir düzeltme için yüklenmemesi gereken dosyalardır — tam bir sözleşmeyi bir yeniden sıralama sitesine göndermek, sürükleme ve tıkla ile çözülen bir şey için siteye belgenin tamamını, her sayfasını verir.",
+          "Bu araç yeniden sıralamayı tamamen tarayıcında yapar: PDF yerelde çözümlenir, sayfa ağacı dizini bellekte yeniden yazılır ve sıralanmış dosya cihazınca kaydedilir. Sayfa içeriğinin tek bir baytı iletilmez ve işlem ağ durumundan bağımsız olarak anında tamamlanır — uçak modunda bile yapabilirsin.",
+          "Hiçbir şey yeniden kodlanmadığı için çıktı kaynağın her özelliğini korur: aranabilir metin, gömülü yazı tipleri, ek notlar, form alanları, üst veriler. Buradaki yeniden sıralama tamamen yapısaldır; bu da istediğin kadar yeniden sıralayabileceğin anlamına gelir — onuncu sıralama da ilki kadar kayıpsızdır.",
+        ],
+      },
+    ],
   },
   "watermark-pdf": {
     name: "PDF Filigran Ekleme",
@@ -174,6 +304,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Filigran hangi karakterleri kullanabilir?",
         a: "Standart PDF yazı tipleri Latin metnini, noktalama işaretlerini ve © gibi yaygın simgeleri kapsar. Diğer alfabeler (Çince, Japonca, Arapça…) ? ile değiştirilir — filigranı Latin harfleriyle tut.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Filigran nasıl eklenir — ve ne yapamaz",
+        paragraphs: [
+          "Filigran bir üst kaplamadır: araç senin metnini ya da görselini, seçilen konum, boyut ve saydamlıkla her sayfanın içeriğinin üstüne (ya da altına) çizer. Özgün sayfa içeriğine dokunulmaz — sayfa numaralarıyla aynı mekanizma, yalnızca daha büyük. Bu yüzden filigran ekleme kaynak belge için anlık ve kayıpsızdır; diskindeki özgün dosya değişmeden kalır.",
+          "Klasik tercih, sayfa boyunca çapraz yarı saydam metindir — «TASLAK», «GİZLİ», bir şirket adı. Çapraz yerleşim basit kırpma direncine sahiptir, saydamlık altındaki gövde metnini okunur tutar. İçeriğin altına çizilen filigranlar (metin katmanının arkasına) daha temiz görünür ama üstüne tam sayfa bir arka plan görseli boyayan sayfalar tarafından gizlenebilir.",
+          "Filigranın ne olduğuna net ol: caydırıcı ve işaretleyicidir, kilit değildir. Temel araçları olan herkes bir filigranı kapatabilir ya da metin katmanı duruyorsa filigransız içeriği çıkarabilir. Filigranlar dürüst okura sahiplik ve durum sinyali verir («bu taslaktır, final değil») ve özensiz kötüye kullanımı zorlaştırır — kararlı olanı durdurmaz.",
+        ],
+      },
+      {
+        heading: "Tasarım kararları: opaklık, konum ve sayfa başına davranış",
+        paragraphs: [
+          "Opaklık, bir filigranı yapan ya da bozan kadrandır. %10–20 civarı saydamlıkta metin tamamen okunur kalır ve işaret var olup bağırmaz; %30'un üzerinde içeriyle boğuşmaya başlar, okur gözlerini kısar. En yoğun metinli sayfada dene — seyrek bir kapakta işleyen filigran, yoğun bir tablo sayfasını çiğneyebilir.",
+          "Konum niyetle eşleşmelidir. Ortalanmış çapraz bir işaret «durum etiketi» der (taslak, gizli). Köşe ya da alt bilgi işareti bir damga gibi okunur ve atıf için uygundur — şirket adı, belge kaynağı. Kırpılacak ya da kenar boşlukları kırpılacak belgelerde merkez yerleşimi dayanır; baskıda kenarına yakın köşe işaretleri kesilebilir.",
+          "Kontrol etmeye değer bir incelik: filigranlar varsayılan olarak her sayfaya uygulanır — kapaklar ve boş ayraçlar dahil — bu kimi zaman tuhaf görünür. Çıktının kapağı fazla damgalı görünüyorsa, üst üste düzgün çalışan tek üniforma kaplamadır; bazı akışlar bunun yerine birleştirmeden sonra filigranlar ve kapağın filigranını, üstüne temiz bir kapak sayfası ekleyerek siler.",
+        ],
+      },
+      {
+        heading: "Taslakları dolaşmaya çıkmadan önce yerelde işaretlemek",
+        paragraphs: [
+          "Filigranlar en çok tam da dolaşımdaki belgelere eklenir: incelemeye çıkacak taslaklar, yorum için paylaşılan gizli kesitler, düzenleyenin adını taşıyan faturalar ve ekstreler. Bunlar kitleyi tanımdan yarı güvenilir sayılan çalışma belgeleridir — ve onları bir filigran hizmetine yüklemek, filigransız özgünü tam da dolaşmaya çıkmak üzereyken bir üçüncü tarafa teslim eder.",
+          "Bu araç filigranı tarayıcında ekler: sayfalar yerelde işlenir, işaret bellekte sayfa içeriğine çizilir ve çıktı cihazınca kaydedilir. Filigransız özgün makineni hiç terk etmez; dolaşıma giren yalnızca üretmeyi seçtiğin işaretli kopyadır.",
+          "Bir iş akışı kazancı da vardır: filigran ekleme anlık ve yerel olduğundan, kitle başına işaretli varyantlar üretmek ucuzdur — bir gruba «TASLAK — iç inceleme için», diğerine alıcının adını taşıyan kopya. Alıcı başına işaretleme klasik sızıntı izleme pratiğidir ve ancak her varyantı üretmek saniyeler ve sıfır yükleme tuttuğunda pratikleşir.",
+        ],
       },
     ],
   },
@@ -204,6 +360,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet. Sayfa alanına “1-5” gibi bir liste yaz ya da tek bir sayfa bırak; imza seçilen her sayfaya aynı konumda damgalanır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bu imza aslında ne — ve ne değil",
+        paragraphs: [
+          "Bu araç bir sayfaya çizilmiş ya da yazılmış bir imza görseli ekler — bir çıktıyı elle imzalar gibi. Günlük geniş anlamda elektronik imzadır: belge üzerinde, senin yerleştirdiğin, kendi cihazından gelen görünür mürekkep. Dijital sertifika imzası değildir: kriptografik anahtar çifti, sertifika makamı ve bir görüntüleyicinin doğrulayabileceği müdahale tespiti yoktur.",
+          "Ayrım hukuki açıdan önemlidir. Birçok yargı bölgesi, günlük anlaşmaların çoğu için (istihdam evrakı, tedarikçi formları, iç onaylar) basit elektronik imzaları kabul eder; belirli belge sınıfları sertifikalı nitelikli imza isteyebilir. Karşı tarafın ya da kanunun sertifikalı imza istediği durumda bu araç o değildir — nitelikli bir imza hizmeti kullan.",
+          "Verdiği şey: belgeleri yazdırmadan, taramadan, kâğıt göndermeden imzalamanın hızlı ve sıfır maliyetli yolu — üstelik belge tamamen kendi makinenizde kalır. Görünür imzanın yeterli olduğu günlük imza yığını için gerçek ihtiyacı karşılar.",
+        ],
+      },
+      {
+        heading: "Sana benzeyen bir imza elde etmek",
+        paragraphs: [
+          "Fareyle çizilen imza, gerçek el imzandan genelde daha kötü çıkar. Sonuç görsel açıdan önemliyse iki pratik yol var: varsa bir dokunmatik ekranda çiz ya da beyaz bir kâğıda imzala, fotoğrafını çek, sıkıca kırp ve görseli kullan. Düz beyaz kâğıtta fotoğraflanmış imza temiz aktarılır ve elinle birebir görünür.",
+          "Yerleştirme zanaatın yarısıdır: imza, bir imzanın ait olduğu yerde durmalı — imza satırının üstünde ya da yanında, boşlukta yüzmesin. İmza alanına yakınlaştır, hassas yerleştir ve ölçeğini belgenin metnine uyacak biçimde ayarla; paragraf boyutunda imza yapıştırma gibi görünür. Alanlar devam ediyorsa sonraki sayfayı da kontrol et.",
+          "Neyi imzaladığını bil: bu bir görsel katmanı olduğundan belgeyi kilitlemez. Dosyayı elinde tutan herkes görseli kaldırabilir ya da çevresindeki metni düzenleyebilir. Son sürümü imzala — önce düzleştir ve bitir — ve kontrolünde olan bir biçimde gönder (düzenlenebilir taslak değil PDF), imzalananın dolaşanla aynı olması için.",
+        ],
+      },
+      {
+        heading: "İmzalama en özel eylemdir; yerelde tut",
+        paragraphs: [
+          "İmza, bir belge üzerinde yapılan kimlik açısından en ağır yüklü eylemdir — içeriğin kendisinden daha kişiseldir. İmza görselini bir imzalama sitesine teslim etmek, elle yazılmış imzanın bir kopyasının bir başkasının sunucusunda durması demektir: kimliğinin başka belgelere taşınıp yapıştırılabilecek yeniden kullanılabilir bir parçası. Çok az insan kendi imza sayfasını bir yabancıya teslim eder; bir tanesini yüklemek, daha iyi görünümlü aynı eylemdir.",
+          "Bu araç imzayı tamamen tarayıcında atar: belge cihazında işlenir, imza yerelde sayfaya çizilir ve imzalı dosya makinence kaydedilir. İmza görseli bellekte kullanılır ve asla iletilmez; tüm işlem çevrimdışı çalışır.",
+          "Yerelde imza atarken benimsenecek bir alışkanlık: imzanın kaynağını (fotoğraf ya da çizim) genel indirmeler yerine özel bir klasörde tut ve belge başına imzalı PDF üret. Böylece yeniden kullanılabilir imza parçası tam olarak kontrol ettiğin tek bir yerde var olur ve her imzalı belge ayrı bir nihai dosya olur — paylaşılmış ara ürünler dolaşmaz.",
+        ],
+      },
+    ],
   },
   "compress-pdf": {
     name: "PDF Sıkıştırma",
@@ -230,6 +412,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Dosya pek küçülmezse?",
         a: "Çok seyrek, salt metin PDF'leri zaten verimlidir ve sıkışmayabilir — tablo bunu dürüstçe söyler. DPI'ı veya kaliteyi düşürüp tekrar dene, ya da özgünün zaten hafif olduğunu kabul et.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Kayıplı mı kayıpsız mı: sıkıştırma bir PDF'ye gerçekte ne yapıyor",
+        paragraphs: [
+          "Bir PDF, sayfaların resmi değildir; onları tanımlayan bir programdır. Metin glifler ve koordinatlar olarak, vektör grafikler çizim komutları olarak, görseller ise dosyaya gömülü sıkıştırılmış bit eşlem olarak saklanır. Bu yüzden tek sayfalık bir metin PDF'si yalnızca birkaç kilobayt olabilir; aynı sayfa 150 DPI'da rasterleştirilirse yüz katı büyüyebilir. Bir PDF ağırlaştıysa, ağırlık neredeyse her zaman gömülü görsellerdedir: fotoğraflar, logolar ve her sayfanın dev bir bit eşlem olduğu taramalar.",
+          "Bu araç rasterleştirme pazarlığını bilinçli olarak üstleniyor: her sayfa seçtiğin DPI'da yeniden çizilip JPEG olarak yeniden kodlanıyor. Bu kayıplı bir sıkıştırmadır — seçilebilir metin piksellere dönüşür — ve bunu açıkça söylüyoruz, çünkü birçok araç bunu gizler. Karşılığında öngörülebilirlik alırsın: kötü sıkıştırılmış bit eşlem olarak 40 MB tutan bir tarama, iyi ayarlanmış birkaç yüz kilobaytlık JPEG'e dönüşür; 150 DPI'da çıktı çoğu belge için görsel olarak ayırt edilemez kalır.",
+          "Tarama ağırlıklı bir PDF için gerçek anlamda kayıpsız bir kısayol yoktur, çünkü kaynak veri zaten pikseldir. Metin ve vektör ağırlıklı PDF'lerde kayıpsız püfürler (yinelenen nesneleri atmak, akışları yeniden sıkıştırmak) vardır ama genelde yalnızca birkaç yüzde tasarruf sağlar; araç bu yüzden bir dosya zar zor küçüldüğünde bunu dürüstçe bildirir: sayfalar zaten derli topluysa kayıplıya geçmeden sıkılacak bir şey yoktur.",
+        ],
+      },
+      {
+        heading: "DPI ve kalite seçimi: küçük bir karar tablosu",
+        paragraphs: [
+          "DPI (inç başına nokta), her sayfanın kaç pikselle yeniden çizileceğine karar verir; JPEG kalitesi, o piksellerin ne kadar agresif sıkıştırılacağını belirler. İkisi çarpılır: Letter sayfası 72 DPI'da yaklaşık 612×792 piksel, 150 DPI'da yaklaşık 1275×1650 pikseldir — piksel sayısı dört katına yakın fark eder. Ekran okuma için 72–96 DPI yeterlidir, çünkü sıradan bir dizüstünün PDF sayfasını gösterdiği etkin çözünürlük zaten bu düzeydedir. Baskı için 150 DPI okunabilir gövde metnin pratik tabanıdır; 300 DPI yalnızca büyütmek istediğin fotoğraf ya da ince yazı için anlam taşır.",
+          "JPEG kalitesi 60 ile 80 arasındaki farklarda düşünüldüğünden daha az önemlidir — o aralık, belgelerde bozulmaların görünmez olduğu genelde ideal banttır. Yaklaşık 50'nin altında JPEG'in bloklu bozulmaları harf kenarlarını bulamaya başlar ve harflerin çevresinde gri hâleler belirir. Gri tonlama sessiz üçüncü koldur: siyah beyaz bir taramanın renkli saklanması bitlerinin üçte ikisini boşa harcar, yani yalnızca griye geçmek çoğu zaman boyutu üçte birin üzerinde küçültür ve görünür hiçbir fark bırakmaz.",
+          "Doğru akış: önce temsili bir dosyayı sıkıştır, sonucu %100 yakınlaştırmada aç, senin için önemli olan en küçük metni kontrol et. Okunaklı kalıyorsa bu ayarları tüm yığına uygula. Önce/sonra tablosu dosya başına tasarrufu gösterir; böylece aykırı durumlar (zar zor küçülen bir dosya) ortalara gömülmek yerine ilk bakışta görülür.",
+        ],
+      },
+      {
+        heading: "Belgeler için yerel işleme neden zorunlu",
+        paragraphs: [
+          "Bir PDF bir kapsayıcıdır ve bir görselin aksine görünür içeriğinden fazlasını taşıyabilir: form alanı değerleri, ek notlar, gömülü yazı tipleri, kimi zaman ekler ve yazarı, yazılım sürümünü, revizyon geçmişini ele veren üst veriler. Böyle bir dosyayı bir sıkıştırma hizmetine yüklemek, hepsini topluca teslim etmek demektir — çoğu insan yüklemeden önce dosyanın içinde ne olduğunu hiç denetlemez. Sözleşmeler, sağlık kayıtları, maaş belgeleri ve taranmış kimlik belgeleri tam da en sık sıkıştırılan dosyalardır ve tam da hiç yüklenecek dosyalardır.",
+          "Bu araç tamamen tarayıcında çalışır: dosya cihazının belleğine okunur, canvas ile yeniden çizilir, JavaScript ile yeniden kodlanır ve hiçbir yere gönderilmez. Sunucu tarafı kuyruk yok, güvenmen gereken saklama süresi yok, doğrulanacak silme politikası yok. Sıkıştırmanın ortasında ağı bağlantısını kesebilirsin; iş yine biter.",
+          "Pratikte bu, iş akışını da değiştirir. Hiçbir şey yüklenmediği için ne yükleme beklemesi vardır ne de aktarım sınırının dayattığı boyut eşiği: 200 MB'lık tarama yığını, 2 MB'lık bir dosya kadar akıcı işlenir; tek sınır makinenin belleğidir. Sıkıştırılmış dosya, kendi tarayıcının indirme mekanizmasıyla yazılır ve elle kaydettiğin her dosya gibi indirme klasörüne düşer.",
+        ],
       },
     ],
   },
@@ -260,6 +468,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet — karışık yığınlar için genel Görselden PDF'ye aracını kullan; diğer biçimleri gömmeden önce otomatik olarak dönüştürür.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Fotoğraf rulodan belgeye: bu dönüştürme neden var",
+        paragraphs: [
+          "Kurumlar yirmi ayrı JPEG eki kabul etmez. Kira başvurusu, sigorta talebi, harcama raporu — tek bir PDF isterler; sayfaları sıralı, basılabilir, damgalanabilir, kâğıt belge gibi arşivlenebilir. JPG'den PDF'ye dönüştürmenin varlık sebebi tam olarak budur: bir fotoğraf yığınını, bürokratik sistemlerin yönetebileceği sayfalandırılmış, sıralı, tek dosyalık bir belgeye çevirmek.",
+          "Dönüştürmenin kendisi yapısal olarak basittir: her JPEG bir PDF sayfasına dönüşür ve JPEG'in sıkıştırılmış verisi olduğu gibi gömülebilir bile, çünkü PDF JPEG'i (DCTDecode) yerleşik görsel süzgeci olarak destekler. İyi yazılmış bir dönüştürücü fotoğraflarını açıp yeniden sıkıştırmaz — var olan baytları bir sayfa kapsayıcısına sarar; bu da kalite kaybı olmaması ve boyutun neredeyse artmaması demektir.",
+          "Aracın yaptığından çok senin seçimlerin belirleyicidir: görsellerin sırası sayfa sırası olur, her görselin çözünürlüğü sayfanın yakınlaştırmada ve baskıda nasıl davranacağını belirler. Aracın görevi yolu kesmemektir — zorunlu yeniden sıkıştırma yok, sürpriz boyutlandırma yok, sadece sadık bir paketleme.",
+        ],
+      },
+      {
+        heading: "Yeniden çalışmayı önleyen birleştirme alışkanlıkları",
+        paragraphs: [
+          "Başlamadan dosyalara önde sayı ver: 01-on.jpg, 02-ic.jpg, 03-imza.jpg. Dosya adı sırası, herkesin üzerine anlaştığı tek sıralamadır ve her aktarım yönteminde ayakta kalır — mesajlaşma uygulamaları, bulut klasörleri, e-posta. Doğrudan kameradan gelen fotoğraflar zaman damgasına göre sıralanır; kronolojik setler için iyidir ama bir formun yapısını izleyen «belge sırası» için işe yaramaz.",
+          "Dönüştürmeden önce yönü kontrol et. Kamerayla döndürülmüş fotoğraf, EXIF yön bayrağına güvenir ve bazı PDF görüntüleyicileri bu bayrağı okurken bazıları okumaz; karşı tarafa yan yatmış sayfalar gider. Bir fotoğraf dosya yöneticinde dik ama bitmiş PDF'de yan yatıyorsa suçlu bayraktır — gerçek pikselleri döndürmek sorunu kalıcı çözer.",
+          "Baskıya gidecek belgelerde sayfa boyutu tekdüzeliğinin önemi olup olmadığını düşün. Her görseli kendi boyutunda sarmak görüntüleme ve arşivleme için yeterlidir; baskıda karışık sayfa ölçüleri matbaada sürpriz ölçeklemelere yol açabilir. Önce dönüştür, sonra ikinci bir geçişte sayfa boyutunu tekdüzleştir; her adım basit ve geri alınabilir kalır.",
+        ],
+      },
+      {
+        heading: "Fotoğraflar, kimlikler ve yerel işleme sorusu",
+        paragraphs: [
+          "İnsanların bu araçla en çok çevirdiği şeyler tam da en duyarlı olanlardır: vize başvurusu için pasaport taramaları, hesap doğrulaması için kimlik fotoğrafları, kart numarası görünen makbuzlar. Bunları dönüştürücü bir siteye yüklemek, çıktıyı daha kontrol etmeden kimlik belgelerinin bir kopyasının bilinmeyen bir sunucuda, bilinmeyen bir saklama politikasına tabi durması demektir.",
+          "Bu araç paketlemeyi tarayıcında yapar: JPEG'ler yerelde okunur, JavaScript ile PDF yapılarına gömülür ve sonuç kendi cihazınca kaydedilir. Dosyalar ağı hiçbir yönde geçmez; sunucu günlüğü, üçüncü taraf kopyası, inanman gereken bir silme hikâyesi yoktur.",
+          "Pratik bir kazanç da vardır: yükleme süresi ve boyut sınırı olmadan bir klasörü tek geçişte çevirebilirsin — bir yer tespitinin elli fotoğrafı, baştan sona makbuz sandığı. Ağa bağımlı dönüştürücüler yığını bölmeye ve beklemeye zorlar; yerelde tek sınır cihaz belleğidir ve tüm iş genelde saniyeler içinde biter.",
+        ],
+      },
+    ],
   },
   "png-to-pdf": {
     name: "PNG'den PDF'ye",
@@ -286,6 +520,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "PNG tabanlı PDF'm neden hâlâ büyük?",
         a: "Kayıpsız PNG verisi doğası gereği büyüktür. Daha küçük bir dosyaya ihtiyacın varsa sonucu PDF Sıkıştırma'dan geçir; biraz sadakat karşılığında boyut kazandırır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "PNG girdisi neden JPEG'den farklı muamele ister",
+        paragraphs: [
+          "PNG ve JPEG, tembel göze benzer görünür ama pikselleri karşıt pazarlıklarla kodlar. PNG kayıpsızdır: her piksel tam olarak korunur; bu da onu ekran görüntülerinin, diyagramların, taranmış metnin ve keskin kenarlı her şeyin biçimi yapar. JPEG kayıplıdır ve fotoğraflara göre ayarlıdır. PNG'leri PDF'ye sarmak bu yüzden genelde kayıpsız kalmasında fayda olan içerik demektir — ve PNG'yi sessizce JPEG'e yeniden kodlayan bir dönüştürücü, PNG'yi seçmenin sebebi olan özelliği tam olarak atar.",
+          "Bu araç görsel verisini yıkıcı yeniden sıkıştırma olmadan gömer; böylece ekran görüntüleri PDF içinde piksel netliğinde kalır: ekran görüntüsündeki metin her yakınlaştırmada okunur, diyagram çizgileri temiz kalır. PDF kapsayıcıdır; PNG'nin kayıpsız pikselleri içinde hiç dokunulmadan yol alır.",
+          "Bilinmesi iyi bir incelik: PNG saydamlığı destekler, PDF sayfaları desteklemez. Sayfa üstüne konan saydam bir PNG, bir arka plana bileşiklenir — geleneksel olarak beyaz. Ekran görüntün önemli bir saydamlık taşıyorsa (logo, katman), varsaymak yerine çıktının ilk sayfasını kontrol et.",
+        ],
+      },
+      {
+        heading: "Ekran görüntüleri, taramalar ve sırayla birleştirme",
+        paragraphs: [
+          "PNG'den PDF'ye işlerin en yaygın olanları belge formundadır: bir öğreticiyi kuran ekran görüntüsü dizisi, kanıt görselli bir hata raporu, PNG olarak saklanan sertifikalar ya da formlar. Bunların hepsi için sayfa sırası her şeydir — ekran görüntüleri sırasız gelen bir öğretici işe yaramaz. Eklemeden önce dosyaları 01-..., 02-... diye adlandırmak istenen sırayı açık eder ve her dosya seçici sıralamasında ayakta kalır.",
+          "Ekran görüntüleri, kâğıt boyutlarıyla nadiren eşleşen piksel hassası boyutlar taşır; bu yüzden çıktı sayfaları tipik olarak her görselin boyutuna göre ölçülür. Ekranda okuma ve arşivleme için idealdir. Hedef baskı ise uyumsuzluk daha fazla önem taşır: ekran görüntüsündeki metnin basılan boyutta yeterince büyük olup olmadığını düşün, çünkü 1080p bir ekran görüntüsünü A4'e küçültmek küçük arayüz metnini okunmaz eder.",
+          "Çok görselli belgelerde tutarlılık çeşitliliği yener: aynı uygulama oturumundan gelen ekran görüntüleri boyut ve biçem paylaşır; sonuç PDF tek bir tutarlı belge gibi okunur. Karışık kaynaklar — ekran görüntüleri artı fotoğraflar artı taramalar — ölçüleri birbirinden çok farklı sayfalar üretir; kaynakları önce boyutlandırıp kırparak tekdüzlemek çok daha profesyonel bir sonuç verir.",
+        ],
+      },
+      {
+        heading: "Kanıtları aracı olmadan yerelde paketlemek",
+        paragraphs: [
+          "PNG'den PDF'ye paketlenen içerik çoğu zaman kanıt ya da özel içeriktir: sahte bir işlemin ekran görüntüleri, bir uyuşmazlık için sohbet kayıtları, doğrulama için kimlik taramaları, tıbbi test sonuçları. Bunların her biri, bir yabancıya asla uzatacağın türdendir — yine de bir dönüştürücüye yüklemek tam olarak bunu yapar; PDF daha var olmadan.",
+          "Bu araç paketlemeyi tamamen tarayıcında yapar: PNG'ler yerelde okunur, PDF sayfa nesnelerine kayıpsız gömülür ve biten belge cihazınca kaydedilir. Hiçbir noktada hiçbir şey yüklenmez; bankacılık uygulamanın ekran görüntüleri hiçbir sunucuda var olmaz ve işlem internet yokken de aynı çalışır.",
+          "Bir kalite kazancı daha: PNG verisi olduğu gibi gömüldüğü için PDF, yakaladığın tam pikselleri korur — içerik kanıtsa önemli; zaman damgası ya da hesap numarası üzerinde bir sıkıştırma bozulması özgünlük konusunda şüphe uyandırabilir. Ekran görüntüsünde gördüğün, tam olarak okurun göreceğidir.",
+        ],
       },
     ],
   },
@@ -316,6 +576,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — PDF sayfası statiktir, ilk kareyi alırsın. Animasyonları videoya çevir ya da paylaşım için GIF'in kendisini kullan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Görsellerle PDF'ler neden iki ayrı dünya",
+        paragraphs: [
+          "Bir JPEG ya da PNG dosyası piksellerden oluşan düz bir ızgaradır; sayfa, boyut ya da yerleşim kavramı yoktur — sadece bir görseldir. PDF buna karşılık bir sayfa tanımlama biçimidir: fiziksel boyutlu sayfalar tanımlar (bir inçin 72 puana eşit olduğu noktalarla) ve içeriği bu sayfalara yerleştirir. Görselleri PDF'ye çevirmek bu yüzden gerçek bir yerleşim kararıdır; dosya uzantısını değiştirmek değildir.",
+          "Bu araç her görseli görselin boyutuna göre ölçülü bir PDF sayfasına sarar ve görselin piksel verisini yeniden sıkıştırmak yerine korur. Bu yüzden bu yöntemle yapılan dönüştürme görsel olarak kayıpsızdır: çıktıda gördüğün pikseller girdiğinde koyduğun piksellerdir. Dosya boyutu da görsellerin toplamına yakın kalır, çünkü PDF yalnızca kapsayıcıdır.",
+          "Alternatifi bilmekte fayda var: bazı dönüştürücüler her şeyi tek bir JPEG kalitesinde yeniden kodlar ve keskin metinli ya da çizgi grafikli PNG'leri sessizce bozar. Özgün görsel verisini PDF kapsayıcısının içinde tutmak bu başarısızlık biçimini tamamen ortadan kaldırır — ekran görüntün PDF içinde de dışında da en az kadar net kalır.",
+        ],
+      },
+      {
+        heading: "Sıra, yön ve çok sayfalı birleştirme",
+        paragraphs: [
+          "PDF sıralı bir sayfa dizisi olduğundan, görselleri ekleme sıran belgenin sayfa sırası olur. Taranmış bir sözleşme, makbuz defteri ya da fotoğraf dizisi için güvenilir alışkanlık, eklemeden önce dosya adına göre sıralamaktır — dosya adları deterministik sıralanır; «sırayla yükledim sanıyorum» gibi bir hafızaya hiçbir şey borçlu değildir. Sonra özel bir araçla yeniden düzenlemek mümkündür ama baştan doğru sıralamak daha ucuzdur.",
+          "Karışık boyutlar normaldir ve sayfa sayfa işlenir: yatay ve dikey fotoğrafların karıştığı bir yığın, her görselin oranına uyan sayfalar üretir. Tek tip kâğıt boyutu gerekiyorsa (baskı için A4 gibi), çıktıyı sonradan kırpma ya da boyutlandırma adımından geçir — önce doğal boyutta sarmak ve sonra tekdüzlemek, her şeyi yaratım sırasında tek bir boyuta zorlamaya çalışmaktan daha iyi sonuç verir.",
+          "Çözünürlük notu: PDF sayfası görselin piksel boyutlarını inç başına 72 piksel eşlemesiyle benimser; 3000 piksellik bir fotoğraf çok geniş bir sayfa olur. Arşivleme ve yakınlaştırma için bu doğrudur; baskı boyutunda çıktı için önemli olan, kaynak görselin hedef baskı boyutu için yeterli piksel taşımasıdır — ki sarmalama bunu hiçbir yönde değiştirmez.",
+        ],
+      },
+      {
+        heading: "Görsellerin cihazında kalması",
+        paragraphs: [
+          "Fotoğraflar ve taramalar, insanların en kişisel dosyaları arasındadır — aile kareleri, kimlik taramaları, makbuzlar, tıbbi görüntüler. Bunları çevrimiçi bir dönüştürücüye göndermek, sonucu görmeden kopyalarının bir başkasının deposunda var olması demektir. Bu araç sarmalamanın tamamını tarayıcında yapar: görseller diskten belleğe okunur, JavaScript ile PDF sayfa nesnelerine gömülür ve biten dosya yerelde yazılır. Yükleme yok, sunucu kopyası yok, saklama yok.",
+          "Aktarım olmadığı için boyut üst sınırı da onunla birlikte kaybolur. Çevrimiçi dönüştürücüler genelde 10–20 MB ile sınırlar ya da ücretsiz kullanıcıyı kısıtlar; burada 50 büyük fotoğraflık bir klasör, üç fotoğrafla aynı akıcılıkla dönüşür ve tek sınır cihaz belleğidir. Ağ yolculuğu olmadığı için toplu dönüştürme daha hızlıdır — en yavaş adım senin diskin olur, bir başkasının bant genişliği değil.",
+          "Benimsenmeye değer bir gizlilik alışkanlığı: telefonla çekilen fotoğraflar GPS koordinatları dahil EXIF üst verileri taşır. Bunları PDF'ye gömmek o veriyi özgün görseldeki gibi korur. Dönüştürülen PDF'leri geniş kitlelerle paylaşacaksan konum verisini kaynağında temizlemeyi düşün — PDF'ye sarmalama üst veriye ne ekler ne çıkarır, var olanı korur.",
+        ],
+      },
+    ],
   },
   "pdf-to-jpg": {
     name: "PDF'den JPG'ye",
@@ -342,6 +628,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Yalnızca bazı sayfaları dönüştürebilir miyim?",
         a: "Bu araç tüm belgeyi dönüştürür ve dosyaları sayfa numarasıyla adlandırır; yalnızca ihtiyacın olanları tutabilirsin. Önceden belirli bir aralık istiyorsan önce PDF Bölme'yi kullan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Rasterleştirme: bir sayfayı JPG'ye çevirmek ne demek",
+        paragraphs: [
+          "Bir PDF sayfası bir tanımdır — metin glifleri, vektör şekiller, bir çizici tarafından birleştirilen gömülü görseller. JPG ise düz bir piksel ızgarasıdır. Sayfadan görsele dönüşmek, o tanımı seçilen çözünürlükte bir çiziciden geçirmek ve sonucu piksel olarak saklamak demektir. PDF'yi özel kılan her şey geride kalır: metin artık seçilemez, vektör çizgileri sonsuz keskinliğini yitirir, sayfa piksel yoğunluğunun izin verdiği kadar keskin olur.",
+          "O pazarlık, amaçlanan işler için genelde doğrudur: bir sunuma sayfa görseli koymak, sohbete belge ekran görüntüsü paylaşmak, alıcının hiçbir şey düzenlememesi gereken e-postaya görsel önizleme eklemek. Rasterleştirilmiş sayfa doğal bir salt-okunur biçimdir — gönderdiğin, gördükleridir; yerine konacak yazı tipi yok, yeniden akacak yerleşim yok.",
+          "Çözünürlük önemi taşıyan tek koldur. 150 DPI'da Letter sayfası yaklaşık 1275×1650 pikseldir — ekranda keskin, günlük baskıya uygun. 72 DPI hafiftir, küçük resimler için yeterlidir; 300 DPI baskı sınıfındadır ama ağırdır. Varış yerine göre seçmek (ekran mı baskı mı) tahmin etmekten iyidir.",
+        ],
+      },
+      {
+        heading: "Tek sayfa mı çok mu: çıktı yapısı ve kalite",
+        paragraphs: [
+          "Çok sayfalı bir PDF tek JPG olamaz; dönüştürücüler ya numaralı bir seri üretir (sayfa-1.jpg, sayfa-2.jpg, …) ya da bir ZIP arşivi. Numaralı seri, tek sayfaları başka araçlara almak için daha dost canlısıdır; arşiv, onlarcayı tek seferde indirmek için. Her iki durumda da numaralandırma PDF'nin iç sayfa sırasını izler — ki bu, tüm sayfa araçlarında olduğu gibi, belgenin garip numaralandırması varsa hiçbir basılı etiketle eşleşmeyebilir.",
+          "JPEG sıkıştırması, bozulmalarının görünmez olduğu fotoğraf ve renk geçişli sayfalara uyar. Çoğunlukla keskin metin ya da çizgi grafik taşıyan sayfalarda JPEG'in bloklu bozulmaları düşük kalitede harflerin çevresinde hafif «sivrisinek gürültüsü» üretebilir; çıktı metin çevresinde hafif bulanıksa, kabul etmek yerine kaliteyi ya da DPI'yı artır.",
+          "Beyaz arka plan düşünüldüğünden önemlidir: JPEG saydamlık taşımaz, saydam alanlı sayfalar varsayılan olarak beyazın üzerine çizilir. Belgeler için genelde istenen budur; ama kaynak koyu mod ya da renkli arka plan taşıyorsa, tüm yığını çalıştırmadan ilk çıktı görselini kontrol et.",
+        ],
+      },
+      {
+        heading: "Belgelerini kendi cihazında çizmek",
+        paragraphs: [
+          "Bir PDF çoğu zaman birinin kâğıt izini toplar: ekstreler, mektuplar, tıbbi raporlar, sözleşmeler. Sayfaları görsele çevirip bir dönüştürücüye yüklemek, görsel kaydın tamamının — gerçekte ihtiyacın olan tek sayfayı daha seçmeden — cihazından çıkması demektir. Çıkarılan görsellerin yeniden dağıtılmasının da kolay olduğunu not edelim: bir görsel dosya, üst verisiyle birlikte, bir PDF'den daha çok yol alır.",
+          "Bu araç her sayfayı yerelde, tarayıcında çizer: PDF, seçtiğin DPI'da cihazının canvas'ına çözümlenir ve çizilir, bellekte JPEG'e kodlanır ve doğrudan tarayıcınca kaydedilir. Sayfa görseli yüklenmez, belgelerini hiçbir sunucu çizmez; tüm dönüşüm ağ kesikken bile çalışır.",
+          "Yerel çizim, sıfır ek yükla seçici olmayı da mümkün kılar: tüm sayfaları çiz, sonra yalnızca ihtiyacın olan ikisini tut; geri kalanını makinenin dışında var olmadan sil. 100 sayfalık raporun içindeki tek sayfalık bir çizim için seçicilik konunun tümüdür — istediğin görseli alırsın, başka hiçbir şey değil.",
+        ],
       },
     ],
   },
@@ -372,6 +684,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Sayfalar beyaz bir zemine çizilir; çıktı opak PNG'dir. Bu, PDF'lerin yazdırıldığı gibi davranır ve görüntüleyicilerde siyah zemin sürprizlerini önler.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Sayfa yakalama için PNG ile JPG: hangisi ne zaman kazanır",
+        paragraphs: [
+          "PNG ve JPG ikisi de PDF sayfalarını piksele çevirir ama karşıt felsefelerle kodlarlar. JPG, fotoğraflara ayarlı kayıplı sıkıştırma kullanır: küçük dosyalar, geçişlerde görünmez bozulmalar, keskin kenarlarda hafif bulanıklık. PNG, düz grafiklere ayarlı kayıpsız sıkıştırma kullanır: metin, diyagram, ekran görüntüsü ve keskin kenarlı ya da düz renkli her şey piksel hassası kalır; fotografik içerikte daha büyük dosyaların bedelini öder.",
+          "Dolayısıyla pratik kural: metin, tablo, grafik ve çizgi çizimi içeren sayfalar PNG'ye aittir — harfler her yakınlaştırmada keskin kalır, sıkıştırma bir diyagram çizgisini asla bulamazmaz. Taranmış fotoğraf sayfaları ya da sürekli tonlu görüntünün egemen olduğu her sayfa JPG'ye aittir — PNG boyutu görünür bir kazanç olmadan şişirirdi.",
+          "PNG, JPG'nin kroma sıkıştırmasının marka renklerini hafifçe kaydırabildiği yerde tam renkleri de korur; PNG dosyaları kuşak kaybı olmadan yeniden saklanır: bir PNG'yi düzenlemek ve yeniden kaydetmek onu asla bozmaz; JPEG'in yinelenen kodlamaları bozulma biriktirir. Sonradan düzenlenecek sayfalar için PNG arşiv tercihidir.",
+        ],
+      },
+      {
+        heading: "Keskinlik, ölçek ve saydamlık notları",
+        paragraphs: [
+          "PNG kayıpsız olduğu için tek kalite kolu çözünürlüktür — ekran işleri için 150 DPI, baskı sınıfı yakalamalar için 300 DPI çiz. Yanlış ayarlanacak bir sıkıştırma kaydırıcısı yoktur; bu da tam bir hata sınıfını ortadan kaldırır: PNG ya yeterli pikselle çizilir ya da çizilmez, yumuşaklığın eksiksiz çaresi daha yüksek DPI ile yeniden çizmektir.",
+          "JPEG'ye karşı gerçek bir avantaj: PNG saydamlığı destekler. Arka planı korunarak PNG'ye çizilen bir sayfa, herhangi başka bir arka plana bileşiklenebilir; JPG her zaman tek bir renge düzleşir, genelde beyaza. Slayt ya da tasarım dosyalarına gidecek diyagram sayfaları için bu, elle arka plan kaldırma adımını kurtarabilir.",
+          "Yoğun sayfalarda dosya boyutuna dikkat: fotoğraf ağırlıklı bir sayfanın 300 DPI PNG'si onlarca megabyte tutabilir. Hedef bir web sayfası ya da sohbet mesajıysa, o boyut sadakatten daha çok zarar verir — tam olarak o sayfalar için DPI'yı düşür ya da JPG'ye geç.",
+        ],
+      },
+      {
+        heading: "Sayfaları hiçbir yere göndermeden yakalamak",
+        paragraphs: [
+          "İnsanlar PDF sayfalarını en çok yeniden kullanmak için görsel olarak yakalar: rapor için bir grafik, kanıt olarak bir imza sayfası, eğitim materyali için bir diyagram. Yakalanan her görsel, özgün belgenin çok ötesine yol alabilen özerk bir kopyadır — bu yüzden dönüşümü kimin işlediği önemlidir. Gizli bir sayfayı bir dönüştürücüye yüklemek, piksel has kopyayı, onunla hiçbir şey yapmadan, bir başkasının altyapısına koyar.",
+          "Bu araç çizmeyi ve kodlamayı tamamen tarayıcında yapar: PDF, seçtiğin DPI'da cihazının canvas'ına çizilir, bellekte kayıpsız PNG'ye kodlanır ve tarayıcınca kaydedilir. Hiçbir sayfa yüklenmez, hiçbir noktada cihazın dışında kopya var olmaz ve dönüşüm ağ kesikken tamamlanır.",
+          "Pratik kazanç yığın işlerle katlanır: 200 sayfalık kılavuzu PNG'lere çevirmek yüzlerce dosya üretir; bunu yerelde yapmak yükleme beklemesi, dosya başına boyut tavanı ve yığın kuyruğu olmadan yapılır — yalnızca cihazının çizim hızı; ki modern bir makinede genelde aynı içeriğin yüklemesinden hızlıdır.",
+        ],
+      },
+    ],
   },
   "pdf-to-word": {
     name: "PDF'den Word'e",
@@ -398,6 +736,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Tablolar ve görseller kalır mı?",
         a: "Görseller .docx'e taşınmaz. Tablolar düz metin satırları olarak gelir — kullanılabilir, ama karmaşık olanları Word'de yeniden kurmak isteyeceksin.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sadakat sınırı: Word yolculuğundan sağ çıkanlar",
+        paragraphs: [
+          "Bir PDF son görünümü tanımlar; bir Word belgesi yapıyı tanımlar — paragraflar, biçemler, listeler, başlıklar. Aralarında çeviri yapmaya çalışmak çözümlemek değil, tercüme etmektir ve her dönüşüm görünüşten ne kadar yapı yeniden kuracağına karar vermek zorundadır. İyi yazılmış dönüştürücüler paragraf sınırlarını, yazı tipi boyutlarından başlık düzeylerini ve hizalanmış metinden tabloları yeniden kurar; basit olanlar metin satırlarını tek bir akışa boşaltır.",
+          "İyi bir dönüşümde iyi sağ çıkanlar: paragraf aralıklarıyla gövde metni, basit tablolar, temel kalın/italik vurgu ve tipik belgelerde okuma sırası. Neredeyse hiçbir zaman kusursuz sağ çıkmayanlar: tam yazı tipleri (Word en yakınını koyar), çok sütunlu yerleşimler (genelde tek sütuna düzleşir), üst ve alt bilgiler (gövde metnine birleşebilir ya da düşer) ve form alanları veya ek notlar gibi etkileşimli her şey.",
+          "En dürüst çerçeve: PDF'den Word, düzenlenebilir düzyazıyı geri kazanmakta mükemmel, sıradan iş belgelerinde yeterli, ağır tasarlanmış sayfalarda — afişler, karmaşık dergi yerleşimleri, formlar — yapısal olarak yanlıştır. Son grup için dönüşüm düzenlenebilir bir dağınıklık verir; yerleşimi Word'de yeniden kurmak, dönüşümü onarmaktan çoğu zaman hızlıdır.",
+        ],
+      },
+      {
+        heading: "Taramalar, OCR ve dönüşüm etrafındaki akış",
+        paragraphs: [
+          "PDF'den Word kalitesinin en büyük çatalı kaynağın dijital mi taranmış mı olduğudur. Doğal dijital PDF metnini taşır ve doğrudan dönüşür. Taranmış PDF yalnızca piksel taşır; dönüşüm zinciri uzar: önce metin katmanı kurmak için OCR, sonra Word paragraflarına yeniden kurulum — ve OCR'ın doğruluğu, dönüşümün kendi sınırlarının üzerine biner. El yazısı, damgalar, kenar notları sonucu daha da bozar.",
+          "Kaynağa göre pratik beklenti: dijital doğan bir sözleşme, ölçülü bir temizlikten sonra düzenlenebilen ve bitirilebilen bir şeye dönüşür. 300 DPI temiz makine yazımı tarama, düzenlenebilir bir şeye dönüşür ama satır satır okuman gerekir — sözleşme hükümlerinde ve isimlerdeki OCR hataları, affedemeyeceğin hatalardır. Kötü ışıkta çekilmiş sayfa fotoğrafı ne aracılıkla ne de başka neyle iyi dönüşür; düzgün yeniden tara.",
+          "Önemli bir belgeyi dönüştürdükten sonra Word'de yalnızca görsel değil yapısal bir okuma yap: paragraf kırılmalarını, liste numaralarını, tablo hücrelerini kontrol et — sayfa hâlâ doğru görünürken dönüşümlerin sessizce hata yaptığı yerler oralarıdır.",
+        ],
+      },
+      {
+        heading: "Sözleşmeler ve raporlar yerelde dönüştürülmeli",
+        paragraphs: [
+          "İnsanların en çok düzenlenebilir Word hâlini istediği belgeler en bağlayıcı olanlardır: yeniden müzakere edilecek sözleşmeler, güncellenecek politikalar, yeniden kullanılacak raporlar, not alınacak tutanaklar. Sözleşme PDF'sini bir dönüştürücüye yüklemek, hukuki metninin bir üçüncü tarafın sunucularından geçmesi demektir — ve çıkarılan Word kopyası, özgünden bile kolayca düzenlenip dağıtılabildiği için, bir başkasının deposunda görmek isteyeceğin son artefaktır.",
+          "Bu araç tüm dönüşümü tarayıcında yapar: PDF yerelde çözümlenir, metin yapısı cihazında yeniden kurulur, Word dosyası üretilip yerelde kaydedilir. Hiçbir şey iki yönde de iletilmez ve dönüşüm tamamen çevrimdışı çalışır — gizlilik sözleşmeli bir sözleşme, bir menü kadar rahat dönüştürülür.",
+          "Yerel dönüşüm gözden geçirme döngüsünü de dar tutar: dönüştür, Word'de aç, gerekli düzeltmeleri not al, düzelt, gerekirse yeniden dönüştür — her tur saniyeler sürer ve asla yeniden yüklemez. O dar döngü, özenli okumanın uygulanabilir kılan şeydir; belgenin bütünlüğünü gerçekten koruyan da dönüşüm değil, o özenli okumadır.",
+        ],
       },
     ],
   },
@@ -428,6 +792,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Değerler basıldığı gibi metin olarak gelir; baştaki sıfırlar ve bölgesel ondalık virgüller korunur — sütunu dönüştürene kadar Excel bunları metin sayar.",
       },
     ],
+    deepDive: [
+      {
+        heading: "PDF'den Excel neden en zor dönüşümdür, dürüstçe anlatırsak",
+        paragraphs: [
+          "Word belgelerinin paragrafları vardır; hesap tablolarının ızgaraları; PDF'nin ikisi de yoktur — koordinatlara yerleştirilmiş glifleri vardır. Bir PDF tablo gibi göründüğünde o görünüm, hizalanmak için konumlandırılmış tekil karakterlerden kurulan bir yanılsamadır. Excel'e dönüşmek, ızgarayı tersine mühendislikle çözmek demektir: hangi karakterler bir hücre kurar, sütunlar nerede başlar ve biter, hangi satırlar birbirine aittir. PDF'de bu soruları güvenilir biçimde yanıtlayan hiçbir üst veri yoktur.",
+          "Bu yüzden PDF'den Excel araçları kalitede acı biçimde ayrışır ve her dürüst araç bunu uyarır. Düzenli tablolu, dijital üretilmiş temiz PDF'ler iyi çıkarılır; taranmış tablolar, birleşmiş hücreler, iç içe başlıklar ve başlığı her sayfada yinelenen çok sayfalı tablolar, sonuçların saptığı yerlerdir. Sayılar yanlış sütuna düşebilir; finansal tabloda bir satır kayması, sessizce başarısız olduğu için başarısız dönüşümden daha kötüdür.",
+          "Pratik beklenti: çıktıyı sertifikalı bir dışa aktarım değil, ilk taslak yeniden kurulum olarak gör. Toplamları ve birkaç örnek satırı kaynağa karşı rastgele denetle. PDF aslında Excel'den üretilmişse (tarama izi yok, metin keskin), ters çıkarma genelde yakındır. Tarama ise önce OCR çalıştır ve elle düzeltmeye hazırlıklı ol.",
+        ],
+      },
+      {
+        heading: "Çıktıyı okumak: güvenmeden önce neyi kontrol etmeli",
+        paragraphs: [
+          "Üç kontrol, çıkarma hatalarının çoğunu yakalar. Birincisi, satır ve sütun sayıları: sayfa, kaynak tabloyla aynı sayıda gövde satırı ve sütunu taşımalı — bir eksik genelde bir başlığın yutulduğu ya da çok satırlı bir hücrenin iki satıra bölündüğü anlamına gelir. İkincisi, sayı bütünlüğü: 1,234.56 gibi değerlerin ondalık ayracını koruduğunu ve metne dönüşmediğini kontrol et (Excel'de sola hizalı «sayılar» genelde dizelerdir).",
+          "Üçüncüsü, toplam hizası: kaynak tablo bir sütunu topluyorsa, çıkarılan sütunun da aynı toplamı verdiğini doğrula. Tek bir kaymış hücre, gözle kaçırmak kolay ama kullanımda ölümcül bir denetim zinciri kırılımıdır. Çok sayfalı tablolarda, her sayfada yinelenen başlığın sayfada yinelenmiş satırlara dönüşüp dönüşmediğini kontrol et — çoğu araç bunları harfiyen dışa aktarır.",
+          "Birleşmiş hücreler kalıcı sorundur: dikey bir birleşim (birden çok satırı kapsayan etiket) genelde ilk satırda değer, altında boşluklar olur. Aşağı akış formülleri etiketin yinelenebilir olması gerekiyorsa, Excel'de yukarıdan doldurma bir saniye alır ve bir saatlik kafa karışıklığını önler.",
+        ],
+      },
+      {
+        heading: "Finansal tablolar yerel işlemi hak eder",
+        paragraphs: [
+          "Excel'e dönüştürülen tablolar orantısız biçimde finansaldır: banka ekstreleri, faturalar, bordrolar, vergi çalışma sayfaları. Yüklenmemesi gereken veri tam olarak budur — çıkarılmış bir banka ekstresi, makine-okunur biçimde eksiksiz işlem geçmişidir ve onu bir dönüştürücüye yüklemek, o geçmişi günlüklerinde bir kopyayla tutan bilinmeyen bir üçüncü tarafa teslim eder.",
+          "Bu araç tabloları tamamen tarayıcında çözümler ve yeniden kurar: PDF yerelde okunur, hücre sınırları cihazında çıkarılır ve çalışma kitabı üretilip yerelde kaydedilir. Ekstrenin hiçbir sayfası hiçbir yere iletilmez, çıkarılan hiçbir sayı makineni terk etmez — dönüşüm çevrimdışında da aynı çalışır.",
+          "Yukarıda önerilen elle inceleme adımı düşünüldüğünde, yerel işleme iterasyonu da bedavasız yapar: dönüştür, incele, düzelt, gerektiği kadar yeniden dönüştür — hiçbir şeyi yeniden yüklemeden. Güvenilir tablolar üreten akış — dönüştür, doğrula, düzelt — ancak her tur bir yükleme gidiş dönüşü değil saniyeler tuttuğunda keyiflidir.",
+        ],
+      },
+    ],
   },
   "pdf-to-ppt": {
     name: "PDF'den PowerPoint'e",
@@ -454,6 +844,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: ".pptx dosyası ne kadar büyük olur?",
         a: "Yaklaşık tüm sayfa görüntülerinin toplamı kadar — yüksek çözünürlükte 20 sayfalık bir PDF onlarca megabayta ulaşabilir. Daha hafif bir deste istiyorsan önce kaynak PDF'yi sıkıştır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "PDF'den PPT dürüstçe ne sunabilir",
+        paragraphs: [
+          "PDF'ye aktarılmış bir sunum düzleşmiştir: özgün sunumun düzenlenebilir metin kutuları, şekilleri ve yer tutucuları, PDF'de yerleştirilmiş gliflere ve dikdörtgenlere dönüşür. Geriye çevirmek yeniden kurulumdemektir — dönüştürücü hangi gliflerin bir metin kutusu kurduğunu, neyin şekil neyin görsel olduğunu ve her şeyin slayt tuvalinde nerede durduğunu tahmin etmek zorundadır. Özgün yapıya geri giden hiçbir üst veri izi yoktur.",
+          "Dürüst beklenti şöyle: özgüne benzeyen, metni seçilebilir ve düzenlenebilir, konumları yaklaşık doğru slaytlar alırsın. Özgünün tam iç içe yapısını, animasyonlarını (PDF'de hiç var olmadılar), ana slayt yapısını ya da hassas tema belirteçlerini geri almazsın. Özgün yazı tipleri gömülmemişse değiştirilebilir.",
+          "Bu dönüşümün parladığı yerler: .pptx kaybolduğunda yalnızca PDF kaldığında düzenlenebilir deste geri kazanmak; bir meslektaşın desteinden iki slaytı alıp kendine katmak; aldığın bir desteye kaynağı istemeden içerik rötuşu yapmak. Nerede düş kırıklığına uğrar: üst üste binen öğeler üzerine kurulu piksel hassas tasarım destelerinde — bunlar doğru görünen ama düzenlenince uğraştırıcı yığınlı katmanlar olarak yeniden kurulur.",
+        ],
+      },
+      {
+        heading: "Düzenleme beklentileri ve sonuçla çalışmak",
+        paragraphs: [
+          "Kimlik değil ayar planla. Dönüşüm sonrası en sık temizlikler: görünen metninden biraz daha geniş sınırlı metin kutuları (tıklayınca beklenenden fazla seçer), yakın ama tam olmayan konumlarda görseller ve mevcut boyuta yuvarlanmış yazı tipi boyutları. Bunların hiçbiri sunum modundaki görünümü etkilemez; dosyanın düzenlenme düzgünlüğünü etkiler.",
+          "Pratik bir akış: PDF'yi PPT'ye dönüştür, sonra senin için en önemli slaytları — genelde başlık slaytı ve bir içerik slaytı — hemen kontrol et. Yazı tiplerini ve bir yerleşimi düzelt; yapı dayanıyorsa kalanını ana slaytla topluca düzelt. Yapı dayanmıyorsa — vahşice üst üste binen kutular — kaynak desteğin tasarımı temiz tersinmeye çok katmanlıydı; o slaytları elle yeniden kurmak, dönüşümle boğuşmaktan hızlıdır.",
+          "Grafikler ayrı bir notu hak eder: PDF'de gömülü görsel olarak duran bir grafik, PPT'de görsel kalır (düzenlenebilir grafik verisi değil); vektör şekiller olarak çizilen grafik, gruplanmış şekiller olarak yeniden kurulur — yeniden renklendirebilirsin ama yeni sayılarla yeniden çizemezsin. Her iki durumda da grafiğin arkasındaki veri PDF'den geri kazanılamaz — orada hiç var olmadı.",
+        ],
+      },
+      {
+        heading: "Sunumlar gezgin nesnedir; dönüştürülene kadar evde tut",
+        paragraphs: [
+          "Sunumlar varsayılan olarak iş gizliliği taşır: strateji desteleri, finansal incelemeler, birleşme-alım materyalleri, yayınlanmamış ürün planları. Böyle bir desteğin PDF'si konuşmacı notları dışında her şeyi içerir — ve onu bir dönüşüm hizmetine yüklemek, iç bir sunumun tüm görsel içeriğinin, gösterildiği toplantıdan dakikalar sonra, bir başkasının sunucusunda okunabilir olması demektir.",
+          "Bu araç slaytları tamamen tarayıcında yeniden kurar: PDF cihazında çözümlenip çizilir, slayt öğeleri yerelde yeniden kurulur ve PPT dosyası doğrudan tarayıcınca kaydedilir. Hiçbir şey yüklenmez, işleme kuyruğu yoktur; dönüşüm çevrimdışında da aynı çalışır — destek hiçbir biçimde makinenin dışında var olmaz.",
+          "Dönüştürülen desteler zaten düzenlenecek amaçla üretilir; yerel işleme akışa da uyar: dönüştür, sunum yazılımında aç, gerekli kadar yinele — denemeler arasında yeniden yüklemeden. Her dönüştürme denemesi saniyeler ve başka hiçbir şey tutar; deste istediğin gibi davranana kadar özgürce dene, incele, düzelt.",
+        ],
       },
     ],
   },
@@ -484,6 +900,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yalnızca .docx desteklenir. Metin PDF standart yazı tiplerini kullanır; Latin tabanlı diller doğru görünürken diğer alfabeler (Çince, Arapça…) şimdilik ? ile değiştirilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Word'den PDF neden güvenilir yön",
+        paragraphs: [
+          "Word ile PDF arasındaki dönüşüm asimetriktir ve Word'den PDF kolay yöndür. Bir Word belgesi, bir çizicinin gereksindiği tüm yapıyı taşır — metin, biçemler, tablolar, görseller, sayfa düzeni — ve PDF üretmek, o yapıyı sayfa tanımlama biçimine çizmekten ibarettir. Tahmin yoktur: Word'de gördüğün, çizilen şeydir.",
+          "Bu yüzden iyi bir Word'den PDF dönüşümünün çıktısı kurgusal olarak sadıktır: yazı tipleri, aralıklar, tablolar ve sayfa kırılmaları beklenen düşer ve PDF bunları dondurur; böylece her cihazdaki her görüntüleyici aynı şeyi gösterir. O dondurma, biçimin tüm amacıdır — dizüstünde, alıcının telefonunda ve matbaanın RIP'inde aynı görünen sözleşme.",
+          "Güvenilirlik asimetrisi iş planlaması için de önemlidir: Word'den PDF'yi belge bittiğinde son anda çevir ve ileri düzenleme için PDF'yi Word'e geri çevirmeyi asla planlama. PDF'den Word yeniden kurulumdur (ve yapıdan kayıplıdır); asıl saklanacak kopya .docx dosyasının kendisidir.",
+        ],
+      },
+      {
+        heading: "Yazı tipleri, alanlar ve dönüşüm öncesi kontrol listesi",
+        paragraphs: [
+          "Yazı tipleri, Word'den PDF'nin klasik tuzağıdır. Belge, dönüştüren makinede kurulu olmayan bir yazı tipi kullanıyorsa çizici benzerini koyar ve aralıklar ince biçimde kayar — imza satırı kayabilir, tablo farklı sarabilir. İyi bir dönüşüm çizdiği yazı tiplerini gömer; böylece çıktı öz yeterlidir; ama doğru yazı tipinin o anda kurulu olması gerekir. Belgenin yazıldığı makinede dönüştürmek güvenilir varsayılandır.",
+          "Dönüştürmeden önce canlı kısımları güncelle: içindekiler alanları, sayfa numarası atıfları ve çapraz atıflar güncellenmeli (Word'de Ctrl+A sonra F9) ki PDF eski değil nihai sayıları taşıya. Belgenin yorum ya da izlenen değişiklikler içerip içermediğini de kontrol et — bunların PDF'ye düşmesi çiziciye bağlıdır ve görünür işaretli PDF'yi bir karşı tarafa göndermek klasik ifşa kazasıdır.",
+          "Bir alışkanlık daha: dönüştürdükten sonra sayfa sayısını karşılaştır ve ilk ve son sayfalara göz gezdir. PDF, Word'ün gösterdiğinden bir sayfa çok ya da eksikse, bir şey yeniden sarılmıştır — genelde yazı tipi değişimi — ve bunu gönderdikten sonra değil göndermeden önce bulmak gerekir.",
+        ],
+      },
+      {
+        heading: "Nihai belgeler yerelde bitirilmeli",
+        paragraphs: [
+          "Word'den PDF, belgenin resmî biçimini üreten adımdır: gönderilecek özgeçmiş, gönderilecek fatura, teslim edilecek tez, imzalanacak sözleşme. Bu nihai artefaktlar korunmaya en değerli olanlardır — ve dönüşüm sitelerine en sık yüklenenler de onlardır; yani özgeçmişinin ya da sözleşmenin neredeyse son sürümü, gerçek alıcısına hiç göndermeden bir yabancının sunucusunda durur.",
+          "Bu araç dönüşümü tamamen tarayıcında çizer: belge yapısı cihazında işlenir, PDF bellekte üretilir ve çıktı yerelde kaydedilir. Hiçbir aşamada hiçbir şey yüklenmez — belgenin nihai sürümü tam iki yerde var olur: özgün .docx ve ürettiğin PDF; ikisi de makinenizde.",
+          "Yerel dönüşüm sürüm disiplinini de pratik kılar: her dönüşüm saniyeler tuttuğundan, bayat bir PDF bakmak yerine her düzenlemeden sonra yeniden üretebilirsin — PDF her zaman en güncel .docx ile eşleşir. Bu alışkanlık klasik «hangi sürümü gönderdim?» sorununu tamamen yok eder ve yalnızca dönüştürmenin yükleme sürtünmesiz olduğu zaman çalışır.",
+        ],
+      },
+    ],
   },
   "pdf-to-text": {
     name: "PDF'den Metne",
@@ -510,6 +952,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Sayfa veya boyut sınırı var mı?",
         a: "Yapay bir sınır yok. Yüzlerce sayfa çalışır; pratik sınır tarayıcı belleğidir ve genellikle 100 MB'lık belgelerin de ötesindedir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Metin katmanı: bir PDF kelimeleri hakkında gerçekte ne saklar",
+        paragraphs: [
+          "Dijital üretilmiş bir PDF, metnini çizim işlemlerinin dizisi olarak saklar: bu glifi bu konumda, bu yazı tipiyle göster. Kelimeler gerçekten oradadır — bu yüzden Ctrl+F böyle belgelerde çalışır. Metin çıkarmak bu yüzden tanıma değil, çözmedir: metin katmanını okuma sırasında geri okumak. Görüntü işleme devrede değildir; sadakat yalnızca belgenin nasıl kurulduğuna bağlıdır.",
+          "Klasik zorluklar sıra ve hecelemedir. PDF glifleri konuma göre tanımlar, mantıksal akışa göre değil; çok sütunlu yerleşimler, kenar şeritleri ve tablolar, okuma sırası yerine görsel sırada — satır satır sütunlar birbirine karışarak — çıkabilir. Düzgün çıkarıcılar sütunları sezmek ve akışı yeniden kurmak için yerleşim sezgileri kullanır; ama ağır tasarlanmış belgeler yine de karışık çıkabilir.",
+          "Diğer boşluk taramalardır: taranmış sayfanın hiç metin katmanı yoktur, yalnızca pikselleri vardır; bu yüzden düz çıkarma hiçbir şey döndürmez. Taramaların önce OCR'e ihtiyacı vardır (ayrı bir araçtır), OCR'lenmiş dosyalar sonra çıkarmanın okuyabileceği bir metin katmanı kazanır.",
+        ],
+      },
+      {
+        heading: "Okuma sırası, kodlama uç durumları ve pratik kontroller",
+        paragraphs: [
+          "Çıkarma dağınık görünüyorsa neredeyse her zaman yerleşim suçludur: iki sütunlu akademik makaleler birbirine karışmış parçalar olarak çıkar ya da dip notlar cümlenin ortasına düşer. Hızlı çareler: aynı belgeyi farklı bir çıkarıcıyla karşılaştır, ya da tasarlanmış yerleşimler için sayfa sayfa çıkarma ve elle yeniden kurmayı kabul et. Çıkarılan metindeki satır kırılmaları PDF'nin satır yapısını yansıtır; paragrafları yeniden akıtmak genelde editöründeki bir temizlik adımıdır.",
+          "Kodlama uç durumları gizemli karakterler olarak görünür: tek glif olarak gelen fi, fl bağları, standart olmayan font kodlamasında bozulan aksanlar ve düz metne zayıf eşleşen matematiksel simgeler. Düz metin çıktısı kalın, italik, tablo ya da görsel taşımaz — her şey karaktere dönüşür; korunması gereken yapı elle not edilmelidir.",
+          "Çıkarılan metne güvenmeden önce bir akıl sağlığı kontrolü: ilk sayfada gördüğün bir tümceyi çıktıda arat ve karakter sayısını beklentiyle karşılaştır. 10 sayfalık bir rapor 300 karaktere çıkıyorsa metin katmanı ya bozuktur ya yoktur — aracın tarama üzerindeki dürüst boş sonucu, içeriği sessizce düşürmekten daha iyidir.",
+        ],
+      },
+      {
+        heading: "Belgeleri yerelde çıkarmak, en çok duyarlı olanları",
+        paragraphs: [
+          "Metin çıkarma, çoğu zaman başkalarının ürettiği belgeleri işlemenin ilk adımıdır: hukuki sözleşmeler, finansal raporlar, araştırma makaleleri, iç notlar. Bunları bir metin çıkarma sitesine yüklemek, belgenin en taşınabilir ve en kopyalanabilir biçimi olan tam okunabilir içeriğin bir başkasının sunucusundan geçmesi demektir. Çıkarılan metin, özgün dosyadan bile kolay dağıtılır: hiçbir üst veri izi taşımaz.",
+          "Bu araç metin katmanını tamamen tarayıcında çözer: PDF yerelde çözümlenir, glifler cihazında karakterlere eşlenir ve düz metin dosyası tarayıcınca kaydedilir. Hiçbir şey yüklenmez, hiçbir yere günlüklenmez — ağ kesikken çıkarma birebir aynı çalışır.",
+          "Çıkarma hızlı ve ağ gidiş dönüşünden bağımsız olduğu için «çok çıkar, sonra ara» akışına da uyar: bir klasör dolusu PDF'den metni çek, hepsini aranabilir bir belgeye yapıştır ya da derlem olarak kullan; kaynakların hiçbiri makineni terk etmez. Literatür taramaları ve sözleşme karşılaştırmaları için o gizlilik artı hız ikilisi, toplu çıkarmayı pratik kılan şeydir.",
+        ],
       },
     ],
   },
@@ -540,6 +1008,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Güvenilir biçimde hayır. Tesseract basılı metinle eğitilmiştir — düzgün tipografi çalışır, el yazısı genellikle anlamsız sonuç üretir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "OCR taranmış bir sayfadan neyi kurtarabilir, neyi kurtaramaz",
+        paragraphs: [
+          "Tarama, kâğıdın fotoğrafından başka bir şey değildir — bilgisayar harfleri değil gri pikseller görür. OCR (optik karakter tanıma), o piksellerdeki harf biçimlerini tanıyıp tanınan metni, özgün görselin altına görünmez ve aranabilir bir katman olarak sayfaya iliştirme sürecidir. OCR'dan sonra metni seçebilir, bir tümce arayabilir, bir paragraf kopyalayabilirsin; görünür sayfa hâlâ taranan fotoğraftır.",
+          "Dürüst sınırlar burada önemlidir. OCR doğruluğu her şeyden önce tarama kalitesine bağlıdır: temiz makine yazımının 300 DPI taramaları genelde çok iyi tanınır; düşük çözünürlüklü fotoğraflar, eğik sayfalar, solmuş fotokopiler ve el yazısı hızla düşürür. Tanınan metin asla kusursuz garantili değildir — kayan bir işaret yanlış karaktere dönüşebilir; tutarlar ve isimler gibi kritik ayrıntılar, çıkarılan metne güvenmeden önce insan okumasını hak eder.",
+          "OCR'nin gerçekten yapamadıkları: görselde okunmayan metni kurtarmak, çevirmek, temelden kötü bir taramayı onarmak. İnsan gözü bir sayfada zorlanıyorsa tanıma daha çok zorlanır. Daha yüksek çözünürlükle yeniden taramak, çoğu zaman sonradan herhangi bir işlemden daha iyi yatırımdır.",
+        ],
+      },
+      {
+        heading: "Dil ayarları ve aranabilirlik: kullanılabilir çıktı elde etmek",
+        paragraphs: [
+          "OCR dili tanır ve yanlış dili seçmek en sık kalite katilidir. Tanıma motorları harf dizilimlerini seçilen dilin istatistikleriyle değerlendirir — İspanyolca metni yalnızca İngilizce modelle geçirirsen her aksanlı karakter şüpheli olur ve ñ, á, ü gürültüye erir. Çok dilli belgeler, ilgili diller etkinleştirilmeden, azınlık dilindeki geçişler anlamsız dizeler olarak çıkar.",
+          "Aranabilirlik bir katman daha taşır: tanınan metin katmanı görselin arkasındadır; görüntüleyicide arama tümceyi bulur ve doğru sayfaya atlar ama altındaki piksellere dokunulmaz. Ciddi her OCR ürününün ürettiği standart «sandviç» yapısı budur — arşivin görünümünü korurken tam metin arama kazanır; kayıt saklama için ikisinin en iyisi.",
+          "Arşivler için pratik bir akış: doğru dille tüm yığını bir kez OCR'le, sonra birkaç bilinen tümceyi (bir isim, bir tarih, bir fatura numarası) aratarak örnekleme doğrula. Aramalar tutuyorsa metin katmanı çalışıyordur; tutmuyorsa ya dil yanlıştır ya da tarama kalitesi tanıma eşiğinin altındadır — arama sonucu hangi sayfaları yeniden tarayacağını söyler.",
+        ],
+      },
+      {
+        heading: "Tanıma kendi cihazında, başkasının arşivinde değil",
+        paragraphs: [
+          "OCR gerektiren belgeler orantısız biçimde duyarlı olanlardır: eski vergi kayıtları, sağlık geçmişleri, personel dosyaları, tapular, akademik transkriptler. Bunları bir web OCR hizmetine vermek, kayıtlarının tam okunabilir metninin — çıkarılmış, indekslenmiş, makine-aranabilir — hakkında hiçbir şey bilmediğin bir altyapıda durması demektir. Metin, taranmış görselin kendisinden bile taşınabilirdir: çıkarıldıktan sonra haberin olmadan kopyalanabilir, indekslenebilir, işlenebilir.",
+          "Bu araç metni tamamen tarayıcında tanır: taranan sayfalar cihazında işlenir, metin katmanı yerelde iliştirilir ve aranabilir PDF doğrudan diske yazılır. Arşivinin hiçbir sayfası yüklenmez, çıkarılan hiçbir metin makineni terk etmez. Çevrimdışı çalışma aynıdır; bu da, iyi bir sebeple havadan kopuk makinelerde yaşayan arşivlere uyar.",
+          "Önceden bilinmesi iyi bir pazarlık: büyük bir yığının tarayıcıda tanınması zaman ve bellek ister, çünkü hesap veri merkezinde değil kendi donanımında döner. 20 sayfalık bir tarama için saniyeler; 500 sayfalık arşiv için bir mola kahve. Kazanç, kayıtlarını dijitalleştirmenin en özel adımının tümüyle senin kontrolünde olmasıdır.",
+        ],
+      },
+    ],
   },
   "page-numbers-pdf": {
     name: "PDF'ye Sayfa Numarası Ekleme",
@@ -562,6 +1056,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Numaralar farklı sayfa boyutlarında tutarlı görünür mü?",
         a: "Her sayfa kendi genişliğine ve yüksekliğine göre damgalanır; karışık yönlendirmeler ve sayfa boyutları da numarayı aynı görsel köşede alır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "PDF'de sayfa numaralama katmanı nasıl çalışır",
+        paragraphs: [
+          "Var olan bir PDF'ye sayfa numarası eklemek, sayfaları yeniden işlemez. Özgün içerik — metin, görseller, her şey — dokunulmadan kalır; araç, her sayfanın içerik akışına, seçtiğin konuma numarayı boyayan küçük bir ek çizim komutu iliştirir. Teknik olarak bu bir katmandır: mevcut sayfanın üstüne çizilen yeni mürekkep, sonradan vurulmuş bir damga gibi.",
+          "Bu yüzden numaralama güvenlidir ve kaynağından geri alınabilirdir: özgün dosya diskinde değişmeden kalır, numaralı çıktı ondan yalnızca o birkaç ek çizim komutuyla farklılaşır. Numaralar için kullanılan yazı tipleri belgeye eklenir ya da standart yazı tipleriyle çizilir; tipik boyutlarda (9–12 pt) numaralar her sayfanın çok küçük bir bölümünü kaplar.",
+          "Biçim seçenekleri gerçek belgelerin kullandıklarını yansıtır: çoğu durum için düz rakamlar (1, 2, 3) veya toplamın önemli olduğu sözleşmeler ve raporlar için «Sayfa 3/12» gibi desenler. Toplam, numaralama anındaki gerçek sayfa sayısından hesaplanır; ürettiğin belgeyle her zaman tutarlıdır.",
+        ],
+      },
+      {
+        heading: "Konum kararları: kenar boşlukları, ilk sayfalar ve çarpışmalar",
+        paragraphs: [
+          "Klasik konum, alt-orta ya da alt-sağ, alt kenar boşluğunun içinde — okurun beklediği ve yazıcının kesmeyeceği yer. Yazıcılar çoğu zaman kâğıdın en kenarına kadar basamaz; fiziksel kenara fazla yakın konan numara, ekranda düzgün görünse de bazı makinelerde kesilir. Sayfa kenarından yaklaşık bir santimetrelik (yaklaşık 36 pt) mesafe güvenli bölgedir.",
+          "Kapaklar ve başlık sayfaları genelde numara taşımamalıdır — kapağa vurulan bir «1» kaza gibi görünür. Numaralama araçları tam olarak bunun için başlangıç sapması sunar: numaralandırmaya 2. sayfadan (ya da içindekilerden sonra) başla; görünen numaralar gövdeyle eşleşir, kapak temiz kalır. Sapmanın, saymanın hangi sayfadan başlayacağını da değiştirdiğini unutma; «Sayfa 1» nereye işaret edersen oraya düşer.",
+          "Diğer tuzak çarpışmalardır: kaynak sayfaların zaten basılı numaraları varsa (örneğin ayrı numaralanmış bölümleri birleştirdin), üstüne yeni numaralar koymak sayfa başına birbiriyle yarışan iki numara üretir. Katmanlı numaralama eski mürekkebi silemez — bunun için rasterleştirme ya da içerik cerrahisi gerekir. O durumda numarasız kaynakları birleştir ya da bir belgenin numaralandırmasını kabul et ve katmandan vazgeç.",
+        ],
+      },
+      {
+        heading: "Dolaşan belgeler için yerel bir düzenleme",
+        paragraphs: [
+          "Numaralama genelde belge çıkmadan önceki son dokunuştur: karşı imzalanacak sözleşme, yönetim kurulu için rapor, sunulacak el yazması. Bunlar tam da «bir numaralama sitesine yükle» demek için en kötü pazarlık olan dosyalardır — üçüncü taraf bir sunucuya yüklenen numaralı sözleşme, sayfa başına iki rakam eklemek pahasına neredeyse nihai hukuki belgenin birinin günlüklerinde durmasıdır.",
+          "Bu araç katmanı tamamen tarayıcında yapar: sayfalar yerelde işlenir, numaralar bellekte sayfa içeriğine çizilir ve çıktı cihazınca yazılır. Belge hiçbir biçimde makineni terk etmez ve işlem anlıktır — beklenecek hiçbir yükleme aşaması yoktur.",
+          "Küçük bir kalite alışkanlığı: numaralandıktan sonra çıktıyı aç, birkaç sayfayı çevir ve numaraların alt bilgi notları, altyazılar ya da alt kenardaki içerikle çarpışmadığını kontrol et — yoğun akademik yerleşimler bazen kenar boşluğu beklediğin yerde içerik taşır. Çarpışma çıkarsa, konumu yukarıya ya da diğer tarafa almak başka hiçbir şeye dokunmadan çözer.",
+        ],
       },
     ],
   },
@@ -595,6 +1115,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Sıkıştırma, tarayıcının yerleşik canvas kodlayıcısıyla yapılır. Dosyalar cihazından asla çıkmaz — interneti kessen bile çalışmaya devam eder.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kayıplı sıkıştırma gerçekte neyi atar",
+        paragraphs: [
+          "JPEG tarzı sıkıştırma üç hamleyle çalışır: görseli frekans verisine dönüştürür, gözün en az duyarlı olduğu yüksek frekans bileşenlerini atar ve kalanı verimli paketler. Bu yüzden sıkıştırma fotoğraflarda neredeyse görünmezdir — pürüzsüz ten ve gökyüzü az kaybeder — keskin kenarlı metin ve ince çizgi işleri ise ilk bozulur: harflerin çevresinde çan bozulmaları gösterir.",
+          "Kalite kaydırıcısı, ne kadar frekans bilgisinin hayatta kaldığına eşlenir. Yüksek ayarlarda atılan veri gerçekten algılanamaz; indikçe geçişlerde bloklarlık belirir ve kenarlar çevresinde gürültü güçlenir. Evrensel «en iyi» sayı yoktur: yoğun bir fotoğraf 60'ta iyi dururken bir ekran görüntüsü temiz kalması için 85 ister.",
+          "Sıkıştırma tek yönlüdür. Her kaydetme bilgiyi yeniden atar; oysa makul kalitede bir JPEG'yi tekrar tekrar düzenlemek ve kaydetmek, kuşak kuşak bozulma biriktirir — buna kuşak kaybı denir. Özgünü her zaman sakla ve yalnızca akışın sonunda, bir kez sıkıştır.",
+        ],
+      },
+      {
+        heading: "Kalite seçimi ve boyutların kaydırıcıyı yenmesi",
+        paragraphs: [
+          "Pratik bir başlangıç merdiveni: ana görseller ve metin içeren her şey için 80–90; web'deki sıradan fotoğraflar için 60–80; 50'nin altı yalnızca katı boyut sınırı zorluyorsa. Sonra görselin gerçekten gösterileceği boyutta kendi gözünle değerlendir — %100 yakınlaştırmada görünen bozulmalar, sayfa genişliğinde tümüyle kaybolabilir.",
+          "Düşük kalite bile hedef boyuta ulaşamıyorsa, gerçek sorun piksel sayısıdır. İki boyutu da yarıya bölmek piksellerin yaklaşık dörtte üçünü kaldırır; kalite kaydırıcısının erişebileceği büyüklükten bir mertebeyi bozar. Önce boyutlandır, sonra sıkıştır — iki kol farklı ölçeklerde çalışır.",
+          "Bayt sayılarını varsayarak değil okuyarak değerlendir: iyi sıkıştırılmış bazı dosyalar daha fazla neredeyse küçülmez ve onları yeniden sıkıştırmak yalnızca kaliteye mal olur. Dosya zaten iyi sıkıştırılmışsa en iyi iyileştirme onu bırakmak ya da boyutlandırmaktır.",
+        ],
+      },
+      {
+        heading: "Yerel işleme ve akışa uyması",
+        paragraphs: [
+          "Sıkıştırma tamamen tarayıcında çalışır: görsel yerelde çözülür, yeniden kodlanır ve ölçülür; yükleme adımı yoktur. Bu, onu müşteri işleri, henüz yayınlanmamış ürün fotoğrafları ya da rastgele bir web hizmetine teslim etmeyeceğin kişisel belgeler için kullanılabilir kılar.",
+          "İşleme anlık olduğu için doğal akış yinelemelidir: bir kalite dene, önizlemeye ve boyuta bak, ayarla, yinele. Yüklemeye dayalı bir sıkıştırıcının acı verici kıldığı tam olarak budur — her deneme bir gidiş dönüş tutar.",
+          "Aracı perspektifte tut: yayınlamadan önceki son adımdır. Önce düzenlemeyi ve rötuşu özgün üzerinde yap, bir kez dışa aktar, sonra o aktarımı sıkıştır. Erken sıkıştırmak, her sonraki düzenlemenin çoktan hasarlı bir dosyayı yeniden sıkıştırması demektir.",
+        ],
+      },
+    ],
   },
   "image-resizer": {
     name: "Görsel Boyutlandırma",
@@ -621,6 +1167,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Boyutlandırılan PNG görselleri saydamlığını korur mu?",
         a: "Evet. Boyutlandırma özgün biçimi korur; PNG saydamlığı ve WebP alfa kanalı dokunulmadan kalır. Yalnızca JPG'ye dönüştürmek saydamlığı beyaz bir zemine yapıştırır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "İyi küçültmek: hangi yön, hangi hazır ayarlar",
+        paragraphs: [
+          "Boyutlandırma farklı fizikler taşıyan iki yönde gelir. Küçültme piksel atar ve iyi yapıldığında görünür olarak neredeyse hiçbir şey kaybetmez — sayfa genişliğinde görülen, eni yarıya indirilmiş bir fotoğraf özgününden ayırt edilemez. Büyütme hiç yakalanmamış pikselleri uydurur; bu yüzden en fazla yumuşatabilir ya da bulanıklaştırabilir.",
+          "Hedef gerçekten bozulma istemiyorsa en-boy oranını kilitli tut: serbest en-boy düzenlemeleri daireleri elips, yüzleri lunapark sürümlerine çevirir. Platformlar kendi oranlarını zaten kendileri kırparak ya da bantlayarak dayatır; elle bozmak kimsenin istediği şey değildir.",
+          "Yaygın hazır ayarlar gerçek kısıtlara eşlenir: 1920 px genişlik full-HD ekranlara ve çoğu blog içerik sütununa uyar, 1080 px sosyal paylaşımlara uyar, 512 px ve altı avatar ve ikonlara uyar. 6000 px kamera özgününü sevk etmek yerine görüntüleme boyutuna boyutlandırmak, sayfa hızında edinilebilir en büyük kazançtır.",
+        ],
+      },
+      {
+        heading: "İşlem sırası: sıkıştırmadan önce boyutlandır",
+        paragraphs: [
+          "Bir görsel hem boyutlandırma hem sıkıştırma gerektiriyorsa önce boyutlandır. Atılan her piksel, sıkıştırıcının hiç kodlamak zorunda kalmayacağı veridir; azalma alana göre ölçeklenir — eni ve boyu yarıya indirmek piksellerin çeyreğini bırakır. Hiçbir kalite ayarı bu büyüklük derecesine yetişemez.",
+          "Boyutlandırma biçimlerle de etkileşir: PNG bir ekran görüntüsünü boyutlandırmak kayıpsız kalır; JPG'yi boyutlandırmak onu yeniden sıkıştırır ve bir tur bozulma daha ekler. Mümkün olduğunda en az sıkıştırılmış kaynağın üzerinden boyutlandır ve son biçim kararını en sona bırak.",
+          "Kaçırılan bir ayrıntı: küçültme sonrası hafif keskinleştirme, ara eklemelerin yıkadığı algılanan netliği geri getirebilir — ama boyutlandırılmış görseli aşırı keskinleştirmek, yumuşaklıktan daha kötü hâleler üretir. Burada ölçülü davranmak, diğer tüm ayarlardan daha çok keskinleştirmede geçerlidir.",
+        ],
+      },
+      {
+        heading: "Yerel boyutlandırma ve gizlilik",
+        paragraphs: [
+          "Boyutlandırma işleri çoğu zaman en özel görsel kategorilerine dokunur: bir forma göre ölçülü kimlik belgeleri, paylaşmak için küçültülmüş aile fotoğrafları, ilana hazırlanan yayınlanmamış ürün çekimleri. Bunları yükleme tabanlı bir boyutlandırıcıya göndermek, tam çözünürlüklü özgünü bir yabancının deposuna teslim eder.",
+          "Bu araç boyutlandırmayı tamamen tarayıcında yapar: çözme, ölçekleme ve yeniden kodlama cihazında olur ve çıktı doğrudan indirilir. Hiçbir şey iletilmez; özgünün bir kopyası, makinen dışında hiçbir yerde var olmaz.",
+          "Yığın kipi tekrarlanan duruma uyar: hepsi aynı web genişliğini gerektiren bir fotoğraf seti. Klasöre tek boyut uygula, sonuçları ZIP olarak indir ve özgünleri ilerideki her boyutlandırma için doğruluk kaynağı olarak dokunulmadan tut.",
+        ],
       },
     ],
   },
@@ -651,6 +1223,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "1:1 (kare). Çoğu sosyal platform avatarları karenin içindeki bir daireye kırpar; bu yüzden konuyu 1:1 seçimin ortasına almak en güvenli tercihtir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kırpma piksel atar — kesmeden önce planla",
+        paragraphs: [
+          "Kırpma, boyutlandırmanın olmadığı biçimde yıkıcıdır: boyutlandırma tüm içeriği daha düşük ayrıntıyla korur; kırpma içeriği kalıcı siler. Kırpmayı kaydettiğin an, seçimin dışındaki pikseller o dosyadan gitmiş olur. Bu yüzden altın kural: özgünü sakla ve her kırpılmış sürümü yeniden üretebileceğin türetilmiş bir dosya olarak gör.",
+          "Elindeki en büyük kaynaktan çalış. Küçük bir görseli kırıp sonra büyütmek yumuşaklığı çarpanla getirir; tam çözünürlüklü özgünü kırıp sonucu küçültmek kenarları keskin tutar. Hem geniş bir başlık hem kare bir avatar gerekiyorsa, kırpmayı kırpmaktan değil, aynı özgünden iki kırpım yap.",
+          "Kırpmayı en-boy oranı hakkında da niyetli yap: hedefi önce belirle (blog başlığı, platform paylaşımı, baskı çerçevesi) ve kırpmayı o orana kur; serbest kesip sonradan hiçbir yere sığmayan bir sonuç keşfetmek yerine.",
+        ],
+      },
+      {
+        heading: "Kırpmaları iyileştiren kompozisyon temelleri",
+        paragraphs: [
+          "İki çerçeveleme geleneği değerinin çoğunu taşır. Üçler kuralı, konuyu çerçeveyi üçer üçere bölen çizgilerin kesişimlerinin yakınına koyar — ufku tam ortaya değil üst ya da alt üçlük çizgisine koymak genelde daha kasıtlı okunur. Merkezleme buna karşılık simetrik konulara, yüzlere ve ürün çekimlerine yakışır.",
+          "Hareket eden konuya baktığı ya da gittiği yönde boşluk ver: önünde boş alan taşıyan koşucu dinamik görünür, arkasından sıkı kırpılmış koşucu duvara yürüyor gibi görünür. Aynı şey bakışlara da uyar — portreler, kişinin baktığı tarafta biraz boşlukla daha iyi durur.",
+          "Kenarları en son kontrol et: çerçeve sınırındaki sarkan uzuvlar, yarım nesneler ve dikkat dağıtan parlaklıklar ilgiyi çeker. Kırpmayı kurduktan sonra uzaklaş ve onaylamadan önce tüm dikdörtgene bir kez bak. Bu on saniyelik bakış, yayın sonrası fark edilecek kenar hatalarının çoğunu önlerinde yakalar.",
+        ],
+      },
+      {
+        heading: "Yerel işleme, duyarlı kırpımları gizli tutar",
+        paragraphs: [
+          "Kırpmalar çoğu zaman tam da bir fotoğrafın gösterilmemesi gereken bir şey taşıması için yapılır — belge kenarı, bir yabancı, adres etiketi. Bir ayrıntıyı gizlemek için o görseli yükleme tabanlı bir kırpmacıya göndermek kendi kendini yener: kırpılmamış tam fotoğraf o anda bir başkasının sunucusunda yaşamaya başlar.",
+          "Bu araç her şeyi tarayıcında işler: çözme, seçme ve yeniden kodlama cihazında olur; hiçbir şey iletilmez ya da saklanmaz. Kırptığın sürüm yayınladığın sürümdür; tam özgün sende kalır. Yükleme adımının olmaması aynı zamanda boyut sınırı, kota ya da bekleme demek değildir — büyük taramalar da yerelde, anında kırpılır.",
+          "Bir akış notu: kırpma karartma değildir. Görünür alandan bir bölgeyi çıkarmak onu dosyadan da çıkarır — gerçek silme budur; sıkıştırılmış verinin üzerine tedbirsiz uygulanmış bulanıklaştırma ya da siyah dikdörtgenlerin aksine bazen tersine çevrilebilir. Duyarlı bölgeleri gizlemek için, dışa aktarmadan önce kırpma ya da örtme daha güvenli hamledir.",
+        ],
+      },
+    ],
   },
   "rotate-image": {
     name: "Görsel Döndürme",
@@ -677,6 +1275,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bir fotoğrafı ayna gibi yatay çevirebilir miyim?",
         a: "Evet — soldan-sağa aynalamak için “Yatay çevir”, yukarıdan-aşağı için “Dikey çevir” düğmesini kullan. Herhangi bir döndürmeyle birleştirilebilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Döndürme pikselleri yeniden yerleştirir — asla yeniden örneklemez",
+        paragraphs: [
+          "90 derecelik döndürme temiz durumdur: her piksel yeni koordinata taşınır ve hiçbir ara eklemeye gerek kalmaz; görsel içeriği sonrasında piksel piksel aynıdır. Boyutlar sadece yer değiştirir — 4000×3000 fotoğraf 3000×4000 olur.",
+          "Serbest açılar farklıdır: döndürülmüş hiçbir dikdörtgen özgün piksel ızgarasına geri oturmaz; köşeler bir arka plan rengiyle doldurulmalı ve içerik ızgara noktalarına düşmesi için aradeğerlenmelidir. Bu yüzden 10 derecelik eğim köşelerde üçgen gösterir ve küçük görsellerde ağır döndürmeler kenarları yumuşatır.",
+          "Pratik sonuç: mümkün olduğunca çeyrek dönüşleri tercih et ve serbest açılı döndürmeleri eldeki en yüksek çözünürlüklü kaynaktan yap. 5 derecelik düzeltme gerekiyorsa, onu boyutlandırılmış bir kopya değil özgün üzerinde yap.",
+        ],
+      },
+      {
+        heading: "Fotoğraflar neden yana yatar: EXIF yönelimi",
+        paragraphs: [
+          "Klasik yana yatmış telefon fotoğrafı sorusu bir döndürme hatası değildir — üst veridir. Kameralar sensörün nasıl tutulduğunu bir EXIF yönelim bayrağına yazar ve pikselleri tek sabit yönde saklar; bayrağı okuyan görüntüleyiciler fotoğrafı dik gösterir, yok sayan yazılım yan gösterir.",
+          "Bu yüzden bir görsel telefonda doğru, eski bir web aracında ya da fotoğraf editöründe yan görünür: ikisi bayrağa güvenme konusunda anlaşamaz. Tarayıcılar artık çoğunlukla bayrağa uyar; aynı dosya indirilip başka yerde açıldığında beklenmedik biçimde dönüyorsa kafa karıştıran budur.",
+          "Bu araç gibi döndürme araçları gerçek piksellerle çalışır ve doğru yönelimli bir dosya üretir; sonuç, sonraki yazılımın üst veriyi nasıl ele aldığından bağımsız her yerde doğrudur. Kasıtlı bir döndürmeden sonra dosya artık bayrağa hiç bağlı değildir.",
+        ],
+      },
+      {
+        heading: "Yerel işleme ve güvenli döndürme alışkanlıkları",
+        paragraphs: [
+          "Döndürme tamamen tarayıcında çalışır: görsel cihazında çözülür, dönüştürülür ve yeniden kodlanır; yükleme yoktur. Belgeler, aile fotoğrafları ya da yayınlanmamış çekimler, hiçbiri bir sunucuya yol almadan döner.",
+          "Özgünden döndür, sonucu yeni dosya olarak kaydet, ikisini de sakla. Serbest açılı döndürme görseli yeniden kodlar; bu tür işlemleri üst üste yığmak — döndür, kırp, boyutlandır, yeniden döndür — yinelenen JPEG kaydetmeleri gibi kuşak kaybını katlar.",
+          "Bir alışkanlık daha: çevirmek ve aynalamak döndürme değildir. Aynalanmış görsel solda sağı ters çevirir; metin, logo ve bariz asimetrik sahneler için fark eder. Bir fotoğrafın aynalanması gerekiyorsa bunu açıkça söyleyen bir araç kullan — çıktı yalnızca döndürülmüş değil, gerçekten farklı bir görseldir.",
+        ],
       },
     ],
   },
@@ -707,6 +1331,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Chrome, Edge, Firefox ve Safari 17+ WebP kaydedebilir. Tarayıcın WebP kodlayamıyorsa araç bunu söyler ve JPG'ye döner; her zaman kullanılabilir bir dosya alırsın.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Hedef biçimi, neyin hayatta kalması gerektiğine göre seçmek",
+        paragraphs: [
+          "Biçim dönüşümü aslında varış için hangi özelliklerin önemli olduğu sorusudur. Üç soru sor: saydamlık gerekiyor mu (PNG ya da WebP evet, JPG hayır), içerik fotografik mi grafik mi (fotoğraf için JPG/WebP, metin ve keskin kenar için PNG) ve alıcı biçimi hiç kabul ediyor mu (bazı platformlar, CMS'ler ve eski yazılımlar yalnızca JPG ve PNG alır).",
+          "İki kısıt seçimi hızla daraltır. Saydamlık hayatta kalacaksa JPG anında dışlanır. Dosya bilinmeyen yazılımda açılacaksa — bir form, bir yazıcı, müşterinin eski Windows'u — JPG ve PNG en güvenli bahislerdir; son onyılların her görsel sistemi onları okur.",
+          "WebP verimli orta zemini işgal eder: aynı kalitede JPG'den küçük, saydamlık götürebilir ama en uzun uyumluluk kuyruğu onundadır. Pratik desen: kendi sitelerin için WebP, kontrol edemediğin her yer için JPG/PNG.",
+        ],
+      },
+      {
+        heading: "Dönüşümün gerçek bedeli",
+        paragraphs: [
+          "Kayıplı biçimler arasındaki dönüşüm yeniden kodlamadır: kayıplı WebP olarak yeniden kaydedilen JPG veriyi ikinci kez atar. Yüksek kalitede kayıp görünmez ama zincirlenmiş kayıplı dönüşümler — JPG'den WebP'ye JPG'ye — her yinelenen sıkıştırma gibi bozulma biriktirir. Bir kez dönüştür, doğrudan son biçime.",
+          "Kayıpsız bir biçime gitmek kaynağa göre her zaman bilgi korur: JPG'den PNG'ye geçmek JPG'nin taşıdığı her şeyi — bozulmaları dahil — tutar ama fazladan hiçbir şey kaybettirmez. Dosya büyür; çünkü kayıpsızlık her pikseli sadakatle kaydetmek zorundadır.",
+          "Zincir boyunca saydamlığa dikkat: alfa kanallı bir görseli JPG'ye dönüştürmek, saydam alanları sessizce bir arka plan rengiyle doldurur. Sonuçta beklenmeyen bir beyaz ya da siyah kutu görüyorsan bozulma değil, alfa kanalının düzleşmesidir.",
+        ],
+      },
+      {
+        heading: "Toplu dönüştürme ve yerel işleme",
+        paragraphs: [
+          "Genel bir dönüştürücü için gerçekçi senaryo uyumsuz dosyalardan oluşan bir klasördür: bir formun JPG istediği PNG ekran görüntüleri, eski editörün açamadığı indirilmiş WebP'ler, tek bir platformun yükleyicisine giden karışık yığınlar. Yığın kipi klasöre tek bir hedef biçim ve tek bir kalite ayarı uygular.",
+          "Dönüştürmeden önce yığını ayıklamak işi kurtarır: fotografik öğeler JPG'ye, grafik öğeler PNG'ye — tek bir uzlaşma ayarı yerine iki geçiş. Tek evrensel seçim genelde görselleri değil platformu tatmin eder.",
+          "Her şey tarayıcında çalışır: çözme, dönüşüm ve indirme cihazında olur, yükleme yoktur. Müşteri varlıklarını, yayınlanmamış tasarımları ya da kişisel arşivleri dönüştürmek, o dosyaların hiçbir noktada makineni terk etmemesi demektir.",
+        ],
+      },
+    ],
   },
   "jpg-to-png": {
     name: "JPG'den PNG'ye",
@@ -733,6 +1383,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "JPG'den PNG'ye dönüştürmek saydamlık ekler mi?",
         a: "Hayır. JPEG asla saydamlık saklamaz, geri getirilecek bir şey yoktur — dönüştürülen PNG'n tamamen opaktır. Bir zemini kesip çıkarmak için ayrı bir arka plan kaldırma aracı gerekir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "JPG'den PNG'ye neyi kurtarabilir, neyi kurtaramaz",
+        paragraphs: [
+          "Kabul edilecek ilk gerçek: JPG'den PNG'ye dönüşmek görseli iyileştirmez. PNG kayıpsızdır ama yalnızca var olanı koruyabilir — ve bir JPG'de var olan, zaten kayıplı sıkıştırmanın sonucudur. Dosyaya pişmiş bozulmalar PNG'ye dokunulmadan taşınır.",
+          "Dönüşümün sunduğu şey güvenli gelecektir. PNG her pikseli tam olarak tutar; dönüşüm anından itibaren düzenleme, kırpma ve yeniden kaydetme kaliteden hiçbir şey ödemez. Çalışma ana dosyası olarak bir JPG tutmak, her kaydetmenin yeniden sıkıştırıp hasarı katlandırması demektir.",
+          "Doğru zihinsel model «stabilize etmek»tir: dönüşüm, JPG en iyi kopyan olduğunda ve onu düzenlemeye, arşivlemeye ya da yeniden dışa aktarmaya devam edeceğinde değerlidir. Kozmetik bir iddia olarak anlamsızdır — PNG'ye bakıp bir iyileşme görebilecek kimse yoktur.",
+        ],
+      },
+      {
+        heading: "Boyut beklentileri ve biçim davranışı",
+        paragraphs: [
+          "Dosyanın büyümesini bekle. JPEG'in zeki sıkıştırması, PNG'nin sadakatle saklamak zorunda olduğu veriyi atar; aynı görüntünün PNG hâli tipik olarak JPG'nin birkaç katıdır — PNG, kesinliği ödüyor; JPG'nin bıraktığı her bozulmanın kaydını da dahil.",
+          "Fotografik içerik için bu boyut genelde gereksizse ödenmeye değmez: fotoğrafları paylaşım için JPG olarak tut ve görsel, yinelenen kaydetmelerin aksi hâlde bozacağı bir düzenleme akışına girdiğinde PNG'ye çevir.",
+          "Dönüşümün gerçekten parladığı yer karma durumdur: metin ya da düz grafik taşıyan ama yanlışlıkla JPG olarak kaydedilmiş görseller. Zaten hasarlıdır; ama PNG'de dondurmak, her sonraki düzenleme ya da kaydetmeyle hasarın büyümesini durdurur.",
+        ],
+      },
+      {
+        heading: "Düzenleme akışları ve yerel işleme",
+        paragraphs: [
+          "Düzenleme zincirleri için pratik kural: başta PNG'ye dönüştür, tüm düzenlemeyi kayıpsız bölgede yap ve JPG'ye yalnızca son teslim adımı olarak dışa aktar. Böylece kayıplı adım, her düzenlemede bir kez değil, sonda tam olarak bir kez olur.",
+          "Arşivler ve ana dosyalar başka bir nedenle kazanır: biçimler değişir ve yazılımlar yaşlanır; ama PNG'nin kayıpsız piksel verisi, dosyanın gerçekte taşıdığının en kalıcı temsilidir. En iyi kopyanı PNG'ye çevirmek, gelecekteki yeniden sıkıştırma hatalarına karşı küçük bir sigortadır.",
+          "Bu sitedeki her araçta olduğu gibi dönüşüm tarayıcında, yerelde çalışır — çözme, kodlama ve indirme cihazında olur, yükleme yoktur. Kişisel fotoğrafları ya da müşteri ana dosyalarını dönüştürmek, onları bir üçüncü taraf sunucusuna asla açmaz.",
+        ],
       },
     ],
   },
@@ -763,6 +1439,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Dönüştürme yalnızca kodlamayı değiştirir; detay ekleyemez. PNG zaten yumuşak görünüyorsa JPG de aynı şekilde yumuşak görünür (çok düşük kalite ayarlarında hafif sıkıştırma gürültüsü olabilir).",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kayıpsızlık kayıpla karşılaştığında ne olur",
+        paragraphs: [
+          "PNG her pikseli tam olarak saklar: sıkıştırma kayıpsızdır, çözüm birebir aynı görseli döndürür. JPEG, gözün fark etme olasılığı düşük veriyi atar; tam sadakati çok daha küçük dosyalarla takas eder. PNG'den JPG'ye dönüşmek bu yüzden boyut karşılığında bilgi kaybetmeyi seçmektir.",
+          "Fotoğraflarda takas neredeyse görünmezdir: yüksek kalitede PNG'den JPG'ye kaydedilen bir fotoğraf aynı görünür ve tipik olarak birkaç kat küçülür. Kayıplar, PNG'nin koruduğu hassasiyetin olduğu yerde toplanır — keskin kenarlar, metin, düz renkli grafikler ve tek renkli geçişler; JPEG orada çan hâleleri ve bantlar üretir.",
+          "Yapısal bir kayıp tamamdır: saydamlık. PNG'nin alfa kanalı JPG'de yaşayamaz; saydam alanlar bir arka plan rengiyle — genelde beyaz — doldurulmak zorundadır. PNG'nin saydam bölgeleri varsa ve hedef arka plan beyaz değilse, doğru renkle doldurmadığın sürece görünür bir kutu bekle.",
+        ],
+      },
+      {
+        heading: "Dönüşüm ne zaman değer — ve ne zaman değmez",
+        paragraphs: [
+          "Boyut ya da uyumluluk istediğinde dönüştür: PNG yüklemelerini reddeden platformlar, dosya boyutu sınırlı formlar, yüzlerce görselli fotoğraf galerileri. Fotografik bir PNG neredeyse her zaman bayt israfıdır — kameralar asla PNG üretmez; fotografik bir PNG genelde bir ekran görüntüsü zincirinden ya da dışa aktarım hatasından gelir ve JPG onu görünür değişim olmadan yarıya indirir.",
+          "Hassasiyet konunun kendisiyken dönüştürme: logolar, arayüz ekran görüntüleri, diyagramlar, piksel sanatı ve metin taşıyan her şey PNG kalmalıdır. Bunları JPG'ye çevirmek az boyut alır ve geri getirilemeyen keskin kenarlar öder.",
+          "Arka plan doldurma sorusu varsayılana değil karara ihtiyaç duyar: beyaz, çoğu baskı ve belge bağlamına uyar; hedef sayfayla eşleşen renk web grafiklerine uyar. Doldurma rengini bilinçli seçmek, temiz bir dönüşümle bariz bir dönüşüm arasındaki farktır.",
+        ],
+      },
+      {
+        heading: "Yerel dönüşüm dosyaları özel tutar",
+        paragraphs: [
+          "Dönüşüm tamamen tarayıcında çalışır: PNG çözülür, seçilen arka plana bileşiklenir, JPG olarak yeniden kodlanır ve geri verilir — hepsi cihazında. Yükleme adımının olmaması, iç araçların ekran görüntülerinin, müşteri materyallerinin ya da kişisel belgelerin bir sunucuya değmeyeceği anlamına gelir.",
+          "İşleme anlıktır; bu yüzden karışık yığınlar için pratik akış önce her görselin içeriğine bakmaktır: fotografik olanlar dönüşür, grafik olanlar PNG kalır. Bu kararı tek bir ayar senin için veremez — doğru yanıt, her dosyanın içinde olana bağlıdır.",
+          "Dönüştürdükten sonra PNG özgününü sakla. JPG geri dönemez: yüksek frekanslı ayrıntı ve alfa kanalı kalktıktan sonra onları hiçbir araç geri getiremez; özgün, ileride farklı bir arka plan rengi ya da kayıpsız yeniden dışa aktarım için tek yolundur.",
+        ],
+      },
+    ],
   },
   "webp-converter": {
     name: "WebP Dönüştürücü",
@@ -789,6 +1491,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "WebP'ye dönüşüm kayıpsız mı?",
         a: "Sen seçersin: WebP hem kayıpsız hem kayıplı kodlamayı destekler. Varsayılan 90 kalitesinde sonuç gözle ayırt edilemez ama çok daha küçüktür; en fazla tasarruf için kaydırıcıyı düşür ya da kesin kayıpsızlık için PNG çıktısını seç.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "WebP neden var ve neyi kazanır",
+        paragraphs: [
+          "WebP, Google'ın belirli bir sorunu çözmek için yarattığı biçimdir: JPEG otuz yaşındadır ve PNG'nin kayıpsız dosyaları büyüktür. WebP her iki cephede de daha iyi sıkıştırır — kayıplı kipi VP8 video kodlama tekniklerini kullanır, kayıpsız kipi genelde PNG'yi geçer — üstelik JPEG'in yapamadığı saydamlık ve animasyonu da destekler.",
+          "Pratik kazanç sayfa ağırlığıdır. Görsel olarak eşdeğer kalitede WebP olarak kodlanan fotoğraflar, JPEG'den genelde onlarca yüzde daha küçüktür. Görsel ağırlıklı bir sayfada bu doğrudan daha hızlı yükleme, daha az bant ve daha iyi Core Web Vitals puanlarına dönüşür; bu yüzden büyük sitelerin çoğu yetenekli tarayıcılara WebP servis eder.",
+          "Yakalama her zaman destek olmuştur. WebP tüm modern tarayıcılarda çalışır ama bazı yerel uygulamalar, eski işletim sistemleri, kimi görsel editörleri ve epey CMS kurulumu hâlâ reddeder — tam da bu yüzden WebP'yi JPG ya da PNG'ye çevirmek sıradan ve pratik bir ihtiyaç olarak kalır.",
+        ],
+      },
+      {
+        heading: "WebP'den çıkarmak: ne beklemeli",
+        paragraphs: [
+          "WebP'n kayıplı kipte kaydedilmişse, JPG'ye çevirmek çoktan sıkıştırılmış verinin yeniden kodlamasıdır: yüksek ayarlarda kalite kaybı genelde küçüktür ama birden çok kayıplı biçimden geçmek bozulma biriktirir; bir kez dönüştür ve sonucu sakla.",
+          "PNG'ye dönüştürmek, WebP'den belirgin biçimde büyük — fotoğraflar için çoğu zaman kat kat büyük — kayıpsız bir dosya üretir. Bu bir hata değildir: PNG kesin piksel sadakatinin bedelini öder; saydamlık gerektiğinde ya da görseli yeniden düzenlemeyi planlıyorsan doğru tercihtir.",
+          "Pratik kural: paylaşım ya da WebP kabul etmeyen formlara gidecek fotografik içerik için JPG; grafikler, ekran görüntüleri, saydam görseller ve sonradan düzenlenecek her şey için PNG. Dönüşümden sonra çıktı boyutuna bak — PNG şiştiyse kaynak fotografikti ve hedefin muhtemelen JPG olması gerekiyordu.",
+        ],
+      },
+      {
+        heading: "Yerel dönüşüm ve akış notları",
+        paragraphs: [
+          "Bu dönüştürücü WebP'yi çözer ve seçtiğin biçime tamamen tarayıcında yeniden kodlar — yükleme yok, kuyruk yok, sunucu gidiş dönüşü beklemek yok. Dosya cihazını hiç terk etmez; yayınlanmamış tasarımlar, müşteri varlıkları ya da kişisel fotoğraflar için bu fark eder.",
+          "Yığın kipi sıradan senaryoya uyar: bir siteden ya da tasarım devrinden indirdiğin WebP seti ve yalnızca JPG ya da PNG kabul eden bir aşağı akış aracı — bir CMS, pazaryeri, baskı hizmeti. Dosyalarla tek tek boğuşmak yerine klasörü bir kez dönüştür.",
+          "Şüphedeysen özgün WebP'yi sakla. Kaynak kayıplı WebP idiysen, zaten elindeki en yüksek kaliteli sürümdür; her dönüşüm sadakatte aşağıya yalnızca inebilir, o yüzden özgün sonraki kodlamaların güvenlik ağındır.",
+        ],
       },
     ],
   },
@@ -819,6 +1547,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Dönüşüm, tarayıcında yerel bir HEIC çözücüyle olur. Fotoğrafların baştan sona cihazında kalır — bu araç, sayfa bir kez yüklendikten sonra çevrimdışı bile çalışır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "HEIC gerçekte nedir — ve neden var",
+        paragraphs: [
+          "HEIC, Apple'ın High Efficiency Image biçiminin arkasındaki kapsayıcıdır; iOS 11'den beri iPhone kamera fotoğraflarının varsayılanıdır. Aynı HEVC video sıkıştırma ailesine dayanır ve eşdeğer JPEG'in yaklaşık yarısı boyutunda görseller saklar; telefonun depoyu doldurmadan yüksek çözünürlüklü çekmeye devam edebilmesinin sebebi budur.",
+          "Bedeli uyumluluktur. HEIC Apple ekosisteminde ve bazı yeni Windows ve Android sürümlerinde iyi desteklenir ama epey web sitesi, devlet portalı, yazıcı, eski yazılım ve Apple olmayan cihaz hâlâ JPEG ister. Telefonunda rahat açılan bir fotoğraf, onu bir yere yüklediğin anda reddedilebilir.",
+          "JPEG'e çevirmek dosya boyutunu evrenselliğe takas eder: çıkan dosya daha büyüktür ama on yıllık bir tarayıcıdan matbaaya her yerde açılır. Hedef kontrolün dışındayken — bir devlet portalı, bir yazıcı, bir müşteri — doğru takas budur; boyutun hâlâ iPhone'unda, evrenselliğin alıcısında olmasını tercih edersin.",
+        ],
+      },
+      {
+        heading: "Bilinmeye değer dönüşüm ayrıntıları",
+        paragraphs: [
+          "JPEG kayıplı bir biçimdir; HEIC'den JPEG'e dönüşmek yeniden paketleme değil yeniden kodlamadır. Yüksek kalite ayarlarında fark sıradan fotoğraflarda algılanamaz; düşük ayarlarda özgün sıkıştırmanın üstüne bozulma devralırsın. Sadakat boyuttan önemliyse eldeki en yüksek kaliteyi kullan.",
+          "Üst veriler dönüşümü aşılamayabilir: HEIC, JPEG'in desteklemediği özellikler taşır — Portrait modunun kullandığı derinlik haritaları gibi. Düz bir JPEG görünür görseli, boyutları ve standart EXIF verilerini taşır ama Apple'a özgü uzantıları taşımaz. Fotoğrafın derinliğini sonradan düzenlemeye dayanıyorsan HEIC özgününü sakla.",
+          "Toplu dönüştürme gerçekçi akıştır: bir iPhone kütüphanesi yüzlerce ya da binlerce HEIC dosyası taşır ve bunlar genelde PC'ye, bir web formuna ya da paylaşılan bir sürücüye gitmek zorunda kaldıkları anda dönüştürülmeye ihtiyaç duyar. Yalnızca hedefin gerektirdiğini dönüştür ve HEIC ana dosyalarını doğruluk kaynağı olarak tut.",
+        ],
+      },
+      {
+        heading: "Kişisel fotoğraflarla gizlilik en çok önem taşır",
+        paragraphs: [
+          "Kamera fotoğrafları, insanların en duyarlı dosyaları arasındadır: aile anları, ev iç mekânları, seyahat örüntüleri. Yükleme gerektiren fotoğraf dönüştürme siteleri bunların hepsini görür — EXIF konum etiketleri her karenin nerede çekildiğini bile kaydedebilir.",
+          "Bu dönüştürücü tamamen tarayıcında çalışır: HEIC cihazında çözülür ve JPG'ye yeniden kodlanır; hiçbir şey iletilmez. Sunucunun fotoğrafları asla görmediği nokta tam olarak kişisel kütüphaneler için mantıklı seçimdir.",
+          "Bağlı bir ipucu: JPG'yi yalnızca bir yerde açmakla yetinmeyip herkese açık paylaşacaksan, konum EXIF'ini de temizlemeyi düşün — biçim dönüşümü, araç yeniden kodlarken onları atmıyorsa konum üst verisini kendiliğinden kaldırmaz.",
+        ],
+      },
+    ],
   },
   "svg-converter": {
     name: "SVG'den PNG'ye Dönüştürücü",
@@ -845,6 +1599,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Saydam zeminler dönüşümde kalır mı?",
         a: "Evet. Çıktı tam alfa kanallı bir PNG'dir; ikonun saydamlığı SVG'deki gibi aynen kalır. Yalnızca SVG'nin referans verdiği fontlar ve dış görseller görüntülenebilmesi için dosyanın içine gömülü olmak zorundadır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "SVG neden sonsuz ölçeklenir, raster biçimler neden olmaz",
+        paragraphs: [
+          "Raster bir görsel (JPG, PNG, WebP) sabit bir piksel ızgarasıdır: büyütünce ızgara gerilir, kenarlar bulanır, bloklar belirir. SVG hiç ızgara değildir — çizici istenen boyutta yeniden hesapladığı çizim yönergelerinin (çizgiler, eğriler, şekiller, dolgular) bir listesidir. %5000'e yakınlaştır ve her kenar jilet gibi kalır; çünkü kenarlar büyütülmez, yeniden çizilir.",
+          "Bu yüzden logolar, ikonlar ve diyagramlar ideal SVG malzemesidir: düz renkli geometrik şekiller vektör tanımını kusursuz taşır. Fotoğraflar tam tersidir — vektörler olarak tanımlanan bir fotoğraf ya dev ya da çirkin bir yaklaşım olur; bu yüzden fotoğraf-SVG dönüştürücüler görüntüleri gerçek temsillerden çok biçimlendirilmiş şekiller olarak izler.",
+          "SVG ayrıca metindir: bir editörde açabileceğin, kod gibi sürümleyebileceğin, renklerini ya da yollarını elle değiştirebileceğin bir XML dosyası. Bu incelenebilirlik sessiz bir üst yetedir — bir ikonun rengi yeniden dışa aktarmak yerine bir öznitelik değişimiyle yeniden biçimlendirilir.",
+        ],
+      },
+      {
+        heading: "Raster'dan SVG'ye ile SVG'den raster'a: çok farklı işler",
+        paragraphs: [
+          "SVG'den raster'a çevirmek sadık bir anlık görüntüdür: çizici vektör şekilleri seçtiğin boyutta çizer ve sonucu pikselleştirir. Boyutu doğru seç — çizilen PNG/JPG o çözünürlükte sabitlenir ve oradan itibaren diğer raster görseller gibi davranır.",
+          "Raster'dan SVG'ye çevirmek tercüme değil yorumdur. İzleme algoritmaları piksel bölgelerini eğriler ve renk alanlarıyla yaklaştırır; çıktı biçimlendirilmiş bir yeniden kurulumdur: ölçeklenebilirlik gerektiren logolar ve basit grafikler için mükemmel, özgün fotoğrafla piksel piksel örtüşmesi gereken hiçbir şey için yanlış.",
+          "Yönü ihtiyaca göre seç: kaynağın zaten vektörsel ve hedef platform yalnızca raster kabul ediyorsa aşağıya çevir ve retina ekranlar için bol boyutlandır. Kaynağın PNG'ye sıkışmış basit bir grafik ve sonsuz ölçek ya da minicik dosyalar gerekiyorsa, SVG'ye izlemek yükseltmedir.",
+        ],
+      },
+      {
+        heading: "Pratik notlar ve yerel işleme",
+        paragraphs: [
+          "SVG dosyaları genelde miniciktir — birkaç yol olarak tanımlanan bir ikon, eşdeğer PNG'nin onlarca kilobaytına karşı bir kilobaytın kesri tutabilir. İkon ağırlıklı arayüzlerde bu fark her varlıkta ve her sayfa yüklemesinde katlanır.",
+          "Bir uyumluluk notu: bazı yüzeyler SVG'yi kısıtlar, çünkü betik taşıyabilir. Bir platform SVG yüklemesini engelliyorsa, standart çözüm büyük bir PNG sürümü dışa aktarmaktır — yüksek yoğunluklu ekranlarda keskin kalması için görüntüleme boyutunun iki ya da üç katında üret.",
+          "Buradaki dönüşüm tamamen tarayıcında çalışır: çizim ve izleme cihazında olur, yükleme adımı yoktur. Müşteri logolarını, marka varlıklarını ya da iç diyagramları dönüştürmek onları asla bir sunucuya göndermez.",
+        ],
       },
     ],
   },
@@ -875,6 +1655,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. iOS ve Android'deki tarayıcılar web sayfalarına ekran yakalama sunmaz; araç bunun orada kullanılamadığını açıklar. Masaüstünde Chrome, Edge, Firefox ve Safari'nin hepsi destekler.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Panoya yakala, sonra giydir",
+        paragraphs: [
+          "Bir ekran yakalaması nadiren son varlıktır: bir çerçeve, yuvarlak köşeler, bir renk ya da boyut ayarı ister — bir sunuma, hata raporuna ya da sosyal paylaşımına girmeden. Doğrudan düzenleme görünümüne yakalamak iki adımı bire indirir — bölgeyi al, düzelt, indir — sistem kısayolu, editör ve dosya yöneticisi arasında zıplamak yerine.",
+          "Çerçeveler ekran görüntüsünün en değerli süsüdür: nötr renkte ince bir kenar, görseli düştüğü her arka plandan ayırır — özellikle kendisiyle aynı beyaz arka plana sahip sayfalarda. Kenarsız, beyaz zeminli bir ekran görüntüsü sayfada kaybolup gider.",
+          "Ek notlar hafızadan hızla solar; ödeyen alışkanlık yakala, giydir ve hemen kaydetmektir — ham pano verisi olarak bırakılan ekran görüntüleri bağlamını yitirme eğilimindedir ve geçici bir arayüz durumu (açık bir menü, görünen bir ipucu) dakikalar sonra yeniden yakalanamayabilir.",
+        ],
+      },
+      {
+        heading: "Ekran görüntüleri neden kayıpsız PNG hak eder",
+        paragraphs: [
+          "Ekran görüntüleri PNG'nin JPG'ye karşı poster çocuğudur: düz dolgular, keskin kenarlar ve metin taşırlar — JPEG sıkıştırmasının harflerin çevresinde çan hâleleriyle ve düz geçişlerde bantlarla hasar verdiği tam içerik. JPG bir ekran görüntüsü hafif kirli görünür; PNG'lik ekranda gördüğünle piksel piksel aynıdır.",
+          "JPG'nin kazandığı tek yer fotoğraf ekran görüntüleridir: ekranda gösterilen fotoğraf, doğal görüntü ayrıntısı taşır ve iyi sıkıştırır. Geri kalan her şey — pencereler, terminaller, belgeler, arayüz öğeleri — için PNG'nin boyut primü görünebilir temizlik alır.",
+          "Dosya boyutu önemliyse (bazı formlar ekran görüntülerini birkaç yüz KB ile sınırlar), dürüst kol yakalama bölgesidir: kalite ayarlarına değil sıkı kırpımına yönel. İlgili pencerenin sıkıca kırpılmış PNG'si, tam ekran bir JPG'den hem küçük hem daha faydalıdır.",
+        ],
+      },
+      {
+        heading: "Cihazında kalanlar",
+        paragraphs: [
+          "Ekran görüntüleri sık sık özel bağlam gösterir: iç panolar, kişisel mesajlar, dosya adları, tarayıcı sekmeleri, müşteri verisi. Bir ekran görüntüsünü yakalama hizmetine yüklemek o bağlamın tamamını bir yabancının sunucusuna gönderir — yakalama ve düzenleme yerelde olduğunda tümüyle atlanan bir risk.",
+          "Bu araç yakalayıp işler, her şey tarayıcının içinde: pikseller senin ekran oturumundan gelir, süsleme adımları cihazında çalışır ve dosya doğrudan diskine yazılır. Hiçbir noktada hiçbir şey iletilmez.",
+          "Benimsenecek bir gizlilik alışkanlığı: paylaşmak için kaydetmeden önce yakalamanın kenarlarını istemsiz bağlam için tara — ikinci bir monitör, bir bildirim, bir adres çubuğu. Temiz bir kareyi yeniden yakalamak, bir sızıntıyı geri almaktan kolaydır.",
+        ],
+      },
+    ],
   },
   "image-metadata-viewer": {
     name: "Görsel Meta Verisi Görüntüleyici",
@@ -901,6 +1707,29 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Meta veriyi görüntülemek görselimi değiştirir mi?",
         a: "Hayır. Dosyalar salt okunur açılır; araç bellekte bir kopyayı çözer ve özgüne asla geri yazmaz. Görselin tamamen cihazında gösterilir ve analiz edilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir görsel dosyasının içindeki üst veri katmanları",
+        paragraphs: [
+          "Bir görsel dosyadaki üst veri katmanlarda durur. Kapsayıcı düzeyi her zaman vardır: dosya biçimi, piksel boyutları, dosya boyutu, renk derinliği. Üstünde EXIF durur — kamera marka ve modeli, lens, diyafram, deklanşör hızı, ISO, odak uzunluğu, flaş durumu, çekim zamanı. Daha derinde biçime özel bloklar vardır: PNG tEXt/iTXt parçaları, JPEG yorum işaretleri, bazen gömülü renk profilleri (ICC) ve hatta kendileri de küçük görseller olan küçük resimler.",
+          "Bir görüntüleyici bu katmanları piksellere dokunmadan okur; bu tam olarak bir dosyayı güvenle incelemenin yoludur: hiçbir şey yeni bir dosyaya çözülmez, hiçbir şey yeniden yazılmaz, süreçte bozulabilecek bir şey yoktur. Gördüğün, dosyanın gerçekten taşıdığı şeydir — özgün yazarın varlığından habersiz olabileceği parçalar dahil.",
+        ],
+      },
+      {
+        heading: "EXIF'in GPS verisi: gizlilik başlığı",
+        paragraphs: [
+          "Çoğu telefon kamerası her fotoğrafa varsayılan olarak GPS koordinatları gömer. Koordinatlar bir fotoğrafı birkaç metre içine yerleştirecek kadar hassastır — yani sıradan bir anlık kare, evini, çocuğunun okulunu ya da otel odanı sessizce ele verebilir. Fotoğrafları herkese açık paylaşmadan önce GPS etiketlerini kontrol etmek, en yüksek değerli üst veri alışkanlığıdır.",
+          "GPS verisi varsa ve görseli yayınlayacaksan, ardından EXIF temizleyiciden geçir. Üst veri görüntüleyicileri ve temizleyiciler tek bir akışın iki yarısıdır: önce neyin sızacağını öğrenmek için bak; sonra sızmadığından emin olmak için temizle. Mesajlaşma uygulamaları üzerinden yeniden paylaşım üst veriyi sık sık otomatik soyar ama doğrudan dosya paylaşımı — e-posta, bulut bağlantıları, yüklemeler — soymaz.",
+        ],
+      },
+      {
+        heading: "Yükleme olmadan inceleme",
+        paragraphs: [
+          "Dosya tarayıcında yerelde çözümlenir: ham baytlar diskten belleğe okunur ve üst veri tabloları orada çözülür. Hiçbir şey iletilmez; bu yüzden duyarlı fotoğrafları — bir uyuşmazlığın kanıtları, konum etiketli iş fotoğrafları, gizlilik sözleşmeli görseller — sıfır maruziyet riskiyle incelemek güvenlidir.",
+          "Yükleme devrede olmadığı için boyut tavanı da yoktur: 50 megapiksellik bir kamera özgünü, küçük bir resimle aynı hızda incelenir. Görüntüleyiciyi EXIF temizleyiciyle eşleştir; cihazında çalışan eksiksiz bir kontrol-sonra-temizle döngüsü kurar.",
+        ],
       },
     ],
   },
@@ -931,6 +1760,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Güvende kalan tarayıcı tabanlı bir yolla hayır. Kayıpsız meta veri temizliği dosya kabını yeniden yazmayı gerektirir — PNG'ler özel araçlarla kayıpsız temizlenebilir ama JPEG için güvenilir ve basit yol tam olarak bu yeniden kodlamadır. Buradaki PNG girdileri pikselde bayt dengi kalır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "EXIF fotoğraflarının içinde ne saklar",
+        paragraphs: [
+          "Modern bir kameranın ya da telefonun her fotoğrafı piksellerden fazlasını taşır. EXIF bloğu kamera modelini, lensi, poz ayarlarını, zaman damgalarını — ve en sonuç verici olarak, çoğu durumda GPS koordinatlarını saklar. Çevrimiçi paylaşılan sıradan bir kare, çekildiği odanın ya da sokak köşesinin yerini verebilir.",
+          "Blok sık sık gömülü küçük bir önizleme resmi ve bazı cihazlarda yazılım ile düzenleme geçmişini de taşır. Ekran görüntüleri ve başka yerden indirilen görseller tipik olarak çok az ya da hiç EXIF taşımaz; üst veri görüntüleyicilerinin bazen «hiçbir şey bulunamadı» göstermesinin sebebi budur — yokluk kusur değil, normaldir.",
+          "EXIF'i sıyırmak kötülüğü gizlemekle ilgili değildir; yayınlamadan önce rutin hijyendir. Gazetecilerin, aktivistlerin, sağlık çalışanlarının ve sıradan kullanıcıların bir görüntünün içeriğini çekim üst verisinden ayırmak için iyi gerekçeleri vardır.",
+        ],
+      },
+      {
+        heading: "Kaldırma neyi değiştirir — neyi değiştirmez",
+        paragraphs: [
+          "EXIF'i kaldırmak görünür görseli dokunulmadan bırakır: boyutlar, renkler ve kalite tam olarak aynı kalır. Kaybolan üst veri bloğudur; dosya anonimleşir — kamera yok, konum yok, zaman damgası yok. Görselin kendisiyle oynanmadığını doğrulamak istersen, kaldırma öncesi ve sonrasının piksel boyutlarını karşılaştır; ikisi de aynıdır.",
+          "Kaldırma piksel içeriğini değiştirmez; görünür bilgi görünür olarak kalır. Fotoğraf bir sokak tabelası, isim etiketi ya da metinli bir ekran gösteriyorsa EXIF'i kaldırmak yardımcı olmaz; o bölgeleri ayrıca kırpman ya da örtmen gerekir.",
+          "Coğrafya etiketleme çoğu insanın kaygısıdır ama zaman damgaları da önemlidir: başka kamusal paylaşımlarla birleşince, oluşturma tarihleri birinin hareket ya da alışkanlık örüntüsünü kurmaya yarayabilir. Tam üst veri kaldırma iki kanalı birden kapatır.",
+        ],
+      },
+      {
+        heading: "Yerel işleme konunun ta kendisidir",
+        paragraphs: [
+          "Bir fotoğrafı bir «gizlilik» aracına yüklemenin ironisi vardır: gizlilik-duyarlı dosya, kaldırmaya çalıştığın üst verinin tam olarak hepsini — GPS etiketleri dahil — gören bir başkasının sunucusundan geçer. Yükleme tabanlı bir temizleyici kendi amacını büyük ölçüde boşa düşürür.",
+          "Bu araç dosyayı tamamen tarayıcında okur ve yeniden yazar. Görsel yerelde çözülür, üst veri sıyrılır ve temiz dosya cihazında üretilir; hiçbir şey hiçbir yere gönderilmez — yok etmek istediğin veri, ellerinden hiç çıkmaz. Yükleme bulunmayınca boyut kotası da kalkar; 50 megapiksellik bir özgün, küçük bir resim kadar hızlı temizlenir.",
+          "Pratik bir alışkanlık: üst veriyi paylaşmadan önceki son adımda, gerçekten yayınlayacağın dışa aktarılmış dosyadan kaldır. EXIF'li özgünü ana dosyan olarak sakla — sonraki düzenlemeler için poz ayarları gibi faydalı bilgiyi korur.",
+        ],
+      },
+    ],
   },
   "watermark-image": {
     name: "Görsel Filigran Ekleme",
@@ -953,6 +1808,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Saydam PNG'lerle çalışır mı?",
         a: "Çıktı JPG'dir; saydamlık beyaza yapıştırılır. Alfa kanalı gerekiyorsa özgün PNG'yi, seçtiğin bir zemin rengiyle filigranla.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir filigran neyi korur, neyi koruyamaz",
+        paragraphs: [
+          "Filigran bir caydırıcı ve atıftır, kilit değildir. Görünür işaretler gelişigüzel hırsızlığı daha az çekici kılar — logo taşıyan kazınmış görseller, işi kendisine mal eden biri için değersizdir — ama kırpma, içerik doldurma ya da kararlı kaldırma engelleyemez ve kendi başına yazarlığı kanıtlamaz.",
+          "Görünürlükte asıl oyun konumdur: köşedeki bir işaret sıradan kırpımla gider; yinelenmiş ya da ortalı bir işaret kırpımdan kurtulur ama görseli daha çok değiştirir. Editoryal ve önizleme kullanımı, alıcının temiz sürümü alacağı dürüst varsayımıyla köşe işaretlerini yeğler; yalnızca paylaşılan görsellerin korunması daha saldırgan yerleşimi yeğler.",
+          "Opaklık öteki koldur: çok hafifse işaret yoğun arka planlarda kaybolur; çok güçlüyse reklamını yaptığı önizlemenin değerini düşürür. Çoğu görselle zıt renkte, %40–60 civarı opaklık alışılmış çalışma bandıdır.",
+        ],
+      },
+      {
+        heading: "Metin işaretleri mi, görsel logolar mı",
+        paragraphs: [
+          "Metin filigranı hızlı ve esnektir — bir ad, bir kullanıcı adı ya da telif satırı yazıp boyut ve konumu ayarla. Zayıflığı kişiliksizliğidir: düz metin işaretlerini taklit etmek kolaydır; metin filigranı atıf yapar ama neredeyse hiç markalaşmaz.",
+          "Görsele dayalı filigran (saydamlıklı bir logo PNG) marka kimliğini taşır ve biçim değişimlerinden sağ çıkar — filigranlı fotoğrafı kopyalayan, logonu da onunla kopyalar. Hazır bir varlık ister ama o tek varlık, tek geçişte bütün bir yığını filigranlar.",
+          "Yığın işlerde bileşimden çok tutarlılık sayar: her görselde aynı konum, aynı opaklık, aynı boyut. İşaret öngörülebilir olduğunda filigranlı portfolyo profesyonel, kareden kareye zıpladığında amatör görünür.",
+        ],
+      },
+      {
+        heading: "Yerel işleme temiz özgünleri korur",
+        paragraphs: [
+          "Filigran eklemek, bir araca en iyi, filigransız görsellerini — başkalarının sunucularından uzak tutmak isteyeceğin tam olarak o varlıkları — vermek demektir. Yükleme tabanlı bir filigran hizmeti temiz özgünlerini tam çözünürlükte alır; bu, işin amacını tersine çevirir.",
+          "Bu araç tümüyle tarayıcında işler: özgün görsel ve filigran varlığı yerelde bileşiklenir, çıktı diskine yazılır. Temiz sürüm cihazını hiç terk etmez; dışında yalnızca işaretli sürüm var olur — korumaya çalıştığın varlıkla filigranını aynı mekânda buluşturmanın hiçbir gerekçesi kalmaz.",
+          "Filigransız ana dosyaları ayrı ve özenli sakla: yeni bir boyutta ya da konumda yeniden filigran gerektiğinde temiz özgün tek kaynaktır. Ve temiz dosyayı asla yanlışlıkla yayınlama — korunan görsellerin çoğu sızıntısı işaretten soyulmuş kopyadan gelir, birinin işareti silmesinden değil.",
+        ],
       },
     ],
   },
@@ -979,6 +1860,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet — görseller liste sırasına göre, soldan sağa ve yukarıdan aşağıya yerleştirilir. Değiştirmek için çıkarıp yeniden ekle.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Yerleşim seçimi: yan yana, üst üste ya da ızgara",
+        paragraphs: [
+          "Birleştirme teknik bir karar olmadan önce yerleşim kararıdır. Yatay birleştirme soldan sağa okunan dizilere uyar — öncesi/sonrası karşılaştırmaları, birinci adımın ikinciyle yan yana olması. Dikey istifleme listelere ve sohbet tarzı içeriğe uyar; her görsel aşağıya devam eder. Izgara yerleşimleri, okuma sırasının egemen olmadığı kolajlara ve çok panelli karşılaştırmalara uyar.",
+          "Gizli değişken farklı girdi boyutlarıdır. Birleştirilen görseller bir boyut paylaşmıyorsa araç karar vermek zorundadır: eşleşecek kadar gerilsin (bozar), eşleşecek kadar doldurulsun (arka planla bantlanır) ya da bir kenara hizalansın ve asimetri kabul edilsin. Hangi davranışı aldığını bilmek sürprizlerin çoğunu önler.",
+          "Boşluk ve arka plan rengi cila katmanıdır: nötr arka planla birkaç piksellik aralık, zorla yan yana konmuş iki görseli kasıtlı bir bileşike çevirir. Saydam arka planlarda aralık PNG çıktısında saydam kalır; katmanlar için önemli budur.",
+        ],
+      },
+      {
+        heading: "Birleştirmede biçim davranışı",
+        paragraphs: [
+          "Birleştirme yapısal olarak genelde kayıpsızdır — sıkıştırma değil bileşimedir — ama çıktı biçimi sonrasını belirler. PNG çıktı her girdi pikselini tam korur ve saydamlığı yaşatır; ekran görüntüleri, grafikler ve metin taşıyan her şey için güvenli varsayılandır.",
+          "JPG çıktı birleşmiş sonucu düz bir dikdörtgen halinde pişirir: saydam aralıklar düz dolgu olur ve bileşik tek tur kayıplı sıkıştırmadan geçer. Fotoğrafik bileşikler için uygundur ve çok büyük fotoğraflar tek dosyada birleşirken boyut açısından gereklidir.",
+          "Toplam boyutlara dikkat: dikey birleştirme yükseklikleri yığar ve en geniş genişliği tutar; uzun ekran görüntülerinden oluşan bir klasör, pek çok görüntüleyicinin rahatça göstereceğinden daha uzun bir sonuç üretebilir. Birleştirmeden önce girdileri bölmek ya da ölçeklemek kimi zaman tek devasa çıktıdan iyidir.",
+        ],
+      },
+      {
+        heading: "Yerel birleştirme bileşikleri özel tutar",
+        paragraphs: [
+          "Birleştirilen görseller sık sık duyarlı içerik birleştirir: iki iç panonun karşılaştırması, dosya yolları ve kullanıcı adları gösteren belge ekran görüntüleri, kişisel öncesi/sonrası fotoğrafları. Yükleme tabanlı bir birleştirici her girdiyi tam olarak görür — bileşiği ve bütün parçalarını.",
+          "Bu araç bileşimi tamamen tarayıcında yapar: her görsel yerelde çözülür ve paylaşılan bir canvas'a çizilir; birleşen dosya diskine yazılır. Hiçbir girdi cihazını terk etmez; parçalar nihai sonuç kadar özel kalır.",
+          "Yeniden üretilebilirlik için sıra önemlidir: görsellerin eklendiği sırayı not al ya da sakla; ters çevrilmiş ya da karıştırılmış bir birleşme görsel olarak benzer ama anlamsal olarak farklı bir dosya üretir — yönün tüm mesaj olduğu öncesi/sonrası karşılaştırmaları için ölümcüldür.",
+        ],
+      },
+    ],
   },
   "grayscale-image": {
     name: "Görsel Gri Tonlama",
@@ -1001,6 +1908,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "PNG'm dönüşümden sonra neden daha büyük?",
         a: "Gri tonlama sıkıştırmayı değiştirmez: gürültülü bir fotoğraf hafif farklı sıkışabilir. Fotoğraflar için JPG'i, düz grafikler için PNG'yi seç.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Gri tonlama «renkleri atmak»tan fazlasıdır",
+        paragraphs: [
+          "Bir görseli griye çevirmenin naif yolu kırmızı, yeşil ve mavi kanallarını eşit ortalamaktır. Bu, insan görüşünün çalışma biçimini yok sayar: yeşile kırmızıdan çok daha duyarlıyız, maviye neredeyse hiç. Eşit ortalama, göze eşit parlaklıkta gelen yeşil çimenlere ve kırmızı tuğlaya yanlış göreli parlaklık verir.",
+          "Doğru dönüşüm, her birincilin algılanışından gelen parlaklık ağırlıklarını kullanır: yaklaşık 0,299 kırmızı + 0,587 yeşil + 0,114 mavi (televizyon standartlarının on yıllar önce sabitlediği ITU-R BT.601 katsayıları). Bu araç böyle algısal bir ağırlıkla çevirir; elde edilen gri, renkli özgünde gözünün gerçekten gördüğüne karşılık gelir.",
+          "Sonuç aynı zamanda faydalı bir düzenleme aracıdır: pek çok fotoğrafçı, rengi düşünmeden önce griye çevirerek görselin ton yapısını değerlendirir — gerçek siyah var mı, gerçek beyaz var mı, orta tonlar düzenli mi.",
+        ],
+      },
+      {
+        heading: "Çıktı biçimi ve nelerin bozulmadığı",
+        paragraphs: [
+          "Gri tonlama yalnızca renk verisini değiştirir — piksel geometrisi dokunulmadan kalır; boyutlar, keskinlik ve kompozisyon tam olarak korunur. Bu, onu yeniden örnekleme gibi zincirleme yan etki üretmeden akışın her aşamasında uygulamayı güvenli kılar.",
+          "Biçim seçimi yine de önemlidir: görsel metin ya da düz grafik taşıyorsa ya da azami sadakat ve artık kayıp istemiyorsan PNG olarak kaydet; dosya boyutunun önemli olduğu fotografik içerik için JPG. Gri JPEG, renk kanalları sıkıştırılan şeyin büyük kısmını taşıdığından tipik olarak renkli sürümünden küçüktür.",
+          "Bilinmeye değer ince fark: gerçek bir gri görselle üç kanalı tesadüfen eşit olan renkli görsel ikisi de «gri görünür» ama farklı saklanır. Araçlar ve yazıcılar onları farklı işleyebilir; baskı zinciri için kesin davranış önemliyse PNG tut.",
+        ],
+      },
+      {
+        heading: "Gri tonlamanın işe yaradığı yerler — ve gizlilik",
+        paragraphs: [
+          "Klasik kullanımlar estetiği aşar: belge taramaları, tarayıcı lambasının renk aşısı olmadan daha temiz okunur; erişilebilirlik kontrolleri, tasarımın renk olmadan da çalıştığını gri tonlamayla doğrular; siyah beyaz çoğaltmaya gidecek baskılar her zaman önce gri önizlenmelidir.",
+          "Fotoğraflar için bir teşhis aracıdır da: bir portrede garip renk aşısı ya da dağınık ten tonları varsa, griye çevirmek ton sorununu renk sorunundan ayırır; exposure'ı mı beyaz dengesini mi düzelteceğini söyler.",
+          "Buradaki her araçta olduğu gibi dönüşüm tamamen tarayıcında çalışır — görsel cihazından asla çıkmaz. Kişisel taramalardan, müşteri taslaklarından ya da özel belgelerden oluşan bir yığını, hiçbiri sunucuya değmeden griye çevir.",
+        ],
       },
     ],
   },
@@ -1032,6 +1965,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Modern tarayıcılar <link> etiketleriyle PNG favicon'ları memnuniyetle kullanır; aracın ürettiği parça onlara yeter. Eski bir .ico yalnızca çok eski tarayıcılar için önemlidir; çoğu site için ihmal edilebilir kadar nadirdir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Favicon'lar neden birden çok boyut ister",
+        paragraphs: [
+          "Bir favicon tek dosya değildir: aynı işaret tarayıcı sekmesinde 16 px, bazı retina sekmelerinde ve görev çubuklarında 32 px, iOS ana ekranlarında Apple dokunma ikonu olarak 180 px civarı, Android ve PWA kurulum ekranları için 512 px gösterilir. Bu bağlamların hepsine tek 16 px dosya servis etmek, ana ekran ikonunu piksel lekesine çevirir.",
+          "Tarayıcılar bağlama uyan en büyük bildirilmiş ikonu seçer ve küçülterek zarif davranır ama büyütemez — 16 px kaynağın 512 px'e gerilmesi kurtarılamaz biçimde bulanık olur. Bu yüzden üretici yüksek çözünürlüklü bir kaynak görselden başlar ve boyut merdiveninin tamamını bir kerede üretir.",
+          "Bildirilecek pratik set ortak zemini kapsar: sekmeler için 16 ve 32 px, iOS için 180 px, Android/PWA manifestları için 192 ve 512 px. Hepsini HTML'inde doğru link etiketleriyle bildirmek, her platformun en uygun boyutu seçmesine izin verir.",
+        ],
+      },
+      {
+        heading: "16 pikselde hayatta kalan bir işaret tasarlamak",
+        paragraphs: [
+          "Logoların çoğu 16 px'de ölür: ince çizgiler gürültüye birleşir, harf biçimleri lekeye döner, iki renkli ayrıntılar kaybolur. Favicon-güvenli yaklaşım, işareti en tanınır tek öğesine indirgemektir — bir harf, bir simge, bir şekil; komple logo dizilimini büzmek değil.",
+          "Tam çözünürlükte değil hedef boyutlarda sına: 512 px'de net okunan, 16 px'de okunamaz olabilir. Yüksek karşıtlık, kalın vuruşlar ve basit bir siluet küçültmeyi atlatır; geçişler ve ince dış çizgiler atlatmaz.",
+          "Karanlık tarafı da düşün: sekmeler ve işletim sistemleri ikonları hem açık hem koyu arka planlarda çizer. Saydamlık üzerinde saf siyah bir işaret koyu modda kaybolur, saf beyaz açık modda kaybolur. Hafif zıt bir dış çizgi ya da dolu bir arka plan şekli eklemek ikonu ikisinde de işletir.",
+        ],
+      },
+      {
+        heading: "Yerel üretim ve marka gizliliği",
+        paragraphs: [
+          "Favicon, markanın görsel kimliğinin tohumudur ve geliştirilmekte olan logolar çoğu zaman gizlidir — yayınlanmamış ürün işaretleri, yeniden tasarım adayları. Favicon setlerini tarayıcıda yerelde üretmek, hiç kamusal gösterilmemiş bir tasarımın yükleme kuyruğuna değmemesi demektir; yeni ikonun ilk basılı görünümü bile kendi makinenizde doğar.",
+          "Araç, kaynak görselini cihazının tarayıcısında her hedef boyuta çizer; tam çözünürlüklü özgünden temiz küçültmeler üretir. Eseri hiçbir sunucu görmez; üretilen dosyalar doğrudan diskine iner — yayınlanmamış markalar için bunun anlamı, tasarımın en hassas aşamasının bile bir sunucunun günlüğüne düşmemesidir.",
+          "Akış ipucu: kaynak işaret değiştikçe seti yeniden üret ve üretimi yeniden üretilebilir tut — aynı kaynak görsel her zaman aynı favicon setini üretmeli; eksik bir boyut her zaman yeniden üretilebilsin.",
+        ],
+      },
+    ],
   },
   "ocr-image": {
     name: "Görselden Metne (OCR)",
@@ -1061,6 +2020,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "OCR doğruluğu kaynağa ağır bağlıdır: bulanık fotoğraflar, kıvrık sayfalar, küçük fontlar ve kalabalık zeminler yanlış okumalara yol açar. Elindeki en keskin görseli kullan, yalnızca metin alanına kırparak daralt ve bir kez gözden geçirmeyi bekle — özellikle sayılar ve birbirine benzeyen karakterlerde.",
       },
     ],
+    deepDive: [
+      {
+        heading: "OCR pikselleri nasıl metne çevirir",
+        paragraphs: [
+          "Optik karakter tanıma bir montaj hattıdır, tek adım değil: önce görsel ön işlemden geçer (kontrast ayarı, gürültü azaltma, eğim düzeltme), sonra yerleşim, metin bloklarına benzeyen bölgeleri bulmak için çözümlenir; ardından tanıma modeli her karakter biçimini bir harfe eşler; son olarak parçalar satırlara ve paragraflara yeniden birleştirilir.",
+          "Doğruluk kaynağın kalitesine ağır biçimde bağlıdır. İyi kontrastlı, temiz ve yüksek çözünürlüklü makine yazımı taramaları neredeyse kusursuz tanımaya yaklaşabilir; düşük çözünürlüklü fotoğraflar, eğik sayfalar, süslü yazı tipleri ve el yazısı doğruluğu sert biçimde düşürür. Görsel bir fotokopi belgeye ne kadar çok benzese, sonuç o kadar iyi olur.",
+          "Dil ayarı görsel kalitesi kadar önemlidir: tanıyıcı hangi alfabeyi ve hangi kelime biçimlerini bekleyeceğini bilmek zorundadır. İngilizce modelle bir Japonca fişte yapılan OCR, kendinden emin anlamsızlık üretir — modeli metnin diline her zaman eşleştir.",
+        ],
+      },
+      {
+        heading: "Kusurlu kaynaklardan daha iyi sonuçlar",
+        paragraphs: [
+          "Birkaç alışkanlık doğruluğu belirgin biçimde artırır. Tanımadan önce ilgisiz çevreyi kırp, eğik sayfaları düzle ya da yeniden çek, metin soluksa kontrastı artır — ekran görüntüleri, perspektif ve parlama taşımadıkları için ekran fotoğraflarını genelde geçer.",
+          "Düşük kalitede modellerin yanıldığı karakter karışıklıklarına dikkat: 0 ile O, 1 ile l ile I, rn ile m. Tablolardaki, kodlardaki ve tutarlardaki sayılar elle bir geçiş hak eder — banka hesabında ya da fiyatta yanlış bir rakam klasik OCR başarısızlığıdır.",
+          "Çıktıyı tutanak değil taslak olarak ele: bir belgeye yapıştıracak her şeyi oku ve özgün görseli sakla. Hızlı makine tanıması artı kısa bir insan kontrolü, ikisinden birden çok daha güvenilirdir; makale, tespit ya da maliyet içeren her çıkarım için bu ikili en az birkaç dakikalık okumayı hak eder.",
+        ],
+      },
+      {
+        heading: "Gizlilik, yerel OCR'nin neden önemli olduğudur",
+        paragraphs: [
+          "İnsanların OCR'e verdiği belgeler tam da duyarlı olanlardır: sözleşmeler, kimlik taramaları, bordrolar, kart numaralı fişler, el yazısı notlar. Yükleme tabanlı OCR hizmetleri tüm görseli — dolayısıyla metni ve içindeki tüm kişisel veriyi — bir başkasının altyapısında alır.",
+          "Bu araç tanımayı tamamen tarayıcında yapar: görsel cihazında işlenir ve çıkarılan metin ekranında kalır. Hiçbir şey iletilmez; gizli belgelerde OCR hiç yükleme riski taşımaz. Sonuç bellekte yaşar; sayfayı kapattığın an yok olur, hiçbir yerde saklanmaz.",
+          "Pratik bir sonuç: gizlilik sözleşmeli belgeleri, tıbbi evrakı ya da iç kayıtları önce hiçbir kimsenin gizlilik politikasını okumadan OCR'e verebilirsin; çünkü işlemede dış taraf hiç devrede değildir. Politikaları okumak yerine hiçbir tarafın politikaya girmesini de mümkün kılmış olursun.",
+        ],
+      },
+    ],
   },
   "round-corners-image": {
     name: "Görsel Köşe Yuvarlama",
@@ -1088,6 +2073,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Yuvarlamak görselin kalitesini düşürür mü?",
         a: "Yalnızca köşelere dokunulur — içerideki pikseller yerinde kalır. PNG çıktısı kayıpsızdır; JPG ise yüksek kalitede yeniden kodlanır, dosya boyutu her iki yönde biraz değişebilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Yuvarlak köşeler gerçekte nasıl çalışır",
+        paragraphs: [
+          "Görseller doğaları gereği dikdörtgenlerdir; o yüzden yuvarlak bir köşe bir görselin «sahip olduğu» bir şey değildir — dört köşeden oyulmuş saydamlıktır. Yuvarlatma bir alfa kanalıyla yapılır: çeyrek çemberin içindeki pikseller opak kalır, dışındakiler tamamen saydam olur ve yayın üzerindeki birkaç piksel, eğriyi yumuşatmak için kısmi saydamlık alır.",
+          "Bu yüzden çıktı PNG (ya da alfa taşıyan WebP) olmalıdır: JPG saydamlığı saklayamaz; oyulmuş köşeleri düz bir renkle doldurur ve yuvarlatma sahte olur — eşleşmeyen her arka planda görünen beyaz ya da siyah kare kenar.",
+          "Yarıçap karakteri belirler: küçük yarıçap ince modern bir dokunuş okunur; kısa kenarın yarısı kadar bir yarıçap tüm görseli kapsül ya da çembere çevirir. Yarıçapı tasarım sisteminin border-radius değerleriyle eşlemek, ekran görüntülerini çevreleyen arayüzle tutarlı tutar.",
+        ],
+      },
+      {
+        heading: "Gerçek yerleşimlerde yuvarlak köşelerin önemi",
+        paragraphs: [
+          "Tasarım sistemleri neredeyse her şeyi yuvarlar: kartlar, düğmeler, avatarlar, görsel kutuları. Keskin köşeli bir ekran görüntüsü yuvarlak bir kartın içine bırakıldığında başka bir çağdan kalma bir artefakt gibi görünür; ekran görüntüsünü aynı yarıçapla yuvarlamak yerleşime yerli hissettirir.",
+          "Sunumlar ve belgeler benzer biçimde kazanır: yuvarlak ekran görüntüleri kasıtlı tasarım okunur; kareler ham yapıştırma okunur. Birkaç piksellik saydamlık, sayfa ya da slayt arka planının da arkadan görünmesine izin verir; görseli çevresine bağlar.",
+          "Sosyal medya ve mesajlaşmada yuvarlak köşeler uygulama arayüzünden itibar alır — cilalı bir üründen gelmiş gibi görünen görüslere keskin kenarlı ham yakalamalardan daha çok ciddiyet verilir. Etki küçüktür ama tutarlıdır.",
+        ],
+      },
+      {
+        heading: "Yerel işleme ve akış notları",
+        paragraphs: [
+          "Yuvarlatma tamamen tarayıcında çalışır: görsel çözülür, köşe maskesi uygulanır ve saydam PNG cihazında üretilir. Hiçbir şey yüklenmez — yuvarlatılacak ekran görüntüleri iç araçları, müşteri verisini ya da kişisel bağlamı gösterdiğinde önemli budur.",
+          "Yığın kipi sıradan durumu halleder: her ekran görüntüsünün aynı yarıçapı istediği bir belge seti. Değeri görsel başına yeniden yazmak yerine bir yarıçapı tüm klasöre uygula ve sonuçları indir; belge setinde tutarlılık görsellikten de önemlidir.",
+          "Kare özgünü sakla. Köşe pikselleri kalıcı olarak kaldırılır; yarıçap tercihi sonradan değişirse — bir tasarım sistemi güncellemesi, farklı bir platform — tek yol, çoktan yuvarlanmış çıktıdan değil, kırpılmamış kaynaktan yeniden yuvarlamaktır.",
+        ],
       },
     ],
   },
@@ -1121,6 +2132,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Dönüşüm JavaScript ile tarayıcında yerel olarak yapılır — hiçbir şey sunucuya gönderilmez.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Büyük-küçük harf eşlemesi göründüğü kadar basit değil",
+        paragraphs: [
+          "Büyük harf ve küçük harf Unicode özellikleridir ve birkaç dil saf tek-bire varsayımını bozar. En ünlü örnek Türkçedir: noktasız ı, büyük hâli I olur; I'nin küçük hâli i değil ıdır — yazılımların bir zamanlar «Türkçe I sorunu» diye adlandırılan bir hata taşıdığının sebebi budur. Almanca ß'nin geleneksel büyük biçimi yoktur; çoğu yazılım onu SS harflerine eşler ve Unicode 2008'de büyük ẞ'yi eklediğinde bile sözlükler ve gövde metni hâlâ SS'yi yeğler.",
+          "é, ñ, ü gibi aksanlı harfler tek kod noktası olduklarından temiz dönüşür; ama bir harfin e artı birleştirici aksan olarak yazılmış hâli iki karakter olarak dönüşür ve aksanın büyük/küçük durumu değişmez. Yunanca son sigma ayrı bir özeldir: düzgün metin işlemede kelime sonundaki Σ, σ yerine ς'ye eşlenir.",
+          "Bu araç harf harf, standart Unicode kurallarıyla çevirir ve aksanları bozulmadan korur; böylece Avrupa metni büyük-küçük harf gidiş dönüşlerinden sağ çıkar. Türkçe yerel kurallarını ayrıca uygulamaz — dil-bilinçli bir yerelleştirici uygardı — ama basit yalnızca-ASCII betiklerin yaptığı gibi hiçbir karakteri sessizce atmaz ya da bozmaz.",
+        ],
+      },
+      {
+        heading: "Title Case ve kısa kelimeler kuralı",
+        paragraphs: [
+          "İngilizce başlık üslubu kısa işlev kelimelerini küçük harfe çeker — a, the gibi artikel, of, in, to gibi kısa edatlar, and, but gibi bağlaçlar — başlığın ilk ya da son kelimesi olmadıkları sürece. Tam kelime listeleri üslup kılavuzlarına göre değişir: AP'nin sınırı kısadır, Chicago uzunluğuna bakmaksızın daha çok edatı küçük harfe alır. Web araçlarının çoğu tek bir listeyi sabitler; bu araç, makaleleri ve kısa edatları başlık ortasında küçük harf tutan yaygın editoryal geleneği izler.",
+          "Kural gerçekten İngilizce merkezlidir. İspanyolcada ve Fransızcada başlıklar normal cümle başkentlemesini korur; İngilizce Title Case'i bir Fransızca tümceye uygulamak, yerli okura yanlış görünür. Almanca bunun yerine isimleri büyük harfle yazar. Çok dilli metin için cümle durumu daha güvenli varsayılandır; bu yüzden bu araç tam genişlikte noktalama işaretlerinden sonra da yeniden büyük harf yapar — bir Çince cümlenin ardından gelen İngilizce cümle doğru işlenir.",
+          "Kurumsal bir üslup konusunda tereddütteysen yazdığın üslup kılavuzuna bak ve aracın çıktısını bir başlangıç noktası olarak ele. «The Shining» gibi tek kelimelik başlık kenar kuralını gösterir: the başta olduğundan, başlık ortasında küçük harf olacak olsa da büyük kalır.",
+        ],
+      },
+      {
+        heading: "Programcı biçemleri ve yerelde kalanlar",
+        paragraphs: [
+          "camelCase, PascalCase, snake_case, kebab-case ve CONSTANT_CASE vardır; çünkü diller farklı tanımlayıcı geleneği taşır: JavaScript ve Java camelCase'e yaslanır, Python snake_case'i yeğler, CSS ve HTML öznitelik adları kebab-case kullanır. Aralarında çevirmek yalnızca boşluk atmak değildir — araç camelCase sınırlarını (parseHTMLValue gibi) önce ayrı kelimelere ayırır; böylece çıktı bir kısaltmayı sonraki kelimeyle eritmez.",
+          "Noktalama, rakamlar ve CJK karakterleri kod biçemlerinden değişmeden geçer: Çince bir karakterin büyük hâli yoktur ve dönüşümlü durum yalnızca Latin harflerini çevirir; simge örüntüsü yerinde kalır. «item-2: done» gibi karışık içerik yapıştırdığında çıktının öngörülebilir olmasını sağlayan budur.",
+          "Her şey tarayıcında düz JavaScript olarak çalışır. Metnin sayfadan hiç çıkmaz — sunucu çağrısı yok, pano hilesi yok, sızacak bir şey yok. Patentli taslakları, iç tanımlayıcıları ya da müşteri adlarını dönüştürmek, kendi editörüne yapıştırmak kadar güvenlidir.",
+        ],
+      },
+    ],
   },
   "word-counter": {
     name: "Kelime Sayacı",
@@ -1149,6 +2186,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Katı bir sınır yok — sayaç yalnızca tarayıcının belleğiyle sınırlıdır; kitap boyutunda metinleri rahatça halleder.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kelime sayımı gerçekte nasıl çalışır",
+        paragraphs: [
+          "Web'deki her sayaç metnini parçalara ayırıp sayar ama parçalama kuralları beklediğinden fazla ayrışır. Bu araç, boşluk ya da satır kırılmasıyla ayrılmış her karakter dizisini bir kelime sayar — Microsoft Word'ün kullandığı aynı gelenek; böylece okul ve ofis kelime sınırları burada gördüğünle eşleşir. «state-of-the-art» gibi tireli bileşikler tek kelime sayılır; boşlukla ayrılmış yalnız sayılar her biri tek kelime sayılır.",
+          "Karakterler iki biçimde sayılır çünkü gerçek dünyada iki ayrı sınır vardır: boşluklarla birlikte (sosyal platformların çoğu boşlukları da sayar) ve boşluksuz (kompozisyon formları ve bazı CMS karakter sınırları boşlukları dışlar). İki sayı da yazarken canlı güncellenir; hangi sınıra karşı yazıyorsan onu izlersin.",
+          "CJK metni — Çince, Japonca, Korece — saf sayaçların kırıldığı yerdir. Bir Çince paragrafta boşlukla ayrılmış parçaları saymak neredeyse hiçbir şey döndürür; Çince kelimeler arasına boşluk koymaz. Bu araç CJK karakterlerini kelime geçişinden çıkarır, her CJK karakterini tek tek sayar (CJK için standart «karakter ≈ kelime» geleneği) ve iki sayıyı toplar; böylece 500 karakterlik bir Çince geçiş 1 yerine ≈500 kelime raporlar.",
+        ],
+      },
+      {
+        heading: "Okuma süresi, konuşma süresi ve zorluk düzeyi",
+        paragraphs: [
+          "Okuma süresi Latin yazısı için dakikada 220 kelime ve CJK için dakikada 300 karakter kullanır — iki hız yeterince farklılaşır; karışık dilli bir belge ikisini de ister. Konuşma süresi daha yavaştır (Latin için 130 wpm, CJK için 180 cpm); dinleyici yeniden okuyamaz. Seslendirmeyi kaydetmeden ya da bir sunumu provadan önce bunu kullan.",
+          "Flesch-Kincaid düzeyi, metnini okumak için gerekli ABD okul sınıfını cümle uzunluğu ve kelime başına heceden tahmin eder. Bir sezgiseldir: kısa kelimeli teknik jargon yanıltıcı biçimde düşük puan alabilir; 300 karakterlik bir Korece cümle formül için tek bir «kelimedir». Onu bir yön (daha basit mi daha zor mu) olarak gör, karar olarak değil.",
+          "Cümle akışı metnini dört banda ayırır — 1–6 kelime (kısa ve vurucu), 7–14 (standart), 15–24 (uzun), 25+ (çok uzun) — ve her cümleyi bandına göre vurgular. Değişken cümle uzunluğu tekdüzeden iyi okunur; her cümle aynı banda düşüyorsa en uzunu bölmeyi ya da iki kısayı birleştirmeyi dene.",
+        ],
+      },
+      {
+        heading: "Diğer sayaçlarla karşılaştırması",
+        paragraphs: [
+          "Kelime işlemciler (Word, Google Docs) belge sınırları için referanstır ama uygulama ister; tarayıcı sayaçları yapıştır-kontrol akışları için daha hızlıdır. Sosyal platform sayaçları (X, Instagram) platforma özel kurallarını içine pişirir; bu araç onun yerine özel bir platform-sınırları paneli tutar; tek girdi her platforma hizmet eder.",
+          "Gizlilik yapısal farktır: birçok çevrimiçi sayaç metnini işlemek için bir sunucuya gönderir. Buradaki her şey tarayıcının JavaScript'inde çalışır — metin cihazından hiç çıkmaz; yayınlanmamış taslaklar, müşteri metni ya da gizlilik sözleşmeli her şey için bu fark eder.",
+        ],
+      },
+    ],
   },
   "remove-duplicate-lines": {
     name: "Yinelenen Satır Silici",
@@ -1170,6 +2232,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "'Apple' ile 'apple'yi yinelenen sayabilir mi?",
         a: "'Büyük/küçük harfi yok say' seçeneğini etkinleştir; ikisi aynı satır sayılır ve ilk görülen varyant tutulur.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Neyin yinelenmiş sayılacağı karşılaştırma kuralına bağlıdır",
+        paragraphs: [
+          "Yinelenen tespiti bir karşılaştırma kararıdır ve üç karar sonucu değiştirir. Tam eşleşme: «veri» ve «veri» yinelemektir ama «veri » (sondaki boşluk) ve «Veri» (büyük harf) değildir. Boşluk ve büyük-küçük duyarsız eşleştirme «Veri » ile «veri»yi aynı satır sayar — girdi kopyala-yapıştır ya da form dışa aktarımlarından geliyorsa, görünmez boşlukların sürekli sızdığı yerlerde, genelde istediğin de budur.",
+          "Bir de anlamsal karar var: ilk geçen mi, son geçen mi saklanmalı? Günlükler ve kimlikler için ilk geçen, varış düzenini korur. Sonraki satırların öncekileri güncellediği fiyat listelerinde son geçen tutmak doğrudur. Bu araç ilk geçeni tutar ve satır düzenini korur; bu, yinelenen temizliği beklentilerinin çoğuyla eşleşir.",
+          "Bağlantılı bir tuzak görünmez karakterlerdir: sekmeler, kesintisiz boşluklar ve sıfır genişlikli karakterler, görsel olarak aynı iki satırı farklı kılar. Yinelenen temizliği sorunsuz geçti ama hâlâ yinelemeler görüyorsan önce bir boşluk temizliği çalıştır — bu sitedeki fazladan boşluk kaldırma aracı tam olarak o adım için var.",
+        ],
+      },
+      {
+        heading: "Neden sıralamadan ve saymadan önce yinelenen temizliği",
+        paragraphs: [
+          "Yinelenen temizliği genelde hedef değil ön işlemdir. Eşsiz değerleri saymadan önce temizle — yoksa sayım tekrarları iki kez sayar. Sıralamadan önce temizle — binlerce özdeş satırı sıralamak okurun dikkatini ve aşağı akıştaki satır numarası atıflarını boşa harcar. Bir CSV içe aktarması ya da SQL IN listesi kurmadan önce temizle — orada yinelenen anahtarlar ya hata ya da sessiz çift işleme üretir.",
+          "Klasik veri temizlik sırası: boşlukları tekdüzleştir, sonra yinelenenleri temizle, sonra sırala, sonra dönüştür. Tersten yapmak (önce sırala, sonra temizle) de çalışır ama önceki sürüme karşı farkı gürültülü kılar: her silinen yinelenen, derli toplu bir blok yerine dağınık bir silme olarak görünür.",
+          "Metin derlemeleri için — anahtar kelime listeleri, e-posta alıcıları, etiket envanterleri — yinelenen temizliği aynı zamanda doğruluk aracıdır: yinelenen alıcı iki kez e-posta alır, yinelenen etiket frekans analizini bozar. Buradaki tek tık, bir hesap tablosu formül zincirini yener.",
+        ],
+      },
+      {
+        heading: "Yerel işleme, düzen korunarak",
+        paragraphs: [
+          "Listenin tamamı tarayıcı JavaScript'inde işlenir: satır kırılmalarına böl, karşılaştır, eşsiz satırları ilk geçen sırasına göre çıkar. Yükleme yok, gidiş dönüş yok; sayfa yüklendikten sonra araç çevrimdışı çalışır.",
+          "Büyük girdiler sorun değildir — yüz binlerce satır, sıradan bir makinede bir saniyenin altında işlenir; çünkü karşılaştırma satır başına bir hash-set aramasıdır, çiftli tarama değil. Çiftli karşılaştırma, saf temizliği ölçekte yavaşlatan şeydir; bu araç onu yapmaz.",
+          "Hiçbir şey saklanmaz: sayfayı yenile ve girdi gitmiş olur. Müşteri listeleri, iç kimlik envanterleri ya da kişisel veri taşıyan herhangi bir küme için kullanılacak güvenli araç biçimi budur — veri hiçbir zaman başkasının günlük girdisine dönüşmez.",
+        ],
       },
     ],
   },
@@ -1200,6 +2288,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "X/Twitter gönderileri, meta başlıkları (60 civarı) ve açıklamaları (160 civarı), SMS bölümleri (160) ve çoğu reklam platformu — daima yazdığın spesifik alanı kontrol et.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Karakterler ile grafem kümeleri",
+        paragraphs: [
+          "«Karakter» kelimesi bir tuzak saklar: kullanıcının bir karakter olarak algıladığı şey, her zaman tek bir kod birimi değildir. Ten tonlu emoji, bayraklar ve aile birleşimleri; temel harf artı birleştirici işaret olarak yazılan aksanlı harfler ve Devanagari bağları, göze tek karakter ama dizede birkaç kod noktasıdır.",
+          "Bu yüzden ciddi sayaçlar iki sayı raporlar: kod birimleri (JavaScript'in length özelliğinin saydığı ve platform sınırlarının tarihsel olarak ölçtüğü şey) ve grafem kümeleri (insanların gördüğü şey). Fark gerçektir — bir bayrak emoji'si 1 küme ama 4 UTF-16 kod birimidir.",
+          "Pratik amaçla: sosyal platformlar bugün grafem kümelerine yakın sayar; eski formlar ve veritabanları kod birimlerini sayar. Sınır tam bir limite denk geliyorsa güvenli strateji, metnindeki emoji sayısına eşit pay bırakmaktır.",
+        ],
+      },
+      {
+        heading: "Katı sınırları doğru okumak",
+        paragraphs: [
+          "Karakter sınırları nadiren pazarlığa açıktır ama ölçülebilirdir: SMS bölümleri 160 karakterde (GSM dışı herhangi bir karakter belirdiğinde 70, segment başına bedeli iki katına çıkarır), platform biyografileri, yaklaşık 150–160 karakterlik meta description hedefleri, 50–60 civarı meta title. Hangi rejimin metnine uygulandığını bilmek, tahmin etmekten iyidir.",
+          "SMS durumu özel ilgi hak eder çünkü en acımasız olanıdır: tek bir aksanlı harf ya da tek bir emoji tüm mesajı başka bir kodlamaya çevirir ve bölüm başına karakteri kabaca yarıya indirir. Yazıldığı gibi bir bölüme sığan mesaj, tek bir kalp emoji'siyle üç bölüme açılabilir.",
+          "Sayaçlar ters yönde de yardımcı olur: bir asgari için yazıyorsan — 300 karakterlik kompozisyon yanıtı, ürün açıklaması tabanı — canlı sayıya bakmak elle saymanın yorgunluğunu ve sınırın altında gönderme riskini siler.",
+        ],
+      },
+      {
+        heading: "Özel taslaklar için yerel sayım",
+        paragraphs: [
+          "Sayım tamamen tarayıcında olur: metin yerel JavaScript'te çözümlenir ve asla iletilmez. Bu, onu yayımlanmamış el yazmaları, gizli e-postalar, başvuru mektupları ve rastgele bir web hizmetine yapıştırmayacağın her şey için uygun kılar.",
+          "Sayaç, gönderimde değil her tuşta güncellenir; akış sürekli olur: yaz, sayıya göz at, ayarla. Basılacak düğme yok, beklenecek gidiş dönüş yok; sınırın yaklaştığı yerde sayı doğrudan sana bağırır ve kesme ya da uzatma kararı anında verilir.",
+          "Benimsenecek bir alışkanlık: yalnızca taslağı değil son sürümü say. Düzenlemeler — özellikle başka kaynaklardan yapıştırmalar — uzunlukları sessizce değiştirir; gerçekten gönderdiğin sürüm, sayımın önemli olduğu sürümdür.",
+        ],
+      },
+    ],
   },
   "sentence-counter": {
     name: "Cümle Sayacı",
@@ -1226,6 +2340,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bir paragraf kaç cümle olmalı?",
         a: "Üslup kılavuzları genellikle 2–5 önerir. Taşa yazılmış bir kural yok: metin duvarlarını okuyucundan önce fark etmek için sayımı kullan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir cümle nasıl algılanır",
+        paragraphs: [
+          "Cümle bulanık bir kavramdır; sayaçlar nerede bittiği konusunda anlaşamaz. Saf kural — her nokta, ünlem ve soru işaretinde böl — «Dr. Smith saat 3.5'te geldi» cümlesinde başarısızdır: üç nokta, sıfır cümle sonu. Gerçek bir algılayıcı kısaltma bilincine (Dr., örn.), ondalık işlemlerine ve «Gerçekten?!» gibi çoklu noktalama ile üç nokta mantığına ihtiyaç duyar.",
+          "Bu araç sezgisel katmanı kullanır: cümle sonu noktalaması ve ardından gelen boşluk artı büyük harf bir sınır sayılır; gömülü listeden kısaltmalar atlanır; tam genişlik işaretler (。！？) katı sınır sayılır — boşluk taşımayan CJK metninin gereksinimi budur. Böylece Çince-İngilizce karışık metin her iki yazıda da doğru sayılır.",
+          "Sayım, uç durumlar için doğası gereği yaklaşıktır — tırnaklı diyaloglar, son noktalama taşımayan madde parçaları. Sayıyı güçlü bir tahmin olarak gör, aksiyom değil; belirli bir cümle önemliyse (hukuken ya da sözleşmesel olarak), onu kendin say.",
+        ],
+      },
+      {
+        heading: "Cümle sayılarından uzunluk okumak",
+        paragraphs: [
+          "Ortalama cümle uzunluğu, sayacın ürettiği en faydalı sayıdır. Cümle başına 15 kelimenin altı vurucu ve kolay okunur; 25'in üstü genelde anlama sorunu sinyalidir ve editörler genel kitle için yaklaşık 15–20 hedefler. Cümle başına sayı, koşuk cümleleri de ifşa eder: 60 kelimelik tek cümle neredeyse her zaman bir üslup tercihi değil, noktalama sorunudur.",
+          "Cümle sayısı kabaca bir kuralla okuma süresine dönüşür: düzyazı okuyan yetişkin için dakikada yaklaşık 200–250 kelime; dolayısıyla kelimeler ÷ 225 dakikayı verir. Cümle ortalamasıyla birleşince bir metnin uzun ama okunabilir mi, kısa ama yoğun mu olduğunu söyleyebilirsin.",
+          "Çevirmenler ve yerelleştirme ekipleri için cümle sayıları önemlidir; çünkü çeviri fiyatlandırma araçlarının çoğu cümle ayrıntı düzeyinde çalışır — sayıyı baştan bilmek segmentasyon hacmini tahmin eder.",
+        ],
+      },
+      {
+        heading: "Yerelde, sınır yok",
+        paragraphs: [
+          "Analiz, yazarken tarayıcı JavaScript'inde çalışır. Hesap yok, yükleme yok, belge boyutu sınırı yok — bütün bir bölümü yapıştır ve sayaçlar canlı güncellenir. Duyarlı metinleri ölçerken bu yapının anlamı büyüktür: hiçbir nüsha, hiçbir kimsenin altyapısında kopya olarak durmaz.",
+          "Hiçbir şey saklanmaz: yenile ve her şey sıfırlanır; bölümünün hiçbir kopyası sunucuda durmaz. Yayımlanmamış el yazmaları, müşteri taslakları ya da sınav materyalleri için istemci tarafı model, gizlilik açısından güvenli biçimdir.",
+          "Kelime sayacıyla eşleştir ve cümle başına kelime oranını al; başlıkları hazırlarken durum dönüştürücüyle eşleştir. Üçü birlikte, çoğu editoryal uçuş öncesi kontrolü — uzunluk, okunabilirlik ve tutarlı biçem — hiçbir dış hizmet olmadan kapsar.",
+        ],
       },
     ],
   },
@@ -1256,6 +2396,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet. Araç yalnızca yatay boşluklara ve boş satırlara dokunur; metninin satır yapısı sağlam kalır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Görünmez boşluklar neden en yaygın metin kusurudur",
+        paragraphs: [
+          "Fazla boşluklar nadiren kendini belli eder. Noktadan sonraki çift boşluk, satır sonundaki boşluk, girinti kılığına giren sekme — editörde hepsi görünmez, veride hepsi gerçektir. Satır tabanlı karşılaştırmaları bozarlar («özdeş» iki satır tek sondaki boşlukla farklıdır), token sayılarını bozarlar (çift boşluk hayalet bir kelime ekleyebilir) ve iki değerin aynı görünüp farklı karşılaştırıldığı klasik başarısız dize eşleşmesini üretirler.",
+          "Ana kaynaklar mekaniktir: PDF'lerden kopyala-yapıştır (satır kırılmaları ve dolgu boşlukları ekler), OCR çıktısı, gevşek doğrulamalı form alanları, sekmelerle boşlukları karıştıran otomatik girintili editörler. Bunların hiçbiri görsel incelemede görünmez; temizliğin işi okuma değil araç işi olmasının sebebi budur.",
+          "Kesintisiz boşluklar özel anılmayı hak eder: HTML editörleri ve kelime işlemciler normal boşluk yerine U+00A0 koymayı sever ve o, trim işlemlerinden görünmeden sağ çıkar. CSV içe aktarması ya da veritabanı araması için temizlenmiş metin bunları da tekdüzleştirmelidir; yoksa aramalar gizemli biçimde boşa gider.",
+        ],
+      },
+      {
+        heading: "Her temizlik kuralının yaptığı iş",
+        paragraphs: [
+          "Çoklu boşlukları birleştirmek, iki ya da daha çok boşluklu her diziyi teke indirir — düzyazı ve listeler için güvenlidir ve PDF'lerden yapıştırdıktan sonraki en istenen temizliktir. Satır kenarlarını budamak her satırın baş ve son boşluklarını kaldırır; fark ve yinelenen algılamayı sonrasında öngörülebilir kılar.",
+          "Boş satırları kaldırmak boşluk örüntülerini halleder: paragraflar arası tek boş satır iyi okunur; yapıştırılmış e-posta zincirinden gelen beş boş satır kırılmış okunur. Satır kırılmalarını tümüyle kaldırmak metni tek paragrafta birleştirir — meta açıklamalar ve tek satırlık form alanları için faydalı, satır yapıtlı her şey için yıkıcıdır.",
+          "Sekme-boşluk dönüşümü kod ve yapılandırma dosyaları için önemlidir: sekme ve boşlukları karıştırmak, hizalamanın editörden editöre değiştiği dosyalar üretir. Hedefine uyan kuralları seç — araç onları birlikte uygular; PDF yapıştırması tipik olarak tek geçişte birleştir + budama + boş satır kaldırma ister.",
+        ],
+      },
+      {
+        heading: "Anlık, yerel, bayt-hassas",
+        paragraphs: [
+          "Temizlik tarayıcında karakter karakter çalışır. Hiçbir şey yüklenmez — gizlilik sözleşmeli içerik, yayımlanmamış taslaklar ya da kullanıcı veri örnekleri için, istemci tarafı aracın tüm anlamı budur. İşlem anlıktır; yapıştırdığın an sonuç Hazır olur, sunucu bekleme süresi yoktur.",
+          "Dönüşüm deterministiktir ve etki olarak geri alınabilir: özgünü bir sekmede tut, temizleneni diğerinde, karşılaştır. Her kural mekanik olduğundan aynı girdi her zaman aynı çıktıyı verir — model yok, rastgelelik yok, sürpriz yok.",
+          "Kardeş araçlarla pratik bir üçlü: önce boşlukları temizle, sonra yinelenenleri kaldır, sonra özgüne karşı metin farkını çalıştır ve tam olarak neyin değiştiğini gör. Üç adımlık bu geçiş, dağınık yapıştırılmış içeriği saniyeler içinde gözden geçirilebilir ve farkla karşılaştırılabilir metne çevirir.",
+        ],
+      },
+    ],
   },
   "text-sorter": {
     name: "Metin Sıralayıcı",
@@ -1282,6 +2448,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Özgün liste değişir mi?",
         a: "Hayır — girdi olduğu gibi kalır ve sıralanmış sonuç çıktı kutusunda görünür; her zaman geri dönebilirsin.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Metni sıralamak sayıları sıralamak değildir",
+        paragraphs: [
+          "Sayısal sıralama ile alfabetik sıralama temellerinde anlaşamaz: alfabetik olarak «10», «9»dan önce gelir; çünkü «1», «9»dan önce sıralanır — karakter karakter. Fiyat, sürüm ya da bölüm numarası listesini alfabetik sıralamak, kimsenin istemediği klasik 1, 10, 11, 2, 3 düzenini üretir. Sayı-bilinçli sıralama bunu, karakter dizilerini değil bütünü değerleri karşılaştırarak düzeltir.",
+          "Büyük-küçük harf öteki çatallanmadır: ASCII düzeni tüm büyükleri tüm küçüklerin önüne koyar; «Zebra», «apple»dan önce sıralanır. Büyük-küçük duyarsız karşılaştırma, kelime listelerinden çoğunluğun beklediğidir. Yön (artan/azalan) ve eşsizlik (yinelenenleri koru ya da birleştir) seçenek setini tamamlar.",
+          "Baştaki artikel gerçekten editoryal bir tercihtir: «The» ile başlayan kitap adları genelde ikinci kelime altına dizilir. Seçeneği sunan bir sıralama aracı, her satırı önce elle düzenlemeyi zorlayan aracı yener.",
+        ],
+      },
+      {
+        heading: "Dil-duyarlı karşılaştırma: é ve å neden görüş bildirir",
+        paragraphs: [
+          "Saf kod noktası sıralaması aksanlı harfleri yabancı sayar: İsveççe «å», arkasından çöp takılmış bir «a» gibi sıralanır; Almanca «ä», «a»dan çok uzağa düşer; İspanyolca geleneksel olarak «ch» ve «ll»yi kendi alfabesinin harfleri sayar. Dil-duyarlı sıralama (her modern çalışma ortamında uygulanan Unicode Collation Algorithm) bunu düzeltir: İsveççede å, z'den sonra sıralanır; Almanca rehber düzeninde ä, a'nın yanında durur.",
+          "Bu, liste gerçek adlar taşıdığında önemlidir — müşteri listeleri, şehir adları, yazar dizinleri. İspanyolca ya da İsveççe bir dizini ham kod noktalarına göre sıralamak, yerlilerin hemen fark edeceği bir düzen üretir. Araç dil-duyarlı kuralları uygular; adlar, bir yerlinin beklediği gibi sıralanır.",
+          "CJK'nin kendi gelenekleri vardır: Çince çoğu modern bağlamda pinyin'e göre, sözlüklerde vuruş sayısına göre sıralanır. Japonca kana düzeni gojūon dizisini izler. Her dil için kusursuz sıralama bir çukurdur ama Latin aksanlarını doğru tutmak, günlük listelerin çoğunu kapsar.",
+        ],
+      },
+      {
+        heading: "Tasarım gereği istemci tarafında",
+        paragraphs: [
+          "Sıralama tümüyle tarayıcında olur; satırlar bölünür, karşılaştırılır, yeniden dizilir. Yükleme yoktur — müşteri listeleri, IK verisi ya da yayımlanmamış kadrolar için hiçbir şey göndermeyen bir sıralama sayfası, kabul edilebilir tek türdür.",
+          "Gerçekçi ölçeklerde performans sorun değildir: yüz bin satır bir göz kırpmada sıralanır; çünkü altta yatan karşılaştırma optimize edilmiş yerel koddur. Kararlılık korunur: eşit karşılaştırılan satırlar özgün düzenlerini korur, karışmaz; dosya bir günlük olduğunda ve sonraki satırlar daha güncel durum taşıdığında bu önemlidir.",
+          "Yenilemeler arasında hiçbir şey kalmaz. Sırala, sonucu kopyala, ilerle — girdi hiçbir yerde saklanan bir artefakta dönüşmez. Müşteri kadroları ya da kurum içi listeler gibi duyarlı girdilerle bile, sayfa kapanır kapanmaz hiçbir iz kalmaması tam olarak istediğin davranıştır.",
+        ],
       },
     ],
   },
@@ -1312,6 +2504,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hiçbir araç niyetini kesin olarak bilemez. Çıktı kutusu sonucu her zaman önce gösterir; özgününü değiştirmeden önce gözden geçir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bütün temizlik zinciri için tek geçiş",
+        paragraphs: [
+          "Metin dağınıklıklarının çoğu paket halinde gelir: PDF'lerden yapıştırılan içerik çift boşluklar, başıboş satır kırılmaları ve satırlara bölünmüş tireli kelimeler taşır; kopyalanan web metni görünmez kesintisiz boşluklar ve sıfır genişlikli karakterler sürükler; hesap tabloları sondaki sekmelerle dışa aktarılır. Bunları kural kural temizlemek beş geçiş ve unutulan adımlar demektir — birleşik bir temizleyici zincirin tamamını bir kerede uygular.",
+          "Kurallı sıra önemlidir: önce Unicode'u tekdüzleştir (kesintisiz boşlukları normale katla, sıfır genişlikli ve denetim karakterlerini soy) — çünkü sonraki kurallar karakterleri karşılaştırır; sonra boşluğu birleştir, sonra satır kenarlarını budamak, sonra satır kırılmalarını düzelt. Normalizasyondan önce yinelenen temizliği ya da karşılaştırma çalıştırmak yanlış sonuç üretir — görünmez bir karakter hayatta kaldığı için görsel olarak özdeş iki satır «farklı» kalır.",
+          "Çıktı sıkıcı olmalıdır: açıklayamayacağın hiçbir değişiklik yok. Temizleyicideki her kural mekaniktir ve önizlenebilir; tam olarak bir temizleyiciyi yapay zekâ «yeniden yazıcıdan» ayıran budur — aynı girdi her zaman aynı çıktıyı verir ve her dönüşümü doğrulayabilirsin. Belge hukuki bağlama girecekse, çıktının savunulabilir olması ya tümsektir ya da hiçbir şeydir.",
+        ],
+      },
+      {
+        heading: "Ne kaldırılır ve neden",
+        paragraphs: [
+          "Görünmez Unicode en büyük kategoridir: sıfır genişlikli boşluklar (U+200B) ve birleştiriciler, yön işaretleri, denetim karakterleri. Bunlar her editörde görünmez ama dize karşılaştırmalarını bozar, SEO metnini anlamsız baytlarla şişirir ve yapıştırılan içerikte filigran ya da kötücül yük saklamak için bile kullanılabilir. Neredeyse tüm düzyazı için onları soymak güvenlidir.",
+          "Boşluk tekdüzlemesi çift boşlukları, boşluk kılığındaki sekmeleri, sondaki boşlukları ve sahipsiz boş satırları kapsar. «Gözüke güzel ama fark yüz değişiklik gösteriyor» diyen metnin çaresi budur — o farkların çoğu saf boşluktur.",
+          "Satır kırılması onarımı PDF yapıştırma artefaktlarını halleder: metni aranmaz ve yeniden akıtılamaz eden her 40 karakterde bir gelen katı kırılmalar. Kırılmış satırları birleştirmek (dikkatli — paragraf kırılmaları hayatta kalmalı) çıkarılmış PDF metnini yeniden akışkan düzyazıya döndürür.",
+        ],
+      },
+      {
+        heading: "Deterministik, yerel, doğrulanabilir",
+        paragraphs: [
+          "Tüm kurallar kutudaki metin üzerinde tarayıcı JavaScript'inde çalışır — yükleme yok, çevrimdışı çalışır, hiçbir şey saklanmaz. Sözleşme taslakları, müşteri metni ve yayımlanmamış içerik için istemci tarafı temizleyici, gizlilik açısından doğru tercihtir.",
+          "Determinizm tasarım garantisidir: aynı girdi, her zaman aynı çıktı. Bu, aracı yinelenebilir bir akışın içinde güvenli kılar — temizle, yinelenenleri kaldır, fark çıkar; üretken bir yeniden yazıcı, gözden geçirilemeyecek değişiklikler enjekte ederekti.",
+          "Bu sitedeki doğal arkadaş zinciri: önce text-cleaner, sonra yinelenen satır kaldırma, sonra özgüne karşı text-diff ve anlamlı hiçbir şeyin değişmediğini doğrula. Üç adım, hepsi yerelde, hepsi anlık — PDF yapıştırmasını temiz bir metne çeviren tam döngü budur ve tamamı bir sayfa üzerinde kapanır.",
+        ],
+      },
+    ],
   },
   "reverse-text": {
     name: "Metin Tersine Çevirici",
@@ -1338,6 +2556,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Palindrom kontrolü için kullanabilir miyim?",
         a: "Dolaylı olarak — metni yapıştır, ters çevir ve gözle karşılaştır ya da metin karşılaştırma aracıyla eşleştir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Karakterleri tersine çevirmek metni tersine çevirmek değildir",
+        paragraphs: [
+          "İki tür tersine çevirme vardır ve karıştırmak meşhur hatalar üretir. Karakter tersine çevirme dizgeyi karakter karakter çevirir: «abc», «cba» olur. Kelime tersine çevirme her kelimeyi bozulmadan tutar ve sıralarını çevirir: «hello world», «world hello» olur. Birini isteyip diğerini almak, tersine çevirme araçlarına dair en yaygın şikâyet olduğu için bu araç ikisini ayrı tutar.",
+          "Karakter tersine çevirmenin bir Unicode tuzağı vardır: JavaScript'in kullandığı UTF-16'da saklanan metin, emojiyi ve bazı nadir yazıları çift yedek eşlemeler olarak temsil eder — birlikte kalması gereken iki kod birimi. Naif tersine çevirme çifti böler ve çöp üretir: aile emoji'si 👨‍👩‍👧 kırık kutulara ya da anlamsız gliflere dönüşür. Doğru tersine çevirme kod birimlerini değil grafem kümelerini gezinir.",
+          "Birleştirici diziler de sayar: «e» artı birleştirici aksan, tersine çevrildiğinde aksan-önce olur; çoğu fontta yanlış çizilir. Grafem-duyarlı tersine çevirme aksanı harfine bağlı tutar; aksanlı Avrupa metninde bu fark, okunur çıktı ile bozuk çıktı arasındaki farktır.",
+        ],
+      },
+      {
+        heading: "Tersine çevrilmiş metnin gerçekte işe yaradığı yerler",
+        paragraphs: [
+          "Palindromlar klasik kullanımdır: bir kelimenin iki yönde de aynı okunup okunmadığını kontrol etmek — «kayak», «level» — birebir tersine-çevir-ve-karşılaştırmaktır. Kelime sırası tersine çevirmenin pratik editoryal kullanımları vardır: «soyadı adı» listelerini «ad soyadı»na çevirmek, madde listelerini tersine çevirmek, hesap tablosundan alttan yapıştırılmış bir sütunu geri almak.",
+          "Karakter düzeyinde tersine çevirme bulmaca ve oyun tasarımında (ayna yazısı, aynada doğru okunan gizli mesajlar), testte (doğrulayıcılara ters dizeler verip reddettiklerini kontrol etmek) ve saf dize eşleştirme filtrelerini aşmada görülür — bu yüzden ters-metin, bilinmeye değer klasik bir sızma testi püfüdür.",
+          "Satır tersine çevirme — tüm satırların sırasını çevirmek — günlük dosyalarının sessiz baş işçisidir: en yeni-önce ile en eski-önce bir tersine çevirme mesafesindedir ve alttan yukarı çıkan hesap tablosu dışa aktarımları tek tıkla düzelir.",
+        ],
+      },
+      {
+        heading: "Sayfa üzerinde tümüyle çalışır",
+        paragraphs: [
+          "Tersine çevirme, yazarken tarayıcı JavaScript'inde yapılan saf bir dize işlemidir — sunucu yok, saklama yok, çevrimdışı çalışır. Uzun metinde bile işlem anlıktır; tersine çevirme uzunlukta doğrusaldır, yani yüz bin karakterlik bir dizge bile göz kırpma süresinde döner.",
+          "Araç yukarıdaki Unicode uç durumlarını doğru işler: grafem kümeleri bütün kalır, emoji hayatta kalır, birleştirici işaretler temel harflerini korur. Geri yapıştırdığın geçerli metindir; ikame karakter dizisi değil.",
+          "Oturumlar arasında hiçbir şey hatırlanmaz: yenile ve kutu boştur; metin yalnızca sekmenin belleğinde ve sen kopyalarsan panonda yaşar. Duyarlı bir şeyi tersine çeviriyorsan — parola benzeri bir dize, iç bir tanımlayıcı — tam olarak istediğin davranış budur.",
+        ],
       },
     ],
   },
@@ -1368,6 +2612,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Sayfanın hızlı kalması için bir yığın 50 paragrafla sınırlıdır; taze bir yığın gerektiğinde düğmeye yeniden bas.",
       },
     ],
+    deepDive: [
+      {
+        heading: "İki bin yıllık karıştırılmış Cicero",
+        paragraphs: [
+          "Dolgu metni uydurma Latince değildir — bozulmuş Latince'dir. Kelimeler, Cicero'nun MÖ 45'te yazdığı «De finibus bonorum et malorum» (İyinin ve Kötünün Sınırları Üzerine) felsefi incelemesinden gelir; 1.10.32–33 bölümleri. Geçiş acı ve hazdan söz eder; dizgicilik çağının bir yerinde biri onu karıştırıp kısaltarak «Lorem ipsum dolor sit amet, consectetur adipiscing elit…» haline getirmiştir — artık tutarlı Latince cümleler kurmayan kelimeler.",
+          "Halk tarihi, tasarımcıların hazır başlık metnini esere sürttüğü 1960'ların Letraset kuru aktarım levhalarını geçişin yayılmasına yorar; Aldus sayfa yerleşimi yazılımı onu 1980'lerde dijital yayıncılığa taşıdı. Her yerde olduğu için hayatta kaldı — dolgu metni için standart vida dişi eşdeğeri.",
+          "Çoğunluğun gözden kaçırdığı bir ayrıntı: metnin kelime uzunlukları ve harf dağılımı kabaca Latince-doğaldır; tam olarak dolgudan beklediğindir — sahte metinle ayakta kalan yerleşim, benzer uzunlukta gerçek metinle de genelde ayakta kalır. «Buraya biraz metin gelsin» cümlesinin bu özelliği yoktur.",
+        ],
+      },
+      {
+        heading: "Neden dolgu, gerçek görünümlü metni yener",
+        paragraphs: [
+          "Gerçek metin — bir haber kesiti, bir arkadaşın paragrafı — gözden geçireni okumaya davet eder; okumak içerik eleştirisini davet eder: «Bunu ben öyle yazmazdım.» Anlamsız Latince tam tersine özellik taşır: dile benzer, dile benzer yer kaplar ama tartışılacak anlam taşımaz. Gözden geçirenler metni değil yerleşimi, tipografiyi ve ritmi değerlendirir.",
+          "Uzunluk kontrolü, beklenenden fazla önemlidir. 200 kelimelik dolguyla onaylanan bir sayfa, gerçek metin 300'e koştuğu an taşar; gerçekten beklediğin boyutlarda bloklar üretmek — iki satırlık kart fragmanı, beş cümlelik paragraf — yerleşimi tek şanslı blok yerine gerçekçi varyasyona karşı sınar.",
+          "Gelenek bir iletişim işlevi de taşır: tasarım ve yayıncılıktaki herkes lorem ipsum'u bakışta tanır; onunla dolu bir maket, tek bir not olmadan «yerleşim beklemede» okunur. Yanlışlıkla gerçek kopya gibi algılanmak yerine, dolgunun dolgu olduğu anlaşılır — zamandan ve red turu amaçlı geri dönüşlerden tasarruf eder.",
+        ],
+      },
+      {
+        heading: "Yerinde üretilir, hiçbir yere gönderilmez",
+        paragraphs: [
+          "Bu üretici paragraflarını gömülü bir lorem-ipsum kelime listesinden kurar; her tıkta taze karıştırılır — kelimeler Cicero'ya kadar izlenir ama dizi yerelde üretilir, lorem-ipsum API'sinden getirilmez. Hiçbir şey tarayıcıdan çıkmaz ve araç çevrimdışı çalışır.",
+          "Değişkenlik kasıtlıdır: yinelenen tıklar farklı metin üretir; yan yana iki maket özdeş dolgu taşımaz — yerleşim karşılaştırırken küçük bir gerçekçilik kazancıdır. Kanonik açılışı istediğinde «Lorem ipsum» ile başlayan sürümler de vardır; klasik görünümlü teslimler için tercih edilir.",
+          "Devir için pratik ipucu: bir tasarımı teslim ederken müşteriye metnin yer tutucu olduğunu yazılı söyle. Tekrar eden lorem-ipsum kazası, dolgunun kaza eseri üretime gönderilmesidir — bir çeviri şirketi ünlü biçimde bir kez onu müşterinin broşürüne basmıştır.",
+        ],
+      },
+    ],
   },
   "text-diff": {
     name: "Metin Karşılaştırma",
@@ -1394,6 +2664,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Boyut sınırı var mı?",
         a: "Yalnızca tarayıcının belleği — kitap boyutunda karşılaştırmalar çalışır; çok büyük metinlerin çizilmesi bir an sürer.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Fark çıkarıcı değişiklikleri gerçekte nasıl bulur",
+        paragraphs: [
+          "Fark çıkarıcı, karakter karakter bir tarama değildir. Neredeyse her fark aracının altında En Uzun Ortak Alt Dizi (LCS) algoritması vardır: iki metinde de sırasıyla görünen en uzun satır (ya da karakter) dizisini bul; o dizinin dışındaki her şey ekleme ya da silmedir. İyi bir fark aracının iki belgenin dokunulmayan ortasını hizalayıp yalnızca çevresindeki değişimi işaretlemesinin sebebi budur.",
+          "Ayrıntı düzeyi kullanıcıya görünen bir seçimdir. Satır düzeyi fark, tüm satırları eklenmiş ya da silinmiş olarak işaretler — kod incelemesinin, git'in ve hukuki kırmızı çizgilemenin kipi; insanların konuştuğu birim satırdır. Karakter (ya da kelime) düzeyi fark, değişen satırın içinde hizalanır ve yalnızca üç kelimenin kaydığını gösterir — düzyazı düzenlemesinin kipi; aksi halde birebir özdeş paragrafın «tamamı silindi, tamamı eklendi» olarak yazılması okunmazdır.",
+          "Bir ekleme ve bir silme aynı noktada olduğunda araç onları bir değişiklik olarak eşler. Eşdeğer alternatifler vardır — farklı eşleme aynı nihai metni üretir — ve gelenek, insanın daha az blok okuması için değişimi en aza indirmektir.",
+        ],
+      },
+      {
+        heading: "Kandırılmadan farkı okumak",
+        paragraphs: [
+          "Yaygın yanlış okuma: büyük bir fark, büyük değişiklik anlamına gelmez. Eklenmiş tek bir satır LCS hizalamasını kaydırabilir ve sonraki paragraflar silinip yeniden eklenmiş görünebilir — içinde hiçbir şey değişmemişken. Boşluk farkları bunu büyütür — sondaki boşluk satırı «değişmiş»e çevirir. Bu yüzden fark çıkarmadan önce boşlukları tekdüzleştirmek (text-cleaner geçişi) dramatik biçimde temiz sonuç verir.",
+          "Kelime düzeyi kip, düzyazının panzehiridir: «bir paragraf değişti» yerine «büyüdü → genişledi» görürsün. Sözleşmeler ve kod için satır düzeyinde kal — orada kısmi satır eşleşmeleri, bir hukuki maddenin «temelde aynı» olduğuna dair sahte güven üretir.",
+          "İkinci yanlış okuma yöndür: hangi metin «önce», hangisi «sonra»dır. Araç bölmeleri etiketler ama gözden geçirme akışlarında disiplin sayar — tersten okunan bir fark eklemeleri silmeye çevirir ve onayın anlamını değiştirir.",
+        ],
+      },
+      {
+        heading: "Tümüyle istemci tarafı karşılaştırma",
+        paragraphs: [
+          "Karşılaştırma tamamen tarayıcında çalışır: iki metin üzerinde LCS, vurgulanmış bloklar olarak çizilir. Yükleme yok, sunucu gidiş dönüşü yok, çevrimdışı çalışır — metinler sözleşmeler, kişisel belgeler ya da yayımlanmamış kaynak kod olduğunda doğru mimari budur.",
+          "LCS en kötü durumda O(n × m)'dir; bazı araçların büyük dosyaları reddetmesinin sebebi budur. Ortak önek budamalı ve hash'li uygulamalar yüz binlerce satırlık belgeleri rahat yönetir. Gerçekten devasa karşılaştırmalar için bölümlere ayırmak pratik yaklaşımdır.",
+          "Hiçbir şey kalmaz: sayfayı yenile ve her iki bölme de temizlenir. Bu, klasik duyarlı kullanım için güvenli araç yapar — hukuki bir taslağın iki sürümünü, bir yapılandırma dosyasını ya da dışa aktarılmış bir kimlik listesini, metin cihazından hiç çıkmadan karşılaştırmak.",
+        ],
       },
     ],
   },
@@ -1424,6 +2720,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Birçok SEO kılavuzu slug'ları kısa tutmak için atmalarını önerir — kopyalamadan önce üretilen slug'ı serbestçe düzenle; araç tam tireli tabanı verir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Slug ne işe yarar",
+        paragraphs: [
+          "Slug, bir başlığın URL-güvenli sürümüdür: «10 Tips for Great Coffee», 10-tips-for-great-coffee olur. Slug'lar üç sebeple önemlidir: URL'leri tıklamadan önce insanlar için okunur kılarlar, arama motorlarının sıralama sinyali saydığı anahtar kelimeleri taşırlar ve URL'leri kararlı ile paylaşılabilir tutarlar — boşluk yok, her yerde %20 gibi yüzde kodlaması çöpü yok.",
+          "Mekanik: her şeyi küçük harfe çevir, boşlukları bir ayırıcıyla değiştir (web geleneği tire), URL'de yasadışı ya da belirsiz karakterleri soy, tekrarları birleştir. İyi bir üretici bunun hepsini bir kerede yapar; paylaşılan bağlantıda «%C3%A9» dizilerini elle düzeltmeni bırakmaz.",
+          "Slug'lar URL dışı işlere de hizmet eder: dışa aktarılan varlıklar için dosya adları, git dal adları, bileşen kimlikleri. Aynı kurallar her yerde geçer — kopyalamadan, kodlamadan ve terminallerden escape'lere dönüşmeden sağ çıkan karakter kümesi.",
+        ],
+      },
+      {
+        heading: "Aksanlar, çeviri yazım ve CJK sorunu",
+        paragraphs: [
+          "Aksanlı Latince ilk karar noktasıdır. İki ekol var: çeviri yazım (café → cafe) ya da aksanları soymak (café → caf). Çeviri yazım okunabilirliği korur ve bu araç yaygın Latin aksanları için bunu yapar — á, a olur; ü, u olur — standart Unicode katlama kurallarıyla.",
+          "CJK metni daha sert karar zorlar: Çince bir dizeyi katlayacak Latin harfi yoktur. Seçenekler Çince için pinyin, Japonca için çeviri yazım ya da karakterleri olduğu gibi tutmak. Modern tarayıcılar UTF-8 URL'leri düzgün işler; slug'da CJK karakterleri tutmak teknik olarak geçerlidir ve Çince platformlarda yaygındır. Ancak uluslararası paylaşım, kodlama gürültüsü olmadan SMS'de, terminallerde ve eski sistemlerde hayatta kaldığı için pinyin'i ya da çeviri yazımı yeğler.",
+          "Rakamlar ve dolgu kelimeleri zevk kararıdır: «the» ve «of»yi tutmak daha uzun, daha okunabilir slug'lar yapar; budamak kısaltır. SEO tavsiyesi yıllar içinde yön değiştirdi; kararlı konsensüs şudur: başlıkla eşleşen slug, kısa slug'dan daha önemlidir.",
+        ],
+      },
+      {
+        heading: "Canlı üretilir, yerelde kalır",
+        paragraphs: [
+          "Dönüşüm, tarayıcında her tuşta çalışır. API çağrısı yok, hız sınırı yok, çevrimdışı çalışır — başlık başına gidiş dönüş gerektiren slug hizmetlerinin aksine. Yüz başlık için de milyonuncu başlık için de aynı anlık yanıt; hiçbir kota, hiçbir fatura yoktur.",
+          "Deterministik çıktı, içerik sistemleri için önemlidir: aynı başlık her zaman aynı slug'ı üretir; bugün kurulan bağlantılar, yazı yeniden üretildiğinde bozulmaz. Kendin eklemedikçe rastgele sonek yoktur (binlerce yazıda eşsizliği garantilemenin standart yolu kısa rastgele kuyruktur).",
+          "Eşsizlik kontrolü bilinçli olarak burada yapılmaz — tam URL envanterini bilmek gerekir; o CMS'nde yaşar. Araç biçim doğruluğunu garantiler; çarpışmadan kaçınma, ait olduğu yerde, yönlendirme katmanında kalır. Yine de kısa bir rastgele kuyruk, iki yazının aynı slug'a düşme ihtimalini pratikte sıfıra indirir.",
+        ],
+      },
+    ],
   },
   "find-and-replace": {
     name: "Bul ve Değiştir",
@@ -1450,6 +2772,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Değiştirmemdeki $ işaretleri düz metin gibi ele alınır mı?",
         a: "Düz modda evet — '$100', '$100' olarak kalır. Regex modunda $ desenleri özeldir ($1, 1. grup demektir); düz bir $ gerekiyorsa \$ olarak kaçış ver.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dizgi eşleşmesi karşılaştır. düzenli ifadeler",
+        paragraphs: [
+          "Temelden farklı iki eşleme kipi vardır. Dizgi kipi arama dizini düz metin sayar: «3.5» aramak tam olarak «3.5»i bulur; «335»i ya da «365»i asla. Düzenli ifade kipi deseni bir dilbilgisi sayar: nokta «herhangi bir karakter» demektir; aynı desen 3.5'i, 3x5'i ve 395'u da bulur. Yanlış kipi seçmek, «değiştirme bir şeyi tuhaflaştırdı» şikâyetinin en yaygın tek sebebidir.",
+          "Düzenli ifadeler karmaşıklığını, dizge değil yapı gerektiğinde hak eder: dört rakamlı her yılı \\d{4} ile yakala, bir adı parantezlerle yakalayıp değiştirmede geri başvuruyla yeniden kullan ya da bir değeri yalnızca belirli bir etiketi izlediğinde hedefle (lookaround). Yalnızca sabit bir dizeyi takas etmen gerekiyorsa, dizgi kipi akıl yürütmesi hızlı ve aşırı eşleşmesi imkânsızdır.",
+          "Basit olmayan her değiştirme için güvenli akış: değiştirmeyi kapatmış olarak önce aramayı çalıştır ve her vuruşu oku, sonra değiştirmeyi aç. Vuruş sayısı seni şaşırtıyorsa desen düşündüğünden geniştir — değiştirdikten sonra değil, önce daralt.",
+        ],
+      },
+      {
+        heading: "Klasik değiştirme tuzakları",
+        paragraphs: [
+          "Büyük-küçük harf duyarlılığı vuruş sayını sessizce yarıya böler ya da iki katına çıkarır: «Apple» ile «apple», duyarlı kipte farklı dizelerdir — kod için genelde istediğin, düzyazı için istemediğin şey. Tam kelime eşleşmesi «cat»in «category»nin içinde eşleşmesini durdurmak için vardır — olmadığında, naif bir değiştirme «categoryegory» üretebilir.",
+          "Değiştirme dizelerinin kendi tuzakları vardır: regex kipinde, değiştirme metnindeki bir $ ya da ters eğri, grup atfı ya da escape olarak yorumlanabilir. Regex değiştirmeye gerçek bir dolar tutarı yazmak doların kaçışlı yazılmasını gerektirir; yoksa kasıtsız bir yakalama grubu çekebilir.",
+          "Çok satırlı metin, satır sonu sorusunu ekler: tek satırda iyi görünen desenler, bayraklara bağlı olarak nokta satır kırılmalarını tüketebildiğinden satırlar arasında aşırı eşleşir. Desenleri kelime sınırlarına ya da açık satır yapısına sabitlemek güvenilir çaredir.",
+        ],
+      },
+      {
+        heading: "Her şey sayfada olur",
+        paragraphs: [
+          "Eşleşme ve değiştirme, kutudaki mevcut metin üzerinde tamamen tarayıcı JavaScript'inde çalışır. Yükleme yok, önizleme hizmeti yok, içeriğinin sunucu tarafı dizini yok — sözleşme taslağı, günlük dosyası ya da kişisel not, onu gösteren aynı makinede işlenir.",
+          "Bu da aracı, rastgele bir web uygulamasına yapıştırmayacağın metinler için mantıklı seçim yapar: iç dokümantasyon, hızlı bir temizlik için müşteri verisi, tam da commitleyecek olduğun kaynak kod. Sekmeyi kapat ve hiçbir şey kalmaz.",
+          "Çok büyük dosyalarda tarayıcı araçları er geç bellek sınırlarına çarpar — yarım megabyte'lık günlük rahattır, gigabyte'lık döküm değildir. O ölçekte komut satırı sed doğru araç olarak kalır; birkaç megabyte altındaki her şey için bu sayfa, terminalden daha hızlı açılır.",
+        ],
       },
     ],
   },
@@ -1480,6 +2828,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yazıldığı gibi bırakılır. Üreteç yalnızca Latin harflerini ve rakamları eşler; emoji, CJK ve aksanlı harfler boş kutulara dönüşmeden değişmeden geçer.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bunlar font değil — benzer karakterlerdir",
+        paragraphs: [
+          "Bu aracın ürettiği kalın, italik ve el yazısı biçemler font değişimi değildir. Harflerini Matematiksel Alfanümerik Semboller bloğundaki (yaklaşık U+1D400–U+1D7FF) özel Unicode kod noktalarına eşler; matematik gösterimi için eklendi — formüldeki kalın A'nın düzden ayırt edilebilmesi için. Metnin aynı boyutta kalır ve font hiç değişmez — biçimli harflere yalnızca benzeyen başka karakterlere geçmiş olursun.",
+          "O eşleme hem sihrin hem sınırların açıklamasıdır. Herhangi bir metin alanında çalışır — Instagram biyografileri, sohbet takma adları, YouTube başlıkları — çünkü font kurulumu devrede değildir. Ama alfabe eksiktir: her biçemle eşlenmiş kalın rakam yoktur, italik sette noktasız ı yoktur (Türkçe düşmanı noktalı i'ye eşlenir) ve eksik glifler düz harflere düşer; insanların şikâyet ettiği yarı-fantastik dizeleri üretir.",
+          "Matematikçiler bu kod noktalarını gerçek semantik için kullanır — bir makalede 𝔸, «A kümesi» demek olabilir. Onları dekoratif kullanmak, ekran okuyucuların ve arama araçlarının harfiyen okuduğu gösterimi kaçırır; sonraki noktaya buradan geçilir.",
+        ],
+      },
+      {
+        heading: "Fantastik metnin kırıldığı yerler",
+        paragraphs: [
+          "Dekoratif Unicode öngörülebilir yerlerde başarısız olur. Ekran okuyucular 𝕭𝖔𝖑𝖉'u bir dizi matematiksel kalın karakter olarak okur; «kalın»dan çok anlamsızca duyar — destekleyici teknolojiye güvenen her takipçi için erişilebilirlik sorunudur. Arama motorları sıradan harflerle eşleştirir; fantastik karakterlerle yazılmış bir profil ya da başlık kendi adıyla aranmaz hale gelebilir.",
+          "Girdiyi temizleyen sistemlere yapıştırma, karakterleri sessizce düz harflere geri soyabilir ya da reddedebilir. Eski kodlamalı veritabanları, SMS (bu kod noktaları için GSM harfi yoktur) ve eski terminallerin hepsi onları bozar. Ve her glif bir matematik fontundan geldiği için çizim kalitesi değişir: bazı cihazlarda harfler iyi görünür, bazılarında vuruş ağırlığı çevresindeki metinle çatışır.",
+          "Fantastik metni, okurun gördüğü ve kimsenin aramaya, yüksek sesle okumaya ya da işlemeye ihtiyaç duymadığı yerlerde kullan: görünen adlar, estetik altyazılar, etkinlik posterleri. İnsanların arayacağı kullanıcı adlarını ve tüm önemli gövde metnini sıradan harflerde tut.",
+        ],
+      },
+      {
+        heading: "Anlık, çevrimdışı ve tersinir",
+        paragraphs: [
+          "Dönüşüm, tarayıcında çalışan karakter başına tablo aramasıdır — sunucu yok, ağ çağrısı yok ve hiçbir bağlantı olmadan bile çalışır. Yaz, biçemleri yan yana karşılaştır, istediğini kopyala; karşılaştırmaların hepsi aynı girdi üzerinden yapılır, böylece seçim gerçekten biçem farkına dayanır.",
+          "Çıktı sıradan Unicode metni olduğundan her editörden sağ çıkar ve tersine çevrilebilir: fantastik dizgeyi geri yapıştır ve aracın düz çıktısı (ya da herhangi bir normalleştirici) temel harfleri kurtarır. Bu sırada hiçbir yerde hiçbir şey saklanmaz.",
+          "Profil kurma ya da font indirme isteyen «font üretici» uygulamalarla karşılaştırıldığında, bu yaklaşım kurulacak ve güvenilecek bir şey taşımaz — önizlemede gördüğün, panonun öbür tarafına tam olarak düşen şeydir.",
+        ],
+      },
+    ],
   },
   "emoji-picker": {
     name: "Emoji Seçici",
@@ -1506,6 +2880,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "“Son kullanılanlar” nasıl çalışır?",
         a: "Kopyaladığın her emoji, tarayıcının localStorage'ında hatırlanır (en fazla 16). Tarayıcı verilerini temizlemek listeyi sıfırlar.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Emoji kaputun altında gerçekte nasıl çalışır",
+        paragraphs: [
+          "Emoji görsel değildir — Unicode kod noktalarıdır ve platformun sağladığı fontla çizilir. Aynı U+1F600 kod noktası iOS, Android ve Windows'ta hafif farklı bir yüz çizer; telefonunda kusursuz görünen bir emoji, meslektaşının ekran görüntüsünde tuhaf görünür.",
+          "Değiştiriciler seti genişletir: ten tonu değiştiricileri, önlerindeki temel karakteri değiştiren birleştirici kod noktalarıdır; ZWJ (sıfır genişlikli birleştirici) dizileri birden çok emojiyi tekine yapıştırır — aile ve meslek bileşimleri; varyasyon seçicileri metin-biçimli ile renk-biçimli çizim arasında karar verir. Görünüşte basit bir emoji, beş kod noktalı bir zincir olabilir.",
+          "Bu yüzden aramak ve kopyalamak elle kurmaktan daha güvenlidir: seçici tam ve doğru diziyi sağlar; elle kurulan zincirler, iki ayrı yüz ya da boş kutu olarak çizilen bozuk emojilerin yaygın kaynağıdır.",
+        ],
+      },
+      {
+        heading: "Emojiyi kasıtlı seçmek ve kullanmak",
+        paragraphs: [
+          "Emoji, kelime yerine geçmekten çok ton için noktalama olarak en iyi çalışır: iyi yerleştirilmiş bir başparmak, bir mesajı sıcak kapatır; simgelerle dolu bir paragraf gürültü gibi okunur. Profesyonel bağlamlar ölçüyü ödüllendirir — mesaj başına bir ya da iki, sinyali korur.",
+          "Platformlar arası anlam sürüklenmesine dikkat: bazı emojiler topluluk ve bölgeye göre değişen ikincil anlamlar taşır; birkaçı, yüz değerinden başka bir şey olarak yaygın okunur. Resmî ya da uluslararası bağlamda şüphe duyuyorsan, belirsizliği olmayan gerçek seçeneği al.",
+          "Kopyala-yapıştır ana etkileşimdir; çünkü emoji dizileri düzenlemeye kırılgandır: bir ZWJ zincirinin ortasındaki tek kod noktasını silmek tüm glifi kırar. Emoji çevresinde düzenlemenin en kolay yolu çevre metni yeniden yazıp emojiyi taze yapıştırmaktır.",
+        ],
+      },
+      {
+        heading: "Yerel işleme ve Unicode kapsamı",
+        paragraphs: [
+          "Seçici tamamen tarayıcında çalışır: arama, kategorilendirme ve kopyalama gömülü Unicode ad verisine karşı yerelde olur. Aradığın ya da kopyaladığın hiçbir şey iletilmez; özel mesajlar ya da duyarlı iş belgeleri yazarken bu fark eder.",
+          "Arama adlar ve anahtar kelimeler üzerinde çalışır; sonuçlar adlandırmaya kadar iyidir: «gülümseme», «ateş», «yıldız» bariz eşleşmelerini bulur; az adlandırılmış emojiler kategori gezinmesi ister. Grupları gezmek — yüzler, hayvanlar, yemekler, nesneler, simgeler — Unicode standardının seti nasıl örgütlediğini aynalar.",
+          "Emoji metin olduğundan kopyaladığın her şey metin olarak yapıştırılır: e-postadan kod yorumuna, Unicode kabul eden her alan da çalışır. Hedef boş bir kutu gösteriyorsa, o cihaz ya da font yeni bir emojiden yoksundur — çizim yanlış olsa da kod noktası doğrudur.",
+        ],
       },
     ],
   },
@@ -1539,6 +2939,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Her şey JavaScript ile tarayıcında yerel çalışır — verin asla cihazından çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Biçimlendirme boşluğu değiştirir, anlamı asla",
+        paragraphs: [
+          "Güzelleştirme tamamen boşluk işlemidir: girdi bir veri yapısına çözümlenir, sonra seçtiğin girintiyle yeniden serileştirilir. Anahtarlar, değerler, iç içe derinliği ve anahtar sırası girdikleri gibi çıkarlar — yalnızca boşlukta farklılaşan iki JSON belgesi aynı değere çözülür ve onları tüketen herhangi bir program için değiştirilebilirdir.",
+          "Bilinmeye değer bir incelik: sayı biçimlendirmesi görüntüde kayabilir. JSON sayıları IEEE-754 çift hassas olarak çözülür; çok büyük tam sayılar — 2^53 üstündeki her şey, kar tanesi kimlikleri gibi — yuvarlanmış basamaklarla yazılabilir. Değer, her JavaScript motorunda çözüm anında çoktan kayıplıydı; biçimlendirici yuvarlamayı icat etmedi. Tam basamaklar önemliyse, kimlikler JSON'unda dize olarak seyahat etmelidir.",
+          "Biçimlendirmenin yapamayacağı şey herhangi bir şeyi yeniden sıralamak ya da yeniden adlandırmaktır. Bazı araçlar anahtar sıralamasını isteğe bağlı ek olarak sunar; yapılandırma dosyalarını fark etmede kullanışlıdır ama onu ayrı ve kasıtlı bir adım say — anahtarları sessizce sıralayan bir biçimlendirici, özgüne karşı bayt düzeyi karşılaştırmayı imkânsız kılar.",
+        ],
+      },
+      {
+        heading: "Girinti genişliği seçimi",
+        paragraphs: [
+          "İki boşluk, JavaScript ekosisteminin fiili standardıdır — npm paketleri, çoğu üslup kılavuzu ve frontend kod tabanlarının çoğunluğu onu kullanır; ekip kod tabanına yapıştırırken en güvenli varsayılandır. Dört boşluk, eski kurumsal ve Java-yanı kodlarda yaygın kalır. Sekmeler erişilebilirlikte kazanır: her okur kendi görüntüleme genişliğini kurar; karışık sekme/boşluk dosyalarının tutarsız çizilmesi bedelidir.",
+          "Genişlik göründüğünden fazla önemlidir çünkü farklar boşluk-duyarlıdır. Ekip linter'i iki boşluk dayatıyorsa sen dörtle biçimlendirirsin, semantik hiçbir şey kaymadan her satır incelemede değişmiş görünür. Çıktıyı yapıştırmadan önce dosyanın hedefinin geleneğiyle eşleş.",
+          "Atılmalık inceleme için — bir API yanıtını okumak, bir günlük satırını kontrol etmek — girinti seçimi saf tercihtir. İç içe derinliğin gözün için en kolay izlendiğini hangisi yaparsa onu seç; araç canlı güncellenir, geçiş bedelsizdir.",
+        ],
+      },
+      {
+        heading: "Okumak için güzelleştir, sevk etmek için küçült — hepsi cihazda",
+        paragraphs: [
+          "Biçimlendirme ve küçültme tek akışın iki ucuudur. İnsanlar için pretty-print: kod incelemesi, hata ayıklama, payload karşılaştırma. Makineler için küçült: taşıma, saklama ve önbellekleme; girintinin her baytı ölü ağırlıktır. Bu araç JSON küçültücüyle eşleşir — gelen payloadı incelemek için güzelleştir, geri göndermeden önce küçült.",
+          "Editör biçimlendiricilerinin aksine kurulacak ya da yapılandırılacak bir şey yoktur: proje yok, eklenti yok, yeniden biçimlendirmek için dosyayı diske kaydetmek yok. Yapıştır, oku, kopyala. En sık durum için en hızlı döngüyü yapar — bir dakikaya kapatacağın tarayıcı sekmesinden tek bir payload.",
+          "JSON'ın tamamen bu tarayıcı sekmesinde çözülür. Staging API'lerinden gelen yanıtlar, kullanıcı verisi taşıyan günlük satırları ve sır taşıyan yapılandırma dosyaları hiçbir sunucuya değmez — araç çevrimdışı da çalışır; VPN takılması ya da bir uçuş, hata ayıklama oturumunu kesmez.",
+        ],
+      },
+    ],
   },
   "json-minifier": {
     name: "JSON Küçültücü",
@@ -1565,6 +2991,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Verim bir yere gönderiliyor mu?",
         a: "Hayır. Küçültme tamamen tarayıcında çalışır — hiçbir şey yüklenmez, günlüğe yazılmaz, saklanmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "JSON'da boşluk bedavadır — dizelerin içinde hariç",
+        paragraphs: [
+          "JSON dilbilgisi, boşluğu (boşluklar, sekmeler, satır sonları) tokenler arasında yok sayılabilir tanımlar: bir nesnenin anahtarları ve değerleri arasında, dizi öğeleri arasında, parantezlerin çevresinde. Onu atmak tam olarak aynı değere çözülen bir belge üretir — buradaki küçültme bu yüzden kayıpsız bir dönüşümdür; görsel ya da ses sıkıştırmasının aksine.",
+          "Boşluğun kutsal olduğu tek yer dize değerlerinin içidir. Boşluğu birleştirilmiş «hello world» farklı bir değerdir. Doğru bir küçültücü kör metin yerineğini uygulamak yerine dilbilgisini gezer — girdinin önce geçerli JSON olması bu yüzden şarttır ve geçersiz bir belge bozulmuş tek satır değil satır-sütun hatası alır.",
+          "Boyut okumasının görünür kıldığı bir incelik: sayılar ve anahtar adları dokunulmaz. Bir küçültücü 3,14159'u yuvarlamaz, anahtarları sıralamaz ya da «someVeryLongKeyName»yi kısaltmaz — hepsi veriyi değiştirirdi. Kazanılan her şey yalnızca biçimlendirmeden gelir; dört boşluk girintili dosya ile sekme girintili dosya arasındaki yüzde farkının bu kadar büyük olması yüzündendir.",
+        ],
+      },
+      {
+        heading: "Küçültmenin aldığı şey — ve sıkıştırmanın onun yerine yaptığı iş",
+        paragraphs: [
+          "Küçültülmüş JSON, pretty-print girdiye göre tipik olarak %30–60 daralır; girinti derinliğine bağlı olarak. API yanıtları için o rakam göründüğünden az önemlidir, çünkü taşıma sıkıştırması aynı baytların çoğunu yer: gzip ve brotli, yinelenen girintiyi ve anahtar adlarını neredeyse bedava çöker. Küçültülmüş sürüm yine de üstüne kazanır — yedek kalkınca sıkıştırma oranları iyileşir — ama yanıt başına marjinal kazanç mütevazıdır.",
+          "Küçültmenin gerçekten ödediği yerler: ölçekte saklama (günlükler, olay arşivleri, gömülü donanımlar), her aktarma ya da disk megabyte'ın saydığı makineden-makineye dosya takası ve öteki belgelerin içine gömülü JSON — bir script etiketi, bir data özniteliği, bir yapılandırma dizisi — girintinin binlerce yinelemede katlandığı yerler.",
+          "Biçimli sürümü doğruluk kaynağı olarak tut. Küçültülmüş JSON makineler içindir; tokenlerden oluşan tek satırlık bir duvarı gözle ayıklamak kaybedilen oyundur. Aracı biçimlendiriciyle eşleştir: repo'da güzel dosyalar tut, kullanım noktasında küçült ve küçültülmüş bir payload okunması gerektiğinde yeniden biçimlendir.",
+        ],
+      },
+      {
+        heading: "Payloadları hiçbir yere sevk etmeden daraltmak",
+        paragraphs: [
+          "Sevk etmeden önce küçülttüğün JSON çoğu zaman duyarlıdır: uç noktalar ve anahtarlar taşıyan yapılandırma, yayımlanmamış bir ürün için çeviri dosyaları, bir göç için dışa aktarılmış müşteri kayıtları. Belgeyi bir backend'e yükleyen küçültücü, salt yerel bir bayt tasarrufu adımını veri çıkışına çevirir — bu yüzden bu tamamen tarayıcının JavaScript'inde çalışır.",
+          "Yerel çalışma ayrıca boyut tavanı ve gecikme yokluğu demektir: çok megabyte'lık bir dışa aktarım bir parça kadar rahat küçülür ve tüm akış çevrimdışı çalışır. Hiçbir şey günlüklenmez; aynı dosya üzerindeki yinelenen turlar iz bırakmaz.",
+          "Seni dürüst tutan bir akış: özgünü değil bir kopyayı küçült. Araç kesin bayt tasarrufunu verir; sıkışık biçimin bakımına değip değmeyeceğine karar verirsin — makinelerin tükettiği yapılandırma için genelde değer; insanların hâlâ düzenlediği dosyalar için, biçimli kaynak artı derleme anında üretilen küçültülmüş çıktı, elle küçültülmüş dosyaları her zaman yener.",
+        ],
       },
     ],
   },
@@ -1595,6 +3047,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Doğrulama tarayıcında yerel olarak yapılır; hiçbir şey cihazından çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bir sözdizimi doğrulayıcının söyleyebileceği ve söyleyemeyeceği şeyler",
+        paragraphs: [
+          "Bu doğrulayıcı tam olarak bir soruyu yanıtlar: bu belge, RFC 8259'un tanımladığı anlamda geçerli JSON mı? Yapıyı kontrol eder — dengeli süslü parantezler ve köşeli parantezler, öğeler arası virgüller, çift tırnaklı dizeler ve anahtarlar, yasal kaçışlar, tam olarak bir üst düzey değer. Verinin mantıklı olup olmadığını kontrol etmez.",
+          "Şema kontrolleri başka bir iştir. {«age»: «forty»} gibi bir belge burada tamamen geçerli JSON'dur — değer yasal bir dizgedir — API'nin sayı beklediği gerçeğine rağmen. O uyumsuzluğu yakalamak JSON Schema ya da API sözleşmesine ayarlı bir doğrulayıcı ister; iki işi karıştırmak kafa karıştırıcı sonuçlara yol açar. Önce bu aracı kullan ve belgenin hiç değilse çözüldüğünü doğrula; ancak sonra alanların ne anlama geldiğini düşünüp taşın.",
+          "Faydalı bir zihinsel model: sözdizimi doğrulaması bir yazım kontrolüdür; şema doğrulaması dilbilgisi kontrolüdür. Payloadını bir şemaya maruz bırakmadan ya da gerçek bir uç noktaya göndermeden önce buradaki her kırmızı bayrağı düzelt; çünkü bir şema doğrulayıcı, çözmeyen girdiye başlayamaz bile.",
+        ],
+      },
+      {
+        heading: "Satır ve sütun raporunu okumak",
+        paragraphs: [
+          "Raporlanan konum, çözmeyi imkânsız kılan ilk karakteri işaret eder; kök nedeni değil. 7. satırdan önceki eksik virgül genelde 7. satırda hata olarak raporlanır — çözümlücünün beklenmedik bir şey bulduğu yer. Bir hatayı düzelttiğinde yeniden çalıştır: hatalar çoğu zaman zincirlenir; tek bir eksik parantez arkasındaki birkaçını maskeler.",
+          "Elle düzenlenmiş JSON'da en sık suçlular son öğeden sonra gelen virgül, çift tırnak yerine tek tırnak (JavaScript'ten kapılmış bir alışkanlık) ve kopyalanmış görünmez karakterlerdir — satır başındaki kesintisiz boşluk, göremesen de beklenmedik token olarak raporlanır. İşaretlenen satırı silip yeniden yazmak, görünmez-karakter durumunu çözer.",
+          "Bir klasik daha: bir dizge içindeki gerçek satır sonları. JSON dizeleri tek satır olmalıdır; \\n iki karakterlik kaçış dizisi olarak yazılır. Yumuşak saran editörler bunu fark etmeyi güçleştirir; raporu okurken sütun numarası — yalnızca satır değil — bu yüzden önemlidir.",
+        ],
+      },
+      {
+        heading: "Yerel doğrulama neden önemlidir",
+        paragraphs: [
+          "Doğrulayıcıya yapıştırdığın payloadlar nadiren kamusaldır: kullanıcı e-postaları taşıyan webhook gövdeleri, staging ortamından API yanıtları, tokenli yapılandırma dosyaları, yoldaki veritabanı dökümleri. Bunları doğrulansın diye bilinmeyen bir sunucuya göndermek küçük ama gerçek bir veri sızıntısı riskidir; birçok çevrimiçi doğrulayıcı tam olarak bunu yapar.",
+          "Buradaki her şey tarayıcının JavaScript'inde çalışır. Belge cihazında çözülür ve asla iletilmez, günlüklenmez, saklanmaz — sırları, iç API payloadlarını ve müşteri verisini ikinci bir düşünce olmadan doğrulayabilirsin. Araç çevrimdışı da çalışır: bir uçak, kilitli bir kurumsal ağ ya da ölü bir VPN, bir yapılandırmayı kontrol etmeni durdurmaz.",
+          "Boyut kapısı da yoktur — sınır tarayıcının belleğidir, yükleme tavanı değil. JSON'a çevrilmiş büyük günlükler, tam veritabanı dışa aktarımları ve makine üretilmiş belgeler, iki satırlık bir parça kadar hızlı doğrulanır.",
+        ],
+      },
+    ],
   },
   "xml-formatter": {
     name: "XML Biçimlendirici",
@@ -1621,6 +3099,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "XML'im bir sunucuya yükleniyor mu?",
         a: "Hayır. Biçimlendirme tamamen tarayıcında yapılır; hiçbir şey hiçbir yere gönderilmez.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Biçimlendirme gerçekte neyi değiştirir — neyi değiştirmemelidir",
+        paragraphs: [
+          "XML'in, biçimlendirmenin dümdüz yürüdüğü keskin bir kenarı vardır: metin içeriğinin içinde boşluk anlamlıdır. Bir biçimlendirici ağacı okunur kılmak için öğeler arasındaki boşluğu tekdüzleştirmek zorundadır ama öğelerin içindeki boşluğu korumak zorundadır — bir <code> bloğu, bir dize, yapılandırma dosyasındaki bir SQL cümlesi, iç boşlukları yeniden akıtılırsa anlamlarını kaybeder. Bu araç metin içeriğini bütün tutar (yalnızca kenarlardan budar) ve CDATA bölümlerini bayt bayt korur.",
+          "Geri kalan her şey uydurulan değil korunan şeydir: yorumlar yerinde kalır, CDATA bölümleri aynen hayatta kalır, işleme yönergeleri ve DOCTYPE bildirimleri geçer. Biçimlendirici yalnızca yeniden girintiler — 2 boşluk iç içe, kısa metin etiketleriyle tek satırda — kopyaladığın şey, yapıştırdığınla birebir aynı ağaca çözülür.",
+          "Her dürüst biçimlendiricinin küçük yazısına düşmesi gereken bir uyarı: öğeler arası boşluğu veri sayan nadir belgelerde (öğeler arasındaki boş bir boşluğun bile anlamlı olduğu karışık içerik), herhangi bir yeniden girintileme belgeyi değiştirir. Sitemap, RSS, yapılandırma dosyaları ve SOAP için — gerçek XML'in ezici çoğunluğu — öğeler arası boşluk her tüketici tarafından yok sayılır ve biçimlendirme güvenlidir.",
+        ],
+      },
+      {
+        heading: "XML'i yapısının amaçladığı biçimde okumak",
+        paragraphs: [
+          "Tek satırlık bir XML belgesi teknik olarak doğrudur ve pratikte okunamaz — makine üretimi sitemap'lerin, API yanıtlarının ve küçültülmüş yapılandırma dışa aktarımlarının alışılmış durumu. Girintinin aldığı şey ağacı görme yeteneğidir: hangi öğeler kardeş, hangileri kimin içinde, yinelenen bir yapı nerede yineleniyor. Bir kez görebildiğinde, ayıklama soruları kendiliğinden yanıtlanır — bu öğe doğru atasının içinde mi, feed'in <item>'i beklendiği gibi yinelendi mi, bu boş öğe neden burada.",
+          "Uzun belgeler ikinci geçiştiren kazanır: biçimlendirdikten sonra derinliği kontrol et. Dört beş düzeyden fazla iç içe giden yapılar genelde bir eşleme hatası işaret eder — o kadar derin XML belgeleri tüketilmesi zor ve gözle doğrulanması zordur. Aynı anda öznitelik listelerini taramak da değer taşır; yinelenen öznitelikler ya da öğe olması gereken öznitelikler, belgeye biçim verildiğinde net görünür.",
+          "Biçimlendirme ucuz bir bütünlük kontrolü de iş görür: biçimlendirici girdiyi reddediyorsa, aşağı akışı ayıklamakla zaman harcamadan önce bir şeyler bozuktur. Önce hassas hata mesajı için doğrulayıcıyla eşleştir, sonra okumak için biçimlendir, sonra biçimli belgeyi tüketiciye ver — birebir çözülür ve onu açacak bir sonraki insan, okunur bir temelden başlar.",
+        ],
+      },
+      {
+        heading: "Yerelde biçimlendirilir, hiçbir şey yüklenmez",
+        paragraphs: [
+          "Biçimlendirme tamamen tarayıcında çalışır: XML'in cihazdan hiç çıkmaz, çevrimdışı çalışır ve bellek ötesi yükleme sınırı taşımaz. Biçimlendirdiğin belgeler çoğu zaman duyarlı türden olur — iç servis yapılandırmaları, oturum verisi taşıyan SOAP yanıtları, özel API payloadları, gizlilik sözleşmeli dosyalar. Bunlardan herhangi birini güzelce basılsın diye çevrimiçi bir biçimlendiriciye göndermek, küçük ama önlenebilir bir ifşadır; yerel biçimlendirme soruyu tamamen ortadan kaldırır.",
+          "Ayrıca aracı yinelemeye de uyarır: yapıştır, oku, kaynağı düzelt, yeniden yapıştır — her tur anlıktır çünkü ağdan hiçbir şey geçmez. Büyük belgelerde bu pratikte fark eder: biçimlendirme tek hızlı geçiştir ve sunucu tabanlı bir araçta yükleme beklemesi olacak çok megabyte'lık dosyalar yerinde işlenir; sınır yalnızca cihazındır.",
+          "Akış, sitenin diğer XML araçlarıyla tamamlanır: hassas hata için önce doğrula, okumak için biçimlendir, tüketici JSON konuşuyorsa XML'den JSON'a dönüştür. Üçü de yerelde çalıştığı için tüm döngü — kontrol et, oku, dönüştür — ağ erişimi olmayan bir makinede bile geçebilir; bu belgeler çoğu zaman tam olarak öyle makinelere gömülüdür.",
+        ],
       },
     ],
   },
@@ -1651,6 +3155,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Kontrol, yerel DOMParser ile tarayıcında çalışır — verin asla cihazdan çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "İyi biçimlilik: her tüketicinin dayattığı kurallar",
+        paragraphs: [
+          "Buradaki doğrulayıcı tek bir soruyu yanıtlar — bu belge iyi biçimli XML mi? — tarayıcının kendi XML çözümleyicisini kullanarak; gerçek XML araçlarının dayattığının aynısını dayatır. Kural listesi kısadır ama kesindir: açılan her etiket kapanmalıdır ve sırasıyla; öznitelikler tırnaklı olmalı ve öğe başına bir kez görünmelidir; varlık atıfları tanımlı olmalıdır; belgenin tam olarak bir kök öğesi vardır; yasadışı karakterler (denetim karakterleri, metin içinde başıboş < ya da &) reddedilir.",
+          "Bunlar üslup kuralları değil, biçimin yük taşıyan duvarlarıdır. Uyuşmayan bir etiket uyarı değildir — belgeyi, tarayıcıdan feed okuyucusuna SOAP yığınına kadar aşağı akıştaki her tüketici için çözülemez kılar. Doğrulamanın başarısızlığa düşürmesinin sebebi budur: çözümleyicinin elini tutacağı «çoğunlukla iyi biçimli» diye bir şey yoktur. Ters yüz: geçmek güçlü bir beyandır; herhangi bir yerdeki herhangi bir XML kitaplığı belgeyi açabilecektir.",
+          "Geçmenin demek olmadığı şey: belgenin bir şemaya karşı geçerli olduğudur. <price> öğesi sayı yerine «bedava» taşıyan ya da zorunlu bir öğeyi atlayan belge, kusursuz biçimde iyi biçimli ve yine de yanlış olabilir. Şema doğrulaması (XSD ya da DTD) şema tanımını gerektiren ayrı, daha katı bir iştir — bu araç belgenin çözüldüğünü söyler; bir şey ifade edip etmediğini yalnızca sen söyleyebilirsin.",
+        ],
+      },
+      {
+        heading: "Hataları okumak: alışılmış suçlular",
+        paragraphs: [
+          "En sık başarısızlıklar sıradandır. Kapanmamış bir etiket — genelde silinmiş ya da yeniden adlandırılmış kapanış etiketinden — zincirlenir: çözümleyici, yapının sonunda kırıldığı yerde raporlar; asıl hatadan çok uzak olabilir. Tırnaksız öznitelikler (id=\"7\" yerine id=7) her yerde yasadışıdır; <br> ve <img …> gibi kendi kendini kapatmayan HTML alışkanlıkları da reddedilir, çünkü XML'de isteğe bağlı kapanış yoktur.",
+          "Varlık sorunları ikinci ailedir. Metindeki çıplak bir &, bir varlık atfı başlatır ve &amp; olarak yazılmalıdır; başıboş bir < aynı şekilde &lt; olmalıdır. HTML'den ya da kelime işlemcilerden içerik yapıştırmak alışılmış kaynaktır — o ortamlar XML'in tolerans göstermediğini tolerans gösterir. Geçersiz ya da tanımsız varlıklar da (&nbsp; XHTML ad alanı bildirimi olmayan belgede gibi) başarısız olur.",
+          "Pratik ayıklama döngüsü kısadır: raporlanan ilk hatayı düzelt, yeniden çalıştır, tekrarla. Hatalar zincirlenir; ilki genelde kök nedendir, sonrakiler yankıdır. Girdi elle düzenleme yerine dönüşümden ya da üretimden geldiyse hata konumu genelde veriyi değil, üreten koddaki hatayı işaret eder.",
+        ],
+      },
+      {
+        heading: "Neden tarayıcında doğrulamak",
+        paragraphs: [
+          "Kontrol, tarayıcının yerel DOMParser'ında çalışır — XML'in cihazdan hiç çıkmaz; yükleme yok, hız sınırı yok, iz yok. Doğruladığın belgeler sık sık gizli türden olur: iç servis payloadları, henüz yayınlanmamış sitemap'ler, kimlik taşıyan SOAP zarfları, hukuki saklama altındaki dosyalar. Bunları yükleyen bir doğrulayıcı her kontrolü bir ifşaya çevirir; yerel doğrulama riski tümüyle kaldırır.",
+          "Yerel olmak ayrıca yinelemeye oturur: yapıştır, hatayı oku, düzelt, yeniden yapıştır — her tur saniyeler tutar, çevrimdışı çalışır ve çok megabyte'lık belgeleri yalnızca bellekle sınırlı yönetir. Biçimlendiriciyle (temiz çözüm artı okunur yapı) ve XML'den JSON'a ile (dönüştürmeden önce doğrula; böylece şema biçimli hata asla dönüşüm hatası kılığına girmez) doğal eşleşir.",
+          "Açıkça söylenmeye değer bir sınır: tarayıcının çözümleyicisi iyi biçimliliği yüksek sadakatle dayatır ama dış DTD'leri yüklemez ve şema doğrulaması yapmaz. Zincirin XSD doğrulaması gerektiriyorsa bu araç ucuz ilk kapıdır — yapısal her hatayı burada yakala ve şema doğrulayıcıya yalnızca temiz belge gönder; oradaki başarısızlık artık gerçekten şema ihlali demektir.",
+        ],
+      },
+    ],
   },
   "html-formatter": {
     name: "HTML Biçimlendirici",
@@ -1677,6 +3207,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "HTML bir sunucuya gönderilir mi?",
         a: "Asla. Biçimlendirici yerel bir JavaScript token'layıcısıdır — işaretlemen tarayıcında kalır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Boşluğun önem taşıdığı yer: pre/textarea istisnası",
+        paragraphs: [
+          "Her HTML biçimlendiriciyi yöneten kural şudur: boşluk her zaman özgür değildir. Blok öğeler arasında satır sonu tek boşluğa çöker ve tarayıcı neredeyse her yerde onu yok sayar — ama her yerde değil. pre ve textarea içinde boşluk içeriğin kendisidir. script ve style içinde başıboş bir satır sonu anlamı değiştirebilir (script içinde bir şablon dizesi ya da CSS'de bir öznitelik seçicisi biçime duyarlı olabilir). Bu blokları körlemesine girintileyen bir güzelleştirici yalnızca kodu çirkinleştirmez — kırabilir.",
+          "İkinci, daha ince durum: satır içi öğeler. Bir paragraftaki <a>, <b> ya da <img> etiketleri arasındaki boşluk görünür boşluk çizilir. Oraya satır sonları eklemek, çıktının çizimini teknik olarak kozmetik ama gözle görülür biçimde değiştirir. Bu yüzden dikkatli bir biçimlendirici, satır içi içeriği tek satırda tutar; her çocuğu kendi satırına itmez — buradaki tarayıcı farkları küçük ama gerçektir.",
+          "Biçimlendirici bu kararları açık kılar: pre, textarea, script ve style içeriği dokunulmadan geçer; etiketler blok, satır içi ya da boş (img, br, hr, input ve arkadaşları — kapanış etiketi hiç taşımazlar ve girinti düzeyi açmamalıdırlar) olarak sınıflandırılır. Bu sınıflandırma HTML belirtiminin kullandığıyla aynıdır; yanlışlamak, biçimlendiriciyi işaretleme katilinden ayıran şeydir.",
+        ],
+      },
+      {
+        heading: "Kendi kendine kapanan etiketler: bozuk HTML akıllıca nasıl girintilenir",
+        paragraphs: [
+          "Gerçek dünyadaki HTML — e-posta şablonları, tarayıcılardan kaydedilen sayfalar, eski CMS çıktısı — her etiketi nadiren kapatır. HTML standardı isteğe bağlı kapanış etiketli bir öğe kümesi tanımlar: yeni bir li, önceki li'yi örtük kapatır; bir p, onu izleyen çoğu blok düzeyi öğeyle kapanır ve bir ataya ait kapanış etiketi, ondan sonra açılmış her ödeşmeyi örtük kapatır. Bu kuralları yok sayan bir biçimlendirici her şeyi ilk kapatılmamış etiketin içine yuvarlar; girinti yalan olur.",
+          "Buradaki pratik yaklaşım bir tarayıcı çözümleyicisini aynalar: açık öğelerin bir yığını tutar, standardın örtük kapanış kurallarına göre kapatır ve bir ataya ait kapanış etiketinin, ondan sonra açılan her öğeyi itmesine izin verir. Bozuk girdi zarafetle bozulur — kapanmamış etiketler yine girintilenir, uyuşmayan kapanış etiketleri çalışmayı çökertmez — ama araç göremediği yapıyı icat etmez; bu yüzden boşluğun ötesinde işaretlemeni bilinçli olarak ne yeniden sıralar ne de «düzeltir».",
+          "O ölçü bir tasarım tutumudur. Öznitelikleri yeniden sıralayan, kendi kendine kapanan yazımı çeviren ya da tırnakları tekdüzleştiren güzelleştiriciler vardır; üslup kılavuzları için faydalıdır, çıktının bir farka ya da katı bir şablona uyması gerektiğinde tehlikelidir. Amaç küçültülmüş bir e-posta şablonunu ya da kaydedilmiş bir sayfayı okumaksa, yalnızca boşluk dönüşümü dürüst olanıdır: gördüğün tam yapılandırır, yalnızca görünecek biçimde dizilmiştir.",
+        ],
+      },
+      {
+        heading: "Biçimlendirme neden tarayıcında çalışır",
+        paragraphs: [
+          "İnsanların biçimlendiriciye yapıştırdığı HTML türü çoğu zaman gizlidir: müşteri tokenleri taşıyan işlem e-postaları, API URL'li iç yönetim sayfaları, inceleme için kaydedilmiş bir rakip sayfası. Bunlardan herhangi birini bir biçimlendirme hizmetine göndermek, işaretlemeni günlüklenebilecek ya da saklanabilecek bir üçüncü taraf sunucusuna koyar. Bu araç, JavaScript'te yerelde parçalar ve girintiler — ağdan hiçbir şey geçmez, yükleme adımı yoktur ve sayfa çevrimdışıyken bile çalışır.",
+          "Güvenilirlik kazancı da vardır. İstemci tarafı biçimlendirme, yazarken gidiş dönüş gecikmesi olmadığı, hız sınırı olmadığı ve bir hizmet kademesinin dayattığı dosya boyutu sınırı olmadığı anlamına gelir. Binlerce düğümlü kaydedilmiş büyük bir sayfa, kotaya çarpmadan aynı oturumda biçimlenir.",
+          "Boşluğun ötesinde biçimlendirici özellikleri gerekiyorsa — Prettier tarzı sarma, öznitelik sıralama, yapılandırılabilir girinti birimi — dürüst yol, bunu kendi projenin araç zincirinde gerçek bir biçimlendiriciyle çalıştırmaktır. Yapıştır-ve-oku akışı için bu aracın dar kapsamı konunun kendisidir: tek iş, öngörülebilir yapılır, işaretlemen makineden hiç çıkmaz.",
+        ],
       },
     ],
   },
@@ -1707,6 +3263,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Her şey tarayıcında yerel çalışır; sayfa ve işaretlemesi asla cihazından çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "HTML'de boşluk neden göründüğünden inceliklidir",
+        paragraphs: [
+          "Boşluğu çökertmek önemsiz görünür ama HTML çizim kuralları onu incelikli kılar. Normal akışta, boşluk, sekme ve satır sonu dizisi tek boşluk çizilir — bu yüzden <a> ya da <em> gibi iki satır içi öğe arasındaki satır sonu görünür bir boşluk üretirken iki <div> arasındaki hiçbir şey üretmez. Bir küçültücü bu asimetriyi saymak zorundadır: satır içi boşlukları tek boşluğa çökert, blok düzeyi boşlukları tümüyle sil.",
+          "Bazı öğeler boşluk değişimlerini hiç affetmez. <pre>, <textarea>, <script> ve <style> içinde boşluk gerçek içeriktir — çökertirsen kod örneğin biçimini yitirir, textarea'n bozuk varsayılanlarla gelir; script'in ya da stil sayfan yapısal olarak bile kırılabilir. Bu araç o bölgeleri bayt bayt dokunulmadan bırakır.",
+          "Bu yüzden kazanç yüzdesi agresif küçültücülerin raporladığından düşük olabilir: buradaki her seçim son baytı sıkmaktan çizimin birebir kalmasına yönelir. Kaldırdığı şey — yazar yorumları, girinti, bloklar arası ölü alan — zaten tarayıcıda görünmezdi; gördüğün hiçbir şey değişemez.",
+        ],
+      },
+      {
+        heading: "Muhafazakâr bir küçültücünün reddettiği işler",
+        paragraphs: [
+          "Agresif küçültücüler öznitelik tırnaklarını da soyabilir, öznitelikleri yeniden sıralayabilir, mantıksal öznitelikleri yeniden yazabilir ve komşu metin düğümlerini birleştirebilir. Her biri birkaç bayt daha kazandırır ama bahisleri yükseltir: tırnak kaldırma boşluk taşıyan öznitelik değerleriyle çarpışabilir; agresif çökertme, CSS'in ya da betiklerin dayandığı metin düğümü sınırlarını değiştirebilir. Bu araç bilinçli olarak hiçbirini yapmaz.",
+          "O muhafazakârlık, HTML küçültmenin elle en çok kullanıldığı alanlarda öder: e-posta şablonları ve eski CMS içeriği. E-posta istemcileri hangi HTML'i kabul ettiklerinde meşhur biçimde tutarsızdır ve eski şablonlar, yeniden düzenleyici bir küçültücünün sessizce kıracağı işaret etkinliklerine dayanır. Yalnızca kesin olarak görünmez baytları kaldıran bir küçültücü, tam test edemeyeceğin işaretlemeyi güvenle çalıştırabilir.",
+          "Yorumlar özel bir notu hak eder. Yazar yorumlarını silmek güvenlidir ama bazı yorumlar canlı koddur: IE koşullu yorumları, sunucu tarafı şablon işaretleri, lisans bildirimleri. Hepsini silmek davranışı değiştirir. Bu araç sıradan yorumları kaldırır ama koşullu yorumları korur; naif küçültücülerin gerçek sayfaları kırmasının en yaygın tek yolu budur.",
+        ],
+      },
+      {
+        heading: "Özellikle özel işaretlemeyi cihazda küçültmek",
+        paragraphs: [
+          "Küçülttüğün HTML çoğu zaman kamusal değildir: yayımlanmamış açılış sayfaları, iç panolar, müşteri birleştirme alanlı e-posta şablonları, henüz çıkarmadığın fiyatlandırma hakkında yorum taşıyan staging işaretlemesi. Yalnızca boşluk atmak için bunların hepsini bir web hizmetine yüklemek önlenebilir bir risktir — birçok çevrimiçi küçültücü belgeyi POST ile sunucusuna taşır.",
+          "Burada zincirin tamamı tarayıcında çalışır: çözümleme, dönüşüm ve boyut okuması hepsi yerel JavaScript'te olur; ağ devrede değildir. Patentli şablonlar ve iç sayfalar makineni terk etmeden küçültülebilir ve araç çevrimdışı çalışır — bir sayfanın evi olmadan önce onu cilalarken işe yarar.",
+          "Gerçek dağıtımlar için en büyük kazançları CSS ve JavaScript küçültücüleriyle eşleştir, sonra aktarım sıkıştırmasına (sunucuda gzip ya da brotli) güven — herhangi bir küçültücünün kazandığını gölgeye bırakır. Küçültücünün işi, kablo biçiminin atamayacağı baytları atmaktır; gerisini sunucunun sıkıştırması halleder.",
+        ],
+      },
+    ],
   },
   "css-minifier": {
     name: "CSS Küçültücü",
@@ -1733,6 +3315,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "CSS'im nereye gidiyor?",
         a: "Hiçbir yere. Küçültme tarayıcında yerel çalışır; hiçbir şey yüklenmez veya saklanmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Güvenli bir küçültücünün attığı — ve atmaması gerekenler",
+        paragraphs: [
+          "Bir stil sayfası küçültücü ince bir çizgi üzerinde yürür. Güvenle atabileceği parçalar: yorumlar, bildirimler arası boşluklar, kapanan süslü parantezden önceki son noktalı virgül ve : ile , gibi ayırıcıların çevresindeki boşluklar. Atılabilir görünen ama atılamayan parçalar: bir dizenin içindeki herhangi bir boşluk (content: «a b», «ab»den farklı bir şey demektir), url() içindeki her şey ve ince olan — seçiciler içindeki boşluklar. .a .b (soylama birleştirici) ile .a.b (iki sınıflı aynı öğe) tam olarak bir boşlukla ayrılır; yanlış boşluğu atmak hangi öğelerin stilleneceğini değiştirir.",
+          "Bu yüzden muhafazakâr bir küçültücü çoğunlukla bir boşluk motorudur, yeniden yazıcı değil. Agresif son işlemciler daha uzağa gidebilir — yinelenen kuralları birleştirmek, #ffffff'yi #fff'ye çevirmek, geçersiz kılınmış bildirimleri atmak — ama her adım uç durumlarda davranışı değiştirebilir (sıralama düzeni, özgüllük etkileşimleri, renk yazımlarının sonradan desteklenmesi). Sıfır anlam değişimi garantisi veren araç birkaç baytı, küçültülmüş dosyanın birebir çizileceği kesinliğiyle takas eder; üretim stil sayfaları için o takas genelde doğrudur.",
+          "Yorumlar özel bir notu hak eder: hukuki bildirimler, lisans başlıkları ve tarayıcı hile notları bazen yorumların içinde yaşar. Bir stil sayfası dağıtımda hayatta kalması gereken lisans başlığı taşıyorsa, küçültmeden sonra yeniden ekle — ya da küçültülmemiş kaynağı kanonik kopya olarak tut; her halükârda iyi pratiktir.",
+        ],
+      },
+      {
+        heading: "Küçültme karşısında gzip: çarpışırlar, yarışmazlar",
+        paragraphs: [
+          "Yaygın bir yanlış kanı, sunucu sıkıştırmasını açmak küçültmeyi anlamsızlaştırır demektir. İkisi farklı yedeklere saldırır. Küçültme dilin gereksiz görmediği tokenleri atar; gzip kalan baytları bir sözlükle sıkıştırır. Boşluk ve uzun yinelenen özellik adları tam olarak gzip'in iyi yediği öngörülebilir içerik olduğundan, küçültülmüş+gzip her zaman küçültülmemiş+gzip'ten küçüktür — tasarruflar üst üste binmez, katlanır.",
+          "Buradaki boyut okuması ham bayt farkını raporlar; kazanımın dürüst üst sınırı budur. Gerçek aktarım boyutu ayrıca sunucunun sıkıştırma düzeyine ve stil sayfasının önbellekli olup olmamasına bağlıdır. Elle yazılmış tipik CSS, yalnızca boşluk ve yorum budamadan %15-30 kaybeder; üretilmiş ya da ağır biçimlendirilmiş CSS daha çok, vendor şişkin dosyalar bazen daha az kaybeder.",
+          "Küçültücülerin çözemeyeceği bir uyarı: çizimi engellemek. Daha küçük stil sayfası daha hızlı iner ama çözümlenirken ilk boyamayı yine de engeller. Amaç daha hızlı ilk render ise küçültme birinci adımdır; daha büyük kollar kritik CSS'yi ayırmak, kritik olmayan stilleri geciktirmek ve ölü kuralları tümüyle silmektir — güvenli bir küçültücü bunların hiçbirini senin için yapmaz.",
+        ],
+      },
+      {
+        heading: "Yerelde çalışmak bir özellik, çaresizlik değil",
+        paragraphs: [
+          "Stil sayfaları bir veritabanı dökümünden bariz biçimde daha az duyarlı görünür ama beklenenden fazla sızdırır: yayın öncesi sınıf adları ve özellik bayrakları, iç tasarım-token değerleri, ürün adlarıyla yorumlanmış deneyler, staging ortam mutlak URL'leri. Henüz sevk edilmemiş bir temayı girdileri saklayan bir web hizmetine yapıştırmak, kodun git'te bile evi olmadan malzemenin bir başkasının altyapısına düşmesi demektir.",
+          "Bu küçültücü tamamen tarayıcında, JavaScript ile çalışır — girdi sayfadan hiç çıkmaz, hiçbir şey saklanmaz ya da günlüklenmez ve araç yüklendikten sonra çevrimdışı da çalışmaya devam eder. Pratik açıdan da kazanç vardır: yükleme sınırının dayattığı boyut tavanı yok ve ağ gidiş dönüşü beklemesi yoktur. Çıktı, yapıştırdığın hızda güncellenir; boyut okuması, ne kadar temizliğe değeceğine karar verirken kullanılabilir bir geri bildirim döngüsü olur.",
+        ],
       },
     ],
   },
@@ -1763,6 +3370,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Her şey tarayıcında yerel çalışır — kaynağın asla cihazdan çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Küçültme, gzip ve gerçekte bayt kazandıran şey",
+        paragraphs: [
+          "Küçültme ve sıkıştırma ayrı katmanlardır; hangisinin işi yaptığını bilmek önemlidir. Küçültme kayıplı bir metin yeniden yazımıdır: yorumlar ve boşluklar atılır, adlar kısalır, deyimler birleştirilir. Gzip ya da Brotli sonradan uygulanan kayıpsız taşıma sıkıştırmasıdır. Boşluk aşırı iyi sıkıştırır — gzip tek başına laf kalabalığı bir betiği %70-80 küçültebilir — küçültücünün marjinal kazancı ham yüzdesinin ima ettiğinden çok daha küçüktür.",
+          "Küçültmenin gerçek gerekçesi gzip yedeği değil, çözümleme ve çalıştırma maliyetidir: bir tarayıcının çözümlemesi gereken her yorum ve biçim karakteri, ziyaretçinin cihazında CPU zamanıdır; ucuz telefonlarda bu fark eder. Yorum atmanın gizli bedelini de unutma — satır içi notlara dayanıyorsan: bazı araçlar (kaynak haritaların dışında, belli bundler ve çerçeveler yorumlardan /*#__PURE__*/ gibi yönerge okur) o işaretlerin hayatta kalmasına ihtiyaç duyar.",
+          "Bu araç bilinçli olarak muhafazakâr şeridi seçer: yorumları atar, boş satırları çökertir ama deyimler arası satır sonlarını tutar. Çıktıyı gzip ya da Brotli açıkken servisse, kullanılabilir kazancın çoğunu derleme adımı olmadan yakalarsın — ve kodunun beklemediği bir şey yapan birleştirme, satır içine alma ya da yeniden adlandırma riski hiç olmadan.",
+        ],
+      },
+      {
+        heading: "Otomatik noktalı virgül — satır sonlarının kalma nedeni",
+        paragraphs: [
+          "JavaScript, bir satır sonunu silmek program davranışını değiştirebilen tek ana akış dildir. Otomatik noktalı virgül ekleme (ASI), satır sınırlarına ve belirli kurallara göre noktalı virgül ekler: satır sonu izleyen return, undefined döner — sonraki satırdaki ifadeyi değil; kendi satırındaki a++, satırlar arasında süren atama — hepsi kırılmaların nerede olduğuna bağlıdır. Her şeyi körlemesine tek satırda birleştirmek bu sınırları eritir ve semantiği sessizce yeniden yazar.",
+          "Bu yüzden tam küçültücüler dosyaya dokunmadan önce bir AST'ye çözümlemek zorundadır — ASI tehlikelerinin açıkça çözüldüğü kodu yeniden yayarlar. Çözümlemeden yalnızca boşluk silen herhangi bir araç (hızlı regex tabanlı küçültücülerin yaptığı gibi), kaynaktan farklı çalışan kod üretebilir. Bu araç, deyim sınırlarındaki satır sonlarını bütünlüklü tutarak bütün o hata sınıfını etrafından dolanır.",
+          "Pazarlık dürüsttür: Terser'ın çıktısından biraz daha büyük bir dosya alırsın; karşılığında davranışın yapısal olarak bayt bayt eşdeğer olduğu garantisini alırsın. Sayfalara gömülü betikler, uzantılar, kullanıcı stilleri ya da derleme zinciri olmayan ortamlar için o garanti genelde baytlara değer.",
+        ],
+      },
+      {
+        heading: "Kaynak kodun cihazında kalır",
+        paragraphs: [
+          "Yayımlanmamış kaynak kodu bir web aracına yapıştırmak bir güven kararidir; çoğu geliştirici bunu gereğinden hafifçe alır. Sevk etmekte olduğun kod iç adlar, API uç noktaları, yorumlanmış kimlikler ya da sahipli mantık taşıyabilir. Onu üçüncü taraf bir küçültücüye yüklemek, yayın öncesi işinin bir kopyasının bir yabancının sunucusunda saklanması demektir — sözleşme yok, denetim yok, silme garantisi yok.",
+          "Bu araç her şeyi tarayıcında işler: küçültücü, girdiğin üzerinde yerelde çalışan JavaScript'tir; kodunu hiçbir yere taşıyan ağ isteği yoktur. Bayt tasarrufu okuması yerinde hesaplanır. Sayfa yüklendikten sonra bağlantıyı kesebilir ve küçültmeye devam edebilirsin.",
+          "Gerçek zinciri olan ekipler için: kaynak haritaların ve paketlerin düzgün yönetildiği CI'da Terser/esbuild kullanmaya devam edin. Tek dosya için, üretimin ne servis edeceğine dair hızlı bir bakış için ya da derleme sistemi olmayan bir kod tabanı için bu, sıfır kurulum ve sıfır risk yoludur.",
+        ],
+      },
+    ],
   },
   "sql-formatter": {
     name: "SQL Biçimlendirici",
@@ -1789,6 +3422,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Sorgum bir sunucuya gönderiliyor mu?",
         a: "Hayır. Biçimlendirme tarayıcında yerel çalışır — SQL'in asla cihazdan çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "SQL üslup gelenekleri neden var ki",
+        paragraphs: [
+          "SQL, düzene bakılmaksızın tek bir token akışı olarak çalışır; dünyadaki her biçimlendirme kuralı tamamen insanlar içindir. Geleneklerin ödemesi tam bu yüzdendir: sorgular yıllarca yaşar, biletlerde, incelemelerde ve dokümantasyona yapıştırılır; 40 satırlık tek satırlık bir JOIN, gelecekteki her okurun biçimlendirmenin hiç koymadığından fazla zamanını öder. Tutarlı üslup, bir sorguyu çözülecek bir artefakttan okunacak bir belgeye çevirir.",
+          "En gürültülü gelenek anahtar kelime durumudur. SELECT, FROM, JOIN ve WHERE'i büyük harfe almak, sorgunun yapısal iskeletini bir bakışta verisinden ayırır — gözler önce anahtar kelimelere, sonra tanımlayıcılara düşer. Bazı ekipler tırnaklı tanımlayıcılarla küçük harf anahtar kelimeleri yeğler; belirli seçimden çok, seçileni her yerde uygulamak önemlidir. Bu araç anahtar kelimeleri büyük harfe alır; en yaygın benimsenen gelenektir.",
+          "Biçimlendirme çalıştırma hakkında hiçbir şeyi değiştirmez: yalnızca boşluk ve durum değişir; dize değerleri ve tırnaklı tanımlayıcılar tam olarak korunur; geri kopyaladığın sorgu yapıştırdığınla semantik olarak birebirdir. Garanti, üretilmiş sorguları, ORM çıktısını ya da okumadan önce bir meslektaşın biçimsiz dökümünü güvenle biçimlendirmenin sebebidir.",
+        ],
+      },
+      {
+        heading: "Diyalektler: SQL'in tek dil olmadığı yer",
+        paragraphs: [
+          "SQL bir çekirdek paylaşan diyalekt ailesidir ve bir biçimlendirici farklılaşan parçaları bozmamalıdır. Buradaki biçimlendirme standart SQL üzerinde çalışır ve altındaki sql-formatter motoru diyalekt-spesifik yazımı da anlar — PostgreSQL, MySQL, T-SQL, PL/SQL, BigQuery, Snowflake ve başkaları — böylece sıradan yapılar hepsinde doğru biçimlenir.",
+          "Diyalektler biçimlendirmenin ötesinde, okurun bilmesi gereken biçimlerde farklılaşır. Dize tırnaklaması ayrışır: standart SQL yalnızca tek tırnak kullanır; MySQL varsayılan olarak dizeler için çift tırnağı da kabul eder; PostgreSQL çift tırnağı tanımlayıcı sayar. Tanımlayıcı tırnaklaması da ayrışır — MySQL'de ters tek tırnak, PostgreSQL'de çift tırnak, T-SQL'de köşeli parantez. Otomatik artan sütunlar, upsert yazımı ve tarih işlevlerinin hepsi satıcıya özel yazım taşır.",
+          "Yabancı SQL biçimlendirirken güvenli kural: çıktı yapısal olarak yanlış görünüyorsa — bir anahtar kelime garip bölünmüşse ya da bir değer bozulmuşsa — hatayı varsaymadan önce diyalekti kontrol et. Biçimlendirme tasarım gereği semantiği asla değiştirmez ama bunu yalnızca gördüğü yazım tanındığında yapabilir; ve veritabanları arası iş için, biçimlenmiş sorguyu gerçekten gerçek veritabanına değmeden önce bir geliştirme veritabanında doğrula.",
+        ],
+      },
+      {
+        heading: "Sorguları yerelde biçimlendirmek",
+        paragraphs: [
+          "Sorgular, bir geliştiricinin ele aldığı en duyarlı metinler arasındadır: tablo adlarını, sütun düzenini, iş mantığını ve bazen bağlantı örneklerine gömülü gerçek kimlikleri ifşa ederler. Sorguyu sunucuya POST eden çevrimiçi biçimlendiriciler her yapıştırmayı potansiyel bir ifşaya çevirir; bu, tamamen tarayıcında biçimlendirir — üretim sorguları, iç şemalar ve müşteri SQL'i cihazdan çıkmadan geçebilir.",
+          "Yerel olmak, biçimlendirmenin hiç olmasını engelleyen sürtünmeyi de kaldırır. Yükleme beklemesi yok, tarayıcı belleği dışında boyut kapısı yok ve sonuç yazarken görünür — uzun bir sorguyu biçimlendirmek, okumak, ayarlamak ve geri yapıştırmak tek oturumda mümkün olur. Çevrimdışı çalışır; kısıtlı ortamlarda bir web aracının olamayacağı yerde kullanılabilir.",
+          "Korunmaya değer bir akış: mantığı geliştirme veritabanında doğrula, inceleme ve dokümantasyon için burada biçimlendir, biçimlenmiş sürümü depon ya da dokümanlarında kanonik kopya olarak sakla. Gelecekteki okurlar — sen dahil — okunur sürümü devralır ve inceleme konuşması, herkesin çözümleyebileceği bir yapı üzerinde yürür.",
+        ],
       },
     ],
   },
@@ -1819,6 +3478,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet. Girdi, kodlamadan önce UTF-8 baytlarına dönüştürülür; bu, TextEncoder'lı btoa'nın, Python'un, Java'nın ve Node'un aynı dizgi için ürettiğiyle eşleşir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Alfabenin arkasındaki matematik",
+        paragraphs: [
+          "RFC 4648'in tanımladığı Base64 6 bitlik gruplarla çalışır: 64 karakter tam olarak 6 bit ister, böylece her 3 bayt (24 bit) 4 karaktere (4 × 6 bit) paketlenir. Uzunluğu 3'ün katı olmayan girdi 1 ya da 2 bayt fazla bırakır ve = dolgusu son grubun ne kadar eksik olduğunu işaretler — 2 bayt için bir =, 1 bayt için iki =. Bu yüzden geçerli Base64 her zaman 4'e bölünebilir uzunluk taşır ve çıktı girdiden yaklaşık %33 büyüktür. O şişme ikili güvenliğin bedelidir; görüntüleri data URI'lara gömerken ya da boyut sınırlı çerezlere payload doldururken fark eder.",
+          "Kodlamadan önce metin bayta dönüşmek zorundadır ve kodlama seçimi her şeyi değiştirir. Bu araç her zaman standart TextEncoder üzerinden UTF-8 kullanır — modern konsensüs budur: Python'un base64.b64encode(s.encode())'i, Node'un Buffer.from(s).toString('base64')'i ve Java'nın Base64.getEncoder()'ı aynı dize için hepsi UTF-8 varsayar. Tarayıcının eski btoa()'sı ise Latin-1 dışı karakterlerde patlar — bozuk emojilerin klasik kaynağı — UTF-8-önce kodlamanın önlediği tam hata.",
+          "İki alfabe varyantı bir arada yaşar. Standart olan + ve / kullanır; HTTP Basic Auth ve data: URI'ler bunu ister. Aynı RFC'nin tanımladığı URL-güvenli varyant onları - ve _ ile değiştirir; böylece dize yüzde kodlaması olmadan sorgu parametrelerinde ve dosya adlarında yol alabilir; JWT'ler onu kullanır. Yanlış varyantı üretmek sıradan bir hata verir — veri her iki durumda da çözülür ama katı tüketiciler uyuşmayan karakterleri reddeder.",
+        ],
+      },
+      {
+        heading: "Kodlamak şifrelemek değildir — ve Base64 gerçekten nereye aittir",
+        paragraphs: [
+          "Çıktı ne kadar okunamaz görünürse görünsün, Base64 sıfır gizlilik sunar. Anahtar yok, dönüşüm turu yok — bu aracın çözücünün dahil olduğu, herkesin tek bir işlev çağrısıyla tersine çevirebileceği sabit bir karakter eşlemesi var. Parolaları, tokenleri ya da lisans anahtarlarını Base64 ile «kodlanmış» saklamak, yanlış yapılandırılmış sistemlerde görülen gerçek bir güvenlik açığı desenidir. Amaç gizlilikse gerçek bir şifre kullan (veri için AES-GCM, parolalar için bcrypt/argon2); Base64'i yalnızca yalnızca-metin bir kanal bayt taşıması gerektiğinde kullan.",
+          "Gerçekten ait olduğu yerler: HTTP Basic Auth (kullanıcı:parola her istek için bir kez kodlanır), CSS ya da HTML içinde data: URI'lar üzerinden satır içi görüntüler, JSON içinde küçük ikili parçalar, MIME altında e-posta ekleri ve JWT segmentleri. Bunların hepsinde amaç koruma değil taşımadır — alıcı bayt bayt deterministik çözer.",
+          "Gidiş-dönüş testi en ucuz akıl sağlığı kontrolüdür: burada kodla, sonra çıktıyı bağlı çözücüye yapıştır ve sondaki boşluklar, emojiler ve karışık yazı dahil özgünü geri aldığını doğrula. Base64 tüketicin yanlış davranıyorsa fark neredeyse her zaman atılmış dolgu, satır sarma ya da URL-güvenli alfabe üzerindedir; baytların kendisinde değil.",
+        ],
+      },
+      {
+        heading: "Yerel kodlama, terminal tuzakları yok",
+        paragraphs: [
+          "Her şey tarayıcında, JavaScript ile çalışır — yapıştırdığın metin cihazından hiç çıkmaz, hiçbir şey yüklenmez ya da günlüklenmez; sayfa yüklendikten sonra çevrimdışı çalışır. Bu, kodlamada göründüğünden fazla önemlidir: Basic Auth kimlikleri, iç API tokenleri ve müşteri verisi rutin olarak bir Base64 adımından geçer; onları kodlanmak için üçüncü taraf bir siteye göndermek işin amacını boşa düşürür.",
+          "Kabuk satırı echo -n 'metin' | base64 ile karşılaştırıldığında bu araç klasik tuzaklardan kaçınır: -n unutup bir satır sonunu çıktıya kodlatmak, boşlukları bozan tırnaklama hataları ve platform farkları (macOS base64 76 karakterde sarar; bazı Windows araçları satır kırılmalarını atlamak için bayrak ister). Buradaki çıktı, doğrudan bir başlığa ya da yapılandırmaya yapıştırabileceğin temiz tek satırdır — aynı gizlilik garantisiyle ve kabuk geçmişinde saklanan bir şey olmadan.",
+        ],
+      },
+    ],
   },
   "base64-decoder": {
     name: "Base64 Çözücü",
@@ -1845,6 +3529,30 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Çözme bir sunucuda mı yapılıyor?",
         a: "Hayır. Her şey tarayıcında çalışır; dizgi asla cihazından çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Base64 kodlamadır, şifreleme değildir",
+        paragraphs: [
+          "Base64 hakkında en yaygın yanlış kanı bir şey sakladığıdır. Saklamaz. Base64, RFC 4648'ün tanımladığı geri alınabilir bir kodlamadır: rastgele baytlar alır ve onları, ikili verinin yalnızca metin işleyen kanallarda — e-posta ekleri ya da JSON alanları gibi — hayatta kalması için 64 güvenli karakterle (A-Z, a-z, 0-9, + ve /) yeniden ifade eder. Dizeyi elinde tutan herkes tek adımda çözer — bu araç anında yapar; öteki çözücüler de yapar. Gizlilik gerekiyorsa anahtarlı şifreleme (AES, RSA) gerekir; Base64 hiçbirini sunmaz.",
+          "Neden 64 karakter? Altı bit tam olarak 64 değeri indeksler; Base64 her 3 baytı (24 bit) 4 karaktere (4 × 6 bit) paketler. Uzunluğu 3'ün katı olmayan veri artık bırakır; = dolgusu oraya girer: bir = son grubun 2 bayt taşıdığını, iki = 1 bayt taşıdığını söyler. Dolgu teknik olarak isteğe bağlı bilgidir — çözücüler çıkarabilir — sonuna = silinmiş Base64 dizeleri göreceksin ve iyi bir çözücü ikisini de kabul etmelidir.",
+          "Pratikte önemli bir varyant: URL-güvenli Base64, + ve /'yi - ve _ ile değiştirir; çünkü onlar URL'lerde ve dosya adlarında sorun çıkarır. JWT'ler bu alfabeyi kullanır; JWT başlığı ya da payload'u burada temiz çözülür — katı bir RFC 4648 çözücüsü - karakterlerini reddedecek olsa bile.",
+        ],
+      },
+      {
+        heading: "Geriye ne gelir — ve çöp çıktı ne demektir",
+        paragraphs: [
+          "Çözüm her zaman bayt üretir; soru, o baytların nasıl yorumlandığıdır. Bu araç onları bir UTF-8 TextDecoder'dan geçirir; UTF-8 olarak kodlanmış metin başladığı gibi geri döner — aksanlı harfler, emojiler, CJK karakterleri hepsi gidiş dönüş yapar; çünkü Base64 karakter değil bayt taşır. Çıktıda ikame simgeleri (�) görüyorsan girdi muhtemelen hiç UTF-8 metin değildi: bir görsel, bir PDF ya da başka bir kod sayfasında kodlanmış bir dosya olabilir. Çözüm yine çalıştı; gösterilecek metin sadece yoktur.",
+          "Gerçek dünyadaki Base64 dağınıktır; araç çözmeden önce temizler: boşluklar ve satır sonları soyulur (e-posta ve PEM çıktısı Base64'ü 76 karakterde sarar; katı çözücüler bundan kırılır) ve data:image/png;base64, gibi bir data URI öneki atılır; böylece tamamını yapıştırabilirsin. Uzunluk öteki sıradan başarısızlıktır: Base64 uzunluğu 4'ün katı olmalı; kopyala-yapıştır ya da günlük satırıyla ortadan kesilmiş dize çözmeyi kırar — önce uçları kontrol et.",
+        ],
+      },
+      {
+        heading: "Tasarım gereği yerel — ve komut satırıyla karşılaştırması",
+        paragraphs: [
+          "Kodlanmış dizeler duyarlı bağlamların her yanındadır: Authorization başlıkları, yapılandırma yığınlarındaki API anahtarları, hesap tanımlayıcıları taşıyan JWT'ler, trafikte bulduğun gömülü payloadlar. Onlardan herhangi birini girdiyi sunucuya gönderen rastgele bir siteye yapıştırmak, incelediğin veriyi tam olarak üçüncü tarafa sevk etmek demektir. Bu çözücü tamamen tarayıcında, JavaScript ile çalışır — hiçbir şey yüklenmez, günlüklenmez; sayfa yüklendikten sonra çevrimdışı çalışır.",
+          "Komut satırı araçları (openssl base64 -d, certutil, python base64) güçlüdür ama sarılmış girdiye, eksik dolguya ve dosya işlemeye karşı titizdir; platformdan platforma da farklılık gösterir. «Bu dize ne?» anı için, önekleri ve boşlukları tolere eden, JWT tarzı URL-güvenli alfabeleri çözen ve çok baytlı metni doğru gösteren bir tarayıcı aracı genelde daha hızlıdır — aynı gizlilik garantisiyle ve kodlanmış sırrını kabuk geçmişine saklamadan.",
+        ],
       },
     ],
   },
@@ -1875,6 +3583,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet — ASCII dışındaki karakterler önce UTF-8 kodlanır, sonra yüzde kodlanır; tarayıcıların yaptığı tam olarak budur.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ayrılmış karakterler ve iki kodlama kipi",
+        paragraphs: [
+          "Bir URL işi olan karakterlerden kurulur: / yol bölümlerini ayırır, ? sorguyu başlatır, & parametreleri ayırır, = anahtarı değerine bağlar, : ve // şemayı demirler. RFC 3986 bunlara ayrılmış der; çünkü URL'nin dilbilgisi parçasıdırlar — iki kip tam olarak orada ayrışır. Bileşen kodlaması girdinin tamamını tek bir durgun değer sayar: her ayrılmış karakter kaçışlıdır; a=b&c=d, a%3Db%26c%3Dd olur ve sorgu dizisini yeniden yazmak yerine tek bir parametre olarak yol alır.",
+          "Tam URI kodlaması, eksiksiz ve zaten yapılandırılmış bir URL'nin yalnızca taşıma-güvenli olmasını ister: yapısal karakterler gerçek kalır ve ayırtlanmamış setin dışındaki her şey (harfler, rakamlar, - . _ ~) kaçışlıdır. Bütün bir URL'yi bileşen kipiyle kodlamak klasik hatadır — her yerde %3A%2F%2F alırsın ve bağlantı bağlantı olmaktan çıkar.",
+          "Güvenli pratik kural: her değeri ayrı ayrı bileşen kipiyle kodla, sonra URL'ye elle birleştir. Bir URL'nin içine başka bir URL kodladığını fark ediyorsan — bir yönlendirme hedefi, bir geri çağrı parametresi — içerideki değerdir; URL gibi görünse de bileşen kodlaması alır.",
+        ],
+      },
+      {
+        heading: "Artı-boşluk belirsizliği ve her %XX'in arkasındaki UTF-8",
+        paragraphs: [
+          "Boşlukların gerçek dünyada iki kodlaması vardır ve karıştırmak kalıcı bir hata kaynağıdır. Standartlara dayalı biçim %20'dir: RFC 3986 boşluğu diğer baytlar gibi yüzde kodlar. + biçimi, application/x-www-form-urlencoded altındaki HTML form gönderiminden gelir; dikkatli belirtim çalışmasından eski bir gelenektir. Bazı sunucular ve çerçeveler +'yı boşluğa geri çözer — ama yalnızca o gelenek altındaki form kodlu gövdelerde ve sorgu dizelerinde; bir yol bölümünde gerçek +, genelde artı demektir.",
+          "Bu araç her zaman %20 yayar; her yerde doğru çözer. Pratik sonuç: + taşıyan form kodlu bir dizeyi düz bir yüzde çözücüsüne yapıştırırsan boşluk yerine artı işaretleri görebilirsin — hata değil, iki gelenek çarpışıyor.",
+          "ASCII olmayan metnin bir katmanı daha vardır: karakterler önce UTF-8 baytlarına dönüştürülür, sonra her bayt yüzde kaçışlıdır. Bu yüzden é, %C3%A9 olur — iki bayt — ve tek bir Japonca karakter dokuz kaçış dizisine dönüşebilir. Modern tarayıcılar adres çubuğunda güzel Unicode URL'yi gösterir ama kabloya geçen her zaman kaçışlı biçimdir.",
+        ],
+      },
+      {
+        heading: "Kodlama yerelde, bayt bayt olur",
+        paragraphs: [
+          "URL'ler sık sık paylaşmak istemeyeceğin veriyi taşır: izleme parametreleri, oturum tokenleri, OAuth yönlendirme URI'ları, tanımlayıcılı iç uç noktalar. Bunu sunucuya vekil olan rastgele bir çevrimiçi kodlayıcıya yapıştırmak gereksiz ifşadır. Burada dönüşüm tarayıcının JavaScript'inde çalışır — girdi cihazdan hiç çıkmaz ve onu günlükleyecek sunucu yoktur.",
+          "Yerel olmak ayrıca çevrimdışı ve anlık olmak demektir. Gidiş dönüş gecikmesi yok, API dayattığı boyut sınırı yok, parametreleri tek tek kodlarken hız sınırı yok. Kodlayıcı-çözücüyle eşleştir ve doğrula: kodla, çöz, özgün baytları geri aldığını doğrula — kip seçimi hatalarını üretime ulaşmadan yakalayan iki saniyelik bir döngü.",
+          "Benimsenecek bir ayıklama alışkanlığı: bir bağlantı yanlış davranıyorsa onu tümüyle çöz ve gerçekte neyin geldiğine bak. Bozuk URL'lerin çoğu çift kodlanmıştır (yüzde işaretinin %25'i bir fazla görünür) ya da yanlış kiple kodlanmıştır — ikisi de, çözülmüş biçime baktığın anda görülür.",
+        ],
+      },
+    ],
   },
   "url-decoder": {
     name: "URL Çözücü",
@@ -1901,6 +3635,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Hiçbir şey yükleniyor mu?",
         a: "Hayır. Çözme tarayıcında yerel çalışır — hiçbir şey cihazından çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Çözüm hataları engel değil, bilgidir",
+        paragraphs: [
+          "Katı bir çözücü üç şeyi reddeder: arkasında iki onaltılık rakam olmayan yalnız bir %'yi, karakter başlatıp bitirmeyen %E4%BD gibi kesilmiş çok baytlı dizileri ve hiçbir biçimde geçerli UTF-8 olmayan bayt dizilerini. Her biri, baktığın veri hakkında gerçek bir sinyaldir; araç yer tutucu yerine koyamak yerine bunları rapor eder.",
+          "Kesilmiş dizi durumu günlük analizinde ilgiyi hak eder. 日 gibi çok baytlı bir karakter üç bayttır (%E6%97%A5); günlük satırı sabit genişlikte kesildiyse son karakter üç baytından ikisiyle hayatta kalmış olabilir. Toleranslı bir çözücü çöp basar; katı biri günlüğün kesildiğini söyler — çoğu zaman avladığın gerçek hata budur.",
+          "Sessiz ikame, hatayı sakladığı için hatadan daha kötüdür: çıktındaki U+FFFD ikame karakteri genelde kaynak baytların yukarıda bir yerde hasar gördüğü anlamına gelir; nerede olduğunu bulmak, çözücünün kesin konumu işaretlemesiyle çok daha kolaydır — okunur görünen metnin içine gömülmesiyle değil.",
+        ],
+      },
+      {
+        heading: "Kip hataları ve + geleneği",
+        paragraphs: [
+          "İki çözücü kipi vardır; çünkü bir değeri tam-URI kipiyle çözmek klasik sessiz başarısızlıktır: %3D (=) ve %26 (&) URL yapısına benzer; decodeURI onları dokunulmadan bırakır ve değer hâlâ yarı kodlanmış gelir — sorgu dizisini çözarken yanlış bölünmek için. Tersine, bütün bir URL'yi bileşen kipiyle çözmek, görünür tutmak istemiş olabileceğin ayırıcıları da çözer.",
+          "+ düğmesinin varlık sebebi, boşluk karakterinin iki zihinli tarihidir. Form kodlu sorgu dizelerinde (application/x-www-form-urlencoded) + gerçekten boşluk demektir; yolarda ve katı RFC 3986 URL'lerinde + sadece artıdır. Düğme kapalıyken formdan kurulu bir arama dizesini çözersen, boşlukların yerine saçılmış artı işaretleri görürsün.",
+          "Bilinmeye değer bir tuzak daha: çift kodlama. Yüzde işaretinin kendisi %25 olarak kodlanır; iki kez kodlanmış bir dize, %3D olması gereken yerde %253D taşır. Çözülmüş sonuçta hâlâ % dizileri varsa yeniden çöz — «bozuk» yönlendirme URL'lerinin çoğu, her biri işi diğerinin yaptığını varsayan iki ayrı katman tarafından iki kez kodlanmış olmaktan başka bir şey değildir.",
+        ],
+      },
+      {
+        heading: "Kodlu URL'leri hiçbir yere göndermeden okumak",
+        paragraphs: [
+          "Çözmek zorunda olduğun URL'ler nadiren kamusaldır: reklam platformundan izleme parametreleri, yönlendirme zincirlerindeki oturum tokenleri, süre damgalı imzalı URL'ler, erişim günlüklerinden iç uç noktalar. Bunları sunucuya vekil olan bir çevrimiçi çözücüye göndermek, o tokenleri bilinmeyen bir tarafa teslim etmek demektir — bir tarayıcının tek başına yapabileceği iş için gereksizdir.",
+          "Buradaki her şey tarayıcının JavaScript'inde çalışır. Kodlu dize cihazında çözülür, geçersiz diziler yerelde raporlanır ve yapıştırdıklarının hiçbir geçmişi saklanmaz. Çevrimdışı da çalışır — kilitli bir ağın captive portal sayfasından ya da havadan kopuk makinenin dışa aktarımından bir URL yapıştırmak birebir aynıdır.",
+          "Pratik akış ipucu: URL kodlayıcıyla eşleştir. Şüpheli bir URL'yi çöz, yanlış olan kısmı düzelt, yalnızca o kısmı yeniden kodla ve nihai bağlantıyı elle kur. O döngü, gerçek dünyadaki çoğu URL hatasını — çift kodlama, yanlış kip, + belirsizliği — bir dakikanın altında, tümüyle makinenizde yakalar.",
+        ],
       },
     ],
   },
@@ -1931,6 +3691,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Token tamamen tarayıcında çözülür ve asla cihazından çıkmaz — yükleme yok. Yine de token'ları birer kimlik bilgisi gibi davran ve üretim token'larını ihtiyacın olmayan hiçbir yere yapıştırmaktan kaçın.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Çözmek doğrulamak değildir — en önemli güvenlik gerçeği",
+        paragraphs: [
+          "Bir JWT'nin ilk iki segmenti düz Base64URL kodlu JSON'dur; hiçbir şifreleme yoktur. Tokeni alan herkes içindeki her talebi okuyabilir ve herhangi bir token saniyeler içinde elle kurulabilir. Tasarım böyle: JWT'ler mühürlenmez, imzalanır. Sondaki imza, tokenin anahtarı tutan biri tarafından verildiğini ve o andan sonra değiştirilmediğini kanıtlar; içeriği saklamaz.",
+          "Her geliştiricinin içselleştirmesi gereken sonuç: iyi biçimli bir başlık, makul bir payload ve bir imza dizisi görmek, tokenin meşruiyeti hakkında hiçbir şey kanıtlamaz. Bir saldırgan payload'u değiştirebilir — bir rolü user'dan admin'e çevirebilir — yeniden kodlayabilir ve herhangi bir imza baytı iliştirebilir; güzel çözülür ve hiçbir yerde kimliklendirmez. HMAC sırrını ya da açık anahtarı tutan yalnızca sunucu farkı söyleyebilir. Bu araç bilinçli olarak hiç doğrulamaz: tokenin söylediğini gösterir; söylediği, sunucun imzayı kontrol edene kadar hiçbir yetki taşımaz.",
+          "Çözmek aynı zamanda sevk ettiğin şeyin denetim merceğidir. Kendi giriş akışından bir token yapıştır ve farkında olmadan açığa virdiğin talepleri kontrol et: iç kullanıcı kimlikleri, e-posta adresleri, kiracı adları, izin listeleri. Payloaddaki her şey istemci tarafından okunabilir — tarayıcı geliştirici araçlarını açık tutan herkes dahil — kural şudur: hiçbir sırrı JWT payload'una koyma. Sır olmak zorundaysa tokena ait değildir; sunucu tarafı saklamayla desteklenmiş opak bir oturum kimliği kullan.",
+        ],
+      },
+      {
+        heading: "Standart talepleri okumak: exp, iat ve saat tuzakları",
+        paragraphs: [
+          "Kayıtlı taleplerin (RFC 7519) anlaşılmış anlamları vardır: iss (veren), sub (konu), aud (hedef kitle), exp (süre sonu), nbf (öncesi değil), iat (verilme zamanı). Tüm zamanlar ISO dizeleri değil Unix çağından saniyelerdir — exp=1893456000 bir tarihtir; bu araç onu kendi saat diliminde çizer; bir tokenin süresinin dolup dolmadığını bilmek için kimse çağ matematiği yapmak zorunda kalmaz.",
+          "Klasik başarısızlık token veren ile doğrulayıcı arasındaki saat kaymasıdır: saati bir dakika geride olan bir sunucu, verenin bakışıyla hâlâ geçerli tokenleri reddeder; çare küçük bir hoşgörü penceresidir (kitaplıklar tipik olarak 30-60 saniyelik tolerans açığa verir). Öteki tuzak, exp'nin TTL değil mutlak zaman olmasıdır: 30 gün sonra sona erecek şekilde verilen token yeniden verilmek zorunda kalmadan kısaltılamaz; kısa ömürlü erişim tokenlerinin yenileme tokenleriyle eşleşmesi standart desenin kendisi olması bu yüzdendir.",
+          "Yalnızca exp'yi değil aud ve iss'yi de kontrol et. Süresi geçmemiş ama başka bir hedef kitle için verilmiş token, süresi geçmiş token kadar geçersizdir — yalnızca exp'ye bakan sunucular başka bir hizmet için damgalanmış tokenleri kabul eder. Bir 401'i ayıklarken önce tokeni burada çöz: cevap, sunucu günlüklerine hiç dokunmadan payload'da görünüyor olur.",
+        ],
+      },
+      {
+        heading: "Token neden tarayıcından hiç çıkmaz",
+        paragraphs: [
+          "Bir JWT hamil kimliğidir: elinde tutan, süresi dolana kadar senin gibi davranabilir. Canlı bir tokeni sunucu tarafı bir çözücüye yapıştırmak tam olarak o gücü sunucunun işletmenine teslim eder — bir ayıklama aracının en kötü sonucu. Bu araç segmentleri yalnızca tarayıcı JavaScript'iyle çözer; token asla iletilmez, günlüklenmez, saklanmaz ve sayfa yüklendikten sonra her şey çevrimdışı çalışır.",
+          "Buna rağmen yapıştırma kutusuna, bir kimliğin gittiği her yere davrandığın gibi davran. Süresi dolmuş ya da test ortamı tokenlerini yapıştırmayı yeğle; bir üretim tokenini incelemek zorundaysan bir kez yap ve uzun ömürlü birini o iş için yeniden üretmek yerine sona ermesine izin ver.",
+          "Aynı yerel, doğrulama-yapan-dolmayan felsefe site boyunca sürer: base64 araçları, daha aşağıya inmek istersen ham segmentleri çözer; hash araçları tokenlerin parmak izini alır — iki verilen tokenin farklı olup olmadığını, içeriklerini hiç ifşa etmeden karşılaştırır.",
+        ],
+      },
+    ],
   },
   "uuid-generator": {
     name: "UUID Üretici",
@@ -1957,6 +3743,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "UUID'ler bir sunucuda mı üretiliyor?",
         a: "Hayır. Kendi tarayıcının kriptografik rastgele üreteçlerinden gelir ve asla cihazından çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir v4 UUID gerçekte ne kadar rastgeledir",
+        paragraphs: [
+          "Sürüm 4 bir UUID 122 rastgele bit taşır; diğer 6 biçimce sabittir — sürüm nibble'ı hep 4'tür ve üçüncü grubun iki biti varyant işaretidir. O düzen (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx; y, 8, 9, a ya da b) bir tanımlayıcının düzgün v4 olup olmadığının hızlı görsel kontrolüdür; aynı zamanda bir v4 UUID'nin olduğundan fazlasına sıkıştırılamamasının da sebebidir.",
+          "Çarpışma sorusu, herkes ID'leri topluca üretmeye başladığında gündeme gelir. 122 bit ile, doğumgünü sınırı matematiği yinelenen bir değerin makul hale gelmesi için 10^36 mertebesinde UUID gerektiğini söyler — gerçekçi hiçbir yük bunun yanına bile yaklaşamaz. Gerçek sistemlerdeki pratik çarpışmalar bozuk rastgeleliğe iz sürer, biçime değil: sunucular arasında yeniden kullanılan tohumlu bir sözde-rastgele üretici ya da donanımda sabitlenmiş bir ID. Biçim güvenlidir; güvenli olması gereken şey rastgelelik kaynağıdır.",
+          "Bu araç crypto.randomUUID ile üretir — tarayıcının kriptografik olarak güvenli kaynağı; HTTPS oturumlarını koruyan havuz — böylece her tanımlayıcı öngörülemez ve tahmin edilemez kaynak ID'si olarak güvenle kullanılır. O özellik, bazı tasarımlarda ham eşsizlikten daha fazla önem taşır: kimsenin numaralandıramayacağı bir ID, sunucu yine de yetkilendirmeyi kontrol ettiği sürece, doğru yapılmış gizlilikle erişim kontrolüdür.",
+        ],
+      },
+      {
+        heading: "v4 ile öteki sürümler karşılaştırıldığında",
+        paragraphs: [
+          "Sürüm ailesi farklı soruları yanıtlar. v1 zaman damgası ve çoğu zaman üreten makinenin MAC adresini gömer — sıralanabilirdir ama ne zaman ve nerede yapıldığını sızdırır; bir belge kimliğinde yayımlanmış MAC adresi küçük bir gizlilik kusurudur. v4 ne zaman damgası ne donanım kimliği taşır ve hiçbir şey sızmaz; kamuya bakan tanımlayıcılar için varsayılan olmasının sebebi budur.",
+          "Zamana göre sıralı yeni sürümler — RFC 9562'nin 2024'te eklediği v6 ve v7; v7 Unix zaman damgası artı rastgelelik kullanır — tam olarak veritabanı sorunu için vardır: v4'ün rastgeleliği indeksleri parçalar; zamana göre sıralı ID'ler ekleme yapar, ULID'lerin yaptığı gibi. Anahtarların büyük indeksli bir tabloda yaşıyorsa v7 ya da ULID yazma yerelliğinde v4'ü yener; tanımlayıcıların URL'lerde, tokenlerde ya da kullanıcıların görebileceği her şeyde görünüyorsa v4'ün opaklığı özelliğidir.",
+          "Pratik bir kural: her yerde varsayılan v4; sıralanabilirlik, gömülebilirlik ya da yalnızca v1 kabul eden eski bir çözümleyici gibi bir gereksinim başka bir sürüme ittiğinde bilinçli olarak değiştir. Tek bir kimlik uzayında sürümleri karıştırmak yasaldır (sürüm nibble'ı ayırır) ama aşağı akış doğrulamasını katılaştırır; tüketiciler artık tek biçim varsayamaz.",
+        ],
+      },
+      {
+        heading: "Cihazında, istediğin miktarda üretilir",
+        paragraphs: [
+          "Tanımlayıcılar tarayıcının kriptografik rastgele üreticisinden gelir ve sunucuya hiç değmez: 500'e kadar olan yığınlar anında görünür, çevrimdışı çalışır; hiçbir şey günlüklenmez ya da saklanmaz. Yerelliğin pratik bir gizlilik açısı vardır — başkasının sitesinde bir belge, bir destek kaydı ya da yayımlanmamış bir ürün için ID üretmek, o nesneyi üçüncü tarafın günlüklerine bağlardı; burada üretim cihazının dışında hiç iz bırakmaz.",
+          "Toplu üretim sıradan akıştır: test donanımları, veritabanı tohumları, dosya adları, istek kimlikleri, sonradan dağıtılacak API anahtarı taslakları. Yığını üret, tek tıkla kopyala ve listeyi tek kullanımlık bir sır gibi ele — gerektiği yere yapıştır ve sil. Üretim yerel ve günlüksüz olduğu için yığın, verilerine giderken üçüncü taraf bir sunucudan hiç geçmez.",
+          "Herhangi bir üretici için geçerli bir uyarı: tarayıcıdan gelen rastgelelik güçlüdür ama sertifikalı bir donanım kaynağı değildir; katı uyumluluk gerektiren yargı bölgeleri bazen anahtar malzemesi için sertifikalı entropi ister. Sıradan tanımlayıcılar, istek kimlikleri ve donanımlar için — kullanımların ezici çoğunluğu — tarayıcı kaynağı fazlasıyla yeterlidir.",
+        ],
       },
     ],
   },
@@ -1987,6 +3799,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Asla. Hash'leme tarayıcında yerel çalışır — çok gigabaytlık dosyalar bile yalnızca kendi cihazın tarafından okunur.",
       },
     ],
+    deepDive: [
+      {
+        heading: "İş başına bir algoritma: SHA-2 ailesi ve bozulanlar",
+        paragraphs: [
+          "Bu araç bilinçli olarak beş algoritma sunar; çünkü işler farklı olanları gerektirir. SHA-256 ve SHA-512 güncel standartlardır — TLS sertifikalarını, kod imzalamayı ve Bitcoin'i taşır. SHA-384, çıktısı kısaltılmış SHA-512 ile aynı kuruldur; bir standardın daha kısa özet istediği yerlerde sıktır. SHA-1 ve MD5 burada önerilmek için değil, gerçek dünya hâlâ istediği için vardır: eski arşiv kontrol toplamları, eski satıcılar, eski doğrulayıcılar.",
+          "Kırılma tarihi tam olarak bilinmeye değerdir. MD5'in çarpışma direnci 2000'lerin ortasında aşamalarla düştü; 2012 Flame zararlısının Microsoft imza sertifikası sahtelediği haber manşetleriydi. SHA-1 daha uzun dayandı: Google ve CWI Amsterdam ilk pratik SHA-1 çarpışmasını (SHAttered saldırısı) 2017'de gösterdi. İkisi de düşmanca olmayan bütünlük için kabul edilebilir kalır — bir dosyanın aktarımını atlattığını doğrulamak — ama bir saldırganın girdinin bir kısmını seçebileceği her yerde ikisi de reddedilmelidir.",
+          "Pratik bir kural: bugün yayımladığın her şey için SHA-256 üret (büyük dosyalar için SHA-512; 64-bit içini modern CPU'larda hızlandırır). Eski bir MD5 ya da SHA-1 toplamını doğrulaman gerektiğinde bir kez burada yap ve yanına bir SHA-256 da üret; kayıt hem eski kontrolü hem geleceğe dayanıklı olanı taşısın.",
+        ],
+      },
+      {
+        heading: "Özet uzunlukları ve doğru çıktının biçimi",
+        paragraphs: [
+          "Her algoritmanın çıktısı sabit boyutludur; yanlış çıktı anında tanınır: MD5 32 onaltılık karakter, SHA-1 40, SHA-256 64, SHA-384 96, SHA-512 128. Bir SHA-256 iddiası 63 ya da 65 karakterse yukarıda bir şey kırıktır — kesilme, kopyala-yapıştır hatası ya da yanlış etiket taşıyan başka bir algoritma. Karşılaştırmadan önce uzunluğu kontrol etmek, gerçekte biçim hatası olan bir uyumsuzluğun peşinde koşma karışıklığını önler.",
+          "Onaltılık durum öteki karşılaştırma tuzağıdır: bazı araçlar özetleri büyük harf basar, bazıları küçük. Değerler özdeştir — onaltılık yalnızca notasyondur — büyük-küçük duyarsız karşılaştır ya da önce iki tarafı tekdüzleştir. Ve sondaki boşluklara dikkat: metnin son satır sonuyla hash almak, onsuz almaktan farklı bir özet verir; bu araçta metin kipi tam olarak yazdığın karakterleri hash eder ve dosya kipi dosyanın ham baytlarını hash eder.",
+          "Tek yönlülük, her şeyi çalıştıran özelliktir: sabit uzunluklu bir özet bilgiyi bilinçli olarak atar ve özdeş baytlar her zaman özdeş özetler üretir. O determinizm, bir projenin bir ülkede yayımladığı kontrol toplamının, senin tarayıcında başka bir ülkede hesapladığınla eşleşmesini sağlar — aynı bayt, aynı özet; kimin ve nerede hesapladığına bakılmaksızın.",
+        ],
+      },
+      {
+        heading: "Dosyanın yaşadığı yerde hash almak",
+        paragraphs: [
+          "Bir hash genelde tam olarak güven sorgulanıyorsa hesaplanır — hash ortamı algoritma kadar önemlidir. Bir dosyayı hash için bilinmeyen bir sunucuya göndermek kendi kendini yener: bütünlüğünü doğrulamaya çalıştığın baytların kendisini iletmektesin. Buradaki her şey tarayıcında çalışır; metin yazarken hash alır ve dosyalar tarayıcının dosya API'siyle yerelde okunur — asla yüklenmez.",
+          "Yerel çalışma pratik tavanları da kaldırır. Yükleme bant genişliği yok, bellek ötesi boyut sınırı yok, kuyruk yok — çok gigabyte'lık bir ISO'nun parmak izi diskten okuma kadar sürer ve sayfa yüklendikten sonra akış çevrimdışı çalışır.",
+          "Tek algoritmaya odaklı işler için SHA-256 üretici ve MD5 üretici sayfaları her algoritmaya özel görünüm verir; bu sayfa yan yana aracıdır — tek girdi, beş özet; eski toplamları doğrulama ve yenilerini yayımlama özgürlüğü aynı yerde.",
+        ],
+      },
+    ],
   },
   "md5-generator": {
     name: "MD5 Üretici",
@@ -2013,6 +3851,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Metnim ve dosyalarım bir sunucuya gönderiliyor mu?",
         a: "Hayır. Her şey tarayıcında çalışır; dosyalar bile tamamen cihazında okunur ve hash'lenir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "MD5 neden kırıldı — ve neden hâlâ hayatta",
+        paragraphs: [
+          "MD5, Ron Rivest tarafından 1991'de hızlı 128-bit bir mesaj özeti olarak tasarlandı ve on yıl boyunca web'in varsayılan hash'i oldu. O hız satış noktasıydı — ve sonunda çöküşü. Veriyi hızla işlediği için saldırganlar saniyede muazzam sayıda girdi deneyebilir; iç yapısının bilinen zayıflıkları olduğundan çarpışma direncini kırmak için kaba kuvvete bile gerek yoktur.",
+          "MD5'in çarpışma direnci 2000'lerin ortasında aşamalarla çöktü: araştırmacılar pratik çarpışma teknikleri gösterdi ve 2012 Flame zararlısı bir Microsoft kod imzalama sertifikasını sahteleyerek meşhur oldu. O zamandan beri hiçbir ciddi güvenlik protokolü imzalar, sertifikalar ya da kimliklendirme için MD5 kabul etmez.",
+          "Yine de MD5 kaybolmadı ve durumu doğru ayırt ettiğin sürece bu sorun değildir: bir çarpışma saldırısı, aynı hash'i taşıyan iki farklı girdi kurma imkânı verir ama hash'i tersine çevirmeye ya da her koşulda fark edilmeden bir dosyayı bozmaya yardımcı olmaz. Büyük bir indirmenin, aynı güvenilir kaynaktan yayımlanan bir kontrol toplamıyla eşleştiğini doğrulamak düşmanca değildir — sana karşı çarpışma kuracak kimse yoktur. O iş için MD5 tamamen işlevsel kalır; bir saldırganın girdinin bir kısmını seçebileceği hiçbir şey için değil.",
+        ],
+      },
+      {
+        heading: "Kontrol toplamlarını doğru kullanmak",
+        paragraphs: [
+          "Bir kontrol toplamı karşılaştırması, beklenen değerin kaynağı kadar güvenilirdir. Bir proje indirmenin yanına MD5 yayımladığında kontrol toplamı yoldaki bozulmayı saptamak içindir — kesilmiş aktarım, kötü bir yansı, çizik bir disk. Kontrol toplamının kendisi güvenilmeyen bir kanaldan geliyorsa dosyayı değiştirebilen saldırgan kontrol toplamını da değiştirebilir ve MD5 sahteyi seve seve onaylar.",
+          "Büyük-küçük harf hassasiyeti, gerekenden fazla insanı düşürür: bazı araçlar büyük harf onaltılık basar, bazıları küçük. Özetler özdeştir — A3F… ile a3f… aynı sayının farklı notasyonudur — büyük-küçük duyarsız karşılaştır ya da uyumsuzluk ilan etmeden önce tekdüzleştir. Girdideki sondaki satır sonu öteki klasik tuzaktır: satır sonuyla biten bir metin dosyasını hash almak, onu almadan almaktan farklı özet verir; metin kipimizin tam yazdığın karakterleri hash almasının sebebi budur.",
+          "Yinelenen anahtarlar ve önbellek kırmaları için MD5'in hızı bir özelliktir, uzlaşma değil. İçerik yığından 32 karakterlik bir anahtar üretmek ucuzdur; koşular, diller ve platformlar arasında kararlıdır — aynı RFC 1321 algoritması, buradan JavaScript'ten, Linux'ta md5sum'dan ya da backend'indeki bir kitaplıktan çağırılsan da aynı çıktıyı üretir.",
+        ],
+      },
+      {
+        heading: "Her şey cihazında çalışır",
+        paragraphs: [
+          "Hash almak tam olarak dışarı devretmek istemeyeceğin işlem türüdür: bir dosyayı kontrol etmenin tüm anlamı çoğu zaman, geldiği ağa tam olarak güvenmemendir. O dosyayı hash almak için bilinmeyen bir web sunucusuna göndermek amacı boşa düşürürür. Bu yüzden bu araç MD5'i tamamen tarayıcında hesaplar — metin yazarken hash alır ve dosyalar tarayıcının dosya API'siyle yerelde okunur; asla yüklenmez.",
+          "O yerel tasarım gizlilik ötesi pratik kazançlar taşır: yükleme süresi yok, boyut kapısı yok, sunucu kuyruğu yok. Çok gigabyte'lık bir ISO görüntüsü diskten okuma kadar sürer ve sayfa yüklendikten sonra çevrimdışı çalışır.",
+          "Güvenlik açısından kritik her şey için bu aracı SHA-256 ile eşleştir — SHA-256 üreticimiz aynı yerel akışı kullanır ve hash üretici sayfası birkaç algoritmayı yan yana hesaplar; kullanıcıların için iki özeti birlikte yayımlayabilirsin.",
+        ],
       },
     ],
   },
@@ -2043,6 +3907,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Hash'leme WebCrypto ile tarayıcında yerel çalışır — verin asla cihazdan çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "SHA-2 ailesi ve çıktı boyutları",
+        paragraphs: [
+          "SHA-256, NIST'in 2000'lerin başında SHA-1'in yerine standartlaştırdığı SHA-2 ailesinin bir üyesidir. Aile adı çıktı boyutunu bit olarak kodlar: SHA-224, SHA-256, SHA-384 ve SHA-512 sırasıyla 224, 256, 384 ve 512 bit üretir — yani 64, 64, 96 ve 128 onaltılık karakter. Tam olarak 64 onaltılık karakter olmayan bir «SHA-256» özeti, etiket ne söylerse söylesin SHA-256 değildir.",
+          "Varyantlar yalnızca kesme açısından değil içsel olarak da farklıdır. SHA-512, 64-bit kelimelerle çalışır; büyük dosyaları hash alırken modern 64-bit CPU'larda SHA-256'dan fiilen hızlıdır. SHA-256 32-bit kelimeler kullanır ve daha geniş uyumluluk için tercihtir. SHA-224 ve SHA-384, daha kısa özet isteyen belirli standartlar için tanımlanmış yalın kesilmiş varyantlardır.",
+          "SHA-2'yi on yıl sonra standartlaştırılmış farklı bir kurulum olan SHA-3 (Keccak) ile ya da çarpışma saldırılarıyla kırılmış 160-bit öncül SHA-1 ile karıştırma; yeni tasarımlarda kullanılmamalıdır. Bir indirme sayfası «SHA-256 ile doğrula» diyorsa bu araç sana tam olarak o özeti verir — tarayıcının WebCrypto'suyla hesaplanmış.",
+        ],
+      },
+      {
+        heading: "Özetleri okumak ve doğru karşılaştırmak",
+        paragraphs: [
+          "İki özet ya da tam olarak eşleşir ya da dosyalar farklıdır — kısmi kredi yoktur. 64 karakteri gözle karşılaştırmak hataya açıktır; otomatikleştir: indirilen dosyayı sha256sum, shasum -a 256 ya da CertUtil'den geçir, sonra dizeleri programatik olarak ya da bir diff ile karşılaştır. Tek bir farklı karakter bozulma ya da ikame demektir; asla yuvarlama artefaktı değildir.",
+          "Çığ etkisi, kontrol toplamlarını güvenilir kılan özelliktir: çok gigabyte'lık bir dosyada herhangi bir yerde tek bir biti çevir ve özet, ilgisiz rastgele görünümlü 256-bit bir değere dönüşür. Bu aynı zamanda özetten içerik hakkında hiçbir şey çıkaramayacağın anlamına gelir — dosya yöneticisinde özdeş görünen iki dosya üst veride farklılaşabilir ve farklı hash alabilir.",
+          "Algoritmayı değil girdi zincirini izle. Kodlama klasik suçludur: «café» metnini UTF-8 olarak ve Latin-1 olarak hash almak farklı özetler verir; çünkü baytlar farklıdır. Bu araç yazdığın şeyin baytlarını (metin için UTF-8) ya da dosyanın tam baytlarını hash alır — her standart kontrol toplamı akışının beklediği budur.",
+        ],
+      },
+      {
+        heading: "Hash neden tarayıcıda hesaplanır",
+        paragraphs: [
+          "Bir dosyanın hash'i, hash ortamı güvenilir olduğu sürece anlamlıdır; rastgele bir web sunucusu değildir. Bu araç WebCrypto kullanır — tarayıcının içine kurulu ve TLS'in dayandığı kriptografik kitaplık — aldığın özet, denetlenmiş yerel koddan gelir; metin ve dosyalar cihazından hiç çıkmaz.",
+          "Yerel hesaplama pratik tavanları da kaldırır: yükleme bant genişliği yok, mevcut bellek dışında boyut sınırı yok, kuyrukta bekleme yok. Büyük bir arşivin parmak izi disk okuma hızına bağlıdır ve sayfa yüklendikten sonra tüm akış çevrimdışı çalışır.",
+          "WebCrypto MD5 sunmaz; bu sitenin MD5 üreticisi saf JavaScript uygulaması kullanır, SHA-256 yerel olanı sürer. Yeni her şey için SHA-256 ya da daha güçlüsünü yeğle — hash üretici sayfası, aynı anda birkaç özet gerektiğinde tüm SHA-2 ailesini yan yana hesaplar.",
+        ],
+      },
+    ],
   },
   "regex-tester": {
     name: "Regex Test Aracı",
@@ -2069,6 +3959,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Test verim bir yere gönderiliyor mu?",
         a: "Hayır. Eşleştirme tarayıcında canlı çalışır — hiçbir şey yüklenmez veya saklanmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Catastrophic backtracking: bazı desenler neden dondurur",
+        paragraphs: [
+          "Geri izleme yapan bir regex motoru, alt desenlerin girdiyi bölme yollarının her birini dener ve bazı bileşimler üstel biçimde patlar. Klasik fail, (a+)+ gibi iç içe nicelendiriciyi «a» dizisinin sonunda başarısızlıkla karşılaştırmasıdır: motor, diziyi evrendeki atomlardan daha çok biçimde yeniden böler. Onlarca karakterlik bir girdi, bir sunucu iş parçacığını saatlerce askıda bırakabilir — gerçek kesintilerin arkasındaki mekanizma budur: kullanıcı sağladığı bir desen ya da alan, böyle bir desene kurulmuş doğrulayıcıya çarpar.",
+          "Lookahead sık önerilen çaredir. (a+)+'yı (?=(a+))a+'ya çevirmek ya da ^ ve $ ile sabitlemek arama ağacını budar; çünkü iddia hiçbir şey tüketmez ve motor daha erken bağlanır. Atomik gruplar (?>...) ve sahiplikli nicelendiriciler a++ da geri izleme noktalarını kaldırır ama JavaScript RegExp ikisini de desteklemez — JS'de lookahead ile taklit eder ya da deseni yeniden kurarsın.",
+          "Tehlikeli bir deseni üretime koymadan tanımanın yolu: iç içe nicelendiriciler ((.+)*, (\\w+)+), nicelendiriciler içinde alternasyon ((a|a?)+) ve açgözlü bir başla çakışan isteğe bağlı kuyruklar. Onları, eşleşen dizeye değil uzun eşleşmeyen bir dizeye karşı sına — mutlu yol testlerini geçen bir desen, reddetmesi gereken girdide yine de üstel süre alabilir. ReDoS sertleştirme kitaplıkları ve lint kuralları (safe-regex ailesi gibi) tam olarak bu kontrolleri kodlar.",
+        ],
+      },
+      {
+        heading: "Lookahead, lookbehind ve sıfır genişlikli eşleşmeler",
+        paragraphs: [
+          "Lookaround iddiaları bir konumu tüketmeden çevresini kontrol eder; «içerir ama önünde değildir» mantığı için araç budur. Örneğin \\d+(?= dollars), yalnızca dollars kelimesi izlediğinde sayıyı yakalar; foo(?!bar), foo'yu bar'dan öncekiler dışında her yerde eşler. Negatif lookbehind (?<!@)\\w+ JavaScript'te ancak 2018 civarında (V8 6.2 çağı) kullanılabilir oldu; eski Node ve Safari sürümleri yeni tarayıcıların kabul ettiği desenleri reddeder.",
+          "Sıfır uzunluklu eşleşmeler öteki ince köşedir. a* gibi bir desen hiçbir şey tüketmeden başarılı olabilir; naif bir döngü aynı indekste sonsuza kadar döner. JavaScript belirtiminin çaresi: eşleşme boş olduğunda motor devam etmeden bir konum ilerler. Bu sınayıcı o kuralı izler; a* «baa»ya karşı 0 indeksinde boş eşleşme, sonra 1 ve 2'de gerçek eşleşmeler verir — g bayrağıyla String.prototype.match'ın döndürdüğüyle aynıdır.",
+          "Pratik okuma: lookahead'in yakalama grupları yine de yakalar. (?=(a+)), konumsal eşleşirken «a» dizisini 1. grup olarak verir. Adlandırılmış gruplar (?<year>\\d{4}) çıkarmayı kendi kendine belgeli kılar ve desen yeniden sıralansa da sağ çıkar. Bir grup katılmayabilirse onu isteğe bağlı kur ve undefined'ı kontrol et; her grubun her eşleşmede hazır olduğunu varsayma.",
+        ],
+      },
+      {
+        heading: "Diyalekt farkları ve bunun neden yerelde çalışması",
+        paragraphs: [
+          "Regex tek dil değildir. JavaScript \\d, \\w ve \\s destekler ama [[:alpha:]] gibi POSIX sınıflarını desteklemez; PCRE yinelemeyi ve \\K'yı ekler; Python adlandırılmış gruplar için (?P<name>...) ekler, JS (?<name>...) kullanır. unicode bayrağı . ve \\w'nin göktaşı karakterler için ne demek olduğunu değiştirir; s bayrağı noktanın satır sonlarını da eşlemesini sağlar. Bir deseni diller arasında taşıdığında taşımayı sına — uyumsuzlukların çoğu lookbehind'de, yinelemede ve unicode özellik kaçışlarında (\\p{Script=Greek}; JS'de u bayrağı ister) saklıdır.",
+          "Buradaki her şey tarayıcında, JavaScript'in kendi RegExp'iyle çalışır — sına dizelerin, yani günlük satırları, API payloadları ya da müşteri verisi olabilir, cihazdan hiç çıkmaz. Deseni ve örnek veriyi sunucuya POST eden regex hizmetlerine karşı yapısal avantaj budur: üretim verisini bir ayıklama oturumuna yapıştırmak, bir başkasının günlüklerinde bir kopyaya dönüşmez. Burada hiçbir şey yüklenmez, saklanmaz, paylaşılmaz; sekmeyi kapat ve gitmiş olsun.",
+        ],
       },
     ],
   },
@@ -2099,6 +4014,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Dönüşüm tarayıcında yerel olur — hiçbir şey cihazından çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "CSV tırnaklaması gerçekte nasıl çalışır",
+        paragraphs: [
+          "CSV dünyanın en basit biçimi gibi görünür ve her elle kurulan dönüştürücünün er geç veriyi bozmasının sebebi kaçış kurallarıdır. RFC 4180 geleneği: virgül, çift tırnak ya da satır sonu taşıyan bir alan çift tırnakla sarılmalıdır ve içindeki her tırnak ikilenmelidir — «dedi ki merhaba» değeri, dosyada tırnakları ikilenmiş dizeye dönüşür. Diğer her işlem, farklı içe aktarıcılarda farklı okunur.",
+          "Alanların içindeki satır sonları en az bilinen kuraldır. Hücre, tırnaklı olduğu sürece yasal olarak satır sonu taşıyabilir — hesap tabloları bunu düzgün işler; naif satır-satır çözümleyiciler üç kayıt sayar. Dönüştürülen satır sayısı aşağı akış aracında yanlış görünüyorsa ilk şüpheli, metin alanına gömülü satır sonudur.",
+          "Çift dönüşüm tuzağına dikkat: CSV'yi virgülle bölen başka bir araçla geçirmek kaçışları ikileyebilir; hücrelerin içinde görünür çift tırnak çiftleri bırakabilir. Sonuç tuhaf göründüğünde dönüştürücünün kırık olduğunu varsaymak yerine yukarıdaki kurallara karşı doğrula — çoğu zaman kaynak veride, fark etmediğin bir tırnak ya da virgül vardır.",
+        ],
+      },
+      {
+        heading: "Ayırıcılar, diller ve Excel ondalık tuzağı",
+        paragraphs: [
+          "Ayırıcı evrensel değildir. İngilizce ve Doğu Asya dilleri virgülle ayrılmış dosyaları doğrudan açar; Avrupa'nın çoğu noktalı virgül kullanır çünkü virgül zaten ondalık ayracıdır: virgülle ayrılmış dosya açan Alman Excel, 1,5 ile 2,5'i tek sütuna koyar. Alıcıların Avrupalıysa göndermeden önce noktalı virgül seçeneğini seç.",
+          "Doğru ayırıcıyla bile bir tuzak olur: Excel açarken değerleri yeniden biçimler. Sayı gibi görünen tanımlayıcılar öndeki sıfırları kaybeder (posta kodları, SKU önekleri); uzun sayısal kimlikler 4.31202E+12 olur; tarihler makinenin diline göre yeniden yorumlanır. CSV dosyasının kendisi sağlamdır — bozan, hesap tablosunun tip tahminidir. Sütun tiplerini açıkça soran bir sihirbazla içe aktarmak hepsinden kaçınılır.",
+          "JSON tipleri aksi hâlde temiz eşlenir: mantıksallar true/false metnine dönüşür, sayılar rakamlar olarak geçer, null boş hücre olur. Boş hücre ile null ayrımına dikkat — çoğu içe aktarıcı onları aynı sayar; bazı veritabanları açık NULL ile boş dizgeyi ayırır; ayrım önemliyse hedefinin geleneğini kontrol et.",
+        ],
+      },
+      {
+        heading: "Dışa aktarımları bulutta değil yerelde dönüştürmek",
+        paragraphs: [
+          "JSON'dan CSV'ye çevirdiğin şey tipik olarak gerçek kayıtların dışa aktarılmış hâlidir: bir yönetim panelinden müşteri listeleri, bir API'den sipariş geçmişleri, finans ekibine gidecek analiz satırları. Bunlar, rastgele bir web hizmetinden geçmemesi gereken küme tam olarak budur — ve epey çevrimiçi dönüştürücü belgeni sunucusuna yükler.",
+          "Burada tüm dönüşüm tarayıcında çalışır: diziyi çözmek, anahtarları birleştirmek, hücreleri kaçışlamak — hepsi yerel JavaScript'te. Kişisel veri taşıyan kayıtlar, yayımlanmamış ürün ölçümleri ya da sözleşmeli her şey ağa hiç geçmeden dönüştürülebilir; araç, veri kaynağının hiçbir internet erişimi olmayan iç bir makine olduğu durumlar için çevrimdışı çalışır.",
+          "Satır sayısı kapısı da yoktur: on bin satırlık dışa aktarım iki satırlık örnekle aynı kolaylıkta dönüşür. Sonucu, akış tersine döndüğünde — finans ekibinden API'ne dönen CSV — csv-to-json ile eşleştir; gidiş dönüş, iki taraf aynı tırnaklama kurallarını izlediği için tutarlı kalır.",
+        ],
+      },
+    ],
   },
   "csv-to-json": {
     name: "CSV'den JSON'a",
@@ -2127,6 +4068,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Dönüşüm tarayıcında yerel çalışır — verin asla cihazından çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tip çıkarımı: veriyi dürüst tutan muhafazakâr kurallar",
+        paragraphs: [
+          "CSV hücreleri metindir; JSON tip taşır. İkisini köprülemek dönüştürücünün tahmin etmesi demektir ve dönüştürücünün kalitesi tahmininde yaşar. Buradaki kurallar bilinçli olarak muhafazakârdır: hücre yalnızca temiz sayısal değer ise sayıya dönüşür — önde sıfır yok, çevreleyen boşluk yok. true ve false mantıksallara, tam olarak null dizgesi null'a dönüşür; geri kalan her şey dize kalır. Bu demektir ki 007 «007» kalır, 7 değil; posta kodları, ürün kodları ve telefon numaraları sıfırlarını korur; 2024-03-04 gibi tarihler sessizce başka bir şeye dönüşmez.",
+          "Muhafazakâr varsayılanın varlık nedeni yanlış tipin sessiz hata olmasıdır. «007» yerine 7 alan bir JSON tüketici özgünü kurtaramaz; sayı istediği yerde dize alan en az yüksek sesle başarısız olur ya da banal biçimde dönüştürülür. Bir sütunun gerçekten sayısal olduğunu biliyorsan türü, varsayımın açık olduğu aşağı akışta zorla — dönüştürücü, kimliklerinle kumar oynanacak yer değildir.",
+          "Başlık işlemesi CSV'nin iki klasik hastalığını kapsar: boş ve yinelenen sütun adları. Boş başlıklar üretilmiş adlar alır (column1, column2, …); böylece her satır tüm alanlarını korur; yinelenenler son geçene çöker, çünkü JSON nesneleri yinelenen anahtar taşıyamaz. Yinelenenler şeman için önemliyse dönüştürmeden önce başlığı düzelt — hiçbir dönüştürücü kaynağın hiç taşımamadığı bilgiyi uyduramaz.",
+        ],
+      },
+      {
+        heading: "CSV'yi doğru çözmek: tırnaklar, satır sonları ve ayırıcılar",
+        paragraphs: [
+          "CSV'yi virgüllerde bölmek, gerçek bir veri kümesi geldiği an yanlıştır. Biçimin pratikte izlediği standardı tanımlayan RFC 4180 tırnaklı alanları tanımlar: virgül, tırnak ya da satır sonu taşıyan alan çift tırnakla sarılmalıdır ve böyle bir alandaki tırnak ikilenerek kaçışlıdır. «Ada, Kontes» okuyan bir ad alanı tek hücredir; naif bölme onu ikiye böler ve arkasındaki her sütunu kaydırır.",
+          "Satır sonları ikinci tuzaktır. CSV dosyaları CRLF (Windows, Excel dışa aktarımları) ile LF (Unix araçları) karıştırır ve tırnaklı alan içindeki satır sonu veridir, kayıt ayırıcı değil — çok satırlı bir adres ya da yapıştırılmış bir yorum tek hücre olarak hayatta kalmalıdır. Doğru çözümleme küçük bir durum makinesidir, split() çağrısı değil; burada çalıştıran o'dur.",
+          "Ayırıcılar dile göre değişir: Avrupa'nın ve Latin Amerika'nın çoğunda Excel, virgül ondalık ayırıcı olduğundan noktalı virgülle ayrılmış dosyalar yazar. Araç koklamak yerine virgülü ya da noktalı virgülü açıkça seçmene izin verir; böylece her alanın tesadüfen noktalı virgül taşıdığı bir dosya yanlış saptanmaz. Kaynağın sekme kullanıyorsa, gidiş dönüşü JSON'dan CSV'ye kardeşi halleder.",
+        ],
+      },
+      {
+        heading: "İnsanların adını taşıyan veri için yerel dönüşüm",
+        paragraphs: [
+          "JSON'a yönelen CSV'ler genelde bir API'ye ya da veritabanına yönelir — ve içerikleri genelde gerçek dünyadır: kullanıcılar, siparişler, kişiler, yanıtlar. Böyle bir dosyayı yüklemeleri işleyen bir siteden geçirmek, satırların ağ sınırını aşması ve tipik olarak birinin günlüklerine ya da deposuna düşmesi demektir. Kimliği belli insanlar hakkındaki veri için, tam olarak hem gizlilik politikalarının hem de sağduyunun kaçınılması gereken adım budur.",
+          "Bu dönüştürücü her şeyi tarayıcında, JavaScript ile çözer ve serileştirir — yapıştırma, çözümleme, tip çıkarımı ve çıktı hepsi makineninde olur; kod yolunda hiçbir yükleme adımı yoktur. Yüklendikten sonra çevrimdışı çalışır, tarayıcı belleği dışında satır ya da boyut kotası dayatmaz ve dönüştürdüğün hiçbir şey hiçbir yere yazılmaz. Test kullanıcılarıyla tek seferlik bir tohum dosyası ya da kımıldamaması gereken bir müşteri dışa aktarımı için, verinin sözünü bütün tutan tek mimari budur.",
+        ],
+      },
+    ],
   },
   "markdown-previewer": {
     name: "Markdown Önizleyici",
@@ -2153,6 +4119,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Metnim nerede işleniyor?",
         a: "Tamamen tarayıcında — üretilen HTML'i kopyalasan bile Markdown asla cihazından çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "GFM ile CommonMark: tabloların neden çizildiği",
+        paragraphs: [
+          "Markdown tek bir dil değildir. CommonMark katı biçimde belirlenmiş çekirdektir — başlıklar, listeler, vurgu, bağlantılar — 2004'teki özgün Perl uygulaması iki çiziciyi bile aynı kararlı yapacak kadar belirsiz olduğu için doğmuştur. GitHub Flavored Markdown (GFM) CommonMark artı uzantılardır: tablolar, üstü çizili ~~böyle~~, görev listeleri, otomatik bağlantılar ve dil etiketli çitle çevrili kod blokları.",
+          "Önizleme GFM çeşidini çizer; çünkü insanların gerçekten yazdığı odur: GitHub'daki README'ler, sorunlar, çekme isteği açıklamaları ve çoğu dokümantasyon sitesi tabloların ve görev listelerinin çalışmasını bekler. Aynı belgeyi katı CommonMark çiziciye taşırsan tablolar ham metin olarak çıkar — beklenmeye değer bir taşıma sürprizi, bir hata değil.",
+          "Çeşitler arasındaki kalan farklar daha incedir: paragraf içi satır kırılma kuralları, gevşek ve sık listelerin iç içe gidişi ve kelimeler arası vurgunun uç durumları. Bir parça bu sayfada öteki siteden farklı çiziliyorsa neden neredeyse her zaman çeşittir, Markdown'undaki bir hata değil — öteki çizicinin hangi uzantıları açtığını kontrol et.",
+        ],
+      },
+      {
+        heading: "Temizleyici güvenlik hikâyesidir",
+        paragraphs: [
+          "Bir Markdown önizleyici, Markdown'ın açıldığı her şeyi çalıştırır ve Markdown içindeki ham HTML yasaldır — demek ki yapıştırılan bir belge <script>, onclick öznitelikleri ya da javascript: bağlantıları taşıyabilir. Bunu temizlemeden çizmek, XSS'in kullanıcıdan Markdown kabul eden yorum sistemlerinde, wiki sayfalarında ve CMS alanlarında gerçekleşme biçimidir.",
+          "Bu önizleme herhangi bir şey sayfaya ulaşmadan önce beyaz liste uygular: yalnızca standart biçimlendirme etiketleri ve güvenli öznitelik değerleri sağ çıkar. Script etiketleri, satır içi olay işleyicileri ve javascript: URL'leri soyulur. Pratik sonuç: güvenilmeyen içerik yapıştırabilirsin — yabancıdan bir belge, kazınmış bir yorum dizisi — önizleme hiçbir kötücül şey çalıştırmayacaktır.",
+          "Aynı temizleyici kopyalama çıkış yolunu da korur. Kopyaladığın HTML çoktan temizdir; CMS ya da blog editörüne yapıştırmak betik kaçakçılığı yapmaz. Sınırı dürüstçe not et: temizleme etkin içeriği soyar, görünen metnin söylediğini denetlemez — belge script'siz olabilir ve yine de kötü tavsiye taşıyabilir.",
+        ],
+      },
+      {
+        heading: "Taslakların nerede yaşadığı",
+        paragraphs: [
+          "Dokümantasyon taslakları gelişen işlerdir: yayımlanmamış değişiklik günlükleri, altyapı ayrıntısı taşıyan iç runbook'lar, güvenlik düzeltmelerini tartışan PR açıklamaları. Taslakları sunucuya yükleyen bir Markdown önizleyici tam olarak onları yola koyar — burada her şey yerelde çalışır: motor ve temizleyici, tarayıcının JavaScript'inde çalışır.",
+          "İşlemenin yerel olması hiçbir taslağın hiçbir yerde kalmadığı, canlı çizimin ağ gidiş dönüşüyle yavaşlamadığı ve araç çevrimdışı çalıştığı anlamına gelir. Uçakta ya da dış ağ erişimi olmayan bir ortamda doküman yazmak, masanda yazmakla birebir aynıdır.",
+          "Alışılmış yapıştır-ve-biçimle sürtünmesinden de kaçar: kurulacak editör eklentisi yok, çalıştırılacak derleme adımı yok, önce kaydedilecek dosya yok. Slack'ten, kod yorumundan, biletten yapıştır — bir saniyede çizili gör, gerekirse temiz HTML kopyala.",
+        ],
       },
     ],
   },
@@ -2184,6 +4176,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yaklaşık 70 yaygın olanı — işaretleme (&amp;, &lt;, &gt;, &quot;, &apos;), noktalama (&mdash;, &hellip;, &ldquo;), Latin aksanları ve simgeler (&copy;, &euro;) — artı her ondalık ve onaltılık sayısal referans.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Beş karakter ve & öncelikli kuralı",
+        paragraphs: [
+          "Metni HTML için güvenli kılmak tam olarak beş karakterin kaçışmasını gerektirir: &amp;, &lt;, &gt;, &quot; ve &#39;. Ve işareti ilk sırada gelir; çünkü her varlık onunla başlar — kaçışsız bir & ardından harfler, tarayıcının bir atıfı çözmeye başlaması için verdiği sinyaldir. Kaçırırken sıranın neden önemli olduğu da budur: & her şeyden önce &amp; olmalıdır; yoksa az önce kurduğun varlıklar &amp;lt;'ye yeniden kaçışlıdır.",
+          "Ters yön sırayı çevirir: kaçış çözülürken &amp; en son, en önce değil işlenir. Önce işlersen &amp;lt;, &lt; olur, sonra gerçek bir < olur — yazarın görünür metin istediği yerde canlı bir etiket. Tek bir sıralama hatası, çift-çözme hatalarının tüm mekanizmasıdır ve regex tek satırlarının en sık yaptığı hatadır.",
+          "Tırnakların kaçışlı olması gerekip gerekmediği bir bağlam sorusudur. Metin düğümlerinde zararsızdır — <p>Dedi ki «selam»</p> yasaldır. Öznitelik değerlerinin içinde, özniteliği sınırlayan tırnak kaçışlı olmalıdır; özniteliklerdeki kaçışsız tırnaklar klasik enjeksiyon vektörüdür: « ile biten bir değer özniteliği kapatabilir ve yenisini açabilir. Öznitelik bağlamları için tırnakları kaçıştır; okunur çıktı istiyorsan düz metinde dokunmadan bırak.",
+        ],
+      },
+      {
+        heading: "Varlıklar, XSS ve dürüstçe söylenmiş sınır",
+        paragraphs: [
+          "Kaçışlama XSS savunmasının ilk hattıdır: kullanıcı tarafından gönderilen bir <script>, &lt;script&gt; olur; çalışmak yerine görünür metin çizilir. Düzgün şablon motorları metin iklemesini otomatik yapar — ama elle dize birleştirme, JavaScript'te + ile HTML kurmak ya da kullanıcı içeriğini özniteliklere çizmek yine de elle disiplin ister.",
+          "Sınır dürüstçe söylenmeyi hak eder: kaçışlama içeriği işaretleme olarak etkisiz kılar; içeriği güvenilir kılmaz. Kaçışlı bir belge, yazarın yazdığı her şeyi — oltalama metnini, yanıltıcı yönergeleri — yine gösterir. Kaçışlama doğruluğu ve enjeksiyon güvenliğini hedef alır; içerik incelemesini değil.",
+          "&#233; ve &#x2019; gibi sayısal varlıklar güvenlik için değil taşınabilirlik için vardır. UTF-8 dünyasında çoğunlukla gereksizdirler ama eski e-posta zincirleri, UTF-8 olmayan kodlamayla yaşayan eski kod yolları ve yüksek baytları atan sistemler hâlâ faydalanır. Çözme yönünün tanıdığı adlandırılmış atıflar günlük seti kapsar — işaretleme, noktalama, Latin aksanları, para simgeleri — artı tüm sayısal biçimler.",
+        ],
+      },
+      {
+        heading: "Kullanıcı içeriğini yerelde kaçışlamak",
+        paragraphs: [
+          "Kaçışlanması gereken metin genelde başkalarının sözleridir: müşteri destek mesajları, analiz için kazınmış yorum dizileri, e-posta şablonuna gidecek kullanıcı biyografileri. Tam olarak bir web hizmetinden geçmemesini isteyeceğin içeriktir — ve bu aracın bazı çevrimiçi sürümleri metni backend'lerine POST eder.",
+          "Buradaki her şey tarayıcının JavaScript'inde çalışır: dönüşüm saf karakter işlemesidir; hiçbir adımda ağ devrede değildir. Müşterinin tam mesajını, bütün bir yorum dökümünü, kişiselleştirme alanlı bir şablonu yapıştır; hiçbir şey cihazdan çıkmaz, hiçbir şey günlüklenmez ve karakter sayısı okuması, kaçışlamanın metni ne kadar şişirdiğini dürüstçe gösterir.",
+          "Bağlamları geçerken URL kodlamasıyla eşleştir: HTML varlıkları işaretleme bağlamını, yüzde kodlaması URL bağlamını korur; ikisi de birbirinin yerine geçmez — sorgu dizisindeki HTML-kaçışlı bir &, yüzde kodlanmış bir & ile farklı şeylerdir. Her iki dönüşümü de yerelde, yan yana yapmak bağlamların karışmamasının yoludur.",
+        ],
+      },
+    ],
   },
   "url-parser": {
     name: "URL Ayrıştırıcı",
@@ -2212,6 +4230,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Her geçiş kendi satırını alır ve JSON dışa aktarımı onları ayrı anahtar/değer çiftleri olarak listeler; hiçbir şey sessizce üzerine yazılmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bir URL'nin anatomisi: önemli parçalar",
+        paragraphs: [
+          "Bir URL göründüğünden fazla yapılıdır. Tarayıcıların uyguladığı WHATWG URL standardında https://example.com:8443/shop/shoes?color=red#reviews gibi bir URL; scheme (https), host (example.com), port (8443 — https varsayılanı 443'tür; URL'siz de eşdeğerdir), path (/shop/shoes), query (?color=red) ve fragment (#reviews) olarak ayrışır. Fragment özeldir: sunucuya asla gönderilmez, yalnızca tarayıcıda var olur — tek sayfa uygulamalarının onu kullanma ve sunucu tarafında algılayamamanın sebebi budur.",
+          "Yol tek bir opak dize değil, segmentlerin bir hiyerarşisidir. Her segmenti kendi satırına almak yönlendirme desenlerini görünür kılar: /shop/shoes bir öğe taşıyan bir koleksiyondur; yönlendirmeler ve yeniden yazımlar genelde tüm yol üzerinde değil segmentler üzerinde çalışır. Onları ayrı görmek, tek dizgenin sakladığı çift eğik çizgiler ve boş segmentler gibi tuhaflıkları da ifşa eder.",
+          "Portlar, userinfo (user:pass@host biçimi; eskimiştir ama hâlâ çözülür) ve hatta köşeli parantezli IPv6 hostların hepsi standardın dilbilgisidir. Tarayıcının URL API'si hepsini halleder — bu aracın el yazısı bir regex'e değil o API'ye devretmesinin sebebi tam olarak budur: gördüğün ayrıştırma, sunucunun gördüğü ayrışmadır.",
+        ],
+      },
+      {
+        heading: "Kodlama, çözme ve klasik % tuzakları",
+        paragraphs: [
+          "Yüzde kodlaması URL ayrıştırmanın inceldiği yerdir. a%2Fb gibi bir değer a/b'ye çözülür — ama değer gerçekten eğik çizgi taşıdığı için kodlandıysa, göstermek için çözmek doğrudur; yol ayrıcı saymak yanlıştır. Bu araç anahtarları ve değerleri, alacak sunucunun yapacağı tam biçimde çözer; okuduğun, uygulamanın gördüğü şeydir.",
+          "+ ile %20 arasındaki fark çoğunu yakalar. application/x-www-form-urlencoded geleneğinde (formlar, bazı çerçeveler) boşluk + olarak yazılır; URL standardının kendisinde + sadece artıdır. Aynı ?q=a+b dizisi, çerçeveye göre q=a b ya da q=a+b demektir. Şüphedeysen parametreyi buraya yapıştır ve backend'inin günlükleriyle karşılaştır.",
+          "Kodlama aynı zamanda denetim aracıdır: çözülmüş listedeki utm_source, fbclid, gclid ve arkadaşları, izleme parametrelerini gözden kaçırılabilir kılınır. Paylaşmadan önce bir bağlantıdan onları atmak küçük bir gizlilik kazancıdır — parametreler seni bir kampanyaya atfılmak için var olur ve fark etmedikçe kopyalanan her URL'ye binerler. Temiz bir bağlantı, alıcının günlüğüne de daha az iz taşır ve kampanya atıf zincirlerinin dışında kalan bir paylaşım, izlenmeden yapılmış bir paylaşım olarak kalır.",
+        ],
+      },
+      {
+        heading: "Ayrıştırma tarayıcında olur",
+        paragraphs: [
+          "İncelediğin URL'ler her zaman zararsız değildir: imzalı bağlantılar (S3 ön-imzalı URL'ler, code=… ya da token=… taşıyan OAuth geri çağrıları) sorgu dizisinde kimlik taşır. Sunucu tabanlı bir ayrıştırıcıya yapıştırmak, çalışır bir kimliği onu işletene iletmektir. Bu araç tarayıcının yerel URL API'siyle, tümüyle yerelde ayrıştırır — hiçbir şey cihazdan çıkmaz.",
+          "Yerel ayrıştırma çöpü de güvenle fırlatabileceğin anlamına gelir. Neredeyse bozuk bir URL (eksik şema, başıboş boşluklar, kodlanmamış karakterler) yığın iziyle reddedilmez; kabul edilir ya da açıklanır — tarayıcının URL çözümleyicisi katı bir doğrulayıcıdan toleranslıdır ve sunucunun gerçekte alacağıyla eşleşir.",
+          "Kodlu segmentleri elle incelemek gerektiğinde URL çözücüyle, sorgu dizeleri kurarken kodlayıcıyla zincirle — çöz, ayarla, yeniden kodla; ham URL'leri elle düzenleyip ummaktan daha hızlı bir döngüdür. Üç araç, ayrıştırıcı–çözücü–kodlayıcı, tek sayfada birbirine bağlanır; URL işi için ihtiyacın olan döngünün tamamı budur.",
+        ],
+      },
+    ],
   },
   "http-status-codes": {
     name: "HTTP Durum Kodları",
@@ -2238,6 +4282,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "401 ve 403 ikisi de giremezsin demiyor — fark ne?",
         a: "401 “sen kimsin?” demektir — kimlik bilgileri eksik veya yanlış. 403 “kim olduğunu biliyorum ve yine de giremezsin” demektir — kimlik doğrulandı ama kaynak yasaklı.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Beş sınıf ve nasıl okunacağı",
+        paragraphs: [
+          "Durum kodunun ilk rakamı hangi ailenin konuştuğunu söyler. 1xx bilgilendirmedir — büyük yüklemeler sırasında 100 Continue gibi ara laflardır; asla nihai yanıt değildir. 2xx bir biçimde başarı demektir: 200 düz OK'tır, 201 bir kaynağın kurulduğunu söyler, 204 geri gönderilecek hiçbir şey olmayan başarıyı söyler. 3xx yönlendirmedir — kaynak başka yerde yaşar. 4xx istemcinin suçudur, 5xx sunucunun.",
+          "Sınıf bölmesi ayıklamada önemlidir; çünkü anında suç atar. Günlüklerindeki bir 4xx genelde istemcinin yanlış bir şey gönderdiği demektir — bozuk kimlikler (401), eksik izinler (403), bozuk istek gövdesi (400) ya da var olmayan bir şey istemek (404). Bir 5xx, sunucunun içsel bir soruna çarptığı demektir — ele alınmamış istisna (500), yukarı akış başarısızlığı (502 Bad Gateway), aşırı yük (503). Önce sınıfı okumak bir hatayı bilmece olmaktan yön olmaya çevirir.",
+          "Bilinmeye değer iki incelik: 202 Accepted, isteğin alındığı ama henüz işlenmediği demektir — asenkron iş kuyruklarıyla sıktır — ve bir 3xx her zaman tarayıcının izleyeceği yönlendirme demek değildir; 304 Not Modified gövdesi hiç olmayan önbellek anlaşması yanıtıdır.",
+        ],
+      },
+      {
+        heading: "Yönlendirmeler, önbellek ve insanların yanlış bildiği kodlar",
+        paragraphs: [
+          "3xx ailesi gerçek dünyadaki hataların yoğunlaştığı yerdir. 301 kalıcıdır: arama motorları sıralamayı devreder ve tarayıcılar yönlendirmeyi agresif önbellekleyebilir. 302 geçicidir ama kip konusunda belirsizdir — istemciler tarih olarak 302 sonrasında POST'u GET'e çevirdi; tam olarak 307'nin yasakladığı şey. Bir POST'un yönlendirmeden bozulmadan hayatta kalması gerektiğinde doğru yanıtlar 307 (geçici) ya da 308 (kalıcı) olur; 303 See Other bilinçli «bunu GET'e çevir» yönergesidir; form POST sonrası klasik.",
+          "Önbellek davranışı, sınıfın söylemediği diğer yarıdır. Bir 200, başlıklara göre önbelleklenebilir ya da değildir; 304 açıkça önbellek el sıkışmasıdır; 410 Gone istemcilere sormayı bırakmalarını söyler ve arama motorları onu 404'ten daha hızlı endeksten çıkarır. Durum kodu çerçeveyi kurar; başlıklar ayrıntıları belirler — «gövdede hata nesnesiyle 200 döndüren» bir API'nin her yerde önbelleği ve yeniden denemeleri kırmasının sebebi budur: kod başarı der, semantik başarısızlık der.",
+          "401 ile 403 kendi satırını hak eder: 401 kimlik üzeredir (kimlik doğrulamadın, kimliklerle yeniden dene; genelde WWW-Authenticate başlığıyla); 403 yetkilendirmen üstündedir (kimlik kuruldu, erişim reddedildi). Eksik giriş için 401 yerine 403 döndürmek en sık API tasarım hatalarından biridir — istemci, yeniden kimliklendirmenin yardımcı olup olmayacağını söyleyemez.",
+        ],
+      },
+      {
+        heading: "Makinende yaşayan bir referans",
+        paragraphs: [
+          "Bu sayfa, tarayıcında yerelde çizilen statik bir referanstır: aradığın ya da tıkladığında arama isteği yapılmaz; sayfa yüklendikten sonra çevrimdışı çalışır. O tasarım, kullanılış biçimine uyar — olayın ortasında, telefon başında, üretim günlükleri açıkken ve ağ yarı kırıkken. Tıkla-kopyalama vardır; çünkü durum kodları hata raporlarına, runbook'lara ve kod incelemelerine tek tek yapıştırılmakla biter.",
+          "Durum kodları HTTP standartlarından gelir (çekirdek sınıflar RFC 9110 ve arkadaşlarında; 425 gibi HTTP/2 uzantı kodları; ve sonunda ayrılmış haline gelen Nisan şakası 418) ve set nadiren büyür — genişçe benimsenen son eklemeler 4xx bandının daha spesifik tanılarıydı. Bu referans pratik seti kapsar ve her birini belirtim düzyazısı yerine düz dilde açıklar.",
+          "Ayıklarken URL ayrıştırıcıyla eşleştir: Location başlığının nereye işaret ettiğini görmeden bir 301 ya da 302 bir şey demek değildir; ayrıştırıcı hedef URL'nin yapısını doğrudan gösterir. İkisiyle birlikte neden-sonuç zinciri tek sayfada kurulur — durum, yön ve hedef — olayın ortasında belirtimlere danışmadan.",
+        ],
       },
     ],
   },
@@ -2271,6 +4341,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "index/noindex, sayfanın sonuçlarda görünüp görünemeyeceğini; follow/nofollow, bağlantılarının değer aktarıp aktarmayacağını belirler. Sayfanın kendisinde bulunmalıdır — robots.txt hiçbir şeyi noindex edemez.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Title uzunluğu karakterle değil pikselle ölçülür",
+        paragraphs: [
+          "«50–60 karakter» tavsiyesi gerçek kısıtın yerini tutan pratik bir kuraldır: masaüstü sonuç sayfası title'ı bir piksel bütçesine keser — Google'ın çizdiği fontta kabaca 580px. Aynı 60 karakter, yazıya göre çok farklı genişlikler kapsar: tamamen büyük harfli bir Latin başlık pikseli hızla yakar; CJK glifleri neredeyse karedir ve 30 karakterlik bir Japonca başlık, 55 karakterlik bir İngilizcenin genişliğini aşabilir.",
+          "Kesme ölümcül değildir — Google etiketi yine de tam okur — ama görünen kısım, arayanın tıklamaya karar vermeden önce gördüğü her şeydir; önemli kelimeler kesimden önce durmalıdır. Bir marka adı için en kötü yer, uzun başlığın sonudur; silinen ilk şey odur.",
+          "İkinci, daha sessiz kesme açıklamaları yönetir: Google, kötü boyutlu ya da yinelenen başlıkların ve açıklamaların çoğunu yeniden yazar; sayfa gövdesinden cümleler çeker. 150–160 karakter civarındaki bir açıklama bir istektir, garanti değil; sayfanın gerçek içeriğiyle eşleşen bir tanesini yazmak, yeniden yazıldığında hasarı küçültür.",
+        ],
+      },
+      {
+        heading: "Robots meta ile robots.txt — farklı katmanlar, farklı işler",
+        paragraphs: [
+          "Robots meta etiketi ile robots.txt sık karıştırılır; çünkü ikisinin adında da «robot» geçer ama farklı aşamaları yönetirler. robots.txt çekmeyi yönetir: disallow edilmiş URL taranmaz. Meta etiket indekslemeyi yönetir: index/noindex, çekilen sayfanın sonuçlarda görünüp görünmeyeceğini; follow/nofollow, bağlantılarının değer geçirip geçirmediğini karar verir. robots.txt ile engellenmiş bir sayfa, başka sayfalar bağlanıyorsa yine sonuçlarda görünebilir — engellemek noindex demek değildir.",
+          "Klasik denetim bulgusu ters hatadır: robots.txt'nin engellediği bir noindex sayfası. Crawler sayfayı hiç çekmez, noindex'i hiç görmez; yönerge okunmadan durur. Bir sayfa indeksten çıkacaksa önce meta etikete ulaşılabilir olmalıdır.",
+          "Etiketin içinde değerler birleşir: index,follow varsaylandır ve genelde atlanır; noindex,follow bir sayfayı sonuçların dışında tutarken bağlantılarının taranmasına izin verir; noarchive, nosnippet ve arkadaşları sonuç özelliklerini ayrı ayrı ayarlar. Sayfa başına tek robots meta — başlıktaki yinelenenler öngörülemeyen biçimde çözülür.",
+        ],
+      },
+      {
+        heading: "Bir üreticinin neyi üretmesi neyi üretmemesi gerektiği",
+        paragraphs: [
+          "Meta keywords uyarıcı örnektir: Google 2009'dan beri onu yok sayar; Bing onu spam sinyali sayabilir; şablonlarda canlı tutmak denetçilere çoğunlukla bakımsız bir site sinyalidir. Bu üretici onu yalnızca bazı niş motorlar ve iç arama platformları hâlâ istediği için içerir — açıkça gerektiren bir şey olmadıkça boş bırak.",
+          "Viewport etiketi buna karşılık sessiz baş işçidir: yokluğu en sık mobil kullanılabilirlik başarısızlığıdır ve tek eksik etiket, mobil uyumluluk kontrollerinde bir sitenin her sayfasını işaretleyebilir. Author ve öteki betimleyici etiketler az sıralama ağırlığı taşır ama bedelsizdir ve başlığı tamamlar.",
+          "Öznitelik kaçışı göründüğünden önemlidir: tırnak taşıyan bir açıklama kaçışsız bir şablonu sessizce kırar; başlığı özniteliğin ortasında keser. Bu aracın ürettiği her şey HTML-kaçışlıdır ve boş alanlar boş etiketler olarak değil atlanarak yayılır — iki kez hiçbir şey söylemeyen bir başlık, tutarlı kalan başlıktır. Tüm üretim tarayıcında, yerelde çalışır.",
+        ],
+      },
+    ],
   },
   "open-graph-generator": {
     name: "Open Graph Üretici",
@@ -2297,6 +4393,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Hangi og:type'ı seçmeliyim?",
         a: "Ana sayfalar ve genel sayfalar için website, haberler ve blog yazıları için article (yapabiliyorsan article:published_time ekle), e-ticaret detay sayfaları için product kullan. Tür, bazı platformların bağlantıyı nasıl sınıflandırdığını değiştirir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Platformlar bu etiketleri gerçekte nasıl tüketir",
+        paragraphs: [
+          "Open Graph ad alanı 2010 civarında Facebook'ta herhangi bir sayfayı zengin bir grafik nesnesine çevirmek için doğdu; sektörün geri kalanı onu fiili paylaşım kartı sözlüğü olarak benimsedi: X, LinkedIn, WhatsApp, Slack, Discord ve iMessage önce og:title, og:description ve og:image okur. Twitter kendi ad alanını tuttu ama açıkça verilmiş olmayan her şey için og: değerlerine düşer.",
+          "Tüketim kullanıcıya değil crawler'a dayanır: birisi URL'ni yapıştırdığında platformun botu sayfayı bir kez çeker ve kartı önbelleğe alır. Bu yüzden etiketleri düzenlemek, platformun ayıklayıcısında yenilemeyi zorlamadan hiçbir işe yaramaz — Facebook'un Sharing Debugger'ı, X'in Card Validator'ı, LinkedIn'in Post Inspector'ı — ve bir görseli dosya adını değiştirmeden değiştirmek, çoğu zaman eski resmi önbellekten servis etmeye devam eder.",
+          "og:url özelliği göründüğünden fazlasını yapar: paylaşılan nesnenin kanonik kimliğini bildirir ve platformların çoğu onu, beğeni sayılarının ve paylaşım toplamlarının gruplandığı anahtar olarak sayar. Bunu rel=canonical'ınla özdeş tutmak, aynı sayfanın URL varyantları arasında etkileşimin bölünmesini önler.",
+        ],
+      },
+      {
+        heading: "1200×630 görseli ve başarısız biçimleri",
+        paragraphs: [
+          "1,91:1 oran Facebook'un bağlantı küçüğünün onu kurmasından var olur; her şey onu izledi; 1200×630 her büyük yüzeyde temiz kırpılan boyuttur. Oranın dışındaki görseller merkezden kırpılır ve kırpım metnini kaybedendir — görselin üzerindeki kelimeleri kenarlara değil merkez güvenli alanda tut.",
+          "Pratikte boyutlardan fazla ağırlık sayar: birçok platform birkaç MB üstündeki görselleri hiç çekmez ve yavaş bir görsel, kartın boş bir yer tutucuyla çıkması demektir. Mutlak URL zorunludur — crawler önce sayfayı sonra görseli çeker ve göreli yol yanlış bağlamda çözülür ya da hiç çözülmez.",
+          "og:image:alt en çok atlanan ve en ucuz kazançtır: kart paylaşıldığında ekran okuyucuların duyurduğu şeydir ve bazı platformlar görsel yüklenmezse yedek metin olarak açığa verir. Yazması tek cümledir; atlamak, her paylaşımın her destekleyici kullanıcısına boş bir açıklama vermek demektir.",
+        ],
+      },
+      {
+        heading: "Neden iki ad alanı — ve önizleme ne vaat etmez",
+        paragraphs: [
+          "Dürüst asgari, og: seti artı twitter:card, twitter:site ve isteğe bağlı twitter:creator — twitter:title, twitter:description ve twitter:image çoğu sitede saf yinelemedir. Vazgeçilmez bilgi taşıyan tek twitter: etiketi twitter:card'dır: summary_large_image'ı (geniş fotoğraf kartı) summary'nin (küçük kare) karşısında seçer; bunu hiçbir og: eşdeğeri karar vermez.",
+          "og:type görüntüden fazla kategorilendirme için önemlidir: article haber/içerik sinyalidir (varsa article:published_time ile eşleştir); product e-ticaret ayrıntı sayfalarını işaretler; website geri kalan her şey için varsayılandır. Platformlar onu, bağlantıyı akışlarda ve mesajlaşma uygulamalarında nasıl bağlamlandıracağını seçmek için kullanır.",
+          "Canlı önizleme, yerel çizimle büyük-görselli ve summary kartlarını yaklaşık çizer ama her platform farklı keser, kırpar ve dizer — onu metin uzunluğu ve görsel varlığı için akıl sağlığı kontrolü olarak ele; sonra gerçek şeyi, sayfa sevk edilmeden önce her platformun resmî ayıklayıcısında doğrula.",
+        ],
       },
     ],
   },
@@ -2327,6 +4449,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yinelenen kullanıcıları başka yere gönderecekse 301 yönlendirme; erişilebilir kalması ama sonuçlarda çıkmaması gerekiyorsa noindex; her iki sürümün de canlı ve taranabilir kalması gerekiyorsa canonical kullan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Yinelenen URL'ler neden var — birleştirmek ne demek",
+        paragraphs: [
+          "Yinelenen URL'ler bir hata değildir — sitelerin çalışma biçiminin doğal ürünüdür. Aynı sayfa, sondaki eğik çizgiyle ve onsuz, http ve https üzerinden, www'li ve www'siz, her kampanya bağlantısının eklediği UTM parametreleriyle, liste sayfalarındaki sıralama ve filtre parametreleriyle ve yazdırma ya da amp görünümleriyle ulaşılabilir. Sunucu hepsini özdeş içerikle yanıtlar; yönerge görmeyen arama motorları onları ayrı belgeler olarak indeksler.",
+          "rel=canonical yönergedir: «bu adresler kopyadır; sinyallerini bunda birleştir» der. Birleştirme önemlidir; çünkü sıralama sinyalleri — bağlantılar, tıklamalar, kalite tahminleri — kazanıldıkları URL'ye bağlanır. Beş yinelemeye bölünmüş sayfa kendisiyle yarışır; birleştirilmiş, gerçekten yenmek istediğin sayfayla yarışır.",
+          "Etiket güçlü bir ipucudur, komut değil. Google onu iç bağlantı desenleriyle, sitemap girdileriyle ve yönlendirme davranışıyla birleştirir; sitenin geri kalanıyla çelişen bir canonical'i sessizce geçersiz kılar. Bu yüzden kendi sitemap'ınla ya da gezinmenle savaşan bir canonical etiketi genelde kaybeder — sinyaller arası uyum, tek sinyaldeki doğruluğu yener.",
+        ],
+      },
+      {
+        heading: "Klasik kötü kullanımlar ve varsayılan olarak kendine atıf",
+        paragraphs: [
+          "Denetim klasikleri: mutlak bir tır yerine göreli URL, sunucuların hiç görmediği bir #fragment, 301 yönlendirmesine işaret eden bir canonical (motorlar zinciri çözmek zorundadır; bazıları çözmez), noindex sayfasına nişanlı bir canonical (çelişen yönergeler — birini seç) ve her sayfalı listede ana sayfaya giden canonical'lar; fiilen 2+ sayfaların indeksten silinmesini istemekle eşdeğerdir.",
+          "En etkin alışkanlık varsayılan olarak kendine atıftır: her sayfa kendini kanonik ilan eder; eşsiz olanlar bile. Bedelsizdir ve henüz kimsenin fark etmediği varyantlara karşı bağışıklık kurar — gelecek ay bir eklentinin eklediği bir parametre, bir çerçeve yükseltmesinin soktuğu eğik çizgi tutarsızlığı. Kendine atıflı etiket, ilk varyantı keşfedilmek yerine zararsız kılan şeydir.",
+          "Araçlar arasında seçmek her biri tek karardır: yinelenen fiziksel olarak kullanıcıları başka yere gönderecekse 301; ulaşılabilir kalmak zorunda ama sonuçların dışında kalacaksa (yüzli gezinme, iç arama) noindex; her iki sürümün canlı ve taranabilir kalması gerekiyorsa canonical. Karıştırmak — canonical'i başka yere işaret eden bir noindex sayfası — çelişen sinyaller gönderir ve her şeyi geciktirir.",
+        ],
+      },
+      {
+        heading: "Bu üreticinin senin için hallettiği tekdüzleme ayrıntıları",
+        paragraphs: [
+          "Kanonik URL mutlak olmalıdır — şema ve host dahil — ve her sayfa tam olarak bir tane taşıyabilir. Üretici şemayı ve hostu küçük harfe alır (hostlar kabloda büyük-küçük duyarsızdır ama karışık durumlı bir canonical, motorlar için öteki bir yinelemeye yakındır), siten boyunca tek bir eğik çizgi kararını dayatır, sorgu parametrelerini yalnızca kasıtlı olduğunda tutar ve yalnızca istemci tarafında olan fragment'ları atar.",
+          "Parametre sırası ince olandır: ?b=1&a=2 ile ?a=2&b=1 aynı kaynaktır ama farklı dizelerdir; bazı tarayıcılar onları ayrı sayar. Canonical'lar bunu sonradan çözer; daha temiz çare parametreleri sunucu tarafında sıralamak ve budamaktır. Canonical'da parametre tutmak zorundaysan parametre dizgesinin de kanonik biçimini tut.",
+          "Doğrulama Search Console'un URL Inspection'ına aittir; Google'ın sayfa için gerçekte hangi URL'yi seçtiğini raporlar — etiket, sitemap ve iç bağlantılar tek tek doğru olabilir ve yine de bir yönlendirme zincirine kaybedebilir. Buradaki her şey tarayıcında çalışır: yazdığın hiçbir URL hiçbir yere yüklenmez.",
+        ],
+      },
+    ],
   },
   "schema-markup-generator": {
     name: "Schema İşaretleme Üretici",
@@ -2353,6 +4501,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Geçerli yapılandırılmış veri zengin sonuçları garanti eder mi?",
         a: "Hayır. Geçerlilik, sayfayı bir özelliğe aday yapar; Google görüntüleyip görüntülemeyeceğine sorgu başına ve yüzey başına karar verir. Raporlarda yıldız veya kırıntıyı yalnızca işaretlemeye dayanarak asla vaat etme.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Yeterlilik, hak değil: zengin sonuçlar gerçekte nasıl çalışır",
+        paragraphs: [
+          "Yapılandırılmış veri ile arama görünümü arasındaki ilişki iki aşamalı bir kapıdır; aşamaları karıştırmak çoğu abartının köküdür. Birinci aşama geçerliliktir: işaretleme çözülür, zorunlu özellikler vardır, değerler beklenen biçimlerle uyuşur. İkinci aşama yeterliliktir; Google tek başına sorguya, yüzeye ve siteye göre karar verir — kusursuz işaretlemeyi bile reddedebilir.",
+          "Yapılandırılmış veri bir sıralama etkeni de değildir. Yaptığı şey, bir sayfanın nasıl sunulabileceğini değiştirmektir: yeterlilik yıldızlara, fiyatlara, ekmek kırıntılarına ve etkinlik kutularına kapıyı açar; o sunumlar tıklama oranlarını kayda değer biçimde oynatabilir. Trafik etkisi dolaylıdır; Google'ın verilen sorgu için zengin görünümü seçip seçmediğine aracılıdır.",
+          "Google'ın kendi politikaları değişir ve son zamanlarda tam olarak insanların işaretleme ürettiği alanlarda sıkılaştı: FAQ zengin sonuçları artık neredeyse yalnızca iyi bilinen devlet ve sağlık siteleri için gösterilir; HowTo görünümü mobilde emekli edildi. Bu yüzden muhafazakâr metin yaz: işaretlemeyi dağıtılmış ve doğrulanmış olarak raporla; belirli bir özelliğin görüneceğini hiç vaat etme. Zengin snippet garanti eden araçlar, artık var olmayan bir dünyayı betimliyor.",
+        ],
+      },
+      {
+        heading: "JSON-LD neden kazandı ve her tip neyi ister",
+        paragraphs: [
+          "Üç sözdizimi schema.org'u ifade eder: HTML öğelerinize dokunmuş mikroveri öznitelikleri, RDFa öznitelikleri ve JSON-LD — saf veriden oluşan bağımsız bir script bloğu. Google'ın dokümantasyonu JSON-LD'yi yeğler; pratik gerekçeler tercihiyle uyuşur: blok işaretlemene dokunmaz, şablonlar ya da bu araç gibi bir araç tarafından üretilip enjekte edilebilir ve yeniden tasarımlardan sağ çıkar; çünkü içeriğin içinde değil yanında yaşar.",
+          "Her tip, geçerliliğin dayandığı zorunlu özellikler taşır. Bir Article headline ve author ister; bir Product name ve teklif için düz sayılarla para birimi taşıyan price ister; tarihler ISO 8601 dizileridir, CMS'inin bastığı biçim değil. Eksik zorunlu özellik, geri kalan her şey kusursuz olsa da doğrulamayı başarısız kılar — üreticinin boş alanları doğrulayıcıların işaretleyeceği null'ları yaymak yerine atmasının sebebi budur.",
+          "Zengin sayfalarda varlık başına bir script gürültüye döner; @graph yapısı birden çok varlığın tek bloğu paylaşmasına izin verir; aralarındaki atıflar @id ile ifade edilir. Bir Article, publisher Organization'ı ve bir BreadcrumbList taşıyan sayfa için önerilen biçim budur.",
+        ],
+      },
+      {
+        heading: "Kendi çıkarına işaretleme tuzağı ve doğrulama disiplini",
+        paragraphs: [
+          "Cezalandırma riski teorik değildir: çözen ama sayfayı yanlış temsil eden işaretleme — gerçek yorumu olmayan sayfada yorum yıldızları, gösterilenden farklı fiyatlı bir Product, ziyaretçilere görünmez FAQ yanıtları — yönergeleri ihlal eder ve zengin sonucun getireceği her faydadan daha uzun yaşayabilecek manuel bir işlem kazandırabilir. Pratik kural basit: işaretleme, ziyaretçinin işaretlemeye kaydırmadan görebildiğini betimlemelidir.",
+          "Doğrulamanın ayrılması gereken iki katmanı vardır. Bir sözdizimi doğrulayıcı JSON'un iyi biçimli olduğunu söyler; Google'ın Rich Results Test'i işaretlemenin herhangi bir özellik için yeterli olup olmadığını söyler. İlkini geçmek masa başıdır — bu üretici kaçışı yönetir; tırnaklar ve ve işaretleri script bloğunu kıramaz — ve görüntü için anlam taşıyan yalnızca ikincidir.",
+          "Dağıtım disiplini döngüyü kapatır: bloğu yapıştır, testi çalıştır, sonra Search Console'un geliştirme raporlarını izle; şablonlar değiştikten sonra hataları ölçekte ifşa ederler. İşaretleme, kontrol etmediğin bir tüketiciye sevilen koddur — sayfanın geri kalanıyla aynı sürümleme ve inceleme alışkanlıklarıyla ele al. Buradaki her şey tarayıcında yerelde üretilir; hiçbir şey yüklenmez.",
+        ],
       },
     ],
   },
@@ -2383,6 +4557,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Taramayı engellemek, indekslemeyi engellemek değildir: başka sayfalar URL'ye bağlanıyorsa Google içeriği olmadan indekslemeye devam edebilir. Bir sayfayı sonuçlardan çıkarmak için taramaya izin ver ve bunun yerine noindex meta etiketi kullan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "robots.txt gerçekte nasıl çözülür: gruplar ve önek eşleşmesi",
+        paragraphs: [
+          "Protokol, iki kuralını gördüğünde başında taşınacak kadar küçüktür. Birincisi, gruplama: bir bot, User-agent satırları onu içeren tek en özgü gruptakileri okur — birleştirilmiş tüm grupları değil. GPTBot bir blokta ve * jokeri altında da görünüyorsa, jokerin kuralları GPTBot için kaybolur. Bu yüzden bu üretici bir kuralı paylaşan user-agent'ları tek grupta birleştirir; sessizce birbirini iptal eden paralel bloklar yaymak yerine.",
+          "İkincisi, eşleşme: yollar, büyük-küçük duyarlı önek eşleşmeleridir; en uzundan başlayarak değerlendirilir ve tam olarak iki desen karakteri taşır — * joker olarak ve $ uç sabitleyici olarak. Disallow: /search; /search'i, /searching'i ve /search/x'i de bloklar; Disallow: /search$ yalnızca tam yolu bloklar. Ve değersiz çıplak bir Disallow:, her şeye izin demektir; elle yazılmış dosyaları düşüren budur.",
+          "İki yapısal gerçek resmi tamamlar: yalnızca bir hostname'in kökündeki dosya uygulanır — example.com üzerindeki kurallar blog.example.com'u asla kapsamaz; onun kendi dosyası gerekir — ve başka bir yerde robots.txt olduğunu iddia eden dosya yalnızca metindir. Ne sitemap yönergesi ne crawl-delay özgün standardın parçasıdır: crawl-delay bazı crawler'larca (Bing) onaylanır; en büyüğü tarafından yok sayılır (Google seni yerine Search Console ayarlarına yönlendirir).",
+        ],
+      },
+      {
+        heading: "Taramak indekslemek değildir: noindex ile eşleşmesi",
+        paragraphs: [
+          "robots.txt hakkında en sonuç verici yanlış kanı, Disallow'ın bir sayfayı arama sonuçlarından kaldırdığıdır. Sıradan bir durumda kaldırmanın tersini yapar: URL çekilmez; crawler içeriğini hiç görmez — ama başka sayfalar bağlanıyorsa motor URL'yi yine bir giriş olarak, snippet'siz listeleyebilir. Taramayı engelledin ve noindex eklemenin yolu olmayan indekslenmiş bir URL kazandın.",
+          "Doğru eşleşmeler: crawler'ları bir bölümden tümüyle uzak tutmak için Disallow et ve bağlanan URL'lerin yine çıplak görünebileceğini kabul et. Sayfaları sonuçlardan kaldırmak için taranabilir bırak ve noindex meta etiketini ya da X-Robots-Tag HTTP başlığını kullan. Hızlı kaldırmak için Search Console'un kaldırma aracını kullan; robots.txt değil.",
+          "Aynı mantık, Disallow artı noindex'in niçin çelişki olduğunu açıklar: çekmesi engellenen bot, ondan listekten çıkmasını isteyen etiketi asla okuyamaz. Her noindex dağıtımı, sayfanın gerçekten ulaşılabilir olduğunu kontrol ederek başlamalıdır.",
+        ],
+      },
+      {
+        heading: "Yapay zekâ crawler'ları ve dosyanın dürüst sınırları",
+        paragraphs: [
+          "Yapay zekâ crawler'ı politika menüsünün varlık sebebi, user agent'ların yeni olması ve pazarlıkların gerçekten farklı olmasıdır: aramaya bitişik crawler'lar (OAI-SearchBot, PerplexityBot) ziyaretçi getirebilir; eğitime odaklı olanlar (GPTBot, ClaudeBot, Google-Extended, CCBot) yönlendirme trafiğine hiçbir şey katmaz; Bytespider'ın bazı site işletmecilerince yönergeleri tümüyle yok saydığı gözlenmiştir. Bot başına kararlar, tek * bloğunun hiç tasarlanmadığı tam durumdur.",
+          "Uyumluluk her hatta gönüllüdür. robots.txt desteğini belgeleyen işletmenler çoğunlukla onu onurlandırır ama dosyayı dayatan hiçbir şey yoktur ve kimlik kendi beyanıdır — bir crawler herhangi bir ad iddia edebilir. Sert garanti için uygulama noktan CDN'in ya da güvenlik duvarın; user-agent'ta eşleşme (başlıkların sahtelenebilir olduğunu bilerek) ya da davranış desenlerinde.",
+          "Son olarak dosyanın ne olduğunu hatırla: kamusal bir ilandır. Herkes /robots.txt okuyabilir; özel saydığın yolları numaralandırır — klasik bir keşif yardımcısıdır. Duyarlı alanlar kimlik doğrulama ister; dosya kibar crawler'lara ve tarama bütçene yardım eder, insanlara değil.",
+        ],
+      },
+    ],
   },
   "sitemap-generator": {
     name: "XML Sitemap Üretici",
@@ -2409,6 +4609,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bir sitemap ne kadar büyük olabilir?",
         a: "Dosya başına 50.000 URL veya sıkıştırılmamış 50 MB. Ötesinde birden çok sitemap'a böl ve bir sitemap indeks dosyasında listele, sonra indeksi gönder.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir ipucu, bir vaat değil",
+        paragraphs: [
+          "Bir sitemap tam olarak tek bir şey yapar: URL'leri listeler; böylece crawler'lar onları daha hızlı keşfeder. Taramayı zorlamaz, indekslemeyi garanti etmez ve sıralama ağırlığı taşımaz — Google'ın kendi dokümantasyonu üç noktada da açıktır. Onu, crawler'a sitenin haritasını vermek olarak düşün; her koridoru yürüyerek bulmasını bekleme.",
+          "İzlediği protokol — sitemaps.org 0.9 — 2005'te Google'ın önerisi olarak başladı ve kısa süre sonra Yahoo ile Microsoft tarafından ortaklaşa benimsendi; Google, Bing ve Yandex onu hâlâ değişmeden kabul eder. O uzun ömür, bugün üretilen geçerli bir dosyanın her büyük motorda aynı davranmasının sebebidir.",
+          "Keşif, iç bağlantıların URL envanterine henüz yetişmediği büyük ya da yeni başlatılmış sitelerde hâlâ öder: bir sitemap crawler'a listeyi ilk günden verir; bağlantıların birikmesini beklemez. Ayrıca dış keşif çaresizdir: yalnızca birkaç bağlantıyla indirmesi zor bir sayfa, sitemap sayesinde yine de bulunabilir.",
+        ],
+      },
+      {
+        heading: "Hangi etiketler gerçekte bir şey yapar",
+        paragraphs: [
+          "Üç içerik etiketinden yalnızca lastmod belgelenmiş etki taşır: Google onu, yeni bir taramanın planlanmaya değip değmeyeceğine karar vermek için okur — ve yalnızca değer zaman içinde doğru ve tutarlı olduğunda. changefreq ve priority yok sayılmış olarak belgelenmiştir; Google'ın crawler'ları kendi kendilerini planlar.",
+          "Lastmod dürüstlük sorunu yapısaldır: derleme zincirleri, içeriğin değişip değişmediğine bakmaksızın her URL'ye bugünün tarihini damgalar; crawler'lar sinyalin gürültü olduğunu öğrenir — ondan sonra bile dürüst lastmod değerleri indirimli sayılır. Çare sıkıcıdır: içerik anlamlı değiştiğinde yalnızca lastmod'u güncelle; W3C Datetime biçiminde (YYYY-MM-DD yeterlidir).",
+          "loc ve XML ad alanı yapısal işi yapar: her URL mutlak olmalıdır; tüm girişler tek bir host öneki paylaşmalıdır ve sorgu dizelerindeki & XML geçerli kalması için &amp; olarak kaçışlıdır. Yinelenen temizliği de sayar — aynı URL'nin iki kez listelenmesi tarama bütçesini iki kez harcar.",
+        ],
+      },
+      {
+        heading: "Boyut sınırları ve onlara uyan akış",
+        paragraphs: [
+          "Protokol tek bir dosyayı 50.000 URL ya da sıkıştırılmamış 50 MB ile sınırlar — hangisi önce gelirse. Bu üretici girişleri ilk yol segmentine göre gruplar; tam olarak büyük bir sitenin bölüm başına dosyalara temiz biçimde bölünmesi için: /blog/*, /products/*, /docs/* her biri kendi sitemap'i olur; bir sitemap indeksinde birlikte listelenir.",
+          "Gruplama iki kez öder: Search Console hataları sitemap başına raporlar; başarısız olan dosya hangi bölümün kırıldığını söyler — hiçbir şey söylemeyen tek dev dosya yerine. Ve bölüm başına lastmod işlemesi gerçeğe uyar — dokümanlar her gün değişir; hakkımızda sayfaları asla.",
+          "Barındırma ritüeli kısadır: sitemap.xml'i indir, alan adının köküne yükle, robots.txt'den bir Sitemap: satırıyla atıf yap ya da doğrudan Search Console'a gönder ve ilk taramanın onaylamasına izin ver. Buradaki her araç gibi XML tamamen tarayıcında birleştirilir — URL envanterin hiçbir yere yüklenmez.",
+        ],
       },
     ],
   },
@@ -2439,6 +4665,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Başka bir dizginin sorguya daha iyi uyduğunu düşünürse Google, H1'i, iç bağlantıların bağlantı metnini veya site adını koyabilir. Önizleme en iyi durumu gösterir: kendi etiketlerin, değişmeden.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Karakter değil piksel",
+        paragraphs: [
+          "Google'ın sonuç sayfası başlıkları oransal fontla dizer ve satır piksel bütçesini tükettiğinde keser — masaüstünde kabaca 580–600 — karakter sayısına ulaşıldığında değil. Harfler genişlik bakımından farklılaştığı için IIIIIIII ile MMMMMMMM ikisi de sekiz karakterdir ve genişlikleri çarpıcı biçimde farklıdır; karakterlerle ifade edilen her kural, takım elbiseli bir tahmindir.",
+          "Açıklama aynı mantığı daha yumuşak sınırla izler: yaklaşık 155–160 karakter, üç noktadan önceki sıradan masaüstü tavanıdır; ama eşit sayılarda geniş harfler dar olanlardan önce kesilir. Mobil yeniden biraz farklı bir bütçe çizer; her iki düzeni kontrol etmek, birine güvenmekten iyidir.",
+          "Bu önizleme metni, Google'ın kullandığı fontlarla modellenmiş piksel metrikleriyle ölçer ve sonuç sayfasının keseceği yerde keser — izlediğin sayı, Google'ın çizicisinin izlediği sayıdır; yaklaşımı değil.",
+        ],
+      },
+      {
+        heading: "Google zaten yeniden yazacak — buna göre planla",
+        paragraphs: [
+          "Önizleme en iyi durumu gösterir: title etiketin, harfi harfine. Pratikte Google başlıkları ve açıklamaları sorguların büyük bir payı için değiştirir — H1'i, iç bağlantıların ank metnini, site adını ya da başka bir dizgenin sorguya daha iyi oturduğunu yargıladığında kelimelerinin kendi yeniden yazımını çeker.",
+          "Savunma hile değil kanıttır: title'ları içerikle ve sorguyla eşleşen sayfalar daha az yeniden yazılır. Kesin, spesifik bir meta açıklama seninkinin harfi harfine kullanılma şansını artırır; belirsiz bir pazarlama cümlesi yerine arayana göre uyarlanmış bir yedek davet eder.",
+          "Önizlemeyi garanti edilen sonuç değil pazarlık konumu olarak ele: hayatta kalması gereken kelimeleri — marka, birincil anahtar kelime, teklif — başlığın başına koy; kesilmiş ya da yeniden yazılmış bir snippet bile onları koruyabilsin.",
+        ],
+      },
+      {
+        heading: "Sayfa sevkedilmeden biten bir akış",
+        paragraphs: [
+          "Title'ı, açıklamayı ve URL'yi yaz; iki sayacın dolmasını izle; masaüstü/mobil arasında geç; kırp. Yer satın alan düzenlemeler öngörülebilirdir: markayı sona al, dolgu zarfları kes, laf kalabalığı ifadeleri düz isimle değiştir.",
+          "CMS eklentileri aynı fikri önizler ama platform bağımlılığına çakar; bağımsız bir kontrol her şablon, her yığın ve her aşama için çalışır — CMS'e hiç dokunmayan sayfaların incelemesi dahil: üretilmiş açılış sayfaları gibi.",
+          "Her şey tarayıcında yerelde hesaplanır — duyurulmamış ürünlerin taslak başlıkları hiçbir yere gönderilmeden geçebilir. Metin iki piksel bütçesini de atlattığında, meta etiket ve Open Graph üreticileri bitmiş dizeleri kalan yola taşır.",
+        ],
+      },
+    ],
   },
   "keyword-density-checker": {
     name: "Anahtar Kelime Yoğunluğu Kontrolü",
@@ -2465,6 +4717,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Çince ve Japonca nasıl sayılır?",
         a: "Gerçek bir segmenter olmadan CJK metni, tek tokenler için karakter başına, iki kelimelik öbekler için karakter çifti başına sayılır — aşırı kullanılan terimleri yakalamak için iyi bir yaklaşımdır, dilsel bir analiz değildir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Geçmişte kalmış mit: sıralama hedefi olarak anahtar kelime yoğunluğu",
+        paragraphs: [
+          "Anahtar kelime yoğunluğu 1990'larda ve 2000'lerin başında makul bir fikirdi: belgeleri sorgu kelimelerinin içinde ne kadar sık göründüğüne göre sıralamak; webmasterlar sayfaları iddia edilen sihirli bir eşiğe — %2, %3, haftanın SEO forumunun ne dediğine göre — ayarlardı. O dünya gitti. Modern sıralama sistemleri embedding'ler, konu modelleri ve kalite sinyalleri kullanır; bir sayfanın konuyu iyi kapsayıp kapsamadığını değerlendirir, bir ifadenin sayısal çizgiyi aşıp aşmadığını değil.",
+          "Daha da kötüsü eşiğin peşine düşmek bugün olumsuz bir sinyal olarak okunur. Bir ifadeyi doğal düzeyin ötesinde tekrarlayan metin, spam filtrelerinin, kalite dereceleticilerin ve okunabilirlik formüllerinin yakalamak için kurulduğu tam şeydir. %5'e doldurulmuş sayfa yükseltilmekten çok alçaltılır; insanların aşırı ayarladığı ifade, algoritmaların izlediği tam ifadedir.",
+          "Peki bu araç gerçekte ne için? Hâlâ var olan başarısızlık modu: konusunu hiç açıkça dile getirmeyen ya da taslağın ortasında ilgili ama farklı bir sözcük dağarcığına sürüklenen sayfa. Denetçinin en üst ifadeleri sıralamak istedikleriyse iyi; hedef ifaden ilk otuzda görünmüyorsa sayfanın hiçbir yoğunluk kuralının çözemeyeceği gerçek bir sorunu vardır.",
+        ],
+      },
+      {
+        heading: "Payda, durak kelimeler ve n-gramlar",
+        paragraphs: [
+          "Yoğunluk bir kesirdir ve payda her şeyi belirler. Ham tokenler üzerinden sayıldığında işlev kelimeleri egemendir: sıradan İngilizce düzyazıda the, of ve to hep en üst terimlerdir; konun boğulur. Durak kelimeleri atmak sayımı içerik-kelime payına çevirir; sayfaya bir şey söyleyebilen sürüm budur.",
+          "Tek kelimeler çoğu arama için yanlış birimdir. Sorgular ifadedir — en iyi koşu ayakkabıları, londra'da otel — bu araç tek tokenlerle birlikte bigram ve trigram sayar. Durak kelime etkileşimini fark et: durak kelimeleri atıldığında hotel in london, hotel london bigramına çöker; çoğu zaman gerçek sorgu biçimine daha yakındır. Birine güvenmek yerine iki görünümü karşılaştır.",
+          "CJK metni dürüst ama yaklaşık sayılır: gerçek kelime segmentasyonu olmadan Çince ve Japonca tek tokenler karakter başına, iki kelimelik ifadeler komşu karakter çiftleri başına sayılır. Bir karakterin ya da ifadenin aşırı kullanımını sezmeye yeter — denetçinin gerçek işi budur — ama dilbilimsel segmentasyon değildir; yüzdeleri bir ölçüm değil teşhis olarak ele.",
+        ],
+      },
+      {
+        heading: "Pratik bir okuma akışı",
+        paragraphs: [
+          "1 kelimelik listenin üstünü konu akıl sağlığı kontrolü olarak kullan: oradaki terimler konunu adlandırmalı. Hedeflediğin ifadeler için 2 kelimelik ve 3 kelimelik listeleri tara; yoklarsa ifadenin bir budaklarını tekrarlamak yerine onları doğal biçimde yaz.",
+          "Kaza kurbanı kazananlara dikkat. Tek bir çalışma başlığı çevresinde yazılan taslaklar beklenmedik bir egemen ifade taşıyabilir — ürün kod adı, müşteri adı, yinelenmiş kalıp cümle. Sayfanın «konusal olarak» sandığından hafif farklı bir şey gibi okunduğunu bilmek, herhangi bir yüzde hedefinden daha değerlidir.",
+          "Ve her şeyi oransal tut: yoğunluk araçları metnini izole okur; arama motorları bütün derleme ve sitenin geçmişine karşı okur. Anlık çalışan, yayımlanmamış taslağını asla yüklemeyen yerel, tarayıcı içi bir sayım taslak aşaması aracıdır — sayılar senin içindir, yargı senin kalır.",
+        ],
       },
     ],
   },
@@ -2495,6 +4773,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Her dil sürümü kendi kendine bakan canonical'ını yine taşımak zorundadır. hreflang, eşdeğer çevrilmiş sayfalar arasında seçer; canonical tek dil içindeki yinelenenleri çözer.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Karşılıklılık ve x-default: her şeyi belirleyen iki kural",
+        paragraphs: [
+          "hreflang kümeleri bireysel etiketler olarak değil graf olarak doğrulanır. Arama motorları her sayfadan tüm rel=alternate hreflang bağlantılarını toplar; bir küme yalnızca kapalıysa çalışır: A sayfası B'yi ve kendini listeler; B, A'yı ve kendini listeler; her üye için böyle. Tek eksik dönüş bağlantısı — genelde <head>'i hiç güncellenmemiş bir sayfa — ve motorlar kümeyi eksik sayar; yönlendirmeye çalıştığın tam sayfaları indirimli kılar.",
+          "Bu yüzden başarısızlık kötü bir biçimde sessizdir: hiçbir şey hata vermez; sayfalar sonuçlarda olması gerektiği gibi değişmez. Denetlemek tüm üyeleri taramak ve kümelerini fark etmeye almak demektir — sıkıcı; bu yüzden tüm bloğu tek girdiden üretmek ve özdeş seti her yere yapıştırmak güvenilir akıştır.",
+          "x-default, kümenin «yukarıdakilerin hiçbiri» yanıtınadır: dili ve bölgesi bildirilmiş hiçbir sürümle eşleşmeyen kullanıcı bu URL'yi alır. Bir dil seçiciye ya da varsayılan dil ana sayfasına işaretle. İsteğe bağlıdır ama olmadan, eşleşmeyen ziyaretçi keyfi bir seçim alır — çoğu zaman İngilizce sürüm; kitlenize uysun uymasın.",
+        ],
+      },
+      {
+        heading: "BCP 47'yi doğru okumak: önce dil, bölge yalnızca önemliyse",
+        paragraphs: [
+          "Değerler BCP 47 dil etiketleridir ve alt etiketler farklı anlamlar taşır. Birincil alt etiket dildir (en, pt, zh); bölge alt etiketi (GB, BR, CN) kitlenin coğrafyaya göre seçer; yazı alt etiketi (Hans, Hant) bir yazı sistemi seçer. Çıplak en her yerdeki her İngilizce konuşanı eşler; en-GB özellikle İngiliz kullanıcıları hedefler.",
+          "Sık hata, bölgeyle aşırı bölümlendirmektir: hepsi aynı içeriği işaret eden en-US, en-GB, en-AU, en-CA etiketleri. İçerik özdeşse bir en bildir ve herkesle eşleşmesine izin ver — bölge etiketleri içeriğin gerçekten farklılaştığı içindir: pt-BR ile pt-PT'nin yazım ve para birimi farkı, fr-CA ile fr-FR gibi. Özdeş içerikli fazladan bölge varyantları, hreflang'ın çözmek için var olduğu yinelemelere yakın kopyaları yaratır.",
+          "Çince klasik yazı durumudur: tek başına zh yetersiz belirtilmiştir; zh-Hans ve zh-Hant sadeleştirilmiş ve gelenekseli seçer. Ve hreflang'ın ne olmadığını not et: eşdeğer sayfalar arasında kitle yönlendirir ama sıralama sinyallerini birleştirmez — her dil sürümünün hâlâ kendi kendine atıflı canonical'i ve kendi kazandığı bağlantıları gerekir.",
+        ],
+      },
+      {
+        heading: "Yönergelerin yaşadığı yer — ve hreflang'ın yapmadıkları",
+        paragraphs: [
+          "Üç yerleşim aynı yönergeyi taşır: head'deki <link> öğeleri (sayfa sayfa denetlemesi en kolay; bu üreticinin yaydığı), HTTP Link başlıkları (PDF gibi HTML olmayan dosyalar için doğru) ve bir XML sitemap sütunu (binlerce URL'de tek pratik yol; head bağlantıları bakılamaz hale gelir). Sayfa başına tek kanal seç — kanallar arasında çoğaltmak tutarsızlığı davet eder.",
+          "Kapsam hakkında da dürüst ol: hreflang hangi sürümün hangi kitleye servis edildiğini etkiler; bir sıralama artışı değildir, hiçbir şeyi çevirmek için yönerge değildir ve hreflang'ın göremediği temellerin yerine geçmez — doğru dönüş bağlantıları, taranabilir URL'ler ve sürüm başına canonical'lar. Google her etiketi katı doğrular: tek bozuk değer (eksik tire, yanlış yazılmış ülke kodu) ait olduğu kümeyi kirletebilir; üreticiden tam biçimi yaymak elle yazmaktan bu yüzden iyidir.",
+        ],
+      },
+    ],
   },
   "utm-builder": {
     name: "UTM Bağlantı Oluşturucu",
@@ -2521,6 +4824,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "UTM değerlerinde büyük/küçük harf önemli mi?",
         a: "Evet — utm_campaign=Spring ile utm_campaign=spring, çoğu analiz aracında iki ayrı kampanya sayılır. Küçük harfe standartlaş; raporların temiz kalır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Parametre sistemi, çözülmüş haliyle",
+        paragraphs: [
+          "UTM, Urchin Tracking Module demektir — Urchin Software'in fosili; web analitiğini Google 2005'te satın alıp Google Analytics'e çevirdi. Beş standart parametre o günden beri her yeniden tasarımdan sağ çıktı: utm_source ziyaretçinin nereden geldiğini adlandırır (google, newsletter, twitter), utm_medium kanalı adlandırır (cpc, email, social, referral), utm_campaign girişimi adlandırır; isteğe bağlı utm_term ve utm_content ödenmiş anahtar kelimeyi ve A/B varyantını ayırır.",
+          "utm_id özel anılmayı hak eder: GA4 farklı bağlantıları tek bir kampanya kimliğine bağlamak için onu kullanır — hafifçe farklı kampanya adlarıyla gelen trafiği birleştirmenin temiz yoludur. Kurumun zaten kampanya kimlikleri atıyorsa, kampanyanın her bağlantısına aynı değeri koy.",
+          "Parametreler sıradan sorgu dizesi girişleridir — yoldan sonra, #fragment'tan önce eklenir — ve bu üretici her değeri yüzde kodlar; böylece boşluklar %20 olur ve e-posta istemcilerinden, QR üreticilerinden ve reklam platformu yönlendirmelerinden URL bozulmadan sağ çıkar.",
+        ],
+      },
+      {
+        heading: "Adlandırma gelenekleri gerçek üründür",
+        paragraphs: [
+          "Üretici düzgün biçimli bağlantılar garantiler; faydalı raporları yalnızca disiplin garantiler. Analitik, değerleri büyük-küçük duyarlı dizeler sayar: utm_campaign=Spring_Sale ile utm_campaign=spring_sale bir kampanyayı ikiye böler — ve her gelecek rapor onları elle geri birleştirmek zorunda kalır.",
+          "İyi yaşlanan gelenekler sıkıcıdır: tümüyle küçük harf, boşluk yerine tire ya da alt çizgi, kampanya adlarının içinde tarih yok (bir girişimi haftalık yinelemelere yakın kopyalara böler) ve bağlantı kurabilen herkesin paylaştığı kaynak ve ortam için kararlı bir sözlük. Bazı ekipler o listeyi bir hesap tablosunda tutar; bazıları bağlantı kurma yetkisini kısıtlar.",
+          "Yeniden etiketleme öteki tuzaktır: UTM parametreli bir URL paylaşıldığında, indekslendiğinde ya da basıldığında geçmişi yerinde kaynağıır. Etiketleri sonra değiştirmek geçmişi düzeltmez — zaman serisini keser. Taksonomiyi üçüncü kampanyadan sonra değil ilk kampanyadan önce belirle.",
+        ],
+      },
+      {
+        heading: "UTM ve SEO: düşman değil komşu",
+        paragraphs: [
+          "Etiketli URL'ler taramayı parçalayabilir: example.com/sayfa ile example.com/sayfa?utm_source=newsletter, bir canonical etiketi aksini söyleyene kadar crawler'a iki belge gibi görünür. Her sayfada kendine atıflı bir canonical standart savunmadır — sitenin canonical üreticisinin bununla doğal eşleşmesinin sebebi budur.",
+          "İç bağlantılar genelde UTM parametresi taşımamalıdır (bazı analitik kurulumlarında yönlendirme verisini kirletirler); UTM, site dışında kontrol ettiğin bağlantılara aittir — reklamlar, bültenler, sosyal paylaşımlar, QR kodları. O dış bağlantıları doğru yapmak üreticinin işidir; onları kendi gezinmenin dışında tutmak senin işindir.",
+          "Sitedeki her şey gibi birleştirilen URL tarayıcından hiç çıkmaz — hesap yok, günlükleme yok. Bir hedefi yapıştır, alanları doldur, sonucu reklam platformuna ya da QR üreticisine kopyala; atıf zinciri, her yerde aynı biçimde çözülen bir bağlantıdan başlar.",
+        ],
       },
     ],
   },
@@ -2555,6 +4884,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Üretim tamamen tarayıcının belleğinde olur. Hiçbir şey yüklenmez, günlüğe yazılmaz, saklanmaz — sayfayı yenilediğinde şifre sonsuza dek gider; hemen bir şifre yöneticisine kaydet.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Entropi neden gücün dürüst ölçüsüdür",
+        paragraphs: [
+          "Entropi, bir saldırganın geçmek zorunda kalacağı arama alanını bit cinsinden ölçer: karakter seti boyutunun log2'si, karakter sayısıyla çarpılır. Saniyede yüz trilyon tahmin deneyen bir kaba kuvvet saldırısı — güncel özel kırma donanımının kapasitesi — 80 biti geçmek için yüzyıllar alır. Buradaki okumanın gerçek bir sayı olması, ayarlarından hesaplanması; belirsiz bir güçlü/zayıf etiketi olmamasının sebebi budur.",
+          "Matematik uzunluğun karmaşıklığı neden yendiğini de açıklar. Her ek karakter arama alanını havuz boyutuyla çarpar; kısa bir parolanın içinde «a» yerine «@» takas etmek iğneyi zor oynatır. Klasik bileşim kuralları — bir rakam, bir simge, bir büyük harf — insanları Password1! gibi öngörülebilir desenlere iter; saldırı sözlükleri onları ezberden bilir. Güncel NIST yönergeleri (SP 800-63B) o kuralları uzunluk ve gerçek rastgelelik lehine bıraktı.",
+          "Bir dürüst sınır: entropi üretim sürecinin rastgeleliğini ölçer, her saldırmaya direnci değil. Kusursuz bir üretici, sızıntı yaşayan başka bir sitede yeniden kullanılan bir parolayı korumaz; kötücül yazılımlı makinede yazılan bir sırrı da. Pratikte hesap devralmalarının çoğu kaba kuvvetten değil, yeniden kullanımdan ve oltalama sahteciliğinden gelir.",
+        ],
+      },
+      {
+        heading: "CSPRNG ile Math.random karşılaştırması — ve neden fark eder",
+        paragraphs: [
+          "Her parola üreticisi, rastgelelik kaynağı kadar değerlidir. Math.random(), JavaScript'in günlük yardımcısı, simülasyonlarda hız ve yeniden üretilebilirlik için ayarlanmış bir sözde-rastgele üreticidir: birkaç çıktıyı gözle ve sonrakileri tahmin edebilirsin. Onunla kurulan bir parola rastgele görünür ve değildir — gerçek parola üretici sitelerini kıran tam olarak bu tür bir kısayoldur.",
+          "Bu araç crypto.getRandomValues kullanır — tarayıcının kriptografik olarak güvenli kaynağı. İşletim sistemi tarafından tohumlanır — donanım entropisi, kesme zamanlamaları, disk zamanlamaları — ve öyle tasarlanmıştır ki gözlemci öncekilerin hepsini görmüş olsa bile sonraki baytı tahmin edemez. O baytlar sonra seçtiğin karakter setlerine eşit dağılımla eşlenir; hiçbir karakter diğerinden sık çıkmaz: eğimli bir eşleme, gerçek entropiyi görüntülenen sayının altına sessizce indirir.",
+          "Aynı kaynak geçişli ifade kipini de sürer ama bayt yerine, 273 kısa ve belirsiz olmayan kelimelik bir listeden indeks seçer — kelime başına yaklaşık 8,1 bit. Beş rastgele kelime ≈40 bit ve gerçekten yazabileceğin bir ifade verir; sekiz ya da daha fazlası 16 karakterlik parolaların bölgesine ulaşır. Liste, dikte ederken ya da yüksek sesle okurken karıştırılabilir çiftleri önlemek için özel olarak süzülmüştür.",
+        ],
+      },
+      {
+        heading: "Tarayıcıda üretmek pratikte neyi değiştirir",
+        paragraphs: [
+          "Parolaları sunucu tarafında üreten siteler ürettikleri her parolayı görür — sır ağa geçer ve saklama politikası ne olursa olsun bir başkasının makinesindeki günlükte var olur. Tarayıcıda üretmek bunu ters çevirir: rastgele baytlar cihazında doğar ve parola onu hiç terk etmez. Sayfayı yenilemek her şeyi siler; sızılacak hesap, geçmiş ya da senkron yoktur.",
+          "Önerilen akış ondan gelir: burada üret, kopyala, doğrudan kayıt ya da parola değişiklik formuna yapıştır ve aynı nefeste bir parola yöneticisine kaydet. Yönetici hatırlar; üretici sırrın rastgele ve yerelde doğduğunu garantiler. Birlikte iki başarısızlık noktasını kapsarlar — doğumda öngörülebilir parolalar ve saklamada unutulmuş parolalar.",
+        ],
+      },
+    ],
   },
   "password-strength": {
     name: "Şifre Gücü Kontrolü",
@@ -2582,6 +4936,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Şifrem bir yere gönderiliyor mu?",
         a: "Hayır. zxcvbn kütüphaneleri ve sözlükleri tarayıcına yüklenir ve her hesaplama yerel çalışır. Girdini taşıyan hiçbir ağ isteği yoktur.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "zxcvbn sınıf-sayacı aletlerden nasıl farklılaşır",
+        paragraphs: [
+          "Aşina olunan yeşil-kırmızı güç çubukları karakter sınıflarını sayar: bir büyük harf, bir rakam, bir simge; yeşil puan. O model hiçbir zaman gücün ölçüsü değildi — bir kurala uyma ölçüsüydü. zxcvbn farklı çalışır: girdini bilinen desenlerin en ucuz setine ayrıştırır — sözlük kelimeleri, qwerty gibi klavye yürüyüşleri, tekrarlar, diziler, tarihler, l33t ikameleri — ve aynı stratejiyi izleyen bir saldırganın ihtiyaç duyacağı tahmin sayısını raporlar.",
+          "Bu yüzden Tr0ub4dor&3 karmaşık görünsesine rağmen kötü puan alır: ikameler, kırma sözlüklerinin uyguladığı ilk kurallardır; onu tahmin etmenin gerçek maliyeti «troubador» tahmin etmek artı biraz süslemedir. Aynı motor, dört rastgele sıradan kelimenin her simge tipiyle doldurulmuş kısa bir paroladan neden çok daha zor kırıldığını da açıklar.",
+          "zxcvbn'in açıkça olmadığı bir şey: parolanın belirli bir sızıntıda var olup olmadığına dair hüküm. Bilinen sızıntı parola listeleriyle eşleştirerek onu yaklaşır ama yetkili tek kontrol bir sızıntı veritabanını sorgulamaktır. Puanı saldırgan maliyetinin modeli olarak gör; sertifika olarak değil.",
+        ],
+      },
+      {
+        heading: "Üç saldırı senaryosunu dürüstçe okumak",
+        paragraphs: [
+          "Kırma süresi bir saldırı modeli olmadan anlamsızdır. Kısıtlanmış bir çevrimiçi saldırı (saatte yaklaşık yüz tahmin), iyi davranan bir giriş formunun izlediğidir; bcrypt gibi yavaş bir hash'e karşı çevrimdışı saldırı (saniyede kabaca on bin tahmin), düzgün hash'lenmiş bir veritabanı sızdığında olanıdır; hızlı ya da tuzsuz hash'lere karşı çevrimdışı saldırı (GPU'larda saniyede milyarlarca tahmin) en kötü durumdur ve olması gerekenden çok daha sıktır.",
+          "Faydalı alışkanlık bir parolayı en iyi senaryodan değil en kötüsünden yargılamaktır. Hızlı-hash sütununda bir hafta dayanan parola iyi yönetilen siteye yeter, sızan ve özensiz olan için tehlikeli biçimde incedir. Hangi sitenin düzgün hash'lediğini kontrol edemezsin; muhafazakâr okuma hızlı-hash sütunudur — özellikle yeniden kullanacağın her şey için.",
+          "Tahminin neyi varsaydığını da not et: saldırgan üretim düzenini bilir. Doğru varsayımdır — sözlük saldırıları tam olarak sıradan insan desenleri üzerine kurulur — ama sayıların insan yapımı parolalar için saldırgan maliyetine bir taban olduğu, tavan olmadığı anlamına gelir.",
+        ],
+      },
+      {
+        heading: "Güç güvenlik değildir ve kontrol yereldir",
+        paragraphs: [
+          "Sızıntı analizlerinden rahatsız edici gerçek: hesap devralmalarının çoğu hiçbir şeyi kırmayı içermez. Önceki bir sızıntıdan gelen yeniden kullanılmış parolaları ya da oltalama sayfasına teslim edilmiş kimlikleri içerir. Kusursuz 4/4 puan, siteler arasında yeniden kullandığın bir parolayı korumaz — hiçbir metrik koruyamaz. Gerçekçi savunmalar site başına eşsiz parola ve bir parola yöneticisidir; güç kontrolü üçüncü ayaktır.",
+          "Kontrolün kendisi burada güvenlidir: zxcvbn kitaplığı ve sözlükleri tarayıcına yüklenir ve her hesaplama cihazında çalışır. Yazdığın hiçbir şeyi taşıyan ağ isteği yoktur; gerçek parolaları bile sınamak makuldür — ama güvendiğin olmayan bir makinede herhangi bir sırrı yazmak, tarayıcı içi hiçbir aracın kaldıramayacağı risktir.",
+        ],
       },
     ],
   },
@@ -2613,6 +4992,29 @@ export const tr: Record<string, ToolCopy> = {
         a: "Birkaç alan adı MX kaydı yayımlamaz ve A kaydına güvenir (örtük yönlendirme); araç durum böyleyken bunu söyler. Diğerleri “burada posta yok” diyen boş bir MX yayımlar. Kurumsal veya çok yeni alan adları da bir süre herkese açık çözücü önbelleklerinde olmayabilir — bir dakika sonra tekrar dene.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Biçim-geçerli, ulaşılabilirle aynı şey değildir",
+        paragraphs: [
+          "RFC'ler gerçek dünyanın izin verdiğinden çok daha tuhaf adreslere resmî izin verir: «garip ad»@example.com gibi tırnaklı yerel kısımlar, IP-değişmez alan adları, adresin ortasında yorumlar. Gerçek post sunucuları bunların çoğunu reddeder; RFC dilbilgisinin tamamını uygulayan bir doğrulayıcı, kimsenin gerçekten kullanamayacağı adresleri onaylar. Bu araç pratik alt kümeyi kontrol eder — Gmail'in, Outlook'un ve büyük sağlayıcıların gerçekten kabul ettiği sözdizimi — kayıt formu için doğru çıta budur.",
+          "Kusursuz biçimli bir adres bile arkasındaki posta kutusu hakkında hiçbir şey söylemez. Dolu olabilir, silinmiş olabilir, her şeyi yutan bir catch-all olabilir ya da gönderen itibarını zehirleyen bir spam tuzağı olabilir. Bu yüzden biçim tek başına zayıf bir sinyaldir: anlamlı soru, alan adının posta almak için yapılandırılıp yapılandırılmadığıdır ve bu, kamusal bir DNS sorgusuyla yanıtlanabilir.",
+        ],
+      },
+      {
+        heading: "MX kontrolü sana ne söyleyebilir, ne söyleyemez",
+        paragraphs: [
+          "Bir MX kaydı kamusal bir vaattir: bu alan adının postası bu sunuculara, bu öncelik sırasıyla gitmelidir. Hiç MX olmaması genelde posta yok demektir ama iki dürüst istisna vardır — bazı küçük alan adları örtük yönlendirmeyle A kaydı üzerinden posta alır ve boş MX, açık bir «hiçbir şey kabul etmiyoruz» beyanıdır. Araç bunları tek bir başarısızlığa çökertmek yerine ayırır; bir kayıt hunisi için farklı anlamlar taşır.",
+          "Hiçbir DNS sorgusunun söyleyemeyeceği şey, belirli bir posta kutusunun var olup olmadığıdır. Posta sunucuları bunu bilinçli olarak ilan etmez — RCPT TO komutlarıyla sondamak, adres hasatçı spammer'ların çalışma biçimidir ve birçok sunucu bir şeyi doğrulamamak için tüm alıcıları kabul edip sonra döndürür. Tam SMTP doğrulaması sunucu tarafı toplu hizmetlere aittir; posta kutularını doğruladığını iddia eden bir tarayıcı aracı fazlasını vaat ediyor demektir. Biçim artı MX artı yazım hatası algılama, istemci tarafı kontrolün dürüst tavanıdır.",
+        ],
+      },
+      {
+        heading: "Yazım hataları ve bölmenin gizliliği",
+        paragraphs: [
+          "Başarısız kayıtların büyük bir payı tek harflik yazım hatalarıdır: gmial.com, hotmial.com, hitmail.com ya da .com yerine .cm. Alan adını en sıradan sağlayıcıların listesiyle kontrol etmek bunların çoğunu, kullanıcı daha bir döndürme görmeden yakalar — listeyi sonra temizlemekten çok daha ucuzdur. Yazım hatasını girişte yakalamak daha naziktir de: kullanıcı bir karakter düzeltir; beklediği onay postasını asla almaz.",
+          "Gizlilik tasarımı kasıtlıdır: yerel kısmın — sık sık adını ya da kullanıcı adını taşıyan kısım — doğrulaması tamamen çevrimdışı çalışır ve yalnızca alan adı sıradan bir DNS sorgusu olarak ağı geçer. Bir adresin alan adı nadiren bir insanı tanımlar; yerel kısım genelde tanımlar. Günlüklenmemesini istediğin adresleri yapıştırırken o bölmeyi aklında tut.",
+        ],
+      },
+    ],
   },
   "dns-lookup": {
     name: "DNS Sorgulama",
@@ -2640,6 +5042,30 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "A sorduğumda bazen neden CNAME satırları görüyorum?",
         a: "Çözücüler zincirin tamamını içerir: www.example.com, example.com'a bir CNAME ise A sorgusu takma adı ve son A kaydını birlikte döndürür. Ek satırlar, adın tam olarak nasıl çözüldüğünü gösterir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sorgunla yanıt arasında ne olur",
+        paragraphs: [
+          "DNS bir hiyerarşidir ve tek bir arama birkaç sunucuya dokunabilir. Hiçbir şey önbellekli değilken bir çözücü önce bir kök sunucu sorar; kök, üst düzey alan adının (.com, .org) ad sunucularına işaret eder; onlar alan adının kendi yetkili ad sunucularına — yanıtı gerçekte tutanlara — işaret eder. Her düzey bir yönlendirmeyle yanıtlar ve çözücü, geri verebileceği bir kayıt alana kadar zincirde aşağı yürür.",
+          "Önbellekleme bu yürüyüşü kısaltır. Her kayıt saniye cinsinden bir TTL (time to live) taşır; çözücülere yanıtı ne kadar yeniden kullanabileceklerini söyler. 300 gibi düşük bir TTL, değişikliklerin dakikalar içinde yayılmasını ama her aramanın yetkili sunucuya daha sık çarpmasını demektir; 86400 gibi yüksek bir TTL yanıtları bir gün önbellekli tutar — ucuz ve kararlı ama yavaş güncellenir. Planlı bir göçden önce TTL'yi düşürmek, dünyanın eski yanıtı ne kadar hızlı unutacağını planlamak demektir.",
+          "Bu aracın görünür kıldığı bir incelik: tarayıcın ya da işletim sisteminin, kamusal çözücünün önünde kendi önbelleği olabilir; bazı çözücüler bölgenin değişip değişmediğini kontrol etmeden önbellekli yanıtlar döndürür. Buradaki bir kayıt bayat görünüyorsa genelde TTL hâlâ geri sayıyor demektir — sorgudaki bir hata değil.",
+        ],
+      },
+      {
+        heading: "İş için doğru kayıt tipini seçmek",
+        paragraphs: [
+          "Ayıklamaların çoğu yanlış kayıt tipiyle başlar. Posta sorunları neredeyse hiçbir zaman bir A kaydı sorunu değildir: önce MX kontrol et, sonra SPF, DKIM ve DMARC için TXT kayıtları. SPF alan adının kendisinde tek bir TXT dizgesi olarak yaşar; DKIM, s1._domainkey.example.com gibi bir seçici alt alan adında; DMARC, _dmarc.example.com'da. DoH ham yanıtı segmentleri birleştirilmiş olarak döndürdüğü için tüm politika dizgesini burada okuyabilir ve postayı sessizce bozan sözdizimi hatalarını görebilirsin.",
+          "A, AAAA, NS ve CNAME farklı soruları yanıtlar: site çözülüyor mu, IPv6 üzerinden de mi? DNS'i kim yönetiyor? Bu ad bir takma ad mı? A sorgusuna CNAME yanıtı normal ve beklenendir — çözücüler tüm zinciri içerir — ama bir alan adı aynı adda diğer kayıtlarla birlikte CNAME taşıyamaz; apex alan adlarının sağlayıcıda bunun yerine ALIAS ya da düzleştirilmiş kayıt kullanmasının sebebi budur.",
+        ],
+      },
+      {
+        heading: "Neden DNS-over-HTTPS — ve bu aracın yapmadıkları",
+        paragraphs: [
+          "Geleneksel DNS sorguları 53. portta düz metin UDP olarak yol alır; ağ yolundaki herkese görünürldür — kafe yönlendiricisi, ISS, ara kutuları. DNS-over-HTTPS aynı sorguyu sıradan bir TLS bağlantısına sarar; arama yerel ağdan gizli kalır ve 53. portu engelleyen ya da kaçıran ağlardan geçer. Bu aracın dig'in başarısız olduğu ortamlarda çalışmasının sebebi budur.",
+          "Bir arama aracıdır, canlı bir izleme hizmeti değildir: bir çözücünden tek anlık yanıtı gösterir — önbellekli değerler dahil — yetkili sunucuları doğrudan sorgulamaz ya da yanıtları çözücüler arasında karşılaştırmaz. Kontrol ettiğin değişiklikler için pratik akış şudur: TTL'yi önceden düşür, değişikliği yap, sonra yeni değer görünene kadar burada yeniden kontrol et.",
+        ],
       },
     ],
   },
@@ -2671,6 +5097,30 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yalnızca sorgulamak istediğin IP, ipwho.is'e HTTPS isteğinde. Kendi IP'ni sorgulamak, adresini o API'ye açmayı gerektirir — herhangi bir coğrafi konum servisinin göreceğiyle aynı.",
       },
     ],
+    deepDive: [
+      {
+        heading: "IP coğrafi konumlandırma kayıt verisidir, harita iğnesi değildir",
+        paragraphs: [
+          "IP araması hakkında en yaygın yanlış kanı bir cihaz bulduğudur. Bulmaz. Bir coğrafi konumlandırma veritabanı, hangi kuruluşun bir adres bloğunu kaydettiğinin kayıtlarından, o kuruluşun ağ altyapısının nerede durduğundan ve kullanıcı düzeltmelerinden kurulur. Gördüğün sonuç, ISS'in yönlendirme donanımının kayıtlı olduğu yerdir — bir veri merkezi, bir bölgesel merkez — adresi gerçekten kullanan telefon ya da dizüstü değil.",
+          "Başarısız biçimleri bunu izler. Mobil operatörler trafiği bölgesel geçitlerden yönlendirir; bir şehirdeki telefon başkasını gösterebilir. Büyük kuruluşlar tüm bloklarını merkeze kaydeder; her şube aynı binaya coğrafi konumlanır. Barındırma ve VPN adresleri tasarımla veri merkezine çözülür. Uydu internet tüm bir ülke sapabilir. Şehir düzeyi sonuçlar doğruluk garantisi olmayan bir tahmindir.",
+          "Güvenilir alanlar ülke, ASN ve ISS'dir: doğrudan kayıt verisinden gelirler ve nadiren yalan söylerler. Pratik okuma sırası önce ASN'dir — adresin bir yerleşim ISS'ine, barındırma şirketine mi mobil ağa mı ait olduğunu söyler — sonra konum alanları; buna göre ağırlıklandırarak.",
+        ],
+      },
+      {
+        heading: "ASN resme neyi katar",
+        paragraphs: [
+          "Yönlendirilen her IP alanı bloğu bir özerk sisteme aittir: tek bir yönlendirme politikası taşıyan bir ağ — ya da ağ grubu — bir ASN ile tanımlanır. ASN'yi bilmek soruyu «bu adres nerede»den «bu ne tür bir ağdır»ya çevirir; çoğu zaman gerçekte ihtiyacın olan yanıt budur.",
+          "Somut olarak: bir kötüye kullanım raporu yerleşim ASN'ye göre barındırma ASN'sine karşı daha faydalıdır; barındırma şirketleri raporlara işlem yapar, ISS'ler bir müşteriyi izlemek zorundadır. Günlük triyajı da ona dayanır — alışılmadık bir ülkeden yerleşim ISS'inden gelen giriş ile aynı ülkeden bulut sağlayıcı ASN'sinden gelen giriş çok farklı iki sinyaldir. Şehir düzeyi coğrafi konumlandırmaya dayalı engelleme kararları rutin başarısız olur; ASN'ye ve ağ tipine dayalı kararlar daha iyi ayakta kalır.",
+        ],
+      },
+      {
+        heading: "Günlük kullanımlar ve dürüst sınırlar",
+        paragraphs: [
+          "Günlük durumlar şunlardır: bir günlük girişinin gerçekte ne olduğuna bakmak, dağıtımdan önce güvenlik duvarı ya da CDN kurallarını akıl sağlığından geçirmek ve VPN'in görünür adresini gerçekten değiştirip değiştirmediğini doğrulamak — bağlanmadan önce ve sonra kendi IP'ni arat; ASN ve ülkeyi karşılaştır. Sonuncusu, var olan en ucuz VPN testidir.",
+          "Dürüst sınırlar: bu ağ düzeyi bilgidir ve bir insanı tanımlayamaz; sorgunun kendisi coğrafi konumlandırma API'sine görünür — kendi IP'ni arattığında dahil — ve ticari zeka ürünleri, ücretsiz bir veritabanının taşımadığı dolandırıcılık puanları ve vekil algılama ekler. Onu iyi yaptığı şey için kullan — ağ tanımlama ve yaklaşık coğrafya — soruşturma uç noktası olarak değil.",
+        ],
+      },
+    ],
   },
   "whois-lookup": {
     name: "WHOIS Sorgulama",
@@ -2698,6 +5148,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Ağ üzerinden ne gönderilir?",
         a: "Yalnızca alan adı, rdap.org'a HTTPS isteğinde; o da kayıt otoritesinin resmî RDAP uç noktasına yönlendirebilir. Kayıt verisi tasarım gereği herkese açıktır; hakkında kişisel hiçbir şey iletilmez.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Gizlilik koruması ve RDAP gerçekte neyi gösterir",
+        paragraphs: [
+          "Klasik WHOIS'in bir zamanlar tam olarak bastığı kayıt sahibi iletişim ayrıntıları — ad, sokak, e-posta — GDPR uygulaması ve kayıt kuruluşu gizlilik hizmetleri nedeniyle yıllardır çoğu genel TLD'de sansürlüdür. Bugün gördüğün tipik olarak kayıt kuruluşunun soyutlama katmanıdır; kimi zaman bir gizlilik hizmeti adresi, kimi zaman sadece «REDACTED FOR PRIVACY». Modern bir .com aramasından kişisel bir ad beklemek 2000'lerden kalma bir hatadır.",
+          "Gerçekten faydalı kalan şey kayıt kuruluşunun kendisinin kaydettiği her şeydir: kuruluş ve süre sona erme tarihleri, kayıtlı kayıt kuruluşu, EPP durum kodları ve ad sunucuları. Sansürleme kişi alanlarını değiştirdi; operasyonel alanlar kaldı. Bu, sıradan işler için hâlâ yeterlidir — güvenmeden önce alan adının yaşını kontrol etmek, dolanmış bir alan adının ne zaman sona ereceğini görmek, aktarım kilidini doğrulamak.",
+          "Ülke kodu kayıt kuruluşları kendi ifşa kurallarını kurar; kapsamı ve sözlük lüksü TLD'ye göre genişçe değişir: bazıları herhangi bir .com'dan fazla iletişim ayrıntısı yayımlar, bazıları az. RDAP ayrıca JSON'u tekdüzler; bu aracın .com, .app ve .dev sonuçlarını aynı alanlarda sunabilmesinin sebebi budur — kayıt kuruluşları akraba olmasalar bile.",
+        ],
+      },
+      {
+        heading: "Tarihleri ve durum kodlarını bir analist gibi okumak",
+        paragraphs: [
+          "Tarihler hikâye anlatır. Üç hafta önce kurulmuş ama «1995'ten beri köklü» diye reklam veren bir alan adı kırmızı bayraktır; gerçek bir işletmenin tuttuğu gelecek hafta sona erecek alan adı büyük olasılıkla bir ihmaldir ve düşmeden önce e-posta at. Kayıt alışkanlıkları da sayar — çok yıllık bloklarla otomatik yenilenen alan adı bakılan bir varlık sinyalidir; süresi geçip yeniden kaydedilen geçmişler, reseller'ların topladığı süresi dolmuş alan adlarına işaret eder.",
+          "Durum kodları küçük bir sözlüğü hak eder. clientTransferProhibited ve clientHold kayıt kuruluşu kilitleridir; serverHold kayıt kuruluşunun alan adını bölgeden çektiği demektir (çoğu zaman bir uyum işlemi); redemptionPeriod ve pendingDelete silmeden sonraki 30 günlük ve 5 günlük erim aşamalarıdır; sonrasında alan adı herkesce yeniden kaydedilebilir. pendingDelete gösteren bir arama fiilen bir geri sayımdır.",
+          "Biçinmeye değer bir alışkanlık: ad sunucularını burada DNS aracıyla çapraz kontrol et. WHOIS'i kayıt kuruluşu X diyen ama NS'si ilgisiz bir barındırma sağlayıcısına işaret eden alan adı sıktır ve zararsızdır — ama kayıt taze ve NS bir mermi dayanıklı hostsa, bileşim tek kullanımlık alan adının klasik desenidir.",
+        ],
+      },
+      {
+        heading: "RDAP neden 43. portlu WHOIS'nin yerini aldı",
+        paragraphs: [
+          "Klasik WHOIS bir 1980'ler protokolüdür: düz metin TCP 43. portu üzerinden yapılandırılmamış serbest metin; kayıt kuruluşuna göre değişen bir biçim, kimlik doğrulama yok, hız sınırlama sözleşmesi yok. RDAP — IETF'nin yerine geçen olarak tanımladığı — üçünü de yanıtlar: HTTPS üzerinden JSON yanıtlar, kayıt kuruluşları arasında tekdüze bir veri modeli ve erişim kontrolü, hız sınırları, uluslararasılaşmış alan adları desteği. ICANN onu tüm genel-TLD kayıt kuruluşlarından ister.",
+          "Tarayıcı aracı için fark yapısalıdır: RDAP yanıtları, herhangi bir API çağrısı gibi alınan JSON'lardır; sonuçlar metin çorbasından regex ile çözülme yerine tekdüzlenmiş olabilir. Bu araç rdap.org'a sorar; her sorguyu alan adının TLD'sinin yetkili RDAP sunucusuna yönlendirir ve yönlendirmeyi senin için izler.",
+          "Dürüst kapsam notu: kamusal bir RDAP sunucusu çalıştırmak her kayıt kuruluşunun kararıdır; genel TLD'ler neredeyse evrensel kapsanırken birçok ülke kodu kapsanmaz. O TLD'ler için eski WHOIS araması başka yerde hâlâ mümkündür — ama serbest metin çıktısı ve şifrelenmemiş sorgu bekle; RDAP'ın emekliye ayırmak için kurulduğu tam sorunlar.",
+        ],
       },
     ],
   },
@@ -2729,6 +5205,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Her şey tarayıcının belleğinde crypto.getRandomValues'dan hesaplanır; sayfayı yenilemek sonuçları siler ve hiçbir şey asla yüklenmez.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Modül kayması: çoğu rastgele sayı sayfasının taşıdığı hata",
+        paragraphs: [
+          "Bilgisayarlar rastgele tam sayıları 32-bit değerler olarak üretir ama kullanışlı hiçbir aralık 2^32'yi tam bölmez. Naif yaklaşım — rastgele bir 32-bit sayı al ve aralık boyutunun modülünü uygula — artığı aralığın alt ucuna yığar: 10 aralıkta bazı sayılar diğerlerinden ölçülebilir biçimde daha olasıdır. Oyun için görünmezdir; ödül bağlı bir çekilişte bir adalet hatasıdır.",
+          "Çare reddetme örneklemesidir: bir 32-bit değer çek; uzayın tepesindeki artıkta düşerse at ve yeniden çek. Kabul edilen değerler sonra aralığı tam olarak tekdüze bir pencerede kapsar; min'den max'a her tam sayı kesin olarak aynı 1/(max−min+1) olasılığı taşır. Ortalamada birkaç ek çekime mal olur ve matematiksel adalet alır.",
+          "Bu araç o adımı uygular ve bunu açıkça söyler; çünkü «kriptografik rastgelelik» tek başına tekdüzlük garantilemez — ham baytlardan aralığına eşleme, kaymanın sızdığı yerdir. Çekiliş sonuçlarını yayımlarken entropi okuması (aralık boyutunun log2'si, çekim boyunca toplanır), sonucu ne kadar gerçek rastgeleliğin belirlediğini belgeler.",
+        ],
+      },
+      {
+        heading: "CSPRNG ile Math.random ve saat karşılaştırması",
+        paragraphs: [
+          "Math.random() hız için ayarlanmış bir sözde-rastgele üreticidir: içsel durumu sınırlıdır ve yeterince çıktıyı gözlemlemek o durumu ifşa eder; ondan sonra her «gelecek» sayı hesaplanabilir. Sistem saatinden tohumlamak daha kötüdür — saatler öngörülebilir ilerler; ne zaman tıkladığını kabaca bilen bir saldırgan çekimini yeniden üretebilir. İki başarısızlık da varsayımsal değildir; çevrimiçi çekilişlerin sorgulanmasının standart sebepleri onlardır.",
+          "crypto.getRandomValues tarayıcının kriptografik olarak güvenli kaynağıdır: çıktısı, önceki tüm çıktıları görmüş bir saldırgana karşı bile öngörülemez olarak tasarlanmıştır ve işletim sistemi tarafından donanım entropisinden tohumlanır. Bu araç onu yalnızca kullanır — parola ve anahtar üretiminin dayandığı aynı kaynak.",
+          "Pratik bir sonuç: buradaki sonuçlar hiçkimse — sen dahil — tarafından yeniden üretilebilir değildir. Denetlenebilir çekimler gerekiyorsa dürüst akış, sınırlarını ve sayını çekimden önce yayımlamak, şahitler ya da canlı önünde üretmek ve çıktıyı hemen kopyalamaktır — sayfa kayıt tutmaz; bu bir çalışılacak sınırlama değil, gizlilik özelliğidir.",
+        ],
+      },
+      {
+        heading: "İade ile ya da iadesiz — ve her birinin yeri",
+        paragraphs: [
+          "İki örnekleme kipi iki farklı soruyu eşler. İadeyle — her çekim bağımsız, yinelenenler serbest — «bana N rastgele sayı ver»i yanıtlar: test verisi, Monte-Carlo tarzı örnekleme, zarlar. İadesiz — kâsedenn numaralı topları çekmek gibi — «M girişten N kazanan seç»i yanıtlar: çekilişler, çekilişler, bir listenin rastgele sıralaması.",
+          "İadesizin bir katı kuralı vardır: aralığın taşıdığından fazla eşsiz sayı çekemezsin. O durumda sessizce dönen ya da kayan bir araç kırıktır; bu reddeder ve açıklar. Eşsiz çekimden sonra çıktıyı sıralamak yalnızca sunumu değiştirir — kazanan kümesi aynıdır — ama yeri önemli olan çok ödüllü bir çekilişte çekim sırasını koru ve ilk sayıyı birincil ödül say.",
+        ],
+      },
+    ],
   },
   "totp-generator": {
     name: "TOTP Üretici",
@@ -2756,6 +5257,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Kodum neden eşleşmiyor?",
         a: "En yaygın nedenler: yanlış algoritma (çoğu servis SHA-1 kullanır), yanlış periyot veya birkaç saniyeden fazla kaymış bir cihaz saati. Üç seçiciyi servisin kurulum sayfasıyla karşılaştır ve sistem saatini eşitle.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "30 saniyelik pencere nasıl çalışır ve saatleri neden affeder",
+        paragraphs: [
+          "TOTP (RFC 6238) paylaşılan bir sır artı güncel zamanı bir koda çevirir. Zaman ham kullanılmaz: iki taraf da bir sayar — Unix zamanı bölü periyot, varsayılan 30 saniye — ve onu sır ile HMAC eder. Sunucu güncel pencereden bir kodu ve genelde iki yanda bir ya da iki pencereyi kabul eder; cihazın ile sunucu arasındaki birkaç saniyelik saat kayması seni kilitlenmez.",
+          "O hoşgörü aynı zamanda güvenlik bütçesidir. Bir kod kabaca 30 ilâ 90 saniye geçerlidir; yakalanması neredeyse yararsız ama yavaş yazan insanlara yeterince geniş bir banttır. Altı rakam pencere başına bir milyon olasılık verir; pencere başına bir avuç tahminlik tipik hız sınırlamasıyla canlı bir kodu kaba kuvvetle kırmak umutsuzdur — saldırı yüzeyi rakamlar değil sırrın kendisidir.",
+          "Kodun eşleşmediğinde neden neredeyse her zaman üç ayardan biridir, bozuk algoritma değil: yanlış hash (adı eskiyimî görünse de neredeyse her şey SHA-1 kullanır), yanlış periyot (30 mu 60 mı) ya da kabul pencerelerinin ötesine kayan bir saat. Önce sistem saatini senkronla; uyumsuzlukların çoğunu o çözer.",
+        ],
+      },
+      {
+        heading: "Sır paylaşılan bir sırdır — parola gibi ele al",
+        paragraphs: [
+          "Yapıştırdığın base32 dize, ikinci faktörünün tüm kriptografik malzemesidir: elinde tutan herkes, telefonunu bilmeden, herhangi bir cihazda sonsuza dek geçerli kodlar üretebilir. «Paylaşılan» sır denmesinin sebebi, kimlik doğrulayıcın ile hizmetin aynı değeri tutmasıdır. Bunu rastgele bir çevrimiçi TOTP sitesine yapıştırmak, 2FA'ni teslim etmeye eşdeğerdir — bunun için.",
+          "Bu araç her şeyi tarayıcının içinde WebCrypto ile hesaplar: ağ çağrısı yok, localStorage ya da çerezlerde saklama yok, diske yazılan hiçbir şey yok. Sekmeyi kapat ve sır bellekten gitmiş olur. Bu, sayfayı meşru bir kurtarma yolu yapar — telefon uygulamasının yaptığı aynı hesap; yalnızca telefonunun olmadığı bir yerde.",
+          "Sağlam hijyen sürer: sırrı yalnızca parola yöneticisinde ya da hizmetin kurtarma kodlarında sakla; ekran görüntülerinde ya da sohbet günlüklerinde asla. Bir otpauth:// bağlantısı buraya yapıştırmak için tam olarak uygundur — çünkü sırrı parametreleriyle paketler — yapıştırılmış bağlantıyı yapıştırılmış parola gibi ele ve sonrasında panonu temizle.",
+        ],
+      },
+      {
+        heading: "TOTP ile SMS karşılaştırması ve tarayıcı kodunun yeri",
+        paragraphs: [
+          "SMS kodları telefon ağı üzerinden yol alır ve operatörlerce saklanır; bu onları yakalanabilir kılar — SIM takas saldırıları var, çünkü kanal operatördür; rakamların zayıflığından değil. TOTP kodları onları hesaplayan cihazdan hiç çıkmaz; yakalama açısı tümüyle kaybolur. O, çevrimdışı işleve ve telefon numarasından bağımsızlığa eklenince, her ciddi güvenlik kılavuzunun SMS yerine kimlik doğrulayıcı uygulamaları yeğlemesinin sebebi budur.",
+          "Kod üreten bir tarayıcı sayfası telefonundaki uygulamanın yerini tutmaz — ikinci bir yerdeki aynı algoritmadır. Dürüst nişi: telefonun kırıldığında ya da değiştirildiğinde kurtarmak, uygulamanın kurulmadığı bir makinede giriş yapmak ve bir kurulum bağlantısının parametrelerini doğrulamak. Sırrı paylaşılan makinelerden uzak tut; kendi cihazında sayfa, yaptığı hesap kadar güvenlidir — kimseye bir şey olmayan bir hesap.",
+        ],
       },
     ],
   },
@@ -2788,6 +5314,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Dönüşümler ne kadar doğru?",
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bu sayfadaki her çarpan bir tanımdır",
+        paragraphs: [
+          "İnç-santimetre dönüşümü hiçbir ölçüm hatası taşımaz çünkü bir ölçüm değildir: 1 in = 2,54 cm tam olarak; 1959 uluslararası yard ve pound anlaşmasıyla sabitlendi — ABD ile İngiliz yard kopyaları arasında birikmiş küçük farkları uzlaştıran anlaşma. Aynı anlaşma yard'ı 0,9144 m'ye, pound'u 0,45359237 kg'a sabitledi; tüm imparatorluk uzunluk merdiveni tek bir kesin orana yaslanır.",
+          "Metrik taraf da aynı derecede kesindir. Metre bir zamanlar Paris kasasındaki metal bir çubuktu ama 1983'ten beri ışık hızı üzerinden tanımlanır: ışığın 1/299.792.458 saniyede kat ettiği uzaklık; saniyenin kendisi sezyum atom geçişine kilitlidir. Bu, ışık hızını tanımla kesin bir sayı yapar ve her metrik uzunluk çarpanını onunla birlikte kesinleştirir.",
+          "Her iki taraf da tanım olduğundan, zincirleme dönüşümler yuvarlama biriktirmez: inçten fite metreye hiçbir şey kaybetmez; zincir ne kadar uzun olursa olsun. Yuvarlama yalnızca görüntüde belirir; sonuçlar altı anlamlı basamağa biçimlenir — mühendislik işi için yeterli; saf gürültü olan basamakları basmadan.",
+        ],
+      },
+      {
+        heading: "Altı basamak ve öteki mil olmayan mil",
+        paragraphs: [
+          "Altı anlamlı basamakta durmak kasıtlıdır. 1 mi tam olarak 1.609,344 m'dir; daha fazlasını basmak dürüst ama yararsız olurdu — şeritler, GPS alıcıları ve yol tabelaları o hassasiyete asla ulaşmaz. Günlük dönüşümler üç dört basamak ister; altı, inşaat ve işleme için baş payı bırakır — son basamağın hâlâ bir şey söylediği yerlerde.",
+          "Klasik tuzak iki mildir. Kıta mili 1.609,344 m'dir; deniz mili 1.852 m — yaklaşık %8 daha uzun. Havacılık ve denizcilik yalnızca deniz milini kullanır; kıta milleriyle planlanan bir rota o payda mesafeyi ve yakıtı eksik gösterir. Bu araç nmi'yi tam olarak bu yüzden ayrı listeler.",
+          "Deniz milinin değeri keyfi değildir: bir meridyen boyunca enlemde bir dakikalık yayı yaklaşık eder; yüzyıllar boyunca denizcilik pratiğinde hayatta kalmasının yolu budur. 1929 Uluslararası Hidrografik Konferansı onu tam olarak 1.852 m'ye sabitledi ve knot — saat başına bir deniz mili — o kesinliği devraldı.",
+        ],
+      },
+      {
+        heading: "Dönüşümlerin gerçekten dişlerini gösterdiği yerler",
+        paragraphs: [
+          "Havayolu bagaj formları santimetre ister; valizler inç satılır. Mobilya spesifikasyonları, kapı boşlukları ve beyaz eşya nişleri tek projede sistemleri karıştırır; ABD'den gelen marangozluk planları fit ve kesirlerle gelir, kereste milimetre satılır. Bunların hepsinde birim tablosunun tamamını bir anda görmek, bir arama kutusuna çiftler yazmaktan iyidir.",
+          "Arama motoru dönüştürücüler bir çifti aynı anda halleder ve sık sık iki üç basamağa yuvarlar — yürüme mesafesi için yeterli, yinelenen kontroller için kabaca fazla. Burada tek girdi her birimi aynı anda günceller ve çarpan satırı kullanılan kesin oranı gösterir; sonuç, yalnızca güvenilmek yerine doğrulanabilir.",
+          "1959'dan beri inç ABD ile İngiltere'de özdeştir ama eski belgeler — özellikle tapu kayıtları — anlaşma öncesi kadastro değerleri taşıyabilir; altıncı anlamlı basamakta fark eder. Her şey tarayıcında yerelde hesaplanır; bu uzunluklar üzerine kurulan alan ve hacim, aynı kesin çarpan politikasıyla alan ve hacim dönüştürücülerince kapsanır.",
+        ],
       },
     ],
   },
@@ -2823,6 +5375,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kımıldamayı bırakan pound",
+        paragraphs: [
+          "1959'dan önce ABD ile İngiliz pound'ları altıncı ondalık basamak civarında farklılaşır; küçüktür ama bir gemi yükünü tartarken gerçektir. Uluslararası yard ve pound anlaşması avoirdupois pound'u tam olarak 0,45359237 kg'a sabitledi; sürüklenmeyi bitirdi. O zamandan beri her pound-kilogram dönüşümü tek bir donmuş sayı üzerinden çalışır.",
+          "Kilogram başka bir yoldan değişti: 1889'dan beri Sèvres kasasındaki platin-iridyum bir silindirle (le Grand K) tanımlanıyordu; bir artefaktla tanımlanan son SI temel birimi. 2019'da Planck sabiti üzerinden yeniden tanımlandı — doğa tarafından sabitlenmiş kesin bir değer; atom kazanıp kaybedebilecek bir nesnenin yerine.",
+          "Pratik kazanç her iki durumda da aynıdır: sistemler arasında hiçbir yuvarlama yok; asla. Stone (tam olarak 14 lb), ons (1/16 lb) ve ton tümü kesin kesirlere indirgenir; bu dönüştürücünün tüm tablosu iki donmuş sabite yaslanır — 0,45359237 ve kilogramın tanımı — ölçülmüş ortalamalara değil.",
+        ],
+      },
+      {
+        heading: "Troy, avoirdupois ve ons olmayan ons",
+        paragraphs: [
+          "Sıradan ons avoirdupois'tir: 28,349523125 g. Troy ons — altın, gümüş ve mücevher pazarlarının kotattığı — 31,1034768 g'dır; yaklaşık %10 daha ağırdır. Altın hep troy ons başına fiyatlanır; gıda ve posta avoirdupois'tir. İkisini karıştırmak metal fiyatlandırmasını yüzde on kaydırır.",
+          "Stone bir hayatta kalandır: tam olarak 14 pound ve hâlâ İngiltere ile İrlanda'da günlük vücut ağırlığı birimidir — 11 stone taşıyan kişi 69,85 kg'dır. Dünyanın çoğu onunla hiç karşılaşmaz; tam olarak bu yüzden sessizce atlanmak yerine burada listelenir.",
+          "Karat mücevherlere aittir; uluslararası gelenekle tam olarak 200 mg'dır — ve kütleyi ölçer, saflığı değil. Saflık k harfli karattır (24 karat altın). İki kelime kuzendir ve karıştırmak mücevher tezgâhında alıcılara gerçek para kaybettirmiştir.",
+        ],
+      },
+      {
+        heading: "Kütle, ağırlık ve nazikçe yalan söyleyen tartı",
+        paragraphs: [
+          "Fizik kütle (ne kadar madde; kilogram) ile ağırlığın (yerçekiminin uyguladığı kuvvet; newton) ayırır. Günlük tartılar kuvveti ölçür ve kütle sayısı gösterir — tek bir yerçekiminde iyi, yörüngede kırık. Bir astronotun ağırlıksızlığı görünür ağırlığın kaybıdır; kitlenin değil.",
+          "Bu sayfa yalnızca kütleyle iş görür: kg, g, lb, oz, stone ve karat hepsi kütle birimidir; hiçbir kuvvet birimi karışmaz. Aynı dönüşüm São Paulo'daki bir tarife de yük spesifikasyonuna da uyar; yaylı bir tartının okuması uyması için yerel yerçekimini isterdi.",
+          "Bagaj payları, spor ağırlık sınıfları ve parça fiyatları hepsi bu birimlerin içinde yaşar ve her şey tarayıcında hesaplanır — banyo tartısı sayısı senin kalır. Altı anlamlı basamak, alyans ayarlarından (karat) kargoya (ton) araç değiştirmeden kapsar.",
+        ],
+      },
+    ],
   },
   "temperature-converter": {
     name: "Sıcaklık Dönüştürücü",
@@ -2856,6 +5434,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Üç ölçek, üç sıfır noktası",
+        paragraphs: [
+          "Sıcaklık birimler arasında çeldiricidir: ölçekler sıfır paylaşmaz; her dönüşüm bir çarpma değil, sapmalı bir formüldür. Celsius suya yaslanır — 0 °C donma, standart basınçta 100 °C kaynama. Fahrenheit başka yaslanır — 32 °F donma, 212 °F kaynama. Kelvin fiziksel gerçekliğe yaslanır: 0 K mutlak sıfırdır, −273,15 °C; moleküler hareketin minimumuna vardığı yer.",
+          "Sıfır noktaları farklılaştığı için formüller hem bir oran hem bir sapma taşır: °F = °C × 9/5 + 32 ve K = °C + 273,15. Derece boyutları 9/5 oranını taşır ama sapma, 0 °C'nin 0 °F olmamasının — ve naïf 1,8 ile çarp kısayolunun −40 dışındaki her girdide yanlış cevap vermesinin — sebebidir.",
+          "−40 ölçeklerin buluştuğu tek noktadır: −40 °C = −40 °F tam olarak. Merak, formüllerden dümdüz düşer ve hızlı bir akıl sağlığı kontrolü olarak da görev yapar — kafa matematiğin kavramı başka bir yere koyuyorsa sapma yolda düşmüştür.",
+        ],
+      },
+      {
+        heading: "Ölçekler nereden geldi",
+        paragraphs: [
+          "Fahrenheit 18. yüzyılın başında sıfırını yeniden üretebileceği buzlu bir referansa sabitledi — buz, su ve tuz karışımı — ve vücut sıcaklığını özgün aralığının tepesine yakın koydu (ilk sürümde 96 derece; sonradan yeniden kalibrasyon yapıldı). Garip 32 ve 212 yaslanmaları o seçimlerin kalıntısıdır; kasıtlı zarafet değil.",
+          "Celsius'un 1742 önerisi gerçekte bugünkünün tersine çalışıyordu: 0 kaynamada, 100 donmada. Kullandığımız çevrilmiş biçim ölümünden kısa süre sonra benimsendi; tanım sonra kaynama noktası yerine mutlak sıfıra ve suyun üçlü noktasına yeniden yaslandı — çünkü kaynama basınçla kayar.",
+          "19. yüzyılda önerilen Kelvin keyfi yaslanmaları tümüyle attı: sıfır, herhangi bir şeyin olabileceği en soğuk hâl. Bu, Kelvin'i SI birimi ve fiziğin dili yapar — gaz kanunları, termodinamik ve renk sıcaklığı hepsi onu konuşur — Celsius ise günlük hava için 273,15 kaydırılmış Kelvin olarak hayatta kalır.",
+        ],
+      },
+      {
+        heading: "Vahşi doğada sıcaklık okumak",
+        paragraphs: [
+          "Aynı sayı domaine göre farklı rahatlık düzeyleri demektir: 180 °C'deki fırın 356 °F iken ABD kadranları 350 °F işaretler; o banttaki dönüşümler asla tam oturmaz; vücut sıcaklığı 37 °C / 98,6 °F üzerine kurulur ve bir derece ateş 1,8 Fahrenheit derecesidir; −10'dan 40 °C'ye hava 14–104 °F'ye eşlenir.",
+          "Fark tuzaklarına dikkat: 1 Celsius derecesinde bir değişim 1,8 Fahrenheit derecesinde bir değişime eşittir; sıcaklık farkları sapma olmadan yalnızca oranla dönüşür. «10 °C ısındı» demek 18 °F ısınmaktır; 50 °F değil. Bu araç mutlak okumaları çevirir; farklar çıplak oranı ister.",
+          "Sapmalı formüller kesindir; sonuçlar yalnızca altı basamaklı görüntüyle sınırlıdır. Her şey tarayıcında hesaplanır — bu kadar hafif bir aritmetik için banal bir gerçek ama bir bonus getirir: sayfa çevrimdışı çalışır; sinyalsiz bir mutfakta, telefonla fırın ayarlarını çevirir.",
+        ],
+      },
+    ],
   },
   "data-converter": {
     name: "Veri Boyutu Dönüştürücü",
@@ -2883,6 +5487,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Dönüşümler ne kadar doğru?",
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "1000 ile 1024 kavgası standartlarla çözüldü",
+        paragraphs: [
+          "İki gelenek veri birimlerinde çarpışır. Donanım ve telekomunikasyon ondalık önekler kullanır: 1 KB = 1.000 bayt; çünkü disk kapasiteleri ve ağ hızları onun katlarıyla mühendislenir. Bellek ve işletim sistemleri tarih olarak ikili kullandı: 1 K = 1.024 bayt; çünkü bellek iki güçleriyle adreslenir. Çarpışma meşhur boşluğu üretti — «500 GB» bir disk işletim sisteminde yaklaşık 465 «GB» görünür; çünkü disk 500 × 10⁹ bayt demek ister, işletim sistemi 1024³'e böler.",
+          "1998 IEC standardı adlandırmayı çözdü: ikili önekler KiB, MiB, GiB'dir (1 KiB = 1.024 bayt) ve KB, MB, GB ondalık sisteme aittir (1 MB = 1.000.000 bayt). Windows hâlâ ikili tarzda raporlar ve GB etiketi koyar; karışıklığı sürdürür. macOS yıllar önce ondalık saymaya geçti; aynı dosyanın platformlar arasında «küçülmesi» bunun için.",
+          "Bu araç her iki yorumu yan yana gösterir; hedef sistemin hangisini kullandığını kontrol edebilirsin: bant genişliği teklifleri, disk kapasiteleri ve RAM spesifikasyonları hepsi farklı gelenekler izler ve aynı sayı hangisi kastedildiğine göre gerçekten iki farklı boyuttur.",
+        ],
+      },
+      {
+        heading: "Hangi birimi ne zaman kullanmalı",
+        paragraphs: [
+          "Ağ bant genişliği ondalıktır, hep: «100 Mbps» bağlantı saniyede 100 × 10⁶ bit taşır — yaklaşık 12,5 ondalık MB, 12,5 MiB değil. Bunu yok sayan indirme süresi tahminleri megabyte ölçeğinde yaklaşık %5 iyimserdir; yukarıda daha kötüdür.",
+          "Çoğu modern işletim sisteminde ve bulut arayüzünde dosya boyutları ondalıktır (ya da karışık); RAM istisnasız ikilidir; çünkü bellek çipleri iki güçleriyle kurulur. Spesifikasyon «16 GB RAM» diyorsa o 16 × 2³⁰ bayttır — sanal makineler ya da bellek sınırları planlanırken fark eden ayrıntı türü.",
+          "Depolama planlaması, gerçek para ile boşluğun buluştuğu yerdir: «1 PB» ham disk sağlayan bir veri merkezi, naif hesabın ima ettiğinden yaklaşık %10-12 daha az kullanılabilir ikili kapasite alır; herhangi bir dosya sistemi yükünden önce. Sözleşmelerdeki kotalar ve aktarım tavanları birim geleneğiyle okunmalıdır — ondalık «aylık 1 TB trafik», 1 TiB'den yaklaşık %7,4 eksiktir.",
+        ],
+      },
+      {
+        heading: "Hassas, çift gelenek, yerel",
+        paragraphs: [
+          "Her girdi kesin on-unlu ve ikinci güç çarpanlarıyla dönüşür — 1 KiB tam olarak 1.024 bayt, 1 KB tam olarak 1.000 — ve sonuçlar iki geleneğin asla tek sayıya bulanmaması için yeterince anlamlı basamak gösterir.",
+          "Araç bayt kadar biti de kapsar; çünkü bant genişliği bitle kotarılır: bayt ile bit arasındaki 8× ilişki öteki klasik hatadır («25 Mbps» bir hat saniyede 25 MB indirmez — sekizde birini indirir) ve çift görüntü onu açığa vurdurur.",
+          "Tüm hesaplama tarayıcında çalışır; hiçbir dosya ya da bayt sayısı iletilmez. Kapasite planlama sayfaları ve sözleşme kontrolleri için çift görüntü, hangi satıcının hangi biçimde saydığını asla hatırlamak zorunda kalmamak demektir — ve «500 GB disk ne demektir» sorusunun her seferinde yeniden tartışılmamasını sağlar.",
+        ],
       },
     ],
   },
@@ -2914,6 +5544,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Knot: bir ipten doğan birim",
+        paragraphs: [
+          "Mekanik hız kayıtçılarından önce denizciler, düğümü sıralı bir iple bağlanmış ahşap bir paneli bordadan atar, kum saatiyle sabit bir aralığı sayar ve hızını parmaklarından geçen düğüm sayısıyla ölçerdi — birim adını korudu. Bugünkü tanım: bir knot saatte bir deniz milidir ve deniz mili tam olarak 1.852 m olduğundan (1929 Uluslararası Hidrografik Konferansı sabitledi), 1 kn tam olarak 1,852 km/h'dir.",
+          "Havacılık ve denizcilik meteorolojisi, uçuş planları ve sefer hatları hepsi knot rapor eder; yol tabelaları km/h ya da mph'ye geçer — yaklaşma hızlarını çeviren pilot ile fırtına uyarılarını okuyan denizcinin bu dönüşümü herkesten fazla kullanmasının sebebi budur.",
+          "1 kn = 1,852 km/h kesin olduğu için knot'a giriş çıkış dönüşümleri görüntü adımına kadar yuvarlama hatası taşımaz. Altı anlamlı basamak sayıyı dürüst tutar: 100 km/h 62,1371 mph'dır; yuvarlanmış bir 62 değil.",
+        ],
+      },
+      {
+        heading: "Mach sabitleyebileceğin bir birim değildir",
+        paragraphs: [
+          "Sesin hızı sabit değildir: hava sıcaklığına bağlıdır; deniz seviyesinde yaklaşık 340 m/s'den seyir irtifasında kabaca 295 m/s'ye düşer; hava orada −50 °C'de ya da daha soğukta durur. Tek bir Mach çarpanı bu yüzden bir yaklaşımdır. Site deniz seviyesi değerini kullanır (1 Mach = 340,29 m/s) ve bunu doğrudan birim adında söyler.",
+          "O etiketleme sayar: 11 km'de Mach 0,8 ile seyreden bir jet gerçekte yaklaşık 236 m/s (kabaca 850 km/h) hareket eder; 272 m/s değil — deniz seviyesi çarpanını uygulamak yer hızını yaklaşık %15 fazla gösterir. Mach satırını yalnızca kaba deniz seviyesi karşılaştırmaları için kullan ve hassasiyet önemli olduğunda uçak hızlarını knot ya da km/h oku.",
+          "m/s sütunu demirdir: saniyede metre SI'nın tutarlı birimidir ve km/h, mph, ft/s ile knotlar hepsi kesin uzunluk tanımlarıyla ona indirgenir. Knot → m/s → mph gibi bir zincirin hiç sapmamasının sebebi budur.",
+        ],
+      },
+      {
+        heading: "Tempo baş aşağı çevrilmiş hızdır",
+        paragraphs: [
+          "Koşucular kilometre başına dakika düşünür; bir hız birimi değildir, karşılığıdır: 5:00 min/km 12 km/h'dir; 6:00 min/km 10 km/h'dir. Ters çevirme, temponun çarparak dönüştürülememesinin sebebidir — 60'ı hıza bölersin. Bu dönüştürücü yalnızca hız birimlerini listeler; tempo için km/h'ye dönüştür ve 60'a böl (12 km/h'deki koşu bandı 5:00 min/km'dir).",
+          "Öteki günlük kullanım sınırlar boyunca sürmektir: 65 mph sınırına karşı 120 km/h ya da ABD otoyolundaki 70 mph'nin 113 km/h okunması. 1 mph tam olarak 1,609344 km/h olduğundan (milin kendisi kesindir), karşılaştırma gösterilen her basamağa kadar güvenilirdir.",
+          "Rüzgâr hızları aynı boşluğu köprüler: ulusal meteoroloji kurumları km/h ya da m/s rapor eder; deniz tahminleri knot kullanır — 10 m/s'lik meltem 19,4 kn'dir; tam olarak bu sayfanın kurulduğu bakış düzeyi kontrol türü. Tüm hesaplamalar tarayıcında çalışır; sayfa çevrimdışı da çalışmaya devam eder — havada ya da denizde, mobil veri gitmişken.",
+        ],
+      },
+    ],
   },
   "volume-converter": {
     name: "Hacim Dönüştürücü",
@@ -2941,6 +5597,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Dönüşümler ne kadar doğru?",
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "İki galon, tek ad",
+        paragraphs: [
+          "Galon, imparatorluklar bölündüğünde bölündü. ABD eski İngiliz şarap galonunu (231 kübik inç; 1700'lerin başında bir İngiliz kanunuyla standardize) tuttu — inç 1959 metrik tanımını kazandığından beri tam olarak 3,785411784 litreye çıkıyor. İngiltere'nin 1824 Weights and Measures Act onu, on pound suyun hacmi olarak tanımlanmış bir imparatorluk galonuyla değiştirdi: tam olarak 4,54609 litre. Aynı kelime; yaklaşık %20 arayla.",
+          "Uyuşmazlık kademelenir: bir ABD quart 0,946 L, imparatorluk quart 1,137 L'dir; bir ABD pint 473 mL iken imparatorluk pint — İngiliz pub'ındaki — 568 mL'dir. Tarifler, yakıt rakamları ve havuz kimyasalları, birim adına sisteme güvenmek yerine Atlantik'i geçerken hep yanılır.",
+          "Bu araç her birimin sistemini etiketler — gal (US), gal (UK), qt (US), pt (US) — tam olarak adların tek başına yalan söylemesi yüzünden. Kaynak yalnızca gallon diyorsa, dönüştürmeden önce hangi Atlantik tarafında yazıldığını öğren.",
+        ],
+      },
+      {
+        heading: "Mutfak birimleri de yasal tanımlardır",
+        paragraphs: [
+          "Buradaki cup ABD yasal cup'ıdır: tam olarak 236,5882365 mL; sıvı ons tam olarak 29,5735295625 mL — ikisi de ABD galonunun sabit kesirleridir (bir galon 16 cup'tır); rahatlık gelenekleri değil. Ölçü kaplarının büyüklüğü ülkeden ülkeye değişirse, yasal tanım her yerde aynıdır ve dönüşüm ona dayanır.",
+          "Tarifler baş tuzaktır: İngiliz bir kitaptaki cup ile Amerikan bir kitaptaki pint, her biri farklı yasal bir hacmi işaret eder. Ölçeklendirmeden önce birimleri dönüştür; yoksa un-sıvı oranı bozulur. Sıvılar özellikle asla yalan söylemez — bir ABD cup su 236,6 g'dır; hata yalnızca yanlış birimden gelebilir.",
+          "Kübik birimler öteki dünyaya hizmet eder: kübik inç ve litreyle motor hacmi, kübik fit ile akvaryumlar ve depolar, kübik metreyle HVAC kanalları. 1 ft³ tam olarak 28,316846592 L'dir ve metrik taraf temiz on güçleriyle hizalanır.",
+        ],
+      },
+      {
+        heading: "Tabloyu okumak ve değerini gösterdiği yerler",
+        paragraphs: [
+          "Yakıt ekonomisi kendisi de ülkeler arası bölünür: ABD mpg ile UK mpg aynı %20 galon boşluğunu taşır; 50 mpg'lik İngiliz spesifikasyonunun Amerikan rakamlarının yanında imkânsız görünmesinin sebebi budur. Galonlara dayanan her rakam o çatlağı devralır.",
+          "Akvaryum dozajı ve havuz klorlaması ciddi durumdur: dozlar gerçek hacimle ölçeklenir ve %20 hata aşırı dozdur. Bir kez litreye dönüştür ve o sayıdan dozla — tek başına onu önler; balık için aşırı ilaç kadar, havuz için yanlış klor seviyesi kadar kalıcı sonuç üretir.",
+          "Sitedeki her yerde olduğu gibi matematik tarayıcında çalışır ve hiçbir sayı yüklenmez. Altı anlamlı basamak, kimsenin okumadığı basamakları yığmadan tarifler için de spesifikasyonlar için de net okunur. Hacim sistemler arası geçtiğinde sistem adını birim adının parçası olarak oku — bu sayfanın geride bırakmak istediği alışkanlık budur.",
+        ],
       },
     ],
   },
@@ -2972,6 +5654,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Acre nereden geldi",
+        paragraphs: [
+          "Acre düzenli bir metrik icat değildir — ortaçağ çiftçilik aritmetiğidir. Bir acre, bir öküz takımının bir günde sürebileceği alandı: boyu bir furlong (yaklaşık 220 yard), eni bir zincir (22 yard); bugün hayatta kalan 43.560 fit kareyi verir. Günlük emekten doğan birimler, o kadar çok arazi ölçüsünün neden alışılmadık biçimde spesifik olduğunu açıklar — bir iş gününün başarabileceğini kodlarlar; ondalık aritmetiğin seçeceğini değil.",
+          "Hektar aynı soruya metrik yanıttır: 100 metreye 100 metre, tam olarak 10.000 m²; Fransız Devrimi'nden sonra metrik sistemle, akılcılaştırılmış ölçü reformunun parçası olarak benimsendi. Bir hektar 2,471 acre'dir — hantal çarpan, tek bir gereksinimi karşılayan iki sistemin tarihsel kalıntısıdır.",
+          "Bu araç her birimi çift yönlü yaklaşımlar yerine kesin SI çarpanlarından geçirir: uluslararası fit, İngilizce konuşan ülkelerin 1959 anlaşmasıyla tam olarak 0,3048 m olarak tanımlanır; böylece fit kare tam olarak 0,09290304 m²'dir. Daha eski ABD kadastro fit'i yaklaşık milyonda 2 parça farklıydı — emlak ilanlarının ihtiyacının çok altında ama kadastro belgelerinin bazen beşinci ondalık basamakta fark göstermesinin sebebi.",
+        ],
+      },
+      {
+        heading: "Arazi boyutlarını sistemler arasında okumak",
+        paragraphs: [
+          "Ezberlemeye değer günlük demirler: bir hektar yaklaşık iki buçuk acre'dir; bir futbol sahası kabaca 0,7 hektardır (1,8 acre'ye yakın); tipik bir kentsel konut arsası birkaç yüz metrekareden birkaç bin metrekareye yayılır. ABD'de emlak ilanları fit kare kotarır; dünyanın çoğunda metrekare; arazi parçaları için acre ya da hektar — aynı daire bu birimlerde çok farklı okunur; alım kararlarındaki dönüşüm hatalarının tam olarak çıktığı yer.",
+          "Kare ile doğrusal karışmasına dikkat: bir kenar uzunluğunu iki katına almak alanı dörde katlar. 20 m × 20 m parsel 400 m²'dir; 200 değil — birden fazla emlak uyuşmazlığı üretmiş bir kaymadır. Benzer biçimde metrekare fiyatı ile fit kare fiyatı yaklaşık 10,76 kat farklıdır; 3,28 değil.",
+          "Zemin kaplama ve boya için dönüşüm kolay yarıdır; zor yarı fire payıdır — profesyoneller kesimler ve kusurlar için %5-10 ekler. Dönüştürücü gerçek alanı verir; sipariş miktarı üstüne konan bir yargıdır.",
+        ],
+      },
+      {
+        heading: "Kesin çarpanlar, hepsi yerelde hesaplanır",
+        paragraphs: [
+          "Her dönüşüm tarayıcında kesin resmî çarpanla çarpılır ve altı anlamlı basamak gösterir; 1 acre 4.046,86 m² olarak görünür — yuvarlanmış bir 4.000 değil. Tüm birimler tek bir girdiden canlı güncellenir; araç, hiçbir şeyi yeniden seçmeden karşılaştırma tablosuna dönüşür.",
+          "İçeride tam çift hassasiyet kullanılır; yuvarlama yalnızca görüntüde olur. Zincirleme dönüşümler — acre'den hektara metre kareye — bu yüzden hata biriktirmez; hiçbir ara yuvarlanmış değer asla yeniden kullanılmaz.",
+          "Hiçbir şey hiçbir yere gönderilmez: arazi alanları ve mülk boyutları cihazında kalır. İlanları karşılaştıran bir ev alıcısı ya da kira görüşen bir çiftçi için yerel model, aracın arazide, çevrimdışı, bağlantı gereksiz çalışması demektir.",
+        ],
+      },
+    ],
   },
   "time-converter": {
     name: "Zaman Birimi Dönüştürücü",
@@ -3001,6 +5709,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Saniye: fiziğin sertifikaladığı tek saat",
+        paragraphs: [
+          "Bu sayfada saniyenin üstündeki her şey kesin aritmetiktir: bir dakika tanımla 60 s'dir; bir saat 3.600; bir gün 86.400. Saniyenin kendisi artık Dünya'nın dönüşüne değil atomik fiziğe bağlıdır — bir sezyum-133 atomunun ışımasının 9.192.631.770 periyodu; 1967'de benimsenen tanım, gezegenin devinimi sallandıkça bile saatleri dürüst tutar.",
+          "O kesinlik, merdiven dönüşümlerinin neden hiç sapmadığını açıklar: nanosaniye → milisaniye → saat, tanımlı tam sayılarla saf çarpmadır. Yuvarlama yalnızca görüntüde girer; sitenin sayı biçimlendiricisi altı anlamlı basamakla sınırlar.",
+          "Dünya'nın dönüşü, atomik zamanla güneş zamanının yavaşça anlaşamamasının sebebidir — artık saniyeler boşluğu yamalar için vardır ve «bir gün tam olarak 86.400 saniyedir» bir astronomik garanti değil, süre matematiğinin bir gelenektir. Gerçek tarihler içeren sorular tarih hesaplayıcısına aittir; bu sayfa saf süreleri halleder.",
+        ],
+      },
+      {
+        heading: "Aylar ve yıllar bilinçli olarak ortalama değerlerdir",
+        paragraphs: [
+          "Takvim ayları 28'den 31 güne uzanır; süre matematiği bir gelenek ister. Bu araç ortalama Gregoryen değerleri kullanır: ay başına 30,436875 gün (365,2425 ÷ 12) ve yıl başına 365,2425 gün — 400 yıllık tam Gregoryen döngüsünün ortalaması; 97 artık yılı tam olarak ortalama yılın 365,25 olmamasının sebebidir.",
+          "365,25 kısayolu («Jülyen yılı») Gregoryen ortalamasından her 2.800 yılda bir günden biraz farklıdır — proje planı için önemsiz; yörünge mekaniği ya da uzun vadeli planlama için değil. Her iki durumda da ortalama: burada «3 ay»ı çevirmek 91,31 gün verir; üç gerçek takvim ayı 89'dan 92'ye her yere uzanabilir.",
+          "Pratik kural: girdi bir süre ise (bir abonelik dönemi, derleme süresi, bir yarılanma ömrü) ortalamalar doğru cevaptır; girdi gerçek tarihler içeriyorsa (sözleşme son tarihi, doğum günü) bunun yerine bir tarih hesaplayıcı kullan — takvimler düzensiz bütün günler ekler ve tek bir çarpan o hayatta kalmaz.",
+        ],
+      },
+      {
+        heading: "Süre matematiğinin değerini gösterdiği yerler",
+        paragraphs: [
+          "Geliştiriciler burada yaşar: milisaniye cinsinden zaman aşımları, cron aralıkları, hız-sınırı pencereleri — 1.500 ms 1,5 s'dir 0,000417 h'dır ve tüm merdiveni bir anda görmek zihinsel bölmeyi yinelemekten iyidir. Ses ve video işi aynı refleks üzerine çalışır: 90 dakika 5.400 saniyedir; yuvarlama kazası değil.",
+          "İş planlaması ortalamalara hemen çarpar: «90 günlük deneme» 0,247 yıldır; aylık faturalama × 12 tam olarak bir yıl değildir ve sözleşmedeki 30 günlük ay, Şubat'tan yaklaşık %7 farklıdır. Önemli olduğunda süreleri gün yazmak bütün soruyu dolanır — ve bu dönüştürücü her birimin gün eşdeğerini yan yana gösterir.",
+          "Her şey tarayıcında yerelde çalışır; sayfa anında yanıt verir ve çevrimdışı çalışır. Gösterdiği şey, gizlice sokulmuş değil yüksek sesle bildirilmiş süre gelenekleridir. Gerçek tarihler üzerine kurulu zaman damgaları ve geri sayımlar, ilgili zaman damgası ve tarih araçlarının işidir.",
+        ],
+      },
+    ],
   },
   "pressure-converter": {
     name: "Basınç Dönüştürücü",
@@ -3028,6 +5762,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Dönüşümler ne kadar doğru?",
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Tek büyüklük, bir düzine lonca",
+        paragraphs: [
+          "Basıncın bu kadar çok birimi vardır; çünkü her endüstri, standart organları hakemlik edebilmeden önce kendi birimini dondurdu: ABD mühendisliği psi'yi tuttu; Avrupa sanayisi bar'ı standardize etti; tıp, cıva manometresinden gelen cıva milimetrelerini tuttu; meteoroloji millibarı — hektopaskal olarak yeniden adlandırıldı; sayısal olarak özdeş. Pascal, metrekare başına bir newton, hepsinin içinden dönüştüğü SI hakemidir.",
+          "Demirler, standartların garantilediği yerde kesindir: standart atmosfer tam olarak 101.325 Pa'dır; bar tam olarak 100.000 Pa (Yunanca baros'tan; ağırlık) ve psi kesin inç ile pound tanımlarından indirgenir. mmHg tuhaftır — cıvanın yoğunluğuna ve standart yerçekimine bağlı yaklaşık 133,322 Pa'lık bir geleneksel değer.",
+          "Çarpanlar sabitlendikten sonra zincirleme dönüşümler sallanmaz: bar → psi → kPa → mmHg, yoldan bağımsız olarak aynı sayıya düşer; altı anlamlı basamakla görüntülenir. Aslında sallanan şey her sayının yazıldığı gelenektir — o, sonraki bölümün sorunudur.",
+        ],
+      },
+      {
+        heading: "Gösterge ve mutlak: klasik basınç hatası",
+        paragraphs: [
+          "Çoğu gösterge atmosferik basınçta sıfır okur — gösterge basıncını, ortamın üstündeki kısmı rapor ederler. Mutlak basınç gerçek sıfırdan (vakum) sayar. Deniz seviyesinde 32 psi göstergeli bir lastik yaklaşık 47 psi mutlaktır; hangi geleneği kullandığını söylemeyen bir spesifikasyon sayfası, güvenilmeyecek bir spesifikasyon sayfasıdır.",
+          "Gerçek kazalar burada olur: öteki geleneğin göstergesiyle beslenen 150 psi (göstri) dereceli bir kap ya da mutlak olarak okunan bir dalgıç tüpü tam olarak bir atmosfer hata üretir — derinlikte ölümcül marj. Dalış tabloları, kazan kuralları ve proses spesifikasyonları hepsi geleneklerini bildirir; geleneği sayıyla birlikte taşı.",
+          "Dönüştürücü ham birim dönüşümünü gösterir; yargı seninindir: karşılaştırmadan önce karşılaştığın her sayının gösterge mi mutlak mı olduğunu belirle. Hava haritaları mutlağın özel bir durumunu kullanır — 1013 hPa civarındaki yüzey basıncının kendisi bir atmosferin ağırlığıdır.",
+        ],
+      },
+      {
+        heading: "Günlük basınçların arkasındaki sayılar",
+        paragraphs: [
+          "32 psi'lik bir araba lastiği yaklaşık 2,21 bar'dır — Avrupa pompasının gösterdiği şey; yuvarlaması hariç. 120/80 mmHg'lik tansiyon kabaca 16/10,7 kPa'dır; tıp hiç değişmedi çünkü mmHg sayıları kısa ve yatak başında evrenseldir.",
+          "Dalgıçlar bar ya da psi yaşar: 200 bar'da dolu bir tüp yaklaşık 2.900 psi'dır ve deniz suyu her 10 metre derinlikte bir atmosfer ekler — orada basınç dönüşümü bilgi değil güvenlik aritmetiğidir; okumayı yanlış kiple yorumlayan dalgıç, planlanan süre ile gerçek süresi arasında tehlikeli bir fark yaşar.",
+          "Sitedeki her yerde olduğu gibi matematik tarayıcında çalışır ve girdiğin hiçbir şey saklanmaz. Altı anlamlı basamak küçük farkları görünür tutar: lastikte 2,0 ile 2,2 bar arasında yaklaşık 3 psi yatar — konuşmada kaçırılacak kadar az, yakıt ve aşınma için fark edecek kadar çok.",
+        ],
       },
     ],
   },
@@ -3063,6 +5823,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Dönüşüm çarpanları uluslararası standart tanımları (SI ve NIST) izler. Sonuçlar 8 anlamlı basamağa kadar gösterilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Joule ve kutuna düşen fatura",
+        paragraphs: [
+          "Joule SI birimidir: bir metre üzerinde bir newton kuvvet ya da bir saniye sürdürülen bir watt. Ev ölçeğinde miniciktir; elektrik faturalarının kilovat-saat konuşmasının sebebi budur — ve kilovat-saat kesin tanımlı bir joule demetidir: 1 kWh = 3,6 MJ; hep; çünkü watt-saat sadece 3.600 ile çarpılmış joule'dür.",
+          "O kesinlik, enerji aritmetiğini biraz özel kılar: elektrik sütununda hiç ölçülmüş sabit yoktur. 2.000 W'lık bir ısıtıcının bir saat çalışması 2 kWh = 7,2 MJ tüketir; dönüşüm sapamaz; çünkü iki taraf da tanımlı büyüklüklerdir.",
+          "Faturaları ülkeler arasında okumak günlük kazançtır: Avrupa kWh kotarır; gaz bazen MJ; BTU cinsinden ısıtıcıyı watt cinsinden klimayla karşılaştırmak tam olarak bu köprüyı ister. Altı anlamlı basamak bir faturanın ihtiyacının çok üstündedir ama denetim sınıfı toplamları dürüst tutar.",
+        ],
+      },
+      {
+        heading: "Calorie'nin bölünmüş kimliği",
+        paragraphs: [
+          "Calorie 19. yüzyıl üslubuyla tanımlandı: bir gram suyu bir Celsius derece yükselten ısıdır. Suyun ısı kapasitesi sıcaklıkla hafifçe kayar; o belirsiz tanım birkaç calorie'ye çatallandı — bu araç termokimyasal calorie'yi kullanır; şimdi tam olarak 4,184 J'ye sabitlenmiş; çoğu kimya ve gıda tablosunun arkasındaki gelenek.",
+          "Büyük harfli gıda Calorie'si bir kilocalorie'dir: 1.000 küçük calorie; 4.184 J. AB etiketleri kJ ile kcal'yi yan yana gösterir; ABD etiketleri kcal demek için Calories der. 1.000'lik faktör hatası klasik diyet uygulaması hatasıdır — yukarıya 1 kcal → cal gir ve boşluğu gör.",
+          "Fizik calorie'yi iyi bir sebeple emekli etti ama mutfaklar ve salonlar asla etmeyecek: birim kalır; çünkü ne kadar ısının bir gram suyu ısıttığı, kimsenin uydurduğu en sezgisel enerji resmidir. Yanında yalnızca 1:1.000 oranını taşı.",
+        ],
+      },
+      {
+        heading: "BTU ve kimsenin fatura kesmediği fizik birimi",
+        paragraphs: [
+          "BTU — British thermal unit — pound dünyasının calorie'sidir: bir pound suyu bir Fahrenheit derece yükselten ısı; standart ISO değeriyle yaklaşık 1.055 J. HVAC kapasitesi BTU/saat kotarılır; 10.000 BTU'lu bir klima saatte kabaca 2,93 kWh soğutma verir — bunu yapmak için ondan biraz fazla elektrik tüketir.",
+          "Fizik kitaplarını bunun yerine elektronvolt tutar: 1 eV tam olarak 1,602176634 × 10⁻¹⁹ J'dır; 2019 SI yeniden tanımıyla garantilenmiş bir kesinlik. Parçacık hızlandırıcılar ve pil kimyası eV konuşur; marketler ve gaz faturaları asla konuşmayacak.",
+          "Bu dönüştürücü dünyaları yan yana dizer — tek girdiden joule, calorie, kWh, BTU ve eV; hepsi tarayıcında yerelde hesaplanır. Altı anlamlı basamak en çok büyüklüklerin çarpıştığı yerde sayar: 200 kcal'lik bir atıştırmalık 836.800 J'dır ve o sayıyı bir ısıtıcının megajoule'lerinin yanında görmek, gıda enerjisinin ne demek olduğunu hissetmenin en hızlı yoludur.",
+        ],
+      },
+    ],
   },
   /* ------------------------------------------------------------------ */
   /* Hesap makineleri ve günlük yardımcılar                              */
@@ -3094,6 +5880,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Bunlar orta piyasa referans kurlarıdır — bankaların işlem yaptığı alım ve satım fiyatlarının ortasıdır. Kart ağları ve bankalar genellikle bu rakamın üzerine %1–3 marj veya ücret ekler.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Ara piyasa oranları: bankanın kotatmayacağı adil sayı",
+        paragraphs: [
+          "Her para biriminin iki canlı fiyatı vardır: dealer'ların neye aldığı ve neye sattığı; ara piyasa oranı ikisinin arasındaki orta noktadır. O orta nokta, manşetlerde ve arama motorlarında gördüğün sayıdır — bir banka müşterisinin hiçbir zaman tam alamayacağı en iyi oran da odur. Perakende dönüşümleri üstüne bir makas yığar: kartlar için %1–3 sıktır; havalimanı gişelerinde daha fazla.",
+          "O yapı, bu aracın çıktısını nasıl okuyacağını açıklar: gösterilen rakam adil bir referanstır ve kartının gerçekte uyguladığı oran hafifçe daha kötüye düşer. 1.000'lik bir alımda %2'lik makas 20 birimdir — bir kez yok sayılacak kadar küçük; sık seyahat ya da iş ödemelerinde alışkanlık olarak pahalıdır.",
+          "Oranlar open.er-api.com hizmetinden gelir; referans ara-piyasa değerleri yayımlar ve bu araç tabloyu yeniden almadan önce cihazında bir saat önbellekler. Bunun ne demek olduğu konusunda dürüsttür: bu, karar alma için bir referanstır; garantili bir gerçekleştirme fiyatı değildir. Büyük bir alım farka yaslandığında kart issuer'inin gerçek oranını kontrol et.",
+        ],
+      },
+      {
+        heading: "Çapraz oranlar nasıl hesaplanır",
+        paragraphs: [
+          "Dünyadaki her çift için yayımlanmış bir döviz tablosu yoktur — 160'tan fazla para birimiyle on binlerce kotasyon olurdu. Bunun yerine hizmetler bir temel tablo yayımlar (burada USD-temelli: bir doların her para biriminden ne kadar aldığı) ve her öteki çift türetilir: JPY'den GBP'ye, dolar başına yini, dolar başına sterline bölmek demektir. Bu üçgen, kart ağlarının ve forex ekranlarının da çalışma biçimidir.",
+          "Türetilmiş oran tam olarak temel tablo kadar doğrudur; ne fazla ne eksik: her iki bacak da piyasa ile oynar; yen'in keskin bir hamlesi sırasında buradaki JPY/GBP çaprazı aynı geleneği kullanan her profesyonel terminalle adım adım hareket eder. Sağlayıcılar arasındaki küçük farklar yöntemden değil anlık görüntü zamanından gelir.",
+          "Saatlik önbellek sakin zamanlarda da yoğun zamanlarda da sayar. Çiftlerin çoğu için gece boyunca oran zar zor hareket eder ve önbellek tazeden ayırt edilemez; yüksek oynaklık sırasında yenile düğmesi daha yeni bir anlık görüntü alır. Her iki durumda da aritmetik hiçbir zaman lehine yuvarlamaz — çarpma, tam hassas tabloyla yerelde olur.",
+        ],
+      },
+      {
+        heading: "Cihazından hiç çıkmayanlar",
+        paragraphs: [
+          "Para dönüşümü finanslarınızla ilgili bir soru gibi hissettirir; birçok çevrimiçi dönüştürücü tutarları ve çiftleri günlüklemesinin sebebi budur. Bu araç sert bir çizgi çizer: tek ağ trafiği anonim kamusal oran tablosu indirmesidir. Yazdığın tutarlar, kontrol ettiğin çiftler ve sonuçlar hiçbir sunucuya değmez — çarpma tarayıcında çalışır ve önbellekli tablo çevrimdışı da çalışır.",
+          "O gizlilik tasarımı aracın hız profilini de açıklar: ilk yüklemeden sonra beklenen hiçbir şey yoktur; sorgu başına gidiş dönüş yoktur ve her dönüşümde reklam kapısı yoktur. Yinelenen dönüşümler kelimenin tam anlamıyla sıfır istek tutar.",
+          "Pratik akış: yolculuktan önce orana bak, büyük bir değişimi bağlamadan önce yenile ve bankanın kotattığıyla karşılaştırırken makası unutma. Buradaki sayı adil tabandır; ona karşı pazarlık ettiklerin marjdır.",
+        ],
+      },
+    ],
   },
   "timezone-converter": {
     name: "Saat Dilimi Çevirici",
@@ -3121,6 +5933,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bu araç internet erişimi gerektiriyor mu?",
         a: "Hayır. Şehir saatleri, tarayıcınıza gömülü saat dilimi veritabanından ve cihaz saatinden gelir — hiçbir şey indirilmez ve hiçbir konum paylaşılmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "IANA veritabanı neden önemlidir",
+        paragraphs: [
+          "Saat dilimleri sabit kaymalardır değil; tarih boyunca değişen kural setleridir. Bir şehrin kayması yaz saati yasalarıyla, savaş politikalarıyla ve hükümet kararnameleriyle — bazen geriye dönük — kaymıştır. IANA saat dilimi veritabanı (tz veritabanı), bu kuralların topluluk-bakımlı kaydıdır; America/New_York gibi bir bölge tanımlayıcısı yalnızca bir kaymayı değil, ne zaman ve nasıl değiştiğinin tüm tarihini kodlar.",
+          "Tarayıcın bu veritabanının bir kopyasını taşır ve onu standart Intl API üzerinden açığa verir; bu araç onu kullanır. O seçimin iki sonucu vardır: dönüşümler ağ çağrısı gerektirmez — sayfa uçak modunda çalışır — ve kurallar yalnızca tarayıcın kadar günceldir. Güncel hükümet değişiklikleri tarayıcın tzdata'yı güncellediğinde belirir; anında değil.",
+          "Sabit kaymalar yerine adlandırılmış bölgeleri kullanmak bir hata sınıfını da önler: «+5:30» bugünün Hindistan'ını betimler; «Asia/Kolkata», geçmiş tek seferlik kaymalarıyla bütün, DST'siz onyıllar boyunca Hindistan'ı betimler. Hile sayfası olarak dolaşan sabit kaymalı tablolar güncelliğini yitirir; adlandırılmış bir bölge yitiremez.",
+        ],
+      },
+      {
+        heading: "DST: naif matematiği kıran geçişler",
+        paragraphs: [
+          "Yaz saati uygulaması, iki kaymayı basitçe çıkarmak ve sonuca güvenmek yerine vardır: iki şehrin kaymaları bugün 7 saat; gelecek hafta 6 ya da 8 olabilir; DST farklı yerlerde farklı tarihlerde devreye girer — ABD Mart'ta değişir, Avrupa Mart sonunda; bazı güney yarımküre ülkeleri Ekim civarında geçer. Tek bir ülkenin içinde bile bir bölge DST gözlemlerken öteki gözlemlemeyebilir.",
+          "Geçişlerin kendisi keskin kenarlar taşır: ileri atlama bir duvar saatini bütün bir saat atlar — 2:30'daki programlar o gün hiç var olmaz — ve geri düşme bir saatle iki kez olur; «1:30», bölge olmadan belirsizdir. Ülkeler DST'yi tümüyle de kaldırmıştır; Meksika 2022'de ülkenin çoğu için kaldırdı — sabit kaymalar yerine tarihli kuralların tek güvenli kodlama olmasının sebebi budur.",
+          "Tekrarlayan toplantılar için saat tablosu, o geçiş tarihlerinin çevresinde değerini gösterir: bir geçişin olduğu haftayı, aynı hafta günü üzerinden kontrol et ve pratik toplantı saatinin yalnızca bir tarafta saat atladiğini görürsün. O tek bakış, bir aramayı sabahından akşamına yavaşça yürüten klasik yinelenen-davet sürüklenmesini önler.",
+        ],
+      },
+      {
+        heading: "Tabloyu okumak ve özel kalmak",
+        paragraphs: [
+          "24 satırlı tablo seçtiğin tarih için üretilir; yalnızca bugün için değil — planladığın toplantı gelecek ay olacak; belki bir DST geçişinden sonra. Hedefin tarihinin kaynağın tarihinden farklılaştığı satırlar açıkça etiketlenir: Şanghay'daki 9:00 Pazartesi'nin New York'ta 21:00 Pazar olması, elle bir dönüşümün düşürdüğü tam ayrıntı türüdür.",
+          "Yarım saatlik ve 45 dakikalık kaymalar gerçek dünyada vardır — Hindistan +5:30; Avustralya'nın bir kısmı +9:30; Nepal +5:45 — iki şehir arasındaki farkın tam bir sayı olduğunu varsayma. Tablo gerçek kuralları okur; tuhaf kaymalar aritmetiğe basitçe görünür.",
+          "Her şey yerelde hesaplanır: tarayıcının Intl API'si ve cihazının saati; ağ isteği yok, konum paylaşımı yok, saklanmış geçmiş yok. Araç doğası gereği salt-okunurdur — cihazının saat dilimini asla değiştirmez — yolculuk için varsayımsal toplantı saatlerini keşfetmek güvenlidir; gerçekten bir şeyi değiştirmeden önce.",
+        ],
       },
     ],
   },
@@ -3151,6 +5989,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — bu ızgara, bit desenlerinin, hash'lerin ve bellek adreslerinin konusu olan tam ve negatif olmayan değerleri çevirir. İşaretli ve kesirli biçimler, eşlemeyi muğlak yapacak kodlama tercihlerine (ikinin tümleyeni, IEEE 754) bağlıdır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Hex ile ikili neden aynı dildir",
+        paragraphs: [
+          "Tek bir onaltılık rakam tam olarak dört bit kodlar: 0–9 artı a–f, 4-bit grubun on altı değerini kapsar. Kimsenin seçtiği bir kolaylık değildir — her hex rakamın sabit bir dört-bit ikili desene eşlenmesinin (F = 1111, 8 = 1000) her iki yönde de belirsizlik olmamasının sebebi budur. Sekizli için de aynı geçerlidir: rakam başına üç bit; eski sistemlerin (dosya izinleri, PDP-çağı hesaplama) üçer üçü gruplamasının sebebi.",
+          "Görüntünün ikiliyi 4'le, hex'i 2'yle gruplamasının nedeni budur: her grup tam olarak bir bayttır; 32-bit bir değer sekiz hex rakam ya da dört ikili nibble olarak görünür ve bayt sınırlarını doğrudan ekrandan okursun. Bir bit maskesini ya da bir protokol başlığını kontrol ederken o hizalama, «bitleri dikkatle say» işini «gruplara bak» işine çevirir.",
+          "Dönüşümün kendisi konumsaldır: b tabanındaki bir sayı, her rakamın b'nin konum kuvvetiyle çarpımlarının toplamıdır. Hex ikiliyi yalnızca yeniden paketler — 0xFF, 11111111'dir — hex ile ikili arasında dönüştürmek mekanik; ondalık dönüşüm gerçek bölme ister. Yazarken dört görüş burada senkron kalır; BigInt her boyutta kesin değeri taşır.",
+        ],
+      },
+      {
+        heading: "İkiye tümleme: bu ızgaranın bilinçli olarak dışladığı işaretli dünya",
+        paragraphs: [
+          "Donanım eksi işaretlerini saklamaz. İşaretli tam sayılar ikiye tümleme kullanır: en üst bit hem işaret olarak çalışır ve negatif sayılar tüm bitleri çevirip bir eklenerek kurulur — 8 bit içinde −1, 11111111'dir ve aynı deseni işaretsiz okumak 255 gösterir. Bir bit deseni, iki değer: bitlerden anlamına eşleme yorumlamaya bağlıdır; bu aracın yalnızca işaretsiz değerleri çevirmesinin tam sebebi.",
+          "Yalnızca-işaretsiz kuralı öteki belirsizlikten de kaçar: kesirler. Kayan nokta sayıları IEEE 754 izler; bitler işaret, üstel ve mantis alanlarına bölünür — o bit desenini saf bir tam sayı olarak çevirmek, ondalık değeriyle hiçbir ilişkisi olmayan devasa bir sayı verir. Float'ların hex dökümleri yalnızca kodlama elindeyken anlamlıdır.",
+          "Bu dönüştürücüyü işi için tut: bit desenleri, hash'ler, tam sayılara paketlenmiş renkler, bellek adresleri ve bayraklar. Bir değeri C'den, Rust'tan ya da assembly'den dışarı taşırken önce kaynak değişkenin işaretli olup olmadığını kontrol et — işaretliyse, buradaki ondalığa güvenmeden üst biti kendin yorumla.",
+        ],
+      },
+      {
+        heading: "2^53 sınırı nereden gelir ve BigInt neden sayar",
+        paragraphs: [
+          "JavaScript'in sıradan sayıları 64-bit float'lardır ve IEEE 754, o bitlerin 53'ünü mantise harcar. Bu, 2^53'e kadar — yaklaşık 9 katrilyon — her tam sayının kesin olduğu; ötesinde sayıların temsil edilebilir en yakın floata yuvarlanmaya başladığı demektir: düz JavaScript'te 2^53'e 1 ekle ve hiçbir şey değişmez. Kimlikler, hash'ler ve kriptografik değerler rutin o çizgiyi aşar; yapıştırılan 64-bit hex dizelerinin tarih olarak naif dönüştürücülerden yanlış döndüğünün sebebi budur.",
+          "BigInt sorunu, sayıları float yerine sınırsız hassaslı tam sayı olarak temsil ederek dolanır; 256-bit bir hash ya da 40 basamaklı bir ondalık her boyutta kesin dönüşür. Maliyet bu iş için önemsizdir — dönüşüm hâlâ anlıktır — sonuç, dört alanın her birinin bağımsız yuvarlaması yerine birbiriyle anlaşmasıdır.",
+          "Başka bir yerde hassasiyet sorunundan şüphelendiğinde hızlı bir akıl sağlığı kontrolü: değeri burada çevir ve öteki aracın raporladığıyla karşılaştır. Alt basamaklar farklıysa öteki araç float'lar üzerinden yuvarlıyordu — bu ızgara gerçek değeri gösterir.",
+        ],
+      },
+    ],
   },
   "roman-numeral": {
     name: "Roma Rakamı Dönüştürücü",
@@ -3177,6 +6041,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Dönüştürücü küçük harfleri kabul ediyor mu?",
         a: "Evet — mcmxciv gibi girdiler otomatik olarak büyük harfe çevrilir ve 1994'e dönüştürülür. Çıktı, kitabelerdeki geleneğe uygun olarak daima büyük harfle gösterilir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sıfırı olmayan bir sistem — ve bu her şeyi nasıl biçimlendirir",
+        paragraphs: [
+          "Roma rakamları konumsal değil, toplamsal-eksimsel bir notasyondur: her simge nerede durursa dursun sabit bir değer taşır; ne sıfır ne basamak değeri vardır. O tek gerçek, sistemin hem güçlerini hem sınırlarını açıklar. Toplama banaldir — simgeleri toplaman yeterlidir — ama çarpma ve bölme zahmetlidir; Roma tüccarlarının abaküslerle hesaplayıp sonuçları rakamlarla yazmasının sebebi budur.",
+          "Sıfırın yokluğu aralığı da sınırlar. Klasik notasyonun en büyük simgesi M'dir (1000) ve bir harfi üçten fazla yazmama geleneği, en büyük kesin biçimli sayının MMMCMXCIX olduğunu — 3999 — demektir. Ortaçağ yazarları sonradan vinculum'u icat etti; bir rakamı 1.000 ile çarpan üst çizgi — daha büyük değerlere ulaşmak için — ama hiçbir zaman klasik kanona girmedı; klasik kalan dönüştürücüler burada durur.",
+          "Katı kurallar antik pratik kadar modern düzendedir. Eksimsel çiftler (IV, IX, XL, XC, CD, CM) gerçek Roma kitabelerinde tutarsız kullanılırdı — IIII, Colosseum kapılarında IV'ün yanında görünür — ve bu aracın doğruladığı kanonik regex, yazıcıların ve tip tasarımcılarının sonradan anlaştığı standardize edilmiş klasik biçimi yansıtır.",
+        ],
+      },
+      {
+        heading: "IIII saat kadranı geleneği",
+        paragraphs: [
+          "Hemen her geleneksel saat kadranına bak ve klasik kuralın IV dediği yerde IIII görürsün. Bu, en eski ve en inatçı varyant geleneklerinden biridir; saatçiler yüzyıllardır toplamsal biçimi kullanır — güneş saatlerinde, kilise saatlerinde ve kol saati kadranlarında aynı şekilde.",
+          "Şüphesiz hiçbir tek neden belgelenmemiştir ve makul açıklamalar yarışmak yerine birikir. Görsel denge: IIII, kadran üzerinde VIII'in karşısında durur; vuruşları uyumlu sayar; IV ile kadranın sol yarısı ağır görünür. İmalat: özdeş dört I damgası dökmek, ayrı bir IV kalıbı kesmekten ucuzdu. Kral söylencesi: rivayetler bir kralın IV'ye, Jüpiter tanrısına (Latince IVPITER yazılır) fazla yakın diye itiraz ettiğini iddia eder; o hikâye doğrulanmış tarih değil gelenektir.",
+          "Kökeni ne olursa olsun dönüştürücü kullanıcı için çıkarım şudur: IIII, katı klasik doğrulamanın reddettiği meşru bir tarihsel biçimdir. Bu araç kanonik sistemi dayatır — IV, asla IIII değil — çünkü dönüştürücünün işi tek tutarlı cevaptır; varyantların ansiklopedisi değil. Bir kadrandan IIII görürsen 4 olarak oku; rakam yazarken kanonik biçimi yaz.",
+        ],
+      },
+      {
+        heading: "Katı doğrulama ve reddettiği varyantlar",
+        paragraphs: [
+          "Çözümleyici her sayı için tam olarak bir kanonik yazımı kabul eder ve gerisini kuralı açıklayarak reddeder. VIIII (toplamsal 9), IIM (bir alt adımdan öte eksimsel), IC (iki rütbe boyunca eksim) ve VX, tahmin edilme yerine işaretlenir. Katılık kasıtlıdır: belirsiz girdi sessiz hataların yaşadığı yerdir ve tahmin eden bir dönüştürücü hiçbir şey öğretmez.",
+          "Tarihsel kullanım kanondan daha loştu. Eski kitabeler ve el yazmaları toplamsal biçimler, düzensiz eksimseller ve hatta değerleri zamanla kayan harfler gösterir — ortaçağ rakamları bazen tümüyle standart dışı biçimler taşıyordur. Özgün bir kaynağı transkript ediyorsan bu aracın reddedeceği biçimlerle karşılaşmayı bekle; doğrulayıcı orada da yardımcı olur — her varyantın hangi klasik kuralı bozduğunu tam olarak söyler.",
+          "Küçük harf girdi kabul edilir ve büyük harfe tekdüzlenir; kitabelerin geleneksel biçimde kesilmesiyle eşleşir. Her şey tarayıcında yerelde çalışır — film yıllarını, bölüm numaralarını, anıt kitabelerini serbestçe yapıştır; hiçbir şey hiçbir yere gönderilmez ve iki yön canlı kalır; birini ötekiyle çapraz doğrulayabilirsin.",
+        ],
       },
     ],
   },
@@ -3207,6 +6097,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yaşanan toplam gün, “dünyadaki günler” tarzı kilometre taşlarında ve yaşları gün olarak saklayan sistemlerde kullanılan rakamdır. UTC'deki takvim tarihlerinden hesaplanır; yaz saati kaymaları onu bir gün yanıltamaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "«Yaş» neden tek bir sayı değildir",
+        paragraphs: [
+          "Üç sisteme birinin yaşını sor ve üç cevap alabilirsin; çünkü yaş hesaplamadan önce bir gelenektir. En yaygın gelenek — bu hesaplayıcının kullandığı — tamamlanmış yaştır: doğumdan beri gerçekte kaç tam yıl, ay ve gün geçtiği. Çoğu ülkedeki resmî belgeler aynı sayının bu «yalnızca yıl» kesimini kullanır; doğum günü yarın olan kişinin bugün hukuken bir yıl daha genç olmasının sebebi budur.",
+          "Tarihsel ve kültürel sebeplerle öteki gelenekler vardır. Birçok Doğu Asya sistemi geleneksel olarak kişiyi doğumda bir yaş sayar ve hepsini yılbaşında birlikte yaşlandırır; Batı rakamına bir iki yıl ekler; Güney Kore çoğu hukuki amaç için uluslararası standardı 2023'te resmîleştirdi; o belirsizliğin çoğunu bitirdi. Bazı tıbbi ve sigorta bağlamları bunun yerine düzeltilmiş ya da yuvarlanmış yaşlar kullanır.",
+          "Bu aracın bilinçli olarak yok saydığı günün saati inceliği de vardır: 23:50'te doğan biri, sıkı anlamda, aynı gün 00:10'te doğandan herhangi bir tarihte birkaç saat daha gençtir. Hesaplayıcı doğum saati olmadan bütün takvim tarihleri üzerinde çalıştığı için ikisi de aynı yaşı alır — neredeyse her form ve kaydın izlediği gelenek.",
+        ],
+      },
+      {
+        heading: "Artık günler, ay uzunlukları ve saat dilimleri",
+        paragraphs: [
+          "Yıl/ay/gün dökümü gerçek takvim aritmetiğidir; ortalama bir sayıya bölme değil. Aylar doğum tarihinden ileriye bütün tüketilir ve artık günler, kalan ayın gerçek uzunluğuna karşı ölçülür — 31 günlük ay boyunca, 28 günlük bir Şubat boyunca ya da 2024 artık yılı boyunca uzanan aralık hepsi kesin çıkar. 29 Şubat doğum tarihi, sıradan yıllarda 1 Mart'ta yaşlandırma sayılır; çoğu yargı bölgesinin izlediği gelenek bu.",
+          "Toplam günler takvimi tümüyle dolanır: UTC gün numaralarını çıkarır — salt mutlak günlerin bir sayımıdır. Bu, rakamı yaz saati geçişlerine bağışıklı kılar; yerel zaman farkı bir gün kısa ya da uzun düşebilir. Sayfayı Dünya'nın neresinde çalıştırdığına bakmaksızın «yaşanmış günler» aynı sayıdır.",
+          "Doğum günü geri sayımı, yaş-alma tarihinden doğum ayının ve gününün sonraki oluşuna ileri yürür ve düştüğü hafta gününü rapor eder — aritmetik yapmadan partiyi planlamak için faydalıdır. Artık olmayan yılda, 29 Şubat doğumu yukarıdaki aynı sebeple 1 Mart'ı hedefler.",
+        ],
+      },
+      {
+        heading: "Hesap tablolarıyla karşılaştırması ve gizlilik",
+        paragraphs: [
+          "Hesap tabloları tarih-fark işlevleriyle yaş boşluklarını hesaplayabilir ama ay aritmetikleri sık hata kaynağıdır — işlevler ürünler arasında tutarsız belgelenir; dahil-hariç sınırını fark etmeden yanlış almak kolaydır. Bu araç dökümü, toplamları ve geri sayımı birlikte gösterir; birini göz atışta ötekine karşı sağlayabilirsin.",
+          "Resmî amaçlar için — vizeler, okul kayıtları, emeklilik kuralları — belgeler ve ilgili yargı bölgesinin geleneği yetkilidir; hiçbir hesaplayıcı değil. «Okul kohortları için 1 Ocak itibarıyla yaş» gibi kurallar saf geçen süreyi ezer ve bu araç onları modellemez.",
+          "Gizlilik burada yapısalıdır: doğum tarihi yalnızca tarayıcına girilir; aritmetik yerel JavaScript'te çalışır ve hiçbir şey yüklenmez, günlüklenmez, saklanmaz. Bu sayar, çünkü tam bir doğum tarihi artı bir bağlam bir insanı tanımlamaya yeter; girdileri yerelde tutan hesaplayıcı, gerçek doğum tarihlerini yapıştırmak için tek doğru türdür.",
+        ],
+      },
+    ],
   },
   "bmi-calculator": {
     name: "VKİ Hesaplayıcı",
@@ -3233,6 +6149,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "VKİ sporculara neden uymuyor?",
         a: "Kas, yağdan yoğundur; çok kaslı insanlar az fazla yağ taşırken “kilolu” çıkabilir. VKİ'yi hızlı bir topluluk düzeyi tarama olarak gör ve daha dolu bir tablo için bel ölçümü veya vücut kompozisyonuyla birleştir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "BMI sana neyi söyleyebilir, neyi söyleyemez",
+        paragraphs: [
+          "BMI tıptaki yerini ucuz, tutarlı ve — büyük popülasyonlarda — vücut yağıyla makul biçimde korele olduğu için kazandı. Tarama adımı olarak en iyi çalışır: daha yakından bakması gerekenleri işaretler; yakın bakışın ne bulacağını değil. %6 vücut yağlı kaslı bir atlet ile %35'li hareketsiz biri aynı 27 BMI paylaşabilir; sayı özdeştir, sağlık resmi değildir.",
+          "Boyun uçlarında da kayar. Çok boylular hafif yüksek, çok kısa boylular hafif düşük okunur; BMI ağırlığı boyun karesiyle ölçeklerken vücut hacmi o kadar düzgün ölçeklenmez. Bazı araştırmacılar bireyler için yeni alternatifleri yeğler — ama her büyük sağlık kuruluşu hâlâ eşikleri BMI terimlerinde yayımlar; onu ağırlık taramasının ortak dili olarak tutan budur.",
+          "Kategoriyi bir hüküm değil konuşmanın başlangıç noktası olarak ele. Eğilimler tekil okumalardan fazla sayar: aynı yöntem, aynı tartı, günün aynı saati, aylar boyunca izlemek tek bir sayının söyleyebileceğinden çok daha fazlasını söyler.",
+        ],
+      },
+      {
+        heading: "Eşikler nereden gelir",
+        paragraphs: [
+          "18,5 / 25 / 30 kesimleri doğal sabitler değildir — tarihi olan komite kararlarıdırlar. Adolphe Quetelet indeksi 1830'larda popülasyon ortalamalarından türetti; Ancel Keys 1972'de «body mass index» adını verdi; güncel bantlar WHO tarafından 1990'larda standardize edildi; büyük ölçüde ölüm eğrilerini indekse bağlayan çalışmalardan. Eğriler U-şekillidir: risk her iki uçta yükselir; düşük eşiğin de var olmasının sebebi budur.",
+          "Asya popülasyonları, Avrupa popülasyonlarından daha düşük BMI'lerde yükselmiş kardiyometabolik risk gösterir; birçok ulusal kılavuz daha düşük fazla kilo eşikleri kullanır — 25 yerine 23 sıktır. Sonucun başka bir ülkenin grafiğiyle karşılaştırıyorsan hangi standardı kullandığını kontrol et; formül özdeştir, yorum bantları değildir.",
+          "Çocuklar ve gençler tamamen ayrı bir durumdur: BMI büyümeyle birlikte yaş ve cinsiyete göre değişir; pediatrik grafikler sabit sayılar değil yaş-ve-cinsiyet yüzdelikleri kullanır. Bu hesaplayıcı yetişkin standardını izler ve 18 yaş altındakiler için uygun değildir.",
+        ],
+      },
+      {
+        heading: "BMI'yi öteki sayılarla birlikte kullanmak",
+        paragraphs: [
+          "En faydalı arkadaşı bel çevresidir; çünkü merkezi adipositeyi — metabolik riskle en çok ilişkili yağ dağılım desenini — yakalar. Sıradan eşleşme genel kütle için BMI ve dağıtım için bel: BMI 27'li küçük belli biri, onu merkezde taşıyan 27'li birinden çok farklı okunur.",
+          "Vücut yağ yüzdesi — kaliperlerle, bioimpedans tartılarıyla ya da DEXA ile ölçülen — BMI'nin söyleyemediğini doğrudan yanıtlar: ağırlığının ne kadarı yağdır. Tutarsız ölçmek daha zordur; zayıflığı budur: aynı vücut bir bioimpedans tartısında %22, ötekide %26 puan alabilir; hidrasyona ve günün saatine bağlı olarak.",
+          "Pratik bir rutin: tutarlı koşullarda tart, BMI'yi burada kaydet; belini ve vücut yağını bir profesyonelle aralıklarla ölçtür. Bileşim sana eğilimi, kompozisyonu ve klinik bağlamı verir; hiçbir tek sayıya fazla güvenmeden.",
+        ],
       },
     ],
   },
@@ -3263,6 +6205,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet. Her iki girdi de negatif ve ondalık kabul eder; “80'in −%5'i” veya sıcaklık değişimindeki yüzde puanları sorunsuz çalışır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kimin tabanı? Her yüzdenin sakladığı soru",
+        paragraphs: [
+          "Bir yüzde asla mutlak değildir — her zaman bir tabana karşı bir orandır ve yüzde karışıklığının çoğu yanlış taban seçmektendir. «Y'nin X%'si»nde Y tabandır ve sonuç (X ÷ 100) × Y'dir. «A, B'nin yüzde kaçıdır»da, ifade sırası rolleri sabitler: A paydır ve B paydadır; «30, 150'nin yüzde kaçı» %20 verirken «150, 30'un yüzde kaçı» %500 verir — aynı iki sayı, karşıt cevaplar.",
+          "Yüzde değişiminin kendi taban kuralı vardır: eski değer paydada durur ve işaretlerin anlamlı kalması için mutlak değeri kullanılır. 480'den 610'a yükseliş +%27,08'dir (130 ÷ 480); 610'dan 480'ye dönüş düşüşü −%21,31'dir (−130 ÷ 610). İkisi de aynı 130 birimlik hareketi betimler ve ikisi de yanlış değildir — farklı başlangıç noktalarına karşı ölçerler.",
+          "Yüzde ile yüzde puanı da farklı hayvanlardır. Bir tasarruf oranı %3'ten %4'e hareket ederse bu bir yüzde puanı ama %33'lük bir göreli artıştır — manşetler ve fon sayfaları hangisi daha büyük duyuluyorsa onu seçer. Karşılaştırma önemliyken tabanı açıkça bildir: «%3'ten %4'e», «%33 artış»ı yener.",
+        ],
+      },
+      {
+        heading: "Yüzdeler neden toplamıyor",
+        paragraphs: [
+          "Yüzde değişimler toplanmaz, çarpılır; çünkü her biri öncekinin sonucu üzerinden işler. %20 kazanırsın ×1,2 tutarsın; %20 kaybedersin ×0,8 tutarsın; birleşince ×0,96 — +20 ve −20 birbirini iptal ediyormuş gibi görünse de net %4 kayıp. Çarpanlarla düşünmek paradoksu anında çözer.",
+          "Asimetri boyutla büyür: +%50 sonra −%50, başladığın yerin %75'inde bırakır (×1,5 × 0,5 = 0,75). Bu yüzden «piyasa %10 düştü, toparlaması için %10 yükselmesi gerek» yanlıştır — +%11,1 gerekir. Trader'lar ve fon yöneticileri bu aritmetikle her gün yaşar.",
+          "İndirim istifleme aynı biçimde davranır. %20'lik indirim ardından %10'luk ek indirim ×0,8 × 0,9 = ×0,72'dir — %30 değil %28 indirim. Yüzdelerin zincirlendiği her yerde (fiyat hareketleri, faizler, kâr ve indirim payları) her birini bir çarpana çevir ve çarp; ham sayıları toplamak hep yanlış cevabı verir.",
+        ],
+      },
+      {
+        heading: "Özel bir hesaplayıcı nerede hesap tablosunu yener",
+        paragraphs: [
+          "Üç soru — Y'nin X%'si, B'nin A payı ve iki değer arasındaki değişim — günlük durumları kapsar: bahşiş ve indirim kontrolleri, not verme, fatura KDV'si, satış büyümesi, test puanları. Bir hesap tablosu üçünü de halleder ama her biri doğru yazılmış kendi formülünü ister; burada ifadeyi değiştirmek tek tıkır ve formül uyarlanır.",
+          "İşaretli ve etiketli değişim çıktısı kasıtlı farktır: 500'den 400'e düşüş −%20 (%20 azalma) basar; kendin yorumlaman gereken etiketsiz bir sayı değil — hesap tablosu hücrelerinin ve zihin matematiğin en sık yanlış gittiği yer.",
+          "Her şey tarayıcında yerelde çalışır — hiçbir girdi iletilmez; fiyat taslakları, not listeleri ya da maaş rakamları hesap olmadan kontrol edilebilir. Marj ve kâr payı için profit-calculator'la ya da yüzde bir KDV dahil fiyatın içinde yaşadığında VAT hesaplayıcıyla eşleştir.",
+        ],
+      },
+    ],
   },
   "emi-calculator": {
     name: "EMI Hesaplayıcı",
@@ -3289,6 +6257,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Masraflar ve sigorta EMI'ye dâhil mi?",
         a: "Hayır. İşlem masrafları, sigorta ve değişken oran değişiklikleri dışarıda bırakılır — sonuç, girdiğin oran için saf amortisman EMI'sidir. Ödenecek nihai tutar, kredi kuruluşunun onay yazısında görünür.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Azalan-saldo yöntemi ve düz oran benzeri",
+        paragraphs: [
+          "Buradaki formül azalan-saldo standardıdır: her ayın faizi kalan saldo üzerinden yüklenir; süre kısaldığında toplam faizin bu kadar sert düşmesinin sebebi budur. Taklidi, tüketici finansı reklamında sık görülen düz oran kotasyonudur: tüm dönemin faizi bir kez, özgün anapara üzerinden hesaplanır ve aylara eşit bölünür.",
+          "İkisi yakın değildir. Azalan-saldo oranına benzer bir sayıyla kotatılan düz oran gerçek terimlerde kabaca iki katına yakın mal eder; çünkü düz hesapta anapara hiç küçülmez. Reklam küçük görünen bir oran övüyorsa ilk soru her zaman şu: bu azalan saldoda mı, düz mü? Evrak yalnızca düz oran kotatıyorsa herhangi bir karşılaştırmadan önce çevir.",
+          "Bu araç yalnızca azalan-saldo EMI hesaplar; bankaların ev, araç ve tüketici kredileri için kullandığı eşitlik. İşleme ücretlerini, sigortaları ya da oran sıfırlamalarını modellemez — küçük oldukları için değil; ürüne özgü oldukları için; içlerine katmak girdini sana göstermek yerine sessizce değiştirirdi.",
+        ],
+      },
+      {
+        heading: "Süre, oran ve faiz/zaman takası",
+        paragraphs: [
+          "Toplam faiz kabaca saldonun yaşadığı süreyle büyür; aynı oranda 20 yıllık bir kredi, aynı anapara için 10 yıllığın iki katından çok daha fazla faiz öder — taksit düşer ama yıllar katlar. Süreleri burada karşılaştırırken gözünü EMI satırından değil toplam-faiz satırından ayırma: EMI karşılayabileceğin şeydir; toplam faiz mal olduğu şeydir.",
+          "Oran hareketleri kısa ufuklarda süreden az sayar ama uzunluklarda bileşir: uzun bir kredide yarım puan bile beş basamaklı bir farka birikir. Bu yüzden yeniden finansman kararları bu hesaplayıcıyı iki kez kullanmalıdır — bir kez mevcut kredinin kalan saldosuyla ve kalan süresiyle, özgün rakamlarla değil — ve toplam faiz farkı, yeniden finansman ücretinin ödenmeye değer olduğu gerçekçi tavanıdır.",
+          "Peşin ödeme iki kolla aynı anda etkileşir. Ekstra anapara sözleşme süresini dokunmadan etkin süreyi kısaltır; ceza taşıyan bir teklifi dürüst değerlendirmenin yolu, kaydedilen faizi cezaya karşı hesaplamaktır — ikisini de bu formülün ürettiği çizelgeler gibi programlardan.",
+        ],
+      },
+      {
+        heading: "EMI sayısının içermesi olmayanlar",
+        paragraphs: [
+          "EMI anapara artı faizdir; başka hiçbir şey. Gerçek krediler baştan yüklenen işleme ücretleri ekler, bazı ürünlerde zorunlu sigorta, belge ücretleri ve — değişken oranlı kredilerde — yolda EMI'yi değiştiren periyodik sıfırlamalar. Bunların hiçbiri saf bir amortisman hesabında görünmez; çıktıyı, lender'in çizelgesinin sonra değiştireceği temiz temel olarak ele.",
+          "EMI geleneği aynı zamanda kültürel bir artefakttır: eşit taksitlerin standart olduğu pazarlarda egemendir; ama öteki eşit-anapara yapısı — azalan ödemeli — erken ödemelerin yüksekliği pahasına daha az toplam faiz yükler. Lender ikisini de sunuyorsa ikisini de aynı girdilerle burada çalıştır ve toplam faizi ilk yıllık bütçenle karşılaştır.",
+          "Ve sitedeki her yerde olduğu gibi sayılar tarayıcından hiç çıkmaz. Kredi büyüklüğü, maaş bağlamı ve oran cihazında kalır — henüz kabul etmediğin teklifleri karşılaştırırken işe yarar; sayfayı kapat, girdilerin tamamen gitmiş olsun ve hiçbir lender bu kıyaslamanın bir kopyasını görmesin.",
+        ],
       },
     ],
   },
@@ -3319,6 +6313,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet. Girdiğin oran için sabit oranlı bir krediyi modeller. Değişken oranlı ürünlerde, referans oran her sıfırlandığında yeniden hesapla — her sıfırlama hem ödemeyi hem planı değiştirir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Eşit toplam taksit ile eşit anapara",
+        paragraphs: [
+          "Tüketici kredileri neredeyse her zaman bu aracın uyguladığı yıllık-method kullanır: tüm dönem boyunca tek bir sabit taksit; faiz payı küçülürken anapara payı saldo düştükçe büyür. Ana alternatif, eşit-anapara amortismanı anapara dilimini sabit tutar ve taksiti her ay düşmesine izin verir. Aynı oran ve sürede eşit-anapara daha az toplam faiz yükler; çünkü saldo ilk günden daha hızlı emekli edilir.",
+          "Daha az faiz, eşit-anapara'yı «daha iyi» yapmaz. İlk ödemeleri belirgin biçimde yüksektir — tam olarak çoğu hane bütçesinin taşıyamayacağı şey — lender'ların varsayılan olarak yıllık yapıya geçmesinin sebebi budur. İkisini erken yılların karşılanabilirliği ve toplam faizle yargıla; bir yöntemin ilk ay ödemesini ötekinin son ay ödemesiyle asla karşılaştırma.",
+          "Bir karşılaştırma tuzağı bir uyarı hak eder: bazı pazarlar «düz oran» kotarır — tüm dönemin faizi azalan saldo yerine özgün anapara üzerinden hesaplanır. Düz oran, eşdeğer azalan-saldo oranının kabaca iki katına mal olur. Herhangi iki teklifi karşılaştırmadan önce ikisinin de azalan-saldo kotasyonu olduğunu onayla; yoksa sayılar hiç karşılaştırılabilir değildir.",
+        ],
+      },
+      {
+        heading: "Peşin ödemenin gerçekte ödediği yer",
+        paragraphs: [
+          "Her dönemdeki faiz, açık saldo ile aylık oranın çarpımıdır; anaparayı erken emekli etmek, faizi tam olarak kredi oranında kaldırır — o oranda risksiz bir «getiri». Saldo ilk yıllarda en büyüktür; aynı ek ödeme orada en çok faiz kurtarır ve on yıl sonra gözle görülür biçimde az. Yıllık tablo farkı bir parmak kuralına bırakmak yerine somutlaştırır.",
+          "Peşin ödemeden önce iki pratik kontrol: ek tutarın gelecekteki taksitlere ödeme olarak kaydedilmek yerine anaparaya uygulandığını onayla ve sözleşmenin peşin ödeme ücreti taşıyıp taşımadığını sor — bazı sabit oranlı ürünler taşır. Kaydedilen faizin çoğunu yiyen bir ücret iyi hamleyi nötr çevirir.",
+          "Dürüst alternatif: kredi oranından fazlasını — vergi ve risk sonrası — güvenilir biçimde başka yerde kazanabiliyorsan, fazlayı yatırım yapmak peşin ödemeyi yener; yapamıyorsan peşin ödeme o getirinin garantili sürümüdür. Bu araç piyasaları tahmin etmez — her senaryonun masada ne kadar faiz bıraktığını tam olarak gösterir.",
+        ],
+      },
+      {
+        heading: "Çizelgeyi yanlış okumadan okumak",
+        paragraphs: [
+          "Tablo her satıra on iki ay gruplar; anapara ve faiz sütunları yıllık toplamlardır ve saldo sütunu yıl sonu rakamıdır. Bir yıllık satırı aylık ekstre satırıyla karşılaştırma — ölçek tasarım gereği farklıdır. Yıllık anaparanın nihai olarak yıllık faizi aştığı kavşak genelde uzun kredinin yalnızca ikinci yarısında görünür.",
+          "Çizelge sabit oran, zamanında ödemeler ve ücretsiz varsayar. Oran sıfırlamaları, kaçırılan ödemeler, krediye sarılan sigortalar ya da yeniden yapılandırılmış şartlar hepsi gerçek yolu değiştirir; tabloyu temel senaryo olarak ele ve girdilerde her değişiklikten sonra yeniden hesapla.",
+          "Sitedeki her şey gibi hesaplama tamamen tarayıcında çalışır: kredi tutarı, oran ya da süre hiçbir yere iletilmez; gerçek bankaların gerçek tekliflerini keşfetmek güvenlidir. Tek bir makine, tek bir sayfa, herhangi bir broker ya da kurumsal gizli form olmadan bütün karşılaştırmalar.",
+        ],
+      },
+    ],
   },
   "gst-calculator": {
     name: "GST Hesaplayıcı",
@@ -3345,6 +6365,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "GST, VAT ile aynı şey mi?",
         a: "İkisi de her aşamada tahsil edilen katma değer vergisidir ama Hindistan'daki GST, merkezi özel tüketim vergisini, hizmet vergisini ve eyalet VAT'ını tek çatı altında toplayan birleşik bir vergidir; CGST + SGST (eyalet içi) veya IGST (eyaletler arası) olarak bölünür. Diğer ülkeler eşdeğerine kısaca VAT der.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Slablar ve çıkarma tuzağı",
+        paragraphs: [
+          "Hindistan'ın GST'si slab yapısıyla örgütlenmiştir — şu anki çalışma oranları zorunlu mallar için %0–5, çoğu mal ve hizmet için %12 ve %18; lüks ya da günah mallar için %28; bazen üstüne ek bir cess. Araç dört standart slab'ı tek dokunuş seçenekleri olarak açar; faturaların gerçekte nasıl yazıldığıyla eşleşir: oran küçük bir set, serbest ondalık değil.",
+          "Çıkarma yönü klasik tuzaktır. KDV dahil bir fiyatın içindeki GST, brut × oran ÷ (100 + oran)'dır; brut × oran ÷ 100 değil. %18'de 1.180'lik bir brüt fiyat 180 vergi tutar — 1.180'i 1,18'le bölmek — naif 1.180'in %18'i ise 212,40 verir; vergiyi sessizce fazla bildirir.",
+          "Herhangi bir GST sayısı için hızlı bir akıl sağlığı kontrolü: net + vergi brüte tam olarak eşit olmalıdır. Üç rakamın kapanmıyorsa biri yanlış tabandan gelmiştir — genelde bölme formülü yerine brüte uygulanan bir yüzdedir.",
+        ],
+      },
+      {
+        heading: "Tek vergi, iki hükümet düzeyi arasında bölünür",
+        paragraphs: [
+          "GST, merkezi excise, hizmet vergisi ve tek tek eyaletlerin VAT'sinden oluşan yamayı tek vergide birleştirdi; bir faturanın aynı tutarı iki bileşen olarak göstermesinin sebebi budur: eyalet içi satışlar için CGST artı SGST ya da eyaletler arası için IGST. Burada seçtiğin aritmetik oran her iki durumda da aynıdır — bölünme verginin nasıl hesaplandığı değil, nasıl remit edildiği meselesidir.",
+          "Bu aynı zamanda çoğu öteki ülkenin kullandığı VAT'tan pratik farktır: mekanik olarak ikisi de her aşamada katma değeri vergiler ve tüketiciye yüklenir ama Hindistan versiyonu geliri tek bir otoriteye değil merkezi ve eyalet hükümetleri arasında yönlendirir.",
+          "Araç bilinçli olarak aritmetikte kalır. Bir ürünün HSN sınıflandırmasının onu başka bir slab'a çekmesi, üstüne bir cess uygulanması ya da reverse charge'nin nasıl kaydedildiği sınıflandırma ve beyan sorularıdır — bunları ürünün için güncel GST Council bildirimleriyle onayla.",
+        ],
+      },
+      {
+        heading: "Bir akışa nerede oturduğu",
+        paragraphs: [
+          "En sık günlük kullanım MRP-tarzı fiyatları okumaktır: etiket fiyatı vergi dahildir; «vergi kaldır» ödediğinin ne kadarının gerçekten vergi olduğunu yanıtlar — farklı slablı kategoriler arasında ürün karşılaştırırken faydalıdır; daha yüksek bir etiket fiyatı daha düşük bir net fiyat saklayabilir.",
+          "Satıcılar için ekleme yönü net bir fiyattan fatura kurar: slab seç, brut ve vergiyi oku; üç rakam ayrı bir hesap tablosuna ihtiyaç duymadan fatura düzeniyle eşleşir. Sözleşme yılları ve fiyat taslakları tarayıcıda yerelde çalışmaktan kazanır; hiçbir veri cihazdan çıkmaz.",
+          "Ülkeler arasında çalışırken VAT hesaplayıcıyla eşleştir — aynı aritmetik, farklı oran ve etiket gelenekleri — ve net rakamın üstüne vergiden önce marj eklenmesi gerekiyorsa profit-calculator ile eşleştir; net fiyat, marj ve vergi zinciri tek yerel akışta birleşir.",
+        ],
       },
     ],
   },
@@ -3375,6 +6421,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Mal veya hizmetine ve yargı alanına uygulanan oranı: standart oranlar dünyada %0 ile %27 arasında değişir ve çoğu ülkenin gıda, kitap veya ilaç için indirimli oranları vardır. Emin değilsen vergi dairesinin güncel tablosuna bak.",
       },
     ],
+    deepDive: [
+      {
+        heading: "İki yön — ve 120'nin neden 100 artı 24 olmadığı",
+        paragraphs: [
+          "KDV eklemek kolaydır: net × (1 + oran) — %20'de net 100 fiyat 120 brut olur. KDV'yi çıkarmak hataların yaşadığı yerdir. Vergiyi bulmak için brüte %20 çarpamazsın; çünkü %20 brüte değil net tabana uygulanır. Doğru adım bölmektir: net = brut ÷ (1 + oran).",
+          "Yani %20'de 120'lik bir brüt fiyat tam olarak 20 KDV taşır; 24 değil — naif 120 × %20 vergiyi beşte bir fazla bildirir. %25'te boşluk daha büyüktür: 125'lik brüt fiyat 25 taşır; 31,25 değil. «Vergi kaldır» kipi bölme işlemini yapar; net, KDV ve brüü yan yana gösterir; hata saklanamaz.",
+          "O «bölme püfü» AB ve İngiltere muhasebesinde vergi dahil kaydedilen alımlar için en çok kullanılan tek formüldür: fiş tek bir sayı gösterir; defter üç ister. Aynı aritmetik fiyatlandırmanın ayna sorusunu da yanıtlar — 100 netin alınmasını istiyorsan 125 değil 120 brut kotar.",
+        ],
+      },
+      {
+        heading: "Tek vergi, çok ad ve oran",
+        paragraphs: [
+          "KDV her aşamada katma değerdir: bir üretici satışlarında onu yükler ve alımlarında ödediğini kredi alır; yalnızca farkı remit eder; son tüketici tutarın tamamını taşır. Dünyadaki standart oranlar kabaca %0'dan ortası-20'lere uzanır; çoğu sistem gıda, kitap ya da ilaç için indirgenmiş oranlar ekler — bu aracın kötü yaşlanacak sabit bir liste yerine herhangi bir ondalık oran almasının sebebi budur.",
+          "Ad mekanikten fazla değişir: Avrupa'nın çoğu, İngiltere ve Afrika ile Asya'nın büyük kısmı VAT der; Hindistan birleşik versiyonuna GST der; öteki yargı bölgeleri kendi etiketlerini kullanır. Hesap açısından hepsi aynı katma-değer tasarımıdır; formüller sınırları aşar.",
+          "Aritmetiğin karar veremeyeceği şey bir arzın hangi oranı çektiği, reverse charge'in uygulanıp uygulanmadığı ya da kayıt eşiğinin nerede durduğudır — bunlar mevzuatla değişen hukuk sorularıdır. Aracı bir aritmetik yardımcısı olarak ele ve beyan etmeden önce muameleyi vergi dairesinle ya da muhasebecinle onayla.",
+        ],
+      },
+      {
+        heading: "Teklifler, faturalar ve gizlilik için kurulmuş",
+        paragraphs: [
+          "İşletmeler ve tüketiciler fiyatları karşıt yönlerde kotarır: tüketiciler vergi dahil fiyatlar görür; faturalar net artı KDV gösterir. Bir ülkenin oran tablosuna kilitli araç bunun yalnızca yarısını halleder; serbest bir oran girdisi bildiğin her yargı bölgesi için iki yönü de kapsar.",
+          "Her şey tarayıcında yerelde hesaplanır — yükleme yok, hesap yok — yayımlanmamış fatura taslakları, müşteri teklifleri ve iç fiyatlandırma rakamları cihazdan hiç çıkmadan işlenebilir. Vergi öncesi numaraları denemek için de güvenlidir; hiçbir yargı bölgesi ne gördü ne bildi.",
+          "Hindistan'ın slab sistemi için GST hesaplayıcıyla, fiyatlandırmanın net rakamın üstüne marj gerektirdiği yerlerde profit-calculator ile ve aradaki küçük yüzde kontrolleri için percentage-calculator ile doğal olarak eşleşir. Üçü birden, vergi sonrası fiyat zincirini — net, marj, vergi, brüt — baştan sona yerelde kapatır; rakamlar sayfalara elle taşınmak zorunda kalmaz.",
+        ],
+      },
+    ],
   },
   "discount-calculator": {
     name: "İndirim Hesaplayıcı",
@@ -3401,6 +6473,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bu, KDV veya satış vergisini hesaba katar mı?",
         a: "Hayır — yazdığın fiyatlar üzerinden çalışır. Etiket vergi dâhil bir fiyat gösteriyorsa indirim sonucu da vergi dâhildir. Vergiyle birleştirmek için indirimli fiyatı KDV veya GST hesaplayıcısından geçir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "İndirim türleri — etiketin matematiğe nadiren uyması",
+        paragraphs: [
+          "Perakende indirimleri farklı davranan birkaç biçimde gelir: yüzdelik düşüş («%30 indirim»), sabit tutar düşüşü («20 $ indirim»), istiflenmiş teklifler («üyelere ek %15») ve eşik anlaşmaları («300 $ üstüne 50 $ indirim»). Bir yüzde ile sabit tutar tek bir fiyat noktasında çakışır — üstünde sabit tutar daha zayıf, altında daha güçlüdür — aynı kampanya farklı sepet boyutlarını destekleyebilir.",
+          "İstiflenmiş yüzdeler klasik tuzaktır ve aracın ikinci alanı tam o durum için vardır. İkinci indirim çoktan indirilmiş fiyata uygulandığından etkin oran bire, artıkların çarpımının eksiği: %20 sonra %10, 0,8 × 0,9 = 0,72 bırakır; etkin %28 indirim. Perakendeciler alıcıların %30'a yuvarladığını bilir; teklifin bir değil iki indirim olarak ifade edilmesinin tam sebebi budur.",
+          "Saf yüzde istifleri için sıra sonucu asla değiştirmez — çarpma commutative'dir — ama sabit tutarlı bir indirim karıştığında önemleyebilir: %30 indirimden önce 20 $ düşmek tersinden farklı bir fiyat bırakır. Bir kasa sırayı seçmene bırakıyorsa kurallar izin veriyorsa önce yüzdeliği ve sabit tutarı sonra uygula; emin değilsen her iki sırayı burada çalıştır.",
+        ],
+      },
+      {
+        heading: "Her indirimnin arkasındaki liste fiyatı sorusu",
+        paragraphs: [
+          "Buradaki her yüzde yazdığın fiyata karşı hesaplanır; sessizce o fiyatın dürüst bir referans olduğunu varsayar. Sıradan karşı hamle referans fiyat şişirmesidir: indirimin daha büyük görünmesi için «özgün» fiyatı satıştan önce yükseltmek. Birçok pazardaki mevzuat, önceki bir fiyatın makul bir dönem gerçekten yüklenmiş olmasını ister; uygulama değişkenken sınır ötesi mağazalar farklı kurallarla oynar.",
+          "Pratik bir savunma hiçbir güven gerektirmez: fiyatı zamanla izle. «Eski» fiyat kampanyadan önceki aylarda hiç görülmediyse indirim yüzdesi bir kurgu üzerinden aritmetiktir. Fiyat geçmişi araçları ve basit ekran görüntüleri işi yapar; bu hesaplayıcının rolü dürüst yarısıdır — gerçek bir özgün fiyat verildiğinde anlaşmanın tam olarak ne değere sahip olduğunu hesaplamak.",
+          "Ters hesap öteki günlük kullanımdır: satış fiyatını (1 − indirim ÷ 100) ile bölmek ima edilen özgünü kurtarır; iki farklı indirimli teklifin gerçekte farklı numaralar giyen aynı anlaşma olup olmadığını kontrol etmeni sağlar.",
+        ],
+      },
+      {
+        heading: "Vergiler ve toplamın hâlâ sürpriz etmesi",
+        paragraphs: [
+          "İndirim yazdığın fiyata hesaplanır; vergi muamelesi o fiyatı izler: vergi dahil pazarlarda sonuç zaten vergi taşır; vergi hariç pazarlarda vergi sonra eklenir. Günlük tuzak ikisini karıştırmaktır — öncesi-vergisi indirilmiş fiyata sonra satış vergisi eklenmek, vergi dahil etiketteki daha küçük bir manşet indiriminden daha pahalıya düşebilir.",
+          "Voucher kodları ikinci bir sürpriz katmanı ekler: asgari harcama eşikleri, çoktan indirilmiş öğelere dışlamalar ve azami indirim üstleri sık sık reklamını gördüğün yüzdelerden önce gelir. Bir kod kasada eksik kalan yapıyorsa etkin sonucunu burada raf indirimini alma alternatifine karşılaştır.",
+          "Sitedeki her araç gibi aritmetik tamamen tarayıcında çalışır — fiyatlar, yüzdeler ve karşılaştırmalar cihazında kalır; hiçbir alışveriş verisi hiçbir yere iletilmez. Avantajlı anlaşma avı sırasında hesapların hesap tablosuna taşınmak yerine sayfada kalması, hem hız hem gözle görmemektir.",
+        ],
       },
     ],
   },
@@ -3431,6 +6529,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Girdiğin iki sayı üzerinden çalışır; ödeme işleme ücretleri, kargo ve satış vergisi yalnızca önce maliyete veya fiyata katarsan görünür. Vergi dâhil fiyatlandırma için rakamı KDV veya GST hesaplayıcısından geçir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Marj ile kâr payı karşılaştırması: aynı kâr, iki payda",
+        paragraphs: [
+          "Her iki oran aynı kârı betimler ama farklı şeylere böler. Marj kârı satış fiyatına böler — «gelirin her dolarının ne kadarı kârdır?» sorusuna yanıtlar; muhasebecilerin ve yatırımcıların yaşadığı sayıdır. Kâr payı kârı maliyete böler — «ödediğimin üstüne ne kadar ekledim?» sorusuna yanıtlar; alıcıların ve fiyat listesi yazarlarının çalıştığı sayıdır.",
+          "Paydalar farklılaştığı için ikisi hiçbir zaman eşleşmez ve marjlar büyüdükçe daha çok ayrışır. %20 marj %25 kâr payıdır; %33,3 marj %50 kâr payıdır; %100 marjda kâr payı sonsuzdur — maliyetin iki katına sattın ama kâr fiyatın tamamıdır; maliyet taraflı kâr payının bölecek bir şeyi kalmaz. Dönüşüm marj = kâr payı ÷ (1 + kâr payı) ve kâr payı = marj ÷ (1 − marj) olur.",
+          "Klasik başarısızlık karışık kitle bir kombinasyondur: alıcı «maliyetin üstünde %25» ister; sahip böyle fiyatlar; sonra sonucu bankaya «%25 marj» olarak raporlar — değildir. %25 marja fiyatlamak maliyet ÷ 0,75 gerektirir; maliyet × 1,25 değil; ikincisi yalnızca %20 marj verir. Konuştuğun kişinin hangi paydayı kastettiğini hep kontrol et.",
+        ],
+      },
+      {
+        heading: "Düz formüllerin bilinçli olarak dışarıda bıraktıkları",
+        paragraphs: [
+          "Kâr = gelir − maliyet kendiliğinden açık görünür ama iki kelime de kararları saklar. Gerçek bir işletme için «maliyet» satın alma fiyatından fazladır: sevkiyat başına navlun, birkaç yüzde ödeme-işleme ücreti, paketleme, geri ödediğin iadeler ve kendi zamanın. Yalnızca fatura maliyetini girersen gösterilen marj gerçeği övendir; bir ürün hattının değerli olup olmadığını yargılamadan önce ücretleri maliyete katla ve indirimleri fiyattan düş.",
+          "Vergiler başka bir sınırdır. Araç verilen iki sayı üzerinde vergi-öncesi aritmetik hesaplar; satış vergisi, KDV ve gelir vergisi iki tarafı da farklı biçimde değiştirir; vergi dahil fiyatlandırma özel bir VAT/GST hesaplayıcısına aittir. Modeli basit tutmak bir özellik — hangi sayıları senin sağladığını hangilerini sağlamadığını net kılar.",
+          "Bu hesaplayıcının veremeyeceği bir sayı breakeven'dır: kira gibi sabit maliyetler tüm satışlara paylaşılır; öğe başına kâr yalnızca sabit maliyetler ödendikten sonra anlamlıdır. Bu marjları ürünleri birbiriyle karşılaştırmak için kullan; işletmenin bir bütün olarak hayatta kalıp kalmayacağı sorusu için gerçek bir break-even ya da marj analizi kullan.",
+        ],
+      },
+      {
+        heading: "Bir fiyatlandırma akışında nereye oturduğu",
+        paragraphs: [
+          "Hesap tablosu şablonları tek öğe için bunu halleder ama tezgâhta hızlı what-if'ler için hantaldir: «satıcı fiyatı %8 artırdı; aynı raf fiyatında marjım ne olur?» Bu araç canlı yanıt verir; bakım gerektiren formül yoktur ve eşleştirilmiş görüntü, müşteriye kotattığın sayı ile defterindeki sayının sessizce ayrışamayacağı demektir.",
+          "Marj-hedef fiyat araçlarıyla karşılaştırıldığında bu her sonuçta her iki oranı gösterir; konu budur: hata bir oranı yanlış hesaplamak değildir — birini hesaplayıp ötekine demektir. Bir teklif göndermeden önce hızlı kontrol olarak %25 ile %33,3'ü yan yana görmek geleneği açık kılar.",
+          "Sitenin başka her yerinde olduğu gibi tüm hesaplama tarayıcında yerelde olur. Maliyetler, fiyatlar ve marjlar küçük bir işletmenin en duyarlı sayılarındandır; hiçbir zaman iletilmez ya da saklanmaz — hesaplayıcı, paylaşılan ya da kamusal bir makinede müzakerenin ortasında kullanmak için güvenlidir.",
+        ],
+      },
+    ],
   },
   "scientific-calculator": {
     name: "Bilimsel Hesap Makinesi",
@@ -3457,6 +6581,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Sonucum neden sınırlı basamakla gösteriliyor?",
         a: "Sonuçlar, 0.30000000000000004 gibi kayan nokta gürültüsünü gizlemek için 12 anlamlı basamağa yuvarlanır. İkili kayan nokta donanımında 12 basamak ötesi hassasiyet zaten nadiren anlamlıdır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Operatör önceliği ve −2²'nin neden −4 olduğu",
+        paragraphs: [
+          "Bir hesaplayıcının işi aritmetik değildir — bir ifadenin ne demek olduğunu kararlaştırmaktır. Bu değerlendirici okulda öğrendiğin matematiksel geleneği izler: önce parantezler, sonra tekli eksi, sonra % ve x² gibi son ek işlemler, sonra kuvvetler, sonra çarpma ve bölme, sonra toplama ve çıkarma. Bu sırayı doğru almak, hesaplayıcı ile oyuncak arasındaki tam farktır.",
+          "Bir gelenek insanları şaşırtır: 2^3^2, (2^3)^2 = 64 değil, 2^(3^2) = 512 demektir. Kuvvet alma sağa bağlanır; standart matematik pratiğini izler — üstüste konmuş kuvvetler yukarıdan aşağıya okunur. İlişkili olarak −2², 4 değil −4'tür; çünkü kare tekli eksiden önce 2'ye uygulanır. Hesap tabloları bazen bu geleneklere itiraz eder; bu hesaplayıcı ders kitabıyla eşleşir.",
+          "Örtük çarpma bitişik değerler arasında çalışır — 2π, 3(4+1), (1+2)(3+4) hepsi açık × işareti olmadan çarpar. Bilinçli bir incelik: örtük çarpma aynı koşuda bölmeden daha sıkı bağlanır; 1/2π, (1/2)×π değil 1/(2π) olarak okunur — fizikçilerin ve mühendislerin satır içinde yazarken kastettiği okuma.",
+        ],
+      },
+      {
+        heading: "eval neden yok ve kayan nokta dürüstlüğü",
+        paragraphs: [
+          "Çoğu web hesaplayıcısı ifadeni JavaScript'in eval'ine ya da Function kurucusuna besler — tarayıcı dizgeyi kod olarak çözümler ve çalıştırır. Kurmak hızlıdır ama uydurulmuş bir dizge keyfi kod çalıştırabilir ve aracın davranışını hesaplayıcı kurallarından çok JavaScript huyusuzluklarına bağlar. Bu değerlendirici sayfa için yazılmış küçük bir tokenizer artı özyinelemeli-düşen bir çözümleyicidir: geçersiz girdi bir hata mesajı üretir; asla bir çalıştırma değil.",
+          "Sayılar IEEE 754 çift-hassas float'lardır; görüntü katmanının altındaki her ana akış hesaplayıcı motorunun yaptığı şeyin dürüst tanımıdır. 0,1 + 0,2 = 0,30000000000000004 gibi artefaktlar üretir — 0,1 ondalığının kesin ikili temsili yoktur; toplam temsil gürültüsü taşır. Buradaki sonuçlar gürültüyü bastırmak için 12 anlamlı basamağa yuvarlanır; yinelenen işlemlerin gözle görülür biçimde çöp biriktirmemesinin de sebebi.",
+          "İki dürüst sınır: 12 basamak ötesi yuvarlama ikili donanımda anlamsızdır; daha fazla hassasiyet istemek hiçbir şey satın almaz. Ve trigonometrik sonuçlar kesin açılar için bile son yerde birkaç birim miras alır; dik açıya yakın bir açının tanı doğası gereği patlar — hesaplayıcı kayan nokta davranışını örtmek yerine gerçekten raporlar.",
+        ],
+      },
+      {
+        heading: "Derece, radyan ve zincirleme akışı",
+        paragraphs: [
+          "DEG/RAD düğmesi her yerde yanlış trig cevaplarının en büyük tekil kaynağıdır; bir kuralı hak eder: DEG varsayılandır; hesaplayıcıya uzanan çoğunluk dereceyle çalışır; RAD calculus tarzı matematik ve π ile ifade edilen her şey içindir. DEG modunda tan(π/4), tam güvenle yanlış cevap verir — hesaplayıcı hangisini kastettiğini bilemez; sonucu suçlamadan önce düğmeyi kontrol et.",
+          "Canlı önizleme ifadenin her zaman düzenlenebilir olduğu demektir: orta bir terimi düzelt ve tüm sonuç yeniden hesaplanır; yığına dayalı bir hesaplayıcıya yeniden yazmak yerine. = basmak sonucu ifade satırına geri katlar; zincirleme — bir sonucu almak, çarpmak, sonra log almak — bellek kayıtları üzerinden değil tek düzenlenebilir satırda olur.",
+          "Her şey tarayıcında yerelde çalışır: hiçbir ifade ya da sonuç iletilmez ve sayfa yüklendikten sonra çevrimdışı çalışır. Özel herhangi bir şey içeren hesaplamalar için — fiyatlandırma, bordro, sınav soruları — hesaplama tamamen senindir. İlgili percentage-calculator ve binary-converter, bilimsel tuş takımının hantal yaptığı iki işi (yüzde aritmetiği ve taban dönüşümü) halleder.",
+        ],
       },
     ],
   },
@@ -3487,6 +6637,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Her iki mod da tamamen tarayıcında JavaScript tarih aritmetiğiyle çalışır; hiçbir şey yüklenmez ve hiçbir şey saklanmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "«Günler arası» neden göründüğünden daha çeldiricidir",
+        paragraphs: [
+          "İki tarih arasındaki günleri saymak bilgisayarlar için banal; insanlar için şaşırtıcı biçimde belirsizdir. Bu araç bilinçli olarak üç okuma verir: takvim dökümü (yıl, ay, gün), ham gün toplamı ve haftalar artı artan günler — çünkü sözleşmeler, yıl dönümleri ve kira dönemleri her biri farklı birini kotarır. «1 yıl 6 ay»lık bir kira ile «547 gün»lük kira, maddenin hangi geleneği kullandığına göre farklı aralıkları betimleyebilir.",
+          "Ay aritmetiği insanların yıl dönümleri için kullandığı aynı geleneği izler: tam yıllar ve tam aylar önce sayılır ve artan günler, ilgili ayların gerçek uzunluklarına karşı ölçülür — «31 Ocak'tan bir ay sonra» sıradan yılda 28 Şubat'a düşer; erken tarih kitaplıklarının çoğunu düşürmüş gerçek uç durumdur.",
+          "Ekle ve çıkar kipi bunun yerine bütün günler yürür; ay-sınırı sorularını tümüyle dolanır: 31 Ocak'a 90 takvim günü eklemek, kitaplığın ay sonlarını nasıl hallettiğinden bağımsız olarak aynı cevabı verir. Bir son tarihi «gün» diyorsa neredeyse her zaman bu takvim günleri demektir — iş-günü sorusu yukarıdaki SSS'de kapsanır.",
+        ],
+      },
+      {
+        heading: "Artık yıllar ve Gregoryen kuralı",
+        paragraphs: [
+          "Artık yıllar okuldaki «dört yılda bir» değil tam Gregoryen kuralını izler: yıl, 4'e bölünebiliyorsa artıktır; yüzyıllar hariç — onlar 400'e bölünebilmelidir. 2000'in artık olup 1900'nin olmamasının ve 2100'ün de olmayacağının sebebi budur. O yüzyıl kenarlarından birini geçen herhangi bir aralık, senin özel işlemin olmadan doğru hesaplanır.",
+          "29 Şubat'ın kendisi Şubat'ın son günü sayılır; artık günü kapsayan bir fark bir gün şişmez ve hedef yılda var olmayan bir tarih (sıradan yılda 29 Şubat) Mart'a kaymak yerine 28 Şubat'a çözülür. İki karar, ayrıntılarda anlaşamayan yazılımlar arasında sonuçları kararlı tutar.",
+          "Tüm aritmetik UTC gün numaraları üzerinde çalışır; yaz saati geçişleri sonucu bir gün kaydıramaz. Bu, Mart ve Kasım saat değişimlerinin çevresinde sayar: yerel zamanda yapılan tarih matematiği bazı ortamlarda bir gün kısa ya da uzun düşebilir; bütün-UTC-günü sayımı Dünya'nın her yerinde, her mevsimde aynı cevabı verir.",
+        ],
+      },
+      {
+        heading: "Pratik akışlar ve gizlilik",
+        paragraphs: [
+          "Son tarih maddeleri, vize geçerlilik pencereleri, deneme süreleri ve garanti şartları bu sayfanın günlük kullanıcılarıdır. İyi bir alışkanlık: aralığı iki okumada da hesapla — takvim dökümü ve ham günler — ve sözleşmede kelimelerin yanına ham günleri kotar. Sayılar, ay adlarından daha zor itiraz edilir.",
+          "Yıl dönümleri ve anmalar için resulting hafta günü çoğu zaman aranan gerçek cevaptır — «10'uncu yıldönümümüz hangi gün?» — gösterilme sebebi budur; gizlenmez. Uzun aralıklar için yüzyıl kuralını hatırla: 2100'ü geçen bir sözleşme artık olmayan bir yüzyıl yılı kapsayacaktır; araç bunu çoktan hesaba katmıştır.",
+          "Her şey yerelde hesaplanır: tarihler tarayıcından hiç çıkmaz; hiçbir şey yüklenmez ya da günlüklenmez ve sayfa çevrimdışı çalışır. Sözleşme tarihleri, tıbbi tarihler ve kişisel dönüm noktaları tam olarak, başka bir şeyle birleştiğinde tanımlayıcı oldukları için duyarlıdır — girdileri yerelde tutan hesaplayıcı, onları yapıştırmanın doğru türüdür.",
+        ],
+      },
+    ],
   },
   "qr-generator": {
     name: "QR Kod Üretici",
@@ -3513,6 +6689,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Metnim veya URL'im bir yere yükleniyor mu?",
         a: "Hayır. qrcode kütüphanesi tarayıcının içinde çalışır ve yerel bir canvas'a çizer; ne metin ne de üretilen görsel asla cihazından çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Hata düzeltme düzeyleri ve logo katmanı takası",
+        paragraphs: [
+          "QR kodları Reed–Solomon hata düzeltmesiyle hasardan sağ çıkar: kodlanan veri artıklık kod sözcükleriyle zenginleştirilir ve tarayıcı, hayatta kalan kesirden mesajı yeniden kurabilir. Standart dört düzey tanımlar — L kod sözcüklerinin %7'sini kurtarır; M %15, Q %25, H %30 — dayanıklılığın her ek yüzde puanı simge alanı tutar; aynı URL H düzeyinde L düzeyinden daha yoğun bir ızgara üretir.",
+          "Logo katmanı püfü tam o bütçeyi sömürür: bir H düzeyi kodun merkezine logo bas ve hasarlı bölge düzeltmenin yeniden kurabileceği %30'un içine düşer. Aynı katman M düzeyli bir kodu sık sık öldürür. Pratik kural: ortayı yalnızca düzey H olduğunda ört; örtülen alanı mütevazı tut ve üç köşe bulucu desenini asla gizleme — tarayıcılar simgeyi onlar aracılığıyla yerleştirir; köşeler gitmişse hiçbir hata düzeltmesi yardım etmez.",
+          "Sıradan ekran kullanımı için üst düzeyler bedava kalite değildir: daha yoğun ızgara modül başına daha fazla piksel ister ve aynı görsel boyutunda daha kötü taranır. Bir web sitesindeki URL için L ya da M seç; fiziksel ortam pürüzlü, küçük ya da kısmen örtülebilir olduğunda Q ya da H'ye çık.",
+        ],
+      },
+      {
+        heading: "Statik kodlar, izleme ve «süresi dolmak» bile ne demektir",
+        paragraphs: [
+          "Bir QR kodu salt bir veri görselidir: URL ya da metin, modül deseniyle içine kodlanır; herhangi bir telefon, devrede sunucu olmadan doğrudan çözer. Bu yüzden bu kodlar asla süresi dolmaz ve izleme taşımaz — görüntünün arkasında saklanan hiçbir hizmet yoktur; sayılacak tarama ya da kapatılacak bir şey yoktur. «Dinamik» QR servisleri buna karşılık kısa bir yönlendirme URL'si kodlar ve eşlemeyi kendi sunucularında tutar; abonelik düştüğünde basılmış her kod bir anda ölür.",
+          "Statik, fiziksel dünyaya kazınan her şey için doğru seçimdir: restoran menüleri, konferans rozetleri, ekipman etiketleri. Dinamik yalnızca basım sonrası hedefi değiştirmen gerekiyorsa ya da tarama analitiğini gerçekten istiyorsan gerekçeli olur — o zaman neye abone olduğunu tart.",
+          "Bir önlem iki yönde keser: statik bir kodun arkasında hiçbir şey saklanmadığından, kötücül bir aktör düşmanca bir siteye işaret eden kendi statik kodunu basıp meşru birinin üstüne koyabilir. Tarayıcılar ham bir URL gösterir; iyi nedenlerle — bir kodun nereye gittiğini iddia ettiğini açmadan kontrol et; kod dağıtırken kısaltıcı yerine tüm alan adını görünür kodlamayı düşün.",
+        ],
+      },
+      {
+        heading: "Renk, kontrast ve yazdırma gerçekleri",
+        paragraphs: [
+          "Tarayıcılar renkleri değil, modüller ile arka plan arasındaki kontrastı okur. Güçlü kontrastlı açık arka planda koyu modüller güvenilir dizilimdir; ters çevrilmiş kodlar (koyu zeminde açık modüller) birçok okuyucuda başarısızdır ve açık mavi beyaz üzerinde gibi düşük kontrastlı çiftler ortam ışığında tümüyle düşer. Koyu modül rengini marka kısıtları başkasını dayatmadıkça siyaha yakın tut ve her zaman gerçek bir telefon kamerasıyla sına.",
+          "Sessiz bölge — simgenin çevresindeki boş kenar — bir sebepten standardın parçasıdır: tarayıcılar simgenin kenarını onunla bulur. Bir QR'yi broşürün kenarına kadar kırpmak ya da yoğun bir fotoğrafın üstüne katlamak bölgeyi kaldırır; her modül sağlam olsa bile taramayı bozar.",
+          "Çıktı biçimi için SVG baskıda kazanır; her boyutta tırtıklı kenar olmadan ölçeklenir; PNG 768 px ekranlar ve küçük baskılar için fazlasıyla yeterlidir. Ve zincirin tamamı tarayıcında yerelde çalışır — kodladığın metin, Wi-Fi parolası olsun iç bir URL olsun, hiçbir yere yüklenmez.",
+        ],
       },
     ],
   },
@@ -3543,6 +6745,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "İndirme vektörel bir SVG'dir; bulanmadan herhangi bir DPI'a ölçeklenir. Yerleştirirken sessiz bölgeleri (her iki yandaki boş kenar boşlukları) bozulmamış tut — kırpılmaları, okunamayan taramaların en yaygın nedenidir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Code128 ile EAN-13 karşılaştırması: iki iş, iki simyoloji",
+        paragraphs: [
+          "Bu biçimler farklı işler için var olur ve değiştirilebilir değildirler. EAN-13 ve UPC-A GS1 perakende simyolojileridir: sabit uzunluk, yalnızca sayısal, GS1 üye kuruluşundan lisansladığın bir şirket önekine bağlı ve dünyanın her kasada tarayıcısı tarafından anlaşılır. CODE128 lojistik simyolojisidir: değişken uzunluk, tam ASCII; depo rafı, varlık etiketi, seri numarası, gönderi referansı gibi her şey iç kullanım için özgürdür.",
+          "Fark yoğunluk ve toleransta belirir. CODE128, A (büyük harf + denetim), B (tam alfanümerik) ve C (rakam-çiftleri) alt kümeleri arasında otomatik geçer; uzun bir rakam dizisi kod kelimesi başına iki olarak paketlenir — aynı sayıyı EAN-13'ü kadar tutan bir CODE128 etiketinin belirgin biçimde daha dar çıkmasının sebebi budur. EAN-13 buna karşılık modül genişliklerini standartla sabitler; kim basarsa bassın her kasada tarayıcı onu hızla çözebilsin.",
+          "Pratik kural: bir perakendeci ya da pazaryeri sana ürün numarası atayacaksa onu EAN-13/UPC-A olarak bas ve asla başka bir biçimde yeniden kodlama; sistemleri GS1 numarası üzerinden eşleşir. Kendi operasyonundan hiç çıkmayacak her şey için CODE128 daha basit ve daha esnektir.",
+        ],
+      },
+      {
+        heading: "Kontrol rakamı ve girdinin neden düzeltilmesi gerektiği",
+        paragraphs: [
+          "Perakende simyolojileri, öteki rakamların ağırlıklı toplamından hesaplanan modulo-10 kontrol karakteriyle biter. EAN-13 için rakamlar sağdan başlayarak 1 ve 3 ile sırasıyla ağırlıklandırılır; kontrol rakamı toplamın sonraki 10 katına varmasını sağlar. İki en sık gerçek dünya başarısızlığını yakalar: yanlış yazılmış bir rakam ve bitişik iki rakamın yer değiştirmesi (yer değiştiren rakamlar 3−1=2 ağırlık farkı taşır; çok ama her swap yakalanmaz).",
+          "Bu üretici ya 12 rakam kabul eder ve 13'üncüyü hesaplar ya da doğrulamayla tam 13 alır — son rakamı yanlış bir girdi sessizce yeniden basılmak yerine reddedilir. Kağıt evrakından bir numarayı yazarken 12 rakam girip araca kontrol rakamını hesaplatmak daha güvenli akıştır: doğrulamayacaktır ama uyumsuzluğu ifşa eder.",
+          "Aynı modulo-10 ailesi GS1 lojistik kodları boyunca uzanır; son rakamı doğrulama alışkanlığının aktarıldığı yer budur: taranan bir kod etiketi düzgün görünürken kasada ya da stok uygulamanında tutarlı başarısızsa, bozuk bir kontrol rakamı ilk şüphelilerden biridir.",
+        ],
+      },
+      {
+        heading: "Sessiz bölgeler, bar genişliği ve baskı boyutlandırma",
+        paragraphs: [
+          "Her simyoloji sessiz bölgeleri sakır — tarayıcıların sembolün başlangıcını bulmak için kullandığı çubukların iki yanındaki boş kenarlar. GS1 minimum genişlikleri piksel değil mutlak boyutla tanımlar; bir barkodu metne ya da kutu kenarına sıfır boşlukla kırpıp yerleştirdiğinde kod, her çubuk kusursuz görünse de okunamaz hale gelebilir. Gerekli görünenden fazla boşluk bırak; özellikle küçük etiketlerde.",
+          "Bar genişliği ve yüksekliği tarayıcı yeteneğine karşı takaslanır. Dar çubuklar baskı çözünürlüğünden ve tarayıcı optiğinden fazla ister; uzun çubuklar tarayıcılara açıyla vurulabilecek daha uzun dikey bant verir. El tipi ve kasa taraması için etiketleri düzenin sığması için küçültmek yerine standardının baskı-boyut kılavuzunu izle — günde 200 kez taranan bir kod, kapladığı etiket alanını öder.",
+          "Çıktı vektör SVG olduğundan aynı dosya her boyutta keskin kalır; ölçeklenmeyen şey fiziktir. Bir seriyi bağlamadan her yeni biçimi gerçek tarayıcınla ve gerçek baskı stoğunla sına; herhangi bir şey tarayıcından çıkmak zorunda değildir — çizim yerelde olur.",
+        ],
+      },
+    ],
   },
   "color-picker": {
     name: "Renk Seçici",
@@ -3569,6 +6797,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Ekran örneklemesi gizli mi?",
         a: "Evet. EyeDropper API bir sistem seçici gösterir ve yalnızca tıkladığın tek pikseli döndürür; okuma tarayıcında olur ve hiçbir ekran görüntüsü, geçmiş veya değer iletilmez ya da saklanmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "EyeDropper API: ne yapabilir, ne yapamaz",
+        paragraphs: [
+          "EyeDropper eski ekran-yakalama API'lerine karşı kasıtlı bir zıtlıktır. Ne kamera ne ekran-kaydı izni ne kalıcı erişim ister: tarayıcı sistem büyütecini gösterir; bir piksel tıklarsın ve API tam olarak bir hex dizgeyle çözülür. Sonradan geri alınacak bir şey yoktur çünkü saklanan hiçbir şey yoktur — çağrılar arasında açık akış yoktur; bir sayfa çalışırken ekranını gizlice izleyemez.",
+          "Sınırları o tasarımdan gelir. Yalnızca şu an display'inde bileşiklenmiş olanı, display'ın çözünürlüğünde okur — büyük alandan kesin bir piksel gerekiyorsa önce görseli yakınlaştır. Ve yalnızca tıklamalıdır: bağlanmadan önce değerlerin hover önizlemesi yok ve bir bölgeyi programatik örnekleme yolu yoktur. Bir maket üzerinde piksel-hassas iş için tasarımcılar dosyayı hâlâ editörde açar; canlı sayfadan bir marka rengini yakalamak için tek tık, ekran-görüntüsü-ve-incele akışını her kez yener.",
+          "Destek öteki pratik sınırdır: Chromium tarayıcıları 2022'den beri sevketmektedir; Firefox ve Safari henüz açmaz. Bu araç özellik algılar ve eksik olduğu yerde ekran seçeneğini basitçe gizler; seçici bozulmadan yalnızca-swatch'e düşer.",
+        ],
+      },
+      {
+        heading: "Örneklenen renkler neden bazen hafif kayar",
+        paragraphs: [
+          "Örneklenen bir renk göründüğünden fazla adımdan geçer: kaynak bir renk uzayında yazılmış, display profilin çizilmiş, bileşiklenmiş ve sonra JavaScript'e sRGB hex üçlüsü olarak geri verilmiştir. Özgün sRGB'den geniş bir gamutta yaşıyorsa — bir Mac'te Display-P3 rengi gibi — gidiş dönüş onu en yakın sRGB değerine kırpar; aldığın hex en iyi sRGB yaklaşımıdır; özgün değil.",
+          "Renk yönetimi gerisini açıklar. İşletim sistemleri sRGB değerlerini display profillerine eşler; canlı modlu ya da gece-shift benzeri ayarlı ekranlar, saklanan değeri değiştirmeden fiziksel gösterileni değiştirebilir. Örnekleme bu yüzden standardın uzayında cam üzerinde olanı raporlar; iki monitör aynı hex'i farklı gösterebilir; alttaki değer özdeşken.",
+          "Marka işi için koruma basittir: bir ekran örneğini başlangıç noktası say ve varsa resmî kaynak değeriyle onayla. Buradaki üç biçim — hex, rgb(), hsl() — yine de matematiksel olarak birbirine tutarlı kalır; çünkü dönüşüm tek örneklenen değerden yerelde olur.",
+        ],
+      },
+      {
+        heading: "Bir tasarım sisteminden sağ çıkan seçici akışı",
+        paragraphs: [
+          "Bir renk almak kolay kısımdır; kullanılabilir tutmak disiplindir. Örnekledikten sonra önce kanonik biçimi sabitle — çoğu tasarım sistemi token olarak hex, rgb()/hsl() olarak türetilmiş görünümler kullanır — ve üçer dalabilen değil bir değer sakla. Bu araç üçünü de kopyalar; token dosyana yapıştırdığın gerçekle geçen olan olur.",
+          "Sonra tek kaynaktan durumları kur: hover hafif açık, basılı hafif koyu, devre dışı sabit opaklık. Örneklenen tabandan aritmetik türetmek (ilişkili renk dönüştürücünün tinta-gölge satırının yaptığı gibi) her durumu yeniden üretilebilir tutar; kimsenin açıklayamayacağı tek-geçiş hex değerleri biriktirmek yerine.",
+          "Son olarak rengin nerede görüneceğini not et. Üzerine beyaz metin koyulan örneklendirilmiş bir koyu arka plan, sevketilmeden önce kontrast için yeniden kontrol edilmelidir; seçmek ve dönüştürmek erişilebilirliği hiç doğrulamaz — gördüğünü yalnızca yeniden üretir. Her şey tarayıcıda yerelde çalışır; örneklenen değerler hiçbir yere kaydedilmez.",
+        ],
       },
     ],
   },
@@ -3599,6 +6853,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Tenteler (beyazla harmanlanan) hover zeminleri, rozetler ve kartlar yapar; gölgeler (siyahla harmanlanan) basılı durumları, kenarlıkları ve karanlık mod yüzeylerini. Her ikisini tek bir marka renginden türetmek, her arayüz durumunu görsel olarak tutarlı tutar.",
       },
     ],
+    deepDive: [
+      {
+        heading: "RGB→HSL dönüşümü neden bilgi kaybeder",
+        paragraphs: [
+          "Hex ile RGB aynı şeyi betimler — üç kanal değeri — aralarında dönüşmek yalnızca 16-tabanlı kayıt tutmadır; iki yönde de kayıpsızdır. HSL farklıdır: rengin silindirik koordinatlarda (ton bir açı olarak; doygunluk ve parlaklık yüzde olarak) yeniden betimidir. hex → HSL → hex gidiş dönüş aynı rengi yine döndürür ama insan-okur HSL üçlüsünün kendisi nicelenmiştir; yüzeyde farklılaşan iki rengin bir HSL tonu paylaşabilmesinin sebebi budur.",
+          "Daha derin konu algısaldır. HSL'nin lightness'ı algısal lightness değildir: hsl(60, 100%, 50%) — saf sarı — hsl(240, 100%, 50%) — saf mavi — hem de ikisi de %50 parlaklık iddia etse de çok daha parlak görünür. Sabit HSL lightness'ta ton döndürerek palet kuran tasarımcılar, her rengin farklı ağırlıkta hissedildiği paletler alır. Bu dürüst matematiği rapor eder; HSL lightness'ının gözünün gördüğü olduğunu fiili taklit etmeden.",
+          "Pratik çıkarım: HSL'yi iyi olduğu iş için kullan — bir tonu gezdirmek, tek bir renk çevresinde öngörülebilir bir tint merdiveni kurmak — ve kontrast oranlarını L sayısına güvenmek yerine gerçek luminance değerleriyle doğrula. Buradaki tinta-gölge satırı RGB uzayında beyaz ve siyahla karışır; merdiveni tarayıcıların renkleri bileşikleme biçimiyle tutarlı tutar.",
+        ],
+      },
+      {
+        heading: "OKLCH ve algısal-tekdüze uzaylar: bu dönüştürücünün olmadığı şey",
+        paragraphs: [
+          "Modern CSS OKLCH'yi destekler — algısal-tekdüze bir uzay; koordinat uzayında sabit bir mesafe yol almak, algılanan rengi her yerde kabaca aynı miktarda değiştirir — aynı L değerindeki sarı ve mavi gerçekten eşit parlakta görünür. Bu dönüştürücü bilinçli olarak hex, RGB ve HSL'nin klasik sRGB üçlüsünde kalır; eski tasarım sistemlerinin, marka kılavuzlarının ve biçem tokenlerinin hâlâ tanımladığı bunlar.",
+          "Fark palet üretiminde en çok sayar. HSL'de sabit L'de tonu çember boyunca gezmek hayal gücünün dışında oynayan algısal yoğunlukta renkler üretir; OKLCH'de aynı yürüyüş tekdüze bir rampa üretir. Benzer biçimde HSL «doygunluk %50» algılanan chroma'nın yarısı demek değildir. Yeni bir tasarım token skalasını sıfırdan kuruyorsan tekdüze uzayda üretmeye değer — ama var olan marka hex değerlerini ona çevirmek ekibinin ezberlediği sayıları değiştirir.",
+          "Ayrıca bu modelin dışında: geniş-gamut renk. Buradaki değerler sRGB'dir — her tarayıcının ve çoğu ekranın hedeflediği uzay; Display-P3 ekranlar sRGB'nin ifade edebileceğinden daha doygun yeşiller ve kırmızılar gösterebilir. Burada seçilen renk her yerde doğru çizilir ama fazla gamut kullanılmamış kalır — UI işi için güvenli ve uyumlu varsayılandır.",
+        ],
+      },
+      {
+        heading: "Tint ve gölger gerçekte nasıl kurulur",
+        paragraphs: [
+          "Tint beyazla karıştırılmış renktir; gölge siyahla karıştırılmış; her biri sabit kesirlerde. RGB terimlerinde kanal kanal doğrusal ara kelemedir: rgb(0, 113, 227)'nin %40 tint'i her kanalı 255'e doğru yolda %40 kaldırır; %40 gölge her birini 0'a doğru %40 düşürür. Buradaki adımlar 20/40/60/80%'dir; taban rengin altında ve üstünde beşer kullanılabilir durak verir.",
+          "Basit bu karıştırma kasıtlı olarak Lab-tabanlı uzaylarda renk-yönetimli harmanlama değildir; o, lightness değişirken algılanan tonu sabit tutmaya çalışır. Basit RGB harmanlama doygun renkleri hafif biçimde düzensiz karartır — çoğu tasarım sisteminde bilinen, kabul edilmiş davranış; merdiven bir kez üretilir ve gözle kontrol edilir.",
+          "Akış açısından, merdiveni her zaman aynı kaynak değerden üretmek varyantları elle seçmekten iyi gelir: hover durumları, devre dışı düğmeler ve koyu-mod yüzeyleri yeniden üretilebilir kalır; ekipteki herkes ezberlediği tek hex'ten birebir aynı seti yeniden üretebilir. Her şey tarayıcıda yerelde hesaplanır — renk sayfadan hiç çıkmaz.",
+        ],
+      },
+    ],
   },
   "timestamp-converter": {
     name: "Unix Zaman Damgası Çevirici",
@@ -3625,6 +6905,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Aynı zaman damgası başka saat dilimlerinde farklı mı çözülür?",
         a: "Ham sayı asla değişmez — mutlak bir anı kodlar. Yalnızca insan okur gösterim farklıdır; bu yüzden araç yerel saatini ve UTC'yi yan yana gösterir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Unix zamanı neden saatleri ve takvimleri yok sayar",
+        paragraphs: [
+          "Unix zamanı, 1970-01-01 00:00:00 UTC'den beri saniyeleri sayan tek bir tam sayıdır — Unix çağı. Sayının içinde saat dilimi, yaz saati, ay uzunlukları yoktur; hepsi sunumdur; bir çizici tam sayıyı insan tarihine çevirdiğinde uygulanır. Her API'nin, veritabanının ve günlük sisteminin zamanı böyle saklamasının tam sebebi budur: iki anı karşılaştırmak tam sayı çıkarma; sıralamak tam sayı sıralamadır.",
+          "Artık saniyeler bilinçli olarak dışlanır. 1.700.000.000 sayısı 1,7 milyar fiziksel saniyeyi işaretlemez — çağdan beri 1,7 milyar SI saniyesini artı arada sistemin yuttuğu artık saniye sayısını işaret eder. Planlama ve günlükleme için o basitleştirme bir özelliktir; astronomik hassasiyet için değil; bilimsel sistemlerin kendi ölçeklerini (TAI, UTC) tutmasının sebebi.",
+          "Negatif zaman damgaları yasaldır: 1970 öncesine geriye sayarlar; 1969-07-20 (Ay'a iniş) yaklaşık −14182940 saniyede durur. Bazı eski 32-bit sistemler negatifleri reddetti; birkaç eski kitaplığın standardın hiç demediği hâlde 1970 öncesi tarihleri kötü işlemesinin sebebi.",
+        ],
+      },
+      {
+        heading: "Saniye, milisaniye ve 2038 sorunu",
+        paragraphs: [
+          "Basamaklar birimi ele verir. On basamak, saniyelerde 1973'ten 2286'ya kapsar; on üç basamak modern çağı milisaniyede kapsar. Araç büyüklüğe göre okur ve hangi yorumu uyguladığını söyler; çünkü yanlış birim varsayımı makul görünen tarihler üretir — saniye okunan 13 basamaklı bir değer 55.000 yılına düşer; gözden kaçması zordur ama bir kod tabanındaki iki kitaplığın birimlere ihtilafı onun yerine subtle bin-tarafı hatalar üretir.",
+          "Erken Unix sistemlerinin saniyeleri saklamak için kullandığı 32-bit işaretli tam sayı, sayı 2.147.483.647'ye ulaştığında Ocak 2038'de taşar. Modern 64-bit sistemler yaklaşık 290 milyar yıl için güvenlidir ama gömülü cihazlar, eski dosya biçimleri ve bazı veritabanları hâlâ 32-bit zaman damgası alanları taşır. Pratik ders bugün 2038 için paniklemek değil; entegre olurken bir sistemin hangi veri tiplerini kullandığını fark etmektir.",
+          "Daha ince tuzak birim değil üretici olur: bazı sistemler 1700000000.123 gibi ondalıklı saniye yayar; naif çözümleyiciler farklı biçimde keser ya da yuvarlar. Bir zaman damgası uyumsuzluğunu ayıklarken önce iki tarafın birimde, sonra hassasiyette, sonra saat dilimi çiziminde anlaştığını onayla — o sırayla.",
+        ],
+      },
+      {
+        heading: "Zaman damgalarıyla günlük çalışmak",
+        paragraphs: [
+          "Canlı sayaç bir rahatlık kadar ayıklama aracıdır: planlama hatasının peşine düşmeden önce göz at; cihaz saatin kabaca doğru mu onayla — saati kaymış bir makine, günlükleri ve token süre-sonu kontrollerini zehirleyen zaman damgaları üretir. Tek tıkla kopyalama, bir curl isteğine ya da test donanımına güncel bir zaman damgası yapıştırmanı rakam yazmadan sağlar.",
+          "Ham sayının tanım gereği bölgesiz olduğunu hatırla. Klasik üretim kusuru zaman damgalarını doğru saklayıp UTC'ye kurulmuş bir sunucuda çizmek; kullanıcılar başka yerde yaşarken — her şey sekiz saat kaymış görünür. Zaman damgalarını çizim katmanında her zaman açık bir saat dilimiyle eşleştir; buradaki yan yana yerel ve UTC okuması o eşleşmeyi görünür kılmak için vardır.",
+          "Her şey tarayıcında yerelde çalışır: yapıştırılan zaman damgaları, seçilen tarihler ve canlı saat cihazından hiç çıkmaz; günlüklerden, olay verilerinden ya da duyarlı herhangi bir şeyden zaman damgalarını çözerken bu sayar. Hız sınırı ve geçmiş yoktur — bir hatanın ilk ne zaman ortaya çıktığını ikilemeli ararken ihtiyacın kadar değer çöz.",
+        ],
       },
     ],
   },
@@ -3655,6 +6961,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet — hesap artı bahşiş, kişi sayısına eşit bölünür. Eşit olmayan paylar için (biri yalnızca salata yedi), paylaşılan kalemleri önce ara toplam olarak hesapla ve bireysel kalemleri üstüne ekle.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bahşiş kültürü matematikten fazla değişir",
+        paragraphs: [
+          "Aritmetik banal; kültür değil. ABD'de bahşiş alan servis çalışanlarına çoğu zaman gelirlerinin çoğunu bahşişin kuracağını varsayan bir taban ücret ödenir; restoranlarda %15–20 sosyal bir beklentidir, prim değil. Avrupa'nın ve Latin Amerika'nın çoğunda bir servis ücreti sık sık zaten faturadadır; %10 ya da yukarı yuvarlamak dostça bir jesttir, yükümlülük değil.",
+          "Başka yerlerde varsayılan ters döner: Japonya'da bahşiş personeli gerçekten şaşırtabilir; Çin'de büyük ölçüde yoktur — masaya bırakılan nakit için garipsen para geri getirmek üzere peşine düşebilir. Seyahat kılavuzları ve yerliler, herhangi bir yerdeki güncel normun en iyi kaynağıdır; adetler zamanla da kayar; bu aracın hazır ayarları düzenlenebilir tutması — hiçbir ülkenin kurallarını sabitlememesinin — sebebi budur.",
+          "Yurt dışında pratik bir strateji: faturada «servis dahil» satırının zaten var olup olmadığına bak ve bu hesaplayıcının yüzdelerini bir sözlük olarak ele — %10'un, %15'in ve %20'nin yerel para biriminde ne demek olduğunu bilmek, nerede olursan ol uygun yanıt vermeni sağlar.",
+        ],
+      },
+      {
+        heading: "Hazır ayarlar, vergi öncesi tabanlar ve bölüşme",
+        paragraphs: [
+          "Hazır ayarlar sıradan cevapları kuşatır — sıradan ya da tezgâh hizmeti için %10; geleneksel orta için %15; iyi tam-masa servis için %18–20; istisna için %25 — ve özel alan herhangi bir yerel geleneği kapsar. Hızlı zihinsel kontrol: %10 virgülün bir sola kaydırılmasıdır; %20 onun ikiye katlanmasıdır ve %15 iki arasında ortadadır.",
+          "Geleneksel görgü cevabı vergi öncesi tutara bahşiş verir; vergi aldığın bir servis değildir; pratikte çoğu insan kart fişinin toplamına bahşiş verir — hafif fazla verir ve nadiren itiraz edilir. Fark senin için önemliyse fişi vergi öncesi rakam olarak gir.",
+          "Bölüşme bahşişli toplamı kişi sayısına eşit dağıtır; grupların çoğu böyle hesaplaşır ama tüketim farklarını saklar. Düzensiz siparişler için paylaşılan öğeleri ara toplam yap, o ara toplama bahşiş ver, sonra herkesin kendi öğelerini ekle — hesaplayıcının iki kez çalıştırarak desteklediği iki adımdır.",
+        ],
+      },
+      {
+        heading: "Hesap tablosu için değil masaya göre tasarlanmış",
+        paragraphs: [
+          "Yemek sonunda faydalı sorular tam olarak üçtür: ne kadar bahşiş, hangi toplam, kişi başı ne. Genel bir yüzde hesaplayıcı yanıtlayabilir ama birer birer ve yeniden yazarak; burada fatura, oran ve kişi sayısı hep birlikte düzenlenebilir ve her rakam birini ayarladıkça canlı yeniden hesaplanır.",
+          "Ayrıca ağ bağımlılığı olmadan tümüyle cihazında çalışır; pazarlama süsü değil — restoran bodrumları, dolaşım ölü bölgeleri ve yabancı SIM'ler tam olarak ihtiyacın olduğu yerlerdir ve fatura hakkında hiçbir şey telefonunu terk etmez.",
+          "Herhangi bir para birimiyle çalışır; çünkü matematik hiçbirini varsaymaz: tutarı faturada gösterildiği gibi yaz ve çıktıları aynı birimlerde oku. Vergi dahil fiyatlar ya da sipariş vermeden önce indirim kontrolleri için percentage-calculator ve VAT hesaplayıcı komşu durumları kapsar.",
+        ],
+      },
+    ],
   },
   "fuel-cost-calculator": {
     name: "Yakıt Maliyeti Hesaplayıcı",
@@ -3683,6 +7015,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — yalnızca yakıtı fiyatlara. Gerçek kilometre başına maliyet için köprü geçişlerini ekle ve aşınma kalemlerini (lastikler, bakım, değer kaybı) ayrıca böl; birçok sürücü, yakıtın ötesinde kilometre başına 5–10 sent daha bütçeler.",
       },
     ],
+    deepDive: [
+      {
+        heading: "İki verimlilik dili, tek ters ilişki",
+        paragraphs: [
+          "Dünya yakıt tüketimini iki karşıt yönde ölçer. 100 km başına litre, «sabit bir mesafeyi katedmek ne kadar yakıt tutar?» sorusuna yanıt verir; düşük olan iyidir. Mil başına galon, «sabit bir yakıt miktarı seni ne kadar uzağa götürür?» sorusuna yanıt verir; yüksek olan iyidir. Biri bir oran, öteki onun karşılığı olduğundan aralarında dönüştürmek bir bölmedir; doğrusal bir kaydırma değil.",
+          "ABD galonları için dönüşüm sabiti 235,2'dir: MPG rakamına böl; L/100 km alırsın — 30 MPG yaklaşık 7,8 L/100 km'dir; tutumlu 6 L/100 km yaklaşık 39,2 MPG'dir. (İngiliz İmparatorluk galonları için sabit farklıdır.) Ters ölçekten bir ince tuzak izler: 10'dan 20 MPG'ye geçmek, 30'dan 40 MPG'ye geçmekten mil başına çok daha fazla yakıt tasarrufu sağlar; her ikisi de «+10 MPG» olsa bile.",
+          "Bu araç gösterge tablonun ya da spesifikasyon sayfanın gösterdiği hangi rakamı alırsa alsın kabul eder; tahminle senin arana elle bir dönüşüm girmez — ve metrik mesafeyle MPG'yi ya da milleri L/100 km'yi karıştırmak sessizce yanlış cevaplar üretir; birim seçiminin mesafe, verim ve fiyatı birlikte uygulamasının sebebi budur.",
+        ],
+      },
+      {
+        heading: "Tahminlerle fişlerin neden uyuşmadığı",
+        paragraphs: [
+          "Resmî ve göstergedeki tüketim rakamları idealize edilmiş koşullarda ölçülür — sabit hızlar, ılıman sıcaklıklar, yük yok. Gerçek sürüş sayıyı yukarı iter: dur-kalk trafik, soğuk başlatmalar (bir motor yavaş ısınır; ilk kilometrelerde fazla yakıt yakar), çatı bagajları ve kutular, agresif hızlanma ve klima hepsi tüketimi ekler; dağ yollarına dolu yüklenmiş bir araba daha çok ekler.",
+          "Pratik bir kalibrasyon alışkanlığı: tankı doldur, tur sayacını sıfırla, normal sür ve sonraki dolumda litreleri gerçek mesafeye böl. Bunun bir iki turu, herhangi bir spesifikasyon sayfasından çok daha dürüst kişisel bir tüketim rakamı verir — onu hesaplayıcıya gir ve maliyet tahminleri pompanın çıkardığına uymaya başlar.",
+          "Aracın toplamını otoyol ve karışık sürüş için merkezi bir tahmin ve şehir ağırlıklı yolculuklar için bir taban olarak ele. Geçiş ücretleri, otoparklar ve yakıt-dışı işletme maliyetleri (lastikler, bakım, değer kaybı) kasıtlı olarak matematiğin dışındadır; gerçek kilometre başına maliyet için onları ayrıca bütçele.",
+        ],
+      },
+      {
+        heading: "Sürüşten önceki kararlar için kurulmuş",
+        paragraphs: [
+          "Faydalı anların hepsi yola çıkmadan önceki: bir haftalık işe gidişi bütçelemek, yolculuğun yakıtını yolcular arasında bölmek (toplam maliyeti kişi sayısına bölerek) ya da sapmayı fiyatlamak — 15 km ötedeki daha ucuz market, yol oraya yakıt tuttuğunda gerçekten daha ucuz mu? Gidiş-dönüş düğmesi var; çünkü mesafeyi ikiye katlamayı unutmak en sık girdi hatasıdır.",
+          "Kilometre (ya da mil) başına maliyet toplamın yanında gösterilir; çünkü karşılaştırma sayısı odur: rotalar, arabalar ve alışkanlıklar toplam mesafede farklılaşır; birim başına maliyet karşılaştırmayı anlamlı kılan şeydir.",
+          "Hesaplama tarayıcında yerelde çalışır — sinyalsiz kırsal pompalarda işe yarar ve girdiğin yakıt fiyatları, rotalar ve sürüş örüntüleri cihazından hiç çıkmaz demektir. Kimse hangi rotayı ne sıklıkla kullandığını bir uygulamaya teslim etmek zorunda kalmaz; sayılar masada kalır.",
+        ],
+      },
+    ],
   },
   "aspect-ratio-calculator": {
     name: "En-Boy Oranı Hesaplayıcı",
@@ -3709,6 +7067,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Ondalık veya alışılmadık oranlar kullanabilir miyim?",
         a: "Evet. Her iki oran alanı da herhangi bir pozitif sayıyı kabul eder; 2,39:1 sinema scope, 1,85:1, dikey sosyal kırpmaları için 4:5 veya 1,5:1 gibi sensör boyutları çalışır — orantı matematiği aynıdır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sinema oranları: 1,85:1 ile 2,39:1",
+        paragraphs: [
+          "Hollywood onyıllarca rekabet eden biçimlerden sonra iki geniş-ekran standardına yerleşti. «Flat» 1,85:1 oranı standart bir salon ekranını doldurur; ana akım filmlerin çoğu ve TV'ye yakın işler için kullanılır. «Scope» 2,39:1 oranı epik ve aksiyon filmlerinin geniş, letterbox'lı görünümüdür. Scope bir film 16:9 TV'de gösterildiğinde gördüğün siyah bantlar hata değildir — 2,39:1 ile 1,78:1 arasındaki farkın dürüst geometrisidir.",
+          "Yaratıcılar için pratik sonuç: 2,39:1'de çek ya da kırp ve her platform letterbox'lar; 1,85:1 ya da 16:9'da kırp ve daha çok dikey görsel korursun ama sinematik çerçevelemeyi kaybedersin. Bağlanmadan önce bu hesaplayıcıyı kullan — 2,39:1 için genişlik 3840 gir ve çerçevenin yaklaşık 1607 piksel yükseklik istediğini görürsün; scope kırpımının ne kadar dikey çözünürlüğü attığını anında söyler.",
+          "Eski biçimler modern akışlarda hâlâ yüzeye çıkar: 4:3 televizyon ve 35 mm fotoğraftan gelir; 3:2, 35 mm film karelerinden; 1:1 Instagram'dan çok önce kare baskı biçimlerinden. Soy ağacını bilmek eski görüntüyü restore ederken ya da vintage görünümü eşlerken yardımcıdır; oran kendisi çağını taşır.",
+        ],
+      },
+      {
+        heading: "16:9 nereden geldi ve neden oturdu",
+        paragraphs: [
+          "16:9 estetik için seçilmedi. 1980'lerde tek bir ekran hem var olan 4:3 televizyonu hem sinema geniş-ekran içeriğini en az israfla gösterebilsin diye türetilmiş bir uzlaşma: 16:9, 4:3'ü (1,33) ve 2,35 civarındaki sıradan film oranlarını arasındaki farkı bölen geometrik ortalamadır; her iki yönde letterbox'ı en aza indirir. HD televizyon standardize edildiğinde 16:9 onunla geldi; 1920×1080, 1280×720 ve 3840×2160 hepsi aynı şekli devralır.",
+          "O devralma, 16:9'un bugün her büyük platformda video için güvenli varsayılan olmasının sebebidir; 16:10 (1920×1200) ise çoğunlukla belge ve kod işine yönelik dizüstülerde ve monitörlerde hayatta kalır — fazladan dikey onda bir, bir satır daha fazla metin ya da kaydırmasız bir araç çubuğu tutar.",
+          "Aritmetik tesadüfi değil kesindir: 1920÷16 = 120 ve 1080÷9 = 120; her 16:9 çözünürlüğü temiz bir kattır. Bu hesaplayıcının 1920×1080'yi yaklaşarak değil en büyük ortak bölenle tam olarak 16:9'a indirgemesinin de sebebi budur — 1920 ile 1080'in EBOB'u 120'dir; iki tarafı bölerek kanonik oran çıkar.",
+        ],
+      },
+      {
+        heading: "Boyutlandırırken sıradan hatalar",
+        paragraphs: [
+          "En sık hata oranı bir alana ondalık, diğerine tam sayı girmektir — 1,7778:1, piksel-hassas iş için 16:9 ile aynı bağlılık değildir; çünkü yuvarlama birikir. Tam sayı oranların varsa onları yaz ve araca referans için ondalığı gösterdir; tersi değil.",
+          "İkinci hata çıktı boyutunu «güzel» bir sayıya yuvarlamaktır. 2,39:1 ve 1920 genişlik yaklaşık 803 yükseklik hesaplar; 800'e çakmak oranı yarım yüzdeye kadar değiştirir — kabaca önizlemede görünmez; çok klipli bir kurguda kayma olarak görünür. Kesin piksel kesirli olduğunda bilinçli karar ver: görüntü için yuvarla ya da ana dosya için kesin değeri tut.",
+          "Son olarak CSS'deki object-fit: cover'ın ölçeklemek yerine kırdığını hatırla — 16:9 kapsayıcı içindeki 4:3 görsel üstünü ve altını kaybeder; sıkışmaz. Kaynağı, bu hesaplayıcıyla önce kapsayıcı oranına eşleştirerek boyutlandırmak içeriği sessizce atmayı önler.",
+        ],
       },
     ],
   },
@@ -3740,6 +7124,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — sonuç, girdiğin oranda nominal büyümedir. Faiz vergileri, hesap masrafları ve enflasyon, gerçek getirinin tamamını düşürür; nihai bakiyeyi, gerçekte elinde kalacak miktarın üst sınırı olarak gör.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bileşikleştirme sıklığı neden cevabı değiştirir",
+        paragraphs: [
+          "Bileşikleştirme sıklığı, kazanılan faizin anaparaya katılıp kendi faizini kazanmaya başlama sıklığını belirler. Dönemsel oran yıllık oranın dönem sayısına bölümüdür; %8'de aylık bileşikleştirme aylık %0,667 kullanır — o faiz yılda bir yerine on iki kez aktarıldığından etkin yıllık getiri %8'in üstüne sürünür. Günlük aylığı yener, aylık çeyreği yener, çeyrek yıllığı yener; aynı nominal oranda hep bu sırayla.",
+          "İnsanları şaşırtan şey tüketici oranlarında boşluğun ne kadar küçük olmasıdır. %5 nominalde yıllık bileşikleştirme %5,00; aylık bileşikleştirme yaklaşık %5,12 verir — yalnızca on yıllarda ya da büyük bakiyelerde ciddi para olan bir onda bir puan. Pazarlama bunu sömürür: bir banka rakibininkine özdeş görünen nominal oran kotarabilir; bileşikleştirme sıklığı sessizce farkı belirlerken.",
+          "Sıklık cevabı yalnızca karşılaştırılan şey nominal oran olduğunda değiştirir. Her şey etkin yıllık getiriye çevrildiğinde sıklık çoktan içine katlanmıştır ve aynı APY'ye sahip iki hesap gerçekten eşdeğerdir — sitenin APY hesaplayıcısının bunun yanında var olmasının tam sebebi.",
+        ],
+      },
+      {
+        heading: "Kavşak — ve zamanın oranı neden yendiği",
+        paragraphs: [
+          "Yıl-yıl tablo belirli bir anı göstermek için vardır: kavşak; bir yılda kazanılan faizin kendi katkılarını aşması. Ilıman oranlarda bu on yıllar alır; bileşikleştirmenin ilk on yıl sönük, otuz yıl sonra saçmalık hissettirmesinin sebebi budur. Eğri düzdür sonra kırılır — ve neredeyse herkes kırılmanın ne kadar geç geldiğini eksik tahmin eder.",
+          "Bu, başlangıç tutarının iyileştiricinin sezgisinin ima ettiğinden fazla önem taşımasının da sebebidir. Bir puan fazla oran doğrusaldır; bir on yıl fazla bileşikleştirme üsteldir. Mütevazı oranda on yıl erken başlamak ile bugün bir puan yüksek oranda başlamak arasında, erken başlamak genelde rahatsız edici bir marjla kazanır — tablo o iddiayı imana dayanmadan kendi rakamların üzerinde sınamanı sağlar.",
+          "İki dürüst uyarı: araç katkıları her dönemin başına yatırır — iyimser gelenektir — ve oranın hiç değişmediğini varsayar; hiçbir gerçek yatırım onu onurlandırmaz. Çıktı bir senaryodur, tahmin değil — kavşak yılı özellikle daire içine alınacak bir tarih değil «kabaca ne zaman» olarak okunmalıdır.",
+        ],
+      },
+      {
+        heading: "Nominal büyüme, gerçek satın alma gücü",
+        paragraphs: [
+          "Hesaplayıcının gösterdiği her şey nominaldir: yazdığın oran, yazdığın bakiyeye uygulanmış; vergi yok, ücret yok, enflasyon yok. Her üçü de farklı taraftan keser — faiz vergileri aktarılan oranı düşürür; hesap ücretleri sabit tutarlar düşürür; enflasyon nihai bakiyenin alacağını sessizce küçültür. Ekrandaki sayı, gerçekten tutacaklarının üst sınırıdır.",
+          "Faydalı bir akıl sağlığı egzersizi: girmeden önce orandan beklediğin yıllık enflasyonu düş. %2,5 enflasyonla %5 nominal getiri aynı biçimde bileşir ama bakiyenin gelecekteki satın alma gücü hakkında çok daha dürüst bir hikâye anlatır. Matematik özdeştir; yalnızca yorum değişir.",
+          "Ve buradaki her araç gibi projeksiyon tamamen tarayıcında çalışır: bakiyeler, oranlar ve katkı tutarları cihazından hiç çıkmaz; veriyi sunucuya gönderen bir forma yapıştırmayacağın rakamları modellemek güvenlidir.",
+        ],
+      },
+    ],
   },
   "random-name-picker": {
     name: "Rastgele İsim Seçici",
@@ -3767,6 +7177,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Art arda birden fazla kazanan çekebilir miyim?",
         a: "Evet. “Her kuraldan sonra kazananı çıkar” seçeneğini etkinleştir; her seçim listeden otomatik düşer, kimse iki kez seçilmez. Aşağıdaki geçmiş paneli, bu oturumdaki her çekilişi sırayla ve zaman damgasıyla kaydeder.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir çekimin kanıtlanabilir biçimde adil olmasını ne sağlar",
+        paragraphs: [
+          "Rastgele seçicilerin ince başarısızlık modu modül kaymasıdır. Naif bir betik Math.floor(Math.random() * n) yapar — ama Math.random() sabit bir aralıkta kayan nokta değeri üretir; o aralık girişlerin sayısına eşit bölünmediğinde ilk birkaç isim ölçülebilir biçimde daha sık seçilir. 100 isimle bazı girişler başkalarından bir iki yüzde daha olası olabilir: tek turda görünmez; sınıf çekilişleri boyunca belirleyicidir.",
+          "Bu araç sorunu iki kez önler. crypto.getRandomValues kullanır — tarayıcının kriptografik rastgele kaynağı; güvenlik anahtarlarının arkasındaki aynı üretici — ve reddetme örneklemesi uygular: dağılımı kayacak değerler atılır ve yeniden çekilir; n girişin her biri tam olarak 1/n olasılık alır. Kritik çekim animasyon başlamadan önce olur; çarkın sonucu hiçbir biçimde etkileyemeyeceği anlamına gelir.",
+          "Çekim ile gösterimin o ayrılması, kitleye adaleti kanıtlamanı sağlayan şeydir: sonuç, düğmeye bastığın an vardır; animasyon onu yalnızca ifşa eder. Segment renklerinin, çarkın hızının ya da işaretçinin başladığı yerin hiçbiri kimin kazandığını etkilemez — ve çekim zamana tohumlanmış değil kriptografik olduğundan, aracı çalıştıran kişi bile sonucu tahmin ya da yönlendiremez.",
+        ],
+      },
+      {
+        heading: "Sıra alma, eleme ve geçmiş paneli",
+        paragraphs: [
+          "İki seçenek pratik işin çoğunu yapar. Yinelenenleri kaldırmak göründüğünden fazla sayar: bir hesap tablosundan yapıştırılan liste gizli tekrarlar taşır — sondaki boşluklar, isim sırası çevrilmeleri, yanlışlıkla çift satırlar — ve her yineleme o kişinin şansını ikiye katlar. Tekrarlar kasıtlı değilse çekimden önce eşsizleştir.",
+          "Her çekimden sonra kazananı kaldırmak çarkı temiz bir eleme kuyruğuna çevirir. Bir sınıfı böyle geçirirsin ki her öğrenci tam olarak bir kez sunar; ya da ödülleri kağıtları izlemeden sırayla dağıtırsın. Aşağıdaki geçmiş paneli her seçimi zaman damgasıyla, sırasıyla kaydeder; «iki kez seçtin onu» gibi ihtilaflar hafızadan değil kaydırarak çözülür.",
+          "Bir dürüst sınırlama: geçmiş yalnızca bu tarayıcı oturumunda yaşar. Sayfayı yenilemek onu temizler. Denetlenebilir kayıt gerekiyorsa — gerçek ödüllü bir çekiliş gibi — oturumun sağ çıkmasına güvenmek yerine kazananları ilerledikçe kopyala.",
+        ],
+      },
+      {
+        heading: "Liste nerede yaşar — ve nerede yaşamaz",
+        paragraphs: [
+          "Her şey tarayıcında yerelde çalışır. Yapıştırdığın liste hiçbir yere iletilmez, saklanmaz, günlüklenmez; çekimde hiçbir sunucu devrede değildir. Bu, rastgele bir web sitesine yapıştırmak istemeyeceğin listeler için güvenli araç yapar — vardiya çekilişi için çalışan adları, eğitim egzersizinde hasta baş harfleri, özel grubun üye adları.",
+          "Ayrıca aracın ağ olmadan da çalışmaya devam etmesi demektir: Wi-Fi'i kötü bir sınıf yine çekimi koşabilir ve aynı sayfa yüklendikten sonra çevrimdışı işlev görür. Bir sekmeden çıkan tek veri, kopyala düğmesiyle bilinçli çıkardığındır.",
+          "Ağırlıklı ya da tohumlanmış çekimler için — bilet sayısının şansı değiştirmesi gereken çekilişler ya da test için yeniden üretilebilir seçimler — bu araç bilinçli olarak yanlış araçtır: bir isim, bir şans, hiçbir ağırlık yok. O kısıt, adalet konu olduğunda bir özelliktir; şansların eşitsiz olması gerektiğinde bunu bükmek yerine özel bir çekiliş aracı kullan.",
+        ],
       },
     ],
   },
@@ -3798,6 +7234,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Her standart QR kodu: URL'ler, düz metin, telefon numaraları, Wi-Fi katılım dizgileri, vCard kişileri, ödeme dizgileri ve dahası. Araç ham çözülmüş içeriği gösterir — Wi-Fi veya ödeme kodları için metni, o biçimi tüketen uygulamaya kopyala.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Kamera izinleri: tarayıcı neden ister ve ne demektir",
+        paragraphs: [
+          "Kamera kipinin arkasındaki getUserMedia API'si sayfanın değil tarayıcının dayattığı iki kapı ile korunur. Birincisi izin istemi: site yalnızca isteyebilir; verir ya da reddedersin — ret hatırlanır ve adres çubuğu ikonundan değiştirilebilir. İkincisi güvenli-bağlam kuralıdır: kamera erişimine yalnızca https sayfalarda izin verilir; bu aracın güvenli olmayan bir aynası soruyu bile soramaz.",
+          "İznin vermediği şey eşit derecede önemlidir: arka plan erişimi yoktur. Sayfa yalnızca video akışı canlıyken kare okuyabilir; tarayıcılar aktif kamerayı göstergesiyle görünür biçimde bildirir ve akışı durdurmak (bu araç başarılı bir çözümde otomatik yapar) tüm erişimi sonlandırır. Hiçbir kare arka planda sessizce yakalanamaz.",
+          "Bu yüzden başarısızlık modu bu kadar spesifiktir: başlamayan bir kamera neredeyse her zaman engellenmiş bir izin, https-bağlam sorunu ya da cihazda gerçekten kamera yoklukudur. Araç genel bir hata yerine bu durumları ayırır; her birinin farklı çözümü vardır.",
+        ],
+      },
+      {
+        heading: "QR çözme gerçekte kodu nasıl bulur",
+        paragraphs: [
+          "Bir QR sembolü kendini üç büyük bulucu deseniyle demirler — sol üst, sağ üst ve sol alt köşelerdeki kareler. Çözücü, piksel ızgarasını tam olarak o şekiller için tarar; konumlarını sembolün dönüşünü ve perspektifini kurmak için kullanır ve ancak o zaman veri modüllerini okur, hata düzeltmesini çalıştırır. Açıyla fotoğraflanmış bir kodun yine çözülebilmesinin sebebi budur: bulucu desenleri geometriyi sağlar.",
+          "Görsel kalitesi sonucu her şeyden fazla sürer. Klasik başarısızlıklar bulucu deseni üzerindeki parıltı, küçültmeden sonra çok az piksel kaplayan bir kod ve modüller ile arka plan arasındaki düşük kontrasttır. Daha keskin bir fotoğraf, daha yakın bir kırpım ya da daha düz bir açı yanlış okumaların çoğunu çözer — çözücü olasılıksal değil deterministiktir.",
+          "Çözülen payload bilinçli olarak ham metin gösterilir. QR kodları Wi-Fi bağlanma dizeleri, vCard'lar ve ödeme biçimleri kodlayabilir ama kod kendisi tipini duyurmaz; ham dizgeyi göstermek, bir kodun gerçekte ne içerdiğini — bir posterin ya da paketin kodunu, bağlantısını açmadan incelemenin tüm anlamıdır — herhangi bir uygulama tüketmeden önce doğrulamanı sağlar.",
+        ],
+      },
+      {
+        heading: "Güvenmeden önce kodları incelemek",
+        paragraphs: [
+          "Telefon kamera uygulamaları QR bağlantılarını giderek daha çok doğrudan açar; kullanışlıdır ve kötücül bir çıkartma saldırısının dayandığı tam şeydir. Bir QR kodu kimliklenmemiş veridir: herkes her yere işaret eden birini basabilir. Çözülen metni önce okumak — bu aracın açık düğmesini sunmadan önce yaptığı — bir kodu görme ile ona göre davranma arasına bilinçli bir durak koyar.",
+          "Pratik alışkanlıklar: URL'nin alan adının bağlamın vaat ettiğiyle eşleşip eşleşmediğini kontrol et (bir parkmetre, bir restoran menüsü); hedefi saklayan kısaltıcılardan şüphelen ve doğrulanmamış bir koddan vardığın sayfaya asla kimlik girme. Ödeme kodları için etikete değil ödeyen dizgesini harf harf doğrula.",
+          "Gizlilik her iki yol için de geçerlidir: görsel çözme yalnızca bıraktığın dosyanın yerel piksellerini okur; kamera kareleri bellekte çözümlenir ve atılır. Hiçbir şey yüklenmez, günlüklenmez, saklanmaz — inceleme tümüyle cihazında kalır.",
+        ],
+      },
+    ],
   },
   /* ------------------------------------------------------------------ */
   /* Geliştirici / Araçlar — CSV ⇄ Excel, kontrast, not                  */
@@ -3826,6 +7288,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Ayırıcı, tırnak dışındaki adaylar sayılarak otomatik bulunur; elle seçmek de mümkündür. Hücre içi virgüller, çift tırnaklar ve satır sonları dönüşümde aynen korunur.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Gerçek bir .xlsx'in .txt yeniden adlandırmayı yenmesi",
+        paragraphs: [
+          "CSV'yi Excel'e «dönüştürmenin» sıradan püfü dosyayı yeniden adlandırmak ve tablo uygulamasının tahmin etmesini ummaktır. Bazen işe yarar; daha sık devasa tek sütun, aksanlı metinde mojibake ya da posta kodları ve telefonlardan atılmış öndeki sıfırlar alırsın. Gerçek bir .xlsx açık hücre tipli XML parçalarının bir ZIP arşividir — metin için paylaşılan dizeler, sayılar için sayısal hücreler, tarihler için biçemler — yazmak, tip kararlarının dosyayı açan her program tarafından yeniden tahmin edilmek yerine, dönüştürme zamanında bir kez verilmesi demektir.",
+          "Tip kararı dürüstlüğün yaşadığı yerdir. 9,5 okuyan hücre sayısal hücre olarak yazılır; SUM ve grafikler üzerinde anında çalışır; 007 okuyan hücre bilinçli olarak metin tutulur; 7'ye dönüştürmek bilgiyi yok eder. 1e3 ya da 0,500 gibi belirsiz biçimler de metin kalır — sayı olarak çözerler ama dönüşüm hücrenin gösterdiğinin ne olacağını sessizce değiştirirdi. Bu politika basit bir kuralı izler: dönüştürücünün veri kaybedecek biçimde tahmin etmesine asla izin verme.",
+          "Ayırıcılar öteki tahmin oyunudur. Araç, tırnaklı alanların dışında aday ayırıcıları (virgül, noktalı virgül, sekme) sayar ve kazananı seçir; hem ABD tarzı virgül varsayılanını hem Excel'in birçok dilde kendisinin ürettiği Avrupa noktalı virgül gelenekle halleder. Gömülü virgüllü, ikilenmiş tırnaklı ve satır sonlu tırnaklı alanlar RFC 4180'e göre çözülür; çok satırlı bir adres hücresi Excel'e beş satır değil tek hücre olarak varır.",
+        ],
+      },
+      {
+        heading: "CSV'nin taşıyamadıkları ve dönüşümün nasıl hallettiği",
+        paragraphs: [
+          "CSV tip taşımaz, biçem taşımaz ve metin satırlarının ötesinde yapı taşımaz; dönüştürücü, biçimin hiç kaydetmediği kararları vermek zorundadır. İlk satır varsayılan olarak başlık sayılır — çoğu CSV biriyle dışa aktarılır ama hepsi değil; düğmenin varlık sebebi budur. Formüller, grafikler ve hücre biçimlendirmesi kaynakta hiç yoktur; akış biçimli bir rapor bekliyorsa CSV yalnızca veri katmanıdır; sunumu birisi sonra uygulamak zorundadır.",
+          "Kodlama klasik sessiz başarısızlıktır. CSV baytları kodlama etiketi taşımaz; Windows'ta Excel BOM'suz UTF-8 dosyalarını meşhur biçimde yanlış okur; adları ve adresleri çöp çevirir. Buradaki zincirin ürettiği veri içsel olarak UTF-8 yazılır ve xlsx biçiminin kendisi metni açık kodlamalı XML olarak saklar; yapıştırdığın şey hücrelere düşendir — aksanlı karakterler, CJK metni ve emojiler dahil.",
+          "Bilinmeye değer bir sınır daha: aşırı büyük CSV'ler dönüşüm sırasında tarayıcı belleğiyle sınırlıdır; sunucu sınırıyla değil. Yüz binlerce satırlık dosyalar sıradan bir makinede rahatça dönüşür; çok gigabyte'lık dışa aktarımlar tarayıcı sekmesine değil, bir betik ya da veritabanı içe aktarıcısına aittir.",
+        ],
+      },
+      {
+        heading: "Duyarlı satırlar yerel bir dönüştürücü hak eder",
+        paragraphs: [
+          "İnsanların hesap tablosu biçiminde ihtiyaç duyduğu CSV'ler nadiren anonimdir: müşteri listeleri, bordro dışa aktarımları, iletişim alanlı anket yanıtları, finansal kalemler. Birini dönüştürücü sitesine yüklemek, her satırın geçmesi ve çoğu zaman birinin deposunda kalması demektir — NDA kapsamındaki, şirket politikası taşıyan ya da gizlilik mevzuatı altındaki veri için biçimlendirme kolaylığı uğruna edilmeyecek bir takas budur.",
+          "Bu araç CSV'yi çözer ve çalışma kitabını tümüyle tarayıcında, yaygın kullanılan bir JavaScript hesap tablosu kitaplığı olan SheetJS ile kurar. Bıraktığın dosya yerel diskten okunur; .xlsx bellekte birleştirilir ve doğrudan indirme bağlantısına verilir; mimaride yükleme adımı yoktur — günlüklenmemesi konusunda bir söz değil. Sayfa yüklendikten sonra çevrimdışı çalışır ve makinenin belleği dışında satır sayısı kotası yoktur.",
+        ],
+      },
+    ],
   },
   "excel-to-csv": {
     name: "Excel'den CSV'ye",
@@ -3849,6 +7336,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Formüllere ve biçimlendirmeye ne olur?",
         a: "Formülleri değil, hücrenin gösterdiği son hesaplanmış değerleri alırsınız. 1.234,50 gösteren bir hücre bu değerle dışa aktarılır; para birimi simgesi gibi biçimler göründüğü gibi kalır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "RFC 4180: CSV tırnaklama kurallarının varlık nedeni",
+        paragraphs: [
+          "CSV banal görünür ve meşhur biçimde değildir. Veritabanlarının ve hesap tablosu programlarının gerçekten birlikte çalıştığı biçim RFC 4180'de tanımlanır; üç kuralı bir CSV içe aktarmasında karşılaştığın neredeyse her hatayı kapsar. Kural bir: ayırıcıyı, tırnağı ya da satır sonunu taşıyan alan çift tırnakla sarılmalıdır. Kural iki: tırnaklı alan içindeki tırnak ikilenerek kaçışlıdır. Kural üç: tırnaklı alan içindeki satır sonları veridir, kayıt ayırıcı değil.",
+          "Hatalar, bunlardan birini yok sayan araçlardan gelir. Naif bir yazar hücreleri virgüllerle birleştirir; adres alanı virgül taşıdığı an fazladan sütunlara patlayan bir dosya üretir. Naif bir okuyucu her satır sonunda böler; çok satırlı hücreyi beş kayda çevirir. Bu araç kurallara katı yazım yapar: yalnızca gerektiğinde tırnak, gömülü tırnaklar ikilenmiş, iç satır sonları korunmuş — aynı kuralları izleyen aşağı akış çözümleyicileri (modern çoğunluk izler) sayfayı birebir yeniden kurar.",
+          "Sessiz bir karar daha: başlık satırı. CSV'nin başlık kavramı resmî olarak yoktur — RFC 4180 her satırı aynı sayar — ama pratikte her tüketici ilk satırın adlar olduğunu varsayar. Ayarlama olmadan dışa aktarmak genelde doğrudur; kapatılmış isteyen sıradan araç istisnadır, kural değil.",
+        ],
+      },
+      {
+        heading: "Dönüşümde kaybedilenler: formüller, tipler ve sayfalar",
+        paragraphs: [
+          "CSV metin saklar ve başka hiçbir şey; dönüşüm bu yüzden üç spesifik biçimde doğal olarak kayıplıdır. Formüller son hesaplanan değerlerine dönüşür — =SUM(A1:A5) taşıyan hücre şu an değerlediği sayı olarak dışa aktarılır ve Excel'deki güncellemeler asla CSV'ye geri akmaz. Görüntü biçimlendirmesi de pişirilir: para birimi olarak biçimlenmiş hücre, sembol ya da ayırıcıyı tam gösterildiği gibi dışa aktarır; kimi zaman $1,234.50 gibi değerler üretir; aşağı akış çözümleyicileri sonra bunu metin görür.",
+          "Veri tipleri kaybolur: tarihler sayfanın gösterdiği hangi biçimse dizeler olarak çıkar (03/04/2024 diller arasında belirsizdir); kodlardaki öndeki sıfırlar yalnızca hücre metin saklanıyorsa korunur; yeniden içe aktarımda her şey dizgeye dönüşür. Tipli sütun isteyen veritabanları tipleri tahmin eden ya da söylenen bir içe aktarım adımı ister. Tam sadakat önemliyse hesap tablosunu doğruluk kaynağı tut ve CSV'yi tek yönlü bir dışa aktarım say.",
+          "Sayfalar, grafikler, birleşmiş hücreler ve renkler CSV temsilini hiç taşımaz. Birkaç sayfalı bir kitap sayfa başına bir CSV ister — bu aracın değil biçimin sınırlaması; birden fazla tablo saklama yolu yoktur. Birleşmiş hücreler değerle sol üst hücrede ve başka yerde boş dizelerle dışa aktarılır; birleşimlere anlam dayanıyorsa dışa aktarmadan önce düzleştir.",
+        ],
+      },
+      {
+        heading: "Kodlamalar, BOM'lar ve dosyaları yerelde işlemek",
+        paragraphs: [
+          "Çift tıklamadaki meşhur mojibake bir kodlama hikâyesidir. CSV bayttır, metin değil; Windows'ta Excel BOM'suz bir dosyanın kodlamasını tahmin eder — sık sık eski bir kod sayfasına düşer ve Çince karakterleri ya da café'yi çopa çevirir. Buradaki indirilen dosya UTF-8 BOM'yu başlar; Excel'in açılışta UTF-8'i algılamak için kullandığı üç bayt. Dosyayı programatik tüketen programlar (betikler, veritabanları) genelde BOM'suz UTF-8'yi yeğler; kopyala düğmesinin tam olarak onu sağlamasının sebebi.",
+          "Hesap tabloları, çevrimiçi dönüştürücülere sürüklenen en duyarlı dosyalar arasındadır: müşteri listeleri, bordrolar, finansal projeksiyonlar, çalışan verisi. Birini dönüştürücü sunucusuna yüklemek satırların birinin altyapısına düşmesi, muhtemelen günlüklenmesi ya da önbelleklenmesi demektir. Bu araç çalışma kitabını tamamen tarayıcında, bir JavaScript kitaplığıyla çözer — dosya yerelde diskten okunur, bellekte dönüştürülür ve hiçbir yere iletilmez; sunucu tarafı işleme adımı hiç yoktur.",
+          "Bu ayrıca dışarıdan dayatılmış boyut sınırı olmadığı demektir — tavan tarayıcının belleğidir; yüz binlerce satırlı sayfaları rahat yönetir. Düzenlenmiş ya da kişisel veriyle çalışıyorsan yalnızca-yerel tasarım bir kolaylık özelliği değil, akışı mümkün kılan gerekliliktir.",
+        ],
       },
     ],
   },
@@ -3876,6 +7389,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Her renk sRGB'den doğrusallaştırılır ve L = 0.2126·R + 0.7152·G + 0.0722·B bağıl parlaklığına indirgenir; oran (açık L + 0.05) / (koyu L + 0.05) olur. Bu, WCAG 2.x şartnamesindeki formülün ta kendisidir. 1'in altındaki rgba() alfası hesap öncesi beyaza düzleştirilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "4,5:1 ile 3:1 gerçekte ne demektir",
+        paragraphs: [
+          "Kontrast oranı WCAG'ın tanımladığı bir luminance karşılaştırmasıdır: ön plan ile arka planın göreli luminance'ını ölç; her birine küçük bir kayma ekle ve daha açık olanı koyuya böl. Sonuç 1:1'den (özdeş renkler) 21:1'e (beyaz üzerinde siyah) uzanır. Formül, insan gözünün parlaklığı doğrusal olmayan biçimde algılamasından gelir; hesabın renkleri ham kanal değerleriyle karşılaştırmak yerine doğrusal luminance'a çevirmesinin sebebi budur — seçicide «yakın görünen» iki gri luminance'ta ölçülebilir biçimde farklılaşabilir.",
+          "WCAG 2.x iki eşik koyar. AA düzeyi: normal gövde metni için 4,5:1; büyük metin için 3:1 — 18pt (24px) normal ya da 14pt (kabaca 18,5px) kalın ve büyüğü olarak tanımlı. AAA düzeyi çıta 7:1'e (normal metin) ve 4,5:1'e (büyük) yükseltir. Grafik nesneler ve UI bileşen sınırları (ikonlar, girdi kenarları) WCAG 2.1'de 3:1 gereksinimine de düşer.",
+          "Eşikler zeminlerdir, tasarım hedefleri değil. Bir site 4,5:1'de geçebilir ve güneşte ya da ucuz ekranlarda yine de okunması zor olabilir; legibility araştırmasının çoğu gövde metni için minimumun çok üstünü hedeflemeyi destekler.",
+        ],
+      },
+      {
+        heading: "Tasarımcıların kontrastı yanlış yargıladığı sıradan biçimler",
+        paragraphs: [
+          "Klasik başarısızlık tonlu arka planlarda renkli metindir: pastel üzerinde orta gri, her iki renk «yumuşak» hissettirse bile 4,5:1'in altını ölçebilir. Göz telafi eder; matematik etmez. İkincisi koyu modun kontrastı çözdüğünü varsaymaktır — koyu gri metin koyu gri arka planlarda aynı formülle, yalnızca ters yönde başarısız olur.",
+          "Görsel üzerindeki metin yinelenen tuzaktır: fotoğrafın bir pikseline karşı kontrast geçerken öteki piksel başarısız olabilir. Pratik çare bir scrim (katman örtüsü) ya da metnin arkasında dolu bir kapsül, sonra etkin arka plan rengini yeniden kontrol et — araç iki rengi kabul eder; en kötü durum arka plan pikselini sına.",
+          "Opaklık görünmez matemattır: beyaz üzerinde %60 opaklıkta siyah metin «siyahımsı» değildir; hesaplanmış bir harmandır — kabaca orta gri — ve oran kaynak renkte değil harmandaki sonuçta kontrol edilmelidir.",
+        ],
+      },
+      {
+        heading: "Yerelde hesapla, anında yinele",
+        paragraphs: [
+          "Oran her renk değişiminde tarayıcında hesaplanır — API yok, gidiş dönüş yok. Tasarım sisteminden hex değerleri yapıştır ya da canlı ayarla; geçti/kaldı rozetleri her tuşta güncellenir. Yineleme maliyetsizdir: düğmenin tonunu beş kez kaydırıp nereye kadar okunur kaldığını bulmak saniyeler tutar.",
+          "Her şey yereldir; tasarım renkleri lansmandan önce sık sık gizlidir: yayımlanmamış paletler ve marka keşifleri sayfadan hiç çıkmaz. Yenile ve girdiler temizlenir — oturumlar arasında saklanan hiçbir palet kopyası, hiçbir taslak rengin bir sunucu günlüğünde kopyası yoktur.",
+          "Metin gradyan üzerine yerleştirilmişken kontrol ederken gradient-generator ile eşleştir — gradyanın en açık noktasını arka plan olarak örnekle ve ona karşı sına; kontrast garantileri ortalamaya değil en kötü duruma uygulanır.",
+        ],
+      },
+    ],
   },
   "grade-calculator": {
     name: "Not Hesaplayıcı",
@@ -3899,6 +7438,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Ağırlıklarım 100% etmiyorsa ne olur?",
         a: "Sorun değil. Mevcut ortalama gerçekten girdiğiniz ağırlıklara göre normalize edilir; yarı notlanmış bir ders bile adil bir sayı gösterir. Final hesabı sınavın ağırlığını ölçülmüş ağırlığın üstüne koyar — müfredatın öngördüğü gibi. %100 üstü hedefin ulaşılmaz, negatif sonucun hedefin çoktan garanti olduğunu gösterir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ağırlıklı ortalamalar: sonucun arkasındaki aritmetik",
+        paragraphs: [
+          "Bir ders notu neredeyse hiç parçalarının düz ortalaması değildir: ödevler, ara sınav ve final farklı ağırlıklarla katkı verir; tipik olarak müfredat belirler. Ağırlıklı ortalama her puanı ağırlığıyla çarpar ve toplam ağırlığa böler — GPA'nın dersleri kredi saatleriyle nasıl kredi verdiğini gösteren matematiğin bir alt düzeyle birebir aynısı.",
+          "Toplam ağırlık %100'e eşit olmalıdır. Parçalar hâlâ notlandırılmamışken anlamlı sayı güncel durumdur: notlandırılmış parçalar üzerinden ağırlıklı ortalaman artı hedef nota ulaşmak için kalan işte ihtiyacın olan puan. Gerekli-puan formülü (hedef × toplam ağırlık − güncel ağırlıklı toplam) ÷ kalan ağırlıktır — her öğrencinin Aralık'ta koştuğu «finalden kaç almam gerek» hesabı budur.",
+          "Payda tuzağına dikkat: notlandırılmış parçaları gerçek ağırlıklarıyla tartmadan ortalamak, ağırlıklar farklılaştığında farklı bir sayı verir — ve neredeyse hep yanlış olandır. %10'luk bir ödevdeki %100, %50'lik bir sınavdaki %60'ı telafi etmez.",
+        ],
+      },
+      {
+        heading: "Ölçek gelenekleri farklılaşır — müfredatını kontrol et",
+        paragraphs: [
+          "ABD kurumlarının çoğu harfleri 4,0 ölçeğe eşler (A = 4,0, B = 3,0) ama artı/eksi işlemesi değişkenlidir: bazı okullar A− = 3,7 verir; ötekiler 3,67; birkaç A−'yi 3,0'a yuvarlar. Yüzde-harf kesimleri dersler arasında da kayar — %89,5 profesöre bağlı olarak A ya da A− olabilir. Hesaplayıcı bir geleneksel eşleme uygular; kayıt büronun tablosu yetkilidir.",
+          "Doğrulanacak ağırlık ayrıntıları: en düşük ödev puanının atılıp atılmadığı, devamin ya da katılımın ağırlık taşıyıp taşımadığı ve finalin önceki puanların yerine geçip geçemeyeceği. Bu politikalar aritmetiği anlamlı biçimde değiştirir ve hiçbir hesaplayıcıda değil müfredatta yaşar.",
+          "Sonuçları simüle ederken iyimser değil makul gelecek puanlar gir — hesabın amacı ihtiyacın olan puanı bilmektir; mucizeyi değil, asgari geçme senaryosunu planlamak daha faydalıdır. Gerçekçi taslak, finali özenle okumakla geçilebilecek bir hedef ile imkânsız bir hedef arasında ayrım yapar.",
+        ],
+      },
+      {
+        heading: "Yerel, özel not matematiği",
+        paragraphs: [
+          "Her şey yazarken tarayıcında hesaplanır. Notlar en duyarlı kişisel veriler arasındadır — onları yükleyen araç yanlış araç olurdu. Hiçbir şey saklanmaz, günlüklenmez, iletilmez; yenile ve sayfa sıfırlanır.",
+          "Hesaplayıcı eksik satırları güvenli biçimde halleder: puanı eksik ders hiçbir şey katkı vermez; sıfır sayılmaz — sıfır, henüz yapılmamış işi sessizce cezalandırırdı. Ortalaması yalnızca gerçekten notlandırılmış olanı yansıtır; kalan için gereken puan, hayalî sıfırlara karşı değil takvime göre hesaplanır.",
+          "Semestreler arası kümülatif GPA için GPA hesaplayıcıyla eşleştir — iki araç sırasıyla ders düzeyi ve transkript düzeyi soruları kapsar; ikisi de tümüyle cihazında çalışır. İkisiyle birlikte «bu derste neye ihtiyacım var»dan «genel ortalamam nereye düşer»e, puanlar sayfadan hiç çıkmadan geçebilirsin.",
+        ],
       },
     ],
   },
@@ -3933,6 +7498,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "JPG saydamlığı saklayamaz — kaydettiğinizde çerçeve beyaza dönerdi. Araç, saydam dolgu seçildiğinde kendiliğinden PNG'ye geçer; JPG istiyorsanız Renk seçeneğini seçin.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bordo mu ölçekleme mi: tuval neden dışa doğru büyür",
+        paragraphs: [
+          "Görsel bordeleriyle ilgili en sık karışıklık, altındaki piksellere ne olduğudur. Bazı editörler bordereyi görselin içine yiyen bir katman olarak uygular ve görüneni fiilen küçültür. Bu araç tam tersini yapar: tuvali dışa doğru genişletir; 1000×800 bir fotoğrafa 20 px border 1040×840 bir sonuç üretir ve özgün pikseller merkezde dokunulmadan kalır.",
+          "Sıfır yeniden örnekleme pratik kazançtır. Hiçbir şey gerilmez, ölçeklenmez ya da yeni bir boyutta yeniden kodlanmaz; border, agresif bir büyütmenin yaptığı gibi görseli asla yumuşatmaz. Elindeki pikseller elinde kalan piksellerdir; border tamamen onların etrafındaki yeni boşluktur.",
+          "Border genişliği dört kenara birden uygulandığı için toplam boyut her yönde kaydırıcı değerinin iki katı büyür. Kaydırıcıyı sürüklerken canlı önizlemeyi izlemek pazarlığı açık eder: geniş bordeler çevre yerleşim alanını yer; sabit genişlikte bir blog sütununa ekran görüntüsü oturturken bu fark eder.",
+        ],
+      },
+      {
+        heading: "Saydam bordo, PNG alfası ve JPG istisnası",
+        paragraphs: [
+          "Bordereyi saydamlık egzotik gelebilir ama gerçek bir sorunu çözer: çıkartmalar, kesimler ve katman varlıkları, çevrelerinde görünür bir beyaz ya da siyah dikdörtgen olmadan her arka plana oturmak zorundadır. PNG bir alfa kanalı saklar; saydam border kaydettikten sonra da gerçekten saydam kalır.",
+          "JPG basitçe alfa kanalı taşımaz — her pikselin rengi olduğu fotoğraflar için tasarlanmıştır. Saydam bordereyi JPG olarak kaydetmek onu düz bir renge, genelde beyaza, zorlar. Bu yüzden araç saydam bordo seçildiğinde otomatik olarak PNG'ye geçer ve JPG seçeneği yalnızca düz renk seçtiğinde açık kalır.",
+          "Sosyal paylaşımlar için bağlantılı bir püf: saydam yerine, paylaşacağın sayfanın ya da akışın arka plan renginde düz bir border seç. Hedef arka planla eşleşen border çerçeve değil cömert beyaz boşluk gibi okunur ve JPG akışını da bozulmadan tutar.",
+        ],
+      },
+      {
+        heading: "Yığın akışları, pişmiş çerçeveler ve gizlilik",
+        paragraphs: [
+          "Belge ya da ürün galerisi için ekran görüntüsü çerçevelemek yineleyici iştir: her görsel aynı genişliği, aynı rengi ister. Yığın kipi yüklenen her dosyaya tek kaydırıcı değeri uygular ve her sonucu, isteğe bağlı bir ZIP ile birlikte geri verir; görsel başına bir editör işini tek tıkla çevirir.",
+          "Pişmiş çerçeve, CSS borderının tutmadığı yerlerde de hayatta kalır. Yüklenen görselleri yeniden çizen platformlar, biçemleri soyan sohbet uygulamaları ve markdown çizicileri dosyanın kendi piksellerini korur; böylece çerçeve, görselin paylaşıldığı her yere onunla gider.",
+          "Bu sitedeki her şeyde olduğu gibi işleme tümüyle tarayıcında olur. Hiçbir görsel sunucuya yüklenmez: dosyalar yerelde çözülür ve yeniden kodlanır; gizlilik sözleşmeli ürün fotoğrafları, müşteri işleri ya da sadece cihazından çıkmasını istemediğin her şey için bu fark eder.",
+        ],
+      },
+    ],
   },
   "image-splitter": {
     name: "Görsel Bölme",
@@ -3962,6 +7553,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "PNG kayıpsızdır; parçalar kaynağın pikselini aynen korur. Parçaların yeniden birleştirileceği ya da sprite olarak kullanılacağı durumlarda bu önemlidir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Temiz bir bölme nasıl çalışır — ve piksel matematiği neden önemlidir",
+        paragraphs: [
+          "Bir görseli bölmek yalnızca ızgara boyutları eşit böldüğünde kayıpsızdır. 1600×1200 fotoğrafı 2×2 karolara bölmek dört temiz 800×600 parça verir; aynı fotoğrafı 3 sütuna bölmek, birinin karara bağlaması gereken 4 piksellik bir artık bırakır — doldur, ger ya da küçült. Bu araç karo boyutunu aşağı yuvarlar ve her kesimi kesin bir piksel sınırında tutar; hiçbir karo yeniden örneklenmez.",
+          "O piksel sınırı kuralı, ızgara kipinin santimetre ya da inç cinsinden hedef karo boyutu yerine satır ve sütun istemesinin sebebidir: görsel koordinatları piksellerde yaşar; fiziksel birimler üzerinden her dönüşüm, aradeğerlemeyi zorlayan ve kenarları yumuşatan kesirli koordinatlar ekler.",
+          "Şerit kipi aynı fikrin tek boyutlusudur: görseli eşit piksel yüksekliğinde yatay bantlara kes. Uzun, tam sayfa bir ekran görüntüsünü okuma sırasında ilerleyen karusel slaytlarına ya da adım adım belge görsellerine çevirmenin standart akışıdır.",
+        ],
+      },
+      {
+        heading: "Yerleşim seçimi: ızgara, şeritler ve sosyal hazır ayarları",
+        paragraphs: [
+          "Izgara kipi (satır × sütun), parçaların görsel olarak yeniden birleştiği kolajlar ve bulmaca tarzı paylaşımlar için uygundur. Şerit kipi okuma sırası taşıyan içeriklere uyar — öğreticiler, uzun makbuzlar, sohbet kayıtları — her bant öncekini sürdürür. Yanlış kipi seçmek en sık hatadır: 3×3 ızgaraya kesilmiş bir sohbet ekran görüntüsü, karuselde yanlış sırada okunur.",
+          "Sosyal karuseller için önce platformun en-boy oranını düşün: 1080×1080 kare tuval, geniş bir ekran görüntüsünün genelde o yükseklikte şeritlere kesileceği, ızgaraya sıkıştırılmayacağı anlamına gelir. Bazı platformlar oransız yüklemeleri yeniden kırpar; karoları doğal oranda tutmak çift kırma bozulmasını önler.",
+          "Okunabilirlik için üst üste binen kesimler düşünebilir: metin satırı tam bir kesim çizgisine oturursa ortadan ikiye bölünür. Karoları biraz daha uzun kesmek ya da kaynağı satırlar kesimler arasına düşecek biçimde yeniden kırpmak, hiçbir bölme algoritmasının çözemeyeceğini çözer.",
+        ],
+      },
+      {
+        heading: "Çıktı biçimi ve yerel işleme",
+        paragraphs: [
+          "PNG çıktı metni ve keskin kenarları net tutar — ekran görüntüleri ve belgeler neredeyse her zaman PNG kalmalıdır; çünkü JPG'nin kayıplı sıkıştırması her yeniden kaydetmede harflerin çevresine çan bozulmaları ekler. JPG çıktısı, boyutun piksel-has kenarlardan daha önemli olduğu fotografik karolara uyar.",
+          "Karolar yeniden birleşecekse adlar önemlidir: tutarlı numaralı dosya adları (satır sırasına göre) sana ve kitlene özgünü yeniden kurma imkânı verir. Sırasız adlarla 3×2 bölünmüş bir diyagram, bilmeceli parçalar klasörüdür.",
+          "Her kesim tarayıcında olur: görsel bir canvas'a çözülür, dilimlenir ve yerelde yeniden kodlanır. Hiçbir şey yüklenmez — iç panoları, müşteri ekran görüntülerini ya da bir üçüncü tarafa vermek istemeyeceğin herhangi bir belgeyi bölerken işe yarar.",
+        ],
+      },
+    ],
   },
   "crop-circle-image": {
     name: "Dairesel Kırpma",
@@ -3989,6 +7606,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Görselim yeniden kodlanıp kalite kaybeder mi?",
         a: "Dairenin içindeki pikseller olduğu gibi kayıpsız bir PNG'ye kopyalanır. Yalnızca dışarıdaki alan yok olur; içeride hiçbir şey yeniden ölçeklenmez ya da sıkıştırılmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Dairesel kırpım dikdörtgen kırpımdan nasıl farklılaşır",
+        paragraphs: [
+          "Dikdörtgen bir kırpım piksellerin üzerinde bir pencere taşır ve içindekini tutar. Dairesel kırpım tek başına bunu yapamaz; çünkü görseller dikdörtgen ızgaralardır: çemberin, kenarının dışına saydamlık ekleyerek çizilmesi gerekir. Dairesel bir avatarın her zaman PNG olarak kaydedilmesinin sebebi budur — JPG alfa kanalı taşımaz ve çemberin dışını düz renkli bir kareye çevirir.",
+          "Görselde çizilmiş çember her kenarın ortasına değerdır; çap genişlik ile yüksekliğin küçüğüne eşittir. Köşe bölgeleri basitçe atılır. Konun ortalanmamışsa kaynağı önce taşı ya da kırp — hiçbir çember aracı yarıçapının dışına düşen pikselleri kurtaramaz.",
+          "Kenarlar da sayar: kenar yumuşatması olmadan kesilen bir çember ekranda tırtıklı görünür. Kenarı birkaç piksel boyunca kısmi saydamlıkla yumuşatmak temiz bir sonuç ile bariz biçimde ev yapımı bir sonuç arasındaki farktır ve yalnızca PNG'de çalışır.",
+        ],
+      },
+      {
+        heading: "Dairesel kırpımların beklediği yerler",
+        paragraphs: [
+          "Avatarlar ve profil resimleri büyük kullanım durumudur: çoğu sosyal platform, forum ve mesajlaşma uygulaması profil görüntülerini çember olarak gösterir; birçokları kare yüklersen kendisi çembere kırpar. Yüklemeden önce çembere kırpmak gördüğünün gösterilecek olduğu anlamına gelir — başının tepesini kesen sürpriz platform tarafı yeniden kırpmasız.",
+          "Logolar ve rozetler aynı sebeple kazanır. Renkli bir sayfaya yerleştirilen dairesel bir logo markası kasıtlı görünür; uyumsuz arka planlı kare bir logo yapıştırılmış bir çıkartma görünür. Tasarım sistemleri giderek dairesel avatar yuvaları tanımlar; tam olarak çemberin her arka planda nötr okunması için.",
+          "Baskı ve ürün kullanımı farklı değerlendirir: dairesel çıkartma şablonları, düğme rozetleri ve bardak altları hepsi tasarımın çemberle sınırlanmasını ister. Doğru çapta saydamlıklı PNG üretmek sonradan bir tur elle maskelemeyi kurtarır.",
+        ],
+      },
+      {
+        heading: "Gizlilik ve yerel işleme",
+        paragraphs: [
+          "Profil fotoğrafları doğaları gereği kişiseldir — çoğu zaman senin, ailenin ya da meslektaşlarının yüzleri. Kırpımı tarayıcında yerelde çalıştırmak o piksellerin cihazından hiç çıkmaması demektir; görüntüyü günlükleyebilecek, önbellekleyebilecek ya da saklayabilecek yükleme adımı yoktur.",
+          "İşleme modeli basit ve incelenebilirdir: görsel bir canvas'a çözülür, alfa kanallı bir çember maskesi uygulanır ve sonuç aynı oturumda PNG'ye kodlanır. Ziyaretler arasında saklanan hiçbir şey yoktur — sunucunun ne gördüğünü doğrulamak için bile bir politika okumaya gerek bırakmaz; hiçbir şey görmez.",
+          "Küçük bir akış ipucu: kırpımından önce kare özgün fotoğrafı bir yerlerde sakla tut. Çember köşeleri kalıcı olarak atar; çerçevelemeyi sonradan değiştirmenin tek yolu kırpılmamış kaynaktan yeniden başlamaktır.",
+        ],
       },
     ],
   },
@@ -4022,6 +7665,31 @@ export const tr: Record<string, ToolCopy> = {
         a: "Tarayıcınızın görsel olarak çizebildiği her şey: PNG, JPEG, GIF, WebP, SVG, BMP, AVIF ve fazlası. Araç yükün geçerli base64 olduğunu, bildirilen MIME'nin görsel türü olduğunu doğrular ve dosyanın magic byte'ları bildirilen türle uyuşmadığında uyarır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "base64 görselleri neden yaklaşık %33 şişirir",
+        paragraphs: [
+          "Base64 her 3 baytı 4 metin karakterine paketler; payload her zaman ikili dosyadan üçte bir büyüklükte biter — 4/3 sabit orandır; biçimden ve içerikten bağımsız. data:image/…;base64, önekini ve bir tüketicinin uyguladığı herhangi bir satır sarmasını ekle ve etkin yük biraz daha yukarı sürünür. Hiçbir şey sıkıştırılmaz ya da atılmaz; aynı baytlar CSS, HTML ya da JSON içinde yol alabilsin diye yalnızca metin-güvenli bir alfabeyle yeniden ifade edilir.",
+          "O şişme, bu araçta boyut karşılaştırmanın dönüşümün kendisinden fazla önem taşımasının sebebidir. Klasik karar: satır içine almak bir HTTP isteğini kurtarır ama bant harcar ve önbelleği engeller. CSS'e satır içi 1 KB'lik bir ikon genelde kazançtır; data URL olarak 100 KB'lik bir fotoğraf neredeyse hiç — stil sayfasını ~133 KB şişirir, onu referans alan her sayfada yeniden indirilir ve bağımsız önbelleklenemez. JPEG ve WebP fotoğraflar özellikle ikili veriyi öyle verimli sıkıştırır ki base64 metni sıkıştırmanın çoğunu geri alır.",
+          "İnsanların kaçırdığı bir incelik: SVG zaten metindir; SVG'yi base64'e kodlamak, URL-kodlanmış ya da ham satır içi SVG'ye göre sık sık alan harcar. Öteki taraftan gzip base64 metnini makul biçimde sıkıştırır; sunucu payloadu sıkıştırarak servisse etkin aktarım maliyeti ham %33'ün ima ettiğinden özgün boyuta daha yakın olur.",
+        ],
+      },
+      {
+        heading: "Güvenli çözme: MIME tipleri, sihirli baytlar ve güven",
+        paragraphs: [
+          "Bir data URL görüntüsünde kendini tanımlıdır — data:image/png;base64, bir PNG olduğunu iddia eder — ama iddia yalnızca bir dizgedir. Bu çözücü gerçek baytları kontrol eder: PNG dosyaları belirgin bir 8 baytlık imzayla başlar; JPEG FF D8 ile; GIF GIF8 ile; vb. Bildirilen MIME tipi ile sihirli baytlar uyuşmadığında sessizce kırılmış bir görsel yerine uyarı alırsın — bilinmeyen kaynaklardan payload incelerken ya da bir <img>'nin neden çizmediğini ayıklarken faydalıdır.",
+          "Çözme bozuk girdide de yüksek sesle başarısız olur: geçersiz base64 karakterleri, yanlış dolgu ya da hiçbir görsel olmayan bildirilmiş tip. Güvenlik için önemlidir. text/html olduğunu iddia eden bir data: URL bazı bağlamlarda betik çalıştırabilir; tarayıcıların data URL'lerini üst düzey gezinmede kısıtlamasının sebebi budur. Yapıştırılmış bir data URL'yi güvenilmeyen girdi saymak — çizimden önce doğrulamak — güvenli varsayılandır; bu aracın senin için yaptığı tam olarak budur.",
+          "Önizlemenin söyleyemeyeceği bir şeyi not et: görüntünün başlık baytları ötesinde iyi biçimli olup olmadığını ya da neyi betimlediğini. Tarayıcıda çizilir; tarayıcının gösterebildiği her şey (PNG, JPEG, GIF, WebP, SVG, AVIF ve fazlası) çalışır; gösteremediği, sayfada göstereceği gibi görünür.",
+        ],
+      },
+      {
+        heading: "Yerel dönüşüm gizlilik taban çizgisidir",
+        paragraphs: [
+          "Görseller tam olarak yalnızca incelemek için yüklemek istemeyeceğin varlık türüdür: kişisel veri taşıyan ekran görüntüleri, NDA altındaki tasarım örnekleri, taranmış belgeler, iç ürün görselleri. Birçok çevrimiçi base64 dönüştürücü dosyayı sunucusuna POST eder; görselin yol alır, bir başkasının altyapısınca saklanır ve önbelleklenmiş ya da günlüklenmiş olabilir. Bu araç dönüşümü tarayıcında, JavaScript ile yapar — dosya cihazından hiç çıkmaz; sunucu tarafından dayatılan boyut kotası yoktur ve sayfa çevrimdışı çalışır.",
+          "Onun yerine geçtiği akış terminalden gidiş döndürdür: kodlamak için base64 -i image.png; metin duvarını bir dosyaya yapıştırmak; data URI önekini elle dikmek. Burada dosyayı bırak, bitmiş URL'yi kopyala; ters yön aynı hızdadır — bir stil sayfasından ya da API yanıtından bir data URL yapıştır ve doğrulanmış, indirilebilir görüseli geri al.",
+        ],
+      },
+    ],
   },
   "html-to-markdown": {
     name: "HTML'den Markdown'a",
@@ -4048,6 +7716,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "HTML'm tarayıcıdan çıkıyor mu?",
         a: "Hayır. Dönüşüm turndown ile tarayıcınızda yerel çalışır — .md dosyasını indirirken bile hiçbir şey yüklenmez.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Markdown diyalektleri: seçeneklerin varlık nedeni",
+        paragraphs: [
+          "Markdown tek bir biçim değil bir ailedir. John Gruber'un 2004'teki özgün sözdizimi tanımı birçok davranışı belirsiz bıraktı; uygulamalar ayrıştı: CommonMark şimdi çoğu modern çizicinin (örneğin GitHub) izlediği katı bir belirtim sağlar; GFM üstüne tablo ve üstü çizili ekler; eski çeşitler satır kırılmalarını, alt çizgili vurguyu ve iç içe listeleri farklı işler. HTML'den Markdown'a çevirmek bu yüzden mekanik bir eşleme değil, biçem kararidir.",
+          "Bu aracın iki seçeneği en görünür ayrışıma değinir. Başlık biçimi: ATX (# Başlık) her yerde çalışır ve altı düzeyin hepsini destekler; Setext (metnin altında bir = ya da - satırı) yalnızca ikinci düzeye ulaşır ve bazı editörlere daha iyi okunur. Liste işaretçisi: -, * ve + hepsi geçerli CommonMark maddeleridir ama üslup kılavuzları (ve fark okunabilirliği) çoğunlukla birini yeğler. Doğru bileşimi baştan seçmek, sonrasında bul-değiştir geçişi geçmekten iyidir.",
+          "Markdown karşılığı olmayan her şey sahte yapılmaktan çok düzleştirilir: tablolar, formlar ve etkileşimli widget'lar metin içeriklerine indirgenir. GFM tarzı tablolar diyalekt-bilinçli bir dönüştürücü ister; keyfi HTML'den pipe-sözdizimli tablolar yaymak, birçok çizicinin çözemediği çıktı üretirdi. Sınırlar hakkında dürüstlük, makul görünen çöpten iyidir.",
+        ],
+      },
+      {
+        heading: "Zor durumlar: kaçış, satır içi işaretleme ve temiz çıktı",
+        paragraphs: [
+          "HTML'den Markdown'a her dönüşümün zor kısmı etiketleri eşlemek değildir — Markdown'ın özel saydığı karakterleri kaçışlamaktır. Gerçek yıldızlar, alt çizgiler, kare işaretleri ya da köşeli parantezler taşıyan metin ters eğri kaçışı ister; yoksa Markdown tüketildiğinde vurgu, başlık ya da bağlantı olarak çizilir. Kaçışı atlayan bir dönüştürücü, birisi editöre yapıştırana kadar iyi görünen ve biçimlenen mutasyona uğrayan metin üretir.",
+          "Satır içi yapı da yargı kararları ister. Vurgu ve strong, yıldızlara (ya da yapılandırmaya göre alt çizgilere) eşlenir; çevrelerindeki boşluk sayar — Markdown bazı çeşitlerde kelime karakterlerine yaslanan vurguyu yok sayar. <br>'den gelen katı satır kırılmaları çeşide göre iki sondaki boşluk ya da bir ters eğri olur — CommonMark ile eski uygulamaların gerçekten farklılaştığı ayrıntılardan biri.",
+          "Kod öteki klasik tuzaktır: içinde ters tek tırnak taşıyan satır içi kod daha uzun bir çit ister ve kod blokları içeriği harfiyen korur; içinde başka kaçış uygulanmaz. Buradaki sonuç bu kuralları turndown üzerinden izler; yapıştırılan belgeler — blog yazıları, README'ler, CMS dışa aktarımları — genelde temizlik geçişi gerektirmeden commite hazır çıkar.",
+        ],
+      },
+      {
+        heading: "Özel belgeler için yerel dönüşüm",
+        paragraphs: [
+          "İnsanların dönüştürdüğü belgeler çoğu zaman özeldir: iç wiki sayfaları, yayımlanmamış dokümanlar, müşteri ayrıntısı taşıyan destek yanıtları, taslaktaki bir şirket blog yazısı. Bunlardan herhangi birini bir dönüştürücü uç noktasına yüklemek tüm metni kontrol etmediğin altyapıya göndermek demektir; orada önbelleklenmiş ya da günlüklenmiş olabilir. Bu araç turndown'u tamamen tarayıcında çalıştırır — HTML cihazdan hiç çıkmaz; yükleme adımı yoktur ve .md dosyasının indirilmesi yerel bellekten olur.",
+          "Kitaplık seçimi mimari kadar sayar: turndown, JavaScript'te HTML'den-Markdown'a fiili standarddır; projeler boyunca birikmiş yıllarca uç durum işlemesiyle — çıktı, daha geniş ekosistemin beklediğiyle eşleşir. İyi sınanmış bir dönüştürücüyle yerel çalışmayı eşleştirmek, barındırılan bir hizmetten alacağın kaliteyi verir; veri ifşası eksi.",
+          "Toplu ya da otomatik dönüşümler için aynı kitaplık bir Node betiğinde kurulabilir; bu sayfa aynı işin etkileşimli ön ucudur. Her iki durumda da akış makinenizde kalır — kaynak kamusal bir değişiklik günlüğü de olsa kimsenin görmemesi gereken bir belge de olsa uygundur.",
+        ],
       },
     ],
   },
@@ -4078,6 +7772,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır. Ayrıştırma fast-xml-parser ile tarayıcınızda yerel yapılır — hiçbir şey cihazınızdan çıkmaz.",
       },
     ],
+    deepDive: [
+      {
+        heading: "XML özellikleri JSON anahtarlarına nasıl eşlenir",
+        paragraphs: [
+          "XML'i JSON'a çevirmek daha zengin bir biçimi daha basit birine düzleştirmek demektir; her seçim bir gelenektir. En sonuç verici olan özniteliklerdir: <book id=\"7\" lang=\"en\"> id ve lang'i öğenin yanında tutar; o ayrımı kaybetmek verini sessizce değiştirirdi. Bu dönüştürücü her özniteliği @ önekiyle öne alarak korur — {«@id»:«7»,«@lang»:«en»} — JSON'dan XML'e aracımızın paylaştığı gelenek; veri iki yönde yol alıp aynı olarak geri dönebilir.",
+          "Yineleme ikinci gelenektir. XML aynı adda istediği kadar kardeş öğeye izin verir — bir <item> taşıyan feed ile elli taşıyan aynı çözülür — JSON bir karar ister: <item> bir değer mi bir dizi mi? Buradaki kural: yinelenen kardeşler JSON dizisi olur ve tek öğe düz değer kalır. Doğal okuma budur ama keskin kenarı vardır: genelde çok item taşıyan ama tesadüfen bir tane taşıyan feed skaler'e dönüşür; liste bekleyen tüketici kırılır. Aşağı akışta her zaman dizi-olluğu kontrol et.",
+          "Bir öğe hem öznitelik hem metin taşıdığında metin çıplak kalamaz — «#text» altına taşınır; <price currency=\"usd\">19.99</price>, {«@currency»:«usd»,«#text»:19.99} olur. Salt metin öğeleri değerlerini doğrudan tutar; çıktı, her yaprağı bir #text nesnesine sarmak yerine okunur kalır.",
+        ],
+      },
+      {
+        heading: "Tip zorlaması ve eşlemenin sınırları",
+        paragraphs: [
+          "XML tip taşımaz — sen başka dek her değer metindir. Dönüştürücü hafif zorlama uygular: sayı gibi görünen metin JSON sayısına dönüşür; true/false mantıksallara; geri kalan her şey dize kalır. Öznitelik değerleri kasıtlı olarak dize kalır; çünkü öznitelikler neredeyse hep kimlikler, kodlar ve tarihler taşır; «07» ile 7'nin farklı şeyler olduğu yerler. Tüketicin orada sayı istiyorsa tahmine güvenmek yerine açıkça dönüştür.",
+          "Bazı XML yapılarının JSON evi hiç yoktur. Ad alanları etiket adlarındaki önekler olarak sağ çıkar ama URI bağları kaybolur; aynı ad alanı için farklı önek kullanan iki belge gidiş dönüşte özdeş olmaz. Yorumlar, işleme yönergeleri ve DOCTYPE atılır — hiçbiri veri taşımaz. CDATA sıradan metinle birleşir; yalnızca tüketicin ayrıma dayanıyorsa sayar — iyi davrananlar dayanmamalıdır.",
+          "Bu sınırlar biçim boşluğuna dahilidir, bu araca değil: her XML-JSON dönüştürücü aynı tür kararları vermek zorundadır ve çoğu daha kötüsünü verir. Güvenilir akış, gerçek belgelerinin temsili bir örneği üzerinde gidiş dönüşü sınamaktır — JSON'a çevir, XML'e geri çevir ve karşılaştır — zinciri eşlemeye bağlamadan.",
+        ],
+      },
+      {
+        heading: "Önce doğrula, yerelde dönüştür",
+        paragraphs: [
+          "Bozuk XML en sık başarısızlıktır ve bir yığın izinden daha iyi bir hatayı hak eder. Dönüştürücü belgeye dokunmadan önce doğrular ve sorunları suçlanan satıra işaretçisiyle rapor eder; eksik kapanış etiketi bir öğleden sonra değil tek satırlık bir düzeltme olur. Girdi elle düzenlenmiş bir kaynaktan geldiyse önce XML doğrulayıcıdan geçir — raporu daha katıdır; dönüşümün geçebileceği yinelenen öznitelikleri ve yasadışı varlıkları yakalar.",
+          "Dönüşüm tamamen tarayıcında, birçok derleme aracının güvendiği bir çözümleme kitaplığı olan fast-xml-parser ile çalışır. XML'in asla yüklenmez: abone verisi taşıyan feed'ler, oturum tokenleri içeren SOAP yanıtları, iç yapılandırma dışa aktarımları — hepsi cihazında kalır. Tam olarak bu payloadlar için tarayıcı-yerel dönüşüm bir kolaylık değil konunun kendisidir.",
+          "Yerel olmak aracı yinelemeli işe de uyarır: bir örnek yapıştır, şekli incele, tüketicinin beklentilerini ayarla, yeniden yapıştır. Döngüde yükleme gidiş dönüşü yoktur; her tur saniyeler tutar ve her şey çevrimdışı çalışır — ağa çıkamayan bir makinede feed ayıklarken faydalıdır.",
+        ],
+      },
+    ],
   },
   "json-to-xml": {
     name: "JSON'dan XML'ye",
@@ -4106,6 +7826,32 @@ export const tr: Record<string, ToolCopy> = {
         a: 'Dönüştürülürler: yasadışı karakterler alt çizgi olur, rakamla başlayan anahtar başa alt çizgi alır ("2fa" → <_2fa>). CJK ve aksanlı harfler zaten yasal XML adlarıdır, aynen kalır.',
       },
     ],
+    deepDive: [
+      {
+        heading: "Öznitelikler ile öğeler — tasarım kararı",
+        paragraphs: [
+          "XML aynı veriyi iki biçimde ifade etmene izin verir: <book id=\"1\"/> (öznitelik) ya da <book><id>1</id></book> (çocuk öğe). Semantik, sözdiziminin ima ettiğinden fazla farklılaşır. Öznitelikler sırasızdır, öğe başına eşsizdir ve tekrarlayamaz ya da iç içe gelemaz; çocuk öğeler tekrarlayabilir, kendi özniteliklerini taşıyabilir ve sırayla görünebilir. Üst veri — kimlikler, diller, zaman damgaları — geleneksel olarak özniteliklere gider; payload öğelere.",
+          "JSON öyle bir ikili taşımaz; dönüştürücülerin bir geleneğe ihtiyacının sebebi budur. Bu araç yaygın kullanılan @-öneki geleneğini izler: @id adlı bir üye özniteliğe dönüşür; #text adlı üye öğenin kendi metin içeriğine. Aynı gelenek, XML'den JSON'a aracımızın çözüm sırasında yaydığıdır; belge JSON → XML → JSON gidip tanınır olarak geri dönebilir.",
+          "Seçim salt kozmetik değildir. Bazı XML tüketicileri (belli SOAP yığınları, XSD doğrulayıcıları) verinin bir biçimde yaşamasında ısrar eder; öznitelik-ağır belgeler biraz daha kompaktır ama sonradan genişletmesi zordur — bir özniteliğe yapı eklemek onu öğeye çevirmek ve her tüketiciye dokunmak demektir. Eski birini eşlemek yerine yeni bir XML biçimi tasarıyorsan büyüyebilecek her şey için öğeleri yeğle.",
+        ],
+      },
+      {
+        heading: "Kaçış ve ad zorlaması: çıktının her zaman iyi biçimli olması",
+        paragraphs: [
+          "XML karakterler konusunda JSON'dan katıdır. Beş karakter özeldir — & < > \" ' — ilk ikisi ham yayılsaydı belgeyi bozardı. Buradaki her metin ve öznitelik değeri standart varlıklarla kaçışlıdır; <script> taşıyan bir JSON dizge çıktıda zararsız bir &lt;script&gt; olur. Ters tuzak da vardır: &#xHHHH; gibi dizeler (sayısal karakter atıfları) geçerli XML'dir ama keyfi JSON gidiş dönüşlerinden üretilemez.",
+          "Öğe adları daha da katıdır: harf ya da alt çizgiyle başlamak zorundadır ve boşlukları ya da birçok noktalama karakterini taşıyamaz. JSON anahtarları buna karşılık keyfi dizelerdir. Araç onları zorlar — yasadışı karakterler alt çizgiye dönüşür; önde rakam önekli bir alt çizgi alır; belge her zaman çözülebilir olur. CJK karakterleri ve aksanlı Latin harfleri yasal XML adlarıdır ve dokunulmadan sağ çıkar.",
+          "Bu zorlamalar eşlemenin enjekte olmadığı anlamına gelir: iki farklı JSON anahtarı aynı XML adına yıkanabilir; olduğunda geri dönüş özgünü geri getiremez. Anahtarların boşluk, eğik çizgi taşıyorsa ya da rakamla başlıyorsa XML tarafını kayıplı bir yansıma say ve JSON'u doğruluk kaynağı tut.",
+        ],
+      },
+      {
+        heading: "Duyarlı payloadlar için yerel dönüşüm",
+        paragraphs: [
+          "XML'e yönelen JSON payloadları çoğu zaman iş verisidir: faturalar, kullanıcı kayıtları, müşteri tanımlayıcılı API istekleri. Onları sunucu tabanlı bir dönüştürücüye vermek, saklama politikasını bilmediğin üçüncü bir tarafa veri göndermek demektir. Bu dönüştürücü tamamen tarayıcında çalışır — dönüşüm yazarken olur; hiçbir istek yapılmaz ve sayfa yüklendikten sonra çevrimdışı çalışır.",
+          "İki yönlü akış göç işi için sayar: JSON'nu bu araçla XML'e çevir, XML'i XML'den JSON'a aracına yapıştır ve karşılaştır — sonuç yapısında girdinle eşleşiyorsa eşleme gelenekleri (@ öznitelikler, #text) tüketicilerinle uyumludur. Uyumsuzluğu yerelde keşfetmek, SOAP uç noktasının ilk isteğini reddettikten sonra keşfetmekten iyidir.",
+          "Tüketici farklı bir girinti istediğinde XML biçimlendiriciyle ya da çıktıya göz gezdirmek istediğinde eşleştir — ve belgelenmiş sınırları hatırla: null ve boş diziler boş öğelere çöker; xsi:nil bekleyen bir şema sonradan işlem adımı isteyecektir.",
+        ],
+      },
+    ],
   },
   "cron-explainer": {
     name: "cron Açıklayıcı",
@@ -4129,6 +7875,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Ayın günü ile haftanın gününü birden yazdım — neden beklediğimden sık çalışıyor?",
         a: "Klasik cron ikisini VEYA ile birleştirir: her iki alan da kısıtlıysa (hiçbiri * değilse), ikisinden birine uyan gün işi tetikler. «0 0 1 * MON» ifadesi her ayın 1'inde ve her pazartesi çalışır. İki koşulun aynı anda aranması gerekiyorsa ifadenin kuruluşu değişmelidir — buradaki önümüzdeki çalışma zamanlarına bakmak davranışı anında görünür kılar.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Beş alan ve kimsenin hatırlamadığı VEYA kuralı",
+        paragraphs: [
+          "Standart cron beş alanı soldan sağa değerlendirir: dakika (0-59), saat (0-23), ayın günü (1-31), ay (1-12) ve haftanın günü (0-7; 0 ile 7'nin ikisi de Pazar). Her alan bir değer, bir aralık (9-17), bir liste (0,15,30) ya da bir adım (*/5; alanın tabanından başlayarak her 5'inci değer) olabilir. Bir iş tüm alanlar eşleştiğinde çalışır — tek meşhur istisna: hem ayın günü hem haftanın günü kısıtlandığında iş, HERHANGİ BİRİNE uyan bir günde çalışır.",
+          "O VEYA kuralı özgün Unix cron uygulamasına iz sürer; «ayın 1'i artı her Pazartesi» gibi bileşimlerin beş alanda ifade edilebilir kalması için vardır. Tuzak şudur: «0 0 1 * 1» yazan çoğu insan «ayın ilk Pazartesi»ni kasteder — aldığı şey 1'i VE her Pazartesi'dir; iki kat sıklıkla. AND semantiği gerekiyorsa alışılmış çözüm işin içinde bir sınama yapmak (date +%d ile hedefi karşılaştırmak) ya da daha zengin tetikleri olan bir scheduler'a geçmektir.",
+          "Öteki sürpriz 0 0 * * 7 ile 6 arasındadır: haftanın günü numaralandırması Pazartesiden değil Pazardan (0) başlar; bazı cron diyalektleri 7'yi Pazar'ın ikinci adı olarak kabul ederken bazıları reddeder. Numaralar yerine adlar yazmak — MON, SUN — belirsizliği tümüyle kaldırır; standart cron'da bedelsizdir.",
+        ],
+      },
+      {
+        heading: "Saat dilimleri ve yaz saati: programların sessizce kırıldığı yer",
+        paragraphs: [
+          "Cron'un kendi saat dilimi yoktur — sunucunun saatinin kurulduğu bölgede çalışır. «0 3 * * *» diye tanımlı bir iş saat 3'te sunucu zamanında çalışır; sunucu UTC'deyse UTC+8'de saat 11 demektir. Bulut VM'lerine dağıtan ekipler platform varsayılanını sık unutur: çoğu VM, şirketin nerede oturduğundan bağımsız UTC'de açılır; ilk belirti, yerelde iş gününün ortasında çalışmakta olan bir iştir. Host'ta date ya da timedatectl ile kontrol et; kuruluysa /etc/default/cron'un TZ satırını oku.",
+          "Yaz saati sorunu yılda iki kez büyütür. DST gözlemleyen bölgelerde sabah 2:30 işi ileri-sarma gecesinde hiç çalışmayabilir (2:30 hiç var olmaz); geri-sarma gecesi bir saat arayla iki kez çalışır. UTC'ye sabitlenmiş işler bu sorunu taşımaz ama UTC yazılmak zorundadır: UTC crontab'da «0 3 * * *» saat 3 UTC demektir; yerel 3 değil. Bu aracın sonraki-çalışma önizlemesi tam olarak saat dilimi bilinçlidir; sunucunun hangisini gerçekten yapacağını görürsün.",
+          "Pratik savunma varsaymak değil doğrulamaktır: ifadeyi buraya yapıştır, ekranı sunucunun bölgesine çevir ve son beş çalışma saatini beklentiyle kontrol et. O kontrolü atlatan bir program crontab yorumuna da not edilmeye değerdir — iki yıl sonra onu ayıklayacak kişi sen olacaksın.",
+        ],
+      },
+      {
+        heading: "Uç durumlar: kısa aylar, adımlar ve DST-yakını tuzaklar",
+        paragraphs: [
+          "Kaçırılan çalışmaların büyük payının sorumlusu iki ay-günü değeridir: adımlarla birleşen 31 ve 30. «0 0 */31 * *» her ayın son gününde çalışmaz — yalnızca 31'i olan aylarda çalışır (Ocak, Mart, Mayıs…); Nisan'ı ve Haziran'ı sessizce atlar. Benzer biçimde «0 0 30 2 *» kalıcı bir no-op'tur; Şubat hiç 30 gün taşımadığından. Cron uyarı yapmaz; yalnızca değerlendirir ve eşleşme bulamaz. Son beş çalışma saatini boş ya da boşluklu görmek bunu yakalamanın en hızlı yoludur.",
+          "Adım aritmetiği alanın tabanından başlar; seçtiğin bir kaymadan değil: dakika alanındaki */10, 5,15,25 değil 0,10,20,30,40,50'dir. Farklı sabitlemek için aralığı açık yaz — 5-59/10. Crontab dosyalarında tırnaklama da sayar: yüzde işaretlerini (%) klasik cron satır sonları sayar; date +«%Y» gibi bir komut yüzdeyi \\% olarak kaçışlı yazmalı; yoksa satır komutun ortasında kırılır.",
+          "Gerçek çalışma saatlerini önizlemek ifadeyi okumakı yener; çünkü kurallar etkileşir: 30 günlük ay üzerinde bir adım artı bir hafta-günü kısıtı haftalarca boşluk üretebilir. Yalnızca alanları çeviren araçlar (*/31'in ne demek olduğunu açıklamak) bunu ifşa edemez; takvimi ileriye yinelemek, işin gerçekte ne zaman çalışacağını gösterir. O yineleme tam olarak bu aracın yaptığı şeydir — tarayıcında, hiçbir program verisi gönderilmeden.",
+        ],
       },
     ],
   },
@@ -4155,6 +7927,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Degenenin ilerleme yönüdür ve yukarıyı sıfır alarak saat yönünde ölçülür: 0deg aşağıdan yukarıya, 90deg soldan sağa, 180deg yukarıdan aşağıya gider. Araç girdiğiniz her açıyı normalleştirir (−45, 315 olur) ve eski sözdiziminin ters yön kuralı -webkit- satırında sizin için çözülmüştür.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Açılar, yönler ve bir gradyanın ekseni",
+        paragraphs: [
+          "CSS'de doğrusal bir gradyanın açısı, renklerin doğru ilerlediği yönü betimler; yukarıyı işaret eden çizgiden ölçülür: 0deg aşağıdan yukarıya gider; 90deg soldan sağa; 180deg yukarıdan aşağıya. Karşıt yön açı artı 180 gerektirir — gradyan işindeki en büyük tek zihinsel kayma; yukarıya doğru sönmesi gereken bir gün batımının yana doğru sönmesi genelde 90 derece kaymış açıdır.",
+          "Renk durakları o eksen boyunca konumlardır; yüzde ya da uzunluk olarak. Varsayılan eşit dağıtım tasarım için sık sık yanlıştır: durakı erken koymak (örneğin renk %20'de) o rengi daha uzun tutar; durakın konumu rengin tam vardığı yeri işaretler. «Katı durak» — aynı konumda iki durak — harman yerine keskin bir kenar üretir; tamamen gradyanlardan kurulan keskin şeritlerin ve segmentli barların arkasındaki teknik.",
+          "İki-duraklı gradyanlar varsayılan olarak sRGB'de ara keleşir; çamurlu bir orta üretebilir: sarıdan maviye harman, yeşilden geçerek desatüre griye uğrar. Önemi olan tasarımcılar bunu istediği tonda üçüncü bir ara durakla ya da tonda daha yakın uçlar seçerek dolanır.",
+        ],
+      },
+      {
+        heading: "Gradyan yazımını okumak ve yazmak",
+        paragraphs: [
+          "CSS çıktısı doğrudan bir linear-gradient bildirimine eşlenir: linear-gradient(90deg, #ff0000 0%, #0000ff 100%). Radyal gradyanlar açıyı bir şekil ve konumla değiştirir — çember ya da elips; ortalı ya da köşeye demirli — spot ışıkları, vinyetler ve yumuşak parıltılar için faydalıdır.",
+          "Sıradan ayıklama başarısızlıkları: deg birimini unutmak (çıplak sayılar geçersizdir), renk işlevlerinin içinde tarayıcının boşluk beklediği yerde virgül kullanmak ve gradyanı background-image olarak iç içe koymak — arka planda bir background-color otururken; renk yalnızca gradyanın saydamlık taşıdığı yerden görünür.",
+          "Nadiren ama bazen sayan bir performans notu: gradyanlar GPU'da çizilir ve ucuzdur; durak konumlarını animasyon yapmak repaint zorlar. Üst üste bir öğenin opacity ya da transform'ını animasyonlamak pürüzsüz yoldur.",
+        ],
+      },
+      {
+        heading: "Görsel geri bildirim, sıfır yükleme",
+        paragraphs: [
+          "Önizleme durakları oynattıkça ve renkleri değiştirdikçe canlı çizilir; CSS kopyaya hazırdır — herhangi bir stil sayfasına temizlik yapmadan yapıştır. Her şey tarayıcında hesaplanır ve çizilir; araç çevrimdışı çalışır ve hiçbir şey saklamaz — taslaktaki renkler, tamamlanmamış bir marka keşif ya da NDA altındaki bir yüzey için bile hiçbir yere iletilmez.",
+          "Kontrast disiplini burada da geçerlidir: gradyan üzerindeki metin gradyanın ortalamasına değil en açık durağına karşı kontrol edilmelidir; kontrast kontrolcüsüyle. Üzerinde metin olmayınca harika görünen bir gradyan, bir başlık parlak ucuna düştüğü an okunabilirliği kaldıramayabilir.",
+          "Hızlı keşif için tonda yakın iki uçtan başla ve ayrımı yavaşça artır — «çamurlu gradyan» şikâyetlerinin çoğu renk çemberinin karşıt yanlarından gelen uçlardır; bozuk bir üretici değil. Aynı düşünce marka paletlerinde de geçerlidir: iki bitişik rengi birleştirmek neredeyse her zaman çamursuz olur.",
+        ],
+      },
+    ],
   },
   "compress-image-to-size": {
     name: "Görseli hedef boyuta sıkıştır",
@@ -4178,6 +7976,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "JPEG mi WebP mi seçmeliyim?",
         a: "Aynı görsel kalitede WebP tipik olarak JPEG'ten %20-30 küçüktür; katı bir bütçede genellikle daha az kayıpla sığar. Dosyanın WebP desteklemeyen eski yazılımlar dahil her yerde açılması gerekiyorsa JPEG güvenli seçimdir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Kesin bir dosya boyutuna neden yinelemeyle inilir",
+        paragraphs: [
+          "Bir kalite değerini doğrudan oluşacak dosya boyutuna eşleyen formül yoktur: JPEG çıktısının boyutu görselin kendi karmaşıklığına bağlıdır — ayrıntı, gürültü, doku — aynı kalite ayarı düz bir diyagramda 200 KB, taneli bir fotoğrafta 2 MB üretebilir. Bir sınırın altına güvenilir inişin tek yolu sıkıştır, ölç, ayarla, yinele döngüsüdür.",
+          "Bu araç o döngüyü otomatikleştirir. Hedef boyut bildirirsin; o başlangıç kalitesinde kodlar, gerçek bayt sayısını kontrol eder ve yineler — dosya sığana ya da kalite tabanına gelinene kadar kaliteyi ayarlayarak. Sonuç, yükleme kontrolünü gerçekten geçen dosyadır; «muhtemelen yeterince küçüktür» olan değil.",
+          "Bir kalite tabanı bir sebeple vardır: ayrıntılı bir fotoğrafta agresif 20 KB hedefinin peşine düşmek, kaliteyi blok bozulmaları beliryecek kadar aşağı çekebilir. Döngü hedefinin üstünde duruyorsa dürüst okuma şudur: görselin piksellerde daha küçük olması gerekir, sadece daha çok sıkanması değil.",
+        ],
+      },
+      {
+        heading: "Pazarlığı okumak: kalite, boyutlar ve biçim",
+        paragraphs: [
+          "İki kol ve bir kısıt kontrol edersin. Kollar kalite (kodlama sırasında piksellerin ne kadar agresif atıldığı) ve boyutlar (kodlanacak piksel sayısıdır). Boyut hedefi tutmuyorsa, boyutları küçültmek genelde algılanan kaliteyi kaliteyi ezmekten daha iyi korur — 1200 px genişlikte kalite 70 bir görsel, 2000 px kalite 25 bir görselden genelde daha iyi görünür.",
+          "İşlem sırası önemlidir: önce boyutlandır, kalite son yüzde birkaç puanı bulsun. İki boyutu da yarıya bölmek piksel sayısını yaklaşık dörtte bire indirir; kalite kaydırıcısının ulaşabileceği her şeyi gölgeye bırakır.",
+          "Biçim de önemlidir: hedef WebP kabul ediyorsa, aynı algılanan kalite sık sık JPEG'den belirgin biçimde daha az bayta düşer. Sıkıştırmadan önce özgün dosyayı güvende tut — buradaki sıkıştırma tek yönlüdür ve atılmış bilgiyi geri getiren kalite ayarı yoktur.",
+        ],
+      },
+      {
+        heading: "Katı boyut sınırları nereden gelir — ve gizlilik",
+        paragraphs: [
+          "Katı sınırlar gerçek akışların her yanını sarar: devlet ve vize başvuru portalları, üniversite kabul sistemleri, pazaryeri ilanları ve e-posta ekleri kesin üst sınırlar uygular (çoğu kez 100 KB, 200 KB, 500 KB ya da 1 MB) ve yükleme formları daha büyük her şeyi pazarlıksız reddeder.",
+          "Bu kontrolleri acısız geçmenin püfü, sınırın tam üstüne değil hafif altına nişan almaktır: bazı sunucular boyutu kendi yeniden işlemelerinden sonra ölçür ya da farklı yuvarlar; tavanın %5 altına düşen dosya o huydan sağ çıkarak geçer.",
+          "Buradaki her şey tarayıcında yerelde çalışır — görsel cihazında çözülür, boyutlandırılır, kodlanır ve ölçülür; asla yüklenmez. Bu, pasaport taramaları, kimlik belgeleri ve başvuru fotoğrafları için önemlidir; katı portalların tam da istediği dosya türleri bunlardır.",
+        ],
       },
     ],
   },
@@ -4212,6 +8036,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Aylık faiz kalan bakiyeden tahsil edilir ve bakiye başta en büyüktür. Amortisman tablosu bu dönüşü gösterir: erken taksitler neredeyse tamamen faiz, son yıllardakiler neredeyse tamamen ana paradır. Bu yüzden kredinin başında yapılan ek ödemeler en çok faiz tasarruf ettirir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Reklamdaki oranın içermediği şeyler",
+        paragraphs: [
+          "Herhangi bir mortgage hesaplayıcısına yazdığın oran anapara-faiz oranıdır — anapara ve faizi sürer; başka hiçbir şey. Bir mortgage'in gerçek maliyeti ayrıca kuruluş ücretlerini, puanları, değerlemeyi ve kapanış maliyetlerini saklar; lender'lar bunları çoğu zaman APR denen ayrı bir rakamda özetler. APR ücretleri tek bir yıllıklandırılmış sayıya katladığından, aynı anapara-faiz oranına sahip iki teklif APR'de anlamlı biçimde ayrışabilir; o fark, ücretlerin konuşmasıdır.",
+          "Bu araç bilinçli olarak yalnızca oranın sürdüğü şeyi modelleyebilir: amortisman formülünden P&I artı vergi, sigorta ve HOA için kendin girdiğin PITI satırları. O ayrım dürüsttür — vergiler ve sigortalar faiz değildir; onları tek bir «maliyet» rakamına katlamak hangi kolun hareket ettiğini görmeyi imkânsızlaştırır. Lender'ları karşılaştırırken oranlarının yanına ücret sayfalarını da karşılaştır.",
+          "Escrow öteki sessiz değişkendir. Birçok pazarda lender emlak vergisinin ve sigortanın aylık on ikide birini toplar ve senin adına öder; ötekilerde bu faturaları doğrudan ödersin. Buradaki aylık PITI her iki durumda da aynıdır ama nakit akışın ritmi değildir — ve bazı lender'lar escrow'u tam olarak peşinat küçükken zorunlu kılar.",
+        ],
+      },
+      {
+        heading: "Peşinat, süre ve 15/30 takası",
+        paragraphs: [
+          "Büyük peşinat krediyi, faizi ve çoğu zaman oranın kendisini küçültür; lender'lar riski kısmen kredi/değer oranı üzerinden fiyatlar. Birçok pazarda %20 altındaki peşinat ayrıca mortgage sigortasını tetikler — bu aracın sigorta alanına ekleyerek yaklaşmanı sağladığı ek bir aylık satır. %20 rakamı sihirli değildir; o sigortanın genelde artık istenmediği tarihsel eşiğin kendisidir.",
+          "15 ile 30 yıllık seçim bir oran sorusu gibi görünür ama çoğunlukla bir süre sorusudur: kısa süreler daha düşük oranlar ve çok daha az toplam faiz taşır; çünkü saldo yarı sürede emekli edilir. Yıllık amortisman tablosu mekaniği gösterir — 30 yıllık kredide faiz ikinci on yılın ortasına kadar ödemelere egemendir; 15 yıllık çizelge birkaç yıl içinde anapara-ağır çevrilir.",
+          "Karşılaştırmanın söyleyemediği şey fırsat maliyetidir. 30 yıllık sürenin daha düşük taksiti aylık nakdi acil durumlar, emeklilik hesapları ya da isteğe göre peşin ödeme için serbest bırakır — 15 yıllık sözleşmenin zorla aldığı esneklik. Burada her iki senaryoyu da çalıştır, toplam-faiz boşluğuna bak; sonra o esnekliği satın almanın sana değerli olup olmadığına karar ver.",
+        ],
+      },
+      {
+        heading: "PITI'yi bir lender gibi okumak",
+        paragraphs: [
+          "Lender'lar karşılanabilirliği oranlarla yargılar; hislerle değil: barınma gideri (burada gördüğün PITI) brut gelire karşı ve toplam aylık borçlar brut gelire karşı — borç/gelir ölçüsü. Sıradan kılavuz barınmayı brut gelirin kabaca %28'inin altında ve toplam borçları otuzların ortasında tutar; programlar değişkendir — bunlar planlama sezgileridir; tek bir düzenleyicinin her yerde dayattığı kurallar değil.",
+          "Yıllık tablo aynı zamanda peşin ödeme haritasıdır. Faiz kalan saldondan yüklendiği için yılda bir ek ödemenin anaparaya yöneltilmesi 30 yıllık bir krediden yıllar kesebilir — ama yalnızca lender onu anaparaya uygularsa; o yüzden öderken bunu yazılı söyle. Tablo, süreyi kısaltıp yıllık saldoları karşılaştırarak etkisini çizmeni sağlar.",
+          "Buradaki tüm sayılar tahminlerdir: oran yazdığın şeydir, bir teklif değil; gerçek escrow tutarları, sigorta primleri ve vergiler yıllar içinde değişir. Hesaplama tarayıcında yerelde çalışır — ev fiyatı, gelir rakamları ve oran cihazından hiç çıkmaz.",
+        ],
+      },
+    ],
   },
   "salary-to-hourly": {
     name: "Maaştan Saatlik Ücrete Hesaplayıcı",
@@ -4241,6 +8091,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — tüm rakamlar gelir vergisi, sosyal sigorta ve diğer kesintilerden önceki brüttür. Net gelir vergi dilimine ve yere bağlıdır; bu sonuçları brüt karşılaştırma değerleri olarak gör.",
       },
     ],
+    deepDive: [
+      {
+        heading: "2.080 saatlik taban ve neyi varsaydığı",
+        paragraphs: [
+          "40 × 52 = 2.080 saatle bölmek, çoğu iş teklifinin arkasındaki standart gelenektir ve adlandırılmaya değer iki varsayım gömer: tüm 52 hafta için ödendiğin (ücretli tatil dahil) ve nominal haftalık programın gerçekten çalışılan saatleri yansıttığı. Ücretli izinli ve ölçülü mesai bir maaşlı rol için 2.080 adil bir paydadır.",
+          "Payda cevabı dramatik biçimde değiştirir. Aynı 65.000 maaş 2.080 saatlik yılda saatte 31,25; gerçekten 45 saatlik haftalarla çalışıyorsan 35,75; ücretsiz izin ödenen yılı daraltırsa 40'ın üstünde olur. Program alanlarının göründüğünden fazla saymasının sebebi budur — saatlik oran maaşın bir özelliği değildir; maaşın saatlere bölünmesinin özelliğidir.",
+          "2.080 gelenek ABD'de hukuki bir yankı taşır: fazla mesai kurallarının muafiyet testleri tarih olarak saatlik tutarlar yerine maaş düzeylerine atıf yapar; altındaki iş saatlerle ölçüldüğünde bile maaşlı rollerin yıllık kotatılmasının bir sebebi budur. Saatliğe geri çevirmek, karşılaştırmaların gerçekte gereksindiği birimi geri getirir.",
+        ],
+      },
+      {
+        heading: "Düzeltilmiş saatlik oranın ifşa ettiği şey",
+        paragraphs: [
+          "Manşet saatlik oran ile düzeltilmiş olan anlamlı biçimde farklılaşabilir; boşluk ücretsiz izin zamanının fiyatıdır. Her ücretsiz gün paydadan bir çalışma haftasının beşte birini kaldırır; on ücretsiz gün yılı yaklaşık 50 haftaya daraltır ve etkin saatlik oranı kabaca %4 yukarı iter. Maaş sabittir; değişen yalnızca çalışılan saatlerindir.",
+          "O düzeltilmiş rakam, maaşlı bir işi saatlik biriyle karşılaştırmanın dürüst tabanıdır. Manşet oranla eşdeğer görünen bir maaşlı rol, ağır ücretsiz fazla mesai ya da ücretli izinsiz bir sözleşme resme girince çoğu zaman kaybeder — gerçek-saat başına görünüm, yıllık sayının sakladığını ifşa eder.",
+          "Düzeltilmiş oranın yapmadığı bir şeyi not et: tatilin kendisini değerlendirmek. Ücretli zamanın aritmetik ötesinde değeri vardır — çalışmadığın günlerdeki gelirdir. Düzeltilmiş oran karşılaştırmayı gerçekten çalışılan saatlere daraltır; çaba karşılaştırmaları için tam olarak istediğin ve yaşam-kalitesi kararları için tek başına kullanmaman gereken şeydir.",
+        ],
+      },
+      {
+        heading: "Sıradan yanlış okumalar ve kullanımı",
+        paragraphs: [
+          "En sık yanlış okuma saatlik rakamı gerçekten elde edebileceğin bir teklif saymaktır. 52.000 maaş kağıt üzerinde saatte 25,00 «eder» ama hiçbir işveren o saatleri saatte 25,00 için işe alamaz — maaşlı ücretlendirme ücretli izni, hastalık günlerini ve öngörülebilir geliri paketler. Saatlik rakamı karşılaştırmak için kullan; yeniden pazarlık için değil.",
+          "İkinci, aylık bordronun eşit böldüğünü unutmaktır. Yıllık ÷ 12, çalışma günlerinden bağımsız Şubat'ta da Temmuz'da da aynı öder; haftalık ya da iki haftalık döngüler öyle değildir. Bütçen haftalıksa yıllığın on ikide birini değil haftalık rakamı kullan.",
+          "Her şey tarayıcında yerelde hesaplanır — maaşın cihazdan hiç çıkmaz; konuşulan bir teklif için sayıları test ederken bu sayar. İyi bir akış: güncel maaşını çalıştır, sonra rakip bir teklifi gerçek programıyla (ücretsiz günler dahil) çalıştır ve manşet yıllık rakamları değil düzeltilmiş saatlik oranları karşılaştır.",
+        ],
+      },
+    ],
   },
   "hourly-to-salary": {
     name: "Saatlik Ücretten Maaşa Hesaplayıcı",
@@ -4267,6 +8143,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Gerçek bordrom neden farklı?",
         a: "Rakamlar brüt. Gelir vergisi, sosyal güvenlik ve yan hak kesintileri neti düşürür; birçok maaşlı iş, daha az hafta çalışsan bile ödemeyi 12 aya yayar. Yıllık sonucu teklif karşılaştırması için kullan, net gelir tahmini olarak değil.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Neden 52 hafta — ve ne zaman yalan söyler",
+        paragraphs: [
+          "Varsayılan 40 × 52 = 2.080 ödenen saat bir muhasebe gelenektir; hiçbir gerçek işin betimi değildir. Yılın her haftası için — aldığın izin haftaları dahil — ödendiğini varsayar. Ücretli tatile sahip maaşlı çalışan için kabaca doğrudur: maaş bütün yılı kapsar; 2.080 saate bölmek dürüst saatlik eşdeğeri verir.",
+          "Saatlik çalışan için varsayım kırılır. Çalışma yok, ödeme yok: iki haftalık ücretsiz izin gerçek yılı 50 hafta yapar ve 2.080 saat gelirini %4 sessizce fazla gösterir. Bu yüzden yıllık-hafta alanı düzenlenebilirdir — gerçekten ödenmiş olacağın haftalara kur; yıllık rakam gerçekte göreceğin olur.",
+          "Sezonal iş uç durumdur: yalnızca yazlık bir iş 14–18 haftayı kapsayabilir. Böyle bir rol için 40 saat ve 52 hafta girmek sonucu neredeyse dört kat şişirirdi. Pratik kural basittir — hafta alanı «bir yıl ne kadar sürer»e değil «kaç hafta gerçekten para gelecek»e yanıt vermeli.",
+        ],
+      },
+      {
+        heading: "Beş çıktıyı birlikte okumak",
+        paragraphs: [
+          "Beş rakamın hepsi aynı yıllık sayının farklı dilimleridir ve hangi dilimin neyle karşılaştırılacağını bilmek aritmetikten fazla sayar. Yıllık, iş tekliflerinin ve kredi başvurularının kullandığı rakamdır. Aylık — yıllık ÷ 12 — kira başvurularının ve abonelik bütçelerinin önemsediğidir; ama çoğu aylık bordron daha az çalışma günü taşıyan aylarda bile eşit böldüğünü not et.",
+          "Haftalık (varsayılan olarak yıllık ÷ 52) saatlik çalışanların gerçekten yaşadığı birimdir; iki haftalık onu ikiye katlar ve ABD'nin en sık ödeme döngüsüne eşleşir; günlük 5 günlük hafta varsayar. Saatlik bir işi maaşlı teklifle karşılaştırırken önce ikisini aynı döngüye çevir — «daha yüksek» görünen aylık maaş daha az ödenmiş hafta saklayabilir.",
+          "Buradaki her sayı brüttür. Vergiler, sosyal katkılar ve benefit kesintileri sonra çıkar; ülkenin ve dilime bağlı oranlarda — 60.000 yıllık rakam asla her ay gelen 5.000 demek değildir. Bunları vergi-öncesi karşılaştırma katmanı olarak ele; net gelir ayrı bir hesaptır.",
+        ],
+      },
+      {
+        heading: "Pratik kullanımlar ve sıradan hatalar",
+        paragraphs: [
+          "En sık kullanım farklı ödeme yapılarındaki teklifleri karşılaştırmaktır: saatte 30,00 ile maaşlı 60.000 arasındaki ikisi de yıllık olarak ifade edildiğinde tahmin olmaktan çıkar. Kredi ve daire başvuruları ikincidir — neredeyse her zaman saatlik değil yıllık ya da aylık rakam sorarlar ve bu dönüştürücü formların beklediği kesin biçimi üretir.",
+          "En sık hata fazla mesainin dışlandığını unutmaktır. Düz çarpma her saati taban oranınla fiyatlar; sözleşmen 40 saat sonrası için 1,5× ödüyorsa ve düzenli çalışıyorsan gerçek yıllığın bu tahminin üstüne çıkar — fiyatlanmalarını istiyorsan sıradan fazla mesai saatlerini saat alanına kasıtlı ekle.",
+          "Her şey tarayıcında yerelde çalışır: oran ve program cihazdan hiç çıkmaz; henüz kabul etmediğin bir teklifi değerlendirirken bu sayar. Bir girdiyi bir kez değiştir ve yıllık rakamın ne kadar hassas olduğunu gör — küçük bir oran artışı ile yılda bir fazla ödenmiş hafta arasındaki takas hemen görünür olur.",
+        ],
       },
     ],
   },
@@ -4298,6 +8200,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Birim ekonomisi sabit tek ürünü modeller — klasik ders kitabı durumu. Ürün karışımı için fiyat eksi değişken maliyetin harmanlanmış ortalamanı kullan; hacim indirimleri veya kademeli sabit maliyetler için her senaryoyu yeniden hesapla.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Sabit ile değişken maliyet: her şeyi belirleyen ayrım",
+        paragraphs: [
+          "Tüm analiz tek bir sınıflandırma kararına yaslanır: hangi maliyetler sabit, hangileri değişken. Sabit maliyetler — kira, maaşlı personel, sigorta, yazılım abonelikleri — incelediğin dönem içinde hacimle kımıldamaz. Değişken maliyetler — malzemeler, birim başına paketleme, ödeme-işleme ücretleri, sipariş başına gönderim — satılan her birimle doğrudan ölçeklenir. Katkı marjı, fiyat eksi değişken maliyet, bu ayrım kadar dürüsttür.",
+          "Gerçek maliyetler nadiren temiz bir kovaya düşer. Elektrik sabit bir taban artı makine başına değişken bir kısım taşır; komisyon temelli satıcı ikisini karıştırır. Pratik gelenek, bir birim daha sattığında neyin değişeceğine göre sınıflandırmaktır: bir maliyet sonraki satışla artacaksa V'ye; artmayacaksa F'ye. Şüphedeysen değişken maliyete koy — break-even tahminini iyimser değil muhafazakâr kılar.",
+          "Bu ayrım aynı zamanda formülün hiç çalışmasının sebebidir: sabit maliyetler her koşulda tam ödenmek zorundadır; her satır kendi marjını o yığına katkı verir. 500 satışın her biri 20 katkı verdikten sonra 10.000 sabit maliyet kapalıdır; ondan sonraki her birim saf kâr katkı verir. Sayının altındaki kâr tablosunun arkasındaki zihinsel model budur.",
+        ],
+      },
+      {
+        heading: "Marjı ve kâr tablosunu okumak",
+        paragraphs: [
+          "Marj oranı — katkı marjının fiyata bölümü — her satış dolarının ne kadarının sabit maliyetlerle savaşmak için müsait olduğunu söyler. %40 marj, her satışın 60 kuruşunun değişken maliyetlerce tükendiği demektir. Düşük-marjlı işler breakeven için yüksek hacim ister; yüksek-marjlı olanlar daha az satışta hayatta kalabilir ama çoğu zaman daha ağır sabit maliyetler taşır (yazılım, Ar-Ge); onları break-even'yi yeniden yukarı iter. Oran o takası görünür kılar.",
+          "0,5×, 1,5× ve 2× breakeven'daki kâr tablosu ödemenin biçimini gösterir. Noktanın altında kayıplar doğrusal birikir — yarım breakeven'da sabit maliyetin tam yarısını kaybediyorsun. Üstünde kâr aynı sabit eğimle birikir. Simetri konunun kendisidir: birim ekonomisi sabitlendiğinde breakeven noktasına tek kolu hacim olduğun; ötesinde her birimin aynı marjı kazandığını gösterir.",
+          "Tabloyu hedefleri sağlamlaştırmak için kullan: birinci yılda gerçekçi upside 2× breakeven ise 0,5×'teki downside işletmenin yeniden fiyatlamaya ya da maliyet kesmeye zorlanmadan önce ne kadar nakit yakabileceğini söyler. İki satır arasındaki o boşluk planlamanın zarfıdır.",
+        ],
+      },
+      {
+        heading: "Ders kitabı modelinin nerede büküldüğü",
+        paragraphs: [
+          "Formül fiyat ile değişken maliyetin düz çizgiler olduğunu varsayar; gerçeklik eğrilidir. Malzeme toplu indirimleri V'yi hacim büyüdükçe düşürür; fazla mesai ücretleri, kapasite sınırları ve hızlandırılmış navlun onu yükseltir. Fiyatın kendisi ölçekte sık sık düşer; daha istekli olmayan pazar segmentlerine iterken. Her biri düz çizgileri eğrilere bükler ve tek break-even sayısı bir aralığa dönüşür. Tek bir cevabı ekstrapole etmek yerine hesabı senaryo başına yeniden çalıştır.",
+          "Çok ürünlü işletmeler aynı sorunu taşır: formül tek ürünü kapsar; ürün karışımı beklenen satış payına göre ağırlıklandırılmış harmanlanmış bir katkı marjı ister — ve karışımın kendisi hacim büyüdükçe kayar. Sabit maliyetler de basamak biçimli olabilir: ikinci depo ya da onuncu eleman F'yini sıçrar; pürüzsüz büyümez.",
+          "Bunların hiçbiri modeli yararsız yapmaz — bir ürün için, bir fiyat değişikliği için ya da bir pazardaki duraklama için en hızlı ilk-geçiş uygulanabilirlik kontrolü olarak kalır. Yalnızca çıktıyı planlama tabanı say; kötümser ve iyimser girdilerle yeniden çalıştır ve payda uyarısını hatırla: marj sıfıra yakınsa küçük bir maliyet kayması break-even'yi ulaşılabilirken imkânsıza taşıyabilir.",
+        ],
+      },
+    ],
   },
   "bmr-calculator": {
     name: "Bazal Metabolizma Hesaplayıcı",
@@ -4325,6 +8253,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bu tıbbi tavsiye mi?",
         a: "Hayır — bu bir tahmindir, tıbbi tavsiye değil. Hastalık, ilaç, gebelik ve alışılmadık vücut kompozisyonu gerçek enerji harcamasını kaydırır; beslenme değişikliğini bir sağlık uzmanıyla konuş.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mifflin-St Jeor ile eski denklemler karşılaştırması",
+        paragraphs: [
+          "Bu araç 1990'da yayımlanan Mifflin-St Jeor denklemi kullanır: erkekler için 10 × ağırlık (kg) + 6,25 × boy (cm) − 5 × yaş + 5; kadınlar için aynı ifadenin +5 yerine −161'i. Ölçülmüş dinlenme enerji harcamasına kalibre edildi ve oksijen tüketimini doğrudan ölçen laboratuvar altın standardı indirekt kalorimetriyle doğrulandı.",
+          "En sık karşılaşacağın alternatif Harris-Benedict'dir; özgün olarak 1919'da yayımlandı ve 1984'te revize edildi. 2005 American Dietetic Association karşılaştırması, Mifflin-St Jeor'un modern popülasyonlar için daha doğru bulunduğu genişçe atıf yapıldı; bu hesaplayıcının onu standardize etmesinin sebebi budur. Üçüncü seçenek Katch-McArdle, ağırlık yerine yağsız vücut kütlesi kullanır; vücut yağ yüzdesini bilenler için keskin olabilir — ama çoğu insanın taşımadığı bir sayı ister.",
+          "Pratik çıkarım: bu denklemler arasındaki farklar tipik olarak onlarca kilokaloridir; kendi harcamalarının gün-gün değişkenliğinden küçük. İki hesaplayıcı hafifçe ayrışıyorsa formül seçimi genelde nedenidir; ikisi de yanlış değildir.",
+        ],
+      },
+      {
+        heading: "Sayıyı okumak: BMR günlük harcaman değildir",
+        paragraphs: [
+          "BMR tabandır, bütçe değil. Tam dinlenmede nefes almayı, dolaşımı, hücre onarımını ve sıcaklık düzenlemesini kapsar — hareketsiz yetişkinlerin günde yaktığının kabaca %60–70'i. Gerçek toplam günlük enerji harcaman (TDEE), BMR'nin bir aktivite faktörüyle çarpımıdır; masabaşı gün için yaklaşık 1,2'den ağır fiziksel iş ya da günlük sert antrenman için yaklaşık 1,9'a.",
+          "O çarpma formülün kendisinden fazla sayar. Özdeş BMR'li iki insan yalnızca yaşam tarzından günde 800+ kcal ayrabilir. Bu hesaplayıcı bilinçli olarak yalnızca BMR rapor eder; sitenin kalori hesaplayıcı sonraki adımı atar; aktivite faktörünü ve bir hedefi senin için uygular.",
+          "Faydalı bir akıl sağlığı kontrolü: BMR esas olarak ağırlık, boy ve yaşla ölçeklenir; sonuç küçük bir girdi değişiminden sert kayarsa birimleri yeniden kontrol et — kg ile lb karıştırmak klasik hatadır.",
+        ],
+      },
+      {
+        heading: "Sıradan hatalar ve dürüst sınırlar",
+        paragraphs: [
+          "Her tahminsel denklem bireysel hata taşır. Mifflin-St Jeor çoğu yetişkin için laboratuvar ölçümünün kabaca ±%10'una düşer ama çok yüksek ya da düşük kas kitlesi taşıyan, tiroid durumları olan ya da belirli ilaç kullanan bireyler o bandın epey dışına düşebilir. Çıktıyı fizyolojik bir gerçek değil planlama başlangıç noktası olarak ele.",
+          "BMR'nin altında yemeyi gerekçelendirmek için BMR kullanma. Dinlenme metabolizması seni hayatta tutan yağsız doku tarafından çoktan kapsanır; BMR altındaki agresif açıklar bir hesaplayıcı için değil bir sağlık uzmanı için karardır. Benzer biçimde metabolik adaptasyon, 90 kg'da hesapladığın sayının 80 kg'da doğru olmayı bıraktığı demektir — ağırlık değiştikçe yeniden hesapla.",
+          "Sitedeki her şey gibi hesaplama tümüyle tarayıcında çalışır: hiçbir girdi hiçbir yere gönderilmez; gerçek rakamları girmekte tereddüt etmek için hiçbir neden yoktur. Sayfa çevrimdışı da çalışır; salonda, seyahatte, telefonla yeniden hesaplanabilir.",
+        ],
       },
     ],
   },
@@ -4356,6 +8310,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — bu bir tahmindir, tıbbi tavsiye değil. Gebelik, kronik hastalık yönetimi, ilaç kullanımı veya yeme bozukluğu öykün varsa hedefleri bir sağlık uzmanıyla belirle.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bakım sayısı nasıl kurulur",
+        paragraphs: [
+          "Hesap iki adımlı bir zincirdir. Önce BMR Mifflin-St Jeor denklemlerinden gelir (1990): erkekler 10 × ağırlık (kg) + 6,25 × boy (cm) − 5 × yaş + 5; kadınlar aynı ifadenin 161 eksiği. Sonra o BMR beş standart aktivite faktöründen biriyle çarpılır: 1,2 hareketsiz; 1,375 hafif aktif; 1,55 orta aktif; 1,725 çok aktif; 1,9 ekstra aktif.",
+          "Beş faktör Harris-Benedict geleneğine iz sürer ve insanların gerçekten nasıl yaşadığına temiz eşlendiği için sağ çıkar: aktiviteyi yalnızca antrenmanlar tanımlamaz — salonu hiç görmeyen bir inşaat işçisi, haftada üç oturum yapan bir ofis çalışanından daha yüksek düşer.",
+          "Hedef ayarlamaları sonra klasik sezgiyi uygular: 1 kg vücut yağı kabaca 7.700 kcal saklar; günde yaklaşık ±500 kcal kabaca haftada 0,5 kg değişime karşılık gelir. Hesaplayıcı kilo vermek için 500 düşer, almak için 500 ekler ve bakıma dokunmaz.",
+        ],
+      },
+      {
+        heading: "Hedefi yorumlamak: çizgi değil eğri bekle",
+        paragraphs: [
+          "Erken kilo kaybı hep matematiği geçer: ilk bir iki hafta çoğunlukla su ve glikojen düşer; yağ değil. Ondan sonra sonuçlar yavaşlar; çünkü harcaman hafifledikçe düşer — 90 kg taşıyan kişi 82 kg'da daha az yakar; birinci ayda haftada yarım kilo üreten açı üçüncü ayda genelde bunun üçte birini üretir.",
+          "Pratik akış hedefi bir hipotez saymaktır: tutarlı koşullarda tart, günlük gürültüye karşı iki haftalık kayan ortalamayla karşılaştır ve eğilim birkaç hafta takıldığında 100–200 kcal ayarla. Kaba güç değil ölçülmüş düzeltme, başarıyı belirleyendir.",
+          "Her birkaç kilo değişiklikten sonra yeniden hesapla ve aynı bakım sayısının ne yediğine göre çok farklı sonuçlar desteklediğini hatırla — protein, lif ve yemek zamanlaması kalori matematiğini değiştirmez ama açığın ne kadar yaşanabilir hissettirdiğini değiştirir.",
+        ],
+      },
+      {
+        heading: "Sıradan hatalar",
+        paragraphs: [
+          "En sık hata aktivite düzeyini şişirmektir. İnsanlar bir antrenmanı «orta aktif» sayar ve yine de günde on saat oturur; haftada 3–5 kez egzersiz yapıp masa başı çalışıyorsan 1,55 genelde bile cömerttir. Şüphedeysen daha düşük faktörü seç ve ölçülmüş sonuçlardan ayarla.",
+          "±500 ayarını akıl sınırının ötesinde istifleme. BMR'nin çok altındaki açıklar ya da günde +1.000 kcal'lik artışlar çoğunlukla sırasıyla yorgunluk ve yağ artışı üretir; çoğu yetişkin için sürdürülebilir oranlar iki yönde de haftada 0,25–0,75 kg'dır. Hamile olan, kronik bir durumu yöneten ya da düzensiz beslenme geçmişi taşıyan herkes hedefleri bir klinisyenle kurmalıdır.",
+          "Son olarak buradaki her çıktıyı bir popülasyon-ortalaması tahmini olarak ele: gerçek metabolizma bireyler arasında kabaca ±%10 varyasyon taşır; soruyu haftalarca kendi ölçülmüş eğilimin kapatır — formül başlangıç noktasıdır, kapanış değil.",
+        ],
+      },
+    ],
   },
   "body-fat-calculator": {
     name: "Vücut Yağı Hesaplayıcı",
@@ -4383,6 +8363,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Sonuç neden negatif ya da imkânsız çıktı?",
         a: "Formül kırpma olmadan basılır; bu yüzden imkânsız girdiler — örneğin boyundan büyük olmayan bir bel — imkânsız çıktı üretir. Temel yağ düzeyinin altındaki veya yaklaşık %60 üzerindeki her değeri ölçüm hatası say ve yeniden ölç. Ve her zamanki gibi: bu tahmin tıbbi tavsiye değildir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Marina çevresi yönteminin içi",
+        paragraphs: [
+          "Formül vücut yağını çevre oranlarından tahmin eder. Erkekler için 495 / (1,0324 − 0,19077·log10(bel − boyun) + 0,15456·log10(boy)) − 450; tüm ölçümler santimetredir; kadınlar için çevre terimi aynı makalenin kadın katsayılarıyla log10(bel + kalça − boyun) olur. Log terimleri, bel çevresindeki santimlerin boylardaki santimlerden çok daha fazla tahmini oynatmasının sebebidir.",
+          "Yöntem 1984'te James Hodgdon ile Jack Beckett tarafından ABD Donanması için geliştirildi; on binlerce denizcinin yıllık vücut kompozisyon taramasına laboratuvar donanımı olmadan ihtiyacı vardı. Su altı tartımına (hidrostatik densitometri) karşı doğrulandı; o dönemin referans standardı — Donanma onu bugün hâlâ kullanır; bir formülün alabileceği kadar güçlü saha testi budur.",
+          "Altta yatan mantık yağın belirli bölgelerde (erkeklerde karın, kadınlarda kalça ve uyluk) öngörülebilir biçimde birikmesi ve boynun zayıf kalmasıdır; bel-boyun farkı bir tartının göremediği gerçek yağ kütle bilgisini taşır.",
+        ],
+      },
+      {
+        heading: "Kategorileri okumak — ve eğilimi",
+        paragraphs: [
+          "Hesaplayıcı sonucunu American Council on Exercise'in kotattığı standart bandlara koyar: erkekler için %2–5 zorunlu yağ, %6–13 atletler, %14–17 fitness, %18–24 ortalama, %25+ obez; kadınlar için %10–13 zorunlu, %14–20 atletler, %21–24 fitness, %25–31 ortalama, %32+ obez. Kadınlar hormonel ve üreme işlevin ona dayanması yüzünden daha fazla zorunlu yağ taşır.",
+          "DXA taramasına karşı kabaca ±%3–4 mutlak doğruluk bekle. Yöntemin gerçekte iyi olduğu şeyi fark edene kadar çok duyulur: tutarlılık. Aynı bölgelerde, günün aynı saatinde, aynı kişiyle ölçülen bant tahminleri gerçek kompozisyon değişimlerini kayda değer biçimde iyi izler.",
+          "Pratik kullanım bu yüzden yöneldir: seni %24'ten %22'ye taşıyan bir ay antrenman gerçek bir sonuçtır; her iki okuma ±%3 hata taşırken bile — hata büyük ölçüde sistematiktir ve aynı vücudun iki ölçümünü karşılaştırırken iptal olur.",
+        ],
+      },
+      {
+        heading: "Bant tahminlerinin yanlış gittiği yerler",
+        paragraphs: [
+          "Ölçüm tekniği hata bütçesine egemendir. Boyun, gırtlağın altından; bant önde hafif aşağı eğimli olur; bel erkeklerde göbek deliğinde, kadınlarda en dar noktada; kalça en dolu kısmında. Bandı sıkı ama cildi hiç sıkmadan çek; normal nefes ver ve büyük bir yemek ya da ağır bir antrenmandan hemen sonra asla ölçme.",
+          "İmkânsız çıktılar imkânsız girdileri işaret eder: formül sınırsız bastığı için boylu boyundan küçük ölçülen bir bel negatif vücut yağ yüzdesi üretebilir. Zorunlu yağ düzeyinin altındaki ya da kabaca %60 üstündeki her şey kutlamayla ya da panikle değil yeniden ölçümle demektir.",
+          "Kaslı ve zayıf bireyler saha yöntemlerini sınırlarına iter ve yağı alışılmadık dağıtan insanlar (viseral-ağırlıklı gibi) çevre tabanlı bir modelce yanlış okunabilir. Tıbbi, sigorta ya da rekabet amaçları için klinik tarama referans kalır — bu araç kendi eğilimini izlemek içindir.",
+        ],
       },
     ],
   },
@@ -4414,6 +8420,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — bu bir tahmindir, tıbbi tavsiye değildir. Sporcular ve çok kaslı kişiler tam sağlıklıyken bandın üstündedir; bazı durumlar sağlıklı aralığı kaydırır. Hedef kilonu bir sağlık uzmanıyla konuş.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Devine formülünün kaynağı",
+        paragraphs: [
+          "Devine formülü Dr. B. J. Devine tarafından 1975'te yayımlandı — ama bir fitness hedefi olarak değil. İlaç dozajı işinden çıktı; önce digoksin sonra güvenli dozu vücut boyutuna bağlı olan diğer ilaçlar: erkekler için ilk 5 foot boy için 50 kg artı her ek inç için 2,3 kg; kadınlar için 45,5 kg.",
+          "Klinisyenler boy bazlı hızlı bir «dozaj ağırlığı» tahminine ihtiyaç duydu; Devine'ninkiler tıbbi literatürde en çok atıf alan ideal-ağırlık denklemi oldu — o kadar genişçe yeniden basıldı ki okur nesilleri bir insanın neyi tartması gerektiğini tanımladığını varsaydı. Hiç etmedi.",
+          "Bu hesaplayıcının gösterdiği ikinci sayı sağlıklı BMI bandıdır: metre cinsinden boyun karesinin 18,5 ile 24,9 ile çarpımı; WHO sınıflandırmasında normal aralığın sınırları. Cevabı dozaj kısayolundan değil popülasyon sağlık verisine demirler.",
+        ],
+      },
+      {
+        heading: "Cevabın neden sayı değil aralık olduğu",
+        paragraphs: [
+          "İki yöntem genelde birkaç kilogram farklılaşır ve ayrışma mesajın kendisidir: tek bir ideal ağırlık yoktur. Çerçeve boyutu, kas kütlesi, yaş ve vücut kompozisyonunun etnik farkları hepsi bir verilen boy için neyin sağlıklı olduğunu kaydırır; WHO'nun hedef yerine bant tanımlamasının tam sebebi.",
+          "İki çıktıyı birlikte bir köşeli parantez olarak oku: ağırlığı Devine rakamı ile BMI bandı kenarları arasında duran çoğu yetişkin, klinisyenlerin makul sayacağı aralık içindedir. Güncel ağırlığın ikisinin dışında ise boşluk değişimin yönünü söyler; ne kadar hızlı koşulacağını değil.",
+          "Sayının yakalamadığı bir şeyi de not et: aynı BMI'de antrenman yapan biri yapmayanından daha fazla yağsız doku taşır ve yaşlı yetişkinler üzerine araştırma hafif yüksek ağırlığın bile koruyucu olabileceğini ima eder. Sağlıklı ağırlık o kadar kişiseldir ki bir profesyonelle konuşmak herhangi bir formülü yener.",
+        ],
+      },
+      {
+        heading: "Sıradan kötü kullanımlar",
+        paragraphs: [
+          "En eski kötü kullanım Devine'yi estetik bir standarda — diyete girilecek bir sayıya — çekiştirmektir. İlaç dozları hesaplamak için tasarlandı; vücut hedefi olarak kullanmak hiç bilgilendirme amaçlanmayan bir karara bir dozaj kolaylığı ithal eder.",
+          "Atletler ve çok kaslı insanlar tamamen sağlıklıyken BMI bandının epey üstünde durur; çünkü bant ortalama vücut kompozisyonu varsayar. Ciddi antrenman yapıyorsan iki sayıyı da hedef olarak yok say ve vücut yağ eğilimi ile performansla yargıla.",
+          "Son olarak çevrimiçinde dolaşan hızlı boy-ağırlık tabloları çoğu zaman yirminci yüzyıl ortası sigorta şirketi tablolarına iz sürer; başvuranların kendi bildirdiği veriden kurulmuş — burada gösterilen iki yöntemden daha zayıf bir temel. Bu hesaplayıcı tarayıcında yerelde çalışır ve hiçbir şey saklamaz; tanı için değil yönelim için kullan.",
+        ],
+      },
+    ],
   },
   "water-intake-calculator": {
     name: "Su İçme Hesaplayıcı",
@@ -4441,6 +8473,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Bu tıbbi tavsiye mi?",
         a: "Hayır — genel bir tahmindir. Kalp, böbrek veya karaciğer rahatsızlığı olanlar ve sıvı kısıtlaması verilenler hesaplanandan çoğu zaman daha azına ihtiyaç duyar: hekiminin talimatlarına uy.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Sayılar nereden gelir",
+        paragraphs: [
+          "Taban, klinik pratikte öğretilen bakım-sıvı sezgisini kullanır: kilogram vücut ağırlığı başına günde 35 ml su (yetişkin yönergeleri sık sık 30-35 ml/kg aralığı olarak kotarılır). Çocuk hacim yönetiminde doğdu; ağırlıkla sıvı dozlamak rutindir ve hızlı bir pratik kural olarak yetişkinlere taşındı.",
+          "Yaklaşık 30 dakikada 350 ml'lik egzersiz eki, orta yoğunlukta bir saat için 0,5-1 litrelik tipik terleme oranlarını yansıtır; sıcakta ağır efor saat başına bir litreyi aşabilir. Hesaplayıcı tabanı ve egzersiz bonusunu ayrı gösterir; ikinci sayının belirsiz olan olduğunu görebilsin — ter çıktısı insanlar ve koşullar arasında muazzam değişir.",
+          "Bağlam için Avrupa Gıda Güvenliği Otoritesi yeterli toplam su alımını kadınlar için günde 2,0 L ve erkekler için 2,5 L olarak kurar — gıdadan gelen suyu içeren rakamlar; o normalde toplam alımın %20-30'unu sağlar.",
+        ],
+      },
+      {
+        heading: "Toplamın ne kadarı saf su olmalı?",
+        paragraphs: [
+          "Manşet sayıdan azıdır. Yiyecek, kahve, çay, süt ve meyve suyu hepsi katkı verir — orta kafeinli içecekler susuzlaştırmak yerine su sağlar; onyıllardır hayatta kalan bir yanlış kanı. Hesaplanan rakam normal bir diyetin üstünde toplam sıvı için bir yönlendirmedir; sıradan bir insan belki üçte ikisini saf su olarak içebilir.",
+          "Vücudun herhangi bir formülü yenen gerçek zamanlı geri bildirimi de sağlar: susuzluk ve idrar rengi. Soluk saman-sarısı iyisin demektir; koyu kehribar şimdi iç demektir. Bu sinyaller gerçek durumunu izler; hesaplayıcı girdilerini izler.",
+          "İhtiyacın gün gün hareket etmesini bekle. Sıcaklık, nem, yükseklik, ateşli hastalık ve alkol hepsi kayıpları yükseltir; klima altındaki dinlenme günü düşürür. Hesaplanan sayı sakin gün referansıdır; koşullarından bağımsız vurulacak bir kota değil.",
+        ],
+      },
+      {
+        heading: "Bireysel değişkenlik ve hesaplayıcıyı izlememesi gerekenler",
+        paragraphs: [
+          "Vücut ağırlığı kaba bir vekildir. Terleme oranı kısmen eğitilebilir ve ağır biçimde bireyseldir — özdeş ağırlıktaki iki insan aynı oturumda radikal biçimde farklı miktarda sodyum ve sıvı kaybedebilir. Ciddi dayanıklılık atletleri er geç oturum öncesi ve sonrası tartılır: kaybedilen ağırlık (çoğunlukla ter) var olan en kişisel su sayısıdır.",
+          "Aşırı içmek yalnızca teorik bir risk değildir: susuzluğun ötesinde litreler zorlamak kan sodyumunu sulandırabilir (egzersiz-ilişkili hiponatremi); her istasyonda içen yavaş maraton finisher'larında ciddi hasara yol açmıştır. Fazlası daha iyi değildir; kayıplara eşlik etmek hedeftir.",
+          "Kalp yetmezliği, böbrek hastalığı ya da karaciğer hastalığı taşıyan herkese sık sık sıvı kısıtlaması konur ve bazı ilaçlar sıvı dengesini etkiler. Sıvıları kısıtlamak söylendiysen klinisyeninin sayısı bu hesaplayıcıyı ezer; genel hiçbir formül tıbbi bir kısıtlamayı hesaba katamaz.",
+        ],
       },
     ],
   },
@@ -4471,6 +8529,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet. Özel mesafeler iki birimi kabul eder ve sonuçlar her zaman iki türlü gösterilir: km ve mil temposu, km/h ve mph hızları. Dönüşüm 1,609344 km'lik tam uluslararası mili kullanır.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Tempo aritmetiği — ve Riegel'nin 1,06'sı",
+        paragraphs: [
+          "Temponun kendisi basit bölmedir: mesafeye zaman; aynı girdiden kilometre ve mil başına gösterilir; dönüşümler kesin hesaplanır (bir uluslararası mil = 1,609344 km). 45:00'lik bir 10K, 4:30/km ve 7:14/mil'dir — yuvarlama oyunu yok; pist başında zihin matematiği yok.",
+          "Yarış tahmincisi ilginç yarısıdır. Araştırma mühendisi Peter Riegel, yüzlerce kayıtlı yarış sonucunu çözümledikten sonra T₂ = T₁ × (D₂/D₁)^1,06 formülünü 1977'de Runner's World'de yayımladı. 1,06 üssü temponun mesafeyle solmasını yakalar: yarış mesafesini ikiye katlamak, katlanmış zamanın ima edeceğinden yaklaşık %9 fazla sürer.",
+          "O üs gerçek finisher'lara kalibre edilmiş bir popülasyon ortalamasıdır; fizyoloji değil. Hedef mesafe için uygun antrenman varsayar — eğitilmiş koşucuların yaptığını ekstrapole eder; uzun hiç koşmamış biri için saçmalığı gönülsüzce ekstrapole eder.",
+        ],
+      },
+      {
+        heading: "Tahminleri yorumlamak",
+        paragraphs: [
+          "Tahminler girdi yarışından uzaklaştıkça bozulur. Yarı maratondan 10K projelemek genelde yakındır; 5K'dan maraton projelemek uzun koşular antrenmanda yoksa fantezidir. Boşluk büyüdükçe projeksiyon dayanıklılık tabanın hakkında o kadar çok varsayar.",
+          "Tahminleri vaatler değil pace planları için kullan: 2:00 altı yarı maraton yaklaşık 5:41/km gerektirir; bunun tam maraton için ne ima ettiğini görmek hedefin bu sezon gerçekçi mi yoksa bir antrenman döngüsü daha mı gerektirdiğini söyler.",
+          "Pratik bir kontrol: yakın zamanda iki mesafe koştuysan formülü kendine karşı doğrulayabilirsin — kendi oranın 1,06'dan saptığında o mesafedeki gücün ya da zayıflığın görünüyor olur; o, işe yarar antrenörlük bilgisidir.",
+        ],
+      },
+      {
+        heading: "Gerçek dünya verisinin yalan söylediği yerler",
+        paragraphs: [
+          "GPS saatler sapma biriktirir: ağaç örtüsü, yüksek binalar ve sıkı virajlar kayıtlı bir rotayı yüzde bir ya da daha fazla bozabilir; gösterilen temposu kilometre başına saniyeler kaydırmaya yeter. Koşu bantları daha kötüdür — çoğu kalibre edilmedikçe iyimserdir; kalibre edilmişler bile biyomekanik olarak dışarıda koşudan farklılaşır.",
+          "Yarış rotalarının kendisi değişir: yükseklik profili, virajlar, hava ve başlangıç çizgisindeki kalabalık hepsi bitiş sürelerini dakikalar kaydırır. Tepe yolu 10K'sını düz yol 10K'sı gibi sayıyla karşılaştırmak herhangi bir tahmini zehirler.",
+          "Akış bu yüzden şudur: antrenman koşularını değil yarış sonuçlarını gir; düz, sertifikalı rotaları yeğle ve en güncel sonucu çıpa say. Bu sayfa tamamen tarayıcında çalışır — zamanların cihazdan hiç çıkmaz.",
+        ],
+      },
+    ],
   },
   "one-rep-max-calculator": {
     name: "1RM Hesaplayıcı",
@@ -4499,6 +8583,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Çünkü formüller orada anlam taşımaktan çıkar. Yaklaşık 12 tekrarın ötesinde sonucu güç değil yerel dayanıklılık belirler ve Brzycki'nin paydası (37 − reps) sıfıra çöker. Çok tekrarlı seriler kondisyonu ölçer; onlardan maksimum tahmini istiyorsan dayanıklılık işi için tasarlanmış bir formül kullan.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Epley ile Brzycki karşılaştırması: iki formül, bir köşeli parantez",
+        paragraphs: [
+          "İki formül de gerçekten tamamladığın bir setten tam olarak bir kez kaldırabileceğin ağırlığı tahmin eder. Epley (1985) w × (1 + reps/30) hesaplar; Brzycki (1993) w × 36/(37 − reps) hesaplar. İkisi yaklaşık 10 tekrara kadar yakından uyuşur ve sonra ayrışır — Epley yüksek tekrar sayılarında hafif iyimser; Brzycki hafif muhafazakâr.",
+          "O ayrışma bu hesaplayıcının kazanan seçmek yerine ikisini göstermesinin sebebidir. İki tahmin birkaç kilogram içinde düşüyorsa güvenilir bir sayın var; ayrışırlarsa setin, submaksimal tahminin sallantı içinde olduğu bölgeye düştü; daha ağır, daha kısa bir test seti tahmini keskinleştirir.",
+          "Doğruluk kabaca 1-6 temiz tekrarlık setlerden en iyisidir. Bir düzineyi geçince kaldırış gücünden çok yerel dayanıklılık testi olur; hiçbir güç formülü onu kurtaramaz — girdinin 20 tekrarla sınırlanmasının sebebi.",
+        ],
+      },
+      {
+        heading: "Yüzde tablosunu kullanmak",
+        paragraphs: [
+          "Antrenman tablosu Epley'nin denklemini ters çevirir: n tekrar için kaldırabileceğin en fazla yük kabaca 1RM × 30/(30 + n)'dir. On tekrar 1RM'nin %75'ine çıkar; beş yaklaşık %86; üç yaklaşık %91. Güç antrenörleri programları tam bu yüzdelere dayanır — düşük tekrarlı bloklar %85-95 civarı; 6-12 tekrar için hipertrofi işi %65-80 civarı; dayanıklılık daha üst.",
+          "Yüzdeler tahminin taşınabilir parçasıdır: 1RM'ni bildiğinde antrenman ağırlıklarını kurmak için asla tekrar sınaman gerekmez. Maksimumu değil programı değiştir — ve maksimumun kendisini yalnızca birkaç ayda bir, antrenman sayıların yukarı sürüklendikçe yeniden hesapla.",
+          "Gerçek performansın kaldırış kaldırış sürdüğünü bil: squatlar belirli bir yüzdeyle presslerden ya da deadliftlerden daha fazla tekrar tolere eder; esnme refleksi ve kurulum zamanı farklılaşır. Tabloyu bir başlangıç dozu olarak ele ve son tekrarların gerçekten nasıl hissettirdiğiyle ayarla.",
+        ],
+      },
+      {
+        heading: "Gerçek bir 1RM neden sınanmamalı",
+        paragraphs: [
+          "Tahmin edilmiş bir maksimum tam olarak gerçekini sınamak zorunda kalmaman için vardır. Gerçek 1RM girişimi yardımcılar, maksimum yük altında taze teknik ve düzgün ilerleyen bir ısınma ister; sakatlık riski gerçektir ve iyi yürütülmüş 3-tekrarlık bir setten kazanılan bilgi marjinaldir.",
+          "Tahmin az şey kaybeder: sert bir 3-5 tekrar seti, antrenmanlı çoğu kaldırıcı için gerçek singlenin birkaç yüzdesi içinde 1RM tahmin eder. Bir karşılaşma için zirveye çıkan rakipler istisnadır; antrenörler ve düzgün güvenlik düzenekleriyle çalışırlar.",
+          "Bir tuzak daha: özensiz tekrar girmek. Formüller temiz, tam-ölçek tekrarlar varsayar — son tekrarı kötü biçimle itmek tahmini şişirir. Ayrıca maksimumun egzersize özgü olduğunu hatırla: squat 1RM, benchin hakkında hiçbir şey söylemez.",
+        ],
+      },
+    ],
   },
   "sleep-calculator": {
     name: "Uyku Hesaplayıcı",
@@ -4525,6 +8635,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Kaç döngüye ihtiyacım var?",
         a: "Çoğu yetişkin 5 döngüyle (7,5 saat) iyi gider, birçok kişinin 6'ya (9 saat) ihtiyacı olur; 4 döngü (6 saat) bazılarına kısa vadede yeter, uzun vadede nadiren. Düzenlilik toplam kadar önemli — saatleri savruk 6 döngü seni daha kötü bırakır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "90 dakikalık döngü teorisi gerçekte ne kadar sağlam",
+        paragraphs: [
+          "Uyku hafif uyku, derin uyku ve REM arasında alternasyon yapar; bu geniş mimari uyku araştırmasının sağlam bir bulgusudur — polisonografi (PSG) her aşamanın elektrik imzalarını doğrudan gözlemler. Bir gecenin birkaç bu tür döngü taşıdığı, sırayla tekrarladığı da tartışma dışıdır.",
+          "Tartışmalı olan «90 dakika» yuvarlak sayısıdır. Eski laboratuvar çalışmalarının popülasyon ortalamalarından gelir; sonradan ölçümler döngü uzunluğunu kabaca 80 ilâ 110 dakikaya her yere koyar ve aynı insanın döngüleri tek bir gece içinde bile değişir: ilk yarısı daha uzun döngülü derin-uyku-ağırlıklıdır; ikinci yarısı REM'e ve farklı bir yapıya kayar. Alarmı hesaplanmış bir sınırda oturtmak şansı hafif uykuya yalnızca eğimler — kesin bir biyolojik anahtar değildir.",
+          "Aracı tıbbi tavsiye değil planlama yardımcısı olarak ele: uyanmayı ortalama modelin ürettiği sınırla hizala, sabahların bir hafta iki hafta nasıl hissettirdiğini gözle, sonra ritmini bulmak için yatma zamanını 15 dakika gezdir. Kalıcı uykusuzluk, sık gece uyanmaları ya da şiddetli gündüz uykusu alarmı yerleştirmekle çözülen bir şey değil; değerlendirmesi doktoru hak eden belirtilerdir.",
+        ],
+      },
+      {
+        heading: "15 dakikalık uyku-başlangıç payı ve sonuçları okumak",
+        paragraphs: [
+          "İlk yatma-zamanı sütunu N döngü çıkarmanın vereceğinden 15 dakika fazla taşır: uyku-başlangıç payı. İlk döngü yalnızca gerçekten uyuduğunda başlar; çoğu insan yatağa girdikten sonra 10–20 dakika alır. Araç orta değer olarak 15 kullanır; kendi deneyiminle kalibre et — telefonu gezdirirken uykuya dalabiliyorsan 10 çıkar; yatakta zihnin koşuyorsa birkaç ekle.",
+          "Ters modda sonuçlar «yatma zamanı + 15 dakika + bütün döngüler» olarak dizilir; 23:30'da yatağa girmek 01:15'i ilk aday yapar. Sıradan yanlış okuma o saatleri uyanacağın garantisi saymaktır; bir döngü tamamlanırsa uyanmanın en hafif olacağı noktalardır. Pratikte hafif geç bir alarmı yedek olarak kur ve doğal uyanmanın sınıra yakın olmasına izin ver.",
+          "Her iki mod 3 döngüye (4,5 saat) kadar listeler; listede görünmek öneri değildir. 4 döngüden az akut uyku yoksunluğudur; yargı ve tepki süresi bariz bozulur; satır vardır; çünkü gece uçuşu ya da uykusuz gece dürüst bir fiyat etiketiyle gelsin.",
+        ],
+      },
+      {
+        heading: "Döngü alarmları uyku borcunu ödemez",
+        paragraphs: [
+          "Döngüleri hizalamak uyanma anının nasıl hissettirdiğini iyileştirir; toplam saatler hakkında hiçbir şey yapmaz. Haftalarca 5 saatlik gecelerin biriktirdiği borç hafta sonunda geç kalkılarak ödenmez. Program düzenliliği — her şeyden önce sabit bir uyanma saati — gece başına döngü hizalamasından fazla günlük enerjiye katkı verir; uyku tıbbı literatürünün sık tekrarladığı nokta.",
+          "Giyilebilir cihazlar ve akıllı yataklarla karşılaştırıldığında bu araç hiçbir veri toplamaz. Tüketici uyku-aşaması izlemesi zaten çok doğru değildir ve buradaki her şey tarayıcında yerelde hesaplanır — hiçbir saat gönderilmez ya da saklanmaz. Ücretsiz bir başlangıç noktası olarak iyi çalışır; gerçek döngü uzunluğunu ölçmek isteyen meraklılar sonradan bir cihaz düşünebilir.",
+        ],
       },
     ],
   },
@@ -4556,6 +8691,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Yerel saatle tarih aritmetiği yaz saati geçişlerinde bir gün kayabilir — kasım veya mart değişimini kesen bir aralık bazı tarayıcılarda bir gün kısa ya da uzun çıkabilir. Tam UTC günleriyle saymak sorunu bütünüyle aşar: cumadan pazartesiye dünyanın her yerinde 2 iş günüdür.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Neyin «iş günü» sayıldığı — ve neyin sayılmadığı",
+        paragraphs: [
+          "Dürüst cevap iş gününün bir gelenek olduğu ve geleneklerin farklılaştığıdır. Bu araç varsayılan olarak Pazartesi'den Cuma'ya (hafta sonu ayarını değiştirirsen Cuma'dan Cumartesi'ye) sayar ve başka hiçbir şey: gömülü kamusal-tatil takvimi taşımaz; çünkü tatiller ülkeyle, bölgeyle ve bazen yıllarla hiçbir statik liste doğru tutturamayacak biçimde belirlenir. Bunun yerine kendi tatil satırlarını yapıştırırsın; sayım, şirketinin ya da sözleşmenin kastettiği tam sayı olur.",
+          "İki karar bir sayımı dramatik biçimde değiştirir ve her seferinde kontrol etmeye değerdir. Birincisi uçlar: bu sayım iki tarihi de içerir; tek haftadaki Pazartesi'den Cuma'ya 5'tir; 3 değil — bazı sistemler aradaki boşluğu katı sayar ve 3 döndürür. İkincisi ekle/çıkar kipinde başlangıç tarihinin tüketilip tüketilmediğidir: burada tüketilmez; Cuma artı bir iş günü Pazartesi'dir.",
+          "Sözleşmen ya da SLA'nın onları tanımlamadan «iş günleri» diyorsa gelenek genelde yönetici yargı bölgesinin yerel iş günleridir — hafta sonları Sat/Paz dışında olabilir ve bu aracın hiç duymadığı tatiller olabilir. Güvenli akış: o yargı bölgesinin tatil listesini yapıştır, burada say ve resulting takvim tarihini yazılı bırak.",
+        ],
+      },
+      {
+        heading: "Sayım gerçekte nasıl hesaplanır",
+        paragraphs: [
+          "Arada kip gerçek takvimi gün gün yürür; her tarihi, hafta sonu tanımına ve tatil satırlarına göre iş günü ya da değil olarak işaretler. Gerçek tarihleri gezdiği için cevap her zaman bir takvime işaret ederek alacağınla eşleşir — tatil satırları kesin tarihle eşlenir; Cumartesi'deki bir tatil fazla bir şey kaldırmaz; o gün hafta kuralı tarafından çoktan dışlanmıştır.",
+          "Ekle/çıkar kipi birer iş günü ileri ya da geri adımlar; iş-günü olmayanları tüketmeden atlar. Cumartesi artı bir iş gününün Pazar yerine Pazartesi'ye düşmesinin sebebi budur: din günleri geçilir, sayılmaz. Yinelenen sorgular ucuzdur — aritmetik UTC gün numaraları üzerinde düz bir döngüdür.",
+          "Her şey UTC gün numaraları üzerinde çalışır; yaz saati geçişlerine karşı bağışıklıdırlar. Mart ya da Kasım değişiminin çevresinde yerel-zaman tarih matematiği bazı ortamlarda bir gün kayabilir; bütün-UTC-gün sayımı Cuma'dan-Pazartesi'ye-2-Dır her yerde, her mevsimde aynı cevabı verir.",
+        ],
+      },
+      {
+        heading: "Aracın oturduğu yer ve gizlilik",
+        paragraphs: [
+          "Tipik kullanıcılar: sözleşme ihbar süreleri, derleme ve sevkiyat lead süreleri, SLA yanıt pencereleri, bordro kesimleri ve vize randevu kuyrukları. Yinelenen her şey için tatil listesini bir kez sakla ve yıl boyunca yeniden kullan — on beş yirmi tarih yapıştırmak saniyeler tutar ve tahmini savunulabilir bir sayıya çevirir.",
+          "Hesap tablosu iş-günü işlevleriyle karşılaştırıldığında farklar şeffaflık ve kontroller: hesap tabloları hangi günün neden atlandığını saklar ve birçoğu tatil tablosunu başka bir sayfadan yüklemek ister. Burada girdiler — hafta tanımı ve tatil satırları — sayfada görünürdür; iniş tarihi artı hafta günü sayımın nerede durduğunu tam olarak gösterir.",
+          "Hiçbir tatil verisi indirilmez ve hiçbir tarih yüklenmez: sayım tarayıcında çalışır ve çevrimdışı çalışır. Sözleşme zaman çizelgeleri ve personel tarihleri doğaları gereği iş-duyarlıdır; hesaplamanın cihazından hiç çıkmamasının bir nedeni daha.",
+        ],
+      },
+    ],
   },
   "cooking-conversion": {
     name: "Mutfak Dönüştürücü",
@@ -4583,6 +8744,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "350 °F neden 176,7 °C değil de 175 °C ediyor?",
         a: "Tam dönüşüm (350 − 32) × 5/9 = 176,7 °C'dir; ama fırınlar 5–10 derecelik adımlarla işaretlenir ve tarif yazarları en bilinen ayara yuvarlar, bu yüzden standart eş 175 °C'dir. Tablo bu geleneksel çiftleri gösterir; fırın düğmesinin gerçek sıcaklığı zaten yaklaşıktır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Bir cup'in bir sayı olmaması",
+        paragraphs: [
+          "Hacim alan ölçer; ağırlık madde ölçer ve aralarındaki köprü yoğunluktur — malzemeler arasında muazzam değişen. Bir cup bal (340 g) bir cup yulaf ezmesiyle (90 g) neredeyse üç kat ağırdır; ikisi de aynı 240 ml'yi doldurur. Tek bir «cups to grams» çarpanı sunan herhangi bir dönüştürücü sessizce her şey için tek bir yoğunluk varsayar; pişirmeyi bozan tam varsayım budur.",
+          "Bu araç bunun yerine malzeme başına bir tablo tutar. Un, cup başına 120 g'dır — King Arthur ve ABD test mutfaklarının kullandığı kaşıkla-bıçakla-düzeltılmış rakam — şeker (200), tereyağı (227) ve bal (340) kendi yayımlanmış değerlerini taşırken. Ayrım un için en çok sayar; çünkü sıkıştırılabilirdir: aynı fiziksel cup sallanmışken 110 g, torbadan direkt kazınmışken 150 g gelebilir.",
+          "Pratik çıkarım: gram çıktılarını iyi kaynaklı ortalamalar olarak ele; laboratuvar sabitleri olarak değil. Profesyonel fırıncılar tarifleri bir kez grama çevirir; sonra her şeyi kalıcı olarak tartar — mutfak tartısı hiçbir hesaplayıcının göremeyeceği ±%15'lik kazma varyansını kaldırır. İlk dönüşümü yapmak ve hacim-temelli tarifleri tartışma alışkanlığına çevirmek için bu aracı kullan.",
+        ],
+      },
+      {
+        heading: "Dünyanın cup boyutları",
+        paragraphs: [
+          "«Cup» kelimesi küresel olarak standartlaştırılmamıştır ve fark tatmaya kadar büyüktür. Bu araç ABD geleneksel mutfak cup'ını (240 ml) kullanır; Amerikan tariflerinin ve beslenme etiketlerinin arkasındaki gelenek — 15 ml'lik 16 kaşıktan ya da 5 ml'lik 48 çay kaşığından kurulmuş. Avustralya tarifleri de 250 ml cup kullanır; İngilizce kaynaklar bile anlaşamaz.",
+          "Tarif metrik ölçü kapları için yazıldıysa (250 ml; Avrupa, Japonya ve Latin Amerika'nın çoğunda sıktır) buradaki her hacim rakamı senin cup'ından yaklaşık %4 küçük çalışır. İngiliz imparatorluk cup'ları (284 ml) öteki yönde koşar. Un gibi ağırlık-temelli malzemeler cup başına birkaç gram kayar; sıvılarda hata oransaldır ve nadiren sayar. Güvenli çare bir kez grama çevirmek ve ağırlıkla çalışmaktır.",
+          "Kaşıklar ikinci bir tuzak saklar: ABD kaşığı 15 ml'dir; Avustralya 20 ml; eski İngiliz tarifleri 17,7 ml varsayabilir. Kaşık başına küçük; ama altı kaşık yağ taşıyan bir tarif belirgin sürüklenir. Tarif bir ülke söylemeden «kaşık» diyorsa kaynak Avustralya olmadıkça 15 ml varsay.",
+        ],
+      },
+      {
+        heading: "Fırın sıcaklıkları ve yerel çalıştırma",
+        paragraphs: [
+          "°F↔°C tablosu kesin °C = (°F − 32) × 5⁄9 formülünü uygular ama fırınların gerçekte sahip olduğu ayarlara yuvarlar: 350 °F, harfiyen 176,7 °C yerine 175 °C olur; çünkü kadranlar 5–10 derecelik adımlarla geçer ve her tarif yazarı en yakın tanıdık işarete yuvarlar. Öteki standart çiftler aynı mantığı izler — 300 °F ≈ 150 °C, 400 °F ≈ 200 °C, 425 °F ≈ 220 °C.",
+          "Kadrandaki işaretin kendisinin bir yaklaşım olduğunu hatırla: ev fırınları set noktalarından rutin olarak 10–25 derece sapar; ciddi tariflerin bağımsız bir fırın termometresi önermesinin ve dönüşümü suçlamadan önceki sebebi budur. Tablo birim sorununu çözer; yanlış kalibre fırını çözemez.",
+          "Buradaki her şey — yoğunluk tablosu, birim matematiği, sıcaklık formülü — tamamen tarayıcında çalışır. Hiçbir malzeme listesi, hiçbir miktar ve hiçbir arama hiçbir yere gönderilmez; aracın yükleme çarkları olmadan anlık kalmasının sebebi budur. Yüklendikten sonra çevrimdışı da çalışır; unla tozlanmış tezgâha dayanan telefonlar için faydalıdır.",
+        ],
       },
     ],
   },
@@ -4614,6 +8801,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Sunucuya bir şey gönderiliyor mu?",
         a: "Hayır. SVG tarayıcında bir dizi şablonundan kurulur, raster sürümler yerel bir canvas'ta çizilir. Sayfadan hiçbir şey çıkmaz: çevrimdışı çalışır ve yayınlanmamış tasarımlar için güvendedir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "SVG kaynak biçim olarak: ölçeklenen metin",
+        paragraphs: [
+          "Bir yer tutucu raster bir dosya gerektirmez — etiketli bir dikdörtgen ister. SVG olarak ifade etmek çıktının birkaç satır okunabilir işaretleme olması demektir: bir rect, bir text öğesi, belki bir fill özniteliği. O metin, SVG'nin HTML'ye, JSX'e, Figma'ya ya da README'ye temiz kopyalanmasının ve sonradan yeniden düzenlenebilmesinin sebebidir — işaretmede etiketi ya da hex rengi değiştir; görsel güncellenir. Aynı şeyin bir PNG'si yeniden üretilmeden kimseyi ayarlayamayacağı donmuş piksellerdir.",
+          "SVG ayrıca ölçeklenir: aynı 1 KB'lik dosya avatar yuvasında 64×64'te ve hero maketinde 1200×630'da keskin çizilir; çünkü vektör çizimin çözünürlüğü yoktur. Raster yer tutucular gerildiğinde bulanık görünür ya da aşırı boyutlandığında bayt israf eder. Wireframe ve dokümantasyon için — yer tutucuların ana yaşam alanları — vektör yolu genelde katı biçimde daha iyidir.",
+          "İki raster biçim belirli nişlerde yerini kazanır. PNG, satır içi SVG'yi temizleyen ya da bozan platformlara uyar (bazı CMS'ler, e-posta istemcileri ve sohbet uygulamaları soyar ya da kırar); JPG, yer tutucu bir fotoğrafı taklit ettiğinde kazanır; JPEG sıkıştırması geçişleri ve gürültüyü PNG'nin palet yaklaşımından daha iyi halleder. Aynı önizleme, üç teslim biçimi — seçim taste değil hedef platforma aittir.",
+        ],
+      },
+      {
+        heading: "Gerçek yerleşimlerde önemli olan boyutlar",
+        paragraphs: [
+          "Belirli boyutlar yinelenir; çünkü platformlar onları sabitler. 1200×630 dikdörtgen kanonik open-graph / sosyal-önizleme kartı boyutudur — platformların çoğunun bağlantı önizlemelerini kırdığı oran. 256×256 ve benzer iki kuvvetleri avatar ve ikon yuvalarıyla eşleşir. 16:9 dikdörtgenler (1280×720) video gömülerine hizalanır. Son varlığın en-boy oranıyla yer tutucu seçmek gerçek görsel geldiğinde maketin hiç kaymaması demektir; çünkü yerleşim reflow'u bu görsellerin varlık amacı olan pahalı hatadır.",
+          "1–5000 piksel kapısı keyfi değildir. 1 pikselin altında görsel anlamlı çizilemez; birkaç binin üstünde tarayıcılar ve tasarım araçları canvas tahsislerinde boğulmaya başlar — tam kalitede 5000×5000 bir PNG sıkışmadan önce zaten onlarca megabyte ham piksel verisidir. Yer tutucu üreticiler nadiren fazlasını gerektirir; herhangi bir yerde açılmayacak bir dosya üretmek yerine aşırı boyutları net bir mesajla reddetmek kazanır.",
+          "Benimsenecek bir alışkanlık: etiket metnini görselin içinde tut ama gerçek boyutları çevreleyen işaretlemde tut. Açık width ve height öznitelikli bir img etiketi artı aynı oranda bir yer tutucu sana şimdi kararlı bir yerleşim kutusu ve sonra bir düşüntü-yerine-geçiş verir — gerçek varlık vardığında CSS ameliyatı yok.",
+        ],
+      },
+      {
+        heading: "Üretimin neden makinenizde kaldığı",
+        paragraphs: [
+          "Yer tutucu görseller bir projenin hayatının en erkeninde belirir — yayımlanmamış ürünlerin wireframe'leri, NDA altındaki özelliklerin maketleri, şirketin dışındaki kimsenin görmemesi gereken iç panolar. Alışılmış çevrimiçi-üretici akışını rahatsız kılan budur: boyutlarını bir hizmete yazarsın ve istek (çoğu zaman proje ifşa eden bir etiketle) bir başkasının sunucusuna çarpar ve günlüklenebilir. Bu araç SVG'yi bir dize şablonundan kurar ve raster sürümleri yerel bir canvas'a çizer — hiçbir ağ isteği tasarımını herhangi bir noktada taşımaz.",
+          "Yerel üretim, birçok yer tutucu hizmeti çevresindeki hesap-ve-filigran ekonomisini de kaldırır: kayıt yok, günlük hız sınırı yok, maketinin köşesine pişirilmiş marka yok. İndirdiğin dosya tam olarak tanımladığın dosyadır; kopyaladığın SVG işaretlemesi düzenlemek senin için serbesttir.",
+          "Sayfa yüklendikten sonra çevrimdışı da çalışır; kulağa gelendiğinden fazla sayar: tasarımcılar ve geliştiriciler sık sık yolda ya da kısıtlı ağlarda çalışır; bağlantı ölünce ölen araç, hızlı bir yer tutucunun gerektiği tam durumlarda işe yaramaz. Üret, indir, sekmeyi kapat — hiçbir şey hiç iletilmedi.",
+        ],
       },
     ],
   },
@@ -4648,6 +8861,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "FLSA mesaiyi “normal ücret” üzerinden hesaplar; bu, baz maaşın ötesine geçebilir — vardiya fark ücretleri ve zorunlu olmayan primler buna örnektir. Bu hesaplayıcı düz baz ücreti kullanır: bu tür eklemeler alıyorsan yasal mesai ücretin burada gösterilenden yüksek olabilir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "1,5× çarpanının kaynağı — ve değiştiği yerler",
+        paragraphs: [
+          "Zaman-ve-yarım gelenek en çok ABD Fair Labor Standards Act'de kodlanmıştır; çalışma haftasının 40 saatini geçen muaf olmayan çalışanlara düzenli oranın en az 1,5 katını ister. Birçok öteki ülke fazla mesaiyi farklı düzenler — bazıları haftalık saatlere genel bir tavan koyar; primler sektör ya da sözleşmeyle pazarlanır; ötekiler çoğunlukla işveren ile çalışan arasındaki anlaşmaya yaslanır.",
+          "Bu yüzden bu hesaplayıcı bir çarpan sabitlemek yerine seçmene izin verir: 1,5× sıradan varsayılandır ama çift zaman bazı ABD eyaletlerinde tatiller ya da uzun günlük vardiya için vardır ve başka yerdeki toplu sözleşmeler 1,25×'ten yukarı primler kurar. Hesaplayıcının çıktısını herhangi bir kanunun garantilediği bir beyan değil, sözleşmenin şartlarının bir modeli olarak ele.",
+          "Muhafazakâr okuma: iş sözleşmenin, sektörünün anlaşmasının ya da yerel emek otoritenin standart çalışma haftasını aşan saatler hakkında gerçekte ne dediğini kontrol et, sonra eşleşen çarpanı ve eşiği gir. Matematiğin kendisi — oran × çarpan × saat — asla değişmez; değişen yalnızca girdilerdir.",
+        ],
+      },
+      {
+        heading: "Düzenli oran tuzağı: taban olarak ne sayılır",
+        paragraphs: [
+          "Fazla mesai ücretini tahmin etmedeki en sık hata fazla düşük bir taban kullanmaktır. FLSA'ninkiler gibi kurallar altında fazla mesai «düzenli oran» üzerinden borçludur — muayyen olmayan bonusların çoğunu, vardiya farklarını ve komisyonları içermesi gereken harmanlanmış bir ortalama; yalnızca taban ücreti değil. Gerçek düzenli oranı 27,00 olan ama fazla mesaiyi 25,00 tabanından hesaplayan çalışan her fazla mesai saatinde para kaybeder.",
+          "Bu hesaplayıcı bilinçli olarak senin girdiğin düz bir taban oran kullanır; modeli şeffaf tutar: tam olarak oran × çarpan × saat görürsün; eklenen ya da saklanan hiçbir şey yok. Ücretin yasal olarak düzenli orana ait olan ekstra taşıyorsa gerçek hak gösterilenden yüksektir — yaklaşmak için elle ortalanan bir oran gir.",
+          "Maaşlı çalışanlar için tabanın önce türetilmesi gerekir: yıllık maaş, haftalık düzenli saatlere ve yıla hafta sayısına bölünür; buradaki maaş kipinin yaptığı budur. Sonuç, girdiğin program kadar doğrudur — gerçekten haftada 45 saat çalışan maaşlı biri, nominal 40 saatlik programın ima ettiğinden daha düşük türetilmiş saatlik orana ve farklı bir fazla mesai resmine sahiptir.",
+        ],
+      },
+      {
+        heading: "Bölümü okumak ve onunla planlamak",
+        paragraphs: [
+          "Haftalık bölüm — düzenli ücret ile fazla mesai primi — izlenmesi gereken sayıdır, toplam değil. Prim satırı saf marjinal gelirdir: her fazladan saatin marjda gerçekte ne değer taşıdığını ve simetrik olarak her inkâr edilmiş ya da ödenmemiş fazla mesai saatinin sana ne maliyetli olduğunu gösterir. 25,00 oranda 1,5× ile beş saatlik bir hafta 187,50 prim ekler — görünür; pazarlanabilir; izlemeye değer.",
+          "Yıllıklaştırılmış rakam haftalık toplamı çalıştığın yıllık haftalarla çarpar. Onu bir vaat değil bir tavan olarak oku: fazla mesai nadiren her hafta garantilir; gerçekçi aralık 52 yerine tipik fazla mesai haftalarını kullanır. Tam-yıllık bir fazla mesai projeksiyonundan bütçelemek, ekstra saatler kuruduğunda insanların kısa kalmasının yoludur.",
+          "Her şey tarayıcında yerelde çalışır ve hiçbir şey saklanmaz ya da gönderilmez — ücret konuşmasından önce sayıları sınarken faydalıdır. Bölümü getir; yalnızca toplamı değil: «düzenli haftam 1.000,00 ve eklemek istediğiniz beş saat zaman-ve-yarimle 187,50 değerinde» herhangi bir yekûn rakamdan daha net bir istemdir.",
+        ],
+      },
+    ],
   },
   "rent-affordability-calculator": {
     name: "Kira Bütçesi Hesaplayıcı",
@@ -4675,6 +8914,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Buradaki borç-gelir oranı ne anlama gelir?",
         a: "En yüksek kira artı belirttiğin borçlar ve sigortanın gelirinden yediği paydır. Kredi kuruluşları genellikle toplam DTI'nin %36'nın altını sever; kabaca %43'ün üzerinde mortgage almak zorlaşır. Yüksek bir sayı, kira tavanının diğer yükümlülüklerine göre fazla iddialı olduğu anlamına gelir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "%30 kuralının kaynağı — ve unuttuğu şeyler",
+        paragraphs: [
+          "%30 benchmark'inin Amerikan yasama kökeni vardır: 1969 Brooke Amendment, kamusal konutta kirayı gelirin %25'ine sabitledi; tavan 1981'de %30'a yükseltildi. Konut kurumları hâlâ «maliyet-yükümlü» haneyi tanımlamak için %30 çizgisini kullanır; oradan genel kira tavsiyesine sızdı. Kökeni bilmek sayar; çünkü sayı bir sübvansiyon kuralıydı — herhangi bir hanenin gerçekte karşılayabileceği hakkında bir bulgu değil.",
+          "Kural yirminci yüzyıl ortası brüt gelirler ve hane yapıları çevresinde tasarlandı. Bütçenin geri kalanı hakkında hiçbir şey söylemez: öğrenci kredisi ve araba taksitiyle brütün %30'undaki kiracı, borçsuz %35'tekinden daha zorlanmıştır. Bütçedeki en büyük esnek satırı da yok sayar — kuralda çocuk bakımı, işe gidiş ya da tıbbi maliyetler için hiçbir pay yoktur; kiradan çok daha fazla değişen kalemler.",
+          "Bu yüzden bu hesaplayıcı tek bir gerçek yerine üç hazır ayar sunar: klasik okuma için brütün %30'u; mütevazı bir uzatma için %33; brütün %30'unun hiçbir gerçek daireyi fiyatlamayabildiği yüksek maliyetli şehirler için netin %40'ı. Hangi hazır ayarı seçersen seç, sonra borçları ve sigortaları çıkar — kalan bütçe «bununla yaşayabilir miyim»i yanıtlayan sayıdır; tavanın kendisi değil.",
+        ],
+      },
+      {
+        heading: "Brüt mü net mi: bir taban seçmek ve tutarlı kalmak",
+        paragraphs: [
+          "Klasik kural brüt gelirle ifade edilir; bu sessizce onu övendir: brütün %30'u, ülkenize ve diliminize bağlı olarak vergiler ve bordro kesintilerinden sonra netin %38–40'ı olabilir. Net gelirlerden planlamak daha dürüst hissettirir; çünkü aslında gelen bordrodur — ama net tabanlı oranlar aynı yere inmek için daha yüksek olmalıdır; yüksek-maliyet-şehri hazır ayarı olarak netin %40'ının sebebi.",
+          "Kaçınılacak hata analiz ortasında taban değiştirmektir. Brütün %30'una kurulmuş bir kira bütçesi, sonra her ay net yatırımlara karşılaştırıldığında aşırı harcama gibi görünen kalıcı hayali bir açık üretir. Bir taban seç, not et ve sonraki her kontrolü o tabanda tut — hesaplayıcı brüt ile net'i tam olarak bu yüzden etiketler; tavan ile banka ekstrenin aynı paradan söz etmesi için.",
+          "Ev sahipleri üstüne kendi taramalarını ekler: aylık kiranın iki buçuk ilâ üç katı gelir katları sıktır; kredi kontrolleri ve referanslarla birlikte. O taramalar onların riskiyle ilgilidir, senin bütçenle değil — kira/gelir oranı %45'te geçmek hâlâ gergin bir bütçedir; buradaki DTI rakamı onu imzadan önce görünür kılar.",
+        ],
+      },
+      {
+        heading: "Borç/gelir ve kalanları okumak",
+        paragraphs: [
+          "Maksimum kirada gösterilen borç/gelir yüzdesi lender'ların kullandığı aynı ölçüdür: toplam aylık yükümlülükler üstüne toplam aylık gelir. Kaba pusula olarak toplam DTI %36 civarı genelde rahat sayılır; otuzların ortasına tırmanmak mortgage ve kira onaylarının zorlanmaya başladığı yerdir — bunlar sıradan sektör pratikleridir; sabit hukuk sınırları değil; eşikler ülkeyle ve lender'la değişir.",
+          "Tavandan önce kalan bütçeyi oku. İki gelir aynı kira/gelir oranını üretirken yemek, ulaşım ve tasarruf için çok farklı tutarlar bırakabilir — 4.500 gelirle 1.350 kira, 2.600 gelirin bıraktığının iki katını bırakır. Mutlak artık plansız giderleri yakalayan şeydir; oran yalnızca tekdüzler.",
+          "Son olarak negatif satır bir özelliktir: kira artı borçlar geliri aştığında araç onu yumuşatmak yerine söyler. Oran hazır ayarını küçültmek, daha ucuz kira aramak ya da önce bir borcu ödemek için dürüst sinyaldir — hesaplayıcı tümüyle tarayıcında çalışır ve hiçbir şey saklamaz; gerçek gelir rakamlarını girmek güvenlidir.",
+        ],
       },
     ],
   },
@@ -4706,6 +8971,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Bu hesaplayıcı yılda 365 dönem kullanır; tüketici tasarruf hesaplarının çoğunun izlediği kural budur. Bazı finansal ürünler yılı 360 gün üzerinden annualize eder, bu da efektif oranı hafif kaydırır — küçük yazıda 360 yazıyorsa sonucu kesin teklif değil yakın bir yaklaşım say.",
       },
     ],
+    deepDive: [
+      {
+        heading: "APR, APY ve karışıklıktan kim kazanç sağlar",
+        paragraphs: [
+          "APR nominal bir yıllık orandır: faiz yılda bir kez yüklenseydi bakiyenin kazanacağı ya da borçlanacağı. APY bileşikleştirme içine katlandıktan sonraki etkin yıllık sonuçtur. Onları bağlayan kimlik — APY = (1 + r/n)^n − 1 — aynı nominal oranın ne kadar sık bileşirse o kadar yüksek etkin getiri ürettiğini söyler; fark tam olarak faizinin kazandığı faizdir.",
+          "Reklamdaki asimetri teşvigi izler: tasarruflar APY ile kotarılır; çünkü daha büyük sayıdır; krediler APR ile; çünkü daha küçüktür. Hiçbir pratik kendi başına sahtecilik değildir — her iki rakam da çoğu pazarda standartlaştırılmıştır — ama bir tasarruf APY'sini doğrudan bir kredi APR'siyle ya da farklı bileşikleştirme sıklığındaki iki oranı karşılaştırmak, farklı birimleri karşılaştırmaktır.",
+          "Bu aracın otomatikleştirdiği tek satırlık kural: mevduat için APY'yi APY'yle karşılaştır; zaten sıklığı tekdüzler. Borçlar için APR'yi APR'yle karşılaştır ve sonra her sözleşmenin gerçekte ne sıklıkta sermayeleştirdiğini kontrol et. Yalnızca aynı ayakta duran oranlar iki teklifi sıralayabilir.",
+        ],
+      },
+      {
+        heading: "365 ile 360 dipnotu ve sayıyı oynatan öteki gelenekler",
+        paragraphs: [
+          "Bu araç günlük bileşikleştirme için 365 dönem kullanır; tüketici tasarruf hesaplarının çoğunun izlediği gelenektir. Ama finans ürünlerinin küçük yazısı birden fazla takvim taşır: bazı ürünler 360 gün tabanında yıllıklandırır; bazı kredi sözleşmeleri faizi yılın gerçek gün sayısı üzerinden hesaplar. Her gelenek etkin oranı küçük bir miktarda kaydırır — yılda küçük; büyük bir bakiyenin hayatı boyunca anlamlı.",
+          "Ödeme zamanlaması da sayıyı oynatır. Geldiği günden faiz kazanan bir mevduat, dönem sonunda aktarılandan hafifçe daha hızlı büyür; bir kredinin faizi aylık mı günlük mü sermayeleştiriyor, aynı nominal oranda bile etkin maliyetini değiştirir. İki kotasyon birkaç yüzde kaçı puanla ayrışıyorsa neden neredeyse her zaman böyle bir gelenektir; kimsenin tarafında bir aritmetik hata değil.",
+          "Ters yönün de önem taşımasının sebebi budur: ilan edilen bir APY verildiğinde bu araç onu üretecek nominal APR'yi kurtarır; pazarlama sayısının arkasındaki ham oranı görür ve farklı birimlerde kotatan sözleşmeleri karşılaştırırsın. Gidiş dönüş kesindir; çünkü aynı denklem iki yönde çözülür.",
+        ],
+      },
+      {
+        heading: "Projeksiyonun kattığı şey ve durduğu yer",
+        paragraphs: [
+          "İsteğe bağlı mevduat ve ufuk, bir oran karşılaştırmasını bir para karşılaştırmasına çevirir: iki APY arasındaki aynı bir çeyrek puanlık fark küçük bir acil durum fonu üzerinde önemsiz; büyük mevduatta on yıl boyunca dört basamaktır. Projeksiyon etkin oranda bileşir; pratik soruyu yanıtlar — bu fark bana gerçek ufuk boyunca ne alır — oranları yeniden bildirmek yerine.",
+          "Yapmadığı şey vergileri ya da ücretleri modellemektir. Faiz geliri çoğu yargı bölgesinde vergilidir; hesap ücretleri doğrudan bakiyeden düşer; gerçekten yaşadığın vergi-sonrası, ücret-sonrası APY kotatılanından düşüktür. Kendi sayılarını muhafazakâr çevir ve projeksiyonlu bakiyeyi bir vaat değil tavan olarak ele.",
+          "Sitenin geri kalanı gibi dönüşüm ve projeksiyon tarayıcında yerelde çalışır. Hâlâ pazarlık ettiğin oranlar ve mevduat boyutları cihazından hiç çıkmaz — iki banka arasında karşılaştırmanın ortasında olduğunda göründüğünden fazla sayar.",
+        ],
+      },
+    ],
   },
   "gpa-calculator": {
     name: "GPA Hesaplayıcı",
@@ -4733,6 +9024,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Harf ya da kredisi olmayan bir satır GPA'mı neden değiştirmiyor?",
         a: "Bir ders, kredi saati ve harf notunun ikisi de varken sayılır — yarım bırakılan her şey sıfır sayılmak yerine atılır; böylece GPA gerçekten tamamladığın dersleri yansıtır. Satırı tamamla, toplamlar hemen güncellenir.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "4,0 ölçeğinin temiz çevrilmeme nedeni",
+        paragraphs: [
+          "4,0 ölçeği bir ABD kurumsal geleneğidir; uluslararası bir standart değildir. En sıktık tablo A+ ile A = 4,0; A− = 3,7; B+ = 3,3 verir ve harfler boyunca 0,3–0,33 adımlar; ama okullar gerçek biçimlerde ayrışır: bazıları A+'yı 4,0'da keser; ötekiler 4,3 verir; bazıları honors ya da AP derslerini 4,0 üstünde ağırlıklandırır; birkaç eksi notları tümüyle atlar. «3,7» okuyan iki transkript bu yüzden hafif farklı performansları betimleyebilir.",
+          "Yüzde sisteminden ya da yüzdeye çevirmek kayıplı olmaktan kötüdür — sık sık geri alınamazdır. Çin 85/100, bir kredi-değerlendirme tablosunda A−'ye; ötekinde B'ye eşlenebilir; Alman 2,0 güvenle hiçbir tek ABD harfine karşılık gelmez. Resmî değerlendirmeler (WES ve benzer hizmetler) kendi belgeli formüllerini çalıştırır; tam olarak evrensel bir dönüşüm olmamasından.",
+          "Pratik kural: kendi izleme ve planlama için tutarlı herhangi bir tablo çalışır; bu araç en yaygın olanı kullanır. Başvurular için — lisansüstü kabul, burslar, vize ya da kredi süreçleri — okulun resmî tablosu ve transkriptin kendisi karar verir; bir sayı kotatmadan önce başvurunun hangi ölçeği beklediğini hep doğrula.",
+        ],
+      },
+      {
+        heading: "Kredi ağırlıklandırması ve bir semestern gerçekten taşıyabildiği",
+        paragraphs: [
+          "GPA kredi-ağırlıklı bir ortalamadır; notların ortalaması değil. Σ(puan × kredi) ÷ Σkredi formülü, 4 kredilik bir A'nın 12 kalite puanı katkı vermesi ve 3 kredilik bir B+'ın 9,9 vermesi demektir — en çok kredi taşıyan dersler GPA'ni en çok yönlendirir. Bir semesterplanlarken, yüksek-kredili dersi B'den A−'ye itmek genelde 1 kredilik bir semineri kusursuzlaştırmakı yener.",
+          "Kümülatif harman bir düzey yukarıda aynı çalışır: (semester GPA × semester kredi + önceki GPA × önceki kredi) ÷ toplam kredi. Aritmetik her geç kalanın çarptığı bir hayal kırıklığını açıklar — arkanda 3,00'lık 60 kredi varken, 7 kredi üzerinden parlak 3,60'lık bir semester kümülatifi yalnızca yaklaşık 3,06'ya kaldırır. Erken semestreler sayıyı çok oynatır; geç olanlar neredeyse dokunmaz.",
+          "Aynı matematik, hafif bir semesterin kaydı neden zar zor çentikliğinin ve 3 kredilik dersi dönem ortasında bırakmanın insanların sezdiğinden fazla etki taşımasının da sebebidir — o kredileri kaldırmak hem payı hem paydayı değiştirir. Senaryolar modelliyorsan dersleri sıfırlar olarak değil, bırakmadan sonra görünecekleri tam biçimde gir.",
+        ],
+      },
+      {
+        heading: "Eksik satırlar, Pass/Fail ve gizlilik",
+        paragraphs: [
+          "Bir satır yalnızca hem krediler hem harf notu doldurulmuşsa sayılır. Yarı girilmiş dersler sıfır puanlanmak yerine atlanır — sıfır puanlamak henüz almadığın dersleri sessizce cezalandırırdı; naif GPA hesaplayıcıların yanlış sayı üretmesinin en sıktık yolu. Pass/Fail dersler bu aracın dışına aittir: kayıt bürolarının çoğu onları GPA'dan tümüyle dışlar.",
+          "Her şey tarayıcında çalışır. Notlar ve ders adları cihazdan hiç çıkmaz — hesap yok, sunucu gidiş dönüşü yok, saklanmış geçmiş yok. Göründüğünden fazla sayar: GPA taslakları resmî sonuçlardan önce gelir; transkriptleri bilinmeyen bir web formuna yapıştırmak gereksiz bir ifşadır. Sayfayı yenile ve sayfa yeniden boştur.",
+        ],
       },
     ],
   },
@@ -4764,6 +9080,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Sabah, uyanır uyanmaz ve yataktan kalkmadan önce ölç: nabzını 60 saniye (ya da 30 saniye × 2) say ve gürültüyü ortalamak için birkaç gün yinele. Giyilebilir cihazın 7 günlük istirahat ortalaması da olur. Tipik yetişkinler 60–80 bpm arasındadır; iyi antrenmanlı dayanıklılık sporcuları çoğu kez 40'larda ya da 50'lerde gezer. İstirahat nabzın tahmini maksimumunun üstündeyse — ya da beta bloker gibi bir ilaç nabzını etkiliyorsa — iki sayıyı da elle gir.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Birlikte çalışan iki formül: Karvonen ve maksimum nabız",
+        paragraphs: [
+          "Karvonen yöntemi yoğunluğu nabız rezervinin bir yüzdesi olarak tanımlar: bpm = dinlenme nabzı + % × (maks nabız − dinlenme nabzı). Maksimumu değil rezervi ölçeklemek konunun tümüdür — dinlenme nabzı 45 olan bir koşucunun eğitilebilir aralığı 70'tekinden çok daha geniştir; rezerv-temelli bölgeler onu sayar.",
+          "Maksimum nabzın kendisi burada 206,9 − 0,67 × yaş olarak tahmin edilir; Gellish ve arkadaşlarının 2007'de laboratuvar-ölçülmüş maksimumlara kalibre ettiği bir regresyon. Meşhur 220 − yaş kuralı 1970'lerin kabaca bir kolaylık tablosuna iz sürer ve yaşlı yetişkinlerde maksimum nabzı sistematik biçimde fazla gösterir; modern regresyonlar (Tanaka'nın 208 − 0,7 × yaşı dahil) ölçülen veriyi çok daha iyi oturtur.",
+          "Bölgeler sonra rezervi klasik kesimlerde böler — Z1 %50'de; Z2 %60; Z3 %70; Z4 %80; Z5 %90 — kurtarma koşusundan eşik işine ve VO2-maks aralıklarına kadar beş bant verir. Aynı bölge sayıları iki formülde de tutarlıdır; formülü değiştirmek sınırları değil yalnızca konumları taşır.",
+        ],
+      },
+      {
+        heading: "Her bölgeyi nasıl kullanmalı",
+        paragraphs: [
+          "Bölgeler hız değil fizyolojik niyeti betimler. Z1-Z2 aerobik tabanı kurar ve gerçekten kolay hissettirmelidir — sıradan koşucuların çoğu burada fazla sert antrenman yapar; polarize antrenman planlarının kolay bölgelerde dürüst kalmayı vurgulamasının sebebi budur. Z3 rahat sabit efor çevresinde durur; Z4 kabaca 20-60 dakika sürdürabileceğin eşik işidir; Z5 tavanına yakın kısa, sert aralıklardır.",
+          "İlk haftalarda sayıları bir göğüs bandıyla ya da optik HR'li bir saatle kontrol et. Algılanan eforun Z3 dedirken bant Z2 diyorsa efora güven; uyku ve stres boşluğu açıklayacaktır — nabız yorgunlukla, sıcaklıkla, yükseklikle ve hidrasyonla gün gün sürer.",
+          "Gerçek maksimumunu bir laboratuvar testinden ya da sonuna kadar bir yarış bitişinden biliyor musun? Elle gir — ölçülmüş bir değer herhangi bir denklemi yener; çünkü bireysel maksimumlar herhangi bir regresyon çizgisi çevresinde kabaca ±10 bpm dağılır.",
+        ],
+      },
+      {
+        heading: "Tahminlerin çöktüğü yerler",
+        paragraphs: [
+          "Beta-blokerler ve öteki nabız-sınırlayıcı ilaçlar tüm modeli düzleştirir: nabzı herhangi bir denklemin tahmin ettiğinden çok aşağıya kapatırlar; o ilaçlarla bölge antrenmanı bir hesaplayıcıyı değil klinisyenin ya da fizyoloğun yönergelerini izlemelidir.",
+          "Regresyon uçlarda da daha zayıftır — çok genç atletler ve yetmişin hayli üstündeki yetişkinler denklemlerin kalibre edildiği verinin dışına düşer. Ve optik bilek sensörleri aralıklarda gecikir; Z4-Z5 işi için göğüs bandı değer taşır.",
+          "Son olarak dinlenme nabzı tahmin edilmeli, ölçülmelidir: sabahları yataktan kalkmadan, birkaç gün boyunca al. Şişirilmiş bir dinlenme değeri kullanmak her bölgeyi aşağıya sıkıştırır ve kolay günlerini sessizce fazla sert yapar.",
+        ],
+      },
+    ],
   },
   "shoe-size-converter": {
     name: "Ayakkabı Numarası Çevirici",
@@ -4786,6 +9128,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Ayaklarımı nasıl ölçmeliyim?",
         a: "Gün sonunda bir kağıt üzerine bas, iki ayağını da çiz ve topuktan en uzun parmağa kadar santimetre cinsinden ölç. Daha büyük ayağı kullan.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Ayakkabı numaralarının gelenek karmaşası olma nedeni",
+        paragraphs: [
+          "Ayakkabı numaraları keyfidir ve her bölge kendi ölçeğini icat etti. ABD ve İngiliz sistemleri numaraları arpa tanesi temelli bir merdivenden dizer — tam numara adımı yaklaşık inçin üçte biri (kabaca 8,5 mm) değerinde — İngiliz ölçeği ayak uzunluğunu kendi yuvarlamasıyla bir taban rakama böler; Japonya Mondopoint kullanır; basitçe santimetre cinsinden ayak uzunluğudur. Ölçeklerin hiçbiri ortak bir sıfır paylaşmaz; aynı fiziksel ayak bir sistemde 9, ötekinde 42 okunabilir.",
+          "ABD ve İngiliz erkek-kadın ölçekleri birbirinden kaymalıdır — ABD kadın 8 kabaca erkek 6,5'e karşılık gelir — kadın ölçülendirme tarih olarak erkeklerinkinden yaklaşık 1,5 numara üstte kendi merdiveninde koşmuştur. Unisex bir dönüştürücünün cinsiyet seçicisi istemesinin sebebi budur: kadın bir numarayı ofset olmadan erkek merdiveniyle çevirmek seni iki numara dışarıya bırakır; unisex tarzda alışverişin en sık hatalarından biri.",
+          "Santimetre cinsinden ayak uzunluğuna demirlemek bunun çoğunu dolanır: uzunluk fiziksel gerçektir; numaralar etiketlerdir. Yarım numara kabaca 4–5 mm uzunluk değerindedir; bir tablo sen iki numara arasına koyduğunda ölçülen santimetrelerin ayak boşluğun gerçekte hangi tarafta durduğunu söyler.",
+        ],
+      },
+      {
+        heading: "Bir dönüşümü dürüstçe kullanmak",
+        paragraphs: [
+          "Ayaklar gün boyu şişer — ayakta durmak, yürümek ve ısı kana dokuya iter — sabah ölçümü akşama gereksineceğin ayakkabının yarım numara altını okuyabilir. Günü sonunda ölç; ayağa kalkmış ve tam ağırlığı ayakta ve iki ayağı da izle ya da ölç: insanların ayakları hafif farklılaşır; ayakkabı büyük olana oturmak zorundadır.",
+          "Markalar ayakkabıları farklı kalıplar üzerine kurar — ayakkabının çevresinde şekillendiği ayak-biçimli kalıp — topuktan dar ya da önden rahat bir kalıp damgalı numarayı değiştirmeden oturuşu değiştirir. Bir markadaki ABD 10'ın ötekine 9,5 gibi oturması normaldir; tablo hatası değildir. Çevrimiçi perakendeciler kendi numara notlarını yayımlar («dar kalır», «yarım numara büyüt»); o notlar herhangi bir evrensel tabloyu geçer.",
+          "Çevrilmiş numaran iki seçenek arasında duruyorsa kapalı ayakkabılar için büyüğünü al — deri gerilir; çoraplar yer kaplar; hafif geniş ayakkabı sıkışandan daha iyi ayarlanır. Kayışlar, sandaletler ve açık tarzlar için küçültmek daha güvenlidir. Buradaki her dönüşümü bir aralığın merkezı olarak ele; markanın kendi tablosu daraltsın.",
+        ],
+      },
+      {
+        heading: "Sistemler ayrıntılı ve yerel çalıştırma",
+        paragraphs: [
+          "Mondopoint (ISO-atıflı ayak-uzunluğu ölçüsü; Japonya ve dünyanın kayak botları kullanır) sistemlerin en rasyonelidir: Japonca 25,0, 25 cm'lik ayak demektir; ilkesel olarak ne kayma ne cinsiyet ayrımı. İngiliz ölçek en loştur — sıkı bir standardtan çok pratikle dayatılmıştır; Fransız/Alman kaynaklar bazı noktalarda bir numara ayrışır. ABD ve İngiliz tabloları kesindir ama cinsiyete bölünmüştür; İngiliz ölçeğin ölçekin çoğu noktasında ABD erkeklerinin tam bir numara altında koşması.",
+          "Çocuk ölçülendirme kendi dünyasıdır — tam bir başparmak genişliğinde ekstra pay gibi büyüme-payı gelenekleri sıktır ve İngilizce konuşan çocuk merdivenleri yetişkinlerinkiden farklılaşır. Bu dönüştürücü yetişkin erkek ve kadın tablolarını kapsar; çocuk dönüşümleri özel bir çocuk tablosu ister.",
+          "Tüm tablo tarayıcında statik yayımlanmış grafiklerden çalışır — hesap yok, ölçüm yükleme yok, saklanan hiçbir şey yok. Bir markanın tablosu seni şaşırttığında yeniden aç; rakamlarını standart çıpayla karşılaştırmak genelde markanın dar mı koştuğunu yoksa tablonun yalnızca farklı mı yuvarladığını görmeye yeter.",
+        ],
       },
     ],
   },
@@ -4812,6 +9180,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Hayır — fiziksel bir kronometre gibi, sıfırlama ya da yenileme oturumu temizler. Turları korumak için sekmeyi açık tut.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Zamanlayıcılar neden hata biriktirir — bu bir neden biriktirmez",
+        paragraphs: [
+          "setInterval üzerine kurulu bir kronometre her geri çağrıda bir saniye biriktirir; o tasarım üç ayrı hata kaynağı taşır: ana iş parçacığı meşgulken geri çağrılar geç çalışır; tarayıcılar arka plan sekmelerini kısar (bazen saniyede bir kez ya da çok daha kaba); ve her küçük gecikme düzeltilmek yerine birikmiş toplama eklenir. On dakikalık koşu üzerinde saniyeler sürüklenir gerçekçi; bir saat üzerinde dakikalar.",
+          "Bu kronometre geçen süreyi Date.now() eksi sabit bir başlangıç zaman damgası olarak hesaplar. Tarayıcının sistem saati tek doğruluk kaynağıdır; sekme ne kadar gecikirse geciksin ya da ne kadar agresif kısılırsa kısın sonraki yeniden çizim gerçek geçen süreyi gösterir. Duraklamalar aynı halledilir — devam etmek sayılan bir değere güvenmek yerine yeni demirli bir segment kaydeder.",
+          "Görüntü yüzde birleri gösterir; çünkü altta yatan saat onları kolayca çözümler ama burada da dürüstlük sayar: rakamların garantilediği aritmetiktir; Start'a basanın refleksleri değil. Bir iki onda birlik insan tepki süresi bu tasarımdaki herhangi bir hesaplama hatasını gölgeye bırakır; hakem organlarının hâlâ fiziksel temas ya da foto sensörlü özel donanım kullanmasının sebebi budur.",
+        ],
+      },
+      {
+        heading: "Turlar ve bölünmeler nasıl tutarlı kalır",
+        paragraphs: [
+          "Her tur, Lap bastığın anda aynı demirli saati damgalar: bölünmesi önceki tur damgasından bu yana geçen süredir; toplamı başlangıçtan bu yana geçendir. İkisi de gerçek zaman damgalarını çıkararak — aralıkları toplayarak değil — geldiği için her sütun kaç tur alırsan al ya da tık ne kadar gecikmiş olursa olsun kendi içinde tutarlıdır.",
+          "O tutarlılık kronometreleri karşılaştırırken kontrol edilmeye değerdir: biriken bir zamanlayıcıda bölünmeler toplama tam olarak eşit olmayabilir; uyumsuzluk kısıtlama ve yük ile büyür. Burada bölünmelerin toplamı nihai toplama yapısal olarak eşittir — sayılar birbirini reddedemez.",
+          "Sekmeyi kapatmak ya da yenilemek oturumu temizler; kasıtlıdır: saklama yok demek sızacak ve yanlış sıfırlanacak bir şey yok demektir. Sayılara ihtiyacın varsa kapatmadan önce oku (ya da ekran görüntüsü al) — araç fiziksel bir cihaz gibi davranır; veritabanı gibi değil.",
+        ],
+      },
+      {
+        heading: "Tarayıcı kronometresinin oturduğu yerler",
+        paragraphs: [
+          "İyi oturumlar: sporcunun kendi zamanını okuduğu antrenman aralıkları; toplantı ve sunum provası; derleme ya da render zamanlama; sınıf gösterileri; adım başına zamanlama isteyen yemek adımları. Büyük tablo rakamları tam olarak okurun sık sık efor ortasında olduğunu ve yarım saniye göz attığı için vardır.",
+          "Kötü oturumlar: rekabet hakemliği, tepki-süresi deneyleri, faturalama-sınıfı zaman takibi. O ortamlarda yüzde-birlik görüntü fazla vaat eder — düğme basması en az hassas bileşendir — ve klavye-düzeyi olay yakalayan özel donanım ya da yazılım daha iyi araçtır.",
+          "Bu sayfadaki her şey gibi zamanlama tümüyle tarayıcında çalışır: hiçbir şey kaydedilmez, iletilmez, paylaşılmaz; kronometre çevrimdışı çalışır. Oturum verisi yalnızca sayfa belleğinde yaşar; duyarlı bir şeyi zamanlayan güçlü kullanıcı sayıların nereye gittiğini hiç sormak zorunda kalmaz.",
+        ],
+      },
+    ],
   },
   "countdown-timer": {
     name: "Geri Sayım Sayacı",
@@ -4834,6 +9228,32 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Çan sesini duyar mıyım?",
         a: "WebAudio üzerinden kısa bir sentezlenmiş tondur. Sekmenin sessizde olmadığını ve cihaz sesinin açık olduğunu sağla; indirilecek bir ses dosyası yok.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Geri sayımlar neden sürüklenir — bu nasıl kaçınır",
+        paragraphs: [
+          "Zamanlayıcı kurmanın naif yolu her tikte bir saniye düşen setInterval'dır. Yapısal bir sebepten başarısız olur: setInterval bir söz değil istektir. Tarayıcılar arka plan sekmelerindeki zamanlayıcıları kısar — tarih olarak saniyede bir kez civarına ya da çok daha kabaya — inaktif sekmedeki 10 dakikalık bir zamanlayıcı sessizce çok daha uzun sayabilir. Tarayıcılardaki zamanlayıcı-temelli alarmlar «geç öttü» hatalarının meşhur bir kaynağıdır.",
+          "Bu araç ters yaklaşımı alır: Start'a bastığında bir duvar-saati son tarihi kaydeder; her görüntü güncellemesi kalan süreyi son tarih eksi şimdi olarak yeniden hesaplar. Gördüğün tik sekme kısıtlanırken duraklayabilir ama altta yatan hedef asla kımıldamaz; sayfa yeniden çizdiği an halka ve rakamlar çoktan doğrudur. Kısacası: zamanlayıcı çizmek için geç kalabilir; doğru olmak için asla geç kalmaz.",
+          "Aynı demirleme, uyuyan ekranların ve ağır CPU yükünün hata biriktirmemesinin de sebebidir — biriktirecek hiçbir şey yoktur; sayan bir sayaç yoktur. Takas: çan kendisi hâlâ sekmeye, geri çağrıyı çalıştıracak kadar canlı olmaya dayanır; geç alarm kabul edilemez olan zamanlayıcılarda (sınavlar, saniye hassas yemek) donanım zamanlayıcı daha savunmacı seçim kalır.",
+        ],
+      },
+      {
+        heading: "Çan, tarayıcılar ve ses politikası",
+        paragraphs: [
+          "Çan Web Audio API ile sentezlenir — indirilen bir ses dosyası yerine çalışma zamanında ton üreten bir osilatör. Sayfayı hafif tutar ve sesin çevrimdışı çalışmasını sağlar. Bir kısıtı da açıklar: tarayıcılar sesin çalmasına izin vermeden önce bir kullanıcı jesti (sayfada tık ya da tuş) ister; otomatik çalan reklamı bloklamaya yönelik politika. Start'a bir kez basmak onu tatmin eder; ilk başlangıç bu yüzden sayar.",
+          "Sekme sessize düşerse ya da cihaz sesi kapalıysa çan susturulur ve yedek ses yoktur — tarayıcılar bir sayfanın sistem sesi kapatmasını aşmasına izin vermez. Görsel sinyaller ikinci kanal olarak tutulur: sıfırda yeşile dönen halka, ses taşınmadığında bile bir bakışta yakalayabileceğin durumdur.",
+          "Zamanlayıcının sunucuya dokunan hiçbir şeyi yoktur: süre, hazır ayarlar ve durum sayfanın belleğinde yaşar; sekmeyi kapatmak her şeyi sonlandırır. Bildirim izin istemi yok, service worker yok, arka plan push yok — geri sayım sekme kadar yaşar; tam o kadar.",
+        ],
+      },
+      {
+        heading: "Süre seçmek ve hazır ayarları kullanmak",
+        paragraphs: [
+          "1 ile 25 dakikalık hazır ayarlar vardır; çünkü gerçek geri sayımların çoğu o bantta toplanır: çay demleme (2–5 dakika), Pomodoro-tarzı odak blokları (25), toplantı timebox'ları (5–15), antrenmanlar ve dinlenme aralıkları. Hazır ayara dokunmak dakika ve saniye yazmaktan hızlıdır ve dakikaları saniye alanına girmenin klasik hatasını önler.",
+          "Bir saatten uzun her şey için geri sayım genelde yanlış biçimdir — saate demirli bir son tarih (ne zaman bitiyor?) geçen-süre görüntüsünden sekmeleri kapanışlarından daha iyi hayatta kalır. Bu araç kısa, tek bakışta aralıkları halleder; gün ölçekli planlama için tarih ya da tarihe-gi-geri-sayım aracı daha iyi oturur.",
+          "Salt-yerel olmanın paylaşılan ortamlarda sessiz bir kazancı da vardır: hesap yok, zamanlayıcının yanında yenilenen banner reklam yok ve neyi zamanladığın hakkında hiçbir şey cihazdan çıkmaz — zamanlayıcı bir sınıfın ya da toplantı salonunun görebildiği bir ekrandayken bu sayar.",
+        ],
       },
     ],
   },
@@ -4863,6 +9283,30 @@ export const tr: Record<string, ToolCopy> = {
         a: "Evet — tek bir örnek isteğe bağlılığı kanıtlayamaz, bu yüzden her şey zorunludur. API'nin null'a veya eksik anahtara izin verdiği alanları isteğe bağlı olarak kendin işaretle.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Bir örnekten tip çıkarımı neyi söyleyebilir, neyi söyleyemez",
+        paragraphs: [
+          "JSON örneğinden tip üretmek tek bir veri noktasından tümdengelimdir; o tümdengelimin nerede durduğunu bilmek dürüstlüktür. Örneğin gösterdiği her şey sadakatle tiplenir: iç içe nesneler adlandırılmış arayüzler olur; nesne dizileri anahtarlarını tek bir şekle birleştirir; karışık-tipli diziler string | number gibi birleşimler olur. Ama örneğin göstermediği her şey görünmezdir — payloadda null olan alan null görünür; bazen eksik olacak alan zorunlu görünür; çünkü yokluk tek bir gözlemde beliremez.",
+          "Sonuç: çıktı bir sözleşme değil başlangıç noktasıdır. Gerçek API payloadları sürüklenir: string olarak tiplenen bir alan ara sıra null döndürebilir; hata yanıtlarında bir nesne eksik olabilir; tesadüfen tek öğe tutan bir dizi her zaman tutacağını kanıtlamaz. Pragmatik akış: tipleri üret, sonra nullable ya da isteğe bağlı olduğunu bildiğin alanları bir ? ya da null birleşimiyle gevşet — birkaç dakikalık elle inceleme, üretimde derleyici hatalarını yener.",
+          "Birleşim tipleri öteki dürüst sınırdır. İki dizi öğesi farklı şekillerdeyse her anahtarı tek arayüzde (tümü isteğe bağlı) birleştirmek ya da bir birleşim yaymak ikisi de savunulabilirdir; bu araç birleştirir — insan bir gözden geçirenin örnek payloadları genelde nasıl çökerttiğine uyar ama hiçbir zaman birlikte bulunmayan anahtarları saklayabilir. Hassasiyet önemli olduğunda JSON Schema ya da elle yazılmış ayrıştırılmış bir birleşim daha güçlü araçtır — codegen %90 durumunu hızlı kapsar; kalanı sen daralt.",
+        ],
+      },
+      {
+        heading: "Tip']den API istemcilerinin sürüklenmeyi neden erken yakaladığı",
+        paragraphs: [
+          "Üretilmiş arayüzlerin gerçek değeri yapıştırdıktan sonra belirir: derleyici her çağrı sitesi için bir şekil kontrolcüsü olur. Backend bir alanı yeniden adlandırırsa, bir nesneyi bölürse ya da değeri null'a daraltırsa TypeScript artık eşleşmeyen erişimleri işaretler — fazla-özellik kontrolleri nesne literallerindeki yazım hatalarını yakalar; strictNullChecks potansiyel-eeksik her alanın işlenmesini zorlar. Örnek-ile-tip döngüsü «API sessizce değişti»yi dosya ve satır numaralı bir derleme hatasına çevirir.",
+          "Araç bu yüzden çalışma-zamanı yardımcıları olmayan düz arayüz bildirimleri yayar: tipler yalnızca derleme zamanında var olur; çıktı paketine sıfır bayt ekler ve her modern derleyiciyle her bundler'la çalışır. İthal edilecek, yapılandırılacak, sürüm-kilitlenecek bir şey yoktur — tipleri sil ve çalışma zamanı kodun dokunulmamış kalır.",
+        ],
+      },
+      {
+        heading: "Yerel üretim ve ağır araçlarla karşılaştırması",
+        paragraphs: [
+          "Örnek bir yanıtı yapıştır ve arayüzler tarayıcında üretilir — JSON cihazından hiç çıkmaz. Bu, en çok tiplemek isteyeceğin payloadların çoğu zaman duyarlı olanlar olduğu için sayar: kimliklenmiş API yanıtları, iç yönetim uç noktaları, müşteri kayıtları ya da gerçek e-postalarla dolu staging verisi. Onları dönüştürülmek için bir web hizmetine göndermek, günlüklerden uzak tutmak için gösterdiğin özeni boşa düşürür.",
+          "quicktype gibi genel amaçlı üreticiler bir düzine dile, JSON Schema'ya ve çalışma zamanı doğrulayıcılarına hedefler; tek bir doğruluk kaynağından yönetilen büyük API yüzeyi için doğru seçimdir. Bu araç dar soruyu hızlı yanıtlar: bu tek payload tip olarak nasıl görünür? Yerel üretimin gizliliğiyle birleşince, bir uç nokta inceleyip saniyeler içinde tip']den istemci stub almanın günlük döngüsüne oturur.",
+        ],
+      },
+    ],
   },
   "json-diff": {
     name: "JSON Karşılaştırıcı",
@@ -4885,6 +9329,31 @@ export const tr: Record<string, ToolCopy> = {
       {
         q: "Anahtar sırası önemli mi?",
         a: "Hayır — nesneler anahtarlara göre karşılaştırılır, eklenme sırasına göre değil. Aynı anahtarları farklı sırayla taşıyan iki belge özdeş sayılır.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Anlamsal fark ile karakter farkı",
+        paragraphs: [
+          "Karakter düzeyi bir fark (git diff, düz metin fark araçları) «hangi baytlar değişti»yi yanıtlar; JSON ile soru neredeyse hiç bu değildir. Yalnızca biri 4 boşlukla pretty-print edildiği için diğeriyle 2 boşlukla farklılaşan iki API yanıtı ya da bir kodlayıcı nesne anahtarlarını yeniden sıraladığı için farklılaşan, anlamsal olarak özdeş bir belgedir — yine de bir metin farkı yüzlerce değişen satır gösterir. Bu araç her iki belgeyi önce çözer ve değerleri karşılaştırır; biçimlendirme gürültüsü yanlış pozitif üretemez.",
+          "Sonuç kasıtlı bir asimetridir: nesne anahtar sırası yok sayılır; çünkü JSON nesneleri belirtim gereği sırasız haritalardır ve her tüketici anahtarla okur — {«a»:1,«b»:2} eşittir {«b»:2,«a»:1}. Dizi sırası buna karşılık önemlidir; diziler sıralı listelerdir ve tüketiciler indeks konumlarını okur; [1,2,3] ile [3,2,1]'e karşı her öğe değişti rapor eder. Tüketicilerin uyguladığı semantiğe eşleşmek, fark çıktısını güvenilir kılan şeydir.",
+          "Raporlanan her değişiklik JSONPath'in ve RFC 6902 JSON Patch'in kullandığı $.a.b[0].c tarzında tam bir nokta yolu taşır. O gösterim süs değildir: bir fark satırı bir test iddiasına (payload.user.role'ün «admin»e eşit olması beklenir) ya da bir patch işlemine, fark görünümü ile onu tüketen kod arasında zihinsel çeviri olmadan çevrilebilir.",
+        ],
+      },
+      {
+        heading: "Farkı okumak: eklenen, kaldırılan, değişen — ve her birinin ima ettiği",
+        paragraphs: [
+          "Yeni belgede eklenen anahtarlar geriye uyumluluk için kontrol edileceklerdir: alan kazanan bir API yanıtı eski istemciler için genelde güvenlidir; ama anahtar kazanan bir yapılandırma dosyası bir yerlerde varsayılanın değiştiği demek olabilir. Kaldırılan anahtarlar zıttır — o alanları okuyan tüketicileri kıran odur. Eski ve yeni değerlerin yan yana gösterildiği değişen değerler gerçek davranış farkını görünür kılar; tam olarak bir yapılandırma değişiminin kod incelemesinin ihtiyaç duyduğu ve commit mesajlarının nadiren kapsadığı şeydir.",
+          "Diziler indeksle karşılaştırılır; bir listenin ortasına öğe eklemek izleyen her indeksi kaydırır ve bir değişiklik çoğaltması rapor eder. Verin kavramsal olarak bir küme ya da anahtarlı bir koleksiyonsa onu öğeler sıralanmış ya da ID ile anahtarlanmış nesne olarak karşılaştır — fark o zaman kaymayı değil gerçek farkı gösterir. O ön işlem kararı akışa aittir, araca değil; aracın kuralı basit ve öngörülebilir tutmasının sebebi.",
+          "Düz liste biçimi bir dağıtım kontrol listesi olarak da iş görür: bir API yanıtının önce ve sonrasını yapıştır; her satır, bağımlı bir tüketicinin hallettiği ya da halletmediği bir şeydir. Sürümlerden önce API payloadlarının anlık görüntüsünü alan ekipler tam olarak bu döngüyü kullanır; yerelde yapmak payloadların makineden hiç çıkmaması demektir.",
+        ],
+      },
+      {
+        heading: "Başka yere yapıştıramayacağın payloadlar için yerel karşılaştırma",
+        paragraphs: [
+          "Pratikte fark çıkardığın belgeler oyuncak örnekleri değildir: kullanıcı kayıtları taşıyan üretim API yanıtları, kimlikler ve iç hostnames taşıyan ortam yapılandırmaları, müşteri dışa aktarımları. İki taraftan birini rastgele bir web fark hizmetine yapıştırmak o veriyi üçüncü tarafa sevk etmektir; araç, doğruluğu korumak için çalıştırdığın karşılaştırmanın en zayıf halkası olur.",
+          "Buradaki her şey tarayıcının JavaScript'inde çalışır: çözümleme, özyinelemeli yürüyüş ve yol kurma hepsi makinenizde olur; hiçbir şey iletilmez, saklanmaz, günlüklenmez. Yüklendikten sonra çevrimdışı da çalışır — ortam yapılandırmalarının farkları staging kutularında ve dış araçların zaten ulaşılamadığı VPN-kısıtlı ağlarda tendiği için bu sayar. Dürüst sınır tarayıcı belleğidir — onlarca megabyte'a kadar belgeler rahat karşılaştırılır; ötesi scriptli bir zincire aittir.",
+        ],
       },
     ],
   },
@@ -4911,6 +9380,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "Tam gerekçeyi alırsın: hangi anahtar eksikti ya da hangi indeks aralık dışıydı. Hiçbir şey çökmez.",
       },
     ],
+    deepDive: [
+      {
+        heading: "Yol gösterimi neyi ifade edebilir, neyi edemez",
+        paragraphs: [
+          "Desteklenen alt küme bilinçli olarak küçüktür: kök için $; nesne üyeleri için .anahtar; dizi indeksleri için [0]; nokta, köşeli parantez ya da boşluk taşıyan adlar için $['tuhaf anahtar'] gibi tırnaklı anahtarlar. Gerçek aramaların ezici çoğunluğunu kapsar — bilinen bir yapıdaki tek somut değere işaret etmek.",
+          "Kapsamadığı şey JSONPath'in bildirimsel tarafıdır: joker $..fiyat; filtre ifadeleri $[?(@.aktif==true)]; dilimler $[1:5]; birleşimler. O operatörler, şeklini önceden bilmediğin belgeler için vardır. Şekli bildiğinde — ayıklama ve test işinin çoğu — doğrudan bir yol, filtre ifadesinden yazmakta ve akıl yürütmede daha hızlıdır.",
+          "Tırnaklı anahtarlar insanların kaçırdığı ayrıntıdır. user.name ya da order[0] gibi bir anahtarı gerçek anahtar adı olarak döndüren bir API nokta gösterimini kırar — yol sessizce yanlış düğüme iner. Anahtarı tırnakla sarmak değerlendiriciye «bu tüm dizge tek anahtar» demektir; belirsizliği hiçbir kaçış hilesi olmadan çözer.",
+        ],
+      },
+      {
+        heading: "Hatalar neden cümle gibi okunur",
+        paragraphs: [
+          "Kitaplık-yönlendirmeli yol değerlendirmesi tipik olarak iki nahoş biçimde başarısız olur: açıklamasız «undefined» döndüren bir tanımsız erişim ya da kitaplığın içine işaret eden yığın izli bir istisna. İkisi de başarısızlığı yol dizgesinden tersine mühendislik yapmana bırakır.",
+          "Bu değerlendirici yolu adım adım yürür ve ilk uyumsuzlukta durur; hangi adımın neden başarısız olduğunu tam olarak raporlar — «$.user'da \"adres\" anahtarı bulunamadı» ya da «3. indeks aralık dışı; dizi 2 öğe taşıyor». Yol ayıklamayı tahmin-et-yeniden-dene'den okumaya çevirir: hata, gerçekliğin varsayımından saptığı düğümü adlandırır.",
+          "Çökme-mama garantisi göründüğünden fazla sayar. Derin iç içe API payloadlarına karşı uzun yollar yapıyı yoklarken genelde birkaç kez başarısız olur; düz dile çöken bir araç döngüyü hızlı tutar; deneme başına bir istisna aynı yoklamayı bir eziyete çevirir.",
+        ],
+      },
+      {
+        heading: "Payloadları yüklemeden yoklamak",
+        paragraphs: [
+          "Sorguladığın payloadlar sık sık gizlidir: müşteri kayıtları taşıyan üretim API yanıtları, hesap verisi içeren hata dökümleri, kimlikli yapılandırma dosyaları. Belge ve yolu bir backend'e POST eden araç hepsini ifşa eder; burada sorgu, cihazında çözülmüş bir belgeye karşı tamamen tarayıcının JavaScript'inde çalışır.",
+          "Yapılandırılacak bir şey de yoktur: kurulacak çalışma ortamı yok, jq ikili dosyası yok, proje yok. Bir yanıtı yapıştır, bir yol yaz, değeri oku — betik ortamı kurmak sorunun kendisinden fazla tutan tek seferlik soruşturmalar için doğru araç yapar.",
+          "Payload göze fazla büyükse biçimlendiriciyle eşleştir: yapısı görmek için bir kez biçimlendir, sonra ihtiyacın olan kesin değerleri kaydırarak değil yollarla çıkar. Ve her şey yerel olduğundan bir müşterinin gerçekten başarısız yanıtını doğrudan üretimden kopyalayarak güvenle yoklayabilirsin.",
+        ],
+      },
+    ],
   },
   "json-yaml-converter": {
     name: "JSON ⇄ YAML Dönüştürücü",
@@ -4935,6 +9430,32 @@ export const tr: Record<string, ToolCopy> = {
         a: "En sık neden, YAML girintisinde sekme karakteri (orada yasaktır) veya JSON'da yinelenen anahtarlardır. Hata mesajı sorunu işaret eder.",
       },
     ],
+    deepDive: [
+      {
+        heading: "JSON ile YAML neden hiçbir zaman kusursuz gidiş dönüş yapamaz",
+        paragraphs: [
+          "JSON ile YAML aynı veri modelinin iki yazımı değildir — YAML hırsında bir üst kümedir. YAML, JSON'ın yuvası olmayan bilgi taşır: çapalar ve takma adlar bir düğümün birkaç yerden atıf yapılmasına izin verir; birden çok belge tek dosyada --- ile ayrı olarak yaşayabilir; özel etiketler bir değeri zaman damgası, ikili parça ya da alana özgü tip olarak işaretleyebilir. Yalnızca JSON modelleyen bir dönüştürücü bunlardan hiçbirini sadakatle temsil edemez.",
+          "Bu araç bilinçli olarak çekirdek şemayla kendini sınırlar — iç içe haritalar, diziler ve skalerler — yaydığı her şey kayıpsız geri çözülebilsin. Çapalar bilinçli olarak kapsam dışıdır: takma ad kullanan bir YAML dosyasını JSON'a çevirmek her atfı satır içine koymak zorunda olurdu; geri çevirmek özgün çapa yapısını asla kurtaramazdı.",
+          "Aynı özen çok-belgeli dosyalara da uyar. Birkaç --- ayrı belge taşıyan bir .yaml gerçekten dosyaların bir listesidir; tek bir nesne değildir; yalnızca ilk belgeyi sessizce çevirmek ya da onları birleştirmek anlamı bozar. Araca belge başına tek bir belge ver ve gidiş dönüş kesin kalır.",
+        ],
+      },
+      {
+        heading: "YAML 1.1'nin geride bıraktığı tip-zorlama tuzakları",
+        paragraphs: [
+          "YAML çözümleyicileri skalerin tipine bakarak karar verir. Çoğu çözücünün hâlâ varsaydığı eski 1.1 kurallarında çıplak Norway kelimesi bir false mantıksalıdır (N-o-r-w-a-y kısaltması; yes/no/on/off ailesiyle eşleşir); 1.20 gibi sürüm numaraları 1,2'ye çökebilir ve boşlukla başlayan bir anahtar tümüyle kaybolmaya elverişlidir. Bunlar ekzotik uç durumlar değildir — gerçek CI yapılandırmalarını her yıl kırarlar.",
+          "Klasik güvenlik olayı Norveç ülke kodudur: NO okuyan kullanıcının ülke alanı çözülen belgede false olur. Savunma tırnaklamadır — bir değer metin demektiyken, tip değil, \"NO\", \"on\", \"1,0\" olarak dizge yaz. Buraya YAML yapıştırıp JSON'a çevirdiğinde js-yaml'ın çekirdek şeması o zorlamaları karar verir ve JSON çıktısı resulting tipleri görünür kılar; onları yakalarsın.",
+          "JSON'un avantajı böyle bir tahmin taşımamasıdır: her değer tipini yapısal olarak bildirmek zorundadır — tırnaklı «false» bir dizgedir; 2,0 sayı kalır. JSON'un son hedef YAML bile olsa daha güvenli kablo biçimi kalmasının bir sebebi budur: JSON üzerinden çevir ve her tip açıkta zorlanmış olur.",
+        ],
+      },
+      {
+        heading: "Yerelde kalan bir dönüşüm akışı",
+        paragraphs: [
+          "Yapılandırma dosyaları bir projenin sahibi olduğu en duyarlı metinler arasındadır: Kubernetes sırları (base64 kodlu bile olsa), docker-compose ortam blokları, CI değişkenleri. Onları girdiyi sunucuya taşıyan bir dönüştürücüye yapıştırmak, onu işletene sızdırmak demektir. Buradaki her şey tarayıcında çalışır — yükleme yok, günlükleme yok ve sayfa yüklendikten sonra çevrimdışı da çalışmaya devam eder.",
+          "Aracın kurulduğu pratik akış yönlü zincirlemedir: JSON'u YAML'ya çevir, bir iki satırı elle düzelt, sonra yönü değiştir ve düzenlemanın hâlâ çözüldüğünü doğrulamak için JSON'a geri çevir. Kötü girinti ve yasak sekmeler genel bir başarısızlık olarak değil suçlanan satırda raporlanır; elle düzenlenmiş bir manifest birkaç saniyede okunabilir.",
+          "Ayıklarken JSON biçimlendirici ile JSON doğrulayıcıyla eşleştir: JSON tarafını okunabilirlik için biçimlendir, dönüşüm öncesi doğrula ve YAML çıktısını doğrudan yapılandırma dosyan olarak kullan — elle yazılmış bir manifest gibi girintili blok biçiminde çıkar; makine dökümü gibi değil.",
+        ],
+      },
+    ],
   },
   "sha1-generator": {
     name: 'SHA-1 Üretici',
@@ -4946,6 +9467,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "2024'te SHA-1: imzalar için kırılmış, Git'te canlı",
+        paragraphs: [
+          "SHA-1 160-bit özet üretir — 40 küçük harf onaltılık karakter — FIPS 180-4'te standartlaştırılmıştır. Yıllarca web'in varsayılan hash'i oldu: TLS sertifikaları, kod imzalama, sürüm kontrol. O dönem aşamalarla kapandı: NIST, SHA-1'i imzalar için 2011'de eskitti ve 2013'te orada yasakladı; araştırmacılar çarpışma saldırılarının pratikleştiğini gösterdikten sonra.",
+          "Kesin darbe 2017'de SHAttered oldu: aynı SHA-1 özetini taşıyan iki bilinçli olarak farklı PDF dosyası; büyük ama yapılabilir hesapsal eforla üretilmiş. Ondan sonra bir saldırganın girdiye etki edebileceği her yerde — imzalar, sertifikalar, bütünlük vaatleri — SHA-1 kullanmak savunulamaz oldu. Modern tarayıcılar SHA-1 sertifikalarını reddetti; ekosistem SHA-256'ya geçti.",
+          "Yine de SHA-1 öldü değil; çünkü çarpışma direncinin verilen vaat olmadığı yerlerde hayatta kalır. Git hâlâ commit'leri ve nesneleri SHA-1 ile tanımlar — artık hash'i çarpışma algılamayla eşleştirir ve daha güçlü bir hash'e göç yukarı akışta sürer. Hiç yükseltmeyen sistemlerden gelen eski indirme kontrol toplamları ve dosya parmak izleri öteki sık karşılaşmadır. O eski parmak izlerini yeniden üretip doğrulamak için bu aracı kullan; yeni her şey için SHA-256 seç.",
+        ],
+      },
+      {
+        heading: "Çarpışma ile preimage: tehdidi tam olarak okumak",
+        paragraphs: [
+          "«SHA-1 kırıktır» demek sökülmeyi ister; iki farklı saldırı vardır ve eşit derecede ağır değildirler. Bir çarpışma saldırısı aynı özeti taşıyan herhangi iki girdi bulur — saldırgan ikisini de kontrol eder; imzaları ve sertifikaları kırar; bir tarafın ötekini verdiği şeyi imzaladığı yerlerde. SHAttered'in gösterdiği budur; SHA-1 imzalamasının bittiğinin sebebi.",
+          "Bir preimage saldırısı farklıdır: verilen bir özet için onu üreten bazı girdi bulmak. SHA-1 için bu hâlâ erişim dışındadır — 160-bit alan hâlâ etkin biçimde aranamazdır. O asimetri, Git kullanımının denetimden neden sağ çıktığının tam sebebidir: commit kimlikleri aynı anlamda saldırgana kontrol imza payloadları değildir ve Git'in güçlendirilmiş çarpışma algılaması uydurulmuş girdileri işaretler.",
+          "Pratik çeviri: güvendiğin olmayan bir taraftan bir SHA-1 özetini otantiklik kanıtı olarak kabul etme ve üzerine yeni imza ya da sertifika akışları kurma. Zaten güvendiğin bir kanaldan aldığın içeriğin parmak izi olarak — eski bir sistemin yayımladığını yeniden üretmek — hâlâ işlevseldir; bu aracın rolü budur.",
+        ],
+      },
+      {
+        heading: "Yerel WebCrypto ile hash alma",
+        paragraphs: [
+          "Özet, tarayıcında yerel WebCrypto SubtleCrypto API üzerinden hesaplanır — tarayıcının TLS için kullandığı denetlenmiş aynı kod yolu. Metni yapıştır ve 40 karakterlik özet canlı güncellenir; dosya kipine geç ve yerelde hash alınan bir dosya bırak; yükleme yok ve cihazın ötesinde boyut tavanı yok. Eski kontrol toplamı doğrulaması için o yerellik konunun kendisidir: doğrulanan dosya genelde güvenilmeyen bir yerden gelir; hash alması için başka bir ağ hizmetine göndermek egzersizin tamamını boşa düşürürür.",
+          "Girdi hassasiyeti bir karşılaştırmanın hiç başarılı olup olamayacağını yönetir. Metin UTF-8 bayt olarak hash alınır; indirmeleri doğrularken içeriğini yeniden yazmak yerine dosyanın kendisini hash al; satır sonlarını çeviren ya da satır sonu ekleyen bir metin editörü özetin her baytını değiştirir. Çıktı küçük harf onaltılıktır; sha1sum, openssl ve eski sistemlerin yayımladığı değerlerle eşleşir — 40 karakteri gözle karşılaştırmak yerine kopyala ve programatik karşılaştır.",
+          "Yeni tasarımlar için cevap tektir: bu sitenin sha256-generator üzerinden SHA-256 ya da aynı anda birkaç özet gerektiğinde hash-generator'da tüm aile yan yana. SHA-1'i kesinlikle zaten onu konuşan arayüzler ve arşivlerle sınırla.",
+        ],
+      },
+    ],
   },
   "sha384-generator": {
     name: 'SHA-384 Üretici',
@@ -4956,6 +9503,31 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "SHA-384'ün SHA-2 ailesindeki yeri",
+        paragraphs: [
+          "SHA-2 tek bir algoritma değil FIPS 180-4'te standartlaştırılmış bir ailedir; iki içsel motorla tanımlanır: SHA-224 ve SHA-256 256-bit motoru (32-bit kelimeler) çalıştırır; SHA-384 ve SHA-512 512-bit motoru (64-bit kelimeler). Çıktılar sırasıyla 224, 256, 384 ve 512 bit — 56, 64, 96 ve 128 onaltılık karakter. SHA-384, 512-bit motorun farklı sabitlerle başlatılıp çıktısının 384 bite kesildiği şeydir.",
+          "O kesme, SHA-384'ün basitçe «kısaltılmış SHA-512» olmamasının sebebidir. Farklı başlangıç değerleri onu kendi belirtimi olan ayrı bir algoritma yapar: SHA-512 üzerinde bilinen hiçbir saldırı SHA-384'ün daha kısa çıktısına geçmez; tersine SHA-384 bir özeti SHA-512 ile hash alıp dilerek doğrulayamazsın. Araçlar aileyle değil algoritmayla anlaşmak zorundadır.",
+          "Güvenlik açısından dört SHA-2 varyantının da çarpışma direncinde çıktı uzunluğuna yakın sunduğu sanılır — SHA-384 çarpışmalara karşı 192-bit güvenlik düzeyi verir; herhangi bir pratik ihtiyacın epey ötesi. Birini ötekine yeğlemenin sıradan nedeni altyapı uyumluluğudur: TLS suitin, kod imzalama zincirin ya da karşı tarafın doğrulayıcısının zaten beklediği şey.",
+        ],
+      },
+      {
+        heading: "Çıktıyı okumak ve doğru kontrol etmek",
+        paragraphs: [
+          "Özet 96 onaltılık karakterdir; burada küçük harf yayılır — onaltılık karşılaştırma büyük-küçük duyarsızdır ama bazı doğrulayıcı araçlar dizeleri harfiyen karşılaştırır; durum uyumsuzluğu hash uyumsuzluğu gibi görünebilir. Özet deterministiktir: aynı girdi baytları her doğru uygulamada hep aynı çıktıyı verir; kontrol toplamı olarak çalışmasının tam sebebi.",
+          "Bir referans değerle karşılaştırırken kodlama tuzağına dikkat: «merhaba» metnini UTF-8 olarak, UTF-16 olarak ya da sondaki satır sonuyla hash almak üç farklı özet üretir. Komut satırı araçları meşhur biçimde echo'cun çıktısına satır sonu ekler; echo -n ya da printf kullanmadıkça. Özetin eşleşmediğinde veri neredeyse kesin farklılaşır — aynı algoritma, farklı baytlar.",
+          "Dosyalar için özet içeriği tanımlar; üst veriyi değil: dosyayı kopyalamak hash'i korur; yeniden kodlamak, satır sonlarını çevirmek ya da bir editör aracılığıyla yeniden kaydetmek onu değiştirir. O özellik, SHA-384 özetlerini installer'lar ve sertifikalar için müdahale kanıtı yapar — ve eşleşen bir hash'in yalnızca baytların özdeş olduğunu kanıtladığı; gönderenin güvenilir olduğunu değil.",
+        ],
+      },
+      {
+        heading: "Yerel kripto, yerel işleme",
+        paragraphs: [
+          "Hash alma, bu sitenin yazdığı JavaScript kodu değil tarayıcının yerel WebCrypto SubtleCrypto'sundan geçer — tarayıcının TLS için kullandığı denetlenmiş aynı uygulama. Çıktı sha384sum, OpenSSL ve FIPS 180-4 uyumlu her öteki araçla bayt bayt eşleşir ve büyük dosyalar için her saf-JS hash'ten hızlı çalışır.",
+          "Metin ve dosya girdileri cihazından hiç çıkmaz: özet tarayıcının belleğinde hesaplanır; hiçbir şey yüklenmez, saklanmaz, günlüklenmez. Tipik kullanım için bu sayar: installer'ları doğrulamak, yapılandırma için iç sırları hash almak ya da henüz yayımlamadığın bir belgenin özetini hesaplamak.",
+        ],
+      },
+    ],
   },
   "sha512-generator": {
     name: 'SHA-512 Üretici',
@@ -4965,6 +9537,32 @@ export const tr: Record<string, ToolCopy> = {
     faqs: [
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "SHA-512: SHA-2 ailesinin en geniş özeti",
+        paragraphs: [
+          "SHA-512, FIPS 180-4'te standartlaştırılmış SHA-2 ailesinin en büyük standart üyesidir: 128 küçük harf onaltılık karakter olarak yazılan 512-bit özetler. İçeride 80 tur boyunca 64-bit kelimeler üzerinden 1024-bit blokları işler — SHA-256'nın 32-bit kelimelerinden daha geniş bir zincir; ona karakterini veren şey.",
+          "O 64-bit tasarım meşhur bir pratik sonucu taşır: modern 64-bit CPU'larda SHA-512 büyük dosyaları SHA-256'dan fiilen daha hızlı hash alır; daha fazla çıktı üretmesine rağmen. Installer'ları, disk görüntülerini ya da yedek arşivlerini parmak izliyorsan en güçlü SHA-2 özeti genelde en hızlı olanıdır — paranoyak seçim ile pragmatik seçimin aynı olduğu nadir durum.",
+          "SHA-512'ye karşı pratik çarpışma ya da preimage saldırısı bilinmemektedir. O marj, uzun ömürlü bütünlük bağlantılarını ona demirletir: HMAC-SHA512 API imzaları, modern Linux /etc/shadow'daki parola girişleri ve on yıllar sonra hâlâ doğrulanabilir olması amaçlanan arşiv manifest'leri. Dış kısıt olmayan yeni tasarımlar için SHA-256 konvansiyonel varsayılandır ve SHA-512 konvansiyonel yükseltme.",
+        ],
+      },
+      {
+        heading: "128 karakterlik bir özeti okumak, karşılaştırmak, güvenmek",
+        paragraphs: [
+          "Uzunluk kontrolü önce gelir: SHA-512 özeti tam olarak 128 onaltılık karakterdir. sha512 diye adlandırılmış bir yapılandırma alanındaki öteki uzunluklu değerler yanlış etiketli farklı bir algoritmadır; uyumsuzluk sonra entegrasyon başarısızlığı olarak yüzeye çıkar. Bu araç kanonik küçük harf biçimi üretir; sha512sum, OpenSSL ve uyumlu her öteki uygulamayla eşleşir.",
+          "Karşılaştırma hep-ya-da-hiçtir: iki özet ya da tam olarak eşleşir ya da girdiler farklıdır. Çok gigabyte'lık bir dosyada herhangi bir yerde çevrilmiş tek bit ilgisiz bir 512-bit değer üretir — kontrol toplamlarını güvenilir kılan çığ etkisi. 128 karakteri gözle kanıtlayarak değil programatik karşılaştır (diff, == ya da bir kontrol toplamı aracı); yer değiştirmiş bir çift orada görünmez.",
+          "Bir özetin ne vaat ettiğini ne etmediğini hatırla. Baytların özet hesaplandığından beri değişmediğini kanıtlar; özetin sana saldırganın yeniden yazamayacağı bir kanaldan ulaştığı koşuluyla. Girdiyi kimin ürettiği hakkında hiçbir şey söylemez ve — hash alma tek yönlü olduğundan — içeriği kurtarmak için geri çevrilemez. İndirmenin yanına kontrol toplamı yayımlamak bir imza değil bir bütünlük ölçüsüdür.",
+        ],
+      },
+      {
+        heading: "Dosyaların neden yerelde hash alınması",
+        paragraphs: [
+          "Bir hash yalnızca hash ortamı güvenilir olduğu sürece anlamlıdır; rastgele bir web hizmeti değildir. Bu araç tarayıcının yerel WebCrypto SubtleCrypto'su üzerinden hesaplar — TLS trafiğini zaten taşıyan denetlenmiş kod — ve hiçbir şey cihazdan çıkmaz: metin yazarken hash alır; dosya kipi dosyanın kesin baytlarını yerelde hash alır; yükleme yok ve mevcut bellek ötesi tavan yok.",
+          "Aracın tipik işleri için o yerellik lüks değildir. Disk görüntüleri ve installer'lar yalnızca parmak izi almak için yüklenmek istenmeyen gigabyte'lerdır; arşiv manifest'leri sık sık lisans ya da gizlilik kısıtlı dosyaları kapsar; ve API imzalama malzemesi bir üçüncü taraf sayfasından asla geçmemelidir. Sayfa yüklendikten sonra tüm akış çevrimdışı çalışır.",
+          "Girdi hassasiyeti resmi tamamlar: metin UTF-8 bayt olarak hash alınır; satır-sonu dönüşümleri ya da editörün eklediği satır sonu çıktının her karakterini değiştirir. Bir indirmeyi doğrularken yeniden yazılmış içerik değil dosyanın kendisini hash al; sonra yayımcının değeriyle programatik karşılaştır — o iki alışkanlık neredeyse her yanlış-alarm uyumsuzluğunu yakalar.",
+        ],
+      },
     ],
   },
   "text-to-binary": {
@@ -4980,6 +9578,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
     ],
+    deepDive: [
+      {
+        heading: "İkili bayttır, sihir değildir",
+        paragraphs: [
+          "Bu aracın ürettiği şey bir soyut süreçle «01'e çevrilmiş metin» değildir — bilgisayarın senin metnin için zaten sakladığı kesin UTF-8 bayt dizisi; ikili basamaklar olarak çizilmiş. «A» harfi tek bayttır: 01000001; sayı 65 — 1960'lardan beri A anlamına gelen ASCII kodu. Çevirme adımı ve yorum yoktur: ekrandaki bitler dosyadaki bitlerdir.",
+          "UTF-8 anahtar ayrıntıdır. ASCII karakterler (A-Z, rakamlar, sıradan noktalama) birer bayt alır; ikilileri kısa olur. ASCII dışı karakterler iki dört bayt alır: «é» 0xC3 0xA9'dur (11000011 10101001); emoji 😀 dört bayttır. Aynı kelimenin karakterlere bağlı olarak farklı ikili uzunluklar üretmesinin — ve bir Çince metin satırının aynı anlamdaki İngilizcesinden bayt olarak kabaca üç kat uzun olmasının — sebebi budur.",
+          "Çözme yalnızca okuyucu aynı kodlamayı varsayarsa doğru çalışır. Geçerli UTF-8 kuran baytlar EBCDIC ya da Latin-1 olarak anlamsızdır — metni yanlış kodlama üzerinden okumanın «mojibake» fenomeni, o varsayımın başarısızlığının görünen sürümüdür.",
+        ],
+      },
+      {
+        heading: "Neden 8-bit gruplar ve öndeki bitler ne demektir",
+        paragraphs: [
+          "Baytlar 8'te gruplanır; çünkü o, ana makine günlerinden beri pratik karakter birimidir ve UTF-8 onun çevresinde tasarlanmıştır. Çok baytlı diziler kendini betimler: 110 ile başlayan bayt iki baytlı karakter başlatır; 1110 üç; 11110 dört; devam baytları hep 10 ile başlar. O yapı, UTF-8'in aktarım hatalarından sonra yeniden senkronlanmasını ve web'in egemen kodlaması olmasını sağlayan şeydir.",
+          "Bir baytı elle okumak: 01000001, 0 (ASCII, tek bayt) olarak bölünür; sonra 1000001 = 65 = A. 11000011 için 110 öneki iki baytlı dize duyurur ve sonraki bayt 10 ile başlamak zorundadır. Deseni bir kez gördüğünde ikili gürültü olmayı bırakır.",
+          "Boşluklar, satır sonları ve hatta gruplama geleneği görüntü seçimleridir — altta yatan veri basamak dizgesidir. Bazı araçlar 8'e gruplar; bazıları karaktere; bazıları tek sürekli akış yayar; hepsi aynı baytları kodlar.",
+        ],
+      },
+      {
+        heading: "Kullanım durumları ve gizlilik",
+        paragraphs: [
+          "Pratik kullanımlar: kodlamaları öğretmek ve ayıklamak; bir regex'in ya da API'nin tam olarak hangi baytları alacağını kontrol etmek; ikili bulmacalar üretmek; gidiş dönüşleri doğrulamak — metin → ikili → metin bayt bayt özgünü yeniden üretmek zorundadır. Herhangi bir uyumsuzluk, birisinin yolda kodlamayı değiştirdiği demektir.",
+          "Geliştiriciler için «bu karakter tek bayt mı dört mü?»yi bir hata ayıklayıcı açmadan yanıtlamanın en hızlı yoludur. Öğrenciler için kendi adını çevirmek ve hangi harflerin tek bayt kaldığını, hangilerinin genişlediğini görmek, hiçbir dersten yapamayacağı biçimde UTF-8'yi somutlaştırır.",
+          "Dönüşüm yazarken tarayıcıda yerelde çalışır — hiçbir şey yüklenmez ve çevrimdışı çalışır. Yapıştırdığın metin makinenizde kalır; kaynak kod parçası da olsa taslak bir mesaj da olsa. Yenile ve kutu boşalır; saklanan kopya, günlük girdisi yoktur.",
+        ],
+      },
+    ],
   },
   "text-to-unicode": {
     name: 'Metin → Unicode',
@@ -4993,6 +9617,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
         { q: 'q', a: 'a' },
+    ],
+    deepDive: [
+      {
+        heading: "Unicode dönüşümü gerçekte neyi gösterir",
+        paragraphs: [
+          "Yazdığın her karakter bir sayıdır. Unicode her birine bir kod noktası atar — «A» U+0041'dir; euro işareti € U+20AC'dir; bir emoji U+1F300 aralığında bir yerdedir. Bu araç o eşlemeyi gösterir: kod noktasını birkaç notasyonda (U+XXXX, ondalık, onaltılık) gösterir ve BMP'nin ötesindeki karakterler için JavaScript'in bellekte gerçekte tuttuğu UTF-16 yedek çiftini.",
+          "«Gördüğün» ile «saklanan» arasındaki boşluk, aracın varlık sebebidir. Tek görünen bir karakter — é, bayrak emoji, bir CJK ideogramı — tek kod noktası, iki yedek yarısı ya da temel karakter artı birleştirici işaretler olabilir. Metni yapıştırmak hangi durumla uğraştığını gösterir; bir betiğin uzunlukları yanlış sayması ya da bir veritabanının yanlış sınırda kesmesi önemli olduğunda.",
+          "Kod noktaları bayt ile aynı şey değildir: U+00E9 «aigu'lu e» kavramıdır; UTF-8'de 0xC3 0xA9 iki baytına dönüşür. Kod noktaları yerine bayt gerekiyorsa ikili dönüştürücü o sorunun kardeş aracıdır; ikisi birlikte «görünen» ile «saklanan» arasında tam köprüdür.",
+        ],
+      },
+      {
+        heading: "Kaçışlar ve kodlamalar: é, &#, ve arkadaşları",
+        paragraphs: [
+          "Aynı karakter bağlama göre çok yazım taşır. JSON ve JavaScript dizelerinde é, \\u00e9 olarak yazılabilir (yeni sözdiziminde \\u{e9}). HTML'de &#233; ya da &eacute;. CSS'de \\00e9. URL'lerde UTF-8 yüzde kodlu: %C3%A9. Hiçbiri farklı bir karakter değildir — aynı sayının farklı gösterim sistemleridir; bu araç her bağlama doğrudan yapıştırabileceğin varyantları üretir.",
+          "Önlediği iki sıradan başarısızlık biçimi: çift kodlama (\\u00e9 ters eğriyi yeniden kaçışlayan bir sisteme yapıştırılır; harfiyen «\\u00e9» metni üretir) ve kodlama kayması (bir sayfa karakter seti bildirir; dosya başka birine kaydedilir; her ASCII-dışı karakter ikame kutuları olarak çizilir).",
+          "U+FFFF'deki BMP sınırı klasik tuzaştır: üstündeki karakterler — emojilerin çoğu — tek bir UTF-16 birimine sığmaz; kaçışları \\u1f600 yerine yedek çiftler olarak görünür. Yalnızca \\uXXXX kaçışlarını halleden eski sistemler onları hiç ifade edemez.",
+        ],
+      },
+      {
+        heading: "Yerel çözme, gidiş dönüş yok",
+        paragraphs: [
+          "Her şey tarayıcı JavaScript'inde çalışır: kod noktaları bellekteki dizgeden doğrudan okunur. Yükleme yok, API yok; çevrimdışı çalışır — en sık kullanım, rastgele bir web hizmetine yapıştırmak istemeyebileceğin bir günlükten ya da API yanıtından aldığın bir dizgeyi ayıklamak olduğu için önemli.",
+          "Çıktı her tuşta güncellenir; şüpheli bir dizgeyi karakter karakter tarayabilirsin ve hangi kod noktasının nerede belirdiğini izleyebilirsin. Çıktıdaki ikame karakter U+FFFD, kaynak metnin araca ulaşmadan önce çoktan bozuk olduğu demektir.",
+          "Bayt-düzeyi sorular için ikili dönüştürücüyle ve egzotik karakterlerde büyük-küçük eşleme davranışını ayıklarken durum dönüştürücüyle eşleştir — üçü birlikte günlük Unicode ayıklama akışını kapsar; tek sayfa, hiçbir araca ayrılmadan.",
+        ],
+      },
     ],
   },
   "text-to-nato-alphabet": {
@@ -5011,6 +9661,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Rakamlar da dönüştürülüyor mu?', a: 'Evet. 0–9; Zero, One (Wun), Two, Tree, Fower, Five, Six, Seven, Eight, Nine olur — ICAO standart telaffuzu her kod kelimesinin yanında gösterilir.' },
         { q: 'Aksanlar ve emojiler?', a: 'Aksanlı harfler temel harfe indirgenir (É → Echo); emojiler ve alfabe dışı karakterler harflendirilemedikleri için olduğu gibi işaretlenir.' },
     ],
+    deepDive: [
+      {
+        heading: "Alfa, Bravo, Charlie'nin varlık nedeni",
+        paragraphs: [
+          "Bir telefon görüşmesinde bir adı harf harf söylemek kâbuslardır: B ile P neredeyse özdeş seslidir; M ile N bulanır; kötü bir hat F ile S arasındaki farkı siler. Harf alfabeleri bunu her harfe tek anlamlı bir kelime atayarak düzeltir — B Bravo olur; M Mike olur — gürültülü kanallarda bile iki kelimenin aynı duyulmaması için seçilen.",
+          "NATO alfabeti (resmî adı ICAO heceleme alfabeti) kazanan standarttır. Onyıllarca askeri ve havacılık denemesinden büyüdü: erken İngiliz ve Amerikan alfabeler Able, Baker, Charlie gibi kelimeler kullandı; testler uluslararası radyo operatörlerinin onları yanlış duyduğunu buldu. 1950'ler ICAO revizyonı aday kelimeleri birçok dilin konuşanlarıyla sınadı ve o denemelerden sağ çıkan seti — Alfa (bilinçli olarak «Alpha» değil; «ph» sesi olmayan dillerin konuşanları doğru yazabilsin diye), Bravo, Charlie'den Zulu'ya — seçti.",
+          "Artık askerliğin çok ötesinde yaşıyor: havayolları, çağrı merkezleri, seri numaraları okuyan BT desteği ve sesle bir onay kodu veren herkes. Bir destek ajanı «Sierra'daki S» dediğinde aynı sistemi kullanıyor.",
+        ],
+      },
+      {
+        heading: "Rakamlar ve tuhaf harfler",
+        paragraphs: [
+          "Standart rakamları da kapsar; karıştırılabilir kelimelerden ayırt edilmeleri için seslendirilir: 9 «Niner» olur (Almanca «nein» ile ve düz sesli beşle karışmayı önlemek); 3 «Tree»; 5 «Fife». O sesletimler harfleri şekillendiren aynı anlaşılırlık sınamalarından gelir.",
+          "Pratikte insanların en çok takıldığı harfler: E/K çifti (Echo, Kilo); M/N çifti (Mike, November) ve S/F çifti (Sierra, Foxtrot) — tam olarak alfabetin ayırmak için kurulduğu çiftler. Birden çok sıradan yazımı olan kelimeler tasarım gereği kaçınıldı; Alfa'nın yazımı, seçilmiş yerine mühendislenmiş bir kelimenin en net örneğidir.",
+          "Karışık kodları hecelerken — harf ve rakam taşıyan bir sipariş numarası — her karakteri ayrı hecele ve sırayı koru: «C-O-D-E-4», Charlie Oscar Delta Echo Fower... okunur. Fower rakam 4'tür. Duraklar kelimeler kadar sayar; dinleyici gruplamayı kaybederse alfabet yardımcı olmaz.",
+        ],
+      },
+      {
+        heading: "Anında arama, hiçbir şey gönderilmez",
+        paragraphs: [
+          "Dönüşüm yazarken tarayıcında karakter karakter çalışır — sunucu çağrısı yok; çevrimdışı çalışır. Durum yok sayılır (alfabetin küçük harfi yoktur) ve harf olmayan karakterler değişmeden geçer; kodlar biçimlerini korur.",
+          "Destek çağrısından önce el atılacak araç budur: seri numarasını yapıştır, çıktıyı yüksek sesle oku. Radyo prosedürü için ve harf adlarını öğrenen çocuklar için bir öğretim yardımı olarak da ikiye katlanır.",
+          "Hiçbir şey saklanmaz ya da iletilmez — buraya yapıştırılan bir seri numarası, lisans anahtarı ya da sipariş kodu cihazında kalır. Tam tablo sayfayla gelir; arama hiçbir bağlantı olmadan çalışır: uçağın ortasında, bodrum katında, sinyalin olmadığı her yerde.",
+        ],
+      },
+    ],
   },
   "hmac-generator": {
     name: 'HMAC Üretici',
@@ -5026,6 +9702,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Gizli anahtarımı buraya girmek güvenli mi?', a: "Evet — tüm hesaplama tarayıcınızın WebCrypto'sunda olur. Gizli anahtar ve mesaj asla cihazdan çıkmaz; hiçbir şey kaydedilmez veya iletilmez. Yine de alışkanlık olarak, herhangi bir siteye girdiğiniz anahtarları düzenli yenileyin." },
         { q: 'HMAC-SHA-256 mi HMAC-SHA-512 mi?', a: "SHA-256 evrensel standarttır. SHA-512 daha fazla pay verir ve 64-bit CPU'larda daha da hızlıdır; şartname izin veriyorsa onu seçin. SHA-1'i yalnızca eski sistem zorluyorsa kullanın." },
     ],
+    deepDive: [
+      {
+        heading: "HMAC gerçekte nasıl çalışır: iki geçiş, bir anahtar",
+        paragraphs: [
+          "Bir anahtarı bir hash ile naifçe birleştirmek — SHA-256(anahtar + mesaj) — bilinen zayıflıklar taşır: hash'in iç durumu sızarsa veri ekleyip yeniden hesaplamak mümkün olabilir ve blok sınırındaki anahtar çarpışmaları zahmetlidir. HMAC (RFC 2104'te 1997'de; sonra NIST FIPS 198'de standartlaştırılmış) ikisini de, anahtarı sabit bir yapıda iki kez hash alarak önler: önce mesaj, sabit bir dolgu sabitiyle (opad) XOR'lanmış anahtarla hash alınır; sonra o sonuç, öteki sabitle (ipad) XOR'lanmış anahtarla yeniden hash alınır.",
+          "Çift kurulum, saldırgan mesajları kontrol etse bile çıktının anahtar hakkında hiçbir şey ifşa etmediği ve iç/dış bölünmenin çıplak Merkle-Damgård hash'lerini süren uzunluk-uzatma saldırılarını blokladığı demektir. HMAC-SHA-256'nın ham SHA-256'nın bilinen yapısal hilkiliklerine rağmen güvenli kalmasının sebebi budur — kimliklendirme özelliğini tek başına hash değil sarmalayıcı sağlar.",
+          "Uygulama ayrıntıları beklenenden fazla sayar. Anahtar blok boyutuna dolanılır ya da hash alınır (SHA-256 için 64 bayt; SHA-512 için 128); daha kısa anahtar sıfırlarla dolar; daha uzun olan önce hash alınır. Blok boyutundan hayli uzun ya da birkaç bayttan kısa anahtarlar kurulumu iki biçimde de düşürür — pratik tatlı nokta 32 ilâ 64 rastgele baytlık bir anahtardır; webhook sağlayıcılarının dağıttığı tam olarak budur.",
+        ],
+      },
+      {
+        heading: "Webhook'ları kendine ateş etmeden doğrulamak",
+        paragraphs: [
+          "Destek biletlerini dolduran doğrulama başarısızlığı kırık bir algoritma değil bayt uyumsuzluğudur. Hizmetler ham istek gövdesini — gönderildiği tam baytları — imzalar. Çerçeven JSON'u yeniden serileştirirse (anahtarları yeniden sıralamak, boşlukları değiştirmek, satır sonlarını çevirmek) doğrulamadan önce, yeniden hesaplanan imza asla eşleşmez. Çözülmemiş gövdeyle karşılaştır ve onu önce «yardımcı bir biçimde» tekdüzleyen proxy'lere ya da gövde çözümleyicilerine dikkat.",
+          "Bazı sağlayıcılar (bilinen örnek Stripe) gövdeyi tek başına değil zaman damgası artı payload'dan kurulan bir dizgeyi imzalar ve bayat mesajları reddedebilmen için başlığa bir zaman damgası ekler — HMAC tek başına tazelik vermediğinden aksi hâlde bir yeniden-oynatma saldırısı mümkündür. İmzalanan metnin yalnızca gövde olduğunu varsaymak yerine sağlayıcının doğrulama kılavuzunu hep oku. Çıktının kodlamasına da dikkat et: hex mi Base64 mi yanlış uyumsuzlukların en sık ikinci kaynağıdır.",
+          "İmzaları karşılaştırırken zamanlama sızabilecek yerde dizge eşitliği değil sabit-zamanlı bir karşılaştırma kullan — çoğu dil bir tane sevketir (Node'da crypto.timingSafeEqual; Python'da hmac.compare_digest). Kaç öndeki baytın eşleştiğini ifşa eden bir imza kontrolü, saldırganın imzaları bayt bayt sahtelemesine izin verir. Küçük bir ayrıntı; ama doğrulama ile bir oracle arasındaki farktır.",
+        ],
+      },
+      {
+        heading: "Yerel hesaplamanın imzalama aracı için nedeni",
+        paragraphs: [
+          "İmzalama aracı bir geliştiricinin havada taşıdığı en duyarlı kimliği halleder: ödeme sağlayıcısı ya da kaynak kontrol için paylaşılan sır. Bu mimariyi şekillendirir. Buradaki her şey tarayıcının WebCrypto API'sinden geçer — sır ve mesaj kendi sürecinin içinde işlenir; onları hiçbir yere taşıyan ağ isteği yoktur. Onları günlükleyebilecek, önbellekleyebilecek ya da talep edebilecek sunucu tarafı bir eşdeğer yoktur.",
+          "Pratik sonuç: üretim webhook sırrını gerçek bir payload'a karşı, bir başkasının günlüğüne asla yazılmadan doğrulayabilirsin. Yine de hijyen kuralını koru: herhangi bir tarayıcı aracına yapıştırılan sır panoya geçmişinden ve muhtemelen bir uzantının belleğinden geçmiştir; araç kendisi onları hiç iletmese bile webhook sırlarını periyodik döndürmek iyi pratiktir.",
+          "Uzun ömürlü otomasyon için aynı prensipleri kendi kodunda yeğle (Web Crypto API ya da dilinin standart kitaplığındaki bir HMAC işlevi); sır bir ortam değişkeninden ya da sır yöneticisinden okunsun. Bunun gibi bir tarayıcı aracı etkileşimli doğrulama ve ayıklama içindir — bir isteğin neden reddedildiğini bulmak için imzayı yeniden üretmek — dağıtım zincirine gömülmek için değil.",
+        ],
+      },
+    ],
   },
   "unlock-pdf": {
     name: 'PDF Kilidini Aç',
@@ -5038,6 +9740,32 @@ export const tr: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Açılış şifresini kaldırabilir mi?', a: 'Yalnızca okuyucunuz onu kaydettiyse ve içeriği sormadan gösteriyorsa. Gerçekten açılmak için şifre isteyen bir dosya o şifreyle şifrelenmiştir; bu araç kırmayı ya da çözmeyi denemez.' },
         { q: "Burada PDF'e şifre de ekleyebilir miyim?", a: "Hayır. PDF'ler için güvenilir AES şifreleme hafif bir yalnız-tarayıcı uygulamasıyla mümkün değildir; site bu yüzden şifre ekleme sunmaz — yalnızca okunabilir dosyalardaki kısıtları kaldırır." },
+    ],
+    deepDive: [
+      {
+        heading: "PDF parola korumasının gerçekte kilitlediği — ve kilidi açmanın yapabildiği",
+        paragraphs: [
+          "PDF şifrelemesi iki ayrı katman taşır; karıştırmak kafa karışıklığının çoğunu üretir. Açılış parolası (user password) tüm dosyayı bekletir: olmadan içerik hiç okunabilir değildir. İzin parolası (owner password) eylemleri bekletir — yazdırmak, metin kopyalamak, düzenlemek — dosya özgürce açılırken. Owner-password ile kısıtlanmış bir dosya tamamen okunabilirdir; yalnızca «kopyaya izin verme» işaretlidir.",
+          "Bu araç ikinci senaryo ve parolayı elinde tuttuğun birinci senaryo içindir: meşruca açabildiğin ama kısıtlama taşıyan dosyalar ya da parolasını bildiğin ve verebileceğin dosyalar. Kilidi açmak şifreleme katmanını kaldırır ve şifrelenmemiş bir kopya üretir — ondan sonra hiçbir görüntüleyici hiçbir şey istemez; hiçbir kısıt uygulanmaz.",
+          "Sınır açıkça söylenmelidir: bu bir parola-kırma aracı değildir ve parolası olmayan bir dosyayı açamaz. Sahip olduğun bir belgenin parolasını kaybettiysen yol şifrelemeyi kaldırmak değil parolayı kurtarmaktır. Açma yetkilendirmen olan bir dosyanın kısıtlamalarını kaldırmak — kendi dışa aktarımların, meşru aldığın belgeler — amaçlanan kullanımdır.",
+        ],
+      },
+      {
+        heading: "Owner-password kısıtlamaları nereden gelir ve kaldırma ne zaman meşrudur",
+        paragraphs: [
+          "Owner parolalar dünyada koruma olarak sık sık kaza olarak görünür. PDF dışa aktarma pencereleri yazarlara «düzenlemeyi kısıtla» ya da «kopyalamayı kısıtla» tikini, yazarın hiç kaydetmemiş olabileceği rastgele üretilmiş bir owner parolasıyla bırakır; kısıtlama yazarın bilgisinden uzun yaşar. Öteki sıradan kaynaklar: dosyalarını düzenlemeye kilitleyen şablon şirketleri ve yazdırmayı zaten kısıtlayan eski akışlar.",
+          "Kaldırma, dosyayı okuma hakkı olduğunda meşrudur. Kısıtlamalar belgeyi zaten açabilen insanlar üzerinde işler — bir kullanım politikasıdırlar; gizlilik değil. Bir belgeyi meşruca aldın ve okuyabiliyorsan kendi kullanımın için kopya kısıtlamalarını kaldırmak (bir maddeyi notlarına almak, bir formu yazdırmak) belge sahipliğinin sıradan beklentisidir; belgenin lisansı aksini diyorsa lisansı onurlandır.",
+          "Kilidin açılmanın değiştirmediği şey: içeriğin kendisi. Hiçbir yeniden işleme olmaz — sayfalar, metin, yazı tipleri ve görseller herhangi bir dönüşüm olmadan deşifre edilir ve yeniden sarılır. Kilidin açılmanın büyük dosyalar için bile kayıpsız ve hızlı olmasının ve çıktının görüntüleyicide gördüğünle içerik olarak bit-eşdeğer olmasının sebebi budur.",
+        ],
+      },
+      {
+        heading: "Kilidi yerelde açmanın gizlilik mantığı",
+        paragraphs: [
+          "Bir kilit-açma hizmetinin ne gerektireceğini düşün: kilitli dosyayı — pratikte çoğu zaman parolasını da — bir üçüncü tarafa verirdin. Parola yalnızca veri değil kimliktir; dosya ile açılış parolasının birleşimi birinin sunucusunda o belgenin gizliliğinin tam bir ihlalidir; bir bayrağı kaldırmak için günlüklerde kayıtlı.",
+          "Bu araç tarayıcında deşifre eder: dosya ve parola cihazında halledilir; deşifre bellekte olur ve şifrelenmemiş kopya tarayıcınca doğrudan kaydedilir. Parola asla iletilmez ya da saklanmaz — herhangi bir noktada devrede sunucu yoktur; işlem tümüyle çevrimdışı çalışır.",
+          "Toplu kilit açma için pratik bir not: eski sistemlerden dışa aktarılan arşivler çoğu dosyada ortak bir parola taşır. Araç hız sınırları ya da yükleme kuyrukları olmadan yerelde işlediğinden bütün bir seti açmak birini açmak kadar hızlıdır — ve o dosyaların ya da paylaşılan parolalarının hiçbiri makinenizden çıkmaz.",
+        ],
+      },
     ],
   },
   "flatten-pdf": {
@@ -5052,6 +9780,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Düzleştirme sonrası sayfalar aynı görünür mü?', a: 'Evet. Alan değerleri yerinde çizilir; görsel sonuç okuyucuda gördüğünüzle aynıdır. Fark alttadır: dosya artık etkileşimli alan nesneleri içermez.' },
         { q: 'Form sonradan tekrar düzenlenebilir mi?', a: 'Hayır, zaten amaç bu. Çıktıda düzleştirme geri alınamaz — değerler sıradan sayfa içeriğidir. Sonradan değiştirmeniz gerekebilirse etkileşimli özgün dosyayı saklayın.' },
     ],
+    deepDive: [
+      {
+        heading: "Düzleştirmenin gerçekte düzelttiği şey",
+        paragraphs: [
+          "Bir PDF basılan içeriğinin üstünde etkileşimli katmanlar taşıyabilir: birinin yazdığı değerlere sahip form alanları, ek not nesneleri (vurgular, yorumlar, damgalar) ve isteğe bağlı içerik grupları (katmanlar). Bunların hiçbiri mürekkep değildir. Bir form alanı, değeri görüntü zamanında belgenin veri yapılarından okuyan bir widget'tır; bir ek not, sayfa üstüne yerleştirilmiş ayrı bir nesnedir. Görüntüleyiciler ve yazıcılar onları çizmekle yükümlüdür ama hepsi yapmaz — form alanlarını yok sayan bir yazıcı, cevapların olması gereken yerlerde boş kutulu sayfa üretir.",
+          "Düzleştirme bu katmanları sayfaya kalıcı yakar. Her alanın güncel değeri sıradan sayfa içeriği olarak çizilir; her ek not rasterlenir ya da sayfa grafiğine çevrilir ve etkileşimli makinellik çıktıdan kaldırılır. Sonuç her görüntüleyicide aynı görünür, her yazıcıda aynı basılır ve artık bir form olarak düzenlenemez.",
+          "Önlediği klasik başarısızlık: formu doldurdun, kaydettin, e-postaladın — alıcı boş alanlar gösteren bir görüntüleyicide açar ya da «imzayla yanıtla» uygulaması dışa aktarmada alanları soyar. Göndermeden önce düzleştirmek cevaplarını sayfanın kendisine dondurur; gördüğün şey onların alacakları şeydir.",
+        ],
+      },
+      {
+        heading: "Ne zaman düzleştirmek, ne zaman düzleştirmemek",
+        paragraphs: [
+          "Belge bittiğinde ve çıkarken düzleştir: tamamlanmış bir başvuru formu, postalanacak imzalı sözleşme, comments'siz bir yazıcıdan sağ çıkmak zorunda olan yorumlu taslak. Düzleştirme aynı zamanda birleştirmeden önceki standart hamledir: biri form alanları taşıyan iki dosyayı birleştirmek çelişen alan adları üretebilir; düzleştirilmiş girdiler durgun sayfalar olarak birleşir.",
+          "Çalışan belgeleri düzleştirme. Bir kez düzleştirildiğinde alan değerleri sayfadaki pikseller ve metindir — formu yeniden açıp girdiyi değiştiremezsin; özgün etkileşimli kopyayı saklamak zorunda kalırsın. Benzer biçimde, bir meslektaşın hâlâ yorum olarak çözmesi gereken ek notlar yorum-olluğunu kaybeder; sayfanın parçası olur.",
+          "Bir incelik: düzleştirme güncel durumu pişirir. Kimse doldurmadığı için bir alan «seçin...» gösteriyorsa yer tutucu yakalan olan odur. Önce doldurmayı planladığın her şeyi doldur; sonra düzleştir — işlem belgeyi o anda göründüğü tam biçimde yakalar.",
+        ],
+      },
+      {
+        heading: "Yerel düzleştirme ve belge gizliliği",
+        paragraphs: [
+          "Düzleştirilmiş belgeler doğaları gereği en bitmiş ve en duyarlı sürümlerdir: imzalı kira sözleşmesi, doldurulmuş vergi formu, nihai teklif mektubu. Bunlar tam olarak insanların «ücretsiz PDF tamirci» sitelerine yüklediği dosyalardır; o siteler tamamlanmış hukuki ve finansal evrakını sitenin çalışmasının sıradan bir iş gideri olarak kendi sunucularında işler.",
+          "Buradaki tüm işlem tarayıcında olur: belge yerelde çözülür ve yeniden çizilir; alanlar ve ek notlar bellekte sayfa grafiğine bileşiklenir ve düzleştirilmiş dosya doğrudan indirmelerine yazılır. Hiçbir şey yüklenmez, kuyruğa girmez, hiçbir yerde saklanmaz; doldurulan değerlerin cihazının dışında var olduğu hiçbir senaryo yoktur.",
+          "Gerçekten temkinli olanlar için pratik bir ipucu: düzleştirdikten sonra sonucu aç ve eskiden alanın olduğu yere tıklamayı dene. Hiçbir şey seçilebilir ya da düzenlenebilir olmamalı — etkileşimli katmanın gittiğinin onayın. Metnin de kopyalanamaz olmasını istiyorsan o farklı bir işlemdir (rasterleştirmek; compress aracının yaptığı gibi), düzleştirme değil; düzleştirme etkileşimi kaldırır; metin katmanını değil.",
+        ],
+      },
+    ],
   },
   "pdf-crop": {
     name: 'PDF Kırp',
@@ -5064,6 +9818,32 @@ export const tr: Record<string, ToolCopy> = {
     faqs: [
         { q: 'Kırpma yıkıcı mı?', a: "Hayır. Crop box yalnızca hangi bölgenin görüntüleneceğini ve yazdırılacağını değiştirir; asıl içerik dosyada kalır. Crop box'ı media box'a döndüren bir görüntüleyici özgün sayfayı yine eksiksiz gösterir." },
         { q: 'Neden önizlemede yalnızca 1. sayfa var?', a: 'Dikdörtgen sayfa yüzdeleriyle tanımlanır, bu yüzden boyutlar farklı olsa bile her hedef sayfaya ölçeklenir. 1. sayfa pdf.js ile canlı işlenir; sürükleme yeterince hassas olmadığında dört sayısal alan kesin denetim sağlar.' },
+    ],
+    deepDive: [
+      {
+        heading: "Bir PDF'yi kırpmak gerçekte neyi değiştirir — neyi değiştirmez",
+        paragraphs: [
+          "Bir PDF'yi kırpmak varsayılan olarak hiçbir şeyi silmez — sayfanın crop kutusunu değiştirir; görüntüleyicilere sayfanın hangi kısmını gösterip basacaklarını söyleyen dikdörtgeni. Tam içerik görünür alanın dışında hâlâ vardır; araçları olan bir okuyucu ya da agresif bir kopyala-yapıştır kesmekte olduğunu sandığın içeriğe ulaşabilir. Bu, çerçeve dışındaki piksellerin gerçekten gittiği görsel kırpmasından temelde farklıdır.",
+          "Duyarlı kenarları saklamak için (bir faks başlığı, kenardaki taranmış bir ek not) crop kutusu değişimi kozmetiktir. Günlük kullanımlar için — tarayıcı kenarlarını budamak, slaytlardan beyaz boşluğu atmak, yazıcının basılabilir alanına eşleşmek — tam olarak doğru araçtır; her şeyi korurken sayfanın çerçevelenişini değiştirdiği için.",
+          "İçeriğin gerçekten gitmesini gerektiğinde kırpım yeterli değildir: kırpımdan sonra sayfayı rasterleştir (compress aracının yaptığı gibi) ya da sayfayı tümüyle sil. Güvenli zihinsel model: kırpım saklar; rasterleştirme yakar; silme kaldırır. Niyete göre seç ve belge güvenilmeyen bir alıcıya gidecekse ayrımı hatırla.",
+        ],
+      },
+      {
+        heading: "Kenar boşlukları, tutarlılık ve dikdörtgeni seçmek",
+        paragraphs: [
+          "En sıktık kırım işi tarayıcı yongalarıdır: siyah kenarlar, eğik kenarlar ve tarayıcı kapağının gölge çizgisi. Çok sayfalı bir tarama için her sayfayı tek tek kırmak zahmetlidir ve tutarsız sayfa boyutları üretir; sayfaları boyutta hafif farklılaşan bir belge daha kötü basılır ve okunur. Tüm sayfaları tek paylaşılan dikdörtgenle kırmak belgeyi tekdüze tutar; sayfa başına kırpım yalnızca sayfalar gerçekten farklılaştığında anlamlıdır — karışık yönlü demetler gibi.",
+          "Metin belgeleri için faydalı bir püf: sıkı yerine temkinli kırp. Dış beyaz boşluğun birazını kesmek bedelsizdir ama canlı alana kesmek yükselenleri, dip notları ya da başlık metnini kırpar. Önce en kötü sayfada en sıkı içeriğe yakınlaştır; sonra küçük bir güvenlik payı ekle — belgeler neredeyse her zaman içeriği geri kalanın ötesine uzanan bir sayfa taşır.",
+          "Kırpımın yazdırmayla da etkileştiğini hatırla: PDF görüntüleyiciler genelde kırpılmış sayfayı sayfaya sığdırır; sıkıca kırpılmış A4 sayfa A4 kâğıda basıldığında hafif büyür; metin boyutunu değiştirir. Çıktı kesin özgün ölçekte basılmak zorundaysa kırpılmış boyunun standart bir kâğıt boyutuna eşleşmesi için yeterli pay tut.",
+        ],
+      },
+      {
+        heading: "Sayfalar özelken yerelde kırpma",
+        paragraphs: [
+          "Kırpım gerektiren belgeler genelde elinde tuttuğun özgünlerin taramalarıdır: sözleşmeler, mektuplar, sertifikalar, makbuzlar. Onları bir çevrimiçi kırpcıya yüklemek — kesmeyi planladığın dahil — tam kırpılmamış görseli o hizmete teslim etmektir. Gizlilik işinin küçük bir ironisi: belgeyi derli toplu kılmak için atılan adım, onu en tam ifşa eden adım olur.",
+          "Bu araç crop kutularını tamamen tarayıcında uygular: sayfalar yerelde çözülür; yeni dikdörtgenler belge yapısına yazılır ve sonuç kendi cihazınca kaydedilir. Hiçbir şey iletilmez ve diskteki özgün dosya hiç dokunulmaz — dikdörtgeni sonradan ayarlaman gerekirse kırpılmamış kaynağı hep tutarsın.",
+          "Buradaki kırpım üst veri düzeyinde ve kayıpsız olduğundan büyük dosyalar için bile anlıktır — yeniden kodlama geçişi yoktur. Yinelemeyi pratik kılar: kırpa, gör, incele, yeniden kırpa; beklemeden. Makinenizden hiç çıkmayan tam bir «taramayı temizle» akışı için delete-pages aracıyla eşleştir.",
+        ],
+      },
     ],
   },
   "eta-calculator": {
@@ -5080,6 +9860,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'İş yükü için hangi birim kullanılmalı?', a: 'Tutarlı herhangi bir birim: biletler, makaleler, yol kilometreleri, veritabanı satırları. Hesaplayıcı yalnızca yük/tempo oranına bakar, bu yüzden iki taraf da aynı birimi kullanmalı.' },
         { q: 'Başlangıç zamanını gelecek veya geçmişe ayarlayabilir miyim?', a: 'Evet. Geri sayım varsayılan olarak şimdiden başlar, ama özel bir başlangıç zamanı etkinleştirebilirsiniz — pazartesi başlayacak bir işi tahmin etmek veya geçen hafta başlayan bir görevin ne zaman biteceğini görmek için kullanışlıdır.' },
     ],
+    deepDive: [
+      {
+        heading: "Bir ETA'nın arkasındaki aritmetik",
+        paragraphs: [
+          "Temelde projeksiyon tek bir bölmedir: kalan iş yükü bölü etkin oran. İncelik «etkin»in ne demek olduğudur. Saatlik oran olduğu gibi kullanılır; günlük oran çalışma-saatleri ayarına yansıtılır; 8 saat günlük 40 saatlik iş beş takvim günü kapsar; bir değil; haftalık oran beş günlük çalışma haftası varsayar; yedi takvim gününe uzanır. Her seçim bitiş zaman damgasını taşır; aracın sormasının sebebi budur.",
+          "Geri sayım ve insancıllaştırılmış süre aynı projeksiyonun iki biçimde çizilmişidir: geri sayım başlangıç noktasından bitişe kalan zamandır ve «3 gün 4 saat» aynı aralığın insanların planlama yaptığı birimlerde yeniden söylenmişidir. Üç çıktının hepsi tek formülden türediğinden oranı değiştirmek her şeyi aynı anda günceller — hızlanmanın ya da yavaşlamanın gerçekte ne değer taşıdığını görmenin en hızlı yolu.",
+          "Bir dürüst sınırlama: model doğrusaldır. Her iş biriminin son birimle aynı zamanı aldığını; rampa, yeniden iş ve kesintiler olmadığını varsayar. Gerçek kuyruklar kuyruklaşır — son %10 genelde ilk %90'dan birim başına daha uzun sürer — geç aşama bir ETA'sını varsayılan olarak iyimser ele ve gerçek ilerleme geldikçe yenile.",
+        ],
+      },
+      {
+        heading: "Oranı seçmek: en büyük hata kaynağı",
+        paragraphs: [
+          "Yanlış ETA'ların çoğu matematik yüzünden değil oran yüzünden yanlıştır. Klasik hata en-iyi-durum bir oran girmektir — temiz, kesintisiz bir öğleden sonra başardığın — ve buluşmaları, bağlam geçişlerini ve kötü günleri kapsayan ortalama oran yerine onu bırakmaktır. En iyinin yarısı olan oran gerçek tamamlanmayı en iyinin kendisinden çok daha iyi tahmin eder.",
+          "İkinci tuzak birim uyumsuzluğudur: sayfalar cinsinden iş yüküne karşı gün başına bilet girmek ya da günlük iş yüküyle saatlik oran. Araç her iki tarafı aynı birimde ister; en güvenli kontrol zaten bitmiş küçük bir parçayı yeniden hesaplamaktır ve formülün süresini tahmin edip etmediğine bakmaktır.",
+          "Çalışma saatleri ve takvimler de etkileşir: günlük oran hafta sonlarını otomatik atlamaz; tatiller oranların onları hesaba katmadıkça düşülmez. Bitiş tarihi Cumartesi'ye düşüyor ve o gün çalışmayacaksan oranı aşağı çek ya da zaman çizelgesini elle uzat — araç bildirdiğin varsayımları modelleyendir; özel takvimini değil.",
+        ],
+      },
+      {
+        heading: "ETA'ları yanmadan kullanmak",
+        paragraphs: [
+          "En güvenilir akış yeniden-tahmindir: iş yükünü gir, tahmini çalıştır; sonra — iş ilerledikçe — kalan iş yükünü ve gerçekte başardığın oranı güncelle. %25 tamamlanmada yeniden hesaplanan ETA, sıfırdakinden çok daha doğrudur; çünkü gerçekleşen oran tahmin edilmiş değil ölçülmüştür.",
+          "Tahmin başkası içindir (bir müşteri, bir paydaş) ise paylaşılacak çıktı okunabilir süredir ve dolgu orana aittir; üstüne açıklanmamış bir tampon değil: «haftada 12 birim, 20 değil» savunulabilir bir beyandır; gizli %40'lık dolgusu olan çıplak bir sayı programın yüzey değeriyle alınmasını davet eder.",
+          "Bu sayfadaki her şey gibi hesaplama tarayıcında yerelde çalışır — hiçbir iş yükü ya da oran verisi yüklenmez, günlüklenmez, paylaşılmaz. İç personel planları ve müşteri teklifleri için aynı biçimde kullanılabilir olur; o sayılar cihazından hiç çıkmadan.",
+        ],
+      },
+    ],
   },
   "mime-types": {
     name: 'MIME Türleri Tablosu',
@@ -5094,6 +9900,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: "Bu IANA'nın tam medya türü kaydı mı?", a: 'Hayır — IANA binin üzerinde kayıtlı tür listeler; çoğu üreticiye özel veya tarihseldir. Bu tablo web geliştirme, dağıtım yapılandırmaları ve e-postada gerçekten karşılaşılan 120 civarı girdiye odaklanır ve doğru güncel değerleri verir.' },
         { q: '.ts neden farklı kategorilerle iki kez görünüyor?', a: 'Uzantı gerçekten belirsiz: TypeScript kaynak dosyaları (text/x.typescript) ve MPEG taşıma akışları (video/mp2t) ikisi de .ts kullanır. Sunucular dizin bağlamına göre seçer; sizin senaryonuzun hangisi olduğunu kontrol edin.' },
     ],
+    deepDive: [
+      {
+        heading: "Bir MIME tipinin gerçekte ne olduğu",
+        paragraphs: [
+          "Bir MIME tipi iki parçalı bir etikettir — tip/alt tip; text/html ya da image/png gibi — alıcıya bir payload'u nasıl yorumlayacağını söyler. Kayıt IANA tarafından tutulur; tipler biçimin adını aldığı e-posta eki sisteminden (Multipurpose Internet Mail Extensions) iner. Tarayıcılar, sunucular ve e-posta istemcileri hepsi bu tek satır üst veriye yaslanır.",
+          "Üst düzey tipler azdır: text, image, audio, video, application; artı multipart ve font gibi birkaç özel. Alt tip gerçek bilgiyi taşır — application/json yapılandırılmış veri demektir; application/pdf bir belge; application/octet-stream «opak baytlar; bol şans» demektir. +son-ek gelenekleri (application/+json, +xml) alt tipin iç yapısını belirtir.",
+          "Parametreler noktalı virgülden sonra gelir: text/html; charset=utf-8 karakter kodlamasını bildirir. Sıradan sayıdaki hatanın yaşadığı yerdir — charset'siz servis edilen bir sayfa bir tarayıcıda düzgün çizilir; ötekinde bozulur.",
+        ],
+      },
+      {
+        heading: "Tarayıcılar neden koklar ve sana neye mal olduğu",
+        paragraphs: [
+          "Sunucular MIME tiplerini sık sık yanlış alır: yanlış yapılandırılmış hostlar .css uzantılı düz metin gönderir ya da her şeyi application/octet-stream olarak. Kırılmak yerine tarayıcılar tarih olarak içerikten tahmin etti — «MIME sniffing» — sihirli baytları okuyarak (PNG 89504E47 ile başlar; PDF %PDF ile) ve ona göre çizerek. Davranış gerçek güvenlik açıkları üretti: kullanıcı yüklemelerini text/html olarak servis etmek saldırganın origin'in üzerinde betik çalıştırmasına izin verir; sniffing'i yanıt başına devre dışı bırakacak güvenlik araçlığının varlık sebebi.",
+          "Modern sözleşme: servis ettiğin her şey için doğru Content-Type'ı kur; kullanıcı içeriği için nosniff başlıkları ekle ve kullanıcı yüklemelerini asla text/html olarak servis etme. Buradaki veritabanı o sözleşmeyi kontrol etmek içindir — bir dosya tipini servis etmeden önce uydurmak yerine kanonik tipini ara.",
+          "Uzantı-MIME eşlemesi gelenektir; kanun değil: bir .dat dosyası herhangi bir şey olabilir; birkaç biçim uzantı paylaşır (.mp4 hem ses hem video kapsayıcıları için). Şüphedeysen bir tip bildirmeden önce dosyanın sihirli baytlarını kendin kokla.",
+        ],
+      },
+      {
+        heading: "Çevrimdışı referans tablosu",
+        paragraphs: [
+          "Tablo sayfayla sevketilen statik bir referanstır — aramalar tarayıcında anında olur; ağ isteği yok. Havadan kopuk ortamlarda kullanılabilir kılar ve düzenlediğin bir yapılandırma dosyasının yanında açık tutmak için yeterince hızlıdır. Sözlük gerçekten sözlüktür: sayfa kapandığında kaybolur; güncellenmesi sayfanın yeniden yayınlanmasıdır. Sözlük gerçekten bir sözlüktür: sayfa kapandığında kaybolur; güncellenmesi, sayfanın yeniden yayınlanmasıdır.",
+          "Sunucu yapılandırma işi için en sıktık aramalar sunucu-tarafı çiftleridir: fontlar (font/woff2), manifestlar (application/manifest+json) ve akışlanan medya için içerik tipleri. Bunları doğru almak klasik belirtileri önler — sessizce CORS kontrollerini kaldıramayan fontlar; katı MIME kontrolü altında yüklenmeyi reddeden stil sayfaları.",
+          "Trafiğin ya da dosyaların hakkında hiçbir şey kaydedilmez; sayfa bir hizmet değil, tek bakışta kapanıp açılan bir sözlüktür. Content-Type başlıkları şüpheli API yanıtlarını ayıklarken JSON araçlarıyla eşleştir; tip ile dosya arasındaki uyuşmazlığı orada da burada da aynı tabloyla çözersin.",
+        ],
+      },
+    ],
   },
   "keycode-info": {
     name: 'Tuş Kodları',
@@ -5107,6 +9939,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Aynı tuş için event.key ve event.code neden farklı?', a: 'event.key geçerli düzen ve değiştirici durumunda üretilen karakteri bildirir ("A", "á", "1"), event.code ise düzenden bağımsız fiziksel konumu (KeyA, Digit1). Kısayollar genelde code ile, metin işleme ise key ile eşleşmelidir.' },
         { q: 'keyCode kullanımdan kaldırıldı mı?', a: 'Evet — eski kodun 13 (Enter) veya 27 (Escape) gibi sayılara göre dallanmasıyla uyum için korunuyor. Yeni kod event.key ya da event.code kullanmalı; bu araç geçiş sırasında eski sabitleri eşlemek için onu gösterir.' },
         { q: 'Bir tuşu basılı tutunca aynı değer neden tekrar ediyor?', a: 'Basılı tutmak, işletim sisteminin repeat=true ile tekrarlanan keydown olayları göndermesine neden olur. "Otomatik tekrarı yok say"ı açarak yalnızca ilk basışı gösterebilirsiniz; işleyicinizin tekrar olaylarını alıp almadığını doğrulamak istiyorsanız açık bırakın.' },
+    ],
+    deepDive: [
+      {
+        heading: "keyCode eskitti — işte manzara",
+        paragraphs: [
+          "Bu aracın gösterdiği sayısal tuş kodları 1990'larda tanıtılan ve artık resmî olarak eskimiş özgün KeyboardEvent.keyCode ve which özelliklerinden gelir. En yaygın bilinen tuş tanımlayıcıları olarak kalırlar; çünkü on yıllarca öğreticiler, kitaplıklar ve Stack Overflow cevapları onların üzerine kuruludur — ama onların yerine geçen standart KeyboardEvent.key'dir (karakter; «a» ya da «ArrowLeft») ve KeyboardEvent.code'dur (fiziksel tuş; «KeyA» ya da «ArrowLeft»).",
+          "Ayrım sayar: key klavye düzenine saygı duyar (Fransız AZERTY'de Tab'ın yanındaki tuşa basmak, ABD QWERTY'dekinden farklı bir key değeri üretir); code her zaman aynı fiziksel konumu tanımlar. Oyun kontrolleri ve kısayol sistemleri için genelde code doğrudur; metin işleme için key.",
+          "keyCode'nun öteki sorunu tutarsızlıktır: ok tuşları, işlev tuşları ve bazı numpad tuşları tarayıcı- ve platform-bağlı değerlere sahipti; ölü tuşların ve IME girdisinin eski işlemi değişkenlidir. Yeni kod bu aracın sayılarını eski kodu okumak için referans saymalıdır; yazılacak şey olarak değil.",
+        ],
+      },
+      {
+        heading: "Pratikte tuş tanımlayıcılarını okumak",
+        paragraphs: [
+          "Üç özellik farklı soruları yanıtlar: keyCode (eski) bir sayı verir; key basışın ne demek olduğunu verir; code tuşun nerede durduğunu verir. Aynı fiziksel basış key «a» ile code «KeyA» rapor edebilir; Shift basılıyken key «A» olur ama code «KeyA» kalır. Bir değiştirici tutmak key'i değiştirir; code'yu asla.",
+          "Escape tuşu kararlı bir durumdur (key «Escape»; code «Escape»; keyCode 27 — neredeyse herkesin ezberlediği tek eski sayı). Space bir tuzaktır: key değeri «Space» değil « » (gerçek bir boşluk) olur; birçok naif switch ifadesini kırmıştır.",
+          "Kısayollar için bağlantı konumsalsa (WASD hareketi) code dinle; tipografikse (Ctrl+Shift+P AZERTY'de de çalışmalı) key. Ve bir kısayol basım başına bir kez tetiklenecekse e.repeat ile otomatik-tekrarı yok say.",
+        ],
+      },
+      {
+        heading: "Referans arama, çevrimdışı",
+        paragraphs: [
+          "Araç sayısal kodu modern key ve code değerlerinin yanında gösterir; eski bir parçanın keyCode 188'ini tarayıcı hata ayıklayıcısını açıp tuşları tek tek basmadan modern eşdeğerlerine çevirebilirsin. Ters yönde de çalışır: hangi tuşun hangi sayıyı ürettiğini tek tabloda görürsün.",
+          "Her şey tarayıcında çizilen statik bir tablodur — ağ isteği yok; bağlantı olmadan çalışır; klavyen hakkında hiçbir şey hiçbir yere rapor edilmez. Sayfa hafiftir; ap, aç, ara, kapat — hesap ya da iz bırakan hiçbir şey yoktur.",
+          "Yeni olay işleyicileri yazarken hedef kullanıcılarının düzenini taşıyan gerçek bir klavyeyle sına; çünkü düzen-bağlı değerler herhangi bir tablonun gösterebileceğinden fazla ayrışır. Bu sayfa sözlüktür; klavyen saha testidir.",
+        ],
+      },
     ],
   },
   "ipv4-subnet-calculator": {
@@ -5123,6 +9981,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'IP sınıflarının hâlâ anlamı var mı?', a: "Yönlendirme için yok — internet on yıllar önce sınıfsız CIDR'ye geçti. A/B/C/D/E harfi yalnızca referans içindir; eski belgeler, sınav soruları ve bazı eski cihazlar hâlâ sınıf dili konuşur." },
         { q: "İki IP'yi kapsayan en küçük CIDR nasıl hesaplanır?", a: "İki adres, farklılaşan düşük sıralı bitleri bulmak için XOR'lanır; önek, ilk eşleşen bit konumudur ve blok bu sınıra hizalanır. Örneğin 10.1.2.3 ile 10.1.9.200 birlikte 10.1.0.0/20 içine düşer." },
     ],
+    deepDive: [
+      {
+        heading: "CIDR ve alt ağ maskesi: ilk ilkelerden",
+        paragraphs: [
+          "Bir IPv4 adresi 32 bittir ve CIDR öneki kaç öndeki bitin ağı tanımladığını söyler: /24, ilk 24 bitin sabit olduğu ve son 8'in hostlara ait olduğu demektir. Noktalı maske o kuralın IP notasyonunda yazılmış hâlidir — 255.255.255.0 tam olarak 24 birlik taşır. Joker maske bitwise tersidir; güvenlik duvarı ACL söz dizimi onun yerine onu ister: maskenin «eşleşmeli» dediği yerde joker «önemli değil» der.",
+          "Standart değerler sınır kurulduğunda mekanik olarak düşer: ağ adresi tüm host bitlerini sıfırlar; yayın adresi hepsini kurar ve kullanılabilir hostlar ağ+1'den yayın−1'e koşar. Kullanılabilir sayı 2^(32−n) − 2'dir; çünkü ağ ve yayın ayrılmıştır — /24 256 adres taşır ama 254 kullanılabilir host; o iki-eksi, bir ağ planının bir host kısa kalmasının en sıktık nedenidir.",
+          "İki istisna kasıtlı olarak onurlandırılır: RFC 3021 /31 nokta-nokta bağlantıları ayrılmış ağ ya da yayın olmadan her iki adresi kullanır; /32 tanım gereği tek-host rotasıdır. Zihinsel modelin «her zaman iki çıkar» diyorsa bu iki durum, gerçek dünyadaki yapılandırmaların ders kitabından ayrıştığı yerlerdir.",
+        ],
+      },
+      {
+        heading: "Özel aralıklar ve klasik güvenlik duvarı hatası",
+        paragraphs: [
+          "Her adres küresel olarak eşsiz değildir. RFC 1918 özel ağlar için 10.0.0.0/8, 172.16.0.0/12 ve 192.168.0.0/16 saklar; 127.0.0.0/8 loopback'tir; 169.254.0.0/16 link-yerel'dir; 100.64.0.0/10, taşıyıcıların modemleriyle çekirdekleri arasında kullandığı CGNAT paylaşılan alanıdır. Araç hepsini işaretler; gerçekte hangi tür adrese baktığını bilirsin.",
+          "İşaretlerin önlediği hata: kamusal sandığın bir aralık için güvenlik duvarı izin kuralı yazmak; gerçekte RFC 1918 içindeyken — örneğin yanlışlıkla 172.16.0.0/12'nin mahallesine izin vermek. Tersine, bir CGNAT kaynağını kamusal ziyaretçi saymak aynı taşıyıcı adresinin milyonlarca aboneden görünmesine izin verir; IP başına hız sınırlarını ve günlükleme varsayımlarını kırar.",
+          "Bir tuzak daha özellikle 172 aralığında yaşar: 172.16/12, 172.16.0.0'dan 172.31.255.255'e uzanır; 172.20.x.x özeldir ama 172.32.x.x kamusaldır. Bellek «172 özeldir» der; gerçeklik 172 alanının yalnızca 16-bit genişlikte bir dilimin özel olduğunu der. Pratikte tek en sık özel-aralık arama hatası budur; işaret sütununun anında kapattığı tam olarak budur.",
+        ],
+      },
+      {
+        heading: "En küçük kapsayan CIDR ve elle-birleştirmenin başarısızlığı",
+        paragraphs: [
+          "Verilen iki IP için ikisini de içeren minimal blok bitleri karşılaştırarak bulunur: iki adresi XOR et; en yüksek farklılaşan bit konumu kaç düşük sıra bitinin değiştiğini söyler. Önek o konumun üstündeki her şeydir ve blok o sınıra aşağı hizalanır — 10.1.2.3 ile 10.1.9.200 bir /20 paylaşır ama /21 paylaşmazdı; çünkü farkları 20. bitin aralığına ulaşır.",
+          "Elle-birleştirme başarısız olur; çünkü insanlar ondalıkta akıl yürütür. 10.1.2.3, 10.1.2.x ile «birlikte görünür» ve bir /24 gerçekten onu içerir — ama onu 10.1.9.200 ile eşleştirmek üçüncü sekizlisinin 0–15 kapsadığı bir blok zorlar; ondalık dizelerden kimse bunu sezmez. XOR yöntemi sezgi sorununu ya işleyen ya da kanıtlanabilir biçimde işlemeyen bit aritmetiğine çevirir.",
+          "Kapsama sonucu özetlemenin maliyetini de söyler: iki hostu tek kuralda birleştirmek niyet etmediğin 2.048 adres içine çekebilir. Güvenlik duvarına yapıştırmadan önce resulting bloğun kullanılabilir-host sayısını oku; fazladan adresler önemliyse bir geniş yerine iki spesifik kuralı yeğle. Buradaki her şey tarayıcında yerelde hesaplanır — iç adresleme planları sayfadan hiç çıkmaz.",
+        ],
+      },
+    ],
   },
   "json-viewer": {
     name: 'JSON Görüntüleyici',
@@ -5137,6 +10021,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Büyük belgeler işlenir mi?', a: 'Tipik API yükleri ve yapılandırmalar için evet — on binlerce düğüm sorunsuz çizilir. 60 karakterlik kısaltma yalnızca görüntüleme içindir; ham panel ve kopyala düğmesi her zaman tam veriyi taşır.' },
         { q: 'Verilerim cihazımdan çıkar mı?', a: 'Hayır. Ayrıştırma ve çizim tamamen tarayıcı belleğinde olur. Sunucuya hiçbir şey gönderilmez — iç API yanıtları ve yapılandırmalar için güvenlidir.' },
     ],
+    deepDive: [
+      {
+        heading: "Ağaç görünümünün JSON okumada değiştirdiği şey",
+        paragraphs: [
+          "Ham JSON makineler için optimize edilmiştir: yapıyı noktalamaya ve boşluğa paketler; derin iç içe payload bir parantez duvarı gibi okunur. Ağaç görünümü bunu çevirir — her nesne ve dizi katlayabileceğin bir düğüm olur; üst düzey tek bakışta «bu yanıt ne içeriyor?» yanıtlar ve ayrıntı yalnızca açtığında belirir. 200 satırlık bir API yanıtı için kaydırma ile gezinme arasındaki fark budur.",
+          "Tipe göre renk kodlaması süs değildir. Gerçek payloadlarda hatalar sınırlarda kümelenebilir: dize olarak gelen bir sayı («42»); gerçekte «false» dizgesi olan bir false; nesne olması gereken bir null. Dizeler, sayılar, mantıksallar ve null her biri kendi rengini taşıdığında bu anomaliler görsel olarak fırlar — tüm bir yanıtı tek bir anahtar adı okumadan şüpheli tipler için tarayabilirsin.",
+          "Uzun-dize kesmesi üçüncü okunabilirlik hilesidir. Base64 bloblar, HTML parçaları ve uzun betimlemeler rutin olarak tek bir değeri yüzlerce karaktere uzatır ve yapıyı gömer. Görüntüyü 60 karakterde kesmek her değeri tek satırda tutar — ham bölme ve kopyala düğmesi her zaman tam metni taşırken; hiçbir şey kaybolmaz. Kesme sunumdur; veri değil.",
+        ],
+      },
+      {
+        heading: "Çözüm hatalarını okumak: satır, sütun ve alışılmış suçlular",
+        paragraphs: [
+          "JSON belirli, yinelenen biçimlerde affetmez; çözümleyici hataları onlara eşlenir. Klasik başarısızlıklar: bir nesnenin ya da dizinin son öğesinden sonraki artık virgül (JavaScript literallerinde yasal; JSON'da yasadışı), tırnaksız ya da tek tırnaklı anahtarlar, dizeler çevresinde tek tırnaklar, yalnızca yüzlerce satır sonra yüzeye çıkan eksik parantez ve yorumlar — // JS'de iyi; JSON'da asla geçerli değil. Listeyi bilmek çoğu hata mesajını bir saniyelik düzeltmeye çevirir.",
+          "Satır ve sütun numaraları sayar; çünkü başarısızlık noktası çoğu zaman hata noktasından uzaktadır: 10. satırdaki eksik kapanış süslü parantezi, çözümleyici 40. satırda çelişen bir token'a çarptığında ancak raporlanabilir. Raporlanan ilk hatayı düzelt ve yeniden çöz; hepsini birden peşine düşmek yerine — çözümleyiciler kaskad hatalardan kötü kurtulur; ilk mesaj güvenilen mesajdır.",
+          "Bu görüntüleyici hatayı çözümleyicinin kendi mesajıyla artı konumuyla raporlar; girdi geçerli olduğu an ağacı yeniden çizer. Döngü — yapıştır, hatayı gör, düzelt, ağacı gör — tek seferlik bir kontrol için bozuk bir yapılandırma dosyasını JSON linter'lı bir editöre geçmekten daha hızlıdır.",
+        ],
+      },
+      {
+        heading: "Yerel çözümleme ve farklı bir araca ulaşma zamanı",
+        paragraphs: [
+          "Her şey tarayıcında çalışır: çözümleme, ağaç kurma ve çizim cihazında JavaScript'te olur; hiçbir şey iletilmez ya da saklanmaz. Bu, gerçekte yapıştırdığın payloadlar için en çok sayar: kimliklenmiş API yanıtları, iç yapılandırma, veritabanından çekilen müşteri kayıtları. Bunları güzelce yazdırılmak için çevrimiçi bir JSON hizmetine göndermek ne kontrol ettiğin ne de ihtiyacın olan sunucu-tarafı bir kopya kurar.",
+          "Ölçek dürüst sınırdır. On binlerce düğüm iyi çizilir; yüzlerce megabyte'lık bir dışa aktarım hangi görüntüleyici çizerse çizsin tarayıcı sekmesini zorlar; orada akışan ya da komut satırı araç daha iyi cevaptır. Günlük aralık için — API yanıtları, webhook payloadları, yapılandırma dosyaları — tarayıcı ağacı «bunun içinde ne var?»dan bir cevaba en hızlı yoldur.",
+          "Sonraki adımlar için çevresindeki araçlarla eşleştir: biçimlendirici düzeltmeyi commit etmeden önce girintiyi tekdüzler; doğrulayıcı katı uyumu onaylar; json-path-query ağacı elle avlanmadan bir alt ağacı çıkarır. Görüntüleyici okuma aracıdır; ötekiler yazmayı ve sorgulamayı yapar.",
+        ],
+      },
+    ],
   },
   "chmod-calculator": {
     name: 'chmod Hesaplayıcı',
@@ -5150,6 +10060,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: '755 tam olarak ne demek?', a: 'Sahip: okuma+yazma+çalıştırma (7=4+2+1); grup: okuma+çalıştırma (5=4+1); diğerleri: okuma+çalıştırma (5). Paylaşılan dizinler ve çalıştırılabilir betikler için tipik ayardır.' },
         { q: 'Sticky bit ne işe yarar?', a: "Bir dizinde başkalarının dosyalarını silmesini engeller — /tmp'deki «t» budur (drwxrwxrwt). Çalıştırılabilir dosyada programı bellekte tutuyordu — bugün çoğunlukla tarihsel." },
         { q: 'setuid ve setgid ne yapar?', a: 'Çalıştırılabilir dosyada setuid onu sahibin kimliğiyle çalıştırır (setgid: grubun) — tehlikeli olmasının nedeni budur. Dizinlerde setgid yeni dosyaları grup üyeliğine zorlar.' },
+    ],
+    deepDive: [
+      {
+        heading: "755 ile 644'ün kaynağı: 4-2-1 aritmetiği",
+        paragraphs: [
+          "Üç izin sınıfının her biri — sahip, grup, diğerleri — üç bit tutar: oku, yaz, çalıştır. Sekizlik rakam etkinleştirilmiş bitlerin 4-2-1 ağırlıklı toplamıdır; rakamın yalnızca 0-7 olabilmesinin ve her değerin tam olarak bir rwx dizgesine eşlenmesinin sebebi. 7 rwx'tir (4+2+1); 6 rw-'dir (4+2); 5 r-x'tir (4+1); 4 r--'dır (4). Hiçbir kombinasyon, diyelim ki, -wx dışında bir şey demen bir 3 üretemez; notasyon ağırlıkları içselleştirildiğinde belirsizsizdir.",
+          "O aritmetik iki iş-atı modu açıklar. 755 (rwxr-xr-x) sahibin her şeyi yapması, herkesin girebilesi ve okuyabilmesi ama değiştirememesi demektir — dizinler için ve başkalarının çalıştırması gereken betikler için doğal mod. 644 (rw-r--r--) çalıştırmayı resimden tümüyle çıkarır: herkes okur; yalnızca sahip yazar; sıradan dosyalara uyar. Web sunucularının dosyalarda 644 ve dizinlerde 755 istemesinin nedeni basitçe bir dizine girmenin çalıştırma işlemi olmasıdır; okuma değil.",
+          "Umask resmi tamamlar. 022 gibi tipik bir umask, oluşturma zamanında 666/777 varsayılanlarından düşülür; yeni dosyaların 644'te ve yeni dizinlerin 755'te düşmesinin tam nedeni. Bir dosya «kaybetmeyi» sürdürüyorsa çalıştır bitini ya da grup yazısı kayboluyorsa suçlu çoğunlukla umask'tır ya da aşırı istekli bir eşitleme aracıdır; chmod kendisi değil — yeniden vermeden önce stat ile modu kontrol etmek çok kafa karıştırmasından kurtarır.",
+        ],
+      },
+      {
+        heading: "Özel bitler: setuid, setgid ve sticky",
+        paragraphs: [
+          "Dokuz izin bitinin ötesinde üç daha durur. setuid (sekizlik 4000) yürütülebilir dosyanın çağıranın kimliği yerine dosya sahibinin kimliğiyle çalışmasını sağlar — passwd'nin arkasındaki mekanizma; herkes tarafından çalıştırılırken root'a ait dosyalara yazmak zorundadır. setgid (2000) aynıyı grupla yapar; dizinlerde yeni dosyalar dizinin grubunu devralır — paylaşılan ekip klasörlerinin tutarlı sahipliği böyle korur.",
+          "Sticky bit (1000) dosyalar için çoğunlukla tarihseldir ama dizinlerde yalnızca dosyanın sahibinin (ya da root'un) içindeki girişleri silebileceği ya da yeniden adlandırabileceği demektir. /tmp kanonik örnektir: 1777; herkes-yazabilir; yine de kullanıcılar birbirinin dosyalarını kaldıramaz. Docker'ın COPY --chmod'u ve CI betikleri bazen bu rakamların açık yazılmasını ister; tam olarak dört-basamaklı biçimin önemli olduğu zaman — baştaki rakam özel-bit sekizliği; yoksa 0.",
+          "Sembolik gösterim durumu x yerine kodlar: küçük s özel bit artı çalıştır demektir (rws); büyük S çalıştır olmayan özel bit demektir — genelde bir hata; çünkü çalıştırılamayan bir setuid dosyası hiçbir şey yapmaz. Aynı mantık dizinlerde t ile T'ye uyar. Listede rwS ya da rwT görmek çalıştır vermeye ya da özel biti temizlemeye işarettir.",
+        ],
+      },
+      {
+        heading: "Pratik tuzaklar ve modları güvenle kontrol etmek",
+        paragraphs: [
+          "En sıktık operasyonel hata izin hatası için chmod -R 777'dir. Anlık sorunu yok eder ve geride herkes-yazabilir bir ağaç bırakır — çok kullanıcılı her hostta gerçek bir güvenlik deliği; ve tanı olarak yararsızdır; gerçek modun ne olduğunun kanıtını yok eder. Bir servis dosyayı okuyamıyorsa yerine yol boyunca in: her dizin servis kullanıcısı için çalıştırma (ve genelde okuma) ister; başarısızlık çoğu zaman dosya değil bir ebeveyn dizindir.",
+          "Bağlantılı tuzak: bir dizinde chmod 644 çalıştır bitini soyar (r--r--r--); sonra kimse — sahip dahil — içine giremez; dizine girmek bir çalıştırmadır. Dizinler neredeyse hep en az 755 ya da 700 ister; asla 644 değil. Modları dokümandan geri getirirken etkisi mevcut mod ve umask'a bağlı olan +x gibi sembolik ifadeler yerine açık rakam biçimini (chmod 755) yeğle.",
+          "Bunun gibi bir hesaplayıcı bilinçli olarak yalnızca-kontrol ve çevrimdışıdır: rakamları tarayıcında hesaplar ve çalıştırmadan önce gözden geçirmen için bir komut verir. Akışa ait olduğu yerde tutar — komutu kendi terminaline, kendi dosyalarına yapıştırırsın; dosya sisteminin ya da dizin yapının hiçbir şeyi makineden hiç çıkmaz.",
+        ],
+      },
     ],
   },
   "ulid-generator": {
@@ -5166,6 +10102,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Crockford Base32 nedir?', a: "32 karakterlik bir alfabe (rakamlar artı I, L, O, U'suz A-Z), elle aktarımı atlatmak için tasarlandı: harf/rakam benzeşmesi yok, büyük-küçük harf duyarsız. Hex'ten %25 daha yoğun ve +, /, = içermez — URL, dosya adı ve XML'de kaçış gerektirmez." },
         { q: 'Aynı milisaniyede üretilen iki ULID çakışır mı?', a: 'Pratikte hayır: 80 rastgele bit, milisaniye başına ~1,2 × 10²⁴ olasılık verir. Belirtim ayrıca monoton üretimi tanımlar (aynı milisaniyede rastgele kısmı artırmak); toplu mod bunu yapısal olarak sağlar.' },
     ],
+    deepDive: [
+      {
+        heading: "Sıralanabilirlik: indeksini değiştiren fark",
+        paragraphs: [
+          "UUIDv4 birincil anahtarı yeni satırları indeksteki rastgele konumlara saçar. B-tree depoda bu, sayfa bölünmeleri, önbellek kaçırma ve tablo büyüdükçe gittikçe parçalanan bir indeks demektir — yüksek-yazılı tablolarda iyi bilinen bir operasyonel ağrı. ULID anahtarı her zaman her eski anahtarın sağına düşer; ekleme ekleyerek kalır ve indeks kompakt kalır.",
+          "Sıralanabilirlik yazabileceğin sorguları da değiştirir. ULID anahtarlarıyla «14:00 ile 15:00 arasında kurulan her şeyi ver» birincil anahtar üzerinde düz bir aralık taramasıdır — kaba pencereler için ayrı created_at indeksi gerekmez. Günlükler, olay tabloları ve mesaj kuyrukları en çok kazanır; çünkü erişim desenleri zamanla egemendir.",
+          "Takas dürüstçe bildirilmelidir: ULID'ler oluşturma zamanını tanımlayıcıyı gören herkese ifşa eder ve ardışık ID'ler aynı milisaniye içinde öngörülebilirdir. Tanımlayıcılar opak olmalıysa (numaralandırmanın önemli olduğu yerlerde ID'leri kamusalca paylaşırken) UUIDv4 tut. Günlüklerdeki ve veritabanlarındaki iç anahtarlar için ULID'nin sıralaması kazanır.",
+        ],
+      },
+      {
+        heading: "Crockford Base32 ve tanımlayıcıları yüksek sesle okumak",
+        paragraphs: [
+          "Bir ULID'in 26 karakteri Crockford Base32 kullanır: 0-9 rakamları artı I, L, O, U olmayan A-Z harfleri. O dört dışlanır; çünkü günlük transkripsiyonda 1 ve 0 ile çarpışırlar — destek biletleri, sözlü devirler ve basılı runbook'ların hepsi insanların tanımlayıcıları gözle kopyalaması içerir; her karışıklık yanlış-kayıt hatasıdır.",
+          "Kodlama ayrıca geleneksel olarak büyük-küçük duyarsızdır (I ve l ikisi de 1 gibi çözer); terminallerden ve URL'lerden küçük harf yapıştırmaları affeder. Hex'le karşılaştırıldığında Base32 karakter başına %25 fazla bilgi paketler; 128-bit bir değerin 32 yerine 26 karakter almasının sebebi. base64 ile karşılaştırıldığında +, / ya da = yoktur — tanımlayıcı herhangi bir kaçış katmanı olmadan URL'lerde, dosya adlarında, XML özniteliklerinde ve DNS-yanı bağlamlarda güvenlidir.",
+          "Çözme döngüyü kapatır: ilk 10 karakter saf zaman damgası olduğundan eski bir günlükte bulduğun herhangi bir ULID doğduğu kesin milisaniyeye geri çevrilir. Ayıklama oturumlarını kayda değer biçimde dostane kılar — tanımlayıcının kendisi «bu kayıt ne zaman var oldu?»yu yanıtlar.",
+        ],
+      },
+      {
+        heading: "Rastgelelik, saat ve cihazında kalanlar",
+        paragraphs: [
+          "Buradaki üretim iki kaynak kullanır: zaman damgası yarısı cihaz saatinizden; 80 rastgele bit crypto.getRandomValues'dan — tarayıcının kriptografik rastgele kaynağı; TLS oturum anahtarlarının arkasındaki aynı ilke. Önceden hesaplanmış tablo yok, sunucuyla paylaşılan sayaç yok ve erişilebilir çevrimiçi bir hizmete bağımlılık yok.",
+          "Bu aynı zamanda üretimin çevrimdışı ve sınırsız olduğu demektir. Veritabanı tohum verisi hazırlamak, bir test takımı için donanımlar ya da binlerce tanımlayıcılık bir göç yığını uçakta ve kilitli bir veri merkezinde birebir aynı çalışır; hiçbir şey yüklenmez, günlüklenmez, hız-sınırlandırılmaz; var olan bir ULID'yi çözmek yalnızca kendi saatine ve JavaScript'ine dokunur.",
+          "Bilinmeye değer bir pratik uyarı: cihaz saatinden türetilen tanımlayıcılar onun doğruluğunu miras alır. Bir makinenin saati yanlışsa ürettiği ULID'ler kendi aralarında doğru sıralanır ama mutlak zamanda yanlış noktada durur. Uygulamaların ezici çoğunluğu için önemsizdir — ama katı zaman gereksinimleri olan dış sistemlerle ULID'leri korele ederken aklında tut.",
+        ],
+      },
+    ],
   },
   "user-agent-parser": {
     name: 'User-Agent Çözümleyici',
@@ -5180,6 +10142,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Neden Chrome Safari ve Mozilla olduğunu söylüyor?', a: "Tarihsel uyumluluk. Netscape uyumlu siteler «Mozilla» diyen tarayıcılara sunuluyordu ve Chrome aynı içeriği almak için bu kılıfı devraldı — bu yüzden modern Chrome UA'sı «Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/…» biçimindedir. Çözümleyiciler zincirin sonundan (Chrome token'ı) okur, başından değil." },
         { q: 'Botları gerçek kullanıcılardan nasıl ayırt edersiniz?', a: "Bilinen tarayıcılar token'larını açıkça bildirir — Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit UA'da aynen görünür. Bu çözümleyici onları imzadan adlandırır, alanlardan tahmin etmez; tanınmayanlar normal tarayıcı sayılır, bot diye işaretlenmez." },
         { q: 'UA koklaması özellik kararları için yeterli mi?', a: "Kritik yollarda değil — UA dizgileri tasarı gereği yalan söyler ve kolayca sahteleştirilir. UA çözümlemesini analitik, loglar ve güvenlikle ilgisiz kararlar için (mobil düzen gösterme, bot trafiğini sayma) kullanın; işlevsel her şey için sayfada feature-detect yapın. Bu araç UA'ları okur, onlara güvenmez." },
+    ],
+    deepDive: [
+      {
+        heading: "User-Agent dizeleri neden yalan söyler — ve tasarım gereği",
+        paragraphs: [
+          "Her modern tarayıcı UA dizgesi Netscape'in Mozilla'sına hiçbir bağı olmaksızın Mozilla/5.0 ile başlar. Bu rekabetçi uyumluluk tarihidir; arıza değil: 1990'larda tarayıcılar iyi içeriği almak için «Mozilla» ilan etti; her yeni gelen bozulmuş sürümün servis edilmemesi için tüm öneki kopyaladı. Chrome'un UA'sı sonra AppleWebKit olduğunu iddia eder (ki o Gecko iddia eder); Safari-uyumlu tokenler birliktelik yol alır; sonraki tarayıcılar kendini yığına ekler.",
+          "Sonuç miras alınan iddialar zinciridir: «Mozilla/5.0 … AppleWebKit/537.36 (KHTML, like Gecko) Chrome/… Safari/…». Bunu geriye doğru çözmek güvenilir tekniktir — en spesifik token genelde en doğrudur; Edge'nin (Edg/), Opera'nın (OPR/) ve Samsung Internet'in genel Chrome eşleşmesinden sonra kendi girişlerini almasının ve Chrome-aile algılamanın genel yedekten sonra değil önce çalıştırılmasının sebebi.",
+          "Silah yarışı bitmedi: UA azaltmasıyla tarayıcılar bu dizeleri donduruyor ve buduyor; bazıları sürümden bağımsız temelde özdeş UA dizeleri gönderiyor. UA ayrıştırmasına herhangi bir şey kurmadan önce o trajediyi bilmeye değer — sinyal tasarımdan güvenilmezdir ve sessizleşiyor. UA'ları analitik ve günlükleme için oku; güvenliği ya da kritik işlevi asla birine kapı yapma.",
+        ],
+      },
+      {
+        heading: "Bir çözümün söyleyebileceği ve söyleyemeyeceği şeyler",
+        paragraphs: [
+          "Bir çözücü dizgenin bildirdiğini kurtarır: tarayıcı ailesi ve sürümü, çizim motoru (Blink, Gecko, WebKit), işletim sistemi, cihaz sınıfı (masaüstü, mobil, tablet) ve — token harfiyen göründüğünde — bot. Bilinen crawler'lar kendilerini açıkça tanımlar: Googlebot, bingbot, DuckDuckBot, Applebot, facebookexternalhit ve arkadaşları; mobil ya da masaüstü alanlarından tahmin edilme yerine adıyla eşlenmelerinin sebebi.",
+          "Bir çözümün kurtaramadığı şey sahtelenmiş iddianın arkasındaki gerçektir. UA dizeleri istemci tarafından banal biçimde kurulur — curl kendi gönderir; kitaplıklar herhangi bir dizge geçirmene izin verir; mobil uygulamalar sık sık ödünç kimlikli WebView'ler sevketir. Yani bir çözüm, istemcinin kendisi hakkında söylediğinin kaydıdır; kimliklendirme sonucu değil; bot bayrağını aynı şekilde ele; tanınmayan her şey işaretlenmek yerine normal tarayıcı etiketiyle kalır.",
+          "Pratik kullanımlar o sınırlarla hizalanır: analitik panoları (tarayıcı ve OS dağılımı), günlük triyajı (gerçek trafiğin içinde bir WebView ya da crawler görmek), bir özellik kontrolünün neden başarısız olduğunu ayıklamak ve bir veri setinde trafiği sınıflandırmak. Sayfa içindeki işlevsel her şey için — özellik açmak, yerleşim seçmek — standart cevap istemcide özellik algılamasıdır; UA ayrıştırması kapı değil ipucu olarak.",
+        ],
+      },
+      {
+        heading: "Kendi UA'nı dahil yerelde çözümlemek",
+        paragraphs: [
+          "Buradaki her şey tarayıcında çalışır: yapıştırdığın dize cihazdan hiç çıkmaz. Bu, araştırdığın dizelerin çoğu zaman operasyonel artefaktlar olduğu için sayar: iç bir günlükten başlıklar; güvenlik duvarının yakaladığı şüpheli istek; olay zaman çizelgesinden bir UA. Onları çözülmek için bir üçüncü taraf hizmetine göndermek özel bir tanıyı başkasının veri setine çevirir.",
+          "Kendi tarayıcının UA'sı tek tıkla örnek olarak mevcuttur; çözücünün çıktı biçimini görmenin ve alan anlamlarını bilinen bir gerçeğe karşı doğrulamanın en hızlı yoludur — hangi tarayıcıyı ve OS'yi çalıştırdığını bilirsin; doğru çözüm anında kontrol edilebilirdir.",
+          "Toplu triyaj öteki doğal akıştır: bir günlük parçasından dizeleri arka arkaya yapıştır ve sonuçları tarayıcı/motor/OS/cihaz tablosu olarak oku. Kurallar sunucu gidiş dönüşü olmadan istemci tarafında çalıştığından düzinelerce dizgeyi çözmek anlıktır; çevrimdışı çalışır ve günlük içeriğinin hiçbiri iletilmez — genelde tam olarak bir günlük parçasının olmaması gereken şey.",
+        ],
+      },
     ],
   },
   "token-generator": {
@@ -5196,6 +10184,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'Token ne kadar uzun olmalı?', a: "İç API anahtarları ve oturum kimlikleri için 32 alfanumerik karakter (~190 bit) kaba kuvvetin çok ötesindedir. Hex token'lar baytlara tam karşılık geldiği için sevilir: 32 hex karakter = 16 rastgele bayt. Simgeler karakter başına entropiyi artırır ama URL kodlaması yapmayan sistemleri bozar — yalnızca tüketici bunları işliyorsa kullanın." },
         { q: 'Token, UUID mü ULID mi?', a: 'Tanımlayıcı tahmin edilemez olmalıysa opak rastgele token (bu araç) kullanın: API anahtarları, oturumlar, webhook sırları. UUID/ULID paralel üretilen ya da zamana göre sıralanan tanımlayıcılar içindir — zamanlama ya da adet bilgisi sızdırır ve güvenlik yükü taşımamalıdır. Sıralanabilir bir ID gerekiyorsa ULID üreticiyi kullanın.' },
     ],
+    deepDive: [
+      {
+        heading: "Token uzunluğu ve kaba kuvvetin aritmetiği",
+        paragraphs: [
+          "Bir token'in güvenliği entropisidir ve entropi basit aritmetiktir: karakter-seti boyutunun log2'si, uzunlukla çarpılır. 62 karakterlik alfanümerik set karakter başına yaklaşık 5,95 bit verir; 32 karakter ~190 bittir — kavranabilir hiçbir donanımın yürüyemeyeceği bir arama alanı. 16 alfanümerik karakter bile (~95 bit) çevrimiçi tahminin ve çoğu çevrimdışı senaryonun rahatça ötesinde durur.",
+          "Uzunluğun gerçekte satın aldığı iki gerçekliğe karşı paydır: token kısmen sızar (bir günlük, bir referrer başlığı, bir ekran görüntüsü) ve algoritmalar iyileşir. 30 biti sızan 128-bit token hâlâ 98 taşır — iyi; 10'u sızan 40-bit token neredeyse bitmiştir. Dürüst tavsiyenin «sandığından fazla» olmasının sebebi budur: entropi ucuz; ifşadan sonra döndürmeler pahalı.",
+          "Okumanın göremediği bir uyarı: entropi üretim sürecini ölçer; ele alışı değil. Kupon bir biletine yapıştırılan, bir depoya commit edilen ya da bir proxy tarafından günlüklenen kusursuz rastgele 190-bit bir token döndürülünceye kadar sıfır etkin güce düşer. Uzunluk tahmin etmeye karşı korur; hijyen her şeyin gerisine karşı korur.",
+        ],
+      },
+      {
+        heading: "Opak tokenler ile UUID'ler: aynı iş değildir",
+        paragraphs: [
+          "Rastgele görünen her dizgeyi bir sır saymak çekicidir ama tanımlayıcılar karşıt gereksinimli iki aileye bölünür. UUID'ler ve ULID'ler her yerde, paralel olarak üretilmek ve (ULID için) zamana göre sıralanmak için tasarlanır — yani kasıtlı olarak bilgi kodlarlar: sürüm bitleri, zaman damgaları, bazen bir sayaç. Tahmin edilebilirlik onların kaygısı değildir.",
+          "Opak bir rastgele token zıttır: hiçbir şey kodlamaz ve yalnızca tahmin edilemez olmak için var olur. API anahtarları, bearer tokenler, oturum tanımlayıcıları ve webhook sırları için doğru ilke budur. Oturum ID'si olarak UUID v1 kullanmak, örneğin, makinenin MAC adresini ve üretim zamanını sızdırır — gerçek tarihsel bir güvenlik açığı sınıfı; teorik değil.",
+          "Hex bir nota hak eder: baytlarla tam eşlenir (32 onaltılık karakter = 16 rastgele bayt); o kadar çok protokol sırları böyle göstermenin sebebi — ama karakter başına yalnızca 4 bit taşır; alfanümerik yoğunluğun yarısı. Semboller yoğunluğu artırır ama başlıkları URL-kodlamayan tüketicileri kırar; tüketicinin gerçekte kabul ettiği seti seç.",
+        ],
+      },
+      {
+        heading: "Math.random'ın sırları neden başarısız kıldığı ve yerel üretim",
+        paragraphs: [
+          "Math.random() içsel durumu sınırlı ve yeniden kurulabilir bir sözde-rastgele üreticidir: yeterince çıktıyı gözlemleyen — ya da tokenin kabaca ne zaman üretildiğini bilen — bir saldırgan onu yeniden üretebilir. Onun üzerine kurulu tokenler rastgele göründü ve gerçek olaylarda tahmin edildi; kısayol öğreticilerde ve Stack Overflow cevaplarında hayatta kalır; tam olarak sürmesinin sebebi.",
+          "crypto.getRandomValues tarayıcının kriptografik olarak güvenli kaynağıdır; işletim sistemi tarafından donanım entropisinden tohumlanır ve hiçbir gözlemcinin öncekilerden sonrakini tahmin edemeyeceği şekilde tasarlanmıştır. Bu araç ondan çeker ve baytları bias olmadan seçtiğin karakter setine eşler; sonra resulting entropiyi gösterir; sayı iddia edilen değil denetlenebilir olur.",
+          "Üretim aynı zamanda yereldir: tokenler tarayıcının belleğinde üretilir ve asla iletilmez; burada doğan bir üretim sırrı üçüncü taraf sunucu günlüğünde asla belirmez. Sayfayı yenile ve gittiler — aynı oturumda sır deponuza kopyala. Uzun ömürlü kimlikler için o depo kalıcı evdir; üretici doğum yeridir; arşiv değil.",
+        ],
+      },
+    ],
   },
   "extract-audio": {
     name: "Videodan MP3'ye",
@@ -5211,6 +10225,32 @@ export const tr: Record<string, ToolCopy> = {
         { q: 'İlk dönüşüm neden yavaş?', a: 'İlk çalıştırma WebAssembly motorunu indirir (~31 MB) — tek seferlik bir maliyet; sonrasında tarayıcı önbelleği anında sağlar. Dönüşümler kendileri gerçek zamana yakın hızda çalışır: ses kodlamak video yeniden kodlamaktan çok daha hafiftir.' },
         { q: 'Hangi kaliteyi seçmeliyim?', a: '320 kbps müzik için şeffaftır; 192 kbps podcast ve dersler dahil çoğu içerik için tatlı noktadır; 128 kbps konuşma dosyalarını küçük tutar. Dikkat: MP3 kaynağın kalitesini aşamaz — düşük bit hızlı kaynak video, ayardan bağımsız olarak düşük kalır.' },
         { q: 'Araç ses parçası bulunamadı diyor — neden?', a: "Bazı videolar gerçekten sessizdir; birkaç kap (ham .ts akışları, bazı .flv) hızlı demuxer tarafından işlenmez. Önce MP4'e dönüştürün veya dosyanın oynatıcınızda sesle çaldığını doğrulayın." },
+    ],
+    deepDive: [
+      {
+        heading: "Dosyana gerçekte ne olduğu",
+        paragraphs: [
+          "Video makinenizden hiç çıkmaz. ffmpeg.wasm — masaüstü FFmpeg kod tabanının WebAssembly'ye derlenmiş hâli — bir kez yüklenir (yaklaşık 31 MB; sonra önbelleklenir) ve o andan itibaren her şey sekmenin içinde olur: dosya bellek-içi bir sanal dosya sistemine okunur; akışları ayırmak için demux edilir; ses akışı çözülür ve libmp3lame ile MP3'ye yeniden kodlanır; sonuç indirme olarak geri döner.",
+          "Demuxing çıkarmayı hızlı kılan şeydir: video karelerine hiç dokunulmaz. Araç kapsayıcıyı okur (MP4, MOV, WebM, MKV…); ses izini seçer — MP4 ailesi dosyalarında genelde AAC; WebM içinde Opus ya da Vorbis — ve yalnızca o iz çözülüp yeniden kodlanır. Yalnızca-ses kodlama gerçek zamanla ya da onun üstünde çalışır; iki saatlik bir dersin dakikalar içinde bitmesinin sebebi budur.",
+          "Tek-iş parçacıklı derleme SharedArrayBuffer gerektirmez; sayfa özel sunucu başlıkları olmadan her modern tarayıcıda çalışır — dosyanın hiç yüklenmesi gerekmemesinin aynı sebebi: gerektirdiği işleme gücü bir sekmede rahatça oturur.",
+        ],
+      },
+      {
+        heading: "Kapsayıcılar, kodlar ve ses-izliği-yok hatası",
+        paragraphs: [
+          "Dosya uzantıları kapsayıcı adlandırır; sesi değil: bir .mp4 AAC, MP3 ya da hiçbir şey taşıyabilir; kameradan bir .mov sadece kayıtçının ürettiğini saran QuickTime'dır. Araç uzantıya güvenmek yerine akışları incelemesinin — ve gerçekten sessiz bir videonun (mikrofonsuz ekran kayıtları) ses-izliği-yok mesajını dürüstçe almasının sebebi budur.",
+          "Birkaç kapsayıcı hızlı demuxer'ı düşürür: ham .ts yayın akışları ve bazı .flv dosyaları ses taşısalar bile incelemede başarısız olur. Çare mekaniktir — dosyayı önce herhangi bir masaüstü aracıyla MP4'ye çevir; sonra burada çıkar. Dosya player'ında sesle çalıyorsa ve hâlâ başarısızsa o kovaya aittir.",
+          "Çıkarma ile transkodlama ana ayrımdır: sesi MP3'ye yeniden kodlamak kaçınılmazdır (tarayıcılar ham AAC akışını dosya olarak veremez) ama video akışı dokunulmadan atılır ve ikinci kez asla çözülmez — hız hikâyesinin tamamı budur.",
+        ],
+      },
+      {
+        heading: "Bit oranını dürüstçe seçmek",
+        paragraphs: [
+          "MP3 bit oranı kodlamadan neyin hayatta kaldığını üstünü çizer: 320 kbps müzik için saydamdır; 192 kbps podcast ve dersler için pratik tatlı noktadır; 128 kbps konuşma dosyalarını küçük tutar. Kaynak kalitesi katı bir tavandır — 96 kbps AAC izin daha büyük dosyalara yazılmakla iyi olmaz.",
+          "O tavan, çıkarmayı hiçbir zaman sesi geri getirememe sebebidir: bir görüntülü aramanın agresif sıkıştırmasının bozduğu bozulmuş kalır. Arşiv kalitesi önemliyse platformdan çıkmış bir videoya değil özgün kayda dön.",
+          "Uzun videolar ana zaman maliyetidir ve ilerleme çubuğu kozmetik bir animasyon yerine gerçek ffmpeg ilerlemesini rapor eder. Her şey yerelde çalışır — kişisel veri taşıyan dersler, gizli aramalar, yayımlanmamış kayıtlar hiçbir sunucuya ulaşmaz; ve motor önbelleklenince araç çevrimdışı çalışır.",
+        ],
+      },
     ],
   },
 };
