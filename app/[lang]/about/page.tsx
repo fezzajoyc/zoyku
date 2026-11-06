@@ -63,4 +63,9 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
       </p>
     </Container>
   );
-}
+}    "Quality is enforced, not promised: every tool ships with automated tests — more than eight thousand and counting — covering formulas, edge cases and each of the fifteen interface languages. If a number on this site disagrees with your own calculation, that is a bug and we want to hear about it: the Report an issue link in the footer goes straight to our issue tracker.",
+    "质量是靠机制保证的,不是口号:每个工具都带自动化测试——累计超过八千条且持续增加——覆盖公式、边界情况和全部十五种界面语言。如果本站任何一个数字与你的计算不符,那就是 bug,我们想知道:页脚的“报告问题”直达我们的 issue 跟踪器。",
+    "品質は宣言ではなく仕組みで担保します。すべてのツールに自動テストが付いており——累計 8,000 件以上、増加中——数式・境界ケース・15 のインターフェース言語すべてをカバーします。本サイトの数値があなたの計算と一致しないなら、それはバグであり、ぜひ知らせてください。フッターの「問題を報告」がイシュートラッカーに直結しています。",
+    "La calidad se exige con mecanismos, no con promesas: cada herramienta incluye pruebas automatizadas — más de ocho mil y subiendo — que cubren fórmulas, casos límite y los quince idiomas de la interfaz. Si algún número de este sitio no coincide con tu cálculo, es un fallo y queremos saberlo: el enlace «Informar de un problema» del pie de página lleva directo a nuestro rastreador de incidencias.",
+    "A qualidade é garantida por mecanismos, não por promessas: cada ferramenta inclui testes automatizados — mais de oito mil e crescendo — cobrindo fórmulas, casos de borda e os quinze idiomas da interface. Se algum número deste site divergir do seu cálculo, é um bug e queremos saber: o link «Relatar um problema» no rodapé vai direto ao nosso rastreador de issues.",
+

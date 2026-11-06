@@ -175,6 +175,7 @@ const it = {
     terms: "Termini",
     about: "Chi siamo",
     badges: "Badge",
+    reportIssue: "Segnala un problema",
     language: "Lingua",
   },
 

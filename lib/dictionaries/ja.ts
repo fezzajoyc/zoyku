@@ -172,6 +172,7 @@ const ja: Dictionary = {
     terms: "利用規約",
     about: "このサイトについて",
     badges: "バッジ",
+    reportIssue: "問題を報告",
     language: "言語",
   },
 

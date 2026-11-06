@@ -175,6 +175,7 @@ const vi = {
     terms: "Điều khoản",
     about: "Giới thiệu",
     badges: "Huy hiệu",
+    reportIssue: "Báo cáo sự cố",
     language: "Ngôn ngữ",
   },
 

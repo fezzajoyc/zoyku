@@ -174,6 +174,7 @@ const tr = {
     terms: "Kullanım Koşulları",
     about: "Hakkında",
     badges: "Rozetler",
+    reportIssue: "Sorun bildir",
     language: "Dil",
   },
 

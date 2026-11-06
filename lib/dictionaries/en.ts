@@ -192,6 +192,7 @@ const en = {
     terms: "Terms",
     about: "About",
     badges: "Badges",
+    reportIssue: "Report an issue",
     language: "Language",
   },
 

@@ -172,6 +172,7 @@ const zh: Dictionary = {
     terms: "条款",
     about: "关于",
     badges: "徽章",
+    reportIssue: "报告问题",
     language: "语言",
   },
 

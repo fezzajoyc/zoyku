@@ -174,6 +174,7 @@ const hi = {
     terms: "शर्तें",
     about: "परिचय",
     badges: "बैज",
+    reportIssue: "समस्या की रिपोर्ट करें",
     language: "भाषा",
   },
 

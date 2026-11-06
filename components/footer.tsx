@@ -35,6 +35,7 @@ export function Footer() {
             <li><Link href={`/${locale}/terms`} className="hover:text-[var(--color-ink)]">{t.footer.terms}</Link></li>
             <li><Link href={`/${locale}/tools`} className="hover:text-[var(--color-ink)]">{t.nav.tools}</Link></li>
             <li><Link href={`/${locale}/mcp`} className="hover:text-[var(--color-ink)]">MCP</Link></li>
+            <li><a href="https://github.com/fezzajoyc/zoyku/issues" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-ink)]">{t.footer.reportIssue}</a></li>
           </ul>
         </div>
       </div>

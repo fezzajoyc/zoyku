@@ -175,6 +175,7 @@ const de = {
     terms: "Nutzungsbedingungen",
     about: "Über uns",
     badges: "Badges",
+    reportIssue: "Problem melden",
     language: "Sprache",
   },
 

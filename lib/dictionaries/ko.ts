@@ -177,6 +177,7 @@ const ko: Dictionary = {
     terms: "약관",
     about: "소개",
     badges: "배지",
+    reportIssue: "문제 보고",
     language: "언어",
   },
 

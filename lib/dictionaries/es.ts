@@ -172,6 +172,7 @@ const es: Dictionary = {
     terms: "Términos",
     about: "Acerca de",
     badges: "Insignias",
+    reportIssue: "Informar de un problema",
     language: "Idioma",
   },
 

@@ -177,6 +177,7 @@ const fr: Dictionary = {
     terms: "Conditions",
     about: "À propos",
     badges: "Badges",
+    reportIssue: "Signaler un problème",
     language: "Langue",
   },
 

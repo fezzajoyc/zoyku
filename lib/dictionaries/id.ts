@@ -175,6 +175,7 @@ const id = {
     terms: "Ketentuan",
     about: "Tentang",
     badges: "Badge",
+    reportIssue: "Laporkan masalah",
     language: "Bahasa",
   },
 

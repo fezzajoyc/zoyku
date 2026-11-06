@@ -177,6 +177,7 @@ const ar: Dictionary = {
     terms: "الشروط",
     about: "حول",
     badges: "الشارات",
+    reportIssue: "الإبلاغ عن مشكلة",
     language: "اللغة",
   },
 

@@ -175,6 +175,7 @@ const ru = {
     terms: "Условия",
     about: "О проекте",
     badges: "Бейджи",
+    reportIssue: "Сообщить о проблеме",
     language: "Язык",
   },
 
