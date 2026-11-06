@@ -140,6 +140,30 @@ export default defineTool({
           a: "いいえ。SVG はブラウザ内の文字列テンプレートから組み立てられ、ラスター版はローカルのキャンバスで描画されます。ページの外に出るデータはなく、オフラインで動作し、未公開デザインにも安全です。",
         },
       ],
+      deepDive: [
+        {
+          heading: "SVG をソース形式に:拡大しても荒れないテキスト",
+          paragraphs: [
+            "プレースホルダーに必要なのはラスター画像ではなく、ラベル付きの長方形です。SVG で表現すれば、出力は数行の読めるマークアップ——rect、text、fill 属性くらい——になります。テキストだからこそ HTML・JSX・Figma・README にそのまま貼れ、後からも編集できます。ラベルや hex カラーをマークアップで書き換えれば画像が更新される。同じものの PNG は再生しない限り誰にも直せない固定ピクセルです。",
+            "ページを読み込めばオフラインでも動きます。これは聞こえ以上に重要です。デザイナーや開発者は移動中や制限されたネットワークで作業することが多く、接続が死ぬと同時に死ぬツールは、素早くプレースホルダーが欲しいまさの瞬間に役に立ちません。生成、ダウンロード、タブを閉じる——何も送信されていません。",
+          ],
+        },
+        {
+          heading: "プラットフォームが決めたサイズ",
+          paragraphs: [
+            "特定のサイズが繰り返し現れるのは、プラットフォームが固定しているからです。1200×630 はオープングラフ/ソーシャルプレビューカードの標準寸法で、多くのプラットフォームはこの比率でリンクプレビューを切り抜きます。256×256 のような 2 の累乗はアバターやアイコン枠に対応します。",
+            "1〜5000 ピクセルの上限には理由があります。1 ピクセル未満は意味のある描画ができず、数千ピクセルを超えるとブラウザやデザインツールが canvas の確保に苦労します。全品質の 5000×5000 PNG は数十 MB になり得ます。実用上限は仕様ではなく常識です。",
+            "習慣にしたいこと:ラベルは画像の中に、実寸は外側のマークアップに。img 要素に明示的な width/height を付け、プレースホルダーを同じ比率で置く。今はレイアウトの箱が安定し、将来は実素材を入れ替えるだけで済みます。",
+          ],
+        },
+        {
+          heading: "未公開デザインで使える理由",
+          paragraphs: [
+            "プレースホルダーはプロジェクトの最も早い段階に現れます。未発表製品のワイヤー、NDA 下の機能案、外に出せない社内ダッシュボード。これが一般的なオンライン生成器を厄介にします:寸法をどこかのサービスに入力すると、そのリクエスト(プロジェクト名を晒しかねない参照元付き)が相手のサーバーログに残ります。",
+            "ローカル生成は、多くのプレースホルダーサービスを取り巻くアカウントとウォーターマークの経済も回避します。登録不要、回数制限なし、モデルの隅に焼き付けられたブランド表示もなし。ダウンロードしたファイルは指定した通りのファイルで、コピーした SVG は自由に改変できます。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Generador de imágenes de marcador",
@@ -218,6 +242,30 @@ export default defineTool({
         {
           q: "Algo é enviado para um servidor?",
           a: "Não. O SVG é construído a partir de um template de texto no seu navegador e as versões raster são desenhadas num canvas local. Nada sai da página: funciona offline e é seguro para designs não publicados.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "SVG como formato-fonte: texto que escala",
+          paragraphs: [
+            "Um placeholder não precisa de um arquivo raster — precisa de um retângulo com rótulo. Expressá-lo como SVG significa que a saída são algumas linhas de marcação legível: um rect, um text, talvez um fill. É esse texto que faz o SVG colar limpo em HTML, JSX, Figma ou README, e que permite reeditá-lo depois — mude o rótulo ou a cor hex na marcação e a imagem atualiza. Um PNG da mesma coisa são pixels congelados que ninguém ajusta sem regenerar.",
+            "Também funciona offline depois que a página carrega, o que importa mais do que parece: designers e desenvolvedores trabalham em trânsito ou em redes restritas, e uma ferramenta que morre sem conexão é inútil exatamente nas situações em que um placeholder rápido é preciso. Gerar, baixar, fechar a aba — nada foi transmitido.",
+          ],
+        },
+        {
+          heading: "Tamanhos que as plataformas fixaram",
+          paragraphs: [
+            "Certos tamanhos se repetem porque as plataformas os fixam. O 1200×630 é a medida canônica de cartão de prévia social/open graph — a maioria das plataformas corta a prévia de link nessa proporção. Potências de dois como 256×256 correspondem a espaços de avatar e ícone.",
+            "O limite de 1–5000 pixels não é arbitrário. Abaixo de 1 pixel a imagem não renderiza com significado; acima de alguns milhares, navegadores e ferramentas de design sofrem com a alocação de canvas — um PNG 5000×5000 em qualidade total pode dar dezenas de MB. O teto prático é senso comum, não especificação.",
+            "Um hábito que vale adotar: o rótulo dentro da imagem, as dimensões reais na marcação externa. Tag img com width/height explícitos e o placeholder na mesma proporção — a caixa do layout fica estável agora, e o asset real entra depois sem mexer em nada.",
+          ],
+        },
+        {
+          heading: "Por que serve para designs não publicados",
+          paragraphs: [
+            "Placeholders aparecem na fase mais cedo da vida de um projeto — wireframes de produtos não lançados, rascunhos sob NDA, painéis internos que não podem ser vistos fora. É isso que torna o fluxo comum de geradores online constrangedor: digitar as dimensões em um serviço deixa a requisição (muitas vezes com o referer que expõe o nome do projeto) nos logs de um servidor alheio.",
+            "A geração local também contorna a economia de conta-e-marca-d'água de muitos serviços de placeholder: sem cadastro, sem limite diário, sem marca queimada no canto do modelo. O arquivo que você baixa é o arquivo que você especificou, e o SVG copiado é seu para editar como quiser.",
+          ],
         },
       ],
     },
