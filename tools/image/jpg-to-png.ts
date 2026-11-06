@@ -41,6 +41,32 @@ export default defineTool({
           a: "No. JPEG never stores transparency, so nothing can be recovered — your converted PNG is fully opaque. To cut out a background you would need a dedicated background-removal tool.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What JPG to PNG can and cannot recover",
+          paragraphs: [
+            "The first fact to accept: converting JPG to PNG does not improve the image. PNG is lossless, but it can only preserve what exists — and what exists in a JPG is already the result of lossy compression. Artifacts baked into the file travel into the PNG untouched.",
+            "What the conversion does provide is a safe future. A PNG holds every pixel exactly, so from the moment of conversion onward, editing, cropping and re-saving cost nothing in quality. Keeping a JPG as your working master means every save re-compresses and compounds the damage.",
+            "So the right mental model is \"stabilize\": the conversion is worthwhile when the JPG is your best copy and you plan to keep editing, archiving or re-exporting it. It is pointless as a cosmetic claim — nobody can look at the PNG and see improvement.",
+          ],
+        },
+        {
+          heading: "Size expectations and format behavior",
+          paragraphs: [
+            "Expect the file to grow. JPEG's clever compression discards data that PNG must store faithfully, so the same picture as a PNG is typically several times larger than the JPG — the PNG is paying for exactness, including recording every artifact the JPG left behind.",
+            "For photographic content this size is usually not worth paying unless you need it: keep photos as JPG for sharing, and convert to PNG when the image enters an editing workflow where repeated saves would otherwise degrade it.",
+            "Where conversion genuinely shines is a mixed case: images with text or flat graphics that were incorrectly saved as JPG. They are already damaged, but freezing them in PNG stops the damage from growing with each additional edit or save.",
+          ],
+        },
+        {
+          heading: "Editing workflows and local processing",
+          paragraphs: [
+            "The practical rule for editing pipelines: convert to PNG at the start, do all editing in lossless territory, and export to JPG only as the final delivery step. This way the lossy step happens exactly once, at the end, instead of once per edit.",
+            "Archives and masters benefit for a different reason: formats drift and software ages, but PNG's lossless pixel data is the most durable representation of what the file actually contains. Converting your best copy to PNG is a small insurance policy against future re-compression mistakes.",
+            "As everywhere on this site, the conversion runs locally in your browser — decode, encode and download happen on your device with no upload. Converting personal photos or client masters therefore never exposes them to a third-party server.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "JPG 转 PNG",
@@ -66,6 +92,32 @@ export default defineTool({
         {
           q: "JPG 转 PNG 会获得透明背景吗?",
           a: "不会。JPEG 本身不存透明通道,也就无透明可恢复——转换出的 PNG 是完全不透明的。要抠掉背景需要专门的抠图工具。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "JPG 转 PNG 能恢复什么,不能恢复什么",
+          paragraphs: [
+            "先接受一个事实:JPG 转 PNG 不会让图片变好。PNG 是无损格式,但它只能保住已经存在的东西——而 JPG 里存在的东西,已经是有损压缩的结果。文件里烙下的伪影会原样走进 PNG。",
+            "转换真正提供的是一个安全的未来。PNG 精确保存每个像素,所以从转换那一刻起,编辑、裁剪、反复保存都不再损失画质。继续把 JPG 当工作母本,意味着每次保存都在重复压缩、叠加损伤。",
+            "所以正确的心智模型是“定格”:当 JPG 是你手里最好的版本,而且你打算继续编辑、归档或反复导出时,转换才值得。把它当“画质提升”则毫无意义——没有任何人能从 PNG 里看出变好。",
+          ],
+        },
+        {
+          heading: "体积预期与格式行为",
+          paragraphs: [
+            "要有文件变大的心理准备。JPEG 靠聪明的压缩丢掉数据,而 PNG 必须忠实地存下所有东西,所以同一张图的 PNG 通常比 JPG 大好几倍——PNG 付出的是精确的代价,连 JPG 留下的每个伪影都要如实记录。",
+            "对照片内容,这个体积通常不值得付出,除非你确实需要:照片分享用 JPG;当图片进入会反复保存的编辑流程时,再转成 PNG。",
+            "转换真正出彩的是混合情形:带文字或平面图形、却错误存成 JPG 的图。它们已经受损,但用 PNG 定格能阻止损伤随着每次编辑和保存继续扩大。",
+          ],
+        },
+        {
+          heading: "编辑工作流与本地处理",
+          paragraphs: [
+            "编辑管线的实用规则:开头转成 PNG,所有编辑都在无损地带完成,最后交付时才导出 JPG。这样有损环节只发生一次——在结尾——而不是每次编辑都发生一次。",
+            "归档和母本出于另一个理由受益:格式会过时、软件会老去,而 PNG 的无损像素数据是对文件实际内容最耐久的表达。把最好的副本转成 PNG,是对未来某次误压缩的小额保险。",
+            "和站内所有地方一样,转换在浏览器本地运行——解码、编码、下载都在你的设备上,无上传。转换个人照片或客户母本,因此永远不会把它们暴露给第三方服务器。",
+          ],
         },
       ],
     },
@@ -96,6 +148,32 @@ export default defineTool({
           a: "なりません。JPEG は透明情報を保存しないため、復元できるものがありません。変換後の PNG は完全に不透明です。背景を切り抜くには専用の背景除去ツールが必要です。",
         },
       ],
+      deepDive: [
+        {
+          heading: "JPG→PNG で回復すること、できないこと",
+          paragraphs: [
+            "まず受け入れる事実:JPG を PNG に変換しても画像は良くなりません。PNG は可逆ですが、存在するものしか保存できず、JPG に存在するものはすでに非可逆圧縮の結果です。ファイルに焼き付いたアーティファクトはそのまま PNG に移ります。",
+            "変換が本当に与えるのは「安全な未来」です。PNG はすべてのピクセルを正確に保持するため、変換後は編集・トリミング・再保存が画質を一切消耗しません。JPG を作業マスターにしたままなら、保存のたびに再圧縮が損傷を積み重ねます。",
+            "だから正しい mental model は「固定」です:JPG が手持ちの最良コピーで、これから編集・アーカイブ・再書き出しを続けるつもりなら変換は価値があります。「見た目が改善する」という期待は無意味で、PNG を見て改善を確認できる人はいません。",
+          ],
+        },
+        {
+          heading: "サイズの予想とフォーマットの挙動",
+          paragraphs: [
+            "ファイルが大きくなることを織り込んでください。JPEG の巧みな圧縮が捨てたデータを PNG は忠実に保存しなければならず、同じ絵の PNG は通常 JPG の数倍——PNG は正確さの対価を払い、JPG が残したアーティファクトまで記録します。",
+            "写真系ではこのサイズを払う価値は通常ありません:共有には JPG を使い、繰り返し保存で劣化し得る編集ワークフローに入るときだけ PNG に変換します。",
+            "変換が真価を発揮するのは混在ケースです:文字やフラットなグラフィックを含むのに誤って JPG で保存された画像。すでに損傷していますが、PNG に固定すれば、追加の編集・保存のたびに損傷が増えることは止まります。",
+          ],
+        },
+        {
+          heading: "編集ワークフローとローカル処理",
+          paragraphs: [
+            "編集パイプラインの実務ルール:最初に PNG へ変換し、すべての編集を可逆の領域で行い、最終納品の時点でのみ JPG へ書き出す。これにより非可逆の工程は一度きり——最後に——発生し、編集のたびに発生するのを防げます。",
+            "アーカイブとマスターには別の理由があります:フォーマットは移り変わり、ソフトは古くなりますが、PNG の可逆ピクセルデータは「ファイルが実際に含むもの」の最も耐久性ある表現です。最良コピーを PNG にしておくのは、将来の再圧縮ミスへの小さな保険です。",
+            "このサイトのどこでも同様に、変換はブラウザ内でローカルに実行されます——デコード、エンコード、ダウンロードは端末上で、アップロードなし。個人写真やクライアントのマスターの変換が第三者のサーバーに露出することはありません。",
+          ],
+        },
+      ],
     },
     es: {
       name: "JPG a PNG",
@@ -124,6 +202,32 @@ export default defineTool({
           a: "No. JPEG nunca almacena transparencia, así que no hay nada que recuperar: tu PNG convertido es totalmente opaco. Para quitar un fondo necesitarías una herramienta específica de eliminación de fondo.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Qué puede y no puede recuperar el paso de JPG a PNG",
+          paragraphs: [
+            "El primer hecho que hay que aceptar: convertir JPG a PNG no mejora la imagen. PNG es sin pérdida, pero solo puede conservar lo que existe — y lo que existe en un JPG ya es el resultado de una compresión con pérdida. Los artefactos horneados en el archivo viajan al PNG intactos.",
+            "Lo que la conversión sí proporciona es un futuro seguro. Un PNG guarda cada píxel exactamente, así que desde el momento de la conversión en adelante, editar, recortar y volver a guardar no cuesta nada de calidad. Mantener un JPG como máster de trabajo significa que cada guardado vuelve a comprimir y acumula el daño.",
+            "El modelo mental correcto es \"estabilizar\": la conversión merece la pena cuando el JPG es tu mejor copia y piensas seguir editándolo, archivándolo o reexportándolo. Como afirmación cosmética no tiene sentido — nadie puede mirar el PNG y ver una mejora.",
+          ],
+        },
+        {
+          heading: "Expectativas de tamaño y comportamiento del formato",
+          paragraphs: [
+            "Espera que el archivo crezca. La astuta compresión de JPEG descarta datos que PNG debe guardar fielmente, así que la misma imagen como PNG suele pesar varias veces más que el JPG — el PNG paga la exactitud, incluido el registro de cada artefacto que el JPG dejó.",
+            "Para contenido fotográfico ese tamaño no suele valer la pena salvo que lo necesites: mantén las fotos en JPG para compartir, y convierte a PNG cuando la imagen entra en un flujo de edición donde los guardados repetidos la degradarían.",
+            "Donde la conversión brilla de verdad es en un caso mixto: imágenes con texto o gráficos planos que se guardaron incorrectamente como JPG. Ya están dañadas, pero congelarlas en PNG evita que el daño crezca con cada edición o guardado adicional.",
+          ],
+        },
+        {
+          heading: "Flujos de edición y procesado local",
+          paragraphs: [
+            "La regla práctica para pipelines de edición: convierte a PNG al principio, haz toda la edición en terreno sin pérdida y exporta a JPG solo como paso final de entrega. Así el paso con pérdida ocurre exactamente una vez, al final, en lugar de una vez por edición.",
+            "Los archivos y másters se benefician por otra razón: los formatos cambian y el software envejece, pero los datos de píxeles sin pérdida de PNG son la representación más duradera de lo que el archivo contiene realmente. Convertir tu mejor copia a PNG es un pequeño seguro contra futuros errores de recompresión.",
+            "Como en todo el sitio, la conversión se ejecuta localmente en tu navegador — decodificar, codificar y descargar ocurren en tu dispositivo sin subida. Convertir fotos personales o másters de clientes nunca los expone a un servidor de terceros.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "JPG para PNG",
@@ -150,6 +254,32 @@ export default defineTool({
         {
           q: "Converter JPG para PNG adiciona transparência?",
           a: "Não. O JPEG nunca armazena transparência, então não há nada a recuperar — seu PNG convertido é totalmente opaco. Para recortar um fundo você precisaria de uma ferramenta específica de remoção de fundo.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O que JPG para PNG pode e não pode recuperar",
+          paragraphs: [
+            "O primeiro fato a aceitar: converter JPG para PNG não melhora a imagem. O PNG é sem perdas, mas só pode conservar o que existe — e o que existe num JPG já é resultado de compressão com perdas. Os artefatos gravados no arquivo viajam para o PNG intactos.",
+            "O que a conversão realmente fornece é um futuro seguro. Um PNG guarda cada pixel exatamente, então a partir do momento da conversão em diante, editar, recortar e salvar de novo não custa nada em qualidade. Manter um JPG como master de trabalho significa que cada salvamento recomprime e acumula o dano.",
+            "O modelo mental certo é \"estabilizar\": a conversão vale a pena quando o JPG é sua melhor cópia e você pretende continuar editando, arquivando ou reexportando. Como alegação estética não faz sentido — ninguém consegue olhar o PNG e ver melhora.",
+          ],
+        },
+        {
+          heading: "Expectativas de tamanho e comportamento do formato",
+          paragraphs: [
+            "Espere que o arquivo cresça. A compressão esperta do JPEG descarta dados que o PNG precisa guardar fielmente, então a mesma imagem como PNG costuma pesar várias vezes mais que o JPG — o PNG paga pela exatidão, inclusive registrando cada artefato que o JPG deixou.",
+            "Para conteúdo fotográfico esse tamanho normalmente não vale a pena a menos que você precise: mantenha fotos em JPG para compartilhar, e converta para PNG quando a imagem entrar num fluxo de edição onde salvamentos repetidos a degradariam.",
+            "Onde a conversão realmente brilha é num caso misto: imagens com texto ou gráficos planos que foram salvas incorretamente como JPG. Elas já estão danificadas, mas congelá-las em PNG impede que o dano cresça a cada edição ou salvamento adicional.",
+          ],
+        },
+        {
+          heading: "Fluxos de edição e processamento local",
+          paragraphs: [
+            "A regra prática para pipelines de edição: converta para PNG no início, faça toda a edição em território sem perdas e exporte para JPG só como passo final de entrega. Assim o passo com perdas acontece exatamente uma vez, no fim, em vez de uma vez por edição.",
+            "Arquivos e masters se beneficiam por outro motivo: formatos mudam e software envelhece, mas os dados de pixels sem perdas do PNG são a representação mais duradoura do que o arquivo realmente contém. Converter sua melhor cópia para PNG é um pequeno seguro contra futuros erros de recompressão.",
+            "Como em todo o site, a conversão roda localmente no seu navegador — decodificar, codificar e baixar acontecem no seu dispositivo sem envio. Converter fotos pessoais ou masters de clientes nunca os expõe a um servidor de terceiros.",
+          ],
         },
       ],
     },

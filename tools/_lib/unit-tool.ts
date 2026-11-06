@@ -14,7 +14,16 @@ type Seed = {
   featured?: boolean;
   related: string[];
   copy: Partial<
-    Record<Locale, { name: string; tagline: string; intro: string[]; faq: { q: string; a: string }[] }>
+    Record<
+      Locale,
+      {
+        name: string;
+        tagline: string;
+        intro: string[];
+        faq: { q: string; a: string }[];
+        deepDive?: { heading: string; paragraphs: string[] }[];
+      }
+    >
   >;
 };
 
@@ -134,6 +143,7 @@ export function unitTool(seed: Seed): ToolDef {
       ],
       steps: (GENERIC[locale] ?? GENERIC.en).steps,
       faqs: [...s.faq, ...(GENERIC[locale] ?? GENERIC.en).faqs],
+      ...(s.deepDive ? { deepDive: s.deepDive } : {}),
     };
   });
 

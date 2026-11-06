@@ -38,6 +38,29 @@ export default defineTool({
           a: "No. Files are opened read-only; the tool decodes a copy in memory and never writes back to the original. Your image is displayed and analyzed entirely on your device.",
         },
       ],
+      deepDive: [
+        {
+          heading: "The layers of metadata inside an image file",
+          paragraphs: [
+            "Metadata in an image file sits in layers. The container level is always there: file format, pixel dimensions, file size and color depth. Above that sits EXIF — camera make and model, lens, aperture, shutter speed, ISO, focal length, flash state, capture timestamp. Deeper still are format-specific blocks: PNG tEXt/iTXt chunks, JPEG comment markers, sometimes embedded color profiles (ICC) and even thumbnails, which are themselves small images.",
+            "A viewer reads these layers without touching the pixels, which is exactly the safe way to inspect a file: nothing is decoded into a new file, nothing is rewritten, and nothing can be corrupted in the process. What you see is what the file genuinely carries — including the parts the original author may not have realized were there.",
+          ],
+        },
+        {
+          heading: "EXIF's GPS data: the privacy headline",
+          paragraphs: [
+            "Most phone cameras embed GPS coordinates in every photo by default. The coordinates are precise enough to place a photo within a few meters — which means a casual snapshot can quietly reveal your home, your child's school or your hotel room. Before sharing photos publicly, checking for GPS tags is the single highest-value metadata habit.",
+            "If GPS data is present and you plan to publish the image, run it through the EXIF remover afterwards. Metadata viewers and metadata strippers are two halves of one workflow: look first to know what would leak, strip second to make sure it does not. Note that re-sharing through messaging apps often strips metadata automatically, but direct file sharing — email, cloud links, uploads — does not.",
+          ],
+        },
+        {
+          heading: "Inspection without upload",
+          paragraphs: [
+            "The file is parsed locally in your browser: the raw bytes are read from disk into memory and the metadata tables are decoded there. Nothing is transmitted, so it is safe to inspect photos that are sensitive — evidence for a dispute, location-tagged work photos, images under NDA — with zero exposure risk.",
+            "Because no upload is involved, there is no size ceiling: a 50-megapixel camera original inspects exactly as fast as a thumbnail. Pair the viewer with the EXIF remover for a complete check-then-clean loop, both running on your device.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "图片元数据查看器",
@@ -63,6 +86,29 @@ export default defineTool({
         {
           q: "查看元数据会改动我的图片吗?",
           a: "不会。文件以只读方式打开,工具只在内存里解码副本,从不写回原文件。图片的展示与分析完全在你的设备上完成。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "图像文件里元数据的分层",
+          paragraphs: [
+            "图像文件里的元数据分层存放。容器层永远存在:文件格式、像素尺寸、文件体积、色深。再往上是 EXIF——相机品牌型号、镜头、光圈、快门速度、ISO、焦距、闪光灯状态、拍摄时间戳。更深一层是格式专属块:PNG 的 tEXt/iTXt 块、JPEG 的注释段,有时还有内嵌色彩配置文件(ICC)甚至缩略图——缩略图本身又是一张小图。",
+            "查看器只读这些层,不碰像素,这正是“检查”的安全姿势:不把文件解码成新文件、不重写任何东西,也就不存在损坏的可能。你看到的就是文件真实携带的内容——包括原作者可能都不知道存在的部分。",
+          ],
+        },
+        {
+          heading: "EXIF 的 GPS 数据:隐私的头号话题",
+          paragraphs: [
+            "大多数手机相机默认给每张照片嵌入 GPS 坐标。精度足以把照片定位到几米之内——随手一张快照可能悄悄暴露你家、孩子的学校或酒店房间。公开分享照片前先查 GPS 标签,是所有元数据习惯里价值最高的一条。",
+            "如果有 GPS 数据而且你打算发布图片,之后过一遍 EXIF 移除工具。元数据查看器和清除器是同一工作流的两半:先看清楚会泄露什么,再清掉确保不泄露。注意:通过聊天软件转发常常自动剥离元数据,但直接传文件——邮件、网盘链接、上传——不会。",
+          ],
+        },
+        {
+          heading: "不上传的检查",
+          paragraphs: [
+            "文件在你的浏览器里本地解析:原始字节从磁盘读进内存,元数据表就地解码。什么都不传输,所以检查敏感照片完全零暴露——纠纷证据、带定位的工作照片、受保密协议约束的图片都适用。",
+            "因为不上传,也没有体积上限:五千万像素的相机原片和缩略图检查起来一样快。配合 EXIF 移除工具就是完整的“查完再清”闭环,两步都在你设备上完成。",
+          ],
         },
       ],
     },
@@ -93,6 +139,29 @@ export default defineTool({
           a: "されません。ファイルは読み取り専用で開かれ、ツールはメモリ上のコピーをデコードするだけで元ファイルに書き戻しません。表示も解析も完全にあなたの端末上で行われます。",
         },
       ],
+      deepDive: [
+        {
+          heading: "画像ファイル内メタデータの階層",
+          paragraphs: [
+            "画像ファイルのメタデータは階層をなしています。コンテナ層は常にあります。ファイル形式、ピクセル寸法、ファイルサイズ、色深度。その上に EXIF——カメラのメーカーと型番、レンズ、絞り、シャッター速度、ISO、焦点距離、フラッシュ状態、撮影タイムスタンプ。さらに深いところに形式固有のブロックがあります。PNG の tEXt/iTXt チャンク、JPEG のコメントマーカー、カラープロファイル(ICC)の埋め込み、そしてサムネイル——サムネイル自体がまた小さな画像です。",
+            "ビューアはこれらの層をピクセルに触れずに読みます。これこそファイルを検査する安全なやり方です。新しいファイルにデコードせず、何も書き換えず、したがって破損の可能性もありません。見えるものはファイルが本当に運んでいるものであり、作者本人が気づいていなかった部分も含みます。",
+          ],
+        },
+        {
+          heading: "EXIF の GPS データ:プライバシーの筆頭",
+          paragraphs: [
+            "多くのスマホカメラは既定ですべての写真に GPS 座標を埋め込みます。精度は数メートル単位で場所を特定できるほどです——気軽な一枚が、自宅、子どもの学校、ホテルの部屋を静かに暴けます。写真を公開する前に GPS タグの有無を確認するのは、メタデータ習慣の中で最も価値の高い一つです。",
+            "GPS データがあり、画像を公開する予定なら、その後に EXIF 除去ツールに通してください。メタデータビューアと除去ツールは一つのワークフローの二つの半分です。まず見て何が漏れるかを知り、次に除去して確実に漏らさない。チャットアプリ経由の再共有はしばしばメタデータを自動で剥ぎ取りますが、直接のファイル共有——メール、クラウドリンク、アップロード——はそうしません。",
+          ],
+        },
+        {
+          heading: "アップロードなしの検査",
+          paragraphs: [
+            "ファイルはブラウザ内でローカルに解析されます。生のバイトをディスクからメモリに読み込み、メタデータテーブルをその場でデコードします。何も送信しないため、機密性の高い写真——紛争の証拠、位置情報付きの業務写真、NDA 下の画像——もゼロ露出で検査できます。",
+            "アップロードがないためサイズ上限もありません。5000 万ピクセルのカメラ原寸でもサムネイルと同じ速さで検査できます。EXIF 除去ツールと組み合わせれば、「見てから清める」完全なループが端末上で完結します。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Visor de metadatos de imágenes",
@@ -121,6 +190,29 @@ export default defineTool({
           a: "No. Los archivos se abren en solo lectura; la herramienta decodifica una copia en memoria y nunca reescribe el original. Tu imagen se muestra y analiza por completo en tu dispositivo.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Las capas de metadatos dentro de un archivo de imagen",
+          paragraphs: [
+            "Los metadatos de una imagen se organizan en capas. La del contenedor siempre está: formato del archivo, dimensiones en píxeles, tamaño y profundidad de color. Encima está EXIF — marca y modelo de cámara, objetivo, apertura, velocidad de obturación, ISO, distancia focal, estado del flash, marca de tiempo de captura. Más adentro hay bloques específicos del formato: chunks tEXt/iTXt de PNG, marcadores de comentario de JPEG, a veces perfiles de color incrustados (ICC) e incluso miniaturas, que son a su vez pequeñas imágenes.",
+            "Un visor lee estas capas sin tocar los píxeles, que es exactamente la forma segura de inspeccionar un archivo: nada se decodifica a un archivo nuevo, nada se reescribe y nada puede corromperse en el proceso. Lo que ves es lo que el archivo realmente lleva — incluidas las partes que el autor original quizá no sabía que estaban ahí.",
+          ],
+        },
+        {
+          heading: "Los datos GPS de EXIF: el titular de la privacidad",
+          paragraphs: [
+            "La mayoría de cámaras de teléfono incrustan coordenadas GPS en cada foto por defecto. La precisión basta para situar una foto a pocos metros — lo que significa que una foto casual puede revelar silenciosamente tu casa, el colegio de tu hijo o tu habitación de hotel. Antes de compartir fotos públicamente, mirar si hay etiquetas GPS es el hábito de metadatos de mayor valor.",
+            "Si hay datos GPS y piensas publicar la imagen, pásala después por el eliminador de EXIF. Visor y eliminador de metadatos son dos mitades de un mismo flujo: mirar primero para saber qué se filtraría, quitar después para asegurar que no se filtre. Ojo: reenviar por apps de mensajería a menudo elimina los metadatos automáticamente, pero compartir el archivo directo — correo, enlaces de nube, subidas — no.",
+          ],
+        },
+        {
+          heading: "Inspección sin subida",
+          paragraphs: [
+            "El archivo se analiza localmente en tu navegador: los bytes crudos se leen del disco a la memoria y las tablas de metadatos se decodifican allí. No se transmite nada, así que puedes inspeccionar fotos sensibles — pruebas de una disputa, fotos de trabajo geolocalizadas, imágenes bajo NDA — con riesgo de exposición cero.",
+            "Como no hay subida, tampoco hay techo de tamaño: el original de 50 megapíxeles de una cámara se inspecciona tan rápido como una miniatura. Combina el visor con el eliminador de EXIF para un ciclo completo de mirar-y-limpiar, todo en tu dispositivo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Visualizador de metadados de imagens",
@@ -147,6 +239,29 @@ export default defineTool({
         {
           q: "Ver os metadados altera minha imagem?",
           a: "Não. Os arquivos são abertos apenas para leitura; a ferramenta decodifica uma cópia na memória e nunca reescreve o original. Sua imagem é exibida e analisada inteiramente no seu dispositivo.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "As camadas de metadados dentro de um arquivo de imagem",
+          paragraphs: [
+            "Os metadados de uma imagem ficam em camadas. A do contêiner sempre está lá: formato do arquivo, dimensões em pixels, tamanho e profundidade de cor. Acima dela fica o EXIF — marca e modelo da câmera, lente, abertura, velocidade do obturador, ISO, distância focal, estado do flash, carimbo de data da captura. Mais a fundo há blocos específicos do formato: chunks tEXt/iTXt do PNG, marcadores de comentário do JPEG, às vezes perfis de cor incorporados (ICC) e até miniaturas, que são elas mesmas pequenas imagens.",
+            "Um visualizador lê essas camadas sem tocar nos pixels, que é exatamente a forma segura de inspecionar um arquivo: nada é decodificado para um arquivo novo, nada é reescrito e nada pode se corromper no processo. O que você vê é o que o arquivo realmente carrega — incluindo as partes que o autor original talvez não soubesse que estavam lá.",
+          ],
+        },
+        {
+          heading: "Os dados GPS do EXIF: o destaque de privacidade",
+          paragraphs: [
+            "A maioria das câmeras de celular incorpora coordenadas GPS em cada foto por padrão. A precisão basta para situar uma foto a poucos metros — o que significa que uma foto casual pode revelar silenciosamente sua casa, a escola do seu filho ou seu quarto de hotel. Antes de compartilhar fotos publicamente, verificar se há etiquetas GPS é o hábito de metadatos de maior valor.",
+            "Se há dados GPS e você pretende publicar a imagem, passe-a depois pelo removedor de EXIF. Visualizador e removedor de metadatos são duas metades de um mesmo fluxo: olhar primeiro para saber o que vazaria, remover depois para garantir que não vaze. Atenção: reenviar por apps de mensagens muitas vezes remove os metadatos automaticamente, mas compartilhamento direto do arquivo — e-mail, links de nuvem, uploads — não.",
+          ],
+        },
+        {
+          heading: "Inspeção sem upload",
+          paragraphs: [
+            "O arquivo é analisado localmente no seu navegador: os bytes crus são lidos do disco para a memória e as tabelas de metadatos são decodificadas ali. Nada é transmitido, então é seguro inspecionar fotos sensíveis — provas de uma disputa, fotos de trabalho geolocalizadas, imagens sob NDA — com risco de exposição zero.",
+            "Como não há upload, também não há teto de tamanho: o original de 50 megapixels de uma câmera é inspecionado tão rápido quanto uma miniatura. Combine o visualizador com o removedor de EXIF para um ciclo completo de olhar-e-limpar, tudo no seu dispositivo.",
+          ],
         },
       ],
     },

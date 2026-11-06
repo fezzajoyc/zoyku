@@ -37,6 +37,32 @@ export default defineTool({
           a: "1:1 (square). Most social platforms crop avatars to a circle inside a square, so centering the subject in a 1:1 selection is the safest choice.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Cropping removes pixels — plan before you cut",
+          paragraphs: [
+            "Cropping is destructive in a way resizing is not: resizing keeps all content at lower detail, cropping deletes content permanently. Once you save the crop, the pixels outside the selection are gone from that file. This is why the golden rule is to keep the original and treat every cropped version as a derived file you can regenerate.",
+            "Work from the largest source you have. Cropping a small image and then upscaling it compounds softness; cropping the full-resolution original and downsizing the result keeps edges sharp. If you need both a wide banner and a square avatar, make two crops from the same original rather than cropping the crop.",
+            "Also crop with intent about aspect ratio: decide the destination first (blog header, platform post, print frame) and set the crop to that ratio, rather than cutting freely and discovering the result does not fit anywhere without further padding.",
+          ],
+        },
+        {
+          heading: "Composition basics that make crops better",
+          paragraphs: [
+            "Two framing conventions carry most of the value. The rule of thirds places the subject near the intersection of lines that divide the frame into three-by-three — placing a horizon on the upper or lower third line rather than dead center usually reads as more deliberate. Centered framing, by contrast, is right for symmetric subjects, faces and product shots.",
+            "Give moving subjects room in the direction they face or travel: a runner with empty space ahead looks dynamic, the same runner cropped tight behind looks about to hit a wall. The same applies to gazes — portraits usually benefit from a little space on the side the person is looking toward.",
+            "Check the edges last: stray limbs, half-objects and distracting highlights at the frame boundary pull attention away. Zoom out after setting the crop and look at the whole rectangle once before committing.",
+          ],
+        },
+        {
+          heading: "Local processing keeps sensitive crops private",
+          paragraphs: [
+            "Crops are often taken precisely because a photo contains something that must not be shown — a document edge, a bystander, an address label. Sending that image to an upload-based cropper to hide a detail is self-defeating: the full, uncropped photo then lives on someone else's server.",
+            "This tool processes entirely in your browser: decoding, selection and re-encoding happen on your device, and nothing is transmitted or stored. The version you crop is the version you publish; the full original stays with you.",
+            "One workflow note: cropping is not redaction. Removing a region from the visible area removes it from the file, which is genuine deletion — unlike blurring or black rectangles drawn over content, which can sometimes be reversed if applied carelessly over compressed data. For hiding sensitive regions, cropping or covering before export is the safer move.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "图片裁剪",
@@ -62,6 +88,32 @@ export default defineTool({
         {
           q: "头像应该用什么比例?",
           a: "1:1(正方形)。大多数社交平台的头像都是在正方形内裁圆形,把主体放在 1:1 选区中心最稳妥。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "裁剪会删掉像素——下手前先想清楚",
+          paragraphs: [
+            "裁剪和缩放不一样,它是破坏性的:缩放保留全部内容只是降低细节,裁剪则把选区外的内容永久删除。保存裁剪之后,选区外的像素就从这个文件里消失了。所以黄金法则是:保留原图,把每张裁剪版本都当作可以随时重新生成的衍生文件。",
+            "从最大的源图开始做。先裁小图再放大会把模糊叠加放大;裁原始全分辨率图、再把结果缩小,边缘才能保持锐利。如果你同时需要一张宽横幅和一张方形头像,应该从同一张原图分别裁两次,而不是在裁剪结果上再裁。",
+            "裁剪时也要有意识地处理宽高比:先确定目的地(博客头图、平台帖子、打印相框),把裁剪比例设成目标比例,而不是随手一裁,然后发现哪里都放不下还得补边。",
+          ],
+        },
+        {
+          heading: "让裁剪更好看的两条构图常识",
+          paragraphs: [
+            "两条取景惯例覆盖了大部分价值。三分法把主体放在三分线交点附近——地平线放在上三分线或下三分线,通常比死板居中显得更讲究。反过来,居中构图适合对称主体、面部特写和产品图。",
+            "给运动中的主体在朝向或运动方向上留出空间:前方留白的跑者看起来有动感,身后裁得死紧的跑者则像要撞墙。视线同理——人像通常在人物注视的一侧留一点空间更好。",
+            "最后检查边缘:切进画面的半截肢体、残缺物体和边缘上的高光点都会分散注意力。设好裁剪框后退远看一次整个矩形,再确认。",
+          ],
+        },
+        {
+          heading: "本地处理让敏感裁剪保持私密",
+          paragraphs: [
+            "很多裁剪恰恰是因为照片里有不能示人的内容——文件边角、路人、快递面单。把这样的图交给上传式裁剪工具去“隐藏细节”是自我矛盾:完整的未裁剪原图从此躺在别人的服务器上。",
+            "本工具完全在浏览器内处理:解码、选区、重新编码都在你的设备上完成,不传输、不存储。你裁出来的就是你要发布的,完整原图留在你手里。",
+            "一个工作流说明:裁剪不等于涂改。把区域裁掉是从文件中真正删除了它——这和盖在内容上的模糊块或黑条不同,后者在压缩数据上处理不当时有时还能被还原。要隐藏敏感区域,导出前裁掉或盖住是更稳妥的做法。",
+          ],
         },
       ],
     },
@@ -92,6 +144,32 @@ export default defineTool({
           a: "1:1(正方形)です。多くの SNS では正方形の中に円形でアイコンが切り抜かれるため、被写体を 1:1 選択範囲の中央に置くのが最も安全です。",
         },
       ],
+      deepDive: [
+        {
+          heading: "トリミングはピクセルを削除する——切る前に考える",
+          paragraphs: [
+            "トリミングはリサイズと違って破壊的です:リサイズは全内容を低ディテールで残しますが、トリミングは選択範囲外を永久に削除する。保存した時点で、選択範囲外のピクセルはそのファイルから消えます。だから黄金律は「元画像を残し、切り出した版は再生成できる派生ファイルとして扱う」こと。",
+            "持っている最大のソースから始める。小さい画像をトリミングしてから拡大するとぼやけが増幅され、フル解像度の原画をトリミングして結果を縮小すればエッジはシャープなまま。ワイドバナーと正方形アバターの両方が要るなら、同じ原画から2回トリミングするのが正解で、トリミング結果の上でさらに切るのは避けます。",
+            "アスペクト比も意図的に:まず行き先(ブログヘッダー、SNS 投稿、印刷フレーム)を決め、その比率でトリミングする。自由に切ってから「どこにも収まらない」と気づいて余白を足す、という順序は避けましょう。",
+          ],
+        },
+        {
+          heading: "トリミングを上達させる構図の基本",
+          paragraphs: [
+            "2つのフレーミング慣行で価値の大半をカバーできます。三分割法は被写体を三分線の交点近くに置く方法で、地平線を上下の三分線に置くと中央固定より意図が伝わります。逆に中央構図が正しいのは、対称な被写体・顔・プロダクトショットです。",
+            "動く被写体には、向いている・進んでいる方向に余白を与えます:前が空いたランナーはダイナミックに見え、背後を切り詰められたランナーは壁にぶつかる直前に見えます。視線も同様で、ポートレートは人物が見ている側に少し空間がある方が通常良い。",
+            "最後に端をチェック:画面の縁に混入した手足の一部、途中で切れた物、まぶしいハイライトは注意を奪います。トリミング枠を決めたら一度引きで全矩形を見てから確定を。",
+          ],
+        },
+        {
+          heading: "ローカル処理がセンシティブな切り抜きを守る",
+          paragraphs: [
+            "トリミングが必要になるのは、写真に見せられないもの——書類の端、通行人、配送ラベル——があるときこそ。その画像をアップロード型ツールに送って「細部を隠す」のは自己矛盾です:切り抜き前の完全な元画像が他人のサーバー上に残るからです。",
+            "このツールは完全にブラウザ内で処理します:デコード、選択、再エンコードはすべて端末上で行われ、送信も保存もされません。切り抜いた版だけが公開され、完全な元画像はあなたの手元に留まります。",
+            "ワークフロー上の注意:トリミングは涂りつぶし(黑条)とは違います。領域を切り落とすことはファイルからの本当の削除であり、コンテンツの上に描いたぼかしや黒矩形とは異なります。後者は圧縮データへの適用方法によっては復元され得ます。センシティブな領域を隠すなら、書き出す前に切り落とすか覆う方が安全です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Recortar imágenes",
@@ -120,6 +198,32 @@ export default defineTool({
           a: "1:1 (cuadrado). Casi todas las redes recortan el avatar en un círculo dentro de un cuadrado, así que centrar el sujeto en una selección 1:1 es la opción más segura.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Recortar elimina píxeles — planifica antes de cortar",
+          paragraphs: [
+            "Recortar es destructivo de una forma en que redimensionar no lo es: redimensionar conserva todo el contenido con menos detalle, recortar borra contenido de forma permanente. Una vez guardado el recorte, los píxeles fuera de la selección desaparecen de ese archivo. Por eso la regla de oro es conservar el original y tratar cada versión recortada como un archivo derivado que puedes regenerar.",
+            "Trabaja desde la fuente más grande que tengas. Recortar una imagen pequeña y luego ampliarla acumula suavidad; recortar el original a resolución completa y reducir el resultado mantiene los bordes nítidos. Si necesitas a la vez un banner ancho y un avatar cuadrado, haz dos recortes desde el mismo original en vez de recortar sobre el recorte.",
+            "Recorta también con intención sobre la relación de aspecto: decide primero el destino (cabecera de blog, publicación, marco de impresión) y ajusta el recorte a esa proporción, en lugar de cortar libremente y descubrir que no encaja en ningún sitio sin rellenar.",
+          ],
+        },
+        {
+          heading: "Fundamentos de composición que mejoran los recortes",
+          paragraphs: [
+            "Dos convenciones de encuadre aportan casi todo el valor. La regla de los tercios coloca al sujeto cerca de las intersecciones que dividen el encuadre en tres por tres — poner el horizonte en la línea del tercio superior o inferior suele leerse como más deliberado que el centrado absoluto. El encuadre centrado, en cambio, es correcto para sujetos simétricos, rostros y tomas de producto.",
+            "Da a los sujetos en movimiento espacio en la dirección en la que miran o avanzan: un corredor con aire delante se ve dinámico, el mismo recortado por detrás parece a punto de chocar con un muro. Con las miradas ocurre igual: los retratos ganan con un poco de espacio hacia el lado que mira la persona.",
+            "Revisa los bordes al final: extremos cortados, medios objetos y brillos que distraen en el límite del marco roban atención. Aleja el zoom tras fijar el recorte y mira el rectángulo completo una vez antes de confirmar.",
+          ],
+        },
+        {
+          heading: "El procesado local mantiene privados los recortes sensibles",
+          paragraphs: [
+            "Los recortes se hacen precisamente porque la foto contiene algo que no debe mostrarse — el borde de un documento, un transeúnte, una etiqueta de envío. Enviar esa imagen a un recortador basado en subidas para ocultar un detalle es contradictorio: la foto completa y sin recortar pasa a vivir en el servidor de otro.",
+            "Esta herramienta procesa íntegramente en tu navegador: la decodificación, la selección y la recodificación ocurren en tu dispositivo, y no se transmite ni almacena nada. La versión que recortas es la que publicas; el original completo se queda contigo.",
+            "Una nota de flujo: recortar no es censurar. Retirar una región del área visible la elimina del archivo, una supresión real — a diferencia de un desenfoque o un rectángulo negro dibujados sobre el contenido, que a veces pueden revertirse si se aplicaron sin cuidado sobre datos comprimidos. Para ocultar regiones sensibles, recortar o tapar antes de exportar es lo seguro.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Recortar imagens",
@@ -146,6 +250,32 @@ export default defineTool({
         {
           q: "Qual proporção usar para foto de perfil?",
           a: "1:1 (quadrado). Quase todas as redes sociais recortam o avatar num círculo dentro de um quadrado, então centralizar o motivo numa seleção 1:1 é a escolha mais segura.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Recortar elimina pixels — planeje antes de cortar",
+          paragraphs: [
+            "Recortar é destrutivo de um jeito que redimensionar não é: redimensionar mantém todo o conteúdo com menos detalhe, recortar apaga conteúdo permanentemente. Depois de salvar o recorte, os pixels fora da seleção somem desse arquivo. Por isso a regra de ouro é guardar o original e tratar cada versão recortada como um arquivo derivado que você pode regenerar.",
+            "Trabalhe a partir da maior fonte que tiver. Recortar uma imagem pequena e depois ampliá-la acumula suavidade; recortar o original em resolução total e reduzir o resultado mantém as bordas nítidas. Se você precisa de um banner largo e de um avatar quadrado ao mesmo tempo, faça dois recortes do mesmo original em vez de recortar sobre o recorte.",
+            "Recorte também com intenção quanto à proporção: decida primeiro o destino (cabeçalho de blog, post, moldura de impressão) e ajuste o recorte a essa proporção, em vez de cortar livremente e descobrir que não cabe em lugar nenhum sem preenchimento.",
+          ],
+        },
+        {
+          heading: "Fundamentos de composição que melhoram os recortes",
+          paragraphs: [
+            "Duas convenções de enquadramento carregam quase todo o valor. A regra dos terços coloca o assunto perto das interseções que dividem o quadro em três por três — pôr o horizonte na linha do terço superior ou inferior costuma parecer mais deliberado que o centrado absoluto. O enquadramento centrado, por sua vez, é certo para assuntos simétricos, rostos e fotos de produto.",
+            "Dê aos assuntos em movimento espaço na direção em que olham ou caminham: um corredor com espaço à frente parece dinâmico, o mesmo recortado por trás parece prestes a bater numa parede. Com os olhares é igual: retratos ganham com um pouco de espaço no lado para onde a pessoa olha.",
+            "Confira as bordas por último: membros cortados, meio objetos e brilhos distrativos no limite do quadro roubam atenção. Aumente o zoom de novo depois de fixar o recorte e olhe o retângulo inteiro uma vez antes de confirmar.",
+          ],
+        },
+        {
+          heading: "O processamento local mantém privados os recortes sensíveis",
+          paragraphs: [
+            "Os recortes acontecem justamente porque a foto contém algo que não deve aparecer — a borda de um documento, um transeunte, uma etiqueta de envio. Enviar essa imagem a um recortador baseado em envio para esconder um detalhe é contraditório: a foto completa e sem recorte passa a viver no servidor de outra pessoa.",
+            "Esta ferramenta processa inteiramente no seu navegador: a decodificação, a seleção e a recodificação acontecem no seu dispositivo, e nada é transmitido ou armazenado. A versão que você recorta é a que publica; o original completo fica com você.",
+            "Uma nota de fluxo: recortar não é censurar. Retirar uma região da área visível a elimina do arquivo, uma supressão real — diferente de um borrão ou de um retângulo preto desenhados sobre o conteúdo, que às vezes podem ser revertidos se aplicados sem cuidado sobre dados comprimidos. Para esconder regiões sensíveis, recortar ou cobrir antes de exportar é o caminho seguro.",
+          ],
         },
       ],
     },

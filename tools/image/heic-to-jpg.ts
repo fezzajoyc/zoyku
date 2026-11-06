@@ -39,6 +39,32 @@ export default defineTool({
           a: "No. Conversion happens in your browser using a local HEIC decoder. Your photos stay on your device the whole time — this tool even works offline once the page has loaded.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What HEIC actually is — and why it exists",
+          paragraphs: [
+            "HEIC is the container format behind Apple's High Efficiency Image format, adopted as the default for iPhone camera photos since iOS 11. It is based on the same HEVC video compression family and stores images at roughly half the size of an equivalent JPEG, which is why a phone can keep shooting high-resolution photos without the storage filling up.",
+            "The trade-off is compatibility. HEIC is well supported inside the Apple ecosystem and in some recent Windows and Android versions, but plenty of websites, government portals, printers, older software and non-Apple devices still expect JPG. A photo that opens fine on your phone may be rejected the moment you upload it somewhere.",
+            "Converting to JPG trades file size for universality: the resulting file is larger but opens anywhere, from a decade-old browser to a print shop. That is the right trade whenever the destination is outside your control.",
+          ],
+        },
+        {
+          heading: "Conversion details worth knowing",
+          paragraphs: [
+            "JPEG is a lossy format, so converting HEIC to JPG is a re-encode, not a repackaging. With high-quality settings the difference is imperceptible for typical photos; with low settings you inherit artifacts on top of the original compression. Use the highest quality available unless file size matters more than fidelity.",
+            "Metadata may not survive conversion: HEIC supports features JPEG does not, such as depth maps used by Portrait mode. A plain JPEG carries the visible image, dimensions and standard EXIF data, but not Apple-specific extensions. If you rely on editing a photo's depth later, keep the HEIC original.",
+            "Batch conversion is the realistic workflow: an iPhone library contains hundreds or thousands of HEIC files, and they usually need converting the moment they must go to a PC, a web form or a shared drive. Convert only what the destination needs, and keep the HEIC masters as the source of truth.",
+          ],
+        },
+        {
+          heading: "Privacy matters most with personal photos",
+          paragraphs: [
+            "Camera photos are among the most sensitive files people own: family moments, home interiors, travel patterns. Photo-conversion sites that require uploads see all of that — and EXIF location tags can even record where each picture was taken.",
+            "This converter runs entirely in your browser: the HEIC is decoded and re-encoded to JPG on your device, and nothing is transmitted. It is the sensible choice for personal libraries precisely because there is no server that ever sees the pictures.",
+            "A related tip: if you plan to share the JPG publicly rather than just open it somewhere, consider stripping location EXIF as well — converting the format does not by itself remove location metadata unless the tool drops it during re-encode.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "HEIC 转 JPG",
@@ -64,6 +90,32 @@ export default defineTool({
         {
           q: "我的 iPhone 照片会被上传吗?",
           a: "不会。转换由浏览器内的本地 HEIC 解码器完成,照片全程留在你的设备上——页面加载完成后,断网也能继续转换。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "HEIC 到底是什么,为什么会有它",
+          paragraphs: [
+            "HEIC 是苹果高效图像格式背后的容器格式,自 iOS 11 起成为 iPhone 相机的默认输出。它基于 HEVC 视频压缩同源的技术,同画质下体积约为 JPEG 的一半——这正是手机能不断拍高分辨率照片而存储空间不爆炸的原因。",
+            "代价是兼容性。HEIC 在苹果生态和部分新版 Windows、Android 上支持良好,但大量网站、政务门户、打印机、老软件和非苹果设备仍然只认 JPG。在手机上打开一切正常的照片,一上传可能就被拒收。",
+            "转成 JPG 是用体积换通用性:结果文件更大,但十年前的浏览器和打印店都能打开。凡是目的地不在你掌控之内的场合,这笔交换都是划算的。",
+          ],
+        },
+        {
+          heading: "转换中值得知道的细节",
+          paragraphs: [
+            "JPEG 是有损格式,所以 HEIC 转 JPG 是一次重新编码,不是换个封装。高质量设置下,普通照片的差别难以察觉;低质量设置下,你会在原有压缩之上再叠加一层伪影。除非体积比画质更重要,否则用可用的最高质量。",
+            "元数据不一定能完全保留:HEIC 支持一些 JPEG 没有的特性,比如人像模式用的景深图。普通 JPEG 携带可见图像、尺寸和标准 EXIF,但不包含苹果的专有扩展。如果之后还要编辑照片的景深,请保留 HEIC 原件。",
+            "批量转换才是现实工作流:iPhone 图库里动辄成百上千个 HEIC 文件,而它们往往在需要传到 PC、网页表单或共享盘的那一刻才被要求转换。只转目的地需要的那些,把 HEIC 原件当作唯一事实来源。",
+          ],
+        },
+        {
+          heading: "私人照片场景下隐私最要紧",
+          paragraphs: [
+            "相机照片是人拥有的最敏感的文件之一:家庭时刻、居家环境、出行轨迹。要求上传的图片转换网站会看到这一切——EXIF 里的位置标签甚至记录着每张照片的拍摄地点。",
+            "本转换器完全在浏览器内运行:HEIC 在你的设备上解码并重编码为 JPG,不传输任何数据。正因为没有服务器见过这些照片,处理私人图库时它是合理选择。",
+            "一个相关提示:如果 JPG 是要公开发布而不是仅在某处打开,考虑连位置 EXIF 一起清除——仅转换格式并不自动删除位置元数据,除非工具在重编码时把它丢弃。",
+          ],
         },
       ],
     },
@@ -94,6 +146,32 @@ export default defineTool({
           a: "いいえ。変換はブラウザ内のローカル HEIC デコーダーで行われ、写真はずっと端末内にあります。ページを読み込んだ後はオフラインでも変換できます。",
         },
       ],
+      deepDive: [
+        {
+          heading: "HEIC とは何か、なぜ存在するのか",
+          paragraphs: [
+            "HEIC は Apple の High Efficiency Image フォーマットの基盤となるコンテナ形式で、iOS 11 以降は iPhone カメラの既定出力です。HEVC 動画圧縮と同系の技術に基づき、同等品質の JPEG の約半分のサイズで保存できます。これが、スマートフォンが高解像度写真を撮り続けてもストレージが爆発しない理由です。",
+            "代償は互換性です。HEIC は Apple エコシステムと一部の新しい Windows・Android では十分に対応していますが、多くの Web サイト、公的ポータル、プリンター、古いソフトウェア、非 Apple 端末はいまだ JPG を前提とします。スマホでは問題なく開ける写真が、アップロードした瞬間に拒否されることがあります。",
+            "JPG への変換は「サイズと引き換えに万能性を得る」取引です:結果のファイルは大きくなりますが、10年前のブラウザから印刷店までどこでも開けます。行き先が自分で管理できない場面では、常に正しい選択です。",
+          ],
+        },
+        {
+          heading: "変換で知っておきたい細部",
+          paragraphs: [
+            "JPEG は非可逆形式なので、HEIC→JPG は再梱包ではなく再エンコードです。高品質設定なら通常の写真で差は知覚できず、低品質では元の圧縮にさらにアーティファクトが上乗せされます。ファイルサイズが画質より重要でない限り、最高品質を使ってください。",
+            "メタデータは完全には残らないことがあります:HEIC は Portrait モードが使う深度マップなど、JPEG が持たない機能に対応しています。普通の JPEG には可視画像・寸法・標準 EXIF が入りますが、Apple 固有の拡張は入りません。後から深度を編集するつもりなら HEIC 原本を残してください。",
+            "現実のワークフローは一括変換です:iPhone のライブラリには数百〜数千の HEIC があり、PC や Web フォーム、共有ドライブに渡す瞬間に変換が求められます。行き先が必要な分だけ変換し、HEIC のマスターを唯一の情報源として保持しましょう。",
+          ],
+        },
+        {
+          heading: "個人の写真こそプライバシーが重要",
+          paragraphs: [
+            "カメラ写真は人が持つ最もセンシティブなファイルの一つです:家族の瞬間、部屋の内観、移動の傾向。アップロードを要求する変換サイトはそのすべてを見ます——EXIF の位置タグは撮影場所まで記録していることもあります。",
+            "このコンバーターは完全にブラウザ内で動きます:HEIC は端末上でデコードされ JPG に再エンコードされ、何も送信されません。サーバーが写真を見ることが一切ないため、個人ライブラリには理にかなった選択です。",
+            "関連するヒント:JPG をどこかで開くだけでなく公開するつもりなら、位置情報 EXIF の除去も検討してください——形式の変換だけでは位置メタデータは消えず、再エンコード時に破棄する実装であることが必要です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "HEIC a JPG",
@@ -122,6 +200,32 @@ export default defineTool({
           a: "No. La conversión ocurre en tu navegador con un decodificador HEIC local. Tus fotos permanecen en tu dispositivo todo el tiempo — la herramienta funciona incluso sin conexión una vez cargada la página.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Qué es realmente HEIC y por qué existe",
+          paragraphs: [
+            "HEIC es el formato contenedor detrás del formato High Efficiency Image de Apple, predeterminado para las fotos de cámara del iPhone desde iOS 11. Se basa en la misma familia de compresión que el vídeo HEVC y almacena imágenes a aproximadamente la mitad del tamaño de un JPEG equivalente, por eso un teléfono puede seguir disparando fotos de alta resolución sin llenar el almacenamiento.",
+            "La contrapartida es la compatibilidad. HEIC está bien soportado dentro del ecosistema Apple y en algunas versiones recientes de Windows y Android, pero muchos sitios web, portales oficiales, impresoras, software antiguo y dispositivos ajenos a Apple siguen esperando JPG. Una foto que se abre perfecta en tu móvil puede ser rechazada en el momento en que la subes a cualquier parte.",
+            "Convertir a JPG cambia tamaño por universalidad: el archivo resultante pesa más pero se abre en cualquier sitio, desde un navegador de hace una década hasta una imprenta. Es el intercambio correcto siempre que el destino esté fuera de tu control.",
+          ],
+        },
+        {
+          heading: "Detalles de la conversión que conviene conocer",
+          paragraphs: [
+            "JPEG es un formato con pérdida, así que convertir HEIC a JPG es una recodificación, no un cambio de envoltorio. Con ajustes de alta calidad la diferencia es imperceptible en fotos normales; con ajustes bajos heredas artefactos sobre la compresión original. Usa la máxima calidad disponible salvo que el tamaño importe más que la fidelidad.",
+            "Los metadatos pueden no sobrevivir: HEIC admite funciones que JPEG no tiene, como los mapas de profundidad del modo Retrato. Un JPEG corriente lleva la imagen visible, las dimensiones y el EXIF estándar, pero no las extensiones específicas de Apple. Si piensas editar la profundidad después, conserva el HEIC original.",
+            "La conversión por lotes es el flujo realista: una biblioteca de iPhone contiene cientos o miles de HEIC, y suelen necesitar conversión justo cuando deben ir a un PC, un formulario web o un disco compartido. Convierte solo lo que el destino necesita y guarda los HEIC originales como fuente de verdad.",
+          ],
+        },
+        {
+          heading: "Con fotos personales, la privacidad importa más",
+          paragraphs: [
+            "Las fotos de cámara están entre los archivos más sensibles que una persona posee: momentos familiares, interiores de casa, patrones de viaje. Los sitios de conversión que exigen subida ven todo eso — y las etiquetas EXIF de ubicación pueden incluso registrar dónde se tomó cada imagen.",
+            "Este convertidor funciona íntegramente en tu navegador: el HEIC se decodifica y se recodifica a JPG en tu dispositivo, y no se transmite nada. Es la elección sensata para bibliotecas personales precisamente porque ningún servidor llega a ver las fotos.",
+            "Un consejo relacionado: si el JPG va a publicarse en público y no solo abrirse en algún sitio, considera eliminar también el EXIF de ubicación — convertir el formato no elimina por sí mismo los metadatos de ubicación salvo que la herramienta los descarte al recodificar.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "HEIC para JPG",
@@ -148,6 +252,32 @@ export default defineTool({
         {
           q: "Minhas fotos do iPhone são enviadas para algum lugar?",
           a: "Não. A conversão acontece no seu navegador com um decodificador HEIC local. Suas fotos ficam no seu dispositivo o tempo todo — a ferramenta funciona até offline depois que a página carrega.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O que é realmente HEIC e por que existe",
+          paragraphs: [
+            "HEIC é o formato contêiner por trás do formato High Efficiency Image da Apple, padrão das fotos de câmera do iPhone desde o iOS 11. Baseia-se na mesma família de compressão do vídeo HEVC e armazena imagens com cerca de metade do tamanho de um JPEG equivalente — por isso um celular segue fotografando em alta resolução sem encher o armazenamento.",
+            "O contraponto é a compatibilidade. HEIC é bem suportado no ecossistema Apple e em algumas versões recentes de Windows e Android, mas muitos sites, portais oficiais, impressoras, softwares antigos e dispositivos não-Apple ainda esperam JPG. Uma foto que abre perfeitamente no seu celular pode ser rejeitada no momento em que você a envia para qualquer lugar.",
+            "Converter para JPG troca tamanho por universalidade: o arquivo resultante é maior, mas abre em qualquer lugar, de um navegador de uma década atrás a uma gráfica. É a troca certa sempre que o destino está fora do seu controle.",
+          ],
+        },
+        {
+          heading: "Detalhes da conversão que valem saber",
+          paragraphs: [
+            "JPEG é um formato com perdas, então converter HEIC para JPG é uma recodificação, não uma mudança de embalagem. Com configurações de alta qualidade a diferença é imperceptível em fotos comuns; com valores baixos você herda artefatos por cima da compressão original. Use a maior qualidade disponível, salvo quando o tamanho importar mais que a fidelidade.",
+            "Os metadados podem não sobreviver: HEIC suporta recursos que o JPEG não tem, como os mapas de profundidade usados pelo modo Retrato. Um JPEG comum carrega a imagem visível, as dimensões e o EXIF padrão, mas não as extensões específicas da Apple. Se pretende editar a profundidade depois, guarde o HEIC original.",
+            "A conversão em lote é o fluxo realista: uma biblioteca de iPhone contém centenas ou milhares de arquivos HEIC, e eles normalmente precisam de conversão justamente quando precisam ir para um PC, um formulário web ou um drive compartilhado. Converta apenas o que o destino precisa e mantenha os HEIC originais como fonte da verdade.",
+          ],
+        },
+        {
+          heading: "Com fotos pessoais, privacidade importa mais",
+          paragraphs: [
+            "Fotos de câmera estão entre os arquivos mais sensíveis que uma pessoa possui: momentos em família, interiores de casa, padrões de viagem. Sites de conversão que exigem envio veem tudo isso — e as etiquetas EXIF de localização podem até registrar onde cada imagem foi tirada.",
+            "Este conversor funciona inteiramente no seu navegador: o HEIC é decodificado e recodificado em JPG no seu dispositivo, e nada é transmitido. É a escolha sensata para bibliotecas pessoais justamente porque nenhum servidor chega a ver as fotos.",
+            "Uma dica relacionada: se o JPG será publicado publicamente e não apenas aberto em algum lugar, considere remover também o EXIF de localização — converter o formato não elimina por si só os metadados de localização, a menos que a ferramenta os descarte ao recodificar.",
+          ],
         },
       ],
     },

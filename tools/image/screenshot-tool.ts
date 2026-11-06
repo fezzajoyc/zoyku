@@ -38,6 +38,32 @@ export default defineTool({
           a: "No. Browsers on iOS and Android do not offer screen capture to web pages, so the tool explains that it is unavailable there. On desktop, Chrome, Edge, Firefox and Safari all support it.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Capture to clipboard, then dress it up",
+          paragraphs: [
+            "A screen capture is rarely the final asset: it needs a frame, rounded corners, a color or size adjustment before it fits into a slide, a bug report or a social post. Capturing directly into the editing view collapses two steps into one — grab the region, adjust, download — instead of jumping between an OS shortcut, an editor and a file manager.",
+            "Frames are the single most valuable dressing for screenshots: a thin border in a neutral color separates the image from whatever background it lands on, especially on pages with the same white background as the screenshot itself. Without a border, a white-background screenshot simply dissolves into the page.",
+            "Annotations fade quickly in memory, so the workflow habit that pays off is capturing, dressing and saving immediately — screenshots left as raw clipboard data tend to lose context, and re-capturing a transient UI state (a dropdown open, a tooltip visible) may be impossible minutes later.",
+          ],
+        },
+        {
+          heading: "Why screenshots deserve lossless PNG",
+          paragraphs: [
+            "Screenshots are the poster child for PNG over JPG: they contain flat fills, hard edges and text — exactly the content JPEG compression damages with ringing halos around letters and banding in flat gradients. A JPG screenshot looks subtly dirty; a PNG one is pixel-identical to what was on screen.",
+            "The one place JPG wins is screenshots of photographs: a photo displayed on screen contains natural image detail that compresses fine. For everything else — windows, terminals, documents, UI elements — the size premium of PNG buys visible cleanliness.",
+            "If file size matters (some forms limit screenshots to a few hundred KB), the honest lever is the capture region: crop tightly before reaching for quality settings. A tightly cropped PNG of the relevant window is both smaller and more useful than a full-screen JPG.",
+          ],
+        },
+        {
+          heading: "What stays on your device",
+          paragraphs: [
+            "Screenshots frequently show private context: internal dashboards, personal messages, file names, browser tabs, client data. Uploading a screenshot to a capture service sends all of that context to a stranger's server — a risk entirely avoided when capture and editing happen locally.",
+            "This tool captures and processes within your browser: the pixels come from your screen session, the dressing steps run on your device, and the file is written straight to your disk. Nothing is transmitted at any point.",
+            "One privacy habit worth adopting: before saving any screenshot for sharing, scan the edges of the capture for unintended context — a second monitor, a notification, an address bar. It is easier to re-capture a clean frame than to undo a leak.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "屏幕截图工具",
@@ -63,6 +89,32 @@ export default defineTool({
         {
           q: "手机或平板上能用吗?",
           a: "不能。iOS 和 Android 的浏览器不向网页提供屏幕捕捉能力,工具会提示当前环境不可用。桌面端 Chrome、Edge、Firefox 和 Safari 均可使用。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "先截到编辑区,再给它穿衣打扮",
+          paragraphs: [
+            "屏幕截图很少直接就是成品:要放进幻灯片、Bug 报告或社交帖子之前,通常需要边框、圆角、调色或调尺寸。直接截进编辑视图,等于把两步合并成一步——框选区域、调整、下载——而不用在系统快捷键、编辑器和文件管理器之间来回跳。",
+            "边框是截图最有价值的装饰:一圈中性色细边框能把图片和落点背景分开——尤其是页面背景和截图同为白色时。没有边框的白底截图,会直接“溶”进页面里。",
+            "注解很快会被遗忘,所以真正划算的工作流习惯是:截完立刻打扮、立刻保存——留在剪贴板里的原始截图容易丢失上下文,而稍纵即逝的界面状态(下拉框展开、工具提示可见)过几分钟可能就再也截不到了。",
+          ],
+        },
+        {
+          heading: "为什么截图理应用无损 PNG",
+          paragraphs: [
+            "截图是“PNG 优于 JPG”的教科书案例:截图里全是平涂色、硬边缘和文字——恰恰是 JPEG 压缩最擅长破坏的内容,字母周围出现振铃光晕、平色渐变出现色带。JPG 截图看着总有点脏;PNG 截图与屏幕显示逐像素一致。",
+            "JPG 唯一占优的情形是屏幕上的照片截图:照片本身是自然图像细节,压缩得很好。其余一切——窗口、终端、文档、界面元素——PNG 的体积溢价买来的是看得见的干净。",
+            "如果体积确实重要(有些表单把截图限制在几百 KB),诚实的杠杆是截取范围:先收紧裁剪,再去碰质量设置。一张裁得紧凑的相关窗口 PNG,比全屏 JPG 既小又更有用。",
+          ],
+        },
+        {
+          heading: "哪些东西留在你的设备上",
+          paragraphs: [
+            "截图经常带着私密上下文:内部后台、个人消息、文件名、浏览器标签、客户数据。把截图上传给截图服务,等于把这一切上下文送到陌生人的服务器——而本地完成截取和编辑,可以把这个风险整个避开。",
+            "本工具在浏览器内完成截取和处理:像素来自你的屏幕会话,装饰步骤在你的设备上运行,文件直接写进你的磁盘。任何时刻都没有数据外传。",
+            "一个值得养成的隐私习惯:保存任何要分享的截图前,扫一遍画面边缘有没有意外入镜的上下文——第二块显示器、一条通知、地址栏。重新截一张干净的图,总比事后追回泄露容易。",
+          ],
         },
       ],
     },
@@ -93,6 +145,32 @@ export default defineTool({
           a: "使えません。iOS と Android のブラウザは Web ページに画面キャプチャを提供しないため、利用不可と表示されます。デスクトップの Chrome・Edge・Firefox・Safari なら利用できます。",
         },
       ],
+      deepDive: [
+        {
+          heading: "クリップボードへ取得し、そのまま整える",
+          paragraphs: [
+            "画面キャプチャはめったに最終資産になりません:スライド、バグ報告、SNS 投稿に収める前に、フレーム・角丸・色やサイズの調整が要るのが普通です。編集ビューに直接取得すれば2工程が1つに——領域を取り、調整し、ダウンロード——OS ショートカット、エディタ、ファイラーの間を往復する必要がなくなります。",
+            "フレームはスクリーンショットにとって最も価値のある飾りです:中性色の細い枠は、画像を貼り付け先の背景から切り分けます——特にページ背景とスクショの背景が同じ白の場合。枠のない白背景スクショは、そのままページに溶け込みます。",
+            "注釈は記憶からすぐ消えるので、効くワークフロー習慣は「取得、整え、即保存」——クリップボードに置きっぱなしのスクショは文脈を失いがちで、一時的な UI 状態(開いたドロップダウン、見えているツールチップ)は数分後には二度と取得できないこともあります。",
+          ],
+        },
+        {
+          heading: "スクショにロスレス PNG がふさわしい理由",
+          paragraphs: [
+            "スクリーンショットは「PNG が JPG に勝る」の見本のような存在です:フラットな塗り、硬いエッジ、文字——まさに JPEG 圧縮が傷つける内容で、文字の周りにリンギング、フラットなグラデーションにバンディングが出ます。JPG のスクショはわずかに汚く見え、PNG のスクショは画面表示とピクセル単位で同一です。",
+            "JPG が勝つ唯一の場面は画面上の写真のスクショです:写真自体は自然画像のディテールで、圧縮がよく効きます。それ以外すべて——ウィンドウ、ターミナル、文書、UI 要素——では、PNG のサイズ増分が見える清潔さを買っています。",
+            "サイズが本当に重要な場合(数百 KB に制限するフォームもあります)、正直なレバーは取得範囲です:品質設定に手を伸ばす前にまずタイトにクロップする。関連ウィンドウだけのタイトな PNG は、フルスクリーンの JPG より小さく有用です。",
+          ],
+        },
+        {
+          heading: "端末に留まるもの",
+          paragraphs: [
+            "スクショにはしばしばプライベートな文脈が写ります:社内ダッシュボード、個人メッセージ、ファイル名、ブラウザタブ、クライアントデータ。キャプチャをスクショ系サービスにアップロードすることは、この文脈のすべてを他人のサーバーに送ることであり、取得と編集をローカルで行えば丸ごと回避できます。",
+            "このツールはブラウザ内で取得・処理します:ピクセルはあなたの画面セッションから来て、飾りの工程は端末上で実行され、ファイルはディスクに直接書き込まれます。どの時点でも送信はありません。",
+            "採用する価値のあるプライバシー習慣:共有するスクショを保存する前に、意図しない文脈——セカンドモニター、通知、アドレスバー——が端に写っていないか走査する。きれいなフレームを撮り直す方が、漏えいの後始末よりずっと簡単です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Herramienta de captura de pantalla",
@@ -121,6 +199,32 @@ export default defineTool({
           a: "No. Los navegadores de iOS y Android no ofrecen captura de pantalla a las páginas web, así que la herramienta indica que no está disponible allí. En escritorio, Chrome, Edge, Firefox y Safari la admiten.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Capturar al área de edición y vestirlo enseguida",
+          paragraphs: [
+            "Una captura de pantalla rara vez es el recurso final: antes de que encaje en una diapositiva, un reporte de error o una publicación social, suele necesitar marco, esquinas redondeadas, un ajuste de color o tamaño. Capturar directamente en la vista de edición fusiona dos pasos en uno — tomar la región, ajustar, descargar — sin saltar entre un atajo del sistema, un editor y un gestor de archivos.",
+            "El marco es el aderezo más valioso para las capturas: un borde fino de color neutro separa la imagen del fondo donde aterriza, sobre todo en páginas con el mismo fondo blanco que la propia captura. Sin borde, una captura con fondo blanco simplemente se disuelve en la página.",
+            "Las anotaciones se olvidan rápido, así que el hábito de flujo que compensa es capturar, vestir y guardar de inmediato — las capturas que se quedan como datos crudos del portapapeles pierden contexto, y recapturar un estado efímero de la interfaz (un desplegable abierto, un tooltip visible) puede ser imposible minutos después.",
+          ],
+        },
+        {
+          heading: "Por qué las capturas merecen PNG sin pérdida",
+          paragraphs: [
+            "Las capturas son el ejemplo de manual de PNG sobre JPG: contienen rellenos planos, bordes duros y texto — justo el contenido que la compresión JPEG daña con halos alrededor de las letras y bandas en los degradados planos. Una captura en JPG se ve sutilmente sucia; una en PNG es idéntica píxel a píxel a lo que había en pantalla.",
+            "El único caso donde gana el JPG son capturas de fotografías en pantalla: una foto contiene detalle natural de imagen que comprime bien. Para todo lo demás — ventanas, terminales, documentos, elementos de interfaz — la prima de tamaño del PNG compra limpieza visible.",
+            "Si el tamaño importa (algunos formularios limitan las capturas a unos cientos de KB), la palanca honesta es la región de captura: recorta ajustado antes de tocar los ajustes de calidad. Un PNG bien recortado de la ventana relevante es más pequeño y más útil que un JPG de pantalla completa.",
+          ],
+        },
+        {
+          heading: "Qué se queda en tu dispositivo",
+          paragraphs: [
+            "Las capturas suelen mostrar contexto privado: paneles internos, mensajes personales, nombres de archivo, pestañas del navegador, datos de clientes. Subir una captura a un servicio de capturas envía todo ese contexto al servidor de un desconocido — un riesgo que se evita por completo cuando la captura y la edición ocurren localmente.",
+            "Esta herramienta captura y procesa dentro de tu navegador: los píxeles vienen de tu sesión de pantalla, los pasos de vestimenta corren en tu dispositivo y el archivo se escribe directamente en tu disco. No se transmite nada en ningún momento.",
+            "Un hábito de privacidad que vale adoptar: antes de guardar cualquier captura para compartirla, revisa los bordes en busca de contexto no intencionado — un segundo monitor, una notificación, una barra de direcciones. Recapturar un fotograma limpio es más fácil que deshacer una fuga.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Ferramenta de captura de tela",
@@ -147,6 +251,32 @@ export default defineTool({
         {
           q: "Funciona em celulares ou tablets?",
           a: "Não. Os navegadores de iOS e Android não oferecem captura de tela para páginas web, então a ferramenta avisa que não está disponível ali. No desktop, Chrome, Edge, Firefox e Safari suportam.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Capturar para a área de edição e arrumar logo em seguida",
+          paragraphs: [
+            "Uma captura de tela raramente é o recurso final: antes de caber num slide, num relatório de erro ou numa postagem social, normalmente precisa de moldura, cantos arredondados, um ajuste de cor ou tamanho. Capturar direto na vista de edição funde dois passos em um — pegar a região, ajustar, baixar — sem pular entre um atalho do sistema, um editor e um gerenciador de arquivos.",
+            "A moldura é o enfeite mais valioso para capturas: uma borda fina de cor neutra separa a imagem do fundo onde ela aterrissa, sobretudo em páginas com o mesmo fundo branco da própria captura. Sem borda, uma captura com fundo branco simplesmente se dissolve na página.",
+            "As anotações se apagam rápido da memória, então o hábito de fluxo que compensa é capturar, arrumar e salvar imediatamente — capturas deixadas como dados crus da área de transferência tendem a perder contexto, e recapturar um estado efêmero da interface (um dropdown aberto, um tooltip visível) pode ser impossível minutos depois.",
+          ],
+        },
+        {
+          heading: "Por que capturas merecem PNG sem perdas",
+          paragraphs: [
+            "Capturas são o exemplo de manual de PNG sobre JPG: contêm preenchimentos chapados, bordas duras e texto — exatamente o conteúdo que a compressão JPEG danifica com halos ao redor das letras e bandas em gradientes chapados. Uma captura em JPG parece sutilmente suja; uma em PNG é idêntica pixel a pixel ao que estava na tela.",
+            "O único caso em que o JPG vence são capturas de fotografias na tela: uma foto contém detalhe natural de imagem que comprime bem. Para todo o resto — janelas, terminais, documentos, elementos de interface — o prêmio de tamanho do PNG compra limpeza visível.",
+            "Se o tamanho importa (alguns formulários limitam capturas a algumas centenas de KB), a alavanca honesta é a região de captura: recorte apertado antes de mexer nas configurações de qualidade. Um PNG bem recortado da janela relevante é menor e mais útil que um JPG de tela cheia.",
+          ],
+        },
+        {
+          heading: "O que fica no seu dispositivo",
+          paragraphs: [
+            "Capturas frequentemente mostram contexto privado: painéis internos, mensagens pessoais, nomes de arquivo, abas do navegador, dados de clientes. Enviar uma captura a um serviço de capturas manda todo esse contexto para o servidor de um desconhecido — um risco totalmente evitado quando a captura e a edição acontecem localmente.",
+            "Esta ferramenta captura e processa dentro do seu navegador: os pixels vêm da sua sessão de tela, os passos de enfeite rodam no seu dispositivo e o arquivo é gravado direto no seu disco. Nada é transmitido em nenhum momento.",
+            "Um hábito de privacidade que vale adotar: antes de salvar qualquer captura para compartilhar, examine as bordas atrás de contexto não intencional — um segundo monitor, uma notificação, uma barra de endereço. Recapturar um quadro limpo é mais fácil que desfazer um vazamento.",
+          ],
         },
       ],
     },

@@ -41,6 +41,32 @@ export default defineTool({
           a: "Not in a browser-based way that stays safe. Lossless metadata stripping requires rewriting the file container — PNGs can be cleaned losslessly with special tools, but for JPEG the reliable, simple approach is exactly this re-encode. PNG inputs here stay bit-perfect in pixels.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What EXIF hides inside your photos",
+          paragraphs: [
+            "Every photo from a modern camera or phone carries more than pixels. The EXIF block stores the camera model, lens, exposure settings, timestamps — and, most consequentially, GPS coordinates in many cases. A casual snapshot posted online can reveal the exact room or street corner where it was taken.",
+            "The block often also includes a small embedded preview thumbnail and, on some devices, software and editing history. Screenshots and images you downloaded from elsewhere typically have little or no EXIF, which is why metadata viewers sometimes show \"nothing found\" — the absence is normal, not a bug.",
+            "Stripping EXIF is not about hiding wrongdoing; it is routine hygiene before publishing. Journalists, activists, medical professionals and ordinary users all have sound reasons to separate a picture's content from its recording metadata.",
+          ],
+        },
+        {
+          heading: "What removal changes — and what it does not",
+          paragraphs: [
+            "Removing EXIF leaves the visible image untouched: dimensions, colors and quality stay exactly the same. What disappears is the metadata block, so the file becomes anonymous — no camera, no location, no timestamps attached.",
+            "Removal does not change pixel content, which means visible information stays visible. If the photo shows a street sign, a name tag or a screen with text, removing EXIF will not help; you need to crop or cover those regions separately.",
+            "Geotagging is the reason most people care, but timestamps matter too: combined with other public posts, creation dates can help build a pattern of someone's movements or habits. Full metadata removal closes both channels at once.",
+          ],
+        },
+        {
+          heading: "Local processing is the whole point",
+          paragraphs: [
+            "There is an irony in uploading a photo to a \"privacy\" tool: the privacy-sensitive file then passes through someone else's server, which sees the exact metadata you are trying to remove — including the GPS tags. An upload-based remover defeats much of its own purpose.",
+            "This tool reads and rewrites the file entirely in your browser. The image is decoded locally, the metadata is stripped, and the clean file is produced on your device; nothing is transmitted anywhere, so the very data you wanted gone never leaves your hands.",
+            "A practical habit: strip metadata at the last step before sharing, from the exported file you actually intend to publish. Keep the original with its EXIF as your master — it retains useful information like exposure settings for future editing.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "EXIF 清除工具",
@@ -66,6 +92,32 @@ export default defineTool({
         {
           q: "能不能不重新压缩就删除元数据?",
           a: "在浏览器里没有既安全又无损的办法。无损剥离元数据需要重写文件容器——PNG 可以用专门工具无损清理,而 JPEG 简单可靠的方式正是这种重编码。本工具处理 PNG 输入时像素保持逐位无损。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "EXIF 在照片里藏了什么",
+          paragraphs: [
+            "现代相机或手机拍出的每一张照片,携带的都不只是像素。EXIF 数据块里存着相机型号、镜头、曝光参数、时间戳——而在很多情况下最关键的是 GPS 坐标。随手发布到网上的一张快照,可能暴露拍摄时所在的确切房间或街角。",
+            "这个数据块通常还嵌着一小张预览缩略图,部分设备上还有软件和编辑历史。截图和从别处下载的图片一般几乎没有 EXIF,所以元数据查看器有时显示“未找到”——没有才是正常的,不是故障。",
+            "清除 EXIF 不是为了隐瞒什么,而是发布前的常规卫生动作。记者、活动人士、医务人员和普通用户都有充分理由把图片内容和它的拍摄元数据分开。",
+          ],
+        },
+        {
+          heading: "清除改变了什么,不改变什么",
+          paragraphs: [
+            "移除 EXIF 不影响可见图像:尺寸、颜色、画质分毫不动。消失的是元数据块,文件从此匿名——没有相机信息、没有位置、没有时间戳。",
+            "清除不改像素内容,所以画面里可见的信息仍然可见。如果照片里有路牌、姓名牌或带文字的屏幕,清 EXIF 帮不上忙;那些区域需要另行裁剪或遮挡。",
+            "地理标签是多数人在意的点,但时间戳同样重要:与其他公开信息交叉比对,创建日期可以拼出一个人的行动或作息规律。完整清除元数据可以一次关掉这两个通道。",
+          ],
+        },
+        {
+          heading: "本地处理正是这件事的核心",
+          paragraphs: [
+            "把照片上传到一个“隐私”工具,本身就有些讽刺:这份对隐私敏感的文件会先经过别人的服务器——它看到的恰恰是你想删掉的那些元数据,包括 GPS 标签。上传式清除工具在很大程度上败给了自己的目的。",
+            "本工具完全在浏览器内读取并重写文件。图像在本地解码,元数据被剥离,干净的文件就在你的设备上生成;什么都不外传,你想删掉的数据从头到尾没有离开过你的手。",
+            "一个实用习惯:在分享前的最后一步,对真正要发布的那份导出文件做清除。保留带 EXIF 的原图作为母本——曝光参数之类的信息对以后修图仍然有用。",
+          ],
         },
       ],
     },
@@ -96,6 +148,32 @@ export default defineTool({
           a: "ブラウザ内で安全にやる方法としてはできません。ロスレスのメタデータ除去にはファイルコンテナの書き換えが必要です。PNG は専用ツールでロスレス清掃できますが、JPEG にはこの再エンコードが確実で簡単な方法です。PNG 入力ならピクセルは完全に無劣化で保たれます。",
         },
       ],
+      deepDive: [
+        {
+          heading: "EXIF は写真の中に何を隠しているか",
+          paragraphs: [
+            "現代のカメラやスマホが撮る写真は、ピクセル以上のものを運んでいます。EXIF ブロックにはカメラの機種、レンズ、露出設定、タイムスタンプ——そして多くの場合、最も重大な GPS 座標が保存されます。何気なく投稿したスナップショットが、撮影時の正確な部屋や街角を明かし得ます。",
+            "ブロックには通常、小さな埋め込みサムネイルが含まれ、機種によってはソフトウェアや編集履歴まで。スクリーンショットや他から入手した画像には EXIF がほとんどないのが普通で、メタデータビューアが「何も見つからない」と表示するのは不具合ではなく正常です。",
+            "EXIF 除去は悪事を隠すためではなく、公開前の日常的な衛生動作です。ジャーナリスト、活動家、医療従事者、一般ユーザーいずれにも、画像の中身と撮影メタデータを分ける正当な理由があります。",
+          ],
+        },
+        {
+          heading: "除去で変わるもの、変わらないもの",
+          paragraphs: [
+            "EXIF を除いても可視画像は無傷です:寸法・色・品質はまったく同じまま。消えるのはメタデータブロックで、ファイルは匿名化されます——カメラ情報、位置、タイムスタンプは一切付かなくなります。",
+            "除去はピクセル内容を変えません。つまり見えている情報は見えたままです。写真に道路標識、名札、文字のある画面が写っていれば、EXIF 除去は役に立ちません。それらの領域は別途トリミングやマスキングが必要です。",
+            "位置情報タグが注目されがちですが、タイムスタンプも重要です:他の公開投稿と突き合わせると、作成日時から行動や生活のパターンを組み立てられ得ます。完全なメタデータ除去は両方の経路を一度に閉じます。",
+          ],
+        },
+        {
+          heading: "ローカル処理こそが核心",
+          paragraphs: [
+            "「プライバシー」ツールに写真をアップロードするのには皮肉が伴います:プライバシーに関わるファイルが他人のサーバーを経由し、そこがあなたが消そうとしているメタデータ——GPS タグを含む——をそのまま見るからです。アップロード型の除去ツールは自分の目的を自分で台無しにします。",
+            "このツールはファイルを完全にブラウザ内で読み取り・書き換えます。画像はローカルでデコードされ、メタデータが剥ぎ取られ、クリーンなファイルが端末上で生成される。何も送信されないため、消したいデータ自体があなたの手元を出ません。",
+            "実用的な習慣:共有直前の最後のステップで、実際に公開する書き出しファイルに対して除去を行う。EXIF 付きの元画像はマスターとして残す——露出設定のような情報は、後の編集でも役立ちます。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Eliminador de EXIF",
@@ -124,6 +202,32 @@ export default defineTool({
           a: "No de una forma segura basada en navegador. El borrado sin pérdida requiere reescribir el contenedor del archivo: los PNG se pueden limpiar sin pérdida con herramientas especiales, pero para JPEG el método fiable y sencillo es justamente esta recodificación. Con entradas PNG aquí los píxeles quedan idénticos bit a bit.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Qué esconde EXIF dentro de tus fotos",
+          paragraphs: [
+            "Cada foto de una cámara o móvil moderno lleva más que píxeles. El bloque EXIF almacena el modelo de cámara, la lente, los ajustes de exposición, las marcas de tiempo — y, lo más consecuente en muchos casos, las coordenadas GPS. Una instantánea casual publicada en internet puede revelar la habitación o la esquina exacta donde se tomó.",
+            "El bloque suele incluir además una miniatura incrustada de vista previa y, en algunos dispositivos, software e historial de edición. Las capturas de pantalla y las imágenes descargadas de otros sitios suelen tener poco o ningún EXIF, por eso un visor de metadatos a veces muestra \"nada encontrado\" — la ausencia es normal, no un fallo.",
+            "Quitar EXIF no va de ocultar nada ilícito: es higiene rutinaria antes de publicar. Periodistas, activistas, profesionales de la salud y usuarios corrientes tienen todas las razones para separar el contenido de una imagen de sus metadatos de grabación.",
+          ],
+        },
+        {
+          heading: "Qué cambia la eliminación — y qué no",
+          paragraphs: [
+            "Eliminar EXIF deja la imagen visible intacta: dimensiones, colores y calidad quedan exactamente igual. Lo que desaparece es el bloque de metadatos, así que el archivo se vuelve anónimo — sin cámara, sin ubicación, sin marcas de tiempo.",
+            "La eliminación no cambia el contenido de los píxeles, o sea que la información visible sigue visible. Si la foto muestra un cartel callejero, una etiqueta con nombre o una pantalla con texto, quitar EXIF no ayuda; hay que recortar o tapar esas regiones por separado.",
+            "El geotagging es la razón por la que la mayoría se preocupa, pero las marcas de tiempo también importan: combinadas con otras publicaciones públicas, las fechas de creación pueden ayudar a reconstruir patrones de movimientos o hábitos. La eliminación completa de metadatos cierra ambos canales a la vez.",
+          ],
+        },
+        {
+          heading: "El procesado local es el punto entero",
+          paragraphs: [
+            "Hay una ironía en subir una foto a una herramienta de \"privacidad\": el archivo sensible pasa por el servidor de otra persona, que ve exactamente los metadatos que intentas eliminar — incluidas las etiquetas GPS. Un eliminador basado en subida frustra gran parte de su propio propósito.",
+            "Esta herramienta lee y reescribe el archivo íntegramente en tu navegador. La imagen se decodifica localmente, los metadatos se eliminan y el archivo limpio se genera en tu dispositivo; no se transmite nada, así que los datos que querías fuera jamás salen de tus manos.",
+            "Un hábito práctico: elimina los metadatos en el último paso antes de compartir, sobre el archivo exportado que realmente piensas publicar. Conserva el original con su EXIF como máster — conserva información útil como los ajustes de exposición para futuras ediciones.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Removedor de EXIF",
@@ -150,6 +254,32 @@ export default defineTool({
         {
           q: "Dá para remover metadados sem recomprimir a imagem?",
           a: "Não de um modo seguro baseado em navegador. A limpeza sem perdas exige reescrever o contêiner do arquivo: PNGs podem ser limpos sem perdas com ferramentas especiais, mas para JPEG a abordagem simples e confiável é justamente esta re-codificação. Com entradas PNG aqui, os pixels ficam idênticos bit a bit.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O que o EXIF esconde dentro das suas fotos",
+          paragraphs: [
+            "Cada foto de uma câmera ou celular moderna carrega mais que pixels. O bloco EXIF guarda o modelo da câmera, a lente, as configurações de exposição, os carimbos de tempo — e, o mais consequente em muitos casos, as coordenadas GPS. Uma foto casual publicada na internet pode revelar o quarto ou a esquina exata onde foi tirada.",
+            "O bloco normalmente inclui também uma pequena miniatura embutida e, em alguns aparelhos, software e histórico de edições. Capturas de tela e imagens baixadas de outros lugares costumam ter pouco ou nenhum EXIF, por isso um visualizador de metadados às vezes mostra \"nada encontrado\" — a ausência é normal, não um defeito.",
+            "Remover o EXIF não vai de esconder nada ilícito: é higiene rotineira antes de publicar. Jornalistas, ativistas, profissionais de saúde e usuários comuns têm todas as razões para separar o conteúdo de uma imagem dos seus metadados de captura.",
+          ],
+        },
+        {
+          heading: "O que a remoção muda — e o que não muda",
+          paragraphs: [
+            "Remover o EXIF deixa a imagem visível intacta: dimensões, cores e qualidade ficam exatamente iguais. O que desaparece é o bloco de metadados, então o arquivo se torna anônimo — sem câmera, sem localização, sem carimbos de tempo.",
+            "A remoção não muda o conteúdo dos pixels, ou seja, a informação visível continua visível. Se a foto mostra uma placa de rua, um crachá ou uma tela com texto, remover EXIF não ajuda; é preciso recortar ou cobrir essas regiões separadamente.",
+            "A geolocalização é o motivo pelo qual a maioria se preocupa, mas os carimbos de tempo também importam: combinadas com outras publicações públicas, as datas de criação podem ajudar a reconstruir padrões de movimento ou hábitos. A remoção completa de metadados fecha os dois canais de uma vez.",
+          ],
+        },
+        {
+          heading: "O processamento local é o ponto central",
+          paragraphs: [
+            "Há uma ironia em enviar uma foto a uma ferramenta de \"privacidade\": o arquivo sensível passa pelo servidor de outra pessoa, que vê exatamente os metadados que você tenta remover — incluindo as etiquetas GPS. Um removedor baseado em envio frustra boa parte do próprio propósito.",
+            "Esta ferramenta lê e reescreve o arquivo inteiramente no seu navegador. A imagem é decodificada localmente, os metadatos são removidos e o arquivo limpo é gerado no seu dispositivo; nada é transmitido, então os dados que você queria fora jamais saem das suas mãos.",
+            "Um hábito prático: remova os metadatos no último passo antes de compartilhar, sobre o arquivo exportado que realmente pretende publicar. Guarde o original com o EXIF como master — ele retém informações úteis como as configurações de exposição para edições futuras.",
+          ],
         },
       ],
     },
