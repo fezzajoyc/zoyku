@@ -39,6 +39,32 @@ export default defineTool({
           a: "That your target is out of reach with this final: even a perfect 100% leaves you short of the overall grade. Lower the target or look for extra credit. A negative number means the opposite — the target is already locked in no matter what you score.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Weighted averages: the arithmetic behind the result",
+          paragraphs: [
+            "A course grade is almost never the plain average of its parts: homework, midterm and final exam contribute with different weights, typically set by the syllabus. The weighted average multiplies each score by its weight and divides by the total weight — mathematically identical to how a GPA credits courses by credit hours, just one level down.",
+            "The total weight should equal 100%. When parts are still ungraded, the meaningful number is the current standing: your weighted average over the graded parts so far, plus what score you need on the remaining work to reach a target grade. The needed-score formula is (target × total weight − current weighted sum) ÷ remaining weight — this is the \"what do I need on the final\" calculation every student runs in December.",
+            "Beware the denominator trap: averaging the graded parts without weighting them by their actual weights gives a different number whenever weights differ — and it is almost always the wrong one. A 100% on a 10% homework does not offset a 60% on a 50% exam.",
+          ],
+        },
+        {
+          heading: "Scale conventions differ — check your syllabus",
+          paragraphs: [
+            "Most US institutions map letters on a 4.0 scale (A = 4.0, B = 3.0), but the plus/minus handling varies: some schools give A− = 3.7, others 3.67, a few round A− down to 3.0. Percentage-to-letter cutoffs also drift between courses — 89.5% may be an A or an A− depending on the professor. The calculator applies one conventional mapping; your registrar's table is the authoritative one.",
+            "Weighting details to verify: whether the lowest homework score is dropped, whether attendance or participation carries a weight, and whether the final exam can replace earlier scores. These policies change the arithmetic meaningfully and live in the syllabus, not in any calculator.",
+            "When simulating outcomes, enter plausible future scores, not optimistic ones — the point of the calculation is knowing the score you need, and planning for the minimum passing scenario is more useful than planning for a miracle.",
+          ],
+        },
+        {
+          heading: "Local, private grade math",
+          paragraphs: [
+            "Everything computes in your browser as you type. Grades are among the most sensitive personal data there is — a tool that uploads them would be the wrong tool. Nothing is stored, logged or transmitted; refresh and the sheet resets.",
+            "The calculator handles partial rows the safe way: a course with missing scores contributes nothing rather than counting as zero, which would silently punish work not yet done.",
+            "For cumulative GPA across semesters, pair this with the GPA calculator — the two tools cover course-level and transcript-level questions respectively, and both run entirely on your device.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "成绩计算器",
@@ -66,6 +92,32 @@ export default defineTool({
         {
           q: "期末需要 104% 是什么意思?",
           a: "意思是按这个期末权重,目标总评已经达不到了——就算期末考满分也不够。要么调低目标,要么争取附加分。反过来,负数说明目标已经稳拿,期末考多少都不影响。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "加权平均:结果背后的算术",
+          paragraphs: [
+            "课程成绩几乎从来不是各部分的简单平均:作业、期中、期末按教学大纲设定的不同权重计入。加权平均把每项分数乘以权重再除以总权重——数学上与 GPA 按学分加权课程是一回事,只是低一层级。",
+            "总权重应当等于 100%。当部分项目还没出分时,有意义的数字是“当前水平”:已出分部分按权重的加权平均,再加上剩余作业需要多少分才能达到目标等级。所需分数公式是(目标 × 总权重 − 当前加权得分)÷ 剩余权重——这就是每个学生十二月都在算的“期末要考多少分”。",
+            "小心分母陷阱:不给已出分部分按实际权重加权,只要权重不同,得到的数就不同——而且几乎总是错的。10% 权重的作业拿 100%,抵不了 50% 权重的考试拿 60%。",
+          ],
+        },
+        {
+          heading: "换算口径各校不同——以大纲为准",
+          paragraphs: [
+            "多数美国院校按 4.0 制映射字母等级(A = 4.0,B = 3.0),但加减号的处理不一:有的学校 A− = 3.7,有的 3.67,少数直接把 A− 按 3.0 算。百分比到字母的切分线也随课程漂移——89.5% 可能是 A,也可能是 A−,取决于教授。本工具采用一个通行映射;你所在学校的教务表才是权威。",
+            "需要核实的加权细节:是否去掉最低一次作业、出勤或课堂参与是否占权重、期末能否替换之前的分数。这些政策会实质改变算术结果,而且它们写在教学大纲里,不在任何计算器里。",
+            "模拟结果时,输入的是可信的未来分数而不是乐观分数——这个计算的意义在于知道“你需要多少分”,按“最低及格场景”做计划,比按奇迹发生做计划有用。",
+          ],
+        },
+        {
+          heading: "本地、私密的分数计算",
+          paragraphs: [
+            "一切在你输入时于浏览器内完成。成绩是最敏感的个人数据之一——会上传成绩的工具本身就是错的工具。不存储、不记录、不发送;刷新即重置。",
+            "对不完整的行,计算器按安全方式处理:缺分的课程不计入,而不是按零分算——按零分算会悄悄惩罚还没完成的部分。",
+            "跨学期的累计 GPA 请配合 GPA 计算器使用——两个工具分别覆盖课程层面和成绩单层面的问题,而且都完全在你的设备上运行。",
+          ],
         },
       ],
     },
@@ -97,6 +149,32 @@ export default defineTool({
           a: "この期末の比重では目標に届かないという意味です — 期末で 100% を取っても総合には足りません。目標を下げるか、加点を探しましょう。逆に負の数は目標がすでに確定していて、期末の結果に関係なく達成済みという意味です。",
         },
       ],
+      deepDive: [
+        {
+          heading: "加重平均:結果の裏にある算術",
+          paragraphs: [
+            "科目の成績はほぼ決して各要素の単純平均ではありません。課題、中間、期末がシラバスの定める異なる重みで寄与します。加重平均は各点数に重みを掛け、総重みで割ります。GPA が単位数で科目を重み付けするのと数学的に同一で、一段下の層です。",
+            "総重みは 100% になるべきです。まだ評価されていない要素があるとき、意味のある数は現在位置です。評価済み部分の加重平均に、残りの課題で目標評価に届くのに必要な点数を足したもの。必要点数の式は(目標 × 総重み − 現在の加重和)÷ 残り重み——12 月に全学生がやる「期末で何点必要か」の計算です。",
+            "分母の罠に注意。評価済み部分を実重みで掛けずに平均すると、重みが異なる限り別の数になり、しかもほぼ常に間違った方です。重み 10% の課題の 100% は、重み 50% の試験の 60% を相殺しません。",
+          ],
+        },
+        {
+          heading: "換算の基準は学校ごとに違う——シラバス確認",
+          paragraphs: [
+            "米国の多くの機関は 4.0 制で字母を対応させます(A = 4.0、B = 3.0)が、プラス・マイナスの扱いは揺れます。A− を 3.7 とする学校、3.67 とする学校、少数は A− を 3.0 に切り下げます。パーセントから字母への切れ目も科目ごとに動き、89.5% は教授次第で A にも A− にもなります。この計算機は一つの通行的な対応を適用します。あなたの大学の教务表が権威です。",
+            "確認すべき加重の細部:最低の課題点を落とすか、出席や参加に重みを与えるか、期末が先行の点数を置き換えられるか。これらの方針は算術を有意に変え、どの計算器でもなくシラバスの中にあります。",
+            "結果をシミュレートするときは、楽観的な点ではなく妥当な未来の点を入力します。計算の目的は「自分に必要な点」を知ることで、奇跡のシナリオではなく最低合格ラインで計画するほうが有用です。",
+          ],
+        },
+        {
+          heading: "ローカルで、プライベートな成績計算",
+          paragraphs: [
+            "すべては入力に合わせてブラウザ内で計算されます。成績は最も機微な個人データの一つであり、アップロードするツールは誤った道具です。保存も記録も送信もなし。更新すればシートはリセットされます。",
+            "中途半端な行は安全に扱われます。点数のない要素はゼロとして数えられるのではなく寄与しない——ゼロ扱いはまだ終えていない課題を黙って罰します。",
+            "学期をまたぐ累積 GPA には GPA 計算機と組み合わせてください。2 つのツールは科目レベルと成績表レベルをそれぞれ覆い、どちらも完全に端末上で動きます。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Calculadora de notas",
@@ -126,6 +204,32 @@ export default defineTool({
           a: "Que tu objetivo es inalcanzable con ese final: incluso con un 100% te quedas corto del objetivo global. Baja el objetivo o busca puntos extra. Un número negativo significa lo contrario: el objetivo ya está asegurado pase lo que pase.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Promedios ponderados: la aritmética tras el resultado",
+          paragraphs: [
+            "La nota de una asignatura casi nunca es la media simple de sus partes: tareas, parcial y examen final contribuyen con pesos distintos, normalmente fijados en el programa. El promedio ponderado multiplica cada puntuación por su peso y divide por el peso total — matemáticamente idéntico a cómo el GPA pondera asignaturas por créditos, un nivel más abajo.",
+            "El peso total debería ser 100%. Cuando algunas partes siguen sin calificar, el número significativo es la situación actual: tu promedio ponderado sobre las partes ya calificadas, más qué puntuación necesitas en el trabajo restante para alcanzar la nota objetivo. La fórmula de la nota necesaria es (objetivo × peso total − suma ponderada actual) ÷ peso restante — es el cálculo de \"qué necesito en el final\" que todo estudiante hace en diciembre.",
+            "Cuidado con la trampa del denominador: promediar las partes calificadas sin ponderarlas por sus pesos reales da un número distinto siempre que los pesos difieran — y casi siempre es el equivocado. Un 100% en una tarea del 10% no compensa un 60% en un examen del 50%.",
+          ],
+        },
+        {
+          heading: "Las convenciones de escala difieren — revisa tu programa",
+          paragraphs: [
+            "La mayoría de instituciones de EE. UU. mapea letras en una escala 4.0 (A = 4.0, B = 3.0), pero el manejo de más/menos varía: unas escuelas dan A− = 3.7, otras 3.67, algunas redondean A− a 3.0. Los cortes de porcentaje a letra también se mueven entre asignaturas — 89,5% puede ser A o A− según el profesor. La calculadora aplica un mapeo convencional; la tabla de tu registro académico es la autoridad.",
+            "Detalles de ponderación que conviene verificar: si la peor tarea se descarta, si la asistencia o participación lleva peso, y si el examen final puede reemplazar notas anteriores. Estas políticas cambian la aritmética de forma significativa y viven en el programa de la asignatura, no en ninguna calculadora.",
+            "Al simular resultados, introduce puntuaciones futuras plausibles, no optimistas — el punto del cálculo es saber qué puntuación necesitas, y planificar para el escenario mínimo de aprobado es más útil que planificar para un milagro.",
+          ],
+        },
+        {
+          heading: "Cálculo de notas local y privado",
+          paragraphs: [
+            "Todo se calcula en tu navegador mientras escribes. Las notas están entre los datos personales más sensibles que existen — una herramienta que las subiera sería la herramienta equivocada. Nada se guarda, registra ni transmite; recarga y la hoja se reinicia.",
+            "La calculadora trata las filas parciales de forma segura: una asignatura con puntuaciones ausentes no contribuye en lugar de contarse como cero, lo que castigaría en silencio el trabajo aún no hecho.",
+            "Para el GPA acumulado entre semestres, combínalo con la calculadora de GPA — las dos herramientas cubren el nivel de asignatura y el nivel de expediente, y ambas corren por completo en tu dispositivo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Calculadora de notas",
@@ -153,6 +257,32 @@ export default defineTool({
         {
           q: "O requisito do final diz 104% — o que significa?",
           a: "Que sua meta é inalcançável com esse final: mesmo com 100% você fica aquém da nota global. Reduza a meta ou busque pontos extras. Um número negativo significa o contrário — a meta já está garantida, não importa a nota do final.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Médias ponderadas: a aritmética atrás do resultado",
+          paragraphs: [
+            "A nota de uma disciplina quase nunca é a média simples das partes: tarefas, prova parcial e exame final contribuem com pesos diferentes, normalmente fixados no programa. A média ponderada multiplica cada pontuação pelo seu peso e divide pelo peso total — matematicamente idêntico a como o GPA pondera disciplinas por créditos, um nível abaixo.",
+            "O peso total deve ser 100%. Quando algumas partes ainda não têm nota, o número significativo é a situação atual: sua média ponderada sobre as partes já avaliadas, mais qual pontuação você precisa no trabalho restante para alcançar a nota-alvo. A fórmula da nota necessária é (alvo × peso total − soma ponderada atual) ÷ peso restante — é o cálculo de \"quanto preciso no exame final\" que todo estudante faz em dezembro.",
+            "Cuidado com a armadilha do denominador: fazer a média das partes avaliadas sem ponderá-las pelos pesos reais dá um número diferente sempre que os pesos divergirem — e quase sempre é o errado. Um 100% numa tarefa de 10% não compensa um 60% numa prova de 50%.",
+          ],
+        },
+        {
+          heading: "As convenções de escala diferem — confira o programa",
+          paragraphs: [
+            "A maioria das instituições americanas mapeia letras numa escala 4.0 (A = 4.0, B = 3.0), mas o tratamento de mais/menos varia: algumas escolas dão A− = 3.7, outras 3.67, algumas arredondam A− para 3.0. Os cortes de porcentagem para letra também oscilam entre disciplinas — 89,5% pode ser A ou A− dependendo do professor. A calculadora aplica um mapeamento convencional; a tabela da sua secretaria é a autoridade.",
+            "Detalhes de ponderação que valem verificar: se a pior tarefa é descartada, se presença ou participação têm peso, e se o exame final pode substituir notas anteriores. Essas políticas mudam a aritmética de forma significativa e vivem no programa da disciplina, não em nenhuma calculadora.",
+            "Ao simular resultados, insira pontuações futuras plausíveis, não otimistas — o objetivo do cálculo é saber a pontuação que você precisa, e planejar para o cenário mínimo de aprovação é mais útil que planejar para um milagre.",
+          ],
+        },
+        {
+          heading: "Cálculo de notas local e privado",
+          paragraphs: [
+            "Tudo é calculado no seu navegador enquanto você digita. Notas estão entre os dados pessoais mais sensíveis que existem — uma ferramenta que as enviasse seria a ferramenta errada. Nada é guardado, registrado ou transmitido; recarregue e a planilha reinicia.",
+            "A calculadora trata linhas parciais da forma segura: uma disciplina com notas ausentes não contribui em vez de contar como zero, o que puniria silenciosamente o trabalho ainda não feito.",
+            "Para o GPA acumulado entre semestres, combine com a calculadora de GPA — as duas ferramentas cobrem o nível de disciplina e o nível de histórico, e ambas rodam por completo no seu dispositivo.",
+          ],
         },
       ],
     },

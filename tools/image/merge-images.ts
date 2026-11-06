@@ -33,6 +33,32 @@ export default defineTool({
           a: "Yes — images are placed in the list order, left to right, top to bottom. Remove and re-add to change it.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Choosing a layout: side by side, stacked, or grid",
+          paragraphs: [
+            "Merging is a layout decision before it is a technical one. Horizontal merging suits sequences that read left to right — before/after comparisons, step one beside step two. Vertical stacking suits lists and chat-style content, where each image continues downward. Grid layouts suit collages and multi-panel comparisons where no reading order dominates.",
+            "The hidden variable is differing input sizes. When merged images do not share a dimension, the tool has to decide: stretch to match (distorts), pad to match (letterboxes with background color), or align to one edge and accept asymmetry. Knowing which behavior you are getting prevents most surprises.",
+            "Spacing and background color are the polish layer: a few pixels of gap with a neutral background turns two slapped-together images into a deliberate composite. On transparent backgrounds the gap stays see-through in PNG output, which matters for overlays.",
+          ],
+        },
+        {
+          heading: "Format behavior when merging",
+          paragraphs: [
+            "Merging is usually lossless in structure — it is composition, not compression — but the output format decides what happens next. PNG output preserves every input pixel exactly and keeps transparency; it is the safe default for screenshots, graphics and anything with text.",
+            "JPG output bakes the merged result into a flat rectangle: transparent gaps become a solid fill, and the whole composite takes one round of lossy compression. That is fine for photographic composites and required size-wise when many large photos merge into one file.",
+            "Watch total dimensions: merging vertically stacks heights and keeps the widest width, so a folder of tall screenshots can produce a result taller than many viewers display comfortably. Splitting or scaling inputs before merging sometimes beats one enormous output.",
+          ],
+        },
+        {
+          heading: "Local merging keeps composites private",
+          paragraphs: [
+            "Merged images often combine sensitive content: a comparison of two internal dashboards, documentation screenshots showing file paths and user names, personal before/after photos. An upload-based merger sees every input in full — the composite and all its parts.",
+            "This tool composites entirely in your browser: each image is decoded and drawn onto a shared canvas locally, and the merged file is written to your disk. No input ever leaves your device, so the parts stay as private as the final result.",
+            "Order matters for reproducibility: note or keep the order in which images were added, since a reversed or shuffled merge produces a visually similar but semantically different file — deadly for before/after comparisons where direction is the entire message.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "图片拼接",
@@ -54,6 +80,32 @@ export default defineTool({
         {
           q: "顺序有影响吗?",
           a: "有——按列表顺序从左到右、从上到下排列。想调整就先移除再重新添加。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "先选布局:横排、竖排还是网格",
+          paragraphs: [
+            "拼图首先是布局决策,其次才是技术活。横向合并适合从左往右读的序列——前后对比、第一步挨着第二步。纵向堆叠适合列表和聊天式内容,每张图向下延续。网格布局适合没有主导阅读顺序的拼贴和多格对比。",
+            "隐藏变量是输入尺寸不一致。被合并的图片不共边时,工具必须做决定:拉伸对齐(变形)、补边对齐(用背景色加边),或对齐一边接受不对称。搞清楚会得到哪种行为,能避免大多数意外。",
+            "间距和背景色是抛光层:几像素间隙加中性背景,能把两张硬拼的图变成有意的合成图。透明背景下,PNG 输出的间隙保持透空,做叠加素材时很关键。",
+          ],
+        },
+        {
+          heading: "合并时的格式行为",
+          paragraphs: [
+            "合并本身在结构上通常无损——它是合成,不是压缩——但输出格式决定接下来发生什么。PNG 输出逐像素保留每个输入,并保留透明;对截图、图形和一切带文字的内容,它是安全默认。",
+            "JPG 输出把合并结果压成一块平面矩形:透明间隙变成实色填充,整张合成图再经历一轮有损压缩。照片类合成没问题,而且当大量大照片要合一个文件时,体积上反而必须选它。",
+            "盯住总尺寸:纵向合并是高度相加、取最宽,一文件夹竖长截图可能产出一张比多数查看器舒适范围还高的图。有时先拆分或缩小输入,再合并,胜过产出一张巨型输出。",
+          ],
+        },
+        {
+          heading: "本地合并让合成保持私密",
+          paragraphs: [
+            "被合并的图片往往组合着敏感内容:两个内部后台的对比、显示文件路径和用户名的文档截图、个人的前后对比照。上传式合并服务会把每一张输入完整看一遍——合成图连同它的所有部件。",
+            "本工具完全在浏览器内合成:每张图在本地解码、绘制到共享画布上,合并结果直接写入磁盘。任何输入都不离开你的设备,部件和最终成品一样私密。",
+            "顺序关系到可复现性:记录或保留图片加入的顺序,因为倒序或乱序合并产出的文件视觉相似、语义却不同——对方向就是全部信息的前后对比图,这是致命的。",
+          ],
         },
       ],
     },
@@ -79,6 +131,32 @@ export default defineTool({
           a: "あります。リスト順に左から右、上から下へ配置されます。変更したい場合は削除して再度追加してください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "レイアウトを選ぶ:横並び・縦積み・グリッド",
+          paragraphs: [
+            "合成は技術作業の前にレイアウトの決断です。横方向の結合は左から右へ読む系列に向きます——ビフォーアフター、手順 1 と手順 2 を並べる。縦積みはリストやチャット風コンテンツに向き、各画像が下へ続きます。グリッドは読む順序が支配的でないコラージュや多画面比較に向きます。",
+            "隠れた変数は入力サイズの不一致です。結合する画像が寸法を共有しない場合、ツールは決めねばなりません:合わせるために引き伸ばす(歪む)、パディングで合わせる(背景色の帯)、片側に寄せて非対称を受け入れる。どの挙動になるかを知っていれば、驚きの大半は防げます。",
+            "間隔と背景色は仕上げの層です:数ピクセルの隙間と中性背景は、張り合わせの 2 枚を意図的な合成に変えます。透過背景なら、PNG 出力の隙間は透けたままで、オーバーレイ素材として重要です。",
+          ],
+        },
+        {
+          heading: "合成時のフォーマットの挙動",
+          paragraphs: [
+            "合成は構造上、通常ロスレスです——圧縮ではなく構成——しかし出力フォーマットが次を決めます。PNG 出力は入力の全ピクセルを正確に保ち、透過も維持します。スクショ、グラフィック、文字を含むすべてにとって安全な既定値です。",
+            "JPG 出力は合成結果を平面の矩形に焼き込みます:透過の隙間は単色の塗りになり、合成全体が一巡の非可逆圧縮を受けます。写真系の合成には問題なく、多くの大きな写真を 1 ファイルにまとめるならサイズ面でむしろ必須です。",
+            "合計寸法に注意:縦積みは高さを加算し最大幅を保つため、縦長スクショのフォルダは多くのビューアが快適に表示できるより高い結果を生み得ます。時には、巨大な出力 1 枚より、入力を分割・縮小してから合成する方が勝ります。",
+          ],
+        },
+        {
+          heading: "ローカル合成がプライバシーを保つ",
+          paragraphs: [
+            "合成される画像はしばしばセンシティブな内容を組み合わせます:社内ダッシュボード 2 枚の比較、ファイルパスやユーザー名が写るドキュメント用スクショ、個人的なビフォーアフター写真。アップロード型の合成サービスは全入力を丸ごと見ます——合成物と、その全パーツを。",
+            "このツールは完全にブラウザ内で合成します:各画像はローカルでデコードされ共有キャンバスに描かれ、合成ファイルはディスクに書き込まれます。入力は 1 つも端末を離れず、パーツは最終結果と同じだけプライベートです。",
+            "順序は再現性に関わります:画像を追加した順を記録または保持してください。逆順や混ぜ替えた合成は、視覚的には似ていて意味的に異なるファイルを生み——方向こそが全メッセージであるビフォーアフター比較には致命的です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Combinar imágenes",
@@ -102,6 +180,32 @@ export default defineTool({
           a: "Sí: se colocan en el orden de la lista, de izquierda a derecha y de arriba abajo. Quita y vuelve a añadir para cambiarlo.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Elegir la maquetación: lado a lado, apilado o cuadrícula",
+          paragraphs: [
+            "Combinar es una decisión de maquetación antes que un trabajo técnico. La fusión horizontal sirve para secuencias que se leen de izquierda a derecha — comparaciones antes/después, el paso uno junto al paso dos. El apilado vertical sirve para listas y contenido estilo chat, donde cada imagen continúa hacia abajo. Las cuadrículas sirven para collages y comparaciones multipanel donde ningún orden de lectura domina.",
+            "La variable oculta son los tamaños distintos de entrada. Cuando las imágenes combinadas no comparten una dimensión, la herramienta debe decidir: estirar para igualar (deforma), rellenar para igualar (añade bandas con el color de fondo) o alinear a un borde y aceptar la asimetría. Saber qué comportamiento vas a obtener evita casi todas las sorpresas.",
+            "El espaciado y el color de fondo son la capa de pulido: unos píxeles de hueco con un fondo neutro convierten dos imágenes pegadas a lo bruto en una composición deliberada. Sobre fondos transparentes, el hueco sigue transparente en la salida PNG, algo importante para superposiciones.",
+          ],
+        },
+        {
+          heading: "El comportamiento del formato al combinar",
+          paragraphs: [
+            "Combinar suele ser sin pérdida en cuanto a estructura — es composición, no compresión — pero el formato de salida decide lo que viene después. La salida PNG conserva cada píxel de entrada exactamente y mantiene la transparencia; es el valor por defecto seguro para capturas, gráficos y todo lo que lleve texto.",
+            "La salida JPG hornea el resultado combinado en un rectángulo plano: los huecos transparentes se convierten en un relleno sólido y toda la composición sufre una ronda de compresión con pérdida. Para composiciones fotográficas está bien, y en tamaño es casi obligatorio cuando muchas fotos grandes se funden en un archivo.",
+            "Vigila las dimensiones totales: apilar verticalmente suma alturas y conserva la anchura máxima, así que una carpeta de capturas altas puede producir un resultado más alto de lo que muchos visores muestran con comodidad. A veces dividir o reducir las entradas antes de combinar supera una única salida gigantesca.",
+          ],
+        },
+        {
+          heading: "La combinación local mantiene privadas las composiciones",
+          paragraphs: [
+            "Las imágenes combinadas a menudo reúnen contenido sensible: una comparación de dos paneles internos, capturas de documentación con rutas de archivos y nombres de usuario, fotos personales de antes y después. Un combinador basado en subida ve cada entrada completa — la composición y todas sus partes.",
+            "Esta herramienta compone íntegramente en tu navegador: cada imagen se decodifica y se dibuja sobre un lienzo compartido localmente, y el archivo combinado se escribe en tu disco. Ninguna entrada sale de tu dispositivo, así que las partes quedan tan privadas como el resultado final.",
+            "El orden importa para la reproducibilidad: anota o conserva el orden en que se añadieron las imágenes, porque una fusión invertida o barajada produce un archivo visualmente similar pero semánticamente distinto — letal para comparaciones antes/después donde la dirección es todo el mensaje.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Combinar imagens",
@@ -123,6 +227,32 @@ export default defineTool({
         {
           q: "A ordem importa?",
           a: "Sim — as imagens entram na ordem da lista, da esquerda para a direita e de cima para baixo. Remova e reinsira para mudar.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Escolhendo o layout: lado a lado, empilhado ou grade",
+          paragraphs: [
+            "Mesclar é uma decisão de layout antes de ser um trabalho técnico. A fusão horizontal serve a sequências que se leem da esquerda para a direita — comparações antes/depois, o passo um ao lado do passo dois. O empilhamento vertical serve a listas e conteúdo estilo conversa, onde cada imagem continua para baixo. As grades servem a colagens e comparações multipainel onde nenhuma ordem de leitura domina.",
+            "A variável oculta são os tamanhos diferentes de entrada. Quando as imagens mescladas não compartilham uma dimensão, a ferramenta precisa decidir: esticar para igualar (deforma), preencher para igualar (adiciona faixas com a cor de fundo) ou alinhar a uma borda e aceitar a assimetria. Saber qual comportamento você vai receber evita quase todas as surpresas.",
+            "O espaçamento e a cor de fundo são a camada de polimento: alguns pixels de folga com um fundo neutro transformam duas imagens coladas de qualquer jeito numa composição deliberada. Sobre fundos transparentes, a folga continua transparente na saída PNG, o que importa para sobreposições.",
+          ],
+        },
+        {
+          heading: "O comportamento do formato ao mesclar",
+          paragraphs: [
+            "Mesclar costuma ser sem perdas em estrutura — é composição, não compressão — mas o formato de saída decide o que vem depois. A saída PNG preserva cada pixel de entrada exatamente e mantém a transparência; é o padrão seguro para capturas, gráficos e tudo que tenha texto.",
+            "A saída JPG assa o resultado mesclado num retângulo chapado: as folgas transparentes viram preenchimento sólido e toda a composição sofre uma rodada de compressão com perdas. Para composições fotográficas está bom, e em tamanho quase obrigatório quando muitas fotos grandes se fundem num arquivo.",
+            "Fique de olho nas dimensões totais: empilhar verticalmente soma alturas e mantém a maior largura, então uma pasta de capturas altas pode produzir um resultado mais alto do que muitos visualizadores exibem com conforto. Às vezes dividir ou reduzir as entradas antes de mesclar supera uma única saída gigantesca.",
+          ],
+        },
+        {
+          heading: "A mesclagem local mantém as composições privadas",
+          paragraphs: [
+            "Imagens mescladas frequentemente combinam conteúdo sensível: uma comparação de dois painéis internos, capturas de documentação mostrando caminhos de arquivo e nomes de usuário, fotos pessoais de antes e depois. Um mesclador baseado em envio vê cada entrada por completo — a composição e todas as suas partes.",
+            "Esta ferramenta compõe inteiramente no seu navegador: cada imagem é decodificada e desenhada numa tela compartilhada localmente, e o arquivo mesclado é gravado no seu disco. Nenhuma entrada sai do seu dispositivo, então as partes ficam tão privadas quanto o resultado final.",
+            "A ordem importa para a reprodutibilidade: anote ou mantenha a ordem em que as imagens foram adicionadas, porque uma mesclagem invertida ou embaralhada produz um arquivo visualmente semelhante, mas semanticamente diferente — fatal para comparações antes/depois em que a direção é toda a mensagem.",
+          ],
         },
       ],
     },

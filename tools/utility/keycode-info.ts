@@ -37,6 +37,32 @@ export default defineTool({
           a: "Holding a key makes the OS send repeated keydown events with repeat set to true. Enable \"ignore auto-repeat\" to display only the initial press; disable it if you need to verify that your handler correctly receives repeat events.",
         },
       ],
+      deepDive: [
+        {
+          heading: "keyCode is deprecated — here is the landscape",
+          paragraphs: [
+            "The numeric key codes this tool displays come from the original KeyboardEvent.keyCode and which properties, introduced in the 1990s and now formally deprecated. They remain the most widely known key identifiers because decades of tutorials, libraries and Stack Overflow answers are built on them — but the standard that replaced them is KeyboardEvent.key (the character, like \"a\" or \"ArrowLeft\") and KeyboardEvent.code (the physical key, like \"KeyA\" or \"ArrowLeft\").",
+            "The distinction matters: key respects the keyboard layout (pressing the key next to Tab on a French AZERTY produces a different key value than on a US QWERTY), while code always identifies the same physical position. For game controls and shortcut systems, code is usually right; for text handling, key is right.",
+            "keyCode's other problem is inconsistency: arrow keys, function keys and some numpad keys had browser- and platform-dependent values, and legacy handling of dead keys and IME input varies. New code should treat this tool's numbers as reference for reading old code, not as what to write.",
+          ],
+        },
+        {
+          heading: "Reading key identifiers in practice",
+          paragraphs: [
+            "The three properties answer different questions: keyCode (deprecated) gives a number, key gives what the press means, code gives where the key sits. The same physical key press can report key \"a\" with code \"KeyA\"; with Shift held, key becomes \"A\" while code stays \"KeyA\". Holding a modifier changes key but never code.",
+            "The Escape key is a stable case (key \"Escape\", code \"Escape\", keyCode 27 — the one legacy number almost everyone memorized). Space is a trap: its key value is \" \" (a literal space), not \"Space\", which has broken many naive switch statements.",
+            "For shortcuts, listen for code when the binding is positional (WASD movement) and key when it is typographic (Ctrl+Shift+P should work on AZERTY too). And use e.repeat to ignore auto-repeat when a shortcut should fire once per press.",
+          ],
+        },
+        {
+          heading: "Reference lookup, offline",
+          paragraphs: [
+            "The tool displays the numeric code alongside the modern key and code values, so you can translate an old snippet's keyCode 188 into its modern equivalents without opening a browser debugger and pressing keys one by one.",
+            "Everything is a static table rendered in your browser — no network request, works with no connection, and nothing about your keyboard is reported anywhere.",
+            "When writing new event handlers, test on a real keyboard of your target users' layout, because layout-dependent values differ more than any table can show. This page is the dictionary; your keyboard is the field test.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "键盘键码查询",
@@ -62,6 +88,32 @@ export default defineTool({
         {
           q: "按住键不动时为什么同一个值不断出现?",
           a: "长按会触发操作系统的重复 keydown 事件,repeat 为 true。开启\"忽略自动重复\"后只显示首次按下;若要验证处理器是否正确接收重复事件,可以关闭它。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "keyCode 已弃用——看清现状",
+          paragraphs: [
+            "本工具显示的数字键码来自最早的 KeyboardEvent.keyCode 和 which 属性——上世纪 90 年代引入、如今已正式弃用。它们仍是最广为人知的按键标识,因为几十年的教程、类库和 Stack Overflow 回答都建立在上面——但取代它们的标准是 KeyboardEvent.key(字符本身,如 “a”“ArrowLeft”)和 KeyboardEvent.code(物理按键,如 “KeyA”“ArrowLeft”)。",
+            "这个区分很重要:key 遵循键盘布局(在法语 AZERTY 上按 Tab 旁边的键,得到的 key 与美式 QWERTY 不同),而 code 永远标识同一个物理位置。游戏操作和快捷键系统通常该用 code;文本处理该用 key。",
+            "keyCode 的另一个问题是不一致:方向键、功能键和部分小键盘的取值依赖浏览器和平台,死键和输入法的历史行为也各有差异。新代码应当把本工具的数字当作“读旧代码的参考”,而不是“照着写的东西”。",
+          ],
+        },
+        {
+          heading: "实践中怎么读按键标识",
+          paragraphs: [
+            "三个属性回答三个不同的问题:keyCode(已弃用)给数字,key 给按键的含义,code 给按键的位置。同一次物理按下可以同时报 key “a” 和 code “KeyA”;按住 Shift,key 变成 “A”,code 仍是 “KeyA”。修饰键改变 key,永远不改变 code。",
+            "Escape 是稳定的案例(key “Escape”、code “Escape”、keyCode 27——几乎人人记过的那个遗老数字)。Space 是陷阱:它的 key 值是 “ ”(一个真正的空格),不是 “Space”,不少朴素 switch 语句栽在这里。",
+            "做快捷键时,绑定是位置性的(WASD 移动)就监听 code,是排印性的(Ctrl+Shift+P 在 AZERTY 上也应生效)就监听 key。另外用 e.repeat 忽略自动重复,让快捷键每次按下只触发一次。",
+          ],
+        },
+        {
+          heading: "离线的参考查询",
+          paragraphs: [
+            "工具把数字键码与现代化的 key、code 值并排显示,让你不用打开浏览器调试器逐个按键,就能把旧代码里的 keyCode 188 翻译成对应的现代写法。",
+            "一切是浏览器里渲染的静态表——没有网络请求、断网可用,你的键盘信息不会上报到任何地方。",
+            "写新的事件处理时,要在目标用户布局的真实键盘上测试,因为布局相关的取值差异比任何表格能展示的都大。本页是词典,你的键盘才是实测场。",
+          ],
         },
       ],
     },
@@ -91,6 +143,32 @@ export default defineTool({
           a: "長押しで OS が repeat=true の keydown を連発するためです。「自動リピートを無視」を有効にすると初回のみ表示し、リピートイベントの受信を確認したい場合は無効のままにします。",
         },
       ],
+      deepDive: [
+        {
+          heading: "keyCode は非推奨——現在地を整理する",
+          paragraphs: [
+            "このツールが示す数字のキーコードは、当初の KeyboardEvent.keyCode と which に由来します。1990 年代に導入され、現在は正式に非推奨です。それでも最も広く知られたキー識別子なのは、数十年分のチュートリアル・ライブラリ・Stack Overflow の回答がその上に築かれているからです。ただし置き換える標準は KeyboardEvent.key(文字そのもの、例「a」「ArrowLeft」)と KeyboardEvent.code(物理キー、例「KeyA」「ArrowLeft」)です。",
+            "区別は重要です。key はキーボードレイアウトに従い(フランス語 AZERTY で Tab の隣のキーを押すと、米国 QWERTY とは別の key が得られる)、code は常に同じ物理位置を示します。ゲームの操作やショートカットの仕組みでは通常 code が正しく、テキスト処理では key が正しい。",
+            "keyCode のもう一つの問題は不整合です。矢印キー、ファンクションキー、テンキーの一部はブラウザとプラットフォーム依存の値を持ち、デッドキーや IME 入力の扱いも古い実装間で揺れます。新しいコードでは、このツールの数字は古いコードを読むための参照であって、書くべきものではありません。",
+          ],
+        },
+        {
+          heading: "実務でのキー識別子の読み方",
+          paragraphs: [
+            "3 つのプロパティは異なる問いに答えます。keyCode(非推奨)は数字、key は押下の意味、code はキーの位置。同じ物理押下は key「a」と code「KeyA」を同時に報告し得ます。Shift を押していれば key は「A」になり、code は「KeyA」のままです。修飾キーは key を変え、code は決して変えません。",
+            "Escape は安定した例です(key「Escape」、code「Escape」、keyCode 27——ほぼ全員が暗記した遺物の数字)。Space は罠で、key の値は「Space」ではなく「 」(文字どおりの空白)であり、素朴な switch 文を何度も壊してきました。",
+            "ショートカットでは、割り当てが位置的(WASD 移動)なら code を、組版的(Ctrl+Shift+P は AZERTY でも効くべき)なら key を listen します。さらに e.repeat で自動リピートを無視すれば、ショートカットは 1 押下につき 1 回だけ発火します。",
+          ],
+        },
+        {
+          heading: "オフラインの参照引き",
+          paragraphs: [
+            "ツールは数字のコードとモダンな key・code の値を並べて表示するので、ブラウザのデバッガを開いてキーを 1 個ずつ押すことなく、古いスニペットの keyCode 188 を現代の等価物に翻訳できます。",
+            "すべてはブラウザに描画される静的な表です。ネットワーク要求はなく、接続なしで動き、キーボードに関する何も報告しません。",
+            "新しいイベントハンドラを書くときは、対象ユーザーのレイアウトの実キーボードで試してください。レイアウト依存の値の差は、どの表が示せるより大きいからです。このページは辞書で、あなたのキーボードが実地試験です。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Códigos de teclado",
@@ -118,6 +196,32 @@ export default defineTool({
           a: "Mantener pulsada una tecla hace que el SO envíe eventos keydown repetidos con repeat a true. Active \"ignorar repetición automática\" para mostrar solo la pulsación inicial; desactívelo si necesita verificar que su manejador recibe los eventos repetidos.",
         },
       ],
+      deepDive: [
+        {
+          heading: "keyCode está obsoleto — el panorama",
+          paragraphs: [
+            "Los códigos numéricos que muestra esta herramienta vienen de los propiedades originales KeyboardEvent.keyCode y which, introducidos en los años 90 y hoy formalmente obsoletos. Siguen siendo los identificadores de teclas más conocidos porque décadas de tutoriales, librerías y respuestas de Stack Overflow están construidos sobre ellos — pero el estándar que los reemplaza es KeyboardEvent.key (el carácter, como \"a\" o \"ArrowLeft\") y KeyboardEvent.code (la tecla física, como \"KeyA\" o \"ArrowLeft\").",
+            "La distinción importa: key respeta la distribución del teclado (pulsar la tecla junto a Tab en un AZERTY francés produce un valor distinto que en un QWERTY estadounidense), mientras que code siempre identifica la misma posición física. Para controles de juego y sistemas de atajos, suele ser correcto code; para manejo de texto, key.",
+            "El otro problema de keyCode es la inconsistencia: las flechas, las teclas de función y algunas del teclado numérico tenían valores dependientes del navegador y la plataforma, y el manejo legado de teclas muertas y entrada IME varía. El código nuevo debe tratar los números de esta herramienta como referencia para leer código viejo, no como lo que hay que escribir.",
+          ],
+        },
+        {
+          heading: "Leer identificadores de teclas en la práctica",
+          paragraphs: [
+            "Las tres propiedades responden preguntas distintas: keyCode (obsoleto) da un número, key da lo que significa la pulsación, code da dónde está la tecla. La misma pulsación física puede reportar key \"a\" con code \"KeyA\"; con Shift pulsado, key pasa a \"A\" mientras code sigue siendo \"KeyA\". Un modificador cambia key y nunca code.",
+            "Escape es un caso estable (key \"Escape\", code \"Escape\", keyCode 27 — el número del legado que casi todo el mundo memorizó). Espacio es una trampa: su valor de key es \" \" (un espacio literal), no \"Space\", lo que ha roto muchos switch ingenuos.",
+            "Para atajos, escucha code cuando la asignación es posicional (movimiento WASD) y key cuando es tipográfica (Ctrl+Shift+P debería funcionar también en AZERTY). Y usa e.repeat para ignorar la repetición automática cuando un atajo debe dispararse una vez por pulsación.",
+          ],
+        },
+        {
+          heading: "Consulta de referencia, sin conexión",
+          paragraphs: [
+            "La herramienta muestra el código numérico junto a los valores modernos de key y code, así que puedes traducir el keyCode 188 de un fragmento viejo a sus equivalentes modernos sin abrir un depurador y pulsar teclas una a una.",
+            "Todo es una tabla estática renderizada en tu navegador — sin petición de red, funciona sin conexión, y nada sobre tu teclado se reporta a ningún sitio.",
+            "Al escribir manejadores de eventos nuevos, prueba en un teclado real con la distribución de tus usuarios objetivo, porque los valores dependientes de la distribución difieren más de lo que cualquier tabla puede mostrar. Esta página es el diccionario; tu teclado es la prueba de campo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Códigos de teclado",
@@ -143,6 +247,32 @@ export default defineTool({
         {
           q: "Por que o mesmo valor se repete ao segurar uma tecla?",
           a: "Segurar uma tecla faz o sistema enviar eventos keydown repetidos com repeat true. Ative \"ignorar auto-repetição\" para exibir só a primeira pressão; desative se precisa verificar que seu handler recebe eventos de repetição.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "keyCode está obsoleto — o panorama",
+          paragraphs: [
+            "Os códigos numéricos que esta ferramenta exibe vêm das propriedades originais KeyboardEvent.keyCode e which, introduzidas nos anos 90 e hoje formalmente obsoletas. Continuam sendo os identificadores de tecla mais conhecidos porque décadas de tutoriais, bibliotecas e respostas de Stack Overflow foram construídos sobre eles — mas o padrão que os substitui é KeyboardEvent.key (o caractere, como \"a\" ou \"ArrowLeft\") e KeyboardEvent.code (a tecla física, como \"KeyA\" ou \"ArrowLeft\").",
+            "A distinção importa: key respeita o layout do teclado (apertar a tecla ao lado do Tab num AZERTY francês produz um valor diferente de num QWERTY americano), enquanto code sempre identifica a mesma posição física. Para controles de jogo e sistemas de atalho, code costuma ser o correto; para manipulação de texto, key.",
+            "O outro problema do keyCode é a inconsistência: setas, teclas de função e algumas do teclado numérico tinham valores dependentes de navegador e plataforma, e o tratamento legado de teclas mortas e entrada IME varia. Código novo deve tratar os números desta ferramenta como referência para ler código antigo, não como o que escrever.",
+          ],
+        },
+        {
+          heading: "Lendo identificadores de tecla na prática",
+          paragraphs: [
+            "As três propriedades respondem perguntas diferentes: keyCode (obsoleto) dá um número, key dá o que a tecla significa, code dá onde a tecla está. A mesma tecla pressionada pode reportar key \"a\" com code \"KeyA\"; com Shift apertado, key vira \"A\" enquanto code continua \"KeyA\". Um modificador muda key e nunca muda code.",
+            "Escape é um caso estável (key \"Escape\", code \"Escape\", keyCode 27 — o número do legado que quase todo mundo memorizou). Espaço é uma armadilha: seu valor de key é \" \" (um espaço literal), não \"Space\", o que quebrou muitos switch ingênuos.",
+            "Para atalhos, escute code quando a atribuição é posicional (movimento WASD) e key quando é tipográfica (Ctrl+Shift+P deveria funcionar no AZERTY também). E use e.repeat para ignorar a repetição automática quando um atalho deve disparar uma vez por pressionamento.",
+          ],
+        },
+        {
+          heading: "Consulta de referência, offline",
+          paragraphs: [
+            "A ferramenta exibe o código numérico junto com os valores modernos de key e code, então você pode traduzir o keyCode 188 de um trecho antigo para seus equivalentes modernos sem abrir um depurador e apertar teclas uma por uma.",
+            "Tudo é uma tabela estática renderizada no seu navegador — sem requisição de rede, funciona sem conexão, e nada sobre seu teclado é reportado a lugar algum.",
+            "Ao escrever novos manipuladores de eventos, teste num teclado real com o layout dos seus usuários-alvo, porque os valores dependentes de layout diferem mais do que qualquer tabela pode mostrar. Esta página é o dicionário; seu teclado é o teste de campo.",
+          ],
         },
       ],
     },

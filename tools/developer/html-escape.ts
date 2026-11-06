@@ -45,6 +45,32 @@ export default defineTool({
           a: "About 70 common ones — markup (&amp;, &lt;, &gt;, &quot;, &apos;), punctuation (&mdash;, &hellip;, &ldquo;), Latin accents and symbols (&copy;, &euro;) — plus every decimal and hexadecimal numeric reference.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Five characters and the ampersand-first rule",
+          paragraphs: [
+            "Making text safe for HTML requires escaping exactly five characters: &amp;, &lt;, &gt;, &quot; and &#39;. The ampersand comes first because every entity begins with it — an unescaped & followed by letters is the signal the browser uses to start parsing a reference. That is also why order matters when escaping: & must become &amp; before anything else, or the entities you just created get re-escaped into &amp;lt;.",
+            "The reverse direction flips the order: when unescaping, &amp; is processed last, not first. Process it first and &amp;lt; becomes &lt;, then a real < — a live tag where the author wanted visible text. That single ordering mistake is the entire mechanism behind double-unescape bugs, and it is the mistake most regex one-liners make.",
+            "Whether quotes need escaping is a context question. In text nodes they are harmless — <p>He said “hi”</p> is legal. Inside attribute values, the quote that delimits the attribute must be escaped, and unescaped quotes in attributes are the classic injection vector: a value ending in “ can close the attribute and open a new one. Escape quotes for attribute contexts; leave them alone in plain text if you want readable output.",
+          ],
+        },
+        {
+          heading: "Entities, XSS and the honestly stated boundary",
+          paragraphs: [
+            "Escaping is the first line of XSS defense: a user-submitted <script> becomes &lt;script&gt;, which renders as visible text instead of executing. Decent template engines do this automatically for text interpolation — but manual string concatenation, building HTML in JavaScript with +, or rendering user content into attributes still require the discipline by hand.",
+            "The boundary deserves an honest statement: escaping makes content inert as markup, it does not make the content trustworthy. An escaped document still displays whatever the author wrote — phishing text, misleading instructions. Escaping addresses correctness and injection safety, not content review.",
+            "Numeric entities like &#233; and &#x2019; exist for portability, not security. In a UTF-8 world they are mostly unnecessary, but legacy email pipelines, older code paths with non-UTF-8 encodings, and systems that strip high bytes still benefit. The named references the unescape direction recognizes cover the everyday set — markup, punctuation, Latin accents and currency symbols — plus all numeric forms.",
+          ],
+        },
+        {
+          heading: "Escaping user content locally",
+          paragraphs: [
+            "Text that needs escaping is usually other people's words: customer support messages, comment threads scraped for analysis, user bios headed into an email template. That is exactly the content you do not want routed through a web service — and some online versions of this tool do POST the text to their backend.",
+            "Everything here runs in your browser's JavaScript: the transformation is pure character manipulation with no network involvement at any step. Paste a customer's full message, an entire comment dump, a template with personalization fields; nothing leaves the device, nothing is logged, and the character-count readout keeps you honest about how much the escaping inflated the text.",
+            "Pair it with URL encoding when crossing contexts: HTML entities protect markup context, percent-encoding protects URL context, and neither substitutes for the other — an HTML-escaped & inside a query string is a different thing from a percent-encoded one. Doing both conversions locally, side by side, is how contexts stay unconfused.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "HTML 转义 / 反转义",
@@ -183,6 +209,32 @@ export default defineTool({
           a: "Unas 70 habituales: de marcado (&amp;, &lt;, &gt;, &quot;, &apos;), puntuación (&mdash;, &hellip;, &ldquo;), acentos latinos y símbolos (&copy;, &euro;), además de todas las referencias numéricas decimales y hexadecimales.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Los cinco caracteres y la regla del ampersand primero",
+          paragraphs: [
+            "Para que HTML sea seguro como texto basta con escapar cinco caracteres: &amp;, &lt;, &gt;, &quot; y &#39;. El ampersand encabeza la lista porque toda entidad empieza con él — un & sin escapar seguido de letras es la señal con la que el navegador decide empezar a parsear una referencia. Por eso el orden importa al escapar: & debe convertirse en &amp; antes que nada, o las entidades que acabas de crear se re-escapan a &amp;lt;.",
+            "En la dirección inversa el orden se invierte: al desescapar, &amp; se procesa al final, no al principio. Hacerlo primero convierte &amp;lt; en &lt; y luego en un < real — una etiqueta viva donde el autor quería texto visible. Ese único error de orden es todo el mecanismo tras los bugs de doble desescape, y es el fallo que cometen casi todos los one-liners con regex.",
+            "El contexto decide qué hay que escapar. En nodos de texto las comillas son inofensivas — <p>He said “hi”</p> es válido. Dentro de valores de atributo, la comilla que delimita el atributo debe escaparse, y las comillas sin escapar en atributos son un vector de inyección clásico: un valor que termina en \" puede cerrar el atributo y abrir uno nuevo. Escapa comillas para atributos; déjalas en paz para texto plano si prefieres una salida legible.",
+          ],
+        },
+        {
+          heading: "Entidades, XSS y el límite dicho con honestidad",
+          paragraphs: [
+            "El escape es la primera línea de defensa contra XSS: un <script> pegado por un usuario se convierte en &lt;script&gt;, que se muestra como texto visible en lugar de ejecutarse. Todo motor de plantillas que se precie lo hace automáticamente en la interpolación de texto — pero la concatenación manual de cadenas, construir HTML en JavaScript con +, o renderizar contenido de usuario dentro de atributos siguen necesitando esa disciplina a mano.",
+            "El límite hay que entenderlo con honestidad: escapar vuelve el contenido inerte como marcado, no hace que el contenido merezca confianza. Un documento escapado sigue mostrando lo que el autor escribió — texto de phishing, instrucciones engañosas. El escape sirve para la corrección y la seguridad frente a inyección, no para la revisión de contenidos.",
+            "Las entidades numéricas como &#233; y &#x2019; existen por portabilidad, no por seguridad. En un mundo UTF-8 son casi innecesarias, pero las canalizaciones de correo heredadas, las rutas de código antiguas con codificaciones no UTF-8 y los sistemas que eliminan bytes altos siguen beneficiándose. Las referencias nombradas que reconoce el desescape cubren el conjunto cotidiano — marcado, puntuación, acentos latinos y símbolos de moneda — más todas las formas numéricas.",
+          ],
+        },
+        {
+          heading: "Escapar contenido de usuarios en local",
+          paragraphs: [
+            "El texto que necesitas escapar suele ser palabra de otros: mensajes de soporte al cliente, hilos de comentarios recogidos para análisis, biografías de usuarios destinadas a una plantilla de correo. Es exactamente la clase de contenido que no quieres hacer pasar por un servicio web — y algunas versiones online de esta herramienta sí hacen POST del texto a su backend.",
+            "Todo aquí corre en el JavaScript de tu navegador: la transformación es una operación pura de caracteres sin ninguna implicación de red en ningún paso. Pega el mensaje completo de un cliente, un volcado entero de comentarios o una plantilla con campos de personalización; nada sale del dispositivo, nada se registra, y la lectura de caracteres te mantiene honesto sobre cuánto creció el texto al escaparlo.",
+            "Combínalo con la codificación URL al cambiar de contexto: las entidades HTML protegen el contexto de marcado, el percent-encoding protege el contexto de URL, y no se sustituyen entre sí — un & escapado como entidad dentro de una cadena de consulta es cosa distinta de uno codificado en porcentaje. Hacer ambas conversiones en local, lado a lado, es como se mantiene claro el contexto.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Escapar / reverter HTML",
@@ -214,27 +266,27 @@ export default defineTool({
       ],
       deepDive: [
         {
-          heading: “The five characters and the ampersand-first rule”,
+          heading: "Os cinco caracteres e a regra do e-comercial primeiro",
           paragraphs: [
-            “HTML only needs five characters escaped to be safe as text: &amp;, &lt;, &gt;, &quot; and &#39;. The ampersand leads the list because it starts every entity — an unescaped & followed by letters is how the browser decides to start parsing a reference. That is also why ordering matters when escaping: & must become &amp; before anything else, or the entities you just created get re-escaped into &amp;lt;.”,
-            “In the reverse direction the order flips: unescape &amp; last, not first. Doing it first turns &amp;lt; into &lt; and then into a real < — a live tag where the author meant visible text. That one ordering mistake is the whole mechanism behind double-unescaping bugs, and it is the mistake most regex one-liners make.”,
-            “Context decides what needs escaping. In text nodes, quotes are harmless — <p>He said “hi”</p> is valid. Inside attribute values, the quote that delimits the attribute must be escaped, and unescaped quotes in attributes are a classic injection vector: a value ending in \” can close the attribute and start a new one. Escape quotes for attributes; leave them alone for plain text if you prefer readable output.”,
+            "Para o HTML ser seguro como texto bastam cinco caracteres escapados: &amp;, &lt;, &gt;, &quot; e &#39;. O e-comercial encabeça a lista porque toda entidade começa com ele — um & sem escapar seguido de letras é o sinal pelo qual o navegador decide começar a parsear uma referência. Por isso a ordem importa ao escapar: & deve virar &amp; antes de qualquer coisa, ou as entidades que você acabou de criar são re-escapadas para &amp;lt;.",
+            "No sentido reverso a ordem se inverte: ao reverter, &amp; é processado por último, não primeiro. Fazê-lo primeiro transforma &amp;lt; em &lt; e depois num < real — uma tag viva onde o autor queria texto visível. Esse único erro de ordem é todo o mecanismo por trás dos bugs de reversão dupla, e é o erro que quase todo one-liner com regex comete.",
+            "O contexto decide o que precisa de escape. Em nós de texto, as aspas são inofensivas — <p>He said “hi”</p> é válido. Dentro de valores de atributo, a aspa que delimita o atributo deve ser escapada, e aspas sem escape em atributos são um vetor clássico de injeção: um valor terminando em \" pode fechar o atributo e abrir um novo. Escape aspas para atributos; deixe-as em paz em texto puro se preferir saída legível.",
           ],
         },
         {
-          heading: "Entities, XSS and the honest boundary",
+          heading: "Entidades, XSS e o limite dito com honestidade",
           paragraphs: [
-            "Escaping is the front line of XSS defense: <script> pasted by a user becomes &lt;script&gt;, which renders as visible text instead of executing. Every template engine worth its name does this automatically for text interpolation — but manual string concatenation, building HTML in JavaScript with +, or rendering user content inside attributes still needs the discipline by hand.",
-            "The boundary to understand honestly: escaping makes content inert as markup, it does not make content safe to trust. An escaped document still displays whatever message the author wrote — phishing text, misleading instructions. Escaping is for correctness and injection safety, not content review.",
-            "Numeric entities like &#233; and &#x2019; exist for portability rather than security. In a UTF-8 world they are mostly unnecessary, but legacy email pipelines, older code paths with non-UTF-8 encodings and systems that strip high-byte characters still benefit. The named references the unescape direction recognizes cover the everyday set — markup, punctuation, Latin accents and currency symbols — plus every numeric form.",
+            "O escape é a primeira linha de defesa contra XSS: um <script> colado por um usuário vira &lt;script&gt;, que renderiza como texto visível em vez de executar. Todo motor de templates que se preza faz isso automaticamente na interpolação de texto — mas concatenação manual de strings, construir HTML em JavaScript com +, ou renderizar conteúdo de usuário dentro de atributos ainda exigem a disciplina à mão.",
+            "O limite precisa ser entendido com honestidade: escapar torna o conteúdo inerte como marcação, não torna o conteúdo digno de confiança. Um documento escapado ainda exibe o que o autor escreveu — texto de phishing, instruções enganosas. Escape serve para correção e segurança contra injeção, não para revisão de conteúdo.",
+            "Entidades numéricas como &#233; e &#x2019; existem por portabilidade, não por segurança. Numa era UTF-8 são quase desnecessárias, mas pipelines de e-mail legados, rotas de código antigas com codificações não UTF-8 e sistemas que descartam bytes altos ainda se beneficiam. As referências nomeadas que a reversão reconhece cobrem o conjunto do dia a dia — marcação, pontuação, acentos latinos e símbolos de moeda — mais todas as formas numéricas.",
           ],
         },
         {
-          heading: "Escaping user content locally",
+          heading: "Escapar conteúdo de usuários localmente",
           paragraphs: [
-            "Text you need to escape is usually other people's words: customer support messages, comment threads scraped for analysis, user-generated bios headed into an email template. That is exactly the content class you do not want routed through a web service — and some online versions of this tool do POST the text to their backend.",
-            "Everything here runs in your browser's JavaScript: the transformation is a pure character operation with no network involvement at any step. Paste a customer's full message, an entire comment dump or a template with personalization fields; nothing leaves the device, nothing is logged, and the char-count readout keeps you honest about how much the escape expanded the text.",
-            "Pair it with URL encoding when you move between contexts: HTML entities protect markup context, percent-encoding protects URL context, and they do not substitute for each other — an escaped-HTML ampersand inside a query string is a different thing from a percent-encoded one. Doing both conversions locally, side by side, is how you keep the contexts straight.",
+            "O texto que você precisa escapar costuma ser palavras de outras pessoas: mensagens de suporte ao cliente, fios de comentários coletados para análise, bios de usuários destinadas a um template de e-mail. É exatamente a classe de conteúdo que você não quer passar por um serviço web — e algumas versões online desta ferramenta de fato fazem POST do texto ao backend delas.",
+            "Tudo aqui roda no JavaScript do seu navegador: a transformação é uma operação pura de caracteres sem qualquer envolvimento de rede em qualquer passo. Cole a mensagem completa de um cliente, um dump inteiro de comentários ou um template com campos de personalização; nada sai do dispositivo, nada é registrado, e o contador de caracteres mantém você honesto sobre quanto o escape expandiu o texto.",
+            "Combine com codificação de URL ao mudar de contexto: entidades HTML protegem o contexto de marcação, percent-encoding protege o contexto de URL, e um não substitui o outro — um & escapado como entidade dentro de uma query string é coisa diferente de um codificado em porcentagem. Fazer as duas conversões localmente, lado a lado, é como se mantém o contexto claro.",
           ],
         },
       ],
