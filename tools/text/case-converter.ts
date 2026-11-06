@@ -37,6 +37,32 @@ export default defineTool({
           a: "No. The conversion happens locally in your browser with JavaScript — nothing is sent to any server.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Case mapping is not as simple as it looks",
+          paragraphs: [
+            "Uppercase and lowercase are Unicode properties, and a few languages break the naive one-to-one assumption. The most famous example is Turkish: the dotless i (ı) uppercases to I, and I lowercases to ı, not i — which is why software once shipped a bug nicknamed the \"Turkish I problem\". German ß has no traditional uppercase form; most software maps it to the two letters SS, and although Unicode added a capital ẞ in 2008, dictionaries and body text still prefer SS.",
+            "Accented letters such as é, ñ, ü convert cleanly because they are single code points, but a letter written as e followed by a combining accent converts as two characters, and the accent's case does not change. Greek final sigma is another special case: Σ at the end of a word maps to ς rather than σ in proper text handling.",
+            "This tool converts letter by letter using the standard Unicode rules and keeps accents intact, so European text survives uppercase and lowercase round trips. It does not implement Turkish locale rules separately — a language-aware localizer would — but it will never silently drop or mangle a character the way naive ASCII-only scripts do.",
+          ],
+        },
+        {
+          heading: "Title Case and the small-words rule",
+          paragraphs: [
+            "English headline style lowercases short function words — articles like a and the, short prepositions like of, in and to, and coordinating conjunctions like and and but — unless they are the first or last word of the title. The exact word lists differ between style guides: the AP cap is shorter, Chicago lowercases more prepositions regardless of length. Most web tools hardcode one list; this one follows the common editorial convention of keeping articles and short prepositions lowercase mid-title.",
+            "The rule is genuinely English-centric. In Spanish and French, titles typically keep normal sentence capitalization, so applying English Title Case to a French phrase produces something that looks wrong to a native reader. German capitalizes nouns instead. Sentence case is the safer default for multilingual text, which is why this tool also re-capitalizes after full-width punctuation marks — so a Chinese sentence followed by an English sentence gets handled correctly.",
+            "When in doubt about a house style, check the style guide you are writing against and treat the tool's output as a starting point. A one-word title like \"The Shining\" demonstrates the edge rule: the is first, so it stays capitalized even though it would be lowercase mid-title.",
+          ],
+        },
+        {
+          heading: "Programmer styles and what stays local",
+          paragraphs: [
+            "camelCase, PascalCase, snake_case, kebab-case and CONSTANT_CASE exist because different languages have different identifier conventions: JavaScript and Java lean on camelCase, Python prefers snake_case, CSS and HTML attribute names use kebab-case. Converting between them is not just removing spaces — the tool splits camelCase boundaries such as parseHTMLValue into separate words first, so the output does not fuse an acronym into the next word.",
+            "Punctuation, digits and CJK characters pass through the code styles unchanged: there is no uppercase version of a Chinese character, and alternating case only flips Latin letters, leaving the pattern of symbols in place. That makes the output predictable when you paste mixed content like \"item-2: done\".",
+            "Everything runs in your browser as plain JavaScript. Your text never leaves the page — no server call, no clipboard trick, nothing to leak. Converting proprietary drafts, internal identifiers or client names is as safe as pasting into your own editor.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "大小写转换",
@@ -221,6 +247,32 @@ export default defineTool({
         {
           q: "Meu texto é enviado para algum lugar?",
           a: "Não. A conversão acontece localmente no seu navegador com JavaScript — nada é enviado a nenhum servidor.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "A conversão de maiúsculas não é tão simples quanto parece",
+          paragraphs: [
+            "Maiúsculas e minúsculas são propriedades do Unicode e alguns idiomas quebram a suposição de correspondência um para um. O exemplo mais famoso é o turco: o i sem ponto (ı) vira I maiúsculo, e o I minúsculo volta como ı, não como i — a origem do bug conhecido como \"problema do I turco\". O ß alemão não tem forma maiúscula tradicional: quase todo software o converte em SS, e embora o Unicode tenha adicionado a ẞ maiúscula em 2008, dicionários e texto corrido ainda preferem SS.",
+            "Letras acentuadas como é, ñ e ü se convertem limpamente porque são um único ponto de código, mas uma letra escrita como e mais um acento combinante é tratada como dois caracteres, e o acento não muda de caixa. O sigma final grego tem regra própria: Σ no fim de palavra mapeia para ς.",
+            "Esta ferramenta converte letra por letra com as regras padrão do Unicode e preserva os acentos, então texto europeu sobrevive às conversões de caixa. Ela não implementa regras de localidade turca separadamente, mas nunca apaga nem corrompe um caractere como um script limitado ao ASCII faria.",
+          ],
+        },
+        {
+          heading: "Tipo Título e a regra das palavras curtas",
+          paragraphs: [
+            "O estilo de manchetes em inglês mantém em minúsculas as palavras funcionais curtas — artigos como a e the, preposições breves como of, in e to, e conjunções como and — exceto quando abrem ou fecham o título. Cada guia de estilo tem sua própria lista: a AP é mais restrita e Chicago coloca em minúsculas mais preposições. Esta ferramenta segue a convenção editorial comum.",
+            "A regra é essencialmente inglesa. Em português e espanhol, os títulos normalmente mantêm a capitalização de frase normal, e aplicar o estilo inglês produz algo que soa estranho para um leitor nativo. O alemão prefere maiúsculas em substantivos. Para texto multilíngue, o tipo sentença é a opção mais segura; por isso a ferramenta também recapitaliza após pontuação de largura total.",
+            "Em caso de dúvida, consulte o guia de estilo que você deve seguir e trate a saída da ferramenta como ponto de partida. Um título de uma palavra como \"The Shining\" mostra a regra de borda: the abre o título, então fica em maiúscula mesmo que estaria em minúscula no meio.",
+          ],
+        },
+        {
+          heading: "Estilos de código e execução local",
+          paragraphs: [
+            "camelCase, PascalCase, snake_case, kebab-case e CONSTANT_CASE existem porque cada linguagem tem convenções próprias de identificadores. Converter entre eles não é só remover espaços: a ferramenta divide antes os limites do camelCase como parseHTMLValue, para que uma sigla não se grude na palavra seguinte.",
+            "Pontuação, dígitos e caracteres CJK passam sem alteração nos estilos de código, e o caso alternado só inverte letras latinas, mantendo os símbolos no lugar. Ao colar conteúdo misto como \"item-2: pronto\", o resultado é previsível.",
+            "Tudo roda no seu navegador com JavaScript puro. Seu texto nunca sai da página: sem chamadas ao servidor, sem envios de nenhum tipo. Converter rascunhos confidenciais ou identificadores internos é tão seguro quanto colá-los no seu próprio editor.",
+          ],
         },
       ],
     },
