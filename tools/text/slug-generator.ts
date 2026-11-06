@@ -43,6 +43,32 @@ export default defineTool({
           a: "Many SEO guides suggest dropping them to keep slugs short — edit the generated slug freely before copying; the tool gives you the full hyphenated base.",
         },
       ],
+      deepDive: [
+        {
+          heading: "What a slug is for",
+          paragraphs: [
+            "A slug is the URL-safe version of a title: \"10 Tips for Great Coffee\" becomes 10-tips-for-great-coffee. Slugs matter for three reasons: they make URLs readable to humans before clicking, they carry keywords that search engines use as a ranking signal, and they keep URLs stable and shareable — no spaces, no percent-encoding garbage like %20 everywhere.",
+            "The mechanics: lowercase everything, replace spaces with a separator (hyphen is the web convention), strip characters that are illegal or ambiguous in URLs, and collapse repeats. A good generator does all of that at once instead of leaving you to hand-fix \"%C3%A9\" sequences in a share link.",
+            "Slugs also serve non-URL jobs: file names for exported assets, git branch names, component IDs. Same rules apply everywhere — the character set that survives copying, encoding and terminals without turning into escapes.",
+          ],
+        },
+        {
+          heading: "Accents, transiteration and the CJK problem",
+          paragraphs: [
+            "Accented Latin is the first decision point. Two schools exist: transliterate (café → cafe) or strip the accents (café → caf). Transliteration preserves readability and is what this tool does for common Latin diacritics — á becomes a, ü becomes u — using the standard Unicode folding rules.",
+            "CJK text forces a harder choice: there is no Latin letter to fold 一杯好咖啡 into. The options are pinyin for Chinese, romanization for Japanese, or keeping the characters as-is. Modern browsers handle UTF-8 URLs fine, so keeping CJK characters in a slug is technically valid and common on Chinese platforms; international sharing, however, favors pinyin or romanization because it survives SMS, terminals and older systems without encoding noise.",
+            "Numbers and stop-words are taste decisions: keeping \"the\" and \"of\" makes longer, more readable slugs; trimming them makes shorter ones. SEO advice has flip-flopped over the years; the stable consensus is that a slug matching the title is more important than a slug that is short.",
+          ],
+        },
+        {
+          heading: "Generated live, kept local",
+          paragraphs: [
+            "The conversion runs on every keystroke in your browser. No API call, no rate limit, works offline — unlike slug services that need a round trip per title.",
+            "Deterministic output matters for content systems: the same title always produces the same slug, so links built today do not break when the article is regenerated. There is no random suffix unless you add one yourself (a short random tail is the standard way to guarantee uniqueness across thousands of articles).",
+            "Uniqueness checking is deliberately not done here — it requires knowing your full URL inventory, which lives in your CMS. The tool guarantees format correctness; collision avoidance stays in your routing layer, where it belongs.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "Slug 生成器",
@@ -70,6 +96,32 @@ export default defineTool({
           a: "不少 SEO 建议删掉它们让 slug 更短——复制前自由编辑即可,工具给你完整的基础形态。",
         },
       ],
+      deepDive: [
+        {
+          heading: "slug 是干什么用的",
+          paragraphs: [
+            "slug 是标题的 URL 安全版本:“10 条泡好咖啡的技巧”变成 10-tips-for-great-coffee。slug 重要有三个原因:点击前人类就能读懂 URL;它携带搜索引擎用作排名信号的关键词;它让 URL 稳定、可分享——没有空格,没有满屏 %20 这样的百分号编码垃圾。",
+            "机制是:全部转小写、空格替换成分隔符(连字符是 Web 惯例)、剔除 URL 中非法或有歧义的字符、折叠连续重复。好的生成器一次做完这些,而不是让你在分享链接里手工修理 %C3%A9 这样的序列。",
+            "slug 还兼任 URL 之外的工作:导出资源的文件名、git 分支名、组件 ID。规则处处相同——这套字符集在复制、编码和终端里都不会变成转义符。",
+          ],
+        },
+        {
+          heading: "重音符、转写与 CJK 难题",
+          paragraphs: [
+            "带重音的拉丁字母是第一个决策点。两个流派:转写(café → cafe)或剥掉重音符(café → caf)。转写保留可读性,本工具对常见拉丁变音符走这条路——á 变 a,ü 变 u——用的是标准 Unicode 折叠规则。",
+            "CJK 文本逼出更难的抉择:一杯好咖啡没有对应的拉丁字母可折叠。选项有中文拼音、日语罗马字,或保留原字符。现代浏览器处理 UTF-8 URL 没有问题,所以在 slug 里保留 CJK 字符技术上有效、中文平台也常见;但国际分享更偏向拼音或罗马字,因为它能干净地穿过短信、终端和旧系统,不产生编码噪音。",
+            "数字和停用词是品味决策:保留 “the”“of” 让 slug 更长更可读,裁掉则更短。SEO 建议这些年反复横跳;稳定共识是 slug 与标题一致,比 slug 短更重要。",
+          ],
+        },
+        {
+          heading: "实时生成,本地完成",
+          paragraphs: [
+            "转换随每次击键在浏览器里完成。没有 API 调用、没有频率限制、离线可用——不像那些每个标题都要往返一次的 slug 服务。",
+            "确定性输出对内容系统很重要:同一个标题永远产出同一个 slug,文章重新生成时链接不会断。除非你自己加上,这里不会有随机后缀(短随机尾巴是保证几千篇文章间唯一性的标准做法)。",
+            "唯一性检查刻意不做——那需要知道你全部的 URL 清单,而它住在你的 CMS 里。工具保证格式正确;避免冲突留在你的路由层,那才是它该在的地方。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "スラッグ生成",
@@ -95,6 +147,32 @@ export default defineTool({
         {
           q: "'the' や 'of' のような機能語は残すべき?",
           a: "短くするために外すよう推奨する SEO ガイドも多くあります。コピーする前に自由に編集してください。ツールはハイフン区切りの完全な形を出します。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "スラッグは何のためにあるか",
+          paragraphs: [
+            "スラッグはタイトルの URL 安全版です。「おいしいコーヒーのコツ 10」は oishii-coffee-tips-10 のようになります。スラッグが重要な理由は 3 つあります。クリック前に人間が URL を読めること、検索エンジンがランキングシグナルとして使うキーワードを運ぶこと、そして URL を安定して共有可能に保つこと——空白も、%20 のようなパーセントエンコーディングのゴミもなしで。",
+            "仕組みは、すべて小文字化、空白を区切り文字(ウェブの慣習ではハイフン)に置換、URL で違法または曖昧な文字の除去、繰り返しの圧縮です。良いジェネレーターはこれを一度に済ませ、共有リンク内の %C3%A9 シーケンスを手作業で直すようなことはさせません。",
+            "スラッグは URL 以外の仕事も担います。書き出すアセットのファイル名、git ブランチ名、コンポーネント ID。ルールはどこでも同じ——コピー・エンコード・端末を通ってもエスケープに化けない文字セットです。",
+          ],
+        },
+        {
+          heading: "アクセント、翻字、CJK の問題",
+          paragraphs: [
+            "アクセント付きラテン文字が最初の意思決定点です。翻字する(café → cafe)派とアクセントを剥がす(café → caf)派があります。翻字は可読性を保ち、このツールは一般的なラテン dia を標準の Unicode 折りたたみ規則で処理します。á は a に、ü は u になります。",
+            "CJK テキストはより難しい選択を迫ります。一杯好咖啡 に折りたためるラテン文字は存在しないからです。選択肢は中国語ならピンイン、日本語ならローマ字、または文字をそのまま保持すること。現代のブラウザは UTF-8 URL を問題なく扱うので、スラッグに CJK 文字を保持するのは技術的に有効で、中国のプラットフォームでは一般的です。ただし国際的な共有では、SMS・端末・旧システムをエンコードノイズなしで通過できるピンインやローマ字が好まれます。",
+            "数字とストップワードは好みの判断です。「the」「of」を残すとより長く読みやすいスラッグに、削ると短くなります。SEO の助言は年来揺れ動いていますが、安定した合意は、短いスラッグよりタイトルと一致するスラッグのほうが重要だというものです。",
+          ],
+        },
+        {
+          heading: "リアルタイム生成、ローカル完結",
+          paragraphs: [
+            "変換はキー入力のたびにブラウザ内で走ります。API 呼び出しもレート制限もなく、オフラインで動きます。タイトルごとに往復を要するスラッグサービスとは違います。",
+            "決定論的な出力はコンテンツシステムで重要です。同じタイトルは常に同じスラッグを生むので、記事を再生成しても今日作ったリンクは壊れません。自分で追加しない限りランダム接尾辞は付きません(短いランダムな尾を付けるのが、数千記事間の一意性を保証する標準手法です)。",
+            "一意性チェックは意図的に行いません。それは URL の全在庫を知る必要があり、その在庫は CMS の中にあります。このツールは形式の正しさを保証し、衝突の回避は属する先であるルーティング層に任せます。",
+          ],
         },
       ],
     },
@@ -125,6 +203,32 @@ export default defineTool({
           a: "Muchas guías SEO aconsejan quitarlas para acortar el slug — edita el resultado antes de copiar; la herramienta te da la base completa con guiones.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Para qué sirve un slug",
+          paragraphs: [
+            "Un slug es la versión segura para URL de un título: \"10 consejos para un buen café\" se convierte en 10-consejos-para-un-buen-cafe. Los slugs importan por tres razones: hacen la URL legible para humanos antes de hacer clic, llevan palabras clave que los buscadores usan como señal de ranking, y mantienen las URL estables y compartibles — sin espacios, sin basura de codificación tipo %20.",
+            "La mecánica: pasar todo a minúsculas, sustituir espacios por un separador (el guion es la convención web), eliminar caracteres ilegales o ambiguos en URL y colapsar repeticiones. Un buen generador hace todo eso de una vez en lugar de dejarte reparar a mano secuencias tipo %C3%A9 en un enlace compartido.",
+            "Los slugs también sirven trabajos fuera de la URL: nombres de archivo de recursos exportados, nombres de rama en git, IDs de componentes. Las reglas son las mismas en todas partes — el conjunto de caracteres que sobrevive a copiar, codificar y terminales sin convertirse en escapes.",
+          ],
+        },
+        {
+          heading: "Acentos, transliteración y el problema CJK",
+          paragraphs: [
+            "El latín acentuado es el primer punto de decisión. Hay dos escuelas: transliterar (café → cafe) o quitar los acentos (café → caf). Transliterar conserva la legibilidad, y es lo que hace esta herramienta con los diacríticos latinos comunes — á pasa a a, ü pasa a u — usando las reglas estándar de plegado de Unicode.",
+            "El texto CJK obliga a una elección más difícil: 一杯好咖啡 no tiene letra latina a la que plegarse. Las opciones son pinyin para el chino, romanización para el japonés, o mantener los caracteres tal cual. Los navegadores modernos manejan bien las URL UTF-8, así que mantener caracteres CJK en un slug es técnicamente válido y común en plataformas chinas; el intercambio internacional, sin embargo, favorece pinyin o romanización porque sobrevive a SMS, terminales y sistemas antiguos sin ruido de codificación.",
+            "Los números y las palabras vacías son decisiones de gusto: conservar \"the\" y \"of\" hace slugs más largos y legibles; recortarlos los acorta. El consejo SEO ha virado con los años; el consenso estable es que un slug que coincide con el título importa más que un slug corto.",
+          ],
+        },
+        {
+          heading: "Generado en vivo, mantenido local",
+          paragraphs: [
+            "La conversión corre en cada pulsación en tu navegador. Sin llamada a API, sin límite de tasa, funciona sin conexión — a diferencia de servicios de slug que requieren un viaje por título.",
+            "La salida determinista importa en sistemas de contenido: el mismo título produce siempre el mismo slug, así que los enlaces creados hoy no se rompen cuando el artículo se regenera. No hay sufijo aleatorio salvo que lo añadas tú (una cola corta aleatoria es la forma estándar de garantizar unicidad entre miles de artículos).",
+            "La comprobación de unicidad no se hace aquí a propósito — requiere conocer tu inventario completo de URL, que vive en tu CMS. La herramienta garantiza la corrección de formato; evitar colisiones queda en tu capa de enrutamiento, donde le corresponde estar.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Gerador de slugs",
@@ -151,6 +255,32 @@ export default defineTool({
         {
           q: "Devo manter palavras como 'de' ou 'the'?",
           a: "Muitos guias de SEO sugerem removê-las para encurtar o slug — edite o resultado antes de copiar; a ferramenta entrega a base completa com hífens.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Para que serve um slug",
+          paragraphs: [
+            "Um slug é a versão segura para URL de um título: \"10 dicas para um ótimo café\" vira 10-dicas-para-um-otimo-cafe. Slugs importam por três razões: tornam a URL legível para humanos antes do clique, carregam palavras-chave que buscadores usam como sinal de ranqueamento, e mantêm as URL estáveis e compartilháveis — sem espaços, sem lixo de codificação tipo %20.",
+            "A mecânica: passar tudo para minúsculas, trocar espaços por um separador (o hífen é a convenção da web), remover caracteres ilegais ou ambíguos em URL e colapsar repetições. Um bom gerador faz tudo isso de uma vez, em vez de deixar você consertar sequências tipo %C3%A9 num link compartilhado.",
+            "Slugs também servem trabalhos fora da URL: nomes de arquivo de assets exportados, nomes de branch no git, IDs de componentes. As regras são as mesmas em toda parte — o conjunto de caracteres que sobrevive a copiar, codificar e terminais sem virar escapes.",
+          ],
+        },
+        {
+          heading: "Acentos, transliteração e o problema CJK",
+          paragraphs: [
+            "Latim acentuado é o primeiro ponto de decisão. Existem duas escolas: transliterar (café → cafe) ou remover os acentos (café → caf). Transliterar preserva a legibilidade e é o que esta ferramenta faz com os diacríticos latinos comuns — á vira a, ü vira u — usando as regras padrão de folding do Unicode.",
+            "Texto CJK força uma escolha mais difícil: 一杯好咖啡 não tem letra latina para se dobrar. As opções são pinyin para chinês, romanização para japonês, ou manter os caracteres como estão. Navegadores modernos lidam bem com URL UTF-8, então manter caracteres CJK no slug é tecnicamente válido e comum em plataformas chinesas; o compartilhamento internacional, porém, favorece pinyin ou romanização porque sobrevive a SMS, terminais e sistemas antigos sem ruído de codificação.",
+            "Números e stopwords são decisões de gosto: manter \"the\" e \"of\" faz slugs mais longos e legíveis; cortá-los encurta. O conselho de SEO oscilou ao longo dos anos; o consenso estável é que um slug que combina com o título importa mais que um slug curto.",
+          ],
+        },
+        {
+          heading: "Gerado ao vivo, mantido local",
+          paragraphs: [
+            "A conversão roda a cada tecla no seu navegador. Sem chamada de API, sem limite de taxa, funciona offline — diferente de serviços de slug que exigem uma ida e volta por título.",
+            "A saída determinística importa em sistemas de conteúdo: o mesmo título sempre produz o mesmo slug, então links criados hoje não quebram quando o artigo é regenerado. Não há sufixo aleatório a menos que você adicione (uma cauda curta aleatória é a forma padrão de garantir unicidade entre milhares de artigos).",
+            "A checagem de unicidade é deliberadamente não feita aqui — exige conhecer seu inventário completo de URL, que vive no seu CMS. A ferramenta garante a correção do formato; evitar colisões fica na sua camada de roteamento, onde pertence.",
+          ],
         },
       ],
     },

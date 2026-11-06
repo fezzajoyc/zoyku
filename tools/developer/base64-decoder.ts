@@ -192,6 +192,30 @@ export default defineTool({
           a: "No. Todo corre en tu navegador; la cadena nunca sale de tu dispositivo.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Base64 es codificación, no cifrado",
+          paragraphs: [
+            "El error más común sobre Base64 es creer que oculta algo. No lo hace. Base64 es una codificación reversible definida por el RFC 4648: toma bytes arbitrarios y los reescribe con 64 caracteres seguros (A-Z, a-z, 0-9, + y /) para que los datos binarios sobrevivan en canales que solo aceptan texto, como adjuntos de correo o campos JSON. Cualquiera que tenga la cadena puede decodificarla en un paso — esta herramienta lo hace al instante, y cualquier otro decodificador también. Si necesitas confidencialidad, necesitas cifrado con clave (AES, RSA); Base64 no ofrece nada de eso.",
+            "¿Por qué 64 caracteres? Seis bits indexan exactamente 64 valores, así que Base64 empaqueta cada 3 bytes (24 bits) en 4 caracteres (4 × 6 bits). Cuando la longitud no es múltiplo de 3 queda un resto, y de ahí sale el relleno con =: un = significa que el último grupo tenía 2 bytes, dos = significan 1 byte. El relleno es información redundante — el decodificador puede deducirlo — por eso existen cadenas Base64 sin los = finales, y por eso un decodificador debería aceptar ambas formas.",
+            "Otra variante importa en la práctica: Base64 URL-safe sustituye + y / por - y _, porque esos dos caracteres dan problemas en URLs y nombres de archivo. Los JWT usan ese alfabeto, y por eso el header y el payload de un JWT se decodifican bien aquí, aunque un decodificador estricto del RFC 4648 podría rechazar los caracteres -.",
+          ],
+        },
+        {
+          heading: "Cómo leer el resultado y qué significa una salida extraña",
+          paragraphs: [
+            "Decodificar siempre produce bytes; la cuestión es cómo se interpretan. Esta herramienta los pasa por un TextDecoder UTF-8, así que el texto que se codificó como UTF-8 vuelve exactamente como era — acentos, emojis y caracteres CJK se restauran porque Base64 transporta bytes, no caracteres. Si la salida muestra símbolos de reemplazo (�), la entrada probablemente nunca fue texto UTF-8: puede ser una imagen, un PDF o un archivo en otra página de códigos. La decodificación funcionó; simplemente no hay texto que mostrar.",
+            "El Base64 real suele estar sucio, así que la herramienta limpia antes de decodificar: elimina espacios y saltos de línea (el correo y el formato PEM parten el Base64 cada 76 caracteres, lo que rompe a los decodificadores estrictos) y quita prefijos data URI como data:image/png;base64, para que puedas pegar la cadena completa. La longitud es otro fallo habitual: la longitud de Base64 debe ser múltiplo de 4, así que una cadena truncada a mitad por un copiado o un log no se decodifica — revisa los extremos primero.",
+          ],
+        },
+        {
+          heading: "Local por diseño, y cómo se compara con la línea de comandos",
+          paragraphs: [
+            "Las cadenas codificadas aparecen en contextos sensibles: cabeceras Authorization, claves API dentro de bloques de configuración, JWT con identificadores de cuenta, payloads encontrados en tráfico. Pegar cualquiera de ellas en un sitio web que envía la entrada a un servidor significa entregar justo los datos que estás inspeccionando. Este decodificador funciona por completo en tu navegador con JavaScript — nada se sube, nada se registra, y funciona sin conexión una vez cargada la página.",
+            "Las herramientas de línea de comandos (openssl base64 -d, certutil, python base64) son potentes pero quisquillosas con la entrada partida, el relleno ausente y el manejo de archivos, y cambian entre plataformas. Para un momento puntual de “¿qué es esta cadena?”, una herramienta de navegador que tolera prefijos y espacios, decodifica alfabetos URL-safe estilo JWT y muestra texto multibyte correctamente suele ser más rápida — con la misma garantía de privacidad y sin dejar tu secreto codificado en el historial del shell.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Decodificador Base64",
@@ -218,6 +242,30 @@ export default defineTool({
         {
           q: "A decodificação acontece num servidor?",
           a: "Não. Tudo roda no seu navegador; a string nunca sai do seu dispositivo.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Base64 é codificação, não criptografia",
+          paragraphs: [
+            "O equívoco mais comum sobre Base64 é achar que ele esconde algo. Não esconde. Base64 é uma codificação reversível definida pelo RFC 4648: ela pega bytes arbitrários e os reescreve com 64 caracteres seguros (A-Z, a-z, 0-9, + e /) para que dados binários sobrevivam em canais que só aceitam texto, como anexos de e-mail ou campos JSON. Qualquer pessoa com a string pode decodificá-la em um passo — esta ferramenta faz isso na hora, e qualquer outro decodificador também. Se você precisa de sigilo, precisa de criptografia com chave (AES, RSA); Base64 não oferece nada disso.",
+            "Por que exatamente 64 caracteres? Seis bits indexam 64 valores, então o Base64 empacota cada 3 bytes (24 bits) em 4 caracteres (4 × 6 bits). Quando o comprimento não é múltiplo de 3 sobra um resto, e é daí que vem o padding com =: um = significa que o último grupo tinha 2 bytes, dois = significam 1 byte. O padding é informação redundante — o decodificador pode deduzi-lo — por isso existem strings Base64 sem os = finais, e por isso um decodificador deveria aceitar as duas formas.",
+            "Outra variante importa na prática: Base64 URL-safe troca + e / por - e _, porque esses dois caracteres dão problema em URLs e nomes de arquivo. Os JWTs usam esse alfabeto, e é por isso que o header e o payload de um JWT decodificam bem aqui, embora um decodificador estrito do RFC 4648 pudesse rejeitar os caracteres -.",
+          ],
+        },
+        {
+          heading: "Como ler o resultado e o que significa uma saída estranha",
+          paragraphs: [
+            "Decodificar sempre produz bytes; a questão é como interpretá-los. Esta ferramenta os passa por um TextDecoder UTF-8, então o texto que foi codificado como UTF-8 volta exatamente como era — acentos, emojis e caracteres CJK se restauram porque Base64 transporta bytes, não caracteres. Se a saída mostra símbolos de substituição (�), a entrada provavelmente nunca foi texto UTF-8: pode ser uma imagem, um PDF ou um arquivo em outra página de códigos. A decodificação funcionou; simplesmente não há texto para mostrar.",
+            "Base64 real costuma vir sujo, então a ferramenta limpa antes de decodificar: remove espaços e quebras de linha (e-mail e o formato PEM quebram o Base64 a cada 76 caracteres, o que quebra decodificadores estritos) e tira prefixos data URI como data:image/png;base64, para que você possa colar a string inteira. O comprimento é outra falha comum: o comprimento de Base64 deve ser múltiplo de 4, então uma string cortada no meio por uma cópia ou um log não decodifica — confira as pontas primeiro.",
+          ],
+        },
+        {
+          heading: "Local por design, e a comparação com a linha de comando",
+          paragraphs: [
+            "Strings codificadas aparecem em contextos sensíveis: cabeçalhos Authorization, chaves de API dentro de blocos de configuração, JWTs com identificadores de conta, payloads encontrados em tráfego. Colar qualquer uma delas em um site que envia a entrada para um servidor significa entregar exatamente os dados que você está inspecionando. Este decodificador roda inteiramente no seu navegador com JavaScript — nada é enviado, nada é registrado, e funciona offline depois que a página carrega.",
+            "Ferramentas de linha de comando (openssl base64 -d, certutil, python base64) são poderosas mas exigentes com entrada quebrada, padding ausente e manipulação de arquivos, e variam entre plataformas. Para um momento pontual de “o que é essa string?”, uma ferramenta de navegador que tolera prefixos e espaços, decodifica alfabetos URL-safe estilo JWT e mostra texto multibyte corretamente costuma ser mais rápida — com a mesma garantia de privacidade e sem deixar seu segredo codificado no histórico do shell.",
+          ],
         },
       ],
     },

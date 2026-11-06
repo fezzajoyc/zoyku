@@ -23,6 +23,31 @@ export default defineTool({
           { q: 'q', a: 'a' },
           { q: 'q', a: 'a' },
       ],
+      deepDive: [
+        {
+          heading: "Where SHA-384 sits in the SHA-2 family",
+          paragraphs: [
+            "SHA-2 is not one algorithm but a family standardized in FIPS 180-4, defined by two internal engines: SHA-224 and SHA-256 run the 256-bit engine (32-bit words), while SHA-384 and SHA-512 run the 512-bit engine (64-bit words). The outputs are 224, 256, 384 and 512 bits respectively — 56, 64, 96 and 128 hexadecimal characters. SHA-384 is what you get when the 512-bit engine is initialized with different constants and its output is truncated to 384 bits.",
+            "That truncation is why SHA-384 is not simply “SHA-512 cut short”. The different initial values make it a distinct algorithm with its own specification: no known attack on SHA-512 would transfer to SHA-384's shorter output, and conversely you cannot verify a SHA-384 digest by hashing with SHA-512 and slicing. The tools must agree on the algorithm, not just the family.",
+            "Security-wise, all four SHA-2 variants are believed to offer close to their output length in collision resistance — SHA-384 gives a 192-bit security level against collisions, far beyond any practical need. The usual reason to pick one over another is infrastructure compatibility: what your TLS suite, your code-signing chain or your counterpart's verifier already expects.",
+          ],
+        },
+        {
+          heading: "Reading the output and checking it correctly",
+          paragraphs: [
+            "The digest is 96 hexadecimal characters, emitted here in lowercase — hexadecimal comparison is case-insensitive, but some verifier tools compare strings literally, so a case mismatch can look like a hash mismatch. The digest is deterministic: the same input bytes always yield the same output on every correct implementation, which is exactly why it works as a checksum.",
+            "Beware the encoding trap when comparing with a reference value: hashing the text “hello” as UTF-8, UTF-16 or with a trailing newline produces three different digests. Command-line tools notoriously append a newline to echo's output unless you use echo -n or printf. When your digest does not match, the data almost certainly differs — same algorithm, different bytes.",
+            "For files, the digest identifies content, not metadata: copying the file preserves the hash, while re-encoding, converting line endings or re-saving through an editor changes it. That property is what makes SHA-384 digests useful as tamper evidence for installers and certificates — and why a matching hash proves only that the bytes are identical, not that the sender is trustworthy.",
+          ],
+        },
+        {
+          heading: "Native crypto, local processing",
+          paragraphs: [
+            "The hashing goes through your browser's native WebCrypto SubtleCrypto, not JavaScript code written by this site — the same audited implementation your browser uses for TLS. Output matches sha384sum, OpenSSL and every other FIPS 180-4 compliant tool byte for byte, and it runs faster than any pure-JS hash for large files.",
+            "Text and file inputs never leave your device: the digest is computed in your browser's memory and nothing is uploaded, stored or logged. That matters for the typical use — verifying installers, hashing internal secrets for configuration, or computing the digest of a document you have not published yet.",
+          ],
+        },
+      ],
     },
     zh: {
       name: 'SHA-384 生成器',

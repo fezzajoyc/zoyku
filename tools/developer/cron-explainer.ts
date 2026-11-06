@@ -38,6 +38,32 @@ export default defineTool({
           a: "Classic cron ORs the two: when both fields are restricted (neither is *), a day matching either one triggers the job. “0 0 1 * MON” runs on the 1st and on every Monday. If you want both conditions at once, the expression needs a different structure — checking the next run times here makes the behavior visible immediately.",
         },
       ],
+      deepDive: [
+        {
+          heading: "The five fields and the OR rule nobody remembers",
+          paragraphs: [
+            "Standard cron evaluates five fields left to right: minute (0-59), hour (0-23), day of month (1-31), month (1-12) and day of week (0-7, where both 0 and 7 are Sunday). Each field can be a value, a range (9-17), a list (0,15,30), or a step (*/5, meaning every 5th value starting at the field's floor). A job fires when all fields match — with one famous exception: when both day-of-month and day-of-week are restricted, the job runs on a day matching EITHER.",
+            "That OR rule traces back to the original Unix cron implementation, and it exists so that combinations like \"1st of the month plus every Monday\" remain expressible in five fields. The trap is that most people writing \"0 0 1 * 1\" intend \"the first Monday of the month\" — what they get is the 1st AND every Monday, twice as often. If you need AND semantics, the usual workaround is a test inside the job (check date +%d against the target) or moving to a scheduler with richer triggers.",
+            "The other surprise is 0 0 * * 7 versus 6: day of week numbering starts at Sunday (0), not Monday, and some cron dialects accept 7 as a second name for Sunday while others reject it. Writing names — MON, SUN — instead of numbers removes the ambiguity entirely, at no cost in standard cron.",
+          ],
+        },
+        {
+          heading: "Timezones and daylight saving: where schedules quietly break",
+          paragraphs: [
+            "Cron has no timezone of its own — it fires in whatever zone the server's clock is set to. A job defined as \"0 3 * * *\" runs at 3 a.m. server time, which is 11 a.m. in UTC+8 if the server is on UTC. Teams that deploy to cloud VMs often forget the platform default: most VMs boot in UTC regardless of where the company sits, and the first sign is a job that fires at what is locally the middle of the workday. Check with date or timedatectl on the host, or read the TZ line of /etc/default/cron where it is set.",
+            "Daylight saving makes the problem worse twice a year. In zones observing DST, a 2:30 a.m. job may not fire at all on the spring-forward night (2:30 never exists), and the fall-back night fires it twice — an hour apart. Jobs pinned to UTC do not have this problem but must be written in UTC: \"0 3 * * *\" in a UTC crontab means 3 a.m. UTC, not local 3 a.m. This tool's next-run preview is timezone-aware precisely so you can see which of the two your server will actually do.",
+            "The practical defense is to verify, not assume: paste the expression here, switch the display to the server's zone, and check the next five fire times against expectation. A schedule that survives that check is also worth annotating in the crontab comment — the person debugging it in two years will be you.",
+          ],
+        },
+        {
+          heading: "Edge cases: short months, steps and DST-adjacent pitfalls",
+          paragraphs: [
+            "Two day-of-month values are responsible for a large share of missed runs: 31 and 30 in combination with steps. \"0 0 */31 * *\" does not run on the last day of each month — it runs only in months that have a 31st (January, March, May...), silently skipping April and June. Similarly \"0 0 30 2 *\" is a permanent no-op because February never has 30 days. Cron does not warn; it just evaluates and finds no match. Seeing the next five run times empty or gappy is the fastest way to catch this.",
+            "Step arithmetic starts at the field's floor, not at an offset you choose: */10 in the minute field is 0,10,20,30,40,50, not 5,15,25. To anchor differently you write the range explicitly — 5-59/10. Quoting also matters inside crontab files: percent signs (%) are treated as newlines by classic cron, so a command like date +\u201c%Y\u201d must escape the percent as \\% or the line breaks mid-command.",
+            "Previewing real fire times beats reading the expression because these rules interact: a step over a 30-day month plus a weekday restriction can produce a gap of weeks. Tools that only translate the fields (explain what */31 means) cannot surface that; only iterating the calendar forward shows when the job will actually run. That iteration is exactly what this tool does, in your browser, with no schedule data sent anywhere.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "Cron 表达式解释器",
@@ -67,6 +93,32 @@ export default defineTool({
           a: "经典 cron 对这两段取「或」:当两个字段都被限制(都不是 *)时,日期匹配任一条件就触发。“0 0 1 * MON”会在每月 1 号和每个周一都运行。想同时满足两个条件需要改写表达式——在这里看一眼接下来的执行时间,行为立刻现形。",
         },
       ],
+      deepDive: [
+        {
+          heading: "五个字段与没人记得的 OR 规则",
+          paragraphs: [
+            "标准 cron 从左到右求值五个字段:分(0-59)、时(0-23)、日(1-31)、月(1-12)、周(0-7,0 和 7 都是周日)。每个字段可以是单值、范围(9-17)、列表(0,15,30)或步进(*/5,从字段下限起每 5 个取一次)。全部字段都匹配任务才触发——有一个著名例外:当「日」和「周」两个字段都被限制时,匹配任一条件的日子都会触发。",
+            "这条 OR 规则源自最初的 Unix cron 实现,目的是让「每月 1 号加上每个周一」这类组合在五个字段里也能表达。陷阱在于:多数人写 \"0 0 1 * 1\" 想要的是「每月第一个周一」,实际得到的是「每月 1 号加每个周一」,频率翻倍。需要 AND 语义时,惯用绕法是在任务内部做判断(比如把 date +%d 与目标日期比对),或改用触发条件更丰富的调度器。",
+            "另一个意外是周日从 0 开始而不是周一,部分 cron 方言还接受 7 作为周日的第二个写法,另一些则直接拒绝。写名称——MON、SUN——彻底消除歧义,标准 cron 里没有任何代价。",
+          ],
+        },
+        {
+          heading: "时区与夏令时:计划悄悄坏掉的地方",
+          paragraphs: [
+            "cron 没有自己的时区——它在服务器时钟所在的时区触发。\"0 3 * * *\" 意味着服务器时间的凌晨 3 点;如果服务器在 UTC,那就是 UTC+8 地区的上午 11 点。把服务部署到云主机的团队经常忘了平台默认值:多数虚拟机无论公司在哪儿都用 UTC 启动,第一个迹象就是任务在「本地工作日的正中间」跑起来了。在主机上用 date 或 timedatectl 确认,或看看设置它的 /etc/default/cron 里的 TZ 行。",
+            "夏令时每年两次加重这个问题。在实行夏令时的时区,凌晨 2:30 的任务在春季切换夜可能根本不触发(那一夜 2:30 不存在),秋季切换夜则隔一小时触发两次。固定用 UTC 的任务没有这个问题,但必须按 UTC 写:UTC crontab 里的 \"0 3 * * *\" 是 UTC 凌晨 3 点,不是本地 3 点。本工具的下次执行预览正是做了时区感知,让你看清服务器实际会做哪一种。",
+            "实用的防御是验证而不是假设:把表达式贴进来,把显示切换到服务器的时区,核对接下来 5 次触发时间是否符合预期。能通过这道检查的计划,还值得在 crontab 注释里写一句——两年后调试它的那个人是你。",
+          ],
+        },
+        {
+          heading: "边界案例:短月、步进与日历坑",
+          paragraphs: [
+            "「日」字段里有两个值是漏跑事故的大头:31 和 30,再配上步进。\"0 0 */31 * *\" 并不是「每月最后一天」——它只在有 31 号的月份运行(1 月、3 月、5 月……),4 月和 6 月被无声跳过。同理 \"0 0 30 2 *\" 是永久空操作,因为 2 月永远没有 30 号。cron 不会告警,只是求值、发现不匹配而已。看一眼接下来 5 次执行时间为空或有大空档,是抓出这类问题最快的办法。",
+            "步进从字段下限开始,而不是你偏好的偏移:分钟字段的 */10 是 0,10,20,30,40,50,不是 5,15,25。想换个锚点要显式写范围——5-59/10。crontab 文件里的引号也有讲究:经典 cron 把百分号(%)当换行处理,像 date +“%Y” 这样的命令必须把百分号转义成 \\%,否则命令中途断行。",
+            "预览真实触发时间胜过读表达式,因为这些规则会互相作用:短月上的步进叠加星期限制,可能造成几周的空档。只做字段翻译的工具(解释 */31 的含义)发现不了;只有把日历往前迭代,才能看到任务真正何时运行。这正是本工具做的事——在你的浏览器里完成,任何调度数据都不外发。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "Cron 式解説ツール",
@@ -94,6 +146,32 @@ export default defineTool({
         {
           q: "「日」と「曜日」を両方書いたのに、思いのほか頻繁に実行されるのは?",
           a: "クラシックな cron はこの 2 つを OR で結合します。両フィールドが制限付き(* 以外)のとき、どちらかに一致する日で実行されます。「0 0 1 * MON」は毎月 1 日と毎週月曜に実行されます。両方を同時に満たしたい場合は式の組み立てを変える必要があります。ここで次回実行時刻を確認すれば挙動はすぐわかります。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "5 つのフィールドと、誰も覚えていない OR 規則",
+          paragraphs: [
+            "標準 cron は左から右へ 5 フィールドを評価します。分(0-59)、時(0-23)、日(1-31)、月(1-12)、曜日(0-7、0 と 7 はどちらも日曜)。各フィールドは単一値、範囲(9-17)、リスト(0,15,30)、ステップ(*/5、フィールドの下限から 5 つおき)を取れます。すべてのフィールドが一致したときジョブが発火します——ただし有名な例外が一つ。「日」と「曜日」の両方が制限されている場合、どちらかに一致する日で発火します。",
+            "この OR 規則は元の Unix cron の実装に由来し、「毎月 1 日プラス毎週月曜」のような組み合わせを 5 フィールドで表現可能にするために存在します。罠は、\"0 0 1 * 1\" を書くほとんどの人が「毎月第 1 月曜」を意図しているのに、実際には「毎月 1 日と毎週月曜」——頻度が 2 倍になることです。AND の意味が必要なら、慣用的な回避策はジョブ内部での判定(date +%d を目標日と比較するなど)か、より豊かなトリガーを持つスケジューラへの移行です。",
+            "もう一つの意外な点は、曜日の番号が月曜ではなく日曜(0)から始まること、方言によっては 7 を日曜の別名として受け入れるものと拒否するものがあることです。名前(MON、SUN)で書けば曖昧さは完全に消え、標準 cron では何の代价もありません。",
+          ],
+        },
+        {
+          heading: "タイムゾーンとサマータイム:スケジュールが静かに壊れる場所",
+          paragraphs: [
+            "cron には独自のタイムゾーンがなく、サーバーの時計が設定されているゾーンで発火します。\"0 3 * * *\" はサーバー時刻の午前 3 時であり、サーバーが UTC なら UTC+8 地域では午前 11 時です。クラウド VM にデプロイするチームはプラットフォームのデフォルトを忘れがちです。多くの VM は企業の所在地に関係なく UTC で起動し、最初の兆候は「現地では就業時間のど真ん中」に走るジョブです。ホスト上で date や timedatectl で確認するか、設定されているなら /etc/default/cron の TZ 行を見てください。",
+            "サマータイムは年に 2 度問題を悪化させます。DST を採用するゾーンでは、午前 2:30 のジョブは春の切替の夜にまったく発火しない可能性があり(2:30 は存在しない)、秋の切替の夜は 1 時間おきに 2 回発火します。UTC 固定のジョブにはこの問題がありませんが、UTC で書く必要があります。UTC の crontab での \"0 3 * * *\" は UTC の午前 3 時であって現地の午前 3 時ではありません。このツールの次回実行プレビューはタイムゾーンを考慮しているので、サーバーが実際にどちらを行うか見分けられます。",
+            "実務的な防御は仮定ではなく検証です。式をここに貼り、表示をサーバーのゾーンに切り替え、次の 5 回の発火時刻を期待と照合する。このチェックを通過したスケジュールには、crontab のコメントに一言書き添える価値があります。2 年後にデバッグするのはあなた自身です。",
+          ],
+        },
+        {
+          heading: "境界ケース:短い月、ステップ、暦の罠",
+          paragraphs: [
+            "「日」フィールドの 31 と 30 は、失敗した実行の大きな割合を占めます。\"0 0 */31 * *\" は各月の最終日ではありません。31 日がある月(1 月、3 月、5 月……)だけが走り、4 月と 6 月は黙って飛ばされます。同様に \"0 0 30 2 *\" は恒久的な無動作です。2 月に 30 日は永遠にありません。cron は警告せず、評価して不一致を見つけるだけです。次の 5 回の実行時刻が空だったり間隔が大きかったりするのを見るのが、これを捉える最速の方法です。",
+            "ステップの算術はフィールドの下限から始まり、あなたの選んだオフセットからではありません。分フィールドの */10 は 0,10,20,30,40,50 であって 5,15,25 ではありません。別の場所にアンカーするには範囲を明示します——5-59/10。crontab ファイル内のクォートも重要です。クラシックな cron はパーセント記号(%)を改行として扱うため、date +“%Y” のようなコマンドは \\% とエスケープする必要があります。さもないとコマンドの途中で行が切れます。",
+            "実発火時刻のプレビューが式を読むことに勝るのは、これらの規則が相互作用するからです。短い月のステップに曜日制限が重なると、数週間の空白が生じ得ます。フィールドを翻訳するだけのツール(*/31 の意味を説明する)では表面化しません。暦を前へ進めて初めて、ジョブが実際にいつ走るかが見えます。それがまさにこのツールが行う反復で、ブラウザ内で完結し、スケジュールデータはどこにも送られません。",
+          ],
         },
       ],
     },
