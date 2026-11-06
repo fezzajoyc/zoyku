@@ -110,6 +110,31 @@ export default defineTool({
           a: "No. Each language version still needs its own self-referencing canonical. hreflang selects among equivalent translated pages; canonical resolves duplicates within one language.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Reciprocity and x-default: the two rules that decide everything",
+          paragraphs: [
+            "hreflang clusters are validated as a graph, not as individual tags. Search engines collect every rel=alternate hreflang link from every page, and a cluster only works if it is closed: page A lists B and itself, B lists A and itself, and so on for every member. One missing return-link — usually a page whose <head> was never updated — and the engines treat the cluster as incomplete, discounting exactly the pages you were trying to route.",
+            "This is why the failure is silent in a nasty way: nothing errors, the pages simply do not swap in results the way they should. Auditing means crawling all members and diffing their clusters — tedious, which is why generating the whole block from one input and pasting the identical set everywhere is the reliable workflow.",
+            "x-default is the cluster's answer to “none of the above”: the user whose language and region match no declared version gets this URL. Point it at a language selector or the default-language homepage. It is optional, but without it, unmatched visitors get an arbitrary choice — often the English version, whether or not that suits your audience.",
+          ],
+        },
+        {
+          heading: "Reading BCP 47 properly: language first, region only when it matters",
+          paragraphs: [
+            "The values are BCP 47 language tags, and the subtags carry different meanings. The primary subtag is the language (en, pt, zh); the region subtag (GB, BR, CN) selects an audience by geography; the script subtag (Hans, Hant) selects a writing system. A bare en matches every English speaker everywhere; en-GB targets British users specifically.",
+            "The common mistake is over-segmenting with regions: en-US, en-GB, en-AU, en-CA tags that all point at the same content. If the content is identical, declare one en and let it match everyone — region tags are for content that genuinely differs, like pt-BR versus pt-PT spelling and currency, or fr-CA versus fr-FR. Extra region variants with identical content create the near-duplicates hreflang was meant to solve.",
+            "Chinese is the classic script case: zh alone is underspecified, zh-Hans and zh-Hant pick simplified and traditional. And note what hreflang is not: it routes audiences between equivalent pages, but it does not consolidate ranking signals — each language version still needs its own self-referencing canonical and its own earned links.",
+          ],
+        },
+        {
+          heading: "Where the annotations live, and what hreflang does not do",
+          paragraphs: [
+            "Three placements carry the same annotation: <link> elements in the head (easiest to audit page by page, what this generator emits), HTTP Link headers (right for non-HTML files like PDFs), and an XML sitemap column (the only practical route at thousands of URLs, where head links become unmaintainable). Pick one channel per page — duplicating across channels invites inconsistencies.",
+            "Also honest about scope: hreflang affects which version is served to which audience; it is not a ranking boost, not an instruction to translate anything, and not a substitute for hreflang-invisible basics — correct return links, crawlable URLs, and per-version canonicals. Google validates each tag strictly: one malformed value (a missing hyphen, a typo'd country code) can taint the cluster it belongs to, which is why emitting the exact format from a generator beats hand-typing it.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "hreflang 生成器",
@@ -137,6 +162,31 @@ export default defineTool({
           a: "不能。每个语言版本仍需自己的自引用 canonical。hreflang 在等效的翻译页面之间做选择;canonical 解决的是同一语言内的重复。",
         },
       ],
+      deepDive: [
+        {
+          heading: "双向互指与 x-default:决定成败的两条规则",
+          paragraphs: [
+            "hreflang 链接簇是按“图”校验的,不是按单条标签。搜索引擎会从每个页面收集所有 rel=alternate hreflang 链接,簇必须闭合才生效:A 列出 B 和自己,B 列出 A 和自己,依此类推。只要有一个回指缺失——最常见的是某页 <head> 忘了更新——整簇就被视为不完整,恰恰是你在努力做路由的那些页面被打了折扣。",
+            "这也让失败方式很隐蔽:没有任何报错,只是这些页面在结果里的表现不符合预期。审计意味着爬取所有成员页并比对各自的链接簇——非常枯燥,所以“从一份输入生成整块代码、每个页面贴同一份”才是可靠的工作流。",
+            "x-default 是链接簇对“以上都不是”的回答:语言和地区都不匹配任何已声明版本的用户,将被送到这里。把它指向语言选择页或默认语言首页。这一条是可选的,但没有它,未命中的访客会被随意分派——往往是英文版,不管这适不适合你的受众。",
+          ],
+        },
+        {
+          heading: "正确理解 BCP 47:先按语言,地区只在真的有区别时加",
+          paragraphs: [
+            "取值是 BCP 47 语言标签,各子标签含义不同:主子标签是语言(en、pt、zh),地区子标签(GB、BR、CN)按地理圈定受众,文字体系子标签(Hans、Hant)选定书写系统。裸 en 匹配所有英语使用者;en-GB 专门面向英国用户。",
+            "常见错误是用地区过度切分:en-US、en-GB、en-AU、en-CA 四条标签指向同一份内容。内容完全相同时,声明一个 en 让它匹配所有人即可——地区标签留给内容确实不同的场景,比如 pt-BR 与 pt-PT 的拼写和货币差异、fr-CA 与 fr-FR。内容一致却多挂地区变体,恰恰制造出 hreflang 本来要解决的近似重复。",
+            "中文是文字体系子标签的经典案例:裸 zh 定义不足,zh-Hans 和 zh-Hant 分别选定简体和繁体。还要清楚 hreflang 不是什么:它在等效页面之间路由受众,不合并排名信号——每个语言版本仍然需要自己的自引用 canonical 和自己挣来的外链。",
+          ],
+        },
+        {
+          heading: "标注放在哪里,以及 hreflang 做不到的事",
+          paragraphs: [
+            "同一条标注有三种安放方式:<head> 里的 <link> 元素(最容易逐页审计,本生成器输出的就是它)、HTTP Link 头(适合 PDF 这类非 HTML 文件)、XML 站点地图的专列(URL 上千条时唯一现实的路径,头内链接会变得没法维护)。每个页面选一种通道——跨通道重复标注只会招来不一致。",
+            "对作用范围也要诚实:hreflang 决定哪类受众拿到哪个版本,它不是排名加成,不是翻译指令,更不能替代那些 hreflang 看不见的基本功——正确的回指、可抓取的 URL、每个版本独立的 canonical。Google 对每条标签的校验都很严格:一个格式错误(少个连字符、国家码打错)就可能污染它所在的整个簇,所以从生成器输出精确格式,胜过手工敲打。",
+          ],
+        },
+      ],
     },
     ja: {
       name: "hreflang 生成",
@@ -162,6 +212,31 @@ export default defineTool({
         {
           q: "hreflang は canonical の代わりになる?",
           a: "なりません。各言語版にはそれぞれ自己参照 canonical が必要です。hreflang は同等の翻訳ページの中から選択する仕組みで、canonical は同一言語内の重複を解決する仕組みです。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "相互参照と x-default:成否を分ける二つの規則",
+          paragraphs: [
+            "hreflang のクラスタは個々のタグではなく「グラフ」として検証されます。検索エンジンは全ページから rel=alternate hreflang リンクを収集し、クラスタが閉じていて初めて機能します。ページ A は B と自分自身を列挙し、B も A と自分自身を列挙する、という具合に全メンバーへ。一つでも返しのリンクが欠ければ——大抵は <head> の更新漏れのページ——クラスタは不完全とみなされ、まさにルーティングしようとしていたページが割り引かれます。",
+            "だから失敗は不気味なほど静かです。エラーは何も出ず、ページがただ想定どおりに結果で入れ替わらないだけ。監査は全メンバーをクロールしてクラスタを突き合わせることになり、非常に骨が折れます。だからこそ「1 つの入力からブロック全体を生成し、全ページに同一のセットを貼る」のが信頼できるワークフローです。",
+            "x-default はクラスタの「どれにも該当しない」への答えです。言語・地域のどの宣言版にも一致しないユーザーがここへ送られます。言語選択ページかデフォルト言語のトップページを指定します。省略は可能ですが、ない場合、不一致の訪問者は恣意的に振り分けられ——多くの場合、受け手に合うかどうかに関係なく英語版へです。",
+          ],
+        },
+        {
+          heading: "BCP 47 を正しく読む:まず言語、地域は本当に違うときだけ",
+          paragraphs: [
+            "値は BCP 47 の言語タグで、サブタグごとに意味が違います。主サブタグが言語(en、pt、zh)、地域サブタグ(GB、BR、CN)は地理で受衆を選び、文字体系サブタグ(Hans、Hant)は書記系を選びます。裸の en は世界中の英語話者すべてに一致し、en-GB はイギリスのユーザーを specifically 対象とします。",
+            "よくある間違いは地域での過剰分割です。en-US、en-GB、en-AU、en-CA がすべて同じ内容を指すタグ。内容が同一なら en を一つ宣言して全員に一致させるべきで、地域タグは内容が実際に異なる場合——pt-BR と pt-PT の綴りや通貨、fr-CA と fr-FR——のためのものです。同一内容に地域バリアントを増やすことは、hreflang が解決するはずだった近重複を自分で作る行為です。",
+            "中国語は文字体系の古典例です。裸の zh は不十分で、zh-Hans と zh-Hant が簡体字・繁体字を選びます。さらに hreflang が何でないかも押さえてください。同等ページ間で受衆を振り分ける仕組みであって、ランキングシグナルを統合しません。各言語版には依然として自己参照 canonical と、自前で獲得したリンクが必要です。",
+          ],
+        },
+        {
+          heading: "アノテーションを置く場所と、hreflang にできないこと",
+          paragraphs: [
+            "同じアノテーションを運ぶ経路は三つあります。<head> 内の <link> 要素(ページごとの監査が最も容易で、このジェネレーターが出力する形式)、HTTP Link ヘッダー(PDF などの非 HTML ファイル向け)、XML サイトマップの専用列(URL が数千件に達すると head リンクは維持できず、これが唯一の実務解)です。ページごとに一つの経路を選び、経路をまたぐ重複は不整合を招くので避けます。",
+            "効能の範囲にも正直でありましょう。hreflang はどの受衆にどの版を出すかを決めるだけで、ランキングの押し上げではなく、翻訳の指示でもなく、hreflang の見えない基礎——正しい返しのリンク、クロール可能な URL、版ごとの canonical——の代わりにもなりません。Google は各タグを厳格に検証し、一つの形式ミス(ハイフン落ち、国コードの打ち間違い)がそのクラスタ全体を汚染しうるため、ジェネレーターから正確な形式を出力するほうが手打ちより確実です。",
+          ],
         },
       ],
     },
@@ -192,6 +267,31 @@ export default defineTool({
           a: "No. Cada versión de idioma sigue necesitando su canonical autorreferenciado. hreflang elige entre páginas traducidas equivalentes; canonical resuelve duplicados dentro de un mismo idioma.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Reciprocidad y x-default: las dos reglas que lo deciden todo",
+          paragraphs: [
+            "Los clústeres hreflang se validan como un grafo, no como etiquetas sueltas. El buscador recoge todos los enlaces rel=alternate hreflang de todas las páginas, y un clúster solo funciona si está cerrado: la página A enumera a B y a sí misma, la B enumera a A y a sí misma, y así con todos los miembros. Un solo retorno ausente — normalmente una página cuyo <head> nunca se actualizó — y el clúster se considera incompleto, penalizando justo las páginas que querías enrutar.",
+            "Por eso el fallo es silencioso de un modo desagradable: nada da error, las páginas simplemente no se intercambian en los resultados como deberían. Auditar implica rastrear todos los miembros y comparar sus clústeres — tedioso, y por eso el flujo fiable es generar el bloque entero desde una sola entrada y pegar el mismo conjunto en todas.",
+            "x-default es la respuesta del clúster a “ninguna de las anteriores”: el usuario cuyo idioma y región no coinciden con ninguna versión declarada recibe esa URL. Apúntala a un selector de idioma o a la portada en el idioma por defecto. Es opcional, pero sin ella, los visitantes sin coincidencia reciben una elección arbitraria — a menudo la versión inglesa, le convenga o no a tu audiencia.",
+          ],
+        },
+        {
+          heading: "Leer BCP 47 bien: primero el idioma, región solo cuando importa",
+          paragraphs: [
+            "Los valores son etiquetas de idioma BCP 47 y cada subtag significa algo distinto. La principal es el idioma (en, pt, zh); la de región (GB, BR, CN) selecciona audiencia por geografía; la de escritura (Hans, Hant) selecciona un sistema de escritura. Un en a secas coincide con todo angloparlante en todas partes; en-GB apunta específicamente a usuarios británicos.",
+            "El error habitual es sobresegmentar con regiones: etiquetas en-US, en-GB, en-AU, en-CA que apuntan al mismo contenido. Si el contenido es idéntico, declara un solo en y deja que coincida con todos — las etiquetas de región son para contenido que realmente difiere, como pt-BR frente a pt-PT en ortografía y moneda, o fr-CA frente a fr-FR. Añadir variantes de región con contenido idéntico crea justo los casi-duplicados que hreflang debía resolver.",
+            "El chino es el caso clásico de escritura: zh a secas queda sin especificar, y zh-Hans y zh-Hant eligen simplificado y tradicional. Y conviene saber lo que hreflang no es: enruta audiencias entre páginas equivalentes, pero no consolida señales de ranking — cada versión de idioma sigue necesitando su canonical autorreferenciado y sus propios enlaces ganados.",
+          ],
+        },
+        {
+          heading: "Dónde viven las anotaciones y qué no hace hreflang",
+          paragraphs: [
+            "Tres ubicaciones portan la misma anotación: elementos <link> en el head (lo más fácil de auditar página a página, lo que emite este generador), cabeceras HTTP Link (adecuadas para no-HTML como PDF) y una columna del sitemap XML (la única vía práctica con miles de URLs, donde los enlaces en el head se vuelven imposibles de mantener). Elige un canal por página — duplicar entre canales invita a las inconsistencias.",
+            "Sé honesto también con el alcance: hreflang decide qué versión se sirve a qué audiencia; no es un impulso de ranking, no es una instrucción para traducir nada y no sustituye los fundamentos que no ve — retornos correctos, URLs rastreables y canónicos por versión. Google valida cada etiqueta con rigor: un solo valor mal formado (un guion que falta, un código de país mal tecleado) puede contaminar el clúster al que pertenece, y por eso emitir el formato exacto desde un generador vence a teclearlo a mano.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Gerador de hreflang",
@@ -218,6 +318,31 @@ export default defineTool({
         {
           q: "O hreflang substitui a tag canonical?",
           a: "Não. Cada versão de idioma ainda precisa do próprio canonical autorreferente. O hreflang escolhe entre páginas traduzidas equivalentes; o canonical resolve duplicatas dentro de um mesmo idioma.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Reciprocidade e x-default: as duas regras que decidem tudo",
+          paragraphs: [
+            "Conjuntos hreflang são validados como um grafo, não como tags isoladas. O buscador coleta todos os links rel=alternate hreflang de todas as páginas, e um conjunto só funciona se estiver fechado: a página A lista a B e a si mesma, a B lista a A e a si mesma, e assim por diante. Um único retorno ausente — normalmente uma página cujo <head> nunca foi atualizado — e o conjunto é tratado como incompleto, penalizando exatamente as páginas que você tentava rotear.",
+            "Por isso a falha é silenciosa de um jeito desagradável: nada dá erro, as páginas simplesmente não se alternam nos resultados como deveriam. Auditar significa rastrear todos os membros e comparar seus conjuntos — tedioso, e por isso o fluxo confiável é gerar o bloco inteiro a partir de uma entrada só e colar o mesmo conjunto em todas.",
+            "x-default é a resposta do conjunto ao “nenhuma das anteriores”: o usuário cujo idioma e região não coincidem com nenhuma versão declarada recebe essa URL. Aponte-a para um seletor de idioma ou para a homepage no idioma padrão. É opcional, mas sem ele, visitantes sem correspondência recebem uma escolha arbitrária — muitas vezes a versão inglesa, convenha ou não à sua audiência.",
+          ],
+        },
+        {
+          heading: "Ler BCP 47 direito: primeiro o idioma, região só quando importa",
+          paragraphs: [
+            "Os valores são tags de idioma BCP 47 e cada subtag significa algo diferente. A principal é o idioma (en, pt, zh); a de região (GB, BR, CN) seleciona audiência por geografia; a de escrita (Hans, Hant) seleciona um sistema de escrita. Um en puro corresponde a todo falante de inglês em todo lugar; en-GB mira especificamente usuários britânicos.",
+            "O erro comum é supersegmentar com regiões: tags en-US, en-GB, en-AU, en-CA apontando para o mesmo conteúdo. Se o conteúdo é idêntico, declare um único en e deixe corresponder a todos — tags de região são para conteúdo que realmente difere, como pt-BR versus pt-PT em ortografia e moeda, ou fr-CA versus fr-FR. Acrescentar variantes de região com conteúdo idêntico cria justamente as quase-duplicatas que o hreflang deveria resolver.",
+            "O chinês é o caso clássico de escrita: zh puro fica subespecificado, e zh-Hans e zh-Hant escolhem simplificado e tradicional. E vale saber o que hreflang não é: roteia audiências entre páginas equivalentes, mas não consolida sinais de ranqueamento — cada versão de idioma ainda precisa do próprio canonical autorreferente e dos próprios links conquistados.",
+          ],
+        },
+        {
+          heading: "Onde as anotações vivem e o que hreflang não faz",
+          paragraphs: [
+            "Três posições carregam a mesma anotação: elementos <link> no head (o mais fácil de auditar página a página, o que este gerador emite), cabeçalhos HTTP Link (adequados para não-HTML como PDF) e uma coluna do sitemap XML (a única rota prática com milhares de URLs, onde links no head se tornam insustentáveis). Escolha um canal por página — duplicar entre canais convida a inconsistências.",
+            "Seja honesto também com o escopo: hreflang decide qual versão é servida a qual audiência; não é um impulso de ranqueamento, não é uma instrução para traduzir nada e não substitui os fundamentos que não vê — retornos corretos, URLs rastreáveis e canônicos por versão. O Google valida cada tag com rigor: um único valor malformado (um hífen faltando, um código de país errado) pode contaminar o conjunto a que pertence, e por isso emitir o formato exato de um gerador vence digitar à mão.",
+          ],
         },
       ],
     },

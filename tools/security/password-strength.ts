@@ -38,6 +38,31 @@ export default defineTool({
           a: "No. The zxcvbn libraries and dictionaries load into your browser and every calculation runs locally. No network request carries your input.",
         },
       ],
+      deepDive: [
+        {
+          heading: "How zxcvbn differs from class-counting meters",
+          paragraphs: [
+            "The familiar green-and-red strength bars count character classes: one uppercase, one digit, one symbol, score green. That model was never a measure of strength — it is a measure of compliance with a rule. zxcvbn works differently: it decomposes your input into the cheapest set of known patterns — dictionary words, keyboard walks like qwerty, repeats, sequences, dates, l33t substitutions — and reports the number of guesses an attacker following the same strategy would need.",
+            "That is why Tr0ub4dor&3 scores poorly despite looking complex: the substitutions are the first rules cracking dictionaries apply, so the real cost of guessing it is the cost of guessing “troubador” plus a little decoration. The same engine explains why four random common words are far harder to crack than a short password padded with every symbol type.",
+            "One thing zxcvbn explicitly is not: a verdict on whether your password exists in a specific breach. It approximates that by matching known leaked-password lists, but the only authoritative check is querying a breach database. Treat the score as a model of attacker cost, not a certificate.",
+          ],
+        },
+        {
+          heading: "Reading the three attack scenarios honestly",
+          paragraphs: [
+            "Crack time is meaningless without an attack model. A throttled online attack (around a hundred guesses per hour) is what a well-behaved login form allows; an offline attack against a slow hash like bcrypt (roughly ten thousand guesses per second) is what happens when a properly hashed database leaks; an offline attack against fast or unsalted hashes (billions of guesses per second on GPUs) is the worst case, and it is far more common than it should be.",
+            "The useful habit is to judge a password by the worst scenario, not the best. A password that survives a week under the fast-hash column is fine for a well-run site and dangerously thin for the breached-and-sloppy one. Since you cannot control which site hashes properly, the conservative read is the fast-hash column — especially for anything you reuse.",
+            "Also note what the estimate assumes: the attacker knows your generation scheme. That is the right assumption — dictionary attacks are built exactly around common human patterns — but it means the numbers are a floor on attacker cost for human-made passwords, not a ceiling.",
+          ],
+        },
+        {
+          heading: "Strength is not safety, and checking is local",
+          paragraphs: [
+            "The uncomfortable truth from breach analyses: most account takeovers do not involve cracking anything. They involve reused passwords from an earlier breach, or credentials handed to a phishing page. A perfect 4/4 score does not protect a password you reuse across sites — no metric can. The realistic defenses are a unique password per site and a password manager, with strength checking as the third leg.",
+            "Checking itself is safe here: the zxcvbn library and its dictionaries load into your browser and every computation runs on your device. No network request ever carries what you type, so it is reasonable to test even real passwords — though typing any secret on a machine you do not trust is a risk no in-browser tool can remove.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "密码强度检测",
@@ -64,6 +89,31 @@ export default defineTool({
         {
           q: "我的密码会被发送到别处吗?",
           a: "不会。zxcvbn 库和词典直接加载进你的浏览器,所有计算都在本地进行,没有任何网络请求携带你的输入。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "zxcvbn 和“数关数”强度条的本质区别",
+          paragraphs: [
+            "常见的红绿强度条在数“满足了几条规则”:有大写、有数字、有符号,绿灯亮起。这套模型从始至终衡量的都不是强度,而是“合规度”。zxcvbn 的做法完全不同:它把你的输入分解成一组已知的最低成本模式——词典词、qwerty 这类键盘走位、重复、连号、日期、l33t 替换——然后报告“采用同样策略的攻击者需要猜多少次”。",
+            "Tr0ub4dor&3 看着复杂却得分很低,原因就在这里:0 代 o、3 代 e 正是破解词典最先应用的规则,猜中它的真实成本约等于猜中 “troubador” 加一点装饰。同一个引擎也能解释为什么四个随机常见词,远比塞满符号的短密码难破解。",
+            "还要明确 zxcvbn 不是什么:它不能判定你的密码是否出现在某次具体泄露里。它通过匹配已知泄露密码列表来近似这件事,但权威的检查只有查询泄露数据库一条路。把分数理解为“攻击者成本的模型”,而不是一份证书。",
+          ],
+        },
+        {
+          heading: "诚实地读三种攻击场景",
+          paragraphs: [
+            "脱离攻击模型谈破解时间毫无意义。限速在线攻击(每小时约一百次)是一个守规矩的登录页允许的全部;针对 bcrypt 这类慢哈希的离线攻击(每秒约一万次)是“数据库哈希正确但被拖库”时发生的事;针对快哈希或未加盐哈希的离线攻击(GPU 每秒数十亿次)是最坏情形,而且比它应有的频率常见得多。",
+            "实用的习惯是按最坏一列评估密码,而不是最好一列。在快哈希列能扛一周的密码,对管理规范的网站足够,对“又拖库又偷懒”的网站则非常单薄。你无法控制哪家网站哈希做得规范,所以保守的读法永远看快哈希列——对你复用的任何密码尤其如此。",
+            "还要注意估算的前提假设:攻击者知道你的生成套路。这是正确的假设——破解词典正是围绕人类常见模式建立的——所以对“人手编的密码”而言,这些数字是攻击者成本的下限,不是上限。",
+          ],
+        },
+        {
+          heading: "强度不等于安全,而且检查是本地的",
+          paragraphs: [
+            "泄露数据分析里最不舒服的真相:大多数账号被盗根本不涉及破解,而是早前泄露中复用的密码,或者亲手交给钓鱼页的凭据。完美的 4/4 分救不了跨站复用的密码——任何指标都救不了。现实有效的防线是“一站一密”加密码管理器,强度检查只是第三条腿。",
+            "检查本身在这里是安全的:zxcvbn 库和词典加载进你的浏览器,所有计算都在你的设备上完成。没有任何网络请求携带你输入的内容,所以测试真实密码也在合理范围内——当然,在一台你不信任的机器上输入任何秘密,都是浏览器工具无法消除的风险。",
+          ],
         },
       ],
     },
@@ -95,6 +145,31 @@ export default defineTool({
           a: "いいえ。zxcvbn のライブラリと辞書はブラウザに読み込まれ、計算はすべてローカルです。入力内容を運ぶ通信は一切ありません。",
         },
       ],
+      deepDive: [
+        {
+          heading: "zxcvbn が文字種カウント型メーターと違う点",
+          paragraphs: [
+            "見慣れた赤緑の強度バーは「ルールを何個満たしたか」を数えています。大文字あり、数字あり、記号ありで緑——あれは強度の尺度ではなく、コンプライアンスの尺度です。zxcvbn の発想は根本的に違います。入力を、既知パターンの最安値の組合せ——辞書語、qwerty のようなキーボード走査、繰り返し、連番、日付、l33t 変換——に分解し、同じ戦略を取る攻撃者が必要な試行回数を報告します。",
+            "Tr0ub4dor&3 が複雑に見えるのに低評価なのはこのためです。o を 0、e を 3 に替える置換は解析辞書が真っ先に適用する規則で、推測コストの実質は「troubador+装飾」を当てるコストにほぼ等しい。同じエンジンは、ランダムな常见語 4 語が記号を詰め込んだ短いパスワードよりはるかに破られにくいことも説明します。",
+            "zxcvbn が明示的にできないことも一つ。特定の流出事故にあなたのパスワードが含まれるかの判定です。既知の漏洩リストとの照合で近似はしますが、权威的な確認は流出データベースへの問い合わせだけです。スコアは「攻撃コストのモデル」であって、証明書ではありません。",
+          ],
+        },
+        {
+          heading: "3 つの攻撃シナリオを正直に読む",
+          paragraphs: [
+            "攻撃モデルなしに解読時間を語っても意味がありません。制限付きオンライン攻撃(毎時約 100 回)は行儀の良いログインフォームが許す上限。bcrypt のような低速ハッシュへのオフライン攻撃(毎秒約 1 万回)は「ハッシュ化は正しいのにデータベースが流出した」場合に起きます。高速・無塩ハッシュへのオフライン攻撃(GPU で毎秒数十億回)は最悪ケースで、しかも望まれるよりずっと頻繁に現実に起きています。",
+            "実用的な習慣は、最良の列ではなく最悪の列でパスワードを判断すること。高速ハッシュ列で 1 週間耐えられるパスワードは、運営がまともなサイトには十分で、流出と手抜きを両方やるサイトには薄すぎます。どのサイトがハッシュを正しく実装しているか制御できない以上、保守的な読み方は常に高速ハッシュ列——特に使い回すパスワードではそれが鉄則です。",
+            "推定の前提も押さえてください。攻撃者があなたの生成方式を知っている、という想定です。これが正しい想定です——解析辞書はまさに人間の常套パターンを中心に作られている——なので、人間が考えたパスワードにとってこれらの数字は攻撃コストの下限であって上限ではありません。",
+          ],
+        },
+        {
+          heading: "強度は安全そのものではなく、判定はローカル",
+          paragraphs: [
+            "流出データ分析から見えてくる不快な真実:アカウント乗っ取りの多くはクラッキングを経由しません。以前の流出から使い回されたパスワードか、フィッシングページに自ら差し出された認証情報です。完璧な 4/4 スコアでも、サイトをまたいで使い回すパスワードは守れません——どんな指標でも守れません。現実的な防御は「サイトごとに別パスワード」とパスワード管理ツールで、強度チェックはその三本目の脚です。",
+            "判定そのものはここでは安全です。zxcvbn のライブラリと辞書はブラウザに読み込まれ、計算はすべて端末上で完結します。入力内容を運ぶ通信は一切発生しないので、実際のパスワードで試すことも筋が通っています——もっとも、信頼できないマシンでどんな秘密を打つのも、ブラウザツールでは消せないリスクではあります。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Analizador de contraseñas",
@@ -124,6 +199,31 @@ export default defineTool({
           a: "No. Las librerías y diccionarios de zxcvbn se cargan en tu navegador y el cálculo es local. Ninguna petición de red transporta lo que escribes.",
         },
       ],
+      deepDive: [
+        {
+          heading: "En qué se diferencia zxcvbn de los medidores que cuentan clases",
+          paragraphs: [
+            "Las típicas barras rojas y verdes cuentan cuántas reglas cumples: una mayúscula, un dígito, un símbolo y luz verde. Ese modelo nunca midió fuerza; mide conformidad con una norma. zxcvbn hace algo distinto: descompone tu entrada en el conjunto más barato de patrones conocidos — palabras de diccionario, recorridos de teclado como qwerty, repeticiones, secuencias, fechas, sustituciones l33t — e informa cuántos intentos necesitaría un atacante que aplica la misma estrategia.",
+            "Por eso Tr0ub4dor&3 puntúa mal pese a parecer compleja: las sustituciones son lo primero que aplican los diccionarios, así que el coste real de adivinarla es el de adivinar “troubador” con adornos. El mismo motor explica por qué cuatro palabras comunes al azar son mucho más difíciles de crackear que una contraseña corta rellena de símbolos.",
+            "Una cosa que zxcvbn no es: un veredicto sobre si tu contraseña está en una filtración concreta. Lo aproxima comparando con listas de contraseñas filtradas conocidas, pero la única comprobación con autoridad es consultar una base de datos de filtraciones. Trata la puntuación como un modelo del coste del atacante, no como un certificado.",
+          ],
+        },
+        {
+          heading: "Leer los tres escenarios de ataque con honestidad",
+          paragraphs: [
+            "El tiempo de descifrado no significa nada sin un modelo de ataque. Un ataque online limitado (unas cien pruebas por hora) es todo lo que permite un formulario bien educado; un ataque sin conexión contra un hash lento como bcrypt (unos diez mil intentos por segundo) es lo que ocurre cuando una base bien hasheada se filtra; un ataque contra hashes rápidos o sin sal (miles de millones por segundo en GPU) es el peor caso, y ocurre mucho más a menudo de lo que debería.",
+            "El hábito útil es juzgar la contraseña por la peor columna, no por la mejor. Una contraseña que aguanta una semana en la columna de hash rápido sobra para un sitio bien gestionado y es peligrosamente fina para el que filtra y trabaja mal. Como no controlas qué sitios hashean bien, la lectura conservadora es siempre la columna rápida — sobre todo para lo que reutilizas.",
+            "Fíjate también en el supuesto del cálculo: que el atacante conoce tu esquema de generación. Es el supuesto correcto — los diccionarios se construyen justo sobre los patrones humanos típicos — así que para contraseñas hechas a mano esos números son un suelo del coste del atacante, no un techo.",
+          ],
+        },
+        {
+          heading: "La fuerza no es la seguridad, y la comprobación es local",
+          paragraphs: [
+            "La verdad incómoda de los análisis de filtraciones: la mayoría de las cuentas comprometidas no implican crackear nada. Implican contraseñas reutilizadas de una filtración anterior, o credenciales entregadas a una página de phishing. Un 4/4 perfecto no protege una contraseña reutilizada entre sitios — ninguna métrica puede. Las defensas realistas son una contraseña única por sitio y un gestor, con la comprobación de fuerza como tercera pata.",
+            "La comprobación en sí es segura aquí: la librería y los diccionarios de zxcvbn se cargan en tu navegador y cada cálculo corre en tu equipo. Ninguna petición de red transporta lo que escribes, así que es razonable probar contraseñas reales — aunque teclear cualquier secreto en una máquina que no te fía es un riesgo que ninguna herramienta del navegador elimina.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Verificador de força de senha",
@@ -151,6 +251,31 @@ export default defineTool({
         {
           q: "Minha senha é enviada a algum lugar?",
           a: "Não. As bibliotecas e dicionários do zxcvbn carregam no seu navegador e o cálculo é local. Nenhuma requisição de rede leva o que você digita.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Como o zxcvbn difere dos medidores que contam classes",
+          paragraphs: [
+            "As barras vermelhas e verdes de sempre contam quantas regras você cumpre: uma maiúscula, um dígito, um símbolo, luz verde. Esse modelo nunca mediu força; mede conformidade com uma norma. O zxcvbn faz algo diferente: decompõe sua entrada no conjunto mais barato de padrões conhecidos — palavras de dicionário, caminhos de teclado como qwerty, repetições, sequências, datas, substituições l33t — e informa quantas tentativas um atacante usando a mesma estratégia precisaria.",
+            "É por isso que Tr0ub4dor&3 pontua mal apesar de parecer complexa: as substituições são as primeiras regras que os dicionários aplicam, então o custo real de adivinhá-la é o de adivinhar “troubador” com enfeites. O mesmo motor explica por que quatro palavras comuns aleatórias são muito mais difíceis de quebrar que uma senha curta recheada de símbolos.",
+            "Uma coisa que o zxcvbn não é: um veredito sobre se sua senha está num vazamento específico. Ele aproxima isso comparando com listas conhecidas de senhas vazadas, mas a única checagem com autoridade é consultar uma base de dados de vazamentos. Trate a nota como um modelo do custo do atacante, não como um certificado.",
+          ],
+        },
+        {
+          heading: "Ler os três cenários de ataque com honestidade",
+          paragraphs: [
+            "Tempo de quebra não significa nada sem um modelo de ataque. Um ataque online limitado (cerca de cem tentativas por hora) é tudo que um formulário bem-comportado permite; um ataque offline contra um hash lento como bcrypt (unas dez mil tentativas por segundo) é o que acontece quando um banco bem hasheado vaza; um ataque contra hashes rápidos ou sem sal (bilhões por segundo em GPU) é o pior caso, e acontece muito mais vezes do que deveria.",
+            "O hábito útil é julgar a senha pela pior coluna, não pela melhor. Uma senha que aguenta uma semana na coluna de hash rápido sobra para um site bem-administrado e é perigosamente fina para o que vaza e trabalha mal. Como você não controla quais sites hasheiam direito, a leitura conservadora é sempre a coluna rápida — sobretudo para o que você reutiliza.",
+            "Repare também na premissa do cálculo: que o atacante conhece seu esquema de geração. É a premissa certa — os dicionários são construídos justamente sobre os padrões humanos típicos — então, para senhas feitas à mão, esses números são um piso do custo do atacante, não um teto.",
+          ],
+        },
+        {
+          heading: "Força não é segurança, e a checagem é local",
+          paragraphs: [
+            "A verdade desconfortável das análises de vazamentos: a maioria das contas invadidas não envolve quebrar nada. Envolve senhas reutilizadas de um vazamento anterior, ou credenciais entregues a uma página de phishing. Um 4/4 perfeito não protege uma senha reutilizada entre sites — nenhuma métrica consegue. As defesas realistas são uma senha única por site e um gerenciador, com a checagem de força como terceira perna.",
+            "A checagem em si é segura aqui: a biblioteca e os dicionários do zxcvbn carregam no seu navegador e cada cálculo roda no seu aparelho. Nenhuma requisição de rede leva o que você digita, então testar senhas reais é razoável — embora digitar qualquer segredo numa máquina em que você não confia seja um risco que nenhuma ferramenta de navegador elimina.",
+          ],
         },
       ],
     },

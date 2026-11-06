@@ -143,6 +143,30 @@ export default defineTool({
           a: "リゾルバは経路全体を返すためです。www.example.com が example.com への CNAME なら、A 検索にはエイリアスと最終的な A レコードの両方が含まれます。追加の行がまさに名前の解決経路を示しています。",
         },
       ],
+      deepDive: [
+        {
+          heading: "問い合わせから回答までの間で起きていること",
+          paragraphs: [
+            "DNS は階層構造で、1 回の照会が複数のサーバーを渡り歩くことがあります。キャッシュが空の場合、リゾルバはまずルートサーバーに問い、トップレベルドメイン(.com や .org)のネームサーバーを教わり、さらにそのドメイン自身の権威ネームサーバー——答えを実際に持っている場所——へとたどります。各段階は「次の行き先」だけを返し、リゾルバはその連鎖を下って初めてレコードを手にします。",
+            "キャッシュがこの旅を短くします。各レコードは TTL(秒単位の生存時間)を持ち、答えをどれだけ再利用してよいかを示します。300 のような低い TTL なら変更は数分で反映されますが、権威サーバーへの照会は増えます。86400 のような高い TTL なら答えは 1 日キャッシュされ、安定的で安価ですが更新は遅くなります。移行前に TTL を下げるのは、「世界がいつ古い答えを忘れるか」を調整する作業です。",
+            "このツールで見えるくなる細かい点:ブラウザや OS 自身もキャッシュを持ち、パブリックリゾルバはゾーンの変化を確認せずキャッシュを返すことがあります。ここで古いレコードに見える場合は、多くは TTL がまだ数えている途中であり、照会の誤りではありません。",
+          ],
+        },
+        {
+          heading: "目的に合ったレコード種別の選び方",
+          paragraphs: [
+            "トラブル調査の多くは、種別の選び間違いから始まります。メールの問題はほとんど A レコードの問題ではありません。まず MX を見て、次に SPF・DKIM・DMARC の TXT を確認します。SPF はドメイン本体の 1 本の TXT 文字列、DKIM は s1._domainkey.example.com のようなセレクターサブドメイン、DMARC は _dmarc.example.com に置かれます。DoH はセグメントを連結した生の回答を返すので、ここでポリシー文字列全体を読み、メール配信を静かに壊す構文ミスを見つけられます。",
+            "A・AAAA・NS・CNAME はそれぞれ別の問いに答えます。サイトが解決するか、IPv6 に対応するか。DNS を誰が運営しているか。この名前はエイリアスか。A の照会に CNAME が混ざるのは正常で、リゾルバが経路全体を添えるためです。ただし同じ名前では CNAME と他のレコードを併用できないため、 apex ドメインではプロバイダ側で ALIAS やフラット化されたレコードが使われます。",
+          ],
+        },
+        {
+          heading: "なぜ DoH なのか、そしてこのツールにできないこと",
+          paragraphs: [
+            "従来の DNS 照会はポート 53 の平文 UDP で経路上の誰にでも見えます——ルーターや ISP、中間装置まで。DNS over HTTPS は同じ照会を通常の TLS 接続に包むため、ローカルネットワークからは見えず、ポート 53 を塞いだり書き換えたりするネットワークでも通ります。dig が使えない環境でこのツールが動くのはこのためです。",
+            "これは照会ツールであって監視サービスではありません。ある時点・あるリゾルバの答え(キャッシュ値を含む)を示すだけで、権威サーバーへ直接問い合わせたり、複数リゾルバ間の答えの一致を比較したりはしません。自分で管理する変更の実務的な流れは、事前に TTL を下げ、変更を加え、ここで再確認して新しい値が現れるまで見届ける、というものです。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Consulta DNS",
@@ -172,6 +196,30 @@ export default defineTool({
           a: "Los resolvedores incluyen la cadena completa: si www.example.com es un CNAME a example.com, una consulta A devuelve el alias más el registro A final. Esas filas extra muestran exactamente cómo se resuelve el nombre.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Qué ocurre entre tu consulta y la respuesta",
+          paragraphs: [
+            "El DNS es una jerarquía y una sola consulta puede recorrer varios servidores. Sin caché, el resolvedor pregunta primero a un servidor raíz, que lo dirige a los servidores del dominio de primer nivel (.com, .org), y estos a los servidores autoritativos del propio dominio — donde está la respuesta de verdad. Cada nivel solo entrega la “siguiente parada”, y el resolvedor baja la cadena hasta obtener un registro que pueda devolver.",
+            "La caché acorta ese recorrido. Cada registro lleva un TTL (tiempo de vida, en segundos) que indica cuánto puede reutilizarse la respuesta. Un TTL bajo, como 300, hace que los cambios se propaguen en minutos, pero consulta más a menudo a los autoritativos; un TTL alto, como 86400, mantiene la respuesta en caché un día entero: barato y estable, pero lento de actualizar. Bajar el TTL antes de una migración es, en el fondo, programar qué tan rápido el mundo olvidará la respuesta antigua.",
+            "Un detalle que esta herramienta hace visible: el navegador o el sistema operativo tiene su propia caché, y algunos resolvedores devuelven valores en caché sin comprobar si la zona cambió. Si un registro se ve desactualizado aquí, casi siempre es porque el TTL sigue contando — no un error de la consulta.",
+          ],
+        },
+        {
+          heading: "Elegir el tipo de registro adecuado para cada problema",
+          paragraphs: [
+            "Casi todo diagnóstico empieza con el tipo de registro equivocado. Los problemas de correo casi nunca son de registros A: revisa primero MX y después los TXT de SPF, DKIM y DMARC. SPF vive como una única cadena TXT en el propio dominio; DKIM en un subdominio selector como s1._domainkey.example.com; DMARC en _dmarc.example.com. Como DoH devuelve la respuesta cruda con los segmentos ya unidos, aquí puedes leer la política completa y detectar los errores de sintaxis que rompen el correo en silencio.",
+            "A, AAAA, NS y CNAME responden a preguntas distintas: ¿el sitio resuelve?, ¿funciona sobre IPv6?, ¿quién opera el DNS?, ¿este nombre es un alias? Que aparezca un CNAME al consultar A es normal — los resolvedores incluyen toda la cadena — pero un CNAME no puede coexistir con otros registros en el mismo nombre, por eso los dominios raíz suelen usar ALIAS o registros aplanados en el proveedor.",
+          ],
+        },
+        {
+          heading: "Por qué DNS-over-HTTPS y qué no hace esta herramienta",
+          paragraphs: [
+            "Las consultas DNS tradicionales viajan en UDP plano por el puerto 53, visibles para cualquiera en la ruta: el router del café, el proveedor, los intermediarios. DNS-over-HTTPS envuelve la misma consulta en una conexión TLS normal, así que la consulta queda oculta para la red local y atraviesa redes que bloquean o manipulan el puerto 53. Por eso esta herramienta funciona donde dig falla.",
+            "Es una herramienta de consulta, no de monitorización: muestra la respuesta de un momento y de un resolvedor, incluidos valores en caché, y no consulta directamente a los autoritativos ni compara respuestas entre resolvedores. Para cambios que controlas, el flujo práctico es: baja el TTL de antemano, haz el cambio y vuelve a comprobar aquí hasta que aparezca el valor nuevo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Consulta de DNS",
@@ -199,6 +247,30 @@ export default defineTool({
         {
           q: "Por que aparecem linhas CNAME quando peço A?",
           a: "Os resolvedores incluem a cadeia completa: se www.exemplo.com é um CNAME para exemplo.com, uma consulta A retorna o apelido e o registro A final. As linhas extras mostram exatamente como o nome é resolvido.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O que acontece entre a sua consulta e a resposta",
+          paragraphs: [
+            "O DNS é uma hierarquia e uma única consulta pode passar por vários servidores. Sem cache, o resolvedor pergunta primeiro a um servidor raiz, que aponta para os servidores do domínio de primeiro nível (.com, .org), e estes para os servidores autoritativos do próprio domínio — onde está a resposta de verdade. Cada nível entrega apenas a “próxima parada”, e o resolvedor desce a cadeia até obter um registro que possa devolver.",
+            "O cache encurta esse caminho. Cada registro carrega um TTL (tempo de vida, em segundos) dizendo por quanto tempo a resposta pode ser reutilizada. Um TTL baixo, como 300, faz mudanças se propagarem em minutos, mas consulta os autoritativos com mais frequência; um TTL alto, como 86400, mantém a resposta em cache por um dia: barato e estável, mas lento para atualizar. Reduzir o TTL antes de uma migração é, no fundo, agendar a rapidez com que o mundo esquecerá a resposta antiga.",
+            "Um detalhe que esta ferramenta torna visível: o navegador ou o sistema operacional tem cache próprio, e alguns resolvedores devolvem valores em cache sem verificar se a zona mudou. Se um registro parece desatualizado aqui, quase sempre é porque o TTL ainda está contando — não um erro da consulta.",
+          ],
+        },
+        {
+          heading: "Escolher o tipo de registro certo para cada problema",
+          paragraphs: [
+            "Quase todo diagnóstico começa com o tipo de registro errado. Problemas de e-mail raramente são de registros A: confira primeiro MX e depois os TXT de SPF, DKIM e DMARC. O SPF vive como uma única string TXT no próprio domínio; o DKIM num subdomínio seletor como s1._domainkey.example.com; o DMARC em _dmarc.example.com. Como o DoH devolve a resposta crua com os segmentos já unidos, aqui você lê a política inteira e encontra os erros de sintaxe que quebram a entrega de e-mail em silêncio.",
+            "A, AAAA, NS e CNAME respondem a perguntas diferentes: o site resolve? funciona em IPv6? quem opera o DNS? este nome é um apelido? Um CNAME aparecer numa consulta A é normal — os resolvedores incluem a cadeia inteira — mas um CNAME não pode coexistir com outros registros no mesmo nome; por isso domínios raiz costumam usar ALIAS ou registros achatados no provedor.",
+          ],
+        },
+        {
+          heading: "Por que DNS-over-HTTPS e o que esta ferramenta não faz",
+          paragraphs: [
+            "Consultas DNS tradicionais viajam em UDP plano pela porta 53, visíveis para qualquer um na rota: o roteador do café, o provedor, intermediários. O DNS-over-HTTPS embrulha a mesma consulta numa conexão TLS comum, então a consulta fica oculta da rede local e atravessa redes que bloqueiam ou manipulam a porta 53. É por isso que esta ferramenta funciona onde o dig falha.",
+            "Ela é uma ferramenta de consulta, não de monitoramento: mostra a resposta de um momento e de um resolvedor, incluindo valores em cache, e não consulta os autoritativos diretamente nem compara respostas entre resolvedores. Para mudanças sob seu controle, o fluxo prático é: baixe o TTL antes, faça a mudança e confira aqui de novo até o valor novo aparecer.",
+          ],
         },
       ],
     },
