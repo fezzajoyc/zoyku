@@ -10233,4 +10233,36 @@ export const it: Record<string, ToolCopy> = {
       },
     ],
   },
+  "redact-pdf": {
+    name: "Oscura PDF",
+    tagline: "Oscuramento vero — le pagine vengono ri-renderizzate e il testo sotto i rettangoli viene rimosso fisicamente, non semplicemente coperto.",
+    intro: [
+      "Disegna rettangoli sul contenuto da eliminare — nomi, numeri di documenti, firme, note interne — e scarica un PDF in cui quel contenuto non esiste più. Ogni pagina contrassegnata viene ri-renderizzata come immagine a 150 DPI con i rettangoli impressi, così ciò che sta sotto non è semplicemente nascosto: viene distrutto prima che il nuovo file venga scritto.",
+      "La distinzione è fondamentale. Coprire il testo con un rettangolo nero in un editor PDF lascia i caratteri intatti sotto — chiunque può copiarli o cancellare il rettangolo. L'oscuramento vero li rimuove: è lo standard richiesto per le divulgazioni legali, mediche e governative.",
+      "Tutto avviene nel tuo browser con pdf.js e pdf-lib: il file non viene mai caricato, e le pagine senza rettangoli vengono copiate identiche, byte per byte, mantenendo il testo selezionabile.",
+    ],
+    steps: [
+      "Trascina il PDF e spostati tra le pagine con le frecce di anteprima.",
+      "Disegna rettangoli su ogni zona da rimuovere — quanti ne servono, pagina per pagina.",
+      "Clicca su Oscura e scarica il file pulito; le pagine non marcate restano intatte.",
+    ],
+    faqs: [
+      {
+        q: "È un oscuramento vero o solo un rettangolo nero?",
+        a: "Oscuramento vero. Le pagine marcate vengono rasterizzate — le aree marcate vengono distrutte a 150 DPI prima di assemblare il nuovo PDF, quindi sotto i rettangoli non resta nulla da estrarre. È esattamente per questo che la pagina diventa un'immagine.",
+      },
+      {
+        q: "Perché le pagine oscurate perdono il testo selezionabile?",
+        a: "Perché mantenere il testo significherebbe mantenere il segreto. La rasterizzazione che distrugge il contenuto marcato appiattisce in pixel anche il resto della pagina. Se ti serve testo ricercabile nelle pagine oscurate, oscura una copia e conserva l'originale per il tuo archivio.",
+      },
+      {
+        q: "Le pagine non marcate cambiano?",
+        a: "No. Le pagine senza rettangoli vengono copiate nel nuovo PDF senza modifiche: il testo resta selezionabile e le dimensioni identiche. Viene ri-renderizzata solo la pagina che hai effettivamente marcato.",
+      },
+      {
+        q: "Il file viene caricato su un server?",
+        a: "No. Rendering, oscuramento e riassemblaggio girano nel tuo browser con pdf.js e pdf-lib. Il documento non lascia mai il tuo dispositivo — ed è proprio questo il punto: di solito si oscura proprio il documento più sensibile che si ha tra le mani.",
+      },
+    ],
+  },
 };

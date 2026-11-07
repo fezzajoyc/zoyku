@@ -10241,4 +10241,36 @@ export const fr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "redact-pdf": {
+    name: "Caviarder un PDF",
+    tagline: "Caviardage réel — les pages sont re-rendues pour que le texte sous les rectangles soit physiquement supprimé, et pas simplement recouvert.",
+    intro: [
+      "Tracez des rectangles sur le contenu à faire disparaître — noms, numéros de pièce d'identité, signatures, notes internes — puis téléchargez un PDF où ce contenu n'existe plus. Chaque page marquée est re-rendue en image à 150 DPI avec les rectangles gravés dedans, si bien que ce qui se trouve dessous n'est pas simplement masqué : il est détruit avant que le nouveau fichier ne soit écrit.",
+      "Cette distinction est cruciale. Recouvrir du texte d'un rectangle noir dans un éditeur PDF laisse les caractères intacts en dessous — n'importe qui peut les copier ou supprimer le rectangle. Le caviardage réel les élimine ; c'est le standard exigé pour les divulgations juridiques, médicales et administratives.",
+      "Tout se passe dans votre navigateur avec pdf.js et pdf-lib : le fichier n'est jamais téléversé, et les pages sans rectangle sont copiées à l'identique, octet par octet, en conservant leur texte sélectionnable.",
+    ],
+    steps: [
+      "Déposez le PDF et naviguez jusqu'à une page avec les flèches d'aperçu.",
+      "Tracez des rectangles sur chaque zone à supprimer — autant que nécessaire, page par page.",
+      "Lancez le caviardage puis téléchargez le fichier assaini ; les pages non marquées restent intactes.",
+    ],
+    faqs: [
+      {
+        q: "Est-ce un caviardage réel ou juste une boîte noire ?",
+        a: "Un caviardage réel. Les pages marquées sont rasterisées — les zones marquées sont détruites à 150 DPI avant l'assemblage du nouveau PDF, donc il ne reste rien sous les rectangles à extraire. C'est précisément pour cela que la page devient une image.",
+      },
+      {
+        q: "Pourquoi les pages caviardées perdent-elles leur texte sélectionnable ?",
+        a: "Parce que conserver le texte, c'est conserver le secret. La rasterisation qui détruit le contenu marqué aplatit aussi le reste de la page en pixels. Si vous avez besoin d'un texte recherchable sur les pages caviardées, caviardez une copie et gardez l'original pour vos archives.",
+      },
+      {
+        q: "Les pages non marquées changent-elles ?",
+        a: "Non. Les pages sans rectangle sont copiées telles quelles dans le nouveau PDF : leur texte reste sélectionnable et leur taille identique. Seules les pages que vous marquez réellement sont re-rendues.",
+      },
+      {
+        q: "Un fichier est-il téléversé vers un serveur ?",
+        a: "Non. Le rendu, l'occultation et le réassemblage s'exécutent dans votre navigateur via pdf.js et pdf-lib. Le document ne quitte jamais votre appareil — c'est justement le but, puisque le caviardage s'applique en général aux documents les plus sensibles qu'on manipule.",
+      },
+    ],
+  },
 };

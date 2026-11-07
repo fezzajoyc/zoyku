@@ -10241,4 +10241,20 @@ export const vi: Record<string, ToolCopy> = {
       },
     ],
   },
+  "redact-pdf": {
+    name: 'Xóa đen PDF',
+    tagline: 'Xóa đen thật sự — các trang được đánh dấu dựng lại ở 150 DPI nên văn bản dưới ô đen bị phá hủy vật lý, không chỉ bị che phủ; toàn bộ xử lý cục bộ ngay trong trình duyệt.',
+    intro: ['Kéo ô bao quanh nội dung cần xóa — tên, số giấy tờ, chữ ký, ghi chú nội bộ — rồi tải về một tệp PDF mà nội dung đó không còn tồn tại. Mỗi trang được đánh dấu được dựng lại thành ảnh ở 150 DPI với các ô đen ghi cứng vào, nên thứ bên dưới không chỉ bị che: nó bị phá hủy trước khi tệp mới được ghi.',
+        'Sự khác biệt này rất quan trọng. Che văn bản bằng hình chữ nhật đen trong trình chỉnh sửa PDF vẫn để nguyên ký tự bên dưới — ai cũng có thể sao chép chúng hoặc xóa hình chữ nhật đi. Xóa đen thật sự loại bỏ chúng, đó là tiêu chuẩn bắt buộc trong công bố pháp lý, y tế và hành chính.',
+        'Mọi thứ diễn ra trong trình duyệt của bạn với pdf.js và pdf-lib: tệp không bao giờ được tải lên, còn các trang không có ô được sao chép nguyên vẹn từng byte và vẫn giữ văn bản chọn được.'],
+    steps: ['Thả tệp PDF và dùng mũi tên xem trước để chuyển tới trang cần xử lý.',
+        'Kéo ô quanh mọi vùng cần xóa — thêm bao nhiêu cũng được, theo từng trang.',
+        'Chạy xóa đen rồi tải về tệp đã sạch; các trang không đánh dấu giữ nguyên.'],
+    faqs: [
+        { q: 'Đây là xóa đen thật hay chỉ là ô đen?', a: 'Xóa đen thật. Các trang được đánh dấu được raster hóa — vùng đánh dấu bị phá hủy ở 150 DPI trước khi PDF mới được lắp ráp, nên không còn gì dưới các ô để trích xuất. Chính vì thế trang mới trở thành ảnh.' },
+        { q: 'Sao trang đã xóa đen mất văn bản chọn được?', a: 'Vì giữ văn bản là giữ bí mật. Quá trình raster hóa phá hủy vùng đánh dấu cũng làm phẳng phần còn lại của trang thành pixel. Nếu cần văn bản tìm kiếm được cả ở trang đã xóa đen, hãy xóa đen trên bản sao và giữ bản gốc để lưu trữ.' },
+        { q: 'Các trang không đánh dấu có thay đổi gì không?', a: 'Không. Trang không có ô được sao chép nguyên vào PDF mới: văn bản vẫn chọn được, kích thước không đổi. Chỉ những trang bạn thực sự đánh dấu mới được dựng lại.' },
+        { q: 'Có gì bị tải lên máy chủ không?', a: 'Không. Việc dựng, tô đen và lắp ráp lại đều chạy trong trình duyệt của bạn qua pdf.js và pdf-lib. Tài liệu không bao giờ rời thiết bị — và đó chính là điểm mấu chốt, vì tài liệu cần xóa đen thường là những tài liệu nhạy cảm nhất mà bạn xử lý.' },
+    ],
+  },
 };

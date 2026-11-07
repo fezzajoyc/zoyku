@@ -10232,6 +10232,38 @@ export const de: Record<string, ToolCopy> = {
       },
     ],
   },
+  "redact-pdf": {
+    name: "PDF schwärzen",
+    tagline: "Echte Schwärzung — die Seiten werden neu gerendert, sodass der Text unter den Rahmen physisch entfernt wird, nicht nur überdeckt.",
+    intro: [
+      "Ziehen Sie Rahmen über den Inhalt, der verschwinden soll — Namen, Ausweisnummern, Unterschriften, interne Notizen — und laden Sie eine PDF herunter, in der dieser Inhalt nicht mehr existiert. Jede markierte Seite wird als Bild mit 150 DPI neu gerendert, die eingebrannten Rahmen eingeschlossen; was unter ihnen liegt, ist nicht nur verdeckt, sondern zerstört, bevor die neue Datei geschrieben wird.",
+      "Dieser Unterschied ist entscheidend. Ein schwarzes Rechteck über Text in einem PDF-Editor lässt die Zeichen darunter unberührt — jeder kann sie kopieren oder das Rechteck löschen. Echte Schwärzung entfernt sie; genau das verlangen juristische, medizinische und behördliche Offenlegungen.",
+      "Alles läuft in Ihrem Browser mit pdf.js und pdf-lib: Die Datei wird nie hochgeladen, und Seiten ohne Rahmen werden byteweise unverändert in die neue PDF übernommen — ihr Text bleibt selektierbar.",
+    ],
+    steps: [
+      "Legen Sie die PDF ab und navigieren Sie mit den Vorschau-Pfeilen zur gewünschten Seite.",
+      "Ziehen Sie Rahmen über jede zu entfernende Region — so viele wie nötig, pro Seite.",
+      "Schwärzen Sie und laden Sie die bereinigte Datei herunter; nicht markierte Seiten bleiben unangetastet.",
+    ],
+    faqs: [
+      {
+        q: "Ist das echte Schwärzung oder nur eine schwarze Box?",
+        a: "Echte Schwärzung. Markierte Seiten werden rastriert — die markierten Regionen werden bei 150 DPI zerstört, bevor die neue PDF zusammengesetzt wird; unter den Rahmen bleibt also nichts zum Extrahieren. Genau deshalb wird die Seite zu einem Bild.",
+      },
+      {
+        q: "Warum verlieren geschwärzte Seiten ihren selektierbaren Text?",
+        a: "Weil Text zu behalten heißt, das Geheimnis zu behalten. Die Rasterung, die den markierten Inhalt zerstört, drückt auch den Rest der Seite zu Pixeln zusammen. Brauchen Sie durchsuchbaren Text auf geschwärzten Seiten, schwärzen Sie eine Kopie und behalten Sie das Original für Ihr Archiv.",
+      },
+      {
+        q: "Ändern sich nicht markierte Seiten?",
+        a: "Nein. Seiten ohne Rahmen werden unverändert in die neue PDF kopiert: ihr Text bleibt selektierbar, ihre Größe bleibt gleich. Neu gerendert werden nur Seiten, die Sie tatsächlich markiert haben.",
+      },
+      {
+        q: "Wird etwas auf einen Server hochgeladen?",
+        a: "Nein. Rendern, Schwärzen und Wiederzusammensetzen laufen in Ihrem Browser mit pdf.js und pdf-lib. Das Dokument verlässt Ihr Gerät nie — das ist der ganze Punkt, denn geschwärzt wird meist an den sensibelsten Dokumenten, die man überhaupt in der Hand hat.",
+      },
+    ],
+  },
 };
 
 export default de;

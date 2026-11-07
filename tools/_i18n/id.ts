@@ -10253,4 +10253,20 @@ export const id: Record<string, ToolCopy> = {
       },
     ],
   },
+  "redact-pdf": {
+    name: 'Sensor PDF',
+    tagline: 'Redaksi sungguhan, bukan sekadar ditutupi: halaman yang ditandai dirender ulang sehingga teks di bawah kotak hitam dihancurkan secara fisik sebelum berkas baru ditulis — semuanya diproses lokal di peramban Anda.',
+    intro: ['Tarik kotak di atas konten yang harus hilang — nama, nomor identitas, tanda tangan, catatan internal — lalu unduh PDF yang tidak lagi memuat konten itu. Setiap halaman yang ditandai dirender ulang sebagai gambar pada 150 DPI dengan kotak-kotak dibakar di dalamnya, sehingga yang di bawahnya tidak sekadar tersembunyi: ia dihancurkan sebelum berkas baru ditulis.',
+        'Pembedaan ini penting. Menutup teks dengan persegi hitam di editor PDF menyisakan karakter utuh di bawahnya — siapa pun bisa menyalinnya atau menghapus persegi itu. Redaksi sungguhan menghapusnya, dan itulah standar yang dituntut dalam pengungkapan hukum, medis, dan pemerintahan.',
+        'Semuanya terjadi di peramban Anda dengan pdf.js dan pdf-lib: berkas tidak pernah diunggah, dan halaman tanpa kotak disalin tanpa perubahan, byte demi byte, dengan teks yang tetap bisa dipilih.'],
+    steps: ['Jatuhkan PDF dan navigasikan ke halaman yang dituju memakai panah pratinjau.',
+        'Tarik kotak di atas setiap area yang mau dihapus — sebanyak apa pun, per halaman.',
+        'Jalankan sensor, lalu unduh berkas yang bersih; halaman tanpa tanda tetap utuh.'],
+    faqs: [
+        { q: 'Ini redaksi sungguhan atau cuma kotak hitam?', a: 'Redaksi sungguhan. Halaman yang ditandai dirasterisasi — area yang ditandai dihancurkan pada 150 DPI sebelum PDF baru dirakit, jadi tidak ada apa pun yang tersisa di bawah kotak untuk diekstrak. Justru karena itulah halaman berubah menjadi gambar.' },
+        { q: 'Kenapa halaman yang disensor kehilangan teks yang bisa dipilih?', a: 'Karena menyimpan teks berarti menyimpan rahasianya. Rasterisasi yang menghancurkan konten yang ditandai juga meratakan sisa halaman itu menjadi piksel. Kalau halaman tersensor harus tetap bisa dicari, sensorlah salinannya dan simpan aslinya untuk arsip.' },
+        { q: 'Apakah halaman yang tidak ditandai berubah?', a: 'Tidak. Halaman tanpa kotak disalin ke PDF baru tanpa perubahan: teksnya tetap bisa dipilih dan ukurannya tetap sama. Hanya halaman yang benar-benar Anda tandai yang dirender ulang.' },
+        { q: 'Apakah ada yang diunggah ke server?', a: 'Tidak. Perenderan, penutupan hitam, dan perakitan ulang semuanya berjalan di peramban Anda dengan pdf.js dan pdf-lib. Dokumen tidak pernah keluar dari perangkat Anda — dan justru itu intinya, karena dokumen yang Anda sensor biasanya adalah dokumen paling sensitif yang Anda tangani.' },
+    ],
+  },
 };

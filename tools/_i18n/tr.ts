@@ -10253,4 +10253,36 @@ export const tr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "redact-pdf": {
+    name: "PDF'i Karala",
+    tagline: "Gerçek karalama — sayfalar yeniden işlenir ve kutuların altındaki metin fiziksel olarak silinir, yalnızca kapatılmaz.",
+    intro: [
+      "Silinecek içeriğin üzerine kutular çizin — isimler, kimlik numaraları, imzalar, dahili notlar — ve bu içeriğin artık var olmadığı bir PDF indirin. İşaretlenen her sayfa, kutular yakılarak 150 DPI çözünürlükte yeniden görüntüye dönüştürülür; kutuların altındaki şey gizlenmez, yeni dosya yazılmadan önce yok edilir.",
+      "Bu ayrım önemlidir. Bir PDF düzenleyicide metnin üzerine siyah bir dikdörtgen koymak, altındaki karakterleri olduğu gibi bırakır — herkes onları kopyalayabilir veya kutuyu silebilir. Gerçek karalama onları kaldırır; hukuki, tıbbi ve resmi açıklamalarda istenen standart budur.",
+      "Her şey tarayıcında pdf.js ve pdf-lib ile çalışır: dosya asla yüklenmez ve kutusu olmayan sayfalar bayt bayt aynen kopyalanır, seçilebilir metinleri olduğu gibi korunur.",
+    ],
+    steps: [
+      "PDF'i bırak ve önizleme oklarıyla işlem yapacağın sayfaya git.",
+      "Kaldırılacak her bölgenin üzerine kutu çiz — sayfa başına istediğin kadar.",
+      "«Karala»ya tıkla ve temiz dosyayı indir; işaretlenmeyen sayfalar olduğu gibi kalır.",
+    ],
+    faqs: [
+      {
+        q: "Bu gerçek karalama mı, yoksa sadece siyah bir kutu mu?",
+        a: "Gerçek karalama. İşaretlenen sayfalar rasterleştirilir — işaretlenen bölgeler yeni PDF oluşturulmadan önce 150 DPI'da yok edilir, kutuların altında çıkarılacak hiçbir şey kalmaz. Sayfanın görüntüye dönüşmesinin sebebi tam olarak budur.",
+      },
+      {
+        q: "Karalanan sayfalar neden seçilebilir metnini kaybediyor?",
+        a: "Çünkü metni tutmak sırrı da tutmak olur. İşaretlenen içeriği yok eden rasterleştirme, sayfanın geri kalanını da piksele indirger. Karalanan sayfalarda aranabilir metin gerekiyorsa bir kopyayı karala, özgünü arşivinde sakla.",
+      },
+      {
+        q: "İşaretlenmeyen sayfalar değişiyor mu?",
+        a: "Hayır. Kutusu olmayan sayfalar yeni PDF'e aynen kopyalanır: metinleri seçilebilir kalır, boyutları aynıdır. Yalnızca gerçekten işaretlediğin sayfalar yeniden işlenir.",
+      },
+      {
+        q: "Dosya bir sunucuya yükleniyor mu?",
+        a: "Hayır. Görüntüleme, karalama ve yeniden birleştirme tarayıcında pdf.js ve pdf-lib ile çalışır. Belge cihazından asla çıkmaz — zaten asıl nokta budur: karalama genellikle elindeki en hassas belgelere uygulanır.",
+      },
+    ],
+  },
 };
