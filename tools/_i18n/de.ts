@@ -10264,6 +10264,38 @@ export const de: Record<string, ToolCopy> = {
       },
     ],
   },
+  "extract-images-pdf": {
+    name: "Bilder aus PDF extrahieren",
+    tagline: "Holen Sie die tatsächlich eingebetteten Fotos und Grafiken in ihrer gespeicherten Auflösung zurück — volle Qualität, keine Seiten-Screenshots, alles läuft lokal.",
+    intro: [
+      "PDFs tragen Fotos als eingebettete Bitmaps mit sich: gescannte Unterschriften, Produktfotos, aus anderen Werkzeugen eingefügte Diagramme. Dieses Werkzeug geht durch die Inneren der Datei und liefert Ihnen diese Originalbilder in voller gespeicherter Auflösung — genau die Bytes, die in die PDF gekommen sind, keine verkleinerten Seiten-Schnappschüsse.",
+      "Der Unterschied zu Seiten-zu-Bild-Konvertern ist der Unterschied zwischen Negativ und Abzug. Ein Seiten-Rendering fixiert Bilder auf die Größe, in der sie auf der Seite erscheinen; die Extraktion gibt Ihnen die Quell-Bitmap, die meist deutlich größer ist und frei von umgebendem Inhalt bleibt.",
+      "Vektorgrafiken, Text und Schriften sind keine Bitmaps und werden korrekt übersprungen — Sie erhalten genau das Fotomaterial. Dateien ohne eingebettete Bilder werden ehrlich gemeldet, statt fingierte Screenshots zurückzugeben. Alles läuft über pdf.js in Ihrem Browser — die PDF verlässt Ihr Gerät nie.",
+    ],
+    steps: [
+      "Legen Sie die PDF ab; das Scannen läuft Seite für Seite mit Fortschrittsbalken.",
+      "Sehen Sie sich die wiederhergestellten Bilder in einer Miniaturübersicht an — mit Seitenzahlen und Abmessungen.",
+      "Klicken Sie auf eine Miniatur, um das Bild herunterzuladen, oder holen Sie alles auf einmal als ZIP.",
+    ],
+    faqs: [
+      {
+        q: "Worin unterscheidet sich das von PDF zu JPG?",
+        a: "PDF zu JPG rendert ganze Seiten — Layout, Text und alles — in der gewählten Auflösung. Dieses Werkzeug zieht die ursprünglichen eingebetteten Bitmaps selbst heraus, in voller gespeicherter Auflösung und ohne Seiten-Umgebung. Für Seiten-Captures den Konverter, für Quellbilder dieses Werkzeug.",
+      },
+      {
+        q: "Warum liefern manche PDFs nichts?",
+        a: "Weil sie keine eingebetteten Bitmaps enthalten. Aus Vektoren und Text gesetzte Dokumente — Verträge, gesetzte Berichte — haben keine Fotos im Inneren, und dieses Werkzeug sagt das ehrlich, statt Screenshots zu fälschen. Gescannte PDFs sind das gegenteilige Extrem: jede Seite ist ein großes Bild, und alle erscheinen hier.",
+      },
+      {
+        q: "Werden die Bilder neu komprimiert?",
+        a: "PNG für kleinere Grafiken, JPEG mit 92 % Qualität für größere Fotos — ein Ausgleich, der Dateien praktisch hält, ohne sichtbaren Verlust. Die Bitmap-Daten selbst kommen direkt aus den gespeicherten Objekten der PDF; nur der Container wechselt, zu einem Format, das Ihre Werkzeuge öffnen können.",
+      },
+      {
+        q: "Wird die Datei hochgeladen?",
+        a: "Nein. Das Scannen läuft vollständig über pdf.js in Ihrem Browser; die PDF und die extrahierten Bilder verlassen Ihr Gerät nie. Das zählt hier mehr als sonst, denn die Bilder in einer PDF sind oft ihr sensibelster Teil: Ausweisfotos, Scans, Screenshots interner Systeme.",
+      },
+    ],
+  },
 };
 
 export default de;

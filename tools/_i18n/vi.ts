@@ -10257,4 +10257,20 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Có gì bị tải lên máy chủ không?', a: 'Không. Việc dựng, tô đen và lắp ráp lại đều chạy trong trình duyệt của bạn qua pdf.js và pdf-lib. Tài liệu không bao giờ rời thiết bị — và đó chính là điểm mấu chốt, vì tài liệu cần xóa đen thường là những tài liệu nhạy cảm nhất mà bạn xử lý.' },
     ],
   },
+  "extract-images-pdf": {
+    name: 'Trích xuất ảnh từ PDF',
+    tagline: 'Khôi phục ảnh và đồ họa nhúng gốc ở đúng độ phân giải lưu trữ — chất lượng đầy đủ, không phải ảnh chụp trang, mọi thứ chạy cục bộ trong trình duyệt qua pdf.js.',
+    intro: ['PDF lưu ảnh dưới dạng bitmap nhúng: chữ ký quét, ảnh sản phẩm, biểu đồ dán từ công cụ khác. Công cụ này đi qua bên trong tệp và trao cho bạn những ảnh gốc đó ở đúng độ phân giải lưu trữ — đúng những byte được đưa vào PDF, chứ không phải bản chụp trang thu nhỏ.',
+        'Khác biệt so với bộ chuyển trang thành ảnh là khác biệt giữa film âm bản và bản in. Việc dựng lại trang cố định ảnh ở kích thước nó xuất hiện trên trang; trích xuất đưa cho bạn bitmap nguồn, thường lớn hơn nhiều và không có nội dung xung quanh.',
+        'Đồ họa vector, văn bản và phông chữ không phải bitmap nên được bỏ qua đúng cách — bạn nhận đúng chất liệu ảnh. Tệp không có ảnh nhúng được báo cáo thẳng thắn thay vì trả về ảnh chụp giả. Mọi thứ chạy trong trình duyệt qua pdf.js — PDF không bao giờ rời thiết bị của bạn.'],
+    steps: ['Thả tệp PDF vào; quét từng trang và hiển thị thanh tiến trình.',
+        'Xem các ảnh khôi phục được trong lưới thumbnail kèm số trang và kích thước.',
+        'Nhấp vào thumbnail để tải từng tệp, hoặc lấy toàn bộ một lần dưới dạng ZIP.'],
+    faqs: [
+        { q: 'Khác gì với PDF sang JPG?', a: 'PDF sang JPG dựng lại cả trang — bố cục, văn bản, tất cả — ở độ phân giải bạn chọn. Công cụ này rút ra chính các bitmap nhúng gốc, ở đúng độ phân giải lưu trữ, không kèm bất cứ thứ gì của trang xung quanh. Cần chụp trang thì dùng bộ chuyển, cần ảnh nguồn thì dùng công cụ này.' },
+        { q: 'Tại sao một số PDF không cho ra gì?', a: 'Vì chúng không chứa bitmap nhúng. Tài liệu dàn từ vector và văn bản — hợp đồng, báo cáo in — vốn không có ảnh chụp, và công cụ nói thẳng điều đó thay vì bịa ảnh chụp. PDF quét thì ngược lại: mỗi trang là một ảnh lớn và tất cả đều hiện ở đây.' },
+        { q: 'Ảnh có bị nén lại không?', a: 'PNG cho đồ họa nhỏ, JPEG chất lượng 92% cho ảnh lớn — một sự cân bằng giữ kích thước tệp thực dụng mà không có hao hụt thấy được. Dữ liệu bitmap lấy thẳng từ đối tượng lưu trữ của PDF; chỉ thay đổi định dạng vỏ bọc sang thứ công cụ của bạn mở được.' },
+        { q: 'Tệp có được tải lên không?', a: 'Không. Toàn bộ quá trình quét chạy qua pdf.js ngay trong trình duyệt của bạn; PDF và các ảnh trích xuất không bao giờ rời thiết bị. Điều này càng quan trọng hơn bình thường, vì ảnh trong PDF thường chính là phần nhạy cảm nhất: ảnh giấy tờ, bản quét, ảnh chụp hệ thống nội bộ.' },
+    ],
+  },
 };

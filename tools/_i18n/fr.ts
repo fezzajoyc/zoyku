@@ -10273,4 +10273,36 @@ export const fr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "extract-images-pdf": {
+    name: "Extraire les images d'un PDF",
+    tagline: "Récupérez les vraies photos et graphiques incrustés dans le PDF à leur résolution stockée — qualité intégrale, pas des captures de page, tout en local.",
+    intro: [
+      "Les PDF transportent les photos sous forme de bitmaps incrustés : signatures scannées, photos de produit, graphiques collés depuis d'autres outils. Cet outil parcourt les entrailles du fichier et vous restitue ces images d'origine à leur résolution stockée complète — exactement les octets qui ont été mis dans le PDF, et non des instantanés de page réduits.",
+      "La différence avec les convertisseurs de page en image, c'est la différence entre le négatif et le tirage. Un rendu de page fige les images à la taille sous laquelle elles apparaissent ; l'extraction vous remet le bitmap source, souvent bien plus grand et débarrassé de tout contenu alentour.",
+      "Les graphiques vectoriels, le texte et les polices ne sont pas des bitmaps et sont correctement écartés : ce que vous recevez est exactement le matériel photographique. Les fichiers sans images incrustées le signalent honnêtement au lieu de renvoyer de fausses captures. Tout s'exécute dans votre navigateur via pdf.js — le PDF ne quitte jamais votre appareil.",
+    ],
+    steps: [
+      "Déposez le PDF ; le balayage s'effectue page par page avec une barre de progression.",
+      "Parcourez les images récupérées dans une grille de miniatures, avec numéros de page et dimensions.",
+      "Cliquez sur une miniature pour télécharger l'image, ou récupérez tout d'un coup dans un ZIP.",
+    ],
+    faqs: [
+      {
+        q: "En quoi est-ce différent de PDF en JPG ?",
+        a: "PDF en JPG effectue le rendu de pages entières — mise en page, texte et tout le reste — à la résolution choisie. Cet outil extrait les bitmaps incrustés d'origine, à leur résolution stockée complète, sans aucun élément de page autour. Pour des captures de page, le convertisseur ; pour des images sources, celui-ci.",
+      },
+      {
+        q: "Pourquoi certains PDF ne renvoient-ils rien ?",
+        a: "Parce qu'ils ne contiennent aucun bitmap incrusté. Les documents composés en vecteurs et en texte — contrats, rapports typographiés — n'ont pas de photos à l'intérieur, et cet outil le dit honnêtement au lieu de fabriquer des captures. Les PDF scannés sont l'extrême inverse : chaque page est une grande image, et toutes apparaissent ici.",
+      },
+      {
+        q: "Les images sont-elles recomprimées ?",
+        a: "PNG pour les petits graphiques, JPEG à 92 % pour les photos plus grandes — un équilibre qui garde des fichiers pratiques sans perte visible. Les données du bitmap proviennent directement des objets stockés du PDF ; seul le conteneur change, pour un format que vos outils savent ouvrir.",
+      },
+      {
+        q: "Le fichier est-il téléversé quelque part ?",
+        a: "Non. Le balayage s'exécute entièrement dans votre navigateur via pdf.js ; le PDF et les images extraites ne quittent jamais votre appareil. C'est ici plus important qu'ailleurs, car les images d'un PDF en sont souvent la partie la plus sensible : photos d'identité, scans, captures de systèmes internes.",
+      },
+    ],
+  },
 };

@@ -10269,4 +10269,20 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah ada yang diunggah ke server?', a: 'Tidak. Perenderan, penutupan hitam, dan perakitan ulang semuanya berjalan di peramban Anda dengan pdf.js dan pdf-lib. Dokumen tidak pernah keluar dari perangkat Anda — dan justru itu intinya, karena dokumen yang Anda sensor biasanya adalah dokumen paling sensitif yang Anda tangani.' },
     ],
   },
+  "extract-images-pdf": {
+    name: 'Ekstrak Gambar dari PDF',
+    tagline: 'Pulihkan foto dan grafis tersemat asli pada resolusi tersimpannya — kualitas penuh tanpa tangkapan halaman, semuanya berjalan lokal di peramban Anda lewat pdf.js tanpa unggahan.',
+    intro: ['PDF menyimpan foto sebagai bitmap tersemat: tanda tangan hasil pindai, foto produk, grafik yang ditempel dari alat lain. Alat ini menelusuri bagian dalam berkas dan menyerahkan gambar asli tersebut pada resolusi tersimpan penuh — persis byte yang masuk ke PDF, bukan potret halaman yang diperkecil.',
+        'Bedanya dengan pengonversi halaman-ke-gambar adalah beda negatif dengan cetakan. Render halaman mengunci gambar pada ukuran kemunculannya di halaman; ekstraksi memberi Anda bitmap sumber, yang biasanya jauh lebih besar dan bebas dari konten di sekelilingnya.',
+        'Grafis vektor, teks, dan fon bukan bitmap dan dilewati dengan benar — yang Anda dapatkan persis materi fotonya. Berkas tanpa gambar tersemat dilaporkan apa adanya alih-alih mengembalikan tangkapan palsu. Semuanya berjalan di peramban Anda lewat pdf.js — PDF tidak pernah meninggalkan perangkat.'],
+    steps: ['Jatuhkan PDF; pemindaian berjalan halaman demi halaman dengan bilah kemajuan.',
+        'Jelajahi gambar yang dipulihkan dalam kisi thumbnail dengan nomor halaman dan dimensi.',
+        'Klik thumbnail untuk mengunduhnya satu per satu, atau ambil semuanya sekaligus sebagai ZIP.'],
+    faqs: [
+        { q: 'Apa bedanya dengan PDF ke JPG?', a: 'PDF ke JPG me-render halaman utuh — tata letak, teks, semuanya — pada resolusi pilihan Anda. Alat ini mengeluarkan bitmap tersemat aslinya, pada resolusi tersimpan penuh, tanpa perabot halaman di sekelilingnya. Untuk tangkapan halaman pakai pengonversi; untuk gambar sumber pakai yang ini.' },
+        { q: 'Mengapa beberapa PDF tidak menghasilkan apa pun?', a: 'Karena tidak memuat bitmap tersemat. Dokumen yang disusun dari vektor dan teks — kontrak, laporan tata cetak — memang tidak berisi foto, dan alat ini mengatakannya dengan jujur alih-alih merekayasa tangkapan. PDF hasil pindaian kebalikannya: setiap halaman satu gambar besar dan semuanya muncul di sini.' },
+        { q: 'Apakah gambar dikompres ulang?', a: 'PNG untuk grafis kecil, JPEG kualitas 92% untuk foto besar — keseimbangan yang menjaga ukuran berkas tetap praktis tanpa kehilangan yang terlihat. Data bitmapnya sendiri langsung berasal dari objek tersimpan PDF; hanya wadahnya yang berganti format agar alat Anda bisa membukanya.' },
+        { q: 'Apakah berkasnya diunggah?', a: 'Tidak. Pemindaian berjalan lewat pdf.js sepenuhnya di peramban Anda; PDF dan gambar yang diekstrak tidak pernah meninggalkan perangkat. Ini lebih penting dari biasanya, sebab gambar di dalam PDF sering kali bagian paling sensitif: foto identitas, hasil pindai, tangkapan layar sistem internal.' },
+    ],
+  },
 };

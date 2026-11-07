@@ -10265,4 +10265,36 @@ export const it: Record<string, ToolCopy> = {
       },
     ],
   },
+  "extract-images-pdf": {
+    name: "Estrai immagini dal PDF",
+    tagline: "Recupera le foto e le grafiche davvero incorporate alla loro risoluzione memorizzata — qualità piena, niente screenshot di pagina, tutto in locale.",
+    intro: [
+      "I PDF trasportano le foto come bitmap incorporate: firme scansionate, foto di prodotto, grafici incollati da altri strumenti. Questo strumento percorre le viscere del file e ti restituisce le immagini originali alla risoluzione memorizzata completa — esattamente i byte entrati nel PDF, non istantanee di pagina rimpicciolite.",
+      "La differenza rispetto ai convertitori di pagina in immagine è quella tra negativo e stampa. Il rendering di pagina fissa le immagini alla dimensione con cui compaiono su di essa; l'estrazione ti consegna il bitmap di origine, di solito molto più grande e senza contenuti attorno.",
+      "Grafica vettoriale, testo e font non sono bitmap e vengono saltati correttamente: ciò che ricevi è esattamente il materiale fotografico. I file senza immagini incorporate lo dichiarano onestamente invece di restituire screenshot finti. Tutto gira nel tuo browser via pdf.js — il PDF non lascia mai il tuo dispositivo.",
+    ],
+    steps: [
+      "Trascina il PDF; la scansione procede pagina per pagina con una barra di avanzamento.",
+      "Sfoglia le immagini recuperate in una griglia di miniature, con numeri di pagina e dimensioni.",
+      "Fai clic su una miniatura per scaricare l'immagine, o prendi tutto in una volta in un ZIP.",
+    ],
+    faqs: [
+      {
+        q: "In cosa si differenzia da PDF in JPG?",
+        a: "PDF in JPG renderizza pagine intere — impaginazione, testo e tutto — alla risoluzione scelta. Questo strumento estrae le bitmap incorporate originali, alla risoluzione memorizzata completa, senza alcun elemento di pagina attorno. Per catture di pagina il convertitore; per immagini di origine questo.",
+      },
+      {
+        q: "Perché alcuni PDF non restituiscono nulla?",
+        a: "Perché non contengono bitmap incorporate. I documenti composti con vettori e testo — contratti, report impaginati — non hanno foto dentro, e questo strumento lo dice onestamente invece di fabbricare screenshot. I PDF scansionati sono l'estremo opposto: ogni pagina è una grande immagine e tutte compaiono qui.",
+      },
+      {
+        q: "Le immagini vengono ricomprese?",
+        a: "PNG per le grafiche piccole, JPEG al 92% per le foto più grandi — un equilibrio che tiene i file pratici senza perdita visibile. I dati della bitmap arrivano direttamente dagli oggetti memorizzati del PDF; cambia solo il contenitore, in un formato che i tuoi strumenti sanno aprire.",
+      },
+      {
+        q: "Il file viene caricato su un server?",
+        a: "No. La scansione gira interamente nel tuo browser via pdf.js; il PDF e le immagini estratte non lasciano mai il tuo dispositivo. Qui conta più del solito, perché le immagini dentro un PDF spesso sono la sua parte più sensibile: foto di documenti, scansioni, screenshot di sistemi interni.",
+      },
+    ],
+  },
 };

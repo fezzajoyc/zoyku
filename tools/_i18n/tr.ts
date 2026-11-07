@@ -10285,4 +10285,36 @@ export const tr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "extract-images-pdf": {
+    name: "PDF'den Görsel Çıkarma",
+    tagline: "PDF'in içine gömülü gerçek fotoğrafları ve grafikleri depolandıkları çözünürlükte geri getirin — tam kalite, sayfa ekran görüntüsü değil, tamamen yerel.",
+    intro: [
+      "PDF'ler fotoğrafları gömülü bitmap olarak taşır: taranmış imzalar, ürün çekimleri, başka araçlardan yapıştırılan grafikler. Bu araç dosyanın içini adım adım gezer ve o özgün görselleri depolandıkları tam çözünürlükte size verir — PDF'in içine konan baytların kendisi, küçültülmüş sayfa anlık görüntüleri değil.",
+      "Sayfayı görsele çeviren araçlardan farkı, negatifle baskı arasındaki farktır. Sayfa işleme görselleri sayfada göründükleri boyuta sabitler; çıkarma ise kaynak bitmap'i verir — genellikle çok daha büyük ve çevresinde başka içerik yok.",
+      "Vektör grafikler, metin ve yazı tipleri bitmap değildir ve doğru şekilde atlanır; elinize geçen saf fotoğraf malzemesidir. Gömülü görseli olmayan dosyalar sahte ekran görüntüleri üretmek yerine bunu dürüstçe bildirir. Her şey pdf.js ile tarayıcınızda çalışır — PDF cihazınızdan asla çıkmaz.",
+    ],
+    steps: [
+      "PDF'i bırak; tarama sayfa sayfa, ilerleme çubuğuyla yürür.",
+      "Kurtarılan görselleri küçük resim ızgarasında incele — sayfa numarası ve boyutlarıyla.",
+      "Tek görseli indirmek için küçük resme tıkla ya da hepsini birden ZIP olarak al.",
+    ],
+    faqs: [
+      {
+        q: "Bu, PDF'i JPG'ye çevirme aracından farkı ne?",
+        a: "PDF→JPG bütün sayfaları — düzeni, metni, hepsini — seçtiğiniz çözünürlükte işler. Bu araç gömülü özgün bitmap'lerin kendisini, depolandıkları tam çözünürlükte, çevresinde sayfa öğesi olmadan çıkarır. Sayfa görüntüsü için çeviriciyi, kaynak görseller için bunu kullanın.",
+      },
+      {
+        q: "Bazı PDF'ler neden hiçbir şey döndürmüyor?",
+        a: "Çünkü içlerinde gömülü bitmap yok. Vektör ve metinle dizilmiş belgeler — sözleşmeler, dizgi raporlar — içinde fotoğraf taşımaz; araç sahte ekran görüntüsü üretmek yerine bunu dürüstçe bildirir. Taranmış PDF'ler tam tersi uçtur: her sayfa tek başına büyük bir görseldir ve hepsi burada görünür.",
+      },
+      {
+        q: "Görseller yeniden sıkıştırılıyor mu?",
+        a: "Küçük grafikler için PNG, büyük fotoğraflar için %92 kalitede JPEG — görünür kayıp yaratmadan dosyaları kullanılabilir tutan bir denge. Bitmap verisinin kendisi PDF'in depolanmış nesnelerinden doğrudan gelir; yalnızca kap biçimi değişir, araçlarınızın açabileceği bir biçime.",
+      },
+      {
+        q: "Dosya bir sunucuya yükleniyor mu?",
+        a: "Hayır. Tarama tamamen tarayıcınızda pdf.js ile çalışır; PDF ve çıkarılan görseller cihazınızdan asla çıkmaz. Bu, burada her zamankinden daha önemli: PDF'in içindeki görseller çoğu zaman dosyanın en hassas kısmıdır — kimlik fotoğrafları, taramalar, iç sistemlerin ekran görüntüleri.",
+      },
+    ],
+  },
 };
