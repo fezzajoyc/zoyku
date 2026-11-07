@@ -10317,4 +10317,36 @@ export const tr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "compare-pdf": {
+    name: "PDF Karşılaştırma",
+    tagline: "İki PDF'i sayfa sayfa işleyip tam olarak neyin değiştiğini vurgular — değişen piksel yüzdesiyle görsel fark (diff), tamamen yerel çalışır.",
+    intro: [
+      "Orijinali ve revize sürümü bırakın: araç iki belgeyi aynı ölçekte yan yana işler ve her sayfayı, anti-aliasing'in yanlış alarm üretmesini engelleyen küçük bir toleransla piksel piksel karşılaştırır. Farklılaşan sayfalar değişen piksel yüzdesiyle listelenir; birine tıklayın, orijinal işlemenin üzerinde değişen her bölgeyi kırmızıya boyayan bir ısı haritası görün.",
+      "Bu görsel bir karşılaştırma — gücü de tam burada: metin düzenlemelerini, değiştirilen görselleri, kayan düzeni, eklenen veya silinen paragrafları, kaybolan imzaları yakalar; farklı işlenen her şey ortaya çıkar, PDF'in nasıl üretildiği fark etmez. Farklı kelime işlemcilerden çıkan, hiç metin katmanı olmayan iki dosya bile aynı kaynağın iki revizyonu kadar temiz karşılaştırılır.",
+      "Karşılaştırma boyunca iki belge de tarayıcınızda kalır — pdf.js işler, piksel hesabı cihazınızda döner, hiçbir şey yüklenmez. Bu, aracın var olma sebebi olan durumda tam da önemlidir: bir sözleşmenin iki taslağı, bir teklifin revizyonu, baskı öncesi prova.",
+    ],
+    steps: [
+      "Sol tarafa orijinal PDF'i, sağ tarafa revize sürümü bırak.",
+      "Karşılaştır'a bas — tarama sayfa sayfa, ilerleme çubuğuyla yürür.",
+      "Farklı çıkan herhangi bir sayfayı aç; orijinal işlemenin üzerindeki kırmızı fark ısı haritasını gör.",
+    ],
+    faqs: [
+      {
+        q: "Bu, metin farkından (text diff) farkı ne?",
+        a: "Metin farkı çıkarılan karakterleri karşılaştırır ve görsel her şeyi kaçırır: değiştirilen logolar, kayan tablolar, değişen satır aralıkları, kaybolan imza. Bu araç okuyucunun gerçekten gördüğünü karşılaştırır. Temiz metinli PDF'lerde ifade değişiklikleri için text-diff'i kullan; görünüm, düzen veya görseller söz konusuyken — ya da dosyalarda hiç metin katmanı yokken — bunu kullan.",
+      },
+      {
+        q: "Yüzde ne anlama geliyor?",
+        a: "O sayfada toleransın ötesinde farklılaşan piksellerin oranıdır. Yeniden dizilmiş bir alt bilgi düşük puan alır; baştan yazılmış bir sayfa yüksek. Sayı nereye bakılacağını gösterir, hüküm değildir — hangi bölgelerin değiştiğini tam görmek için ısı haritasını aç.",
+      },
+      {
+        q: "İki PDF'in sayfa sayısı farklıysa ne olur?",
+        a: "Karşılaştırma, uzun olan belgenin sayfa sayısına kadar yürür; yalnızca birinde bulunan sayfalar tüm sayfa farkı olarak işaretlenir — genellikle aradığınız değişiklik tam da budur: eklenmiş ya da silinmiş bir sayfa.",
+      },
+      {
+        q: "Belgeler cihazımdan çıkıyor mu?",
+        a: "Çıkmıyor. İşleme ve piksel karşılaştırması tamamen tarayıcınızda pdf.js ile çalışır. Tipik kullanım, gizli bir belgenin iki sürümünü göndermeden önce karşılaştırmaktır; belgeleri bir yere yüklemek aracın amacını boşa çevirir.",
+      },
+    ],
+  },
 };

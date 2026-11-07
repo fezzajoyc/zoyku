@@ -10273,4 +10273,20 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Tệp có được tải lên không?', a: 'Không. Toàn bộ quá trình quét chạy qua pdf.js ngay trong trình duyệt của bạn; PDF và các ảnh trích xuất không bao giờ rời thiết bị. Điều này càng quan trọng hơn bình thường, vì ảnh trong PDF thường chính là phần nhạy cảm nhất: ảnh giấy tờ, bản quét, ảnh chụp hệ thống nội bộ.' },
     ],
   },
+  "compare-pdf": {
+    name: 'So sánh PDF',
+    tagline: 'Dựng hai PDF theo từng trang ở cùng tỉ lệ và đánh dấu chính xác chỗ thay đổi — diff trực quan với tỉ lệ pixel khác biệt và bản đồ nhiệt màu đỏ, toàn bộ chạy cục bộ trong trình duyệt qua pdf.js.',
+    intro: ['Thả bản gốc và bản sửa đổi vào: công cụ dựng cả hai tài liệu cạnh nhau ở cùng tỉ lệ, rồi so sánh từng trang theo từng pixel với dung sai nhỏ để khử răng cưa không gây báo động giả. Các trang khác nhau được liệt kê kèm tỉ lệ pixel thay đổi; nhấp vào một trang để thấy bản đồ nhiệt tô đỏ mọi vùng thay đổi trên bản dựng gốc.',
+        'Đây là so sánh trực quan và đó chính là điểm mạnh: bắt được chỉnh sửa văn bản, thay ảnh, dịch chuyển bố cục, đoạn thêm hoặc bớt, chữ ký biến mất — bất cứ thứ gì dựng ra khác nhau đều lộ diện, bất kể PDF được tạo thế nào. Hai bản xuất từ hai trình soạn thảo khác nhau, dù chẳng có lớp văn bản nào, vẫn so sánh sạch như hai bản sửa của cùng một nguồn.',
+        'Cả hai tài liệu nằm trong trình duyệt của bạn trong suốt quá trình so sánh — pdf.js dựng hình, tính toán pixel chạy trên thiết bị, không có gì được tải lên. Điều này quan trọng đúng trong tình huống công cụ sinh ra để phục vụ: hai bản nháp của hợp đồng, bản sửa của đề nghị, bản duyệt trước khi in.'],
+    steps: ['Thả PDF gốc bên trái, bản sửa đổi bên phải.',
+        'Chạy so sánh — quét từng trang với thanh tiến trình.',
+        'Mở trang khác biệt bất kỳ để xem bản đồ nhiệt đỏ phủ trên bản dựng gốc.'],
+    faqs: [
+        { q: 'Khác gì so với diff văn bản?', a: 'Diff văn bản so sánh các ký tự trích xuất và bỏ sót mọi thứ trực quan: logo bị thay, bảng bị dịch, giãn dòng đổi, chữ ký biến mất. Công cụ này so sánh thứ người đọc thực sự nhìn thấy. Dùng text-diff cho thay đổi lời văn trong PDF văn bản sạch; dùng công cụ này khi thẩm mỹ, bố cục hay hình ảnh bị nghi ngờ — hoặc khi tệp chẳng có lớp văn bản nào.' },
+        { q: 'Phần trăm nghĩa là gì?', a: 'Đó là tỉ lệ pixel trên trang đó khác biệt vượt dung sai. Phần chân trang được sắp lại chấm thấp; trang được viết lại toàn bộ chấm cao. Con số này là manh mối chỉ chỗ cần xem, không phải bản án — mở bản đồ nhiệt xem chính xác vùng nào thay đổi.' },
+        { q: 'Hai PDF khác số trang thì sao?', a: 'So sánh chạy tới số trang của tài liệu dài hơn; trang chỉ tồn tại ở một tệp được đánh dấu là khác biệt cả trang — thường chính là thay đổi bạn tìm: trang bị thêm hoặc bớt.' },
+        { q: 'Tài liệu có rời thiết bị của tôi không?', a: 'Không. Việc dựng hình và so sánh pixel chạy hoàn toàn trong trình duyệt của bạn qua pdf.js. Vì cách dùng điển hình là so sánh hai phiên bản của thứ gì đó bí mật trước khi gửi đi, tải chúng lên bất cứ đâu sẽ phá vỡ chính mục đích ấy.' },
+    ],
+  },
 };

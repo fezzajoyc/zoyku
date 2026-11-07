@@ -10296,6 +10296,38 @@ export const de: Record<string, ToolCopy> = {
       },
     ],
   },
+  "compare-pdf": {
+    name: "PDFs vergleichen",
+    tagline: "Zwei PDFs Seite für Seite rendern und exakt hervorheben, was sich geändert hat — visueller Diff mit Prozentsatz geänderter Pixel, alles läuft lokal.",
+    intro: [
+      "Legen Sie das Original und die überarbeitete Version ab: Das Werkzeug rendert beide Dokumente nebeneinander im gleichen Maßstab und vergleicht jede Seite Pixel für Pixel mit einer kleinen Toleranz, damit Anti-Aliasing keine Fehlalarme erzeugt. Seiten mit Unterschieden werden mit ihrem Prozentsatz geänderter Pixel aufgelistet; klicken Sie eine an, um eine Heatmap zu sehen, in der jede geänderte Region rot über dem Original-Rendering liegt.",
+      "Das ist ein visueller Vergleich — und genau das ist seine Stärke: Er findet Textänderungen, ausgetauschte Bilder, verschobenes Layout, hinzugefügte oder gelöschte Absätze, verschwundene Unterschriften — alles, was anders gerendert wird, zeigt sich, egal wie die PDF entstanden ist. Zwei Exporte aus unterschiedlichen Textverarbeitungen, auch ohne Textebene, lassen sich genauso sauber vergleichen wie zwei Überarbeitungen derselben Quelle.",
+      "Beide Dokumente bleiben während des gesamten Vergleichs in Ihrem Browser — pdf.js rendert sie, die Pixelrechnung läuft auf Ihrem Gerät, nichts wird hochgeladen. Das zählt genau in dem Fall, für den dieses Werkzeug gebaut wurde: zwei Entwürfe eines Vertrags, eine überarbeitete Offerte, ein Korrekturabzug vor dem Druck.",
+    ],
+    steps: [
+      "Legen Sie das Original links und die überarbeitete Version rechts ab.",
+      "Vergleichen — der Scan läuft Seite für Seite mit Fortschrittsbalken.",
+      "Öffnen Sie eine beliebige abweichende Seite, um die rote Diff-Heatmap über dem Original-Rendering zu sehen.",
+    ],
+    faqs: [
+      {
+        q: "Worin unterscheidet sich das von einem Text-Diff?",
+        a: "Ein Text-Diff vergleicht extrahierte Zeichen und übersieht alles Visuelle: ausgetauschte Logos, verschobene Tabellen, geänderte Zeilenabstände, eine verschwundene Unterschrift. Dieses Werkzeug vergleicht, was der Leser tatsächlich sieht. Nutzen Sie text-diff für Formulierungsänderungen in sauberen Text-PDFs; nutzen Sie dieses, wenn Aussehen, Layout oder Bilder zur Debatte stehen — oder wenn die Dateien gar keine Textebene haben.",
+      },
+      {
+        q: "Was bedeutet der Prozentsatz?",
+        a: "Er ist der Anteil der Pixel dieser Seite, die über die Toleranz hinaus abweichen. Ein umgebrochener Footer punktet niedrig, eine neu geschriebene Seite hoch. Die Zahl ist ein Hinweis, wo zu suchen ist, kein Urteil — öffnen Sie die Heatmap, um genau zu sehen, welche Regionen sich geändert haben.",
+      },
+      {
+        q: "Was, wenn die beiden PDFs unterschiedlich viele Seiten haben?",
+        a: "Der Vergleich läuft bis zur Seitenzahl des längeren Dokuments; Seiten, die nur in einer der Dateien existieren, werden als Ganzseiten-Unterschied gekennzeichnet — meist genau die gesuchte Änderung: eine hinzugefügte oder gelöschte Seite.",
+      },
+      {
+        q: "Verlassen die Dokumente mein Gerät?",
+        a: "Nein. Rendering und Pixelvergleich laufen vollständig in Ihrem Browser mit pdf.js. Da der typische Einsatz darin besteht, zwei Versionen einer vertraulichen Unterlage vor dem Versand zu vergleichen, würde ein Hochladen irgendwohin den Zweck zunichtemachen.",
+      },
+    ],
+  },
 };
 
 export default de;

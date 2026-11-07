@@ -10285,4 +10285,20 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah berkasnya diunggah?', a: 'Tidak. Pemindaian berjalan lewat pdf.js sepenuhnya di peramban Anda; PDF dan gambar yang diekstrak tidak pernah meninggalkan perangkat. Ini lebih penting dari biasanya, sebab gambar di dalam PDF sering kali bagian paling sensitif: foto identitas, hasil pindai, tangkapan layar sistem internal.' },
     ],
   },
+  "compare-pdf": {
+    name: 'Bandingkan PDF',
+    tagline: 'Render dua PDF halaman demi halaman pada skala yang sama dan tandai persis apa yang berubah — diff visual dengan persentase piksel berubah dan peta panas merah, semuanya berjalan lokal di peramban Anda lewat pdf.js.',
+    intro: ['Jatuhkan versi asli dan versi revisi: alat ini me-render kedua dokumen berdampingan pada skala yang sama, lalu membandingkan setiap halaman piksel demi piksel dengan toleransi kecil agar anti-aliasing tidak memicu alarm palsu. Halaman yang berbeda didaftarkan beserta persentase piksel berubahnya; klik salah satu untuk melihat peta panas di mana setiap wilayah yang berubah dicat merah di atas render asli.',
+        'Ini perbandingan visual, dan di situlah kekuatannya: menangkap pengeditan teks, penggantian gambar, pergeseran tata letak, paragraf yang ditambah atau dihapus, tanda tangan yang hilang — apa pun yang dirender secara berbeda akan muncul, tanpa memeduli bagaimana PDF itu dibuat. Dua ekspor dari pengolah kata berbeda yang sama sekali tanpa lapisan teks pun dibandingkan sebersih dua revisi dari sumber yang sama.',
+        'Kedua dokumen tetap di peramban Anda sepanjang perbandingan — pdf.js yang me-render, matematika piksel berjalan di perangkat Anda, dan tidak ada apa pun yang diunggah. Hal ini justru penting pada kasus yang menjadi alasan alat ini ada: dua draf kontrak, revisi penawaran, atau pratinjau akhir sebelum terbit.'],
+    steps: ['Jatuhkan PDF asli di kiri dan versi revisi di kanan.',
+        'Jalankan bandingkan — pemindaian berjalan halaman demi halaman dengan bilah kemajuan.',
+        'Buka halaman mana pun yang berbeda untuk melihat peta panas merah di atas render asli.'],
+    faqs: [
+        { q: 'Apa bedanya dengan diff teks?', a: 'Diff teks membandingkan karakter yang diekstrak dan melewatkan segala hal visual: logo yang diganti, tabel yang bergeser, spasi baris yang berubah, tanda tangan yang menghilang. Alat ini membandingkan apa yang benar-benar dilihat pembaca. Gunakan text-diff untuk perubahan rumusan pada PDF teks yang bersih; gunakan yang ini saat tampilan, tata letak, atau gambar yang dipertanyakan — atau saat berkas sama sekali tidak punya lapisan teks.' },
+        { q: 'Apa arti persentasenya?', a: 'Itu fraksi piksel di halaman itu yang berbeda melewati toleransi. Footer yang mengalir ulang mencatat skor rendah; halaman yang ditulis ulang tinggi. Angkanya petunjuk ke mana harus melihat, bukan vonis — buka peta panas untuk melihat persis wilayah mana yang berubah.' },
+        { q: 'Bagaimana kalau jumlah halaman kedua PDF berbeda?', a: 'Perbandingan berjalan sampai jumlah halaman dokumen yang lebih panjang; halaman yang hanya ada di satu berkas ditandai sebagai perbedaan satu halaman penuh — biasanya justru itulah perubahan yang dicari: halaman yang ditambahkan atau dihapus.' },
+        { q: 'Apakah dokumen keluar dari perangkat saya?', a: 'Tidak. Perenderan dan perbandingan piksel sepenuhnya berjalan di peramban Anda dengan pdf.js. Mengingat penggunaan khasnya adalah membandingkan dua versi sesuatu yang rahasia sebelum dikirim, mengunggahnya ke mana pun justru mengalahkan tujuannya.' },
+    ],
+  },
 };

@@ -10305,4 +10305,36 @@ export const fr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "compare-pdf": {
+    name: "Comparer des PDF",
+    tagline: "Rendez deux PDF page par page et soulignez exactement ce qui a changé — diff visuel avec pourcentage de pixels modifiés, le tout en local.",
+    intro: [
+      "Déposez l'original et la version révisée : l'outil rend les deux documents côte à côte à la même échelle, puis compare chaque page pixel par pixel avec une petite tolérance qui empêche l'anti-aliasing de produire de faux positifs. Les pages qui diffèrent sont listées avec leur pourcentage de pixels modifiés ; cliquez sur l'une d'elles pour voir une carte de chaleur où chaque région changée est peinte en rouge sur le rendu original.",
+      "C'est une comparaison visuelle, et c'est là sa force : elle attrape les modifications de texte, les remplacements d'images, les décalages de mise en page, les paragraphes ajoutés ou supprimés, les signatures disparues — tout ce qui se rend différemment apparaît, peu importe comment le PDF a été produit. Deux exports de traitements de texte différents, même sans couche de texte, se comparent aussi proprement que deux révisions de la même source.",
+      "Les deux documents restent dans votre navigateur pendant toute la comparaison — pdf.js les rend, le calcul des pixels s'exécute sur votre appareil et rien n'est téléversé. Cela compte précisément dans le cas pour lequel cet outil existe : deux brouillons d'un contrat, une révision d'offre, une épreuve avant impression.",
+    ],
+    steps: [
+      "Déposez le PDF original à gauche et la version révisée à droite.",
+      "Comparez — le balayage s'exécute page par page avec une barre de progression.",
+      "Ouvrez n'importe quelle page différente pour voir la carte de chaleur rouge superposée au rendu original.",
+    ],
+    faqs: [
+      {
+        q: "En quoi est-ce différent d'un diff de texte ?",
+        a: "Un diff de texte compare les caractères extraits et rate tout ce qui est visuel : logos remplacés, tableaux déplacés, interlignes modifiés, une signature disparue. Cet outil compare ce que le lecteur voit réellement. Utilisez text-diff pour les changements de formulation dans des PDF de texte propre ; utilisez celui-ci quand l'apparence, la mise en page ou les images sont en cause — ou quand les fichiers n'ont tout simplement pas de couche de texte.",
+      },
+      {
+        q: "Que signifie le pourcentage ?",
+        a: "C'est la fraction des pixels de la page qui diffèrent au-delà de la tolérance. Un pied de page réorganisé obtient un score faible ; une page réécrite, un score élevé. Le chiffre indique où regarder, il ne juge pas — ouvrez la carte de chaleur pour voir exactement quelles régions ont changé.",
+      },
+      {
+        q: "Et si les deux PDF n'ont pas le même nombre de pages ?",
+        a: "La comparaison court jusqu'au nombre de pages du document le plus long ; les pages qui n'existent que dans un seul fichier sont marquées comme différences de page entière — c'est généralement exactement le changement que vous cherchez : une page ajoutée ou supprimée.",
+      },
+      {
+        q: "Les documents quittent-ils mon appareil ?",
+        a: "Non. Le rendu et la comparaison des pixels s'exécutent entièrement dans votre navigateur avec pdf.js. Comme l'usage typique consiste à comparer deux versions d'un document confidentiel avant de l'envoyer, les téléverser n'importe où irait contre le but.",
+      },
+    ],
+  },
 };
