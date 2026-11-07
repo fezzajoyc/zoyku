@@ -168,7 +168,7 @@ export function PdfCompareEngine() {
                     <button type="button" onClick={() => setViewPage(d)} className="block w-full text-left">
                       {d.url ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={d.url} alt="" className="block max-h-44 w-full object-contain" />
+                        <img src={d.url} alt={`${tr(SHARED.pages, locale)} ${d.page}`} className="block max-h-44 w-full object-contain" />
                       ) : (
                         <div className="flex h-32 items-center justify-center bg-[var(--color-surface)] text-[12px] text-[var(--color-sub)]">∅</div>
                       )}
@@ -189,7 +189,7 @@ export function PdfCompareEngine() {
               <Label>{`${tr(SHARED.pages, locale)} ${viewPage.page} · ${Math.round(viewPage.score * 100)}% ${tr(UI.diffScore, locale)}`}</Label>
               {viewPage.url ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={viewPage.url} alt="" className="block max-h-[70vh] w-full rounded-xl border hairline object-contain" />
+                <img src={viewPage.url} alt={`${tr(SHARED.pages, locale)} ${viewPage.page}`} className="block max-h-[70vh] w-full rounded-xl border hairline object-contain" />
               ) : null}
             </div>
             <Ghost onClick={() => setViewPage(null)}>{tr(UI.backToList, locale)}</Ghost>

@@ -111,20 +111,23 @@ export function PdfRedactEngine() {
     if (!p) return;
     (e.target as Element).setPointerCapture?.(e.pointerId);
     dragStart.current = p;
+    // 按下即追加一个零尺寸草稿框:onMove 只更新最后一个,onUp 固化,新拖动自然成为新框
+    setBoxes((prev) => ({ ...prev, [pageNo]: [...(prev[pageNo] ?? []), { x: p.x, y: p.y, w: 0, h: 0 }] }));
   };
   const onMove = (e: React.PointerEvent) => {
     if (!dragStart.current || !wrapRef.current) return;
     const p = rel(e);
     const s = dragStart.current;
     if (!p) return;
+    const draft: Rect = {
+      x: Math.min(s.x, p.x), y: Math.min(s.y, p.y),
+      w: Math.abs(p.x - s.x), h: Math.abs(p.y - s.y),
+    };
+    if (draft.w < 0.01 || draft.h < 0.01) return;
     setBoxes((prev) => {
       const list = prev[pageNo] ?? [];
-      const draft: Rect = {
-        x: Math.min(s.x, p.x), y: Math.min(s.y, p.y),
-        w: Math.abs(p.x - s.x), h: Math.abs(p.y - s.y),
-      };
-      if (draft.w < 0.01 || draft.h < 0.01) return prev;
-      return { ...prev, [pageNo]: [...list.filter((_, i) => i !== list.length - 1 || list.length === 0), draft].slice(0, 50) };
+      if (list.length === 0) return { ...prev, [pageNo]: [draft] };
+      return { ...prev, [pageNo]: [...list.slice(0, -1), draft] };
     });
   };
   const onUp = () => { dragStart.current = null; };
