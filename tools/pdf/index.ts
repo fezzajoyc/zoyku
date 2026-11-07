@@ -1,5 +1,6 @@
 import type { ToolDef } from "../_lib/types";
 import pageNumbersPdf from "./page-numbers-pdf";
+import redactPdf from "./redact-pdf";
 import mergePdf from "./merge-pdf";
 import splitPdf from "./split-pdf";
 import rotatePdf from "./rotate-pdf";
@@ -44,6 +45,7 @@ export const PDF_TOOLS: ToolDef[] = [
   pdfToText,
   ocrPdf,
   pageNumbersPdf,
+  redactPdf,
   unlockPdf,
   flattenPdf,
   pdfCrop,
