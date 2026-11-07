@@ -2,6 +2,7 @@ import type { ToolDef } from "../_lib/types";
 import pageNumbersPdf from "./page-numbers-pdf";
 import redactPdf from "./redact-pdf";
 import extractImagesPdf from "./extract-images-pdf";
+import comparePdf from "./compare-pdf";
 import mergePdf from "./merge-pdf";
 import splitPdf from "./split-pdf";
 import rotatePdf from "./rotate-pdf";
@@ -48,6 +49,7 @@ export const PDF_TOOLS: ToolDef[] = [
   pageNumbersPdf,
   redactPdf,
   extractImagesPdf,
+  comparePdf,
   unlockPdf,
   flattenPdf,
   pdfCrop,
