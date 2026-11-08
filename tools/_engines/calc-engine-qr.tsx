@@ -85,13 +85,26 @@ export function CalcEngineQr() {
   const downloadSvg = async () => {
     if (!text.trim()) return;
     const QR = (await import("qrcode")).default;
-    const svg = await QR.toString(text, {
+    let svg = await QR.toString(text, {
       type: "svg",
       width: size,
       margin: 2,
       errorCorrectionLevel: ecc,
       color: { dark, light },
     });
+    // LOGO 同步进 SVG:与 PNG 相同的 22% 面积 + 圆角白底,内嵌 base64 image
+    if (logo) {
+      const logoSide = size * 0.22;
+      const pad = logoSide * 0.12;
+      const box = logoSide + pad * 2;
+      const x = (size - box) / 2;
+      const y = (size - box) / 2;
+      const radius = box * 0.18;
+      const bg = `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${box.toFixed(2)}" height="${box.toFixed(2)}" rx="${radius.toFixed(2)}" fill="${light}"/>`;
+      const img = `<image x="${(x + pad).toFixed(2)}" y="${(y + pad).toFixed(2)}" width="${logoSide.toFixed(2)}" height="${logoSide.toFixed(2)}" href="${logo}"/>`;
+      // 注入到 </svg> 前(需在默认命名空间下可用 image/xlink;qrcode 4.x 输出 xmlns 已含 svg 命名空间)
+      svg = svg.replace("</svg>", `${bg}${img}</svg>`);
+    }
     downloadBlob(new Blob([svg], { type: "image/svg+xml" }), "qr-code.svg");
   };
 
