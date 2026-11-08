@@ -167,6 +167,17 @@ export const GPA_POINTS: Record<string, number> = {
 /** GPA 选择器里可点的字母(固定顺序,供引擎下拉使用)。 */
 export const GPA_LETTERS = Object.keys(GPA_POINTS);
 
+/** 5.0 制:A–D 各 +1(± 步进不变),F 仍为 0——美国部分高中的加权口径。 */
+export const GPA_POINTS_50: Record<string, number> = Object.fromEntries(
+  Object.entries(GPA_POINTS).map(([k, v]) => [k, k === "F" ? 0 : v + 1]),
+);
+
+export type GpaScale = "4.0" | "5.0";
+
+export function gpaPointsForScale(scale: GpaScale): Record<string, number> {
+  return scale === "5.0" ? GPA_POINTS_50 : GPA_POINTS;
+}
+
 export type GpaCourse = {
   name?: string;
   credits: number;
@@ -184,12 +195,13 @@ export type GpaResult = {
 };
 
 /** 学期 GPA。没有任何有效课程(学分合计为 0)时 gpa 为 NaN,credits 0、qualityPoints 0。 */
-export function gpaFromCourses(courses: GpaCourse[]): GpaResult {
+export function gpaFromCourses(courses: GpaCourse[], scale: GpaScale = "4.0"): GpaResult {
+  const table = gpaPointsForScale(scale);
   let qp = 0;
   let cr = 0;
   let dropped = 0;
   for (const c of courses) {
-    const pts = GPA_POINTS[String(c.letter ?? "").trim().toUpperCase()];
+    const pts = table[String(c.letter ?? "").trim().toUpperCase()];
     if (!Number.isFinite(c.credits) || c.credits <= 0 || pts === undefined) {
       dropped++;
       continue;

@@ -158,3 +158,35 @@ describe("GPA (4.0 scale)", () => {
     expect(Number.isNaN(gpaFromCourses([{ credits: 0, letter: "A" }]).gpa)).toBe(true);
   });
 });
+
+describe("GPA (5.0 weighted scale)", () => {
+  it("shifts A–D up by one point and keeps F at 0", () => {
+    const r = gpaFromCourses(
+      [
+        { credits: 3, letter: "A" },
+        { credits: 3, letter: "B" },
+        { credits: 2, letter: "F" },
+      ],
+      "5.0",
+    );
+    // (5×3 + 4×3 + 0×2) / 8 = 27/8
+    expect(r.gpa).toBeCloseTo(27 / 8, 6);
+    expect(r.credits).toBe(8);
+  });
+
+  it("keeps ± steps identical (A− = 4.7, B+ = 4.3 on 5.0)", () => {
+    const r = gpaFromCourses(
+      [
+        { credits: 1, letter: "A-" },
+        { credits: 1, letter: "B+" },
+      ],
+      "5.0",
+    );
+    expect(r.gpa).toBeCloseTo((4.7 + 4.3) / 2, 6);
+  });
+
+  it("defaults to the 4.0 table when scale is omitted", () => {
+    const r = gpaFromCourses([{ credits: 1, letter: "A" }]);
+    expect(r.gpa).toBe(4);
+  });
+});
