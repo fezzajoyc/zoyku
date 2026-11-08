@@ -10289,4 +10289,139 @@ export const vi: Record<string, ToolCopy> = {
         { q: 'Tài liệu có rời thiết bị của tôi không?', a: 'Không. Việc dựng hình và so sánh pixel chạy hoàn toàn trong trình duyệt của bạn qua pdf.js. Vì cách dùng điển hình là so sánh hai phiên bản của thứ gì đó bí mật trước khi gửi đi, tải chúng lên bất cứ đâu sẽ phá vỡ chính mục đích ấy.' },
     ],
   },
+  /* ------------------------------------------------------------------ */
+  /* Máy tính: trả nợ từng tháng, ngày dự sinh, thuế liên bang Mỹ         */
+  /* ------------------------------------------------------------------ */
+  "amortization-calculator": {
+    name: "Máy tính trả nợ từng tháng",
+    tagline:
+      "Bảng trả nợ hoàn chỉnh theo từng tháng: mỗi khoản trả chia ra bao nhiêu lãi và bao nhiêu gốc, số dư còn lại cuối mỗi năm, và tổng tiền lãi thực của khoản vay.",
+    intro: [
+      "Nhập số tiền vay, lãi suất năm và thời hạn: mỗi tháng trở thành một dòng riêng — lãi tính trên số dư tháng đó, phần khoản trả dành để trả gốc, và số dư còn lại sau đó. Trong khi phần lớn máy tính gộp tất cả thành các dòng theo năm, dạng xem theo tháng cho thấy sổ sách đúng như bên cho vay ghi chép.",
+      "Nhập một năm vào ô số dư để biết chính xác còn nợ bao nhiêu vào cuối năm đó — con số quan trọng nếu bạn đang cân nhắc bán tài sản, vay lại hoặc tất toán sớm, vì đó chính là số trên phiếu tất toán tại thời điểm ấy.",
+    ],
+    steps: [
+      "Nhập số tiền vay, lãi suất năm và thời hạn (năm).",
+      "Xem khoản trả hàng tháng, tổng tiền lãi và tổng đã trả.",
+      "Nhập một năm để xem số dư cuối năm, rồi đọc bảng theo từng tháng.",
+    ],
+    faqs: [
+      {
+        q: "Khác gì so với bảng trả nợ theo năm?",
+        a: "Bảng năm gộp mười hai tháng thành một dòng, làm mờ giai đoạn đầu nặng lãi và giai đoạn cuối nặng gốc. Bảng tháng giữ riêng từng kỳ và chỉ ra chính xác tháng mà phần gốc lần đầu vượt phần lãi.",
+      },
+      {
+        q: "Số dư sau N năm giả định điều gì?",
+        a: "Giả định mọi khoản trả đều đúng hạn và không có trả gốc thêm. Đó là xấp xỉ gần nhất với phiếu số dư tại thời điểm đó — chưa gồm lãi theo ngày và phí mà bên cho vay có thể cộng thêm.",
+      },
+    ],
+  },
+  "due-date-calculator": {
+    name: "Máy tính ngày dự sinh",
+    tagline:
+      "Ước tính ngày dự sinh từ ngày đầu kỳ kinh gần nhất và độ dài chu kỳ, theo dõi tuổi thai hôm nay, số ngày còn lại và khoảng đủ tháng 37–42 tuần.",
+    intro: [
+      "Nhập ngày đầu của kỳ kinh gần nhất (LMP) và —nếu chu kỳ của bạn không phải 28 ngày chuẩn— độ dài của nó. Máy áp dụng quy tắc Naegele: LMP + 280 ngày, dịch theo chênh lệch giữa chu kỳ của bạn và 28 ngày. Sau đó hiển thị ngày dự sinh, tuổi thai hôm nay (tuần và ngày), số ngày còn lại và khoảng đủ tháng.",
+      "Khoảng đủ tháng quan trọng hơn một ngày duy nhất: sinh bất kỳ lúc nào từ tuần 37 đến tuần 42 đều được xem là đủ tháng, và khoảng một nửa em bé chào đời trong vòng một tuần trước hoặc sau ước tính. Lên kế hoạch theo khoảng giúp bớt áp lực của một ngày cụ thể.",
+    ],
+    steps: [
+      "Nhập ngày đầu kỳ kinh gần nhất.",
+      "Sửa độ dài chu kỳ nếu khác 28 ngày.",
+      "Xem ngày dự sinh và tuổi thai, rồi lên kế hoạch theo khoảng đủ tháng.",
+    ],
+    faqs: [
+      {
+        q: "Ngày dự sinh tính từ kỳ kinh chính xác đến đâu?",
+        a: "Là thống kê quần thể thì hợp lý: với chu kỳ đều và đã biết, khoảng một nửa ca sinh nằm trong vòng một tuần so với ước tính. Riêng với một ngày cụ thể, nó vốn mờ — siêu âm ba tháng đầu đáng tin hơn hẳn.",
+      },
+      {
+        q: "Vì sao độ dài chu kỳ làm dịch ngày dự sinh?",
+        a: "Quy tắc Naegele giả định chu kỳ 28 ngày với rụng trứng ngày 14. Chu kỳ 32 ngày làm rụng trứng muộn hơn nên ước tính lùi 4 ngày. Sự dịch tuyến tính này chỉ khớp gần chu kỳ chuẩn; với chu kỳ bất thường thì không đáng tin.",
+      },
+    ],
+  },
+  "income-tax-calculator": {
+    name: "Máy tính thuế liên bang Mỹ",
+    tagline:
+      "Xem thuế liên bang Mỹ hình thành từng bậc một: thu nhập tính thuế, tổng thuế, khác biệt giữa thuế suất cận biên và thực tế, và mỗi bậc 10–37% tốn đúng bao nhiêu.",
+    intro: [
+      "Nhập thu nhập hằng năm, tình trạng khai thuế (độc thân hoặc kết hôn khai chung) và một khoản khấu trừ: máy đi qua các bậc thuế liên bang 2026 từng bậc một. Kết quả không phải một con số đáng sợ mà là cơ chế thật: bao nhiêu thu nhập rơi vào bậc 10%, bao nhiêu vào bậc 12%, cho đến khi đồng đô-la cuối đáp xuống đâu.",
+      "Thuế suất cận biên — thuế trên đồng đô-la cuối — là chuẩn cho các quyết định tăng lương, khấu trừ và thu nhập thêm. Thuế suất thực tế — tổng thuế chia thu nhập — là thứ mà phiếu lương thực sự cảm nhận, và luôn thấp hơn cận biên một khi đã vượt bậc đầu tiên.",
+    ],
+    steps: [
+      "Nhập thu nhập hằng năm trước khấu trừ.",
+      "Chọn độc thân hoặc kết hôn khai chung.",
+      "Đặt khoản khấu trừ — điền sẵn khấu trừ tiêu chuẩn 2026 — rồi đọc thuế suất và bảng phân bậc.",
+    ],
+    faqs: [
+      {
+        q: "Thuế suất cận biên và thực tế khác nhau thế nào?",
+        a: "Cận biên là thuế trên đồng đô-la tiếp theo: bậc nơi thu nhập tính thuế kết thúc, thứ cần nhìn khi cân nhắc tăng lương hay khấu trừ. Thực tế là tổng thuế chia tổng thu nhập. Với 100.000$ độc thân và khấu trừ tiêu chuẩn 2026, cận biên là 22% và thực tế khoảng 13,2%.",
+      },
+      {
+        q: "Các bậc này mới đến đâu?",
+        a: "Đây là các ngưỡng 2026 điều chỉnh theo lạm phát do IRS công bố trong Revenue Procedure 2025-32, trình bày ở đây như một mô hình minh họa. IRS điều chỉnh bậc thuế gần như hằng năm — hãy kiểm tra công bố mới nhất cho năm bạn thực sự khai thuế.",
+      },
+    ],
+  },
+  "retirement-calculator": {
+    name: "Máy tính hưu trí",
+    tagline:
+      "Nhập tuổi hiện tại, tuổi nghỉ hưu, khoản đã tích lũy, mức góp hằng tháng và tỷ suất sinh lời giả định — xem tổng số tiền khi nghỉ hưu, sức mua quy về tiền hôm nay, và mức rút được mỗi tháng.",
+    intro: [
+      "Nhập tuổi hiện tại, tuổi dự định nghỉ hưu, khoản đã tích lũy, số tiền góp mỗi tháng và một tỷ suất sinh lời năm giả định. Máy tính nhân số dư theo lãi kép hằng tháng — mỗi khoản góp được tính vào đầu tháng — và cho thấy tổng số tiền đang chờ ở tuổi nghỉ hưu của bạn.",
+      "Con số bằng tiền của những năm tới tự tô hồng, nên công cụ còn chia tổng đó cho (1 + lạm phát)^số năm để nói theo sức mua hôm nay, đồng thời tính khoản rút cố định hằng tháng sẽ cạn quỹ đúng trong số năm nghỉ hưu nếu tỷ suất đó tiếp tục. Mọi thứ chỉ là số học trên dữ liệu bạn nhập; tỷ suất là giả định chứ không phải dự báo — hãy thử cả kịch bản bi quan lẫn lạc quan và xem kết quả dao động ra sao. Tiền tiết kiệm của bạn không rời khỏi trình duyệt.",
+    ],
+    steps: [
+      "Nhập tuổi hiện tại và tuổi định nghỉ hưu.",
+      "Nhập khoản đã tích lũy, mức góp hằng tháng và tỷ suất năm giả định.",
+      "Đặt lạm phát và số năm quỹ cần trụ trong giai đoạn nghỉ hưu.",
+      "Đọc tổng số tiền, sức mua theo giá hôm nay và khoản rút hằng tháng.",
+    ],
+    faqs: [
+      { q: "Khoản rút hằng tháng được tính thế nào?", a: "Đó là mức cố định mà nếu tỷ suất giả định tiếp tục trong giai đoạn nghỉ hưu thì sẽ cạn đúng quỹ trong số năm bạn đặt — công thức niên kim chuẩn. Nếu tỷ suất là 0%, nó đơn thuần là tổng chia số tháng." },
+      { q: "Vì sao con số sức mua nhỏ hơn tổng?", a: "Vì lạm phát bào mòn tiền. Tổng T sau n năm lạm phát i chỉ mua được thứ mà hôm nay T ÷ (1 + i)^n mua được. Ở 2,5% trong 30 năm, số chia vào khoảng 2,1 — gần nửa con số tiêu đề chỉ là ảo ảnh sức mua." },
+      { q: "Có tính thuế, quỹ hưu trí hay an sinh xã hội không?", a: "Không. Mô hình là một quỹ đơn lẻ tăng theo một tỷ suất giả định, không có trần đóng, cách xử lý thuế, khoản doanh nghiệp đóng thêm hay lương hưu nhà nước. Hãy xem kết quả như một dữ liệu đầu vào để lập kế hoạch, không phải kết luận thuế hay pháp lý." },
+    ],
+  },
+  "inflation-calculator": {
+    name: "Máy tính lạm phát",
+    tagline:
+      "Nhập một khoản tiền, tỷ lệ lạm phát hằng năm và số năm: xem giỏ hàng đó lúc sau giá bao nhiêu, lạm phát tích lũy cả giai đoạn là bao nhiêu, và khi đó tiền của bạn còn mua được gì — kèm bảng theo từng năm.",
+    intro: [
+      "Tiền không ít đi, nhưng thứ nó mua được thì có. Nhập khoản tiền, tỷ lệ lạm phát trung bình mỗi năm và số năm; máy tính nhân với hệ số lạm phát kép (1 + i)^n — cùng lôgic lãi kép, nhưng lần này ngược lại với bạn.",
+      "Ba câu trả lời hiện ra: giỏ hàng giá khoản tiền đó hôm nay sẽ giá bao nhiêu sau n năm, lạm phát tích lũy suốt giai đoạn là bao nhiêu, và cùng khoản tiền đó lúc sau mua được bao nhiêu tính theo giá hôm nay. Bảng theo năm lặp lại cùng phép so sánh cho từng năm ở giữa. Tỷ lệ âm được chấp nhận để mô hình hoá giảm phát: giá hạ, lạm phát tích lũy thành số âm và tiền mua được nhiều hơn. Mọi phép tính chạy trong trình duyệt và không hỏi bất kỳ dữ liệu nào.",
+    ],
+    steps: [
+      "Nhập số tiền hoặc giá hiện tại của giỏ hàng.",
+      "Đặt tỷ lệ lạm phát trung bình năm giả định.",
+      "Nhập số năm cần chiếu tới.",
+      "Đọc giá giỏ hàng tương lai, lạm phát tích lũy và sức mua còn lại.",
+    ],
+    faqs: [
+      { q: "Lạm phát tích lũy là gì?", a: "Tổng mức tăng giá của cả giai đoạn: (1 + i)^n − 1. Ở 3% mỗi năm trong 10 năm, kết quả khoảng 34,4% — mười con số 3% hằng năm không cộng thành 30%, vì mức tăng của mỗi năm kép lên trên năm trước nó." },
+      { q: "Vì sao cùng số tiền lại mua ít hơn trong tương lai?", a: "Vì giá tăng còn khoản tiền thì nguyên. Chia cho (1 + i)^n quy số tiền tương lai về tiền hôm nay: ở 3% trong 10 năm, 100 lúc đó mua được khoảng như 74,4 bây giờ." },
+      { q: "Có nhập tỷ lệ khác nhau từng năm được không?", a: "Không — công cụ áp một tỷ lệ trung bình cố định, cách chuẩn để cho thấy quy mô. Lạm phát thực tế nhấp nhô theo từng năm; muốn đường đi riêng, hãy tự nhân các hệ số năm hoặc chạy lại công cụ theo từng đoạn thời gian." },
+    ],
+  },
+  "auto-loan-calculator": {
+    name: "Máy tính vay mua xe",
+    tagline:
+      "Giá xe trừ khoản trả trước, vay theo lãi suất của bạn trong 36–84 tháng: tiền trả hằng tháng, tổng lãi và bảng khấu trừ theo năm tách gốc–lãi và theo dõi số dư còn lại.",
+    intro: [
+      "Nhập giá xe, khoản trả trước (phần trăm hoặc số tiền), lãi suất năm và thời hạn tính bằng tháng. Máy tính vay phần chênh lệch và áp công thức khấu trừ dư giảm dần chuẩn — đúng phép toán ngân hàng dùng cho mọi khoản trả góp.",
+      "Bạn nhận được tiền trả hằng tháng, số tiền vay, tổng lãi trong suốt thời hạn và tổng đã trả, kèm bảng theo năm tách phần gốc và phần lãi và theo dõi số dư còn lại. Biểu đồ vành khuyên cho biết trong thương vụ bao nhiêu là tiền xe và bao nhiêu là lãi. Thời hạn vay mua xe thường từ 36 đến 84 tháng: ngắn hơn thì mỗi tháng đắt hơn nhưng tổng lãi rẻ hơn. Lãi suất bạn nhập là ví dụ chứ không phải chào giá — và mọi phép tính chạy cục bộ trong trình duyệt, nên dán báo giá thật vào để so sánh cạnh nhau là an toàn.",
+    ],
+    steps: [
+      "Nhập giá xe và khoản trả trước theo phần trăm hoặc số tiền.",
+      "Đặt lãi suất năm mà bạn được chào.",
+      "Nhập thời hạn tính bằng tháng — vay mua xe phổ biến 36–84 tháng.",
+      "Đọc tiền trả hằng tháng, tổng lãi và bảng khấu trừ theo năm.",
+    ],
+    faqs: [
+      { q: "Tiền trả hằng tháng tính thế nào?", a: "Theo công thức khấu trừ chuẩn M = L × r × (1+r)^n / ((1+r)^n − 1), với L là số tiền vay (giá − trả trước), r là lãi suất tháng (năm ÷ 12 ÷ 100), n là số tháng. Xe 30.000$ với trả trước 20%, lãi 6% trong 60 tháng cho khoảng 463,99$ mỗi tháng." },
+      { q: "Thời hạn dài hơn có tiết kiệm tiền không?", a: "Không — nó tiết kiệm dòng tiền chứ không tiết kiệm tiền. Kéo 60 tháng lên 84 tháng hạ từng khoản trả nhưng cộng thêm các tháng lãi trên số dư giảm chậm, nên tổng lãi tăng. Khi chọn thời hạn, hãy so cột tổng lãi chứ không phải cột tiền trả hằng tháng." },
+      { q: "Cái gì tính là khoản trả trước ở đây?", a: "Mọi thứ bạn trả trước: tiền mặt, khấu trừ xe đổi cũ hoặc chiết khấu. Nhập theo phần trăm giá hoặc số tiền cố định; nếu trả trước phủ hết giá xe, công cụ báo là không cần vay. Phí, thuế và bảo hiểm không nằm trong mô hình." },
+    ],
+  },
 };

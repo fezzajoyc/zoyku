@@ -10301,4 +10301,139 @@ export const id: Record<string, ToolCopy> = {
         { q: 'Apakah dokumen keluar dari perangkat saya?', a: 'Tidak. Perenderan dan perbandingan piksel sepenuhnya berjalan di peramban Anda dengan pdf.js. Mengingat penggunaan khasnya adalah membandingkan dua versi sesuatu yang rahasia sebelum dikirim, mengunggahnya ke mana pun justru mengalahkan tujuannya.' },
     ],
   },
+  /* ------------------------------------------------------------------ */
+  /* Kalkulator: amortisasi bulanan, tanggal persalinan, pajak federal    */
+  /* ------------------------------------------------------------------ */
+  "amortization-calculator": {
+    name: "Kalkulator amortisasi bulanan",
+    tagline:
+      "Jadwal amortisasi lengkap bulan demi bulan: bagaimana setiap cicilan terbagi menjadi bunga dan pokok, saldo tersisa di akhir tahun mana pun, dan total bunga pinjaman yang sebenarnya.",
+    intro: [
+      "Masukkan jumlah pinjaman, suku bunga tahunan, dan tenor: setiap bulan menjadi baris tersendiri — bunga yang dibebankan pada saldo bulan itu, bagian cicilan yang melunasi pokok, dan saldo yang tersisa. Di tempat mayoritas kalkulator memampatkan semuanya ke baris tahunan, tampilan bulanan menunjukkan catatan persis seperti buku besar pemberi pinjaman.",
+      "Masukkan satu tahun di kolom saldo untuk tahu persis berapa yang masih terutang di akhir tahun itu — angka yang penting bila Anda menimbang penjualan, pembiayaan ulang, atau pelunasan dini, karena itulah yang tercantum dalam surat pelunasan saat itu.",
+    ],
+    steps: [
+      "Masukkan jumlah pinjaman, suku bunga tahunan, dan tenor dalam tahun.",
+      "Baca cicilan bulanan, total bunga, dan total pembayaran.",
+      "Masukkan satu tahun untuk melihat saldo akhir tahun, lalu telusuri tabel bulanannya.",
+    ],
+    faqs: [
+      {
+        q: "Apa bedanya dengan tabel amortisasi tahunan?",
+        a: "Tabel tahunan menjumlahkan dua belas bulan ke satu baris sehingga awal yang dominan bunga dan akhir yang dominan pokok menjadi kabur. Tabel bulanan memisahkan setiap periode dan menunjukkan bulan tepat ketika pokok pertama kali melampaui bunga.",
+      },
+      {
+        q: "Apa yang diasumsikan saldo setelah N tahun?",
+        a: "Bahwa semua cicilan dibayar tepat waktu dan tidak ada pelunasan pokok tambahan. Ini perkiraan terdekat dari surat saldo pada saat itu — sebelum bunga harian dan biaya yang mungkin ditambahkan pemberi pinjaman.",
+      },
+    ],
+  },
+  "due-date-calculator": {
+    name: "Kalkulator tanggal persalinan",
+    tagline:
+      "Perkirakan tanggal persalinan dari hari pertama haid terakhir dan panjang siklus, pantau usia kehamilan hari ini, sisa hari, serta rentang cukup bulan 37–42 minggu.",
+    intro: [
+      "Masukkan hari pertama haid terakhir (HPHT) dan —bila siklus Anda bukan 28 hari standar— panjangnya. Kalkulator menerapkan aturan Naegele: HPHT + 280 hari, digeser selisih siklus Anda dari 28 hari. Lalu menampilkan tanggal persalinan, usia kehamilan hari ini (minggu dan hari), sisa hari, dan rentang cukup bulan.",
+      "Rentang cukup bulan lebih penting daripada satu tanggal: setiap kelahiran antara minggu 37 dan 42 dianggap cukup bulan, dan sekitar separuh bayi lahir dalam rentang satu minggu sebelum atau sesudah perkiraan. Merencanakan pada interval mengurangi tekanan satu hari tunggal.",
+    ],
+    steps: [
+      "Masukkan hari pertama haid terakhir.",
+      "Perbaiki panjang siklus bila berbeda dari 28 hari.",
+      "Baca tanggal persalinan dan usia kehamilan, lalu rencanakan pada rentang cukup bulan.",
+    ],
+    faqs: [
+      {
+        q: "Seberapa akurat tanggal dari haid terakhir?",
+        a: "Sebagai statistik populasi wajar: dengan siklus teratur yang diketahui, sekitar separuh kelahiran terjadi dalam satu minggu dari perkiraan. Untuk satu hari tertentu memang kabur — pengukuran ultrasonografi trimester pertama jauh lebih andal.",
+      },
+      {
+        q: "Mengapa panjang siklus menggeser tanggal?",
+        a: "Aturan Naegele mengasumsikan siklus 28 hari dengan ovulasi hari ke-14. Siklus 32 hari menggeser ovulasi lebih lambat sehingga perkiraan mundur 4 hari. Pergeseran linear ini bekerja dekat siklus normal dan tak andal pada siklus tak teratur.",
+      },
+    ],
+  },
+  "income-tax-calculator": {
+    name: "Kalkulator pajak penghasilan federal AS",
+    tagline:
+      "Lihat bagaimana pajak federal AS terbentuk lapisan demi lapisan: pendapatan kena pajak, pajak total, selisih tarif marginal dan efektif, serta biaya tepat setiap lapisan dari 10 hingga 37%.",
+    intro: [
+      "Masukkan pendapatan tahunan, status pelaporan (lajang atau menikah gabungan), dan satu deduksi: kalkulator menapaki lapisan federal 2026 satu per satu. Hasilnya bukan angka yang menakutkan melainkan mekanisme sesungguhnya: berapa pendapatan jatuh di lapisan 10%, berapa di lapisan 12%, sampai dolar terakhir mendarat di mana.",
+      "Tarif marginal — pajak dolar terakhir Anda — menjadi rujukan untuk keputusan kenaikan gaji, deduksi, dan penghasilan tambahan. Tarif efektif — pajak total dibagi pendapatan — adalah yang benar-benar terasa di gaji, dan selalu di bawah marginal begitu lapisan pertama terlewati.",
+    ],
+    steps: [
+      "Masukkan pendapatan tahunan sebelum deduksi.",
+      "Pilih lajang atau menikah laporan gabungan.",
+      "Atur deduksi — terisi awal dengan deduksi standar 2026 — lalu baca tarif dan tabel lapisan.",
+    ],
+    faqs: [
+      {
+        q: "Apa beda tarif marginal dan tarif efektif?",
+        a: "Marginal adalah pajak atas dolar berikutnya: lapisan tempat pendapatan kena pajak berhenti, yang menjadi patokan menilai kenaikan atau deduksi. Efektif adalah pajak total dibagi total pendapatan. Dengan deduksi standar 2026, pendapatan 100.000 $ lajang kena marginal 22% dan efektif sekitar 13,2%.",
+      },
+      {
+        q: "Seberapa mutakhir lapisan-lapisan ini?",
+        a: "Ini ambang 2026 yang disesuaikan inflasi dan dipublikasikan IRS melalui Revenue Procedure 2025-32, disajikan di sini sebagai model ilustratif. IRS menyesuaikan lapisan hampir setiap tahun — periksa publikasi terbarunya untuk tahun Anda benar-benar melapor.",
+      },
+    ],
+  },
+  "retirement-calculator": {
+    name: "Kalkulator dana pensiun",
+    tagline:
+      "Masukkan usia Anda saat ini, usia pensiun, tabungan yang sudah ada, setoran bulanan, dan asumsi imbal hasil tahunan: lihat total saat pensiun, daya belinya dalam uang hari ini, dan jumlah bulanan yang bisa ditarik.",
+    intro: [
+      "Masukkan usia saat ini, usia pensiun, tabungan yang sudah ada, setoran bulanan, dan asumsi imbal hasil tahunan. Kalkulator menumbuhkan saldo dengan bunga majemuk bulanan — setoran tiap bulan dicatat di awal bulan — dan menampilkan total yang menunggu pada usia pensiun Anda.",
+      "Angka dalam mata uang tahun-tahun mendatang mengipasi dirinya sendiri, karena itu alat juga membagi total itu dengan (1 + inflasi)^tahun untuk menyatakannya dalam daya beli hari ini, lalu menghitung penarikan bulanan tetap yang akan menghabiskan dana tepat dalam masa pensiun bila imbal hasil yang sama berlanjut. Semuanya aritmetika atas masukan Anda; imbal hasil adalah asumsi, bukan ramalan — coba nilai pesimis dan optimis lalu amati seberapa besar jawabannya bergoyang. Tabungan Anda tidak meninggalkan peramban.",
+    ],
+    steps: [
+      "Masukkan usia saat ini dan usia rencana pensiun.",
+      "Isi tabungan saat ini, setoran bulanan, dan asumsi imbal hasil tahunan.",
+      "Atur inflasi dan jumlah tahun yang harus ditopang dana selama pensiun.",
+      "Baca totalnya, daya belinya dalam uang hari ini, dan penarikan bulanannya.",
+    ],
+    faqs: [
+      { q: "Bagaimana penarikan bulanan dihitung?", a: "Itulah jumlah tetap yang menghabiskan dana tepat dalam masa pensiun yang Anda tetapkan bila imbal hasil asumsi yang sama berlanjut — rumus anuitas standar. Bila imbal hasil 0%, angkanya tinggal total dibagi jumlah bulan." },
+      { q: "Mengapa angka daya beli lebih kecil daripada total?", a: "Karena inflasi mengikis uang. Total T setelah n tahun pada inflasi i hanya membeli sebesar yang dibeli T ÷ (1 + i)^n hari ini. Pada 2,5% selama 30 tahun, pembaginya sekitar 2,1 — hampir separuh angka utama adalah ilusi daya beli." },
+      { q: "Apakah pajak, program pensiun, atau jaminan sosial ikut dimodelkan?", a: "Tidak. Modelnya satu dana tunggal yang tumbuh pada satu tingkat asumsi, tanpa batas setoran, perlakuan pajak, dampingan pemberi kerja, atau pensiun negara. Perlakukan keluarannya sebagai salah satu masukan perencanaan, bukan pernyataan pajak atau hukum." },
+    ],
+  },
+  "inflation-calculator": {
+    name: "Kalkulator inflasi",
+    tagline:
+      "Masukkan sejumlah uang, laju inflasi tahunan, dan rentang tahun: lihat berapa harga keranjang yang sama nanti, inflasi kumulatif selama periode itu, dan berapa daya beli uang Anda saat itu — lengkap dengan tabel per tahun.",
+    intro: [
+      "Uang tidak menyusut, tetapi yang bisa dibelinya ya. Masukkan sejumlah uang, laju inflasi rata-rata per tahun, dan jumlah tahun; kalkulator menerapkan faktor inflasi majemuk (1 + i)^n — logika bunga majemuk yang sama, kali ini bekerja melawan Anda.",
+      "Tiga jawaban keluar: berapa biaya keranjang senilai jumlah itu hari ini setelah n tahun, berapa inflasi kumulatif sepanjang periode, dan berapa yang dibeli uang yang sama saat itu, dinyatakan dalam harga hari ini. Tabel per tahun menampilkan perbandingan yang sama untuk tiap tahun di antaranya. Laju negatif diperbolehkan dan memodelkan deflasi: harga turun, inflasi kumulatif menjadi negatif, dan uang jadi lebih berdaya beli. Semua dihitung di peramban dan tidak meminta data apa pun.",
+    ],
+    steps: [
+      "Masukkan jumlah uang atau harga keranjang saat ini.",
+      "Atur laju inflasi rata-rata tahunan yang diasumsikan.",
+      "Masukkan jumlah tahun yang ingin diproyeksikan.",
+      "Baca biaya keranjang di masa depan, inflasi kumulatif, dan sisa daya beli.",
+    ],
+    faqs: [
+      { q: "Apa itu inflasi kumulatif?", a: "Total kenaikan harga sepanjang periode: (1 + i)^n − 1. Pada 3% setahun selama 10 tahun hasilnya sekitar 34,4% — sepuluh angka tahunan 3% tidak berjumlah 30%, karena kenaikan tiap tahun bermajemuk di atas tahun sebelumnya." },
+      { q: "Mengapa uang yang sama membeli lebih sedikit di masa depan?", a: "Karena harga naik sementara jumlahnya tetap. Pembagian dengan (1 + i)^n mengubah jumlah masa depan menjadi uang hari ini: pada 3% selama 10 tahun, 100 saat itu membeli kira-kira sebesar 74,4 sekarang." },
+      { q: "Bisakah memakai laju berbeda tiap tahun?", a: "Tidak — alat menerapkan satu laju rata-rata tetap, cara standar untuk menunjukkan skala. Inflasi nyata bergoyang antartahun; untuk lintasan kustom, kalikan sendiri faktor tahunannya atau jalankan ulang alat periode demi periode." },
+    ],
+  },
+  "auto-loan-calculator": {
+    name: "Kalkulator kredit mobil",
+    tagline:
+      "Harga mobil dikurangi uang muka, difinansikan pada suku bunga Anda selama 36–84 bulan: cicilan bulanan, total bunga, dan tabel amortisasi tahunan yang memecah pokok-bunga serta melacak sisa saldo.",
+    intro: [
+      "Masukkan harga mobil, uang muka (persen atau jumlah tetap), suku bunga tahunan, dan tenor dalam bulan. Kalkulator memfinansikan selisihnya dan menerapkan rumus amortisasi saldo-menurun standar — matematika yang sama yang dipakai bank untuk kredit angsuran apa pun.",
+      "Anda mendapat cicilan bulanan, jumlah pinjaman, total bunga selama tenor, dan total yang dibayar, plus tabel tahunan yang memecah pokok dan bunga serta melacak saldo tersisa. Diagram donat menunjukkan berapa bagian transaksi yang benar-benar harga mobil dan berapa bunga. Tenor kredit mobil lazimnya 36 sampai 84 bulan: tenor pendek lebih berat per bulan tetapi lebih murah totalnya. Suku bunga yang Anda masukkan adalah contoh, bukan penawaran — dan semuanya dihitung lokal di peramban, jadi aman menempelkan penawaran nyata dan membandingkannya berdampingan.",
+    ],
+    steps: [
+      "Masukkan harga mobil dan uang muka sebagai persen atau jumlah.",
+      "Atur suku bunga tahunan yang ditawarkan kepada Anda.",
+      "Masukkan tenor dalam bulan — kredit mobil umumnya 36–84 bulan.",
+      "Baca cicilan bulanan, total bunga, dan tabel amortisasi tahunannya.",
+    ],
+    faqs: [
+      { q: "Bagaimana cicilan bulanan dihitung?", a: "Dengan rumus amortisasi standar M = L × r × (1+r)^n / ((1+r)^n − 1), dengan L jumlah yang difinansikan (harga − uang muka), r suku bunga bulanan (tahunan ÷ 12 ÷ 100), dan n jumlah bulan. Mobil 30.000 $ dengan uang muka 20% pada 6% selama 60 bulan hasilnya sekitar 463,99 $ per bulan." },
+      { q: "Apakah tenor lebih panjang menghemat uang?", a: "Tidak — ia menghemat arus kas, bukan uang. Memperpanjang 60 menjadi 84 bulan menurunkan tiap cicilan tetapi menambah bulan-bulan bunga di atas saldo yang menurun lambat, sehingga total bunga naik. Saat memilih tenor, bandingkan kolom total bunga, bukan kolom cicilan." },
+      { q: "Apa saja yang dihitung sebagai uang muka?", a: "Semua yang Anda bayar di depan: uang tunai, kredit tukar tambah, atau diskon. Masukkan sebagai persen harga atau jumlah tetap. Bila uang muka menutup seluruh harga, alat memberi tahu bahwa pinjaman tidak diperlukan. Biaya, pajak, dan asuransi tidak dimodelkan." },
+    ],
+  },
 };

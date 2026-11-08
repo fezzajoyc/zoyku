@@ -4,13 +4,17 @@ import {
   breakEven,
   compound,
   hourlyToSalary,
+  inflationAdjusted,
   mortgage,
   mortgageAccelerated,
   mortgagePayment,
+  retirementProjection,
   salaryBreakdown,
   type BreakEvenResult,
   type Freq,
   type HourlyBreakdown,
+  type InflationResult,
+  type RetirementResult,
   type SalaryBreakdown,
 } from "@/tools/_lib/finance";
 
@@ -597,5 +601,310 @@ describe("mortgageAccelerated: 240k @6%/30y with +200/mo extra", () => {
     const a = mortgageAccelerated(240000, 6, 30, 1000000);
     expect(a.months).toBe(1);
     expect(a.totalInterest).toBeCloseTo(240000 * (6 / 1200), 6);
+  });
+});
+
+// ─────────────────────────── retirementProjection ───────────────────────────
+
+function expectRetirementNaN(res: RetirementResult): void {
+  expect(res.years).toBeNaN();
+  expect(res.nominalTotal).toBeNaN();
+  expect(res.contributed).toBeNaN();
+  expect(res.realTotal).toBeNaN();
+  expect(res.monthlyWithdrawal).toBeNaN();
+  expect(res.schedule).toEqual([]);
+}
+
+describe("retirementProjection: reference case (35→60, 50k savings, 500/mo, 6%, 2.5% inflation, 20y payout)", () => {
+  // 手算锚点:(1.005)³⁰⁰ ≈ 4.464969812 → 总额 = 50000×4.464969812 + 500×1.005×(3.464969812/0.005) ≈ 571,477.9567
+  // 购买力 = 571477.9567 ÷ 1.025²⁵ ≈ 571477.9567 ÷ 1.853944098 ≈ 308,249.8319
+  // 月取款 = 571477.9567×0.005×3.310204476 ÷ 2.310204476 ≈ 4,094.2456
+  const res = retirementProjection(35, 60, 50000, 500, 6, 2.5, 20);
+
+  it("accumulates 571477.96 at retirement (closed annuity-due anchor)", () => {
+    expect(Math.abs(res.nominalTotal - 571477.96)).toBeLessThanOrEqual(0.01);
+  });
+
+  it("matches the closed annuity-due formula computed independently in this test", () => {
+    expect(res.nominalTotal).toBeCloseTo(closedFV(50000, 500, 6, PERIODS_PER_YEAR.monthly, 25), 6);
+  });
+
+  it("contributes exactly 200000 (50000 savings + 500 × 300 months)", () => {
+    expect(res.contributed).toBe(200000);
+  });
+
+  it("deflates to 308249.83 of today's purchasing power via (1 + i)^years", () => {
+    expect(Math.abs(res.realTotal - 308249.83)).toBeLessThanOrEqual(0.01);
+    expect(res.realTotal).toBeCloseTo(res.nominalTotal / Math.pow(1.025, 25), 9);
+  });
+
+  it("yields a 4094.25 monthly withdrawal identical to mortgagePayment on the fund", () => {
+    expect(Math.abs(res.monthlyWithdrawal - 4094.25)).toBeLessThanOrEqual(0.01);
+    expect(res.monthlyWithdrawal).toBe(mortgagePayment(res.nominalTotal, 6, 20));
+  });
+
+  it("emits 25 yearly rows ending at the total", () => {
+    expect(res.schedule).toHaveLength(25);
+    expect(res.schedule[0].year).toBe(1);
+    expect(res.schedule[24].year).toBe(25);
+    expect(res.schedule[24].balance).toBe(res.nominalTotal);
+    expect(res.schedule[24].contrib).toBe(res.contributed);
+  });
+});
+
+describe("retirementProjection: second reference (30→65, 20k savings, 400/mo, 5%, 3% inflation, 25y payout)", () => {
+  // 手算锚点:(1 + 0.05/12)⁴²⁰ ≈ 5.6341… → 总额 = 20000×(1+r)⁴²⁰ + 400×(1+r)×((1+r)⁴²⁰−1)/r ≈ 571,004.8263
+  // 购买力 = 571004.8263 ÷ 1.03³⁵ ≈ 202,925.6353;月取款 = 571004.8263×r×(1+r)³⁰⁰/((1+r)³⁰⁰−1) ≈ 3,338.0374
+  const res = retirementProjection(30, 65, 20000, 400, 5, 3, 25);
+
+  it("accumulates 571004.83 and matches the closed formula", () => {
+    expect(Math.abs(res.nominalTotal - 571004.83)).toBeLessThanOrEqual(0.01);
+    expect(res.nominalTotal).toBeCloseTo(closedFV(20000, 400, 5, PERIODS_PER_YEAR.monthly, 35), 6);
+  });
+
+  it("deflates to 202925.64 in today's money at 3% for 35 years", () => {
+    expect(Math.abs(res.realTotal - 202925.64)).toBeLessThanOrEqual(0.01);
+  });
+
+  it("yields a 3338.04 monthly withdrawal over 25 payout years", () => {
+    expect(Math.abs(res.monthlyWithdrawal - 3338.04)).toBeLessThanOrEqual(0.01);
+  });
+});
+
+describe("retirementProjection: 0% return is a straight ledger", () => {
+  // 手算锚点:40→60 岁、存 120,000、回报 0%、取款 20 年 → 总额 120,000,月取恰好 500。
+  const res = retirementProjection(40, 60, 120000, 0, 0, 0, 20);
+
+  it("keeps the total equal to contributions and equal to purchasing power", () => {
+    expect(res.nominalTotal).toBe(120000);
+    expect(res.contributed).toBe(120000);
+    expect(res.realTotal).toBe(120000);
+  });
+
+  it("withdraws exactly loan/months = 500 per month", () => {
+    expect(res.monthlyWithdrawal).toBe(500);
+  });
+});
+
+describe("retirementProjection: boundaries", () => {
+  it("accepts a zero fund and reports a zero withdrawal instead of NaN", () => {
+    const res = retirementProjection(30, 60, 0, 0, 5, 2, 20);
+    expect(res.nominalTotal).toBe(0);
+    expect(res.contributed).toBe(0);
+    expect(res.realTotal).toBe(0);
+    expect(res.monthlyWithdrawal).toBe(0);
+  });
+
+  it("accepts the caps: ages 0→100 and 20→120 both give 100 years", () => {
+    const from0 = retirementProjection(0, 100, 1000, 0, 3, 0, 10);
+    expect(from0.years).toBe(100);
+    expect(from0.schedule).toHaveLength(100);
+    const to120 = retirementProjection(20, 120, 1000, 0, 3, 0, 10);
+    expect(to120.years).toBe(100);
+  });
+
+  it("with 0% inflation the purchasing power equals the nominal total exactly", () => {
+    const res = retirementProjection(35, 60, 10000, 100, 4, 0, 20);
+    expect(res.realTotal).toBe(res.nominalTotal);
+  });
+
+  it("defaults the inflation and payout arguments (5-arg call)", () => {
+    const res = retirementProjection(35, 60, 10000, 100, 4);
+    expect(res.realTotal).toBe(res.nominalTotal);
+    expect(res.monthlyWithdrawal).toBe(mortgagePayment(res.nominalTotal, 4, 20));
+  });
+});
+
+describe("retirementProjection: invalid inputs yield all-NaN and an empty schedule", () => {
+  const invalid: Array<[number, number, number, number, number, number, number]> = [
+    [35, 35, 50000, 500, 6, 2.5, 20], // retire age equals current age
+    [35, 30, 50000, 500, 6, 2.5, 20], // retire age below current age
+    [-1, 60, 50000, 500, 6, 2.5, 20], // negative current age
+    [101, 120, 50000, 500, 6, 2.5, 20], // current age over 100
+    [30, 121, 50000, 500, 6, 2.5, 20], // retire age over 120
+    [10, 120, 50000, 500, 6, 2.5, 20], // accumulation longer than 100 years
+    [35, 60, -50000, 500, 6, 2.5, 20], // negative savings
+    [35, 60, 50000, -500, 6, 2.5, 20], // negative contribution
+    [35, 60, 50000, 500, -6, 2.5, 20], // negative return
+    [35, 60, 50000, 500, 6, -2.5, 20], // negative inflation
+    [35, 60, 50000, 500, 6, 2.5, 0], // zero payout years
+    [35, 60, 50000, 500, 6, 2.5, 101], // payout years over the 100 cap
+    [NaN, 60, 50000, 500, 6, 2.5, 20],
+    [35, Infinity, 50000, 500, 6, 2.5, 20],
+    [35, 60, 50000, NaN, 6, 2.5, 20],
+    [35, 60, 50000, 500, 6, NaN, 20],
+    [35, 60, 50000, 500, 6, 2.5, NaN],
+  ];
+
+  it.each(invalid)("rejects retirementProjection(%p, %p, %p, %p, %p, %p, %p)", (a, b, s, m, r, i, w) => {
+    expectRetirementNaN(retirementProjection(a, b, s, m, r, i, w));
+  });
+});
+
+// ─────────────────────────── inflationAdjusted ───────────────────────────
+
+function expectInflationNaN(res: InflationResult): void {
+  expect(res.futureCost).toBeNaN();
+  expect(res.realValue).toBeNaN();
+  expect(res.cumulativeInflationPct).toBeNaN();
+  expect(res.schedule).toEqual([]);
+}
+
+describe("inflationAdjusted: reference case (100 at 3% for 10 years)", () => {
+  // 手算锚点:(1.03)¹⁰ = 1.343916379344 → 未来成本 134.391638,累计通胀 34.391638%,购买力 74.409391
+  const res = inflationAdjusted(100, 3, 10);
+
+  it("prices the same basket at 134.39 after 10 years", () => {
+    expect(Math.abs(res.futureCost - 134.391638)).toBeLessThanOrEqual(0.0001);
+    expect(res.futureCost).toBe(100 * Math.pow(1.03, 10));
+  });
+
+  it("reports 34.39% cumulative inflation (compounding, not 10 × 3%)", () => {
+    expect(Math.abs(res.cumulativeInflationPct - 34.391638)).toBeLessThanOrEqual(0.0001);
+    expect(res.cumulativeInflationPct).toBeGreaterThan(30); // > the naive 10 × 3% sum
+  });
+
+  it("deflates to 74.41 of purchasing power, and cost × value returns the squared principal", () => {
+    expect(Math.abs(res.realValue - 74.409391)).toBeLessThanOrEqual(0.0001);
+    expect(res.futureCost * res.realValue).toBeCloseTo(100 * 100, 9);
+  });
+
+  it("emits 10 yearly rows whose factors compound consistently", () => {
+    expect(res.schedule).toHaveLength(10);
+    expect(res.schedule[0].cost).toBe(103);
+    expect(res.schedule[9].cost).toBe(res.futureCost);
+    for (const row of res.schedule) {
+      expect(row.cost).toBeCloseTo(100 * Math.pow(1.03, row.year), 9);
+      expect(row.value).toBeCloseTo(100 / Math.pow(1.03, row.year), 9);
+    }
+  });
+});
+
+describe("inflationAdjusted: deflation (100 at −2% for 5 years)", () => {
+  // 手算锚点:(0.98)⁵ = 0.9039207968 → 未来成本 90.392080,累计通胀 −9.607920%,购买力 110.629162
+  const res = inflationAdjusted(100, -2, 5);
+
+  it("makes the basket cheaper and money stronger", () => {
+    expect(Math.abs(res.futureCost - 90.39208)).toBeLessThanOrEqual(0.0001);
+    expect(Math.abs(res.cumulativeInflationPct - (-9.60792))).toBeLessThanOrEqual(0.0001);
+    expect(Math.abs(res.realValue - 110.629162)).toBeLessThanOrEqual(0.0001);
+  });
+
+  it("keeps the cost × value invariant under deflation too", () => {
+    expect(res.futureCost * res.realValue).toBeCloseTo(100 * 100, 9);
+    for (const row of res.schedule) expect(row.cost * row.value).toBeCloseTo(100 * 100, 9);
+  });
+});
+
+describe("inflationAdjusted: boundaries", () => {
+  it("at 0% inflation nothing moves and every row repeats the amount", () => {
+    const res = inflationAdjusted(250, 0, 15);
+    expect(res.futureCost).toBe(250);
+    expect(res.realValue).toBe(250);
+    expect(res.cumulativeInflationPct).toBe(0);
+    expect(res.schedule).toHaveLength(15);
+    for (const row of res.schedule) {
+      expect(row.cost).toBe(250);
+      expect(row.value).toBe(250);
+    }
+  });
+
+  it("accepts zero amount (everything stays zero) and deep deflation down to −99.9%", () => {
+    const zero = inflationAdjusted(0, 3, 10);
+    expect(zero.futureCost).toBe(0);
+    expect(zero.realValue).toBe(0);
+    expect(zero.schedule).toHaveLength(10);
+    const deep = inflationAdjusted(100, -99.9, 2);
+    expect(Number.isFinite(deep.futureCost)).toBe(true);
+    expect(deep.futureCost).toBeCloseTo(100 * Math.pow(0.001, 2), 9);
+  });
+
+  it("accepts the 100-year cap with 100 rows", () => {
+    const res = inflationAdjusted(1000, 2, 100);
+    expect(res.schedule).toHaveLength(100);
+    expect(res.schedule[99].cost).toBe(res.futureCost);
+    expect(Number.isFinite(res.realValue)).toBe(true);
+  });
+
+  it("rounds fractional years to whole years (10.5 → 11 rows and 11-year factor)", () => {
+    const res = inflationAdjusted(100, 3, 10.5);
+    expect(res.schedule).toHaveLength(11);
+    expect(res.futureCost).toBeCloseTo(100 * Math.pow(1.03, 11), 9);
+  });
+});
+
+describe("inflationAdjusted: invalid inputs yield all-NaN and an empty schedule", () => {
+  const invalid: Array<[number, number, number]> = [
+    [-100, 3, 10], // negative amount
+    [100, -100, 10], // rate −100 makes the multiplier zero
+    [100, -101, 10], // below −100 makes it negative
+    [100, 3, 0], // zero years
+    [100, 3, -5], // negative years
+    [100, 3, 101], // above the 100-year cap
+    [NaN, 3, 10],
+    [100, Infinity, 10],
+    [100, 3, NaN],
+  ];
+
+  it.each(invalid)("rejects inflationAdjusted(%p, %p, %p)", (amount, rate, years) => {
+    expectInflationNaN(inflationAdjusted(amount, rate, years));
+  });
+});
+
+// ─────────────────────────── auto loan (reuses mortgage functions) ───────────────────────────
+
+describe("auto loan anchor: $30k car, 20% down → $24k financed, 6%, 60 months", () => {
+  // 车贷直接复用 mortgagePayment/mortgage:期限以月计,months/12 传入后 Math.round 还原精确月数。
+  // 手算锚点:(1.005)⁶⁰ = 1.348850153 → 月供 = 24000×0.005×1.348850153/0.348850153 ≈ 463.987237
+  const loan = 30000 - (30000 * 20) / 100;
+  const res = mortgage(loan, 6, 60 / 12);
+
+  it("charges a 463.99 monthly payment via the standard amortization formula", () => {
+    expect(Math.abs(res.monthlyPI - 463.99)).toBeLessThanOrEqual(0.01);
+    expect(res.monthlyPI).toBeCloseTo(closedMortgagePI(24000, 6, 5), 6);
+    expect(res.monthlyPI).toBe(mortgagePayment(24000, 6, 5));
+  });
+
+  it("costs 3839.23 of interest, with monthlyPI × 360/60 reconciling exactly", () => {
+    expect(Math.abs(res.totalInterest - 3839.23)).toBeLessThanOrEqual(0.01);
+    expect(res.totalInterest).toBeCloseTo(res.monthlyPI * 60 - 24000, 6);
+    expect(res.totalPaid).toBe(24000 + res.totalInterest);
+  });
+
+  it("emits 5 yearly rows whose principal sums to the loan and ends at zero", () => {
+    expect(res.schedule).toHaveLength(5);
+    const sumPrin = res.schedule.reduce((s, r) => s + r.principal, 0);
+    expect(sumPrin).toBeCloseTo(24000, 6);
+    expect(res.schedule[4].balance).toBeCloseTo(0, 6);
+    // On a short loan each month is already principal-heavy, but the amortization
+    // shape still holds: yearly interest strictly declines, yearly principal rises.
+    for (let y = 1; y < 5; y++) {
+      expect(res.schedule[y].interest).toBeLessThan(res.schedule[y - 1].interest);
+      expect(res.schedule[y].principal).toBeGreaterThan(res.schedule[y - 1].principal);
+    }
+  });
+});
+
+describe("auto loan: odd month counts and 0% dealer financing", () => {
+  it("handles a 42-month term (3.5 years → exactly 42 payments of 645.94 at 7%)", () => {
+    // 手算锚点:r = 7/1200,(1+r)⁴² = 1.27721… → 月供 = 24000×r×(1+r)⁴²/((1+r)⁴²−1) ≈ 645.940821
+    const res = mortgage(24000, 7, 42 / 12);
+    expect(Math.abs(res.monthlyPI - 645.940821)).toBeLessThanOrEqual(0.01);
+    expect(res.monthlyPI).toBeCloseTo(closedMortgagePI(24000, 7, 3.5), 6);
+    expect(res.schedule).toHaveLength(4); // year-end rows at months 12/24/36 + the 42-month stub
+    expect(res.schedule[3].balance).toBeCloseTo(0, 6);
+  });
+
+  it("0% dealer financing splits the balance evenly: 24000 over 60 months = 400", () => {
+    expect(mortgagePayment(24000, 0, 60 / 12)).toBe(400);
+    const res = mortgage(24000, 0, 60 / 12);
+    expect(res.totalInterest).toBe(0);
+    expect(res.schedule.every((row) => row.interest === 0)).toBe(true);
+  });
+
+  it("a down payment covering the full price leaves no financeable loan (NaN, honest empty table)", () => {
+    const res = mortgage(30000 - 30000, 6, 60 / 12);
+    expect(res.monthlyPI).toBeNaN();
+    expect(res.schedule).toEqual([]);
   });
 });

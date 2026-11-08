@@ -10328,6 +10328,186 @@ export const de: Record<string, ToolCopy> = {
       },
     ],
   },
+  /* ------------------------------------------------------------------ */
+  /* Calculators : monatlicher Tilgungsplan, Entbindungstermin, Bundestax */
+  /* ------------------------------------------------------------------ */
+  "amortization-calculator": {
+    name: "Tilgungsplan-Rechner (monatlich)",
+    tagline:
+      "Der vollständige monatliche Tilgungsplan: Aufteilung jeder Rate in Zinsen und Tilgung, Restschuld am Ende eines beliebigen Jahres und die echten Gesamtzinsen des Kredits.",
+    intro: [
+      "Geben Sie Kreditbetrag, Jahreszinssatz und Laufzeit ein: Jeder Monat wird zu einer eigenen Zeile mit Zinsen auf den Restbetrag, Tilgungsanteil und verbleibendem Saldo. Wo die meisten Rechner alles zu Jahreszeilen verdichten, zeigt die Monatsansicht exakt das, was das Konto des Kreditgebers führt.",
+      "Geben Sie ein Jahr in das Feld für die Restschuld ein und Sie erfahren präzise, was am Ende dieses Jahres noch geschuldet wäre — die Zahl, die bei Verkauf, Umschuldung oder vorzeitigem Ausgleich zählt, denn so würde eine Ablösungserklärung aussehen.",
+    ],
+    steps: [
+      "Kreditbetrag, Jahreszinssatz und Laufzeit in Jahren eingeben.",
+      "Monatsrate, Gesamtzinsen und Gesamtrückzahlung ablesen.",
+      "Ein Jahr eingeben für die Restschuld zum Jahresende und den Monatsplan durchgehen.",
+    ],
+    faqs: [
+      {
+        q: "Woran unterscheidet sich das von einem jährlichen Tilgungsplan?",
+        a: "Eine Jahrestabelle addiert zwölf Monate zu einer Zeile, wodurch die zinslastige Anfangs- und die tilgungslastige Endphase verschwimmen. Die Monatstabelle trennt jede Periode und zeigt genau, in welchem Monat der Tilgungsanteil erstmals den Zinsanteil übersteigt.",
+      },
+      {
+        q: "Was setzt die Restschuld nach N Jahren voraus?",
+        a: "Dass alle Raten pünktlich gezahlt wurden und keine Sondertilgungen erfolgten. Sie ist die beste Annäherung an eine Ablösungssumme zu diesem Zeitpunkt — vor Tageszinsen und Gebühren, die Ihr Kreditgeber addieren kann.",
+      },
+    ],
+  },
+  "due-date-calculator": {
+    name: "Entbindungstermin-Rechner",
+    tagline:
+      "Schätzen Sie den Entbindungstermin aus erstem Tag der letzten Periode und Zykluslänge, verfolgen Sie das heutige Gestationsalter und das Termfenster von 37 bis 42 Wochen.",
+    intro: [
+      "Geben Sie den ersten Tag der letzten Periode ein und, falls Ihr Zyklus nicht den üblichen 28 Tagen entspricht, dessen Länge. Der Rechner wendet die Naegele-Regel an — letzte Periode + 280 Tage — verschoben um die Differenz zwischen Ihrem Zyklus und 28 Tagen, und zeigt Termin, heutiges Gestationsalter in Wochen und Tagen, Restzeit und das Termfenster.",
+      "Das Termfenster zählt mehr als das Einzeldatum: Jede Geburt zwischen der 37. und 42. Woche gilt als termingerecht, und etwa die Hälfte aller Geburten liegt innerhalb einer Woche vor oder nach der Schätzung. Planung rund um das Intervall nimmt den Druck des einzelnen Tages.",
+    ],
+    steps: [
+      "Ersten Tag der letzten Periode eingeben.",
+      "Zykluslänge anpassen, falls sie von 28 Tagen abweicht.",
+      "Termin und Gestationsalter ablesen, dann um das Termfenster herum planen.",
+    ],
+    faqs: [
+      {
+        q: "Wie genau ist ein Termin aus der letzten Periode?",
+        a: "Als Bevölkerungsstatistik gut: bei bekanntem, regelmäßigem Zyklus liegt etwa die Hälfte der Geburten innerhalb einer Woche der Schätzung. Für einen einzelnen Tag bleibt sie unscharf — Ultraschall im ersten Trimester ist deutlich genauer.",
+      },
+      {
+        q: "Warum verschiebt die Zykluslänge den Termin?",
+        a: "Die Naegele-Regel nimmt einen 28-Tage-Zyklus mit Eisprung am 14. Tag an. Ein 32-Tage-Zyklus verlagert den Eisprung später, der Termin rückt 4 Tage. Die lineare Verschiebung passt nahe dem Normalbereich und ist bei unregelmäßigen Zyklen unzuverlässig.",
+      },
+    ],
+  },
+  "income-tax-calculator": {
+    name: "US-Bundeseinkommensteuer-Rechner",
+    tagline:
+      "Sehen Sie, wie die US-Bundeseinkommensteuer Stufe für Stufe entsteht: zu versteuerndes Einkommen, Gesamtsteuer, Grenz- gegen Effektivsatz und was jede Stufe von 10 bis 37 % exakt kostet.",
+    intro: [
+      "Geben Sie Jahreseinkommen, Steuerstatus (ledig oder zusammen veranlagt) und einen Abzug ein: Der Rechner geht die Bundestufen 2026 Stufe für Stufe durch. Das Ergebnis ist keine einschüchternde Summe, sondern der echte Mechanismus: wie viel Einkommen in die 10-%-Stufe fällt, wie viel in die 12-%-Stufe, bis der letzte Dollar landet.",
+      "Der Grenzsteuersatz — die Steuer auf den letzten Dollar — ist die Referenz für Gehaltserhöhung, Abzug oder Zusatzeinkommen. Der Effektivsatz — Gesamtsteuer geteilt durch Einkommen — ist, was die Gehaltsabrechnung spürt, und bleibt stets unter dem Grenzsatz, sobald die erste Stufe verlassen ist.",
+    ],
+    steps: [
+      "Jahreseinkommen vor Abzügen eingeben.",
+      "Ledig oder zusammen veranlagt wählen.",
+      "Abzug einstellen — vorbelegt mit dem Standardabzug 2026 — und Sätze samt Stufentabelle ablesen.",
+    ],
+    faqs: [
+      {
+        q: "Worin unterscheiden sich Grenz- und Effektivsatz?",
+        a: "Der Grenzsatz ist die Steuer auf den nächsten Dollar: die Stufe, in der das zu versteuernde Einkommen endet — maßgeblich für Erhöhung, Abzug oder Nebeneinkommen. Der Effektivsatz ist Gesamtsteuer durch Gesamteinkommen. Bei 100.000 $ ledig mit dem Standardabzug 2026 liegt der Grenzsatz bei 22 %, der Effektivsatz bei rund 13,2 %.",
+      },
+      {
+        q: "Wie aktuell sind diese Stufen?",
+        a: "Es sind die inflationsangepassten Schwellen 2026 aus dem IRS Revenue Procedure 2025-32, hier als Illustrativmodell gezeigt. Der IRS passt die Stufen fast jedes Jahr an — prüfen Sie seine neuesten Veröffentlichungen für das Jahr, in dem Sie tatsächlich abgeben.",
+      },
+    ],
+  },
+  "retirement-calculator": {
+    name: "Altersvorsorge-Rechner",
+    tagline:
+      "Sehen Sie, was Ihre Ersparnisse bis zur Rente werden: die Summe, was sie in heutigem Geld wert ist und der monatliche Betrag, den Sie entnehmen könnten.",
+    intro: [
+      "Geben Sie Ihr aktuelles Alter, das Renteneintrittsalter, vorhandene Ersparnisse, die monatliche Sparrate und eine angenommene Jahresrendite ein. Der Rechner lässt das Guthaben mit monatlicher Zinseszinsrechnung wachsen — der Beitrag jedes Monats wird zum Monatsanfang hinzugebucht — und zeigt die Summe, die bei Ihrem Renteneintritt wartet.",
+      "Eine Zahl in Dollars von 2055 schmeichelt sich selbst, deshalb teilt das Tool diese Summe auch durch (1 + Inflation)^Jahre, um sie in heutiger Kaufkraft auszudrücken, und berechnet die feste monatliche Entnahme, die den Fonds über Ihre Rentenjahre genau leeren würde, wenn dieselbe Rendite anhielte.",
+      "Alles ist Arithmetik über die Zahlen, die Sie liefern. Die Rendite ist eine Annahme, keine Prognose — probieren Sie pessimistische und optimistische Werte und sehen Sie, wie stark die Antwort schwankt. Nichts von Ihren Ersparnissen verlässt den Browser.",
+      "Die Jahrestabelle unter den Ergebnissen zeigt Beiträge, Erträge und Guthaben zum jeweiligen Jahresende — so sehen Sie, ob das Wachstum Ihres Plans vor allem von Ihren Einzahlungen oder vor allem vom Zinseszins kommt; der Wendepunkt dauert meist Jahre.",
+    ],
+    steps: [
+      "Geben Sie Ihr aktuelles Alter und das Alter ein, in dem Sie in Rente gehen wollen.",
+      "Ergänzen Sie aktuelle Ersparnisse, die monatliche Sparrate und eine angenommene Jahresrendite.",
+      "Legen Sie Inflation und die Anzahl der Jahre fest, die der Fonds im Rentenalter reichen soll.",
+      "Lesen Sie die Summe, ihre Kaufkraft in heutigem Geld und die monatliche Entnahme.",
+    ],
+    faqs: [
+      {
+        q: "Wie wird die monatliche Entnahme berechnet?",
+        a: "Es ist der feste Betrag, der bei Fortbestehen derselben angenommenen Rendite im Rentenalter den Fonds über die von Ihnen gesetzten Rentenjahre genau leert — die Standardformel der Annuität. Bei einer angenommenen Rendite von 0 % ist es schlicht die Summe geteilt durch die Monate.",
+      },
+      {
+        q: "Warum ist die Kaufkraftzahl kleiner als die Summe?",
+        a: "Weil Inflation Geld aushöhlt. Eine Summe T nach n Jahren Inflation i kauft nur, was heute T ÷ (1 + i)^n kauft. Bei 2,5 % Inflation über 30 Jahre liegt der Teiler bei etwa 2,1 — rund die Hälfte der Kopfzahl ist Kaufkraft-Illusion.",
+      },
+      {
+        q: "Rechnet das Tool Steuern, Rentenversicherungen oder Sozialversicherung ein?",
+        a: "Nein. Es modelliert einen einzigen Topf, der mit einer angenommenen Rate wächst — ohne Beitragslimits, steuerliche Behandlung, Arbeitgeberzuschüsse oder gesetzliche Rente. Betrachten Sie das Ergebnis als einen Input für die Planung, nicht als Rechts- oder Steueraussage.",
+      },
+      {
+        q: "Welche Rendite sollte ich annehmen?",
+        a: "Das ist eine Einschätzung, die dieses Tool bewusst nicht für Sie trifft. Üblich ist, mehrere Szenarien zu rechnen — eine konservative niedrige Rate, eine mittlere, eine optimistische — und die Spreizung der Antworten, nicht eine einzelne Zahl, die Entscheidung treffen zu lassen.",
+      },
+    ],
+  },
+  "inflation-calculator": {
+    name: "Inflationsrechner",
+    tagline:
+      "Geben Sie einen Betrag, eine Inflationsrate und Jahre ein und sehen Sie, was derselbe Warenkorb kostet, die kumulierte Inflation und was Ihr Geld dann noch kauft.",
+    intro: [
+      "Geld schrumpft nicht, aber was es kauft, schon. Geben Sie einen Betrag, eine durchschnittliche Jahresinflationsrate und eine Anzahl von Jahren ein, und der Rechner wendet den Zinseszinssfaktor (1 + i)^n an — dieselbe Logik wie bei Zinsen, nur gegen Sie.",
+      "Drei Antworten kommen heraus: was ein Warenkorb, der heute diesen Betrag kostet, nach n Jahren kosten wird, die kumulierte Inflation über den Zeitraum und was dieselbe Geldmenge dann noch kauft, ausgedrückt in heutigen Preisen. Eine Jahrestabelle zeigt denselben Vergleich für jedes Jahr dazwischen.",
+      "Ein negativer Satz ist erlaubt und bildet Deflation ab: Die Preise fallen, die kumulierte Rate wird negativ, Geld kauft mehr. Der Satz, den Sie eingeben, ist eine Annahme fürs Beispiel — langfristige Inflation ist keine Konstante, behandeln Sie daher eine einzelne Durchschnittsrate als Glättung.",
+      "Alles rechnet in Ihrem Browser, ohne dass Daten abgefragt werden. Nutzen Sie es, um Gehaltsverhandlungen, Mieterhöhungen, lange Verträge und Sparziele gegen die stille Steuer zu prüfen, die die Inflation auf jede feste Zahl erhebt.",
+    ],
+    steps: [
+      "Geben Sie den Geldbetrag oder den aktuellen Preis eines Warenkorbs ein.",
+      "Legen Sie eine angenommene durchschnittliche Jahresinflationsrate fest.",
+      "Geben Sie die Anzahl der Jahre ein, die projiziert werden sollen.",
+      "Lesen Sie die künftigen Warenkorbkosten, die kumulierte Inflation und die verbleibende Kaufkraft.",
+    ],
+    faqs: [
+      {
+        q: "Was ist kumulierte Inflation?",
+        a: "Der gesamte Preisanstieg über den ganzen Zeitraum: (1 + i)^n − 1. Bei 3 % pro Jahr über 10 Jahre sind es rund 34,4 % — zehn Einzeljahre mit je 3 % ergeben nicht 30 %, weil jeder Anstieg auf dem des Vorjahrs aufzinst.",
+      },
+      {
+        q: "Warum kauft derselbe Betrag in der Zukunft weniger?",
+        a: "Weil die Preise steigen, während der Betrag gleich bleibt. Division durch (1 + i)^n wandelt den künftigen Betrag in heutiges Geld um: bei 3 % über 10 Jahre kaufen 100 dann ungefähr so viel wie heute etwa 74,4.",
+      },
+      {
+        q: "Unterstützt er unterschiedliche Inflationsraten pro Jahr?",
+        a: "Nein — er wendet eine einzige konstante Durchschnittsrate an, die Standardweise, Größenordnungen zu zeigen. Reale Inflation schwankt von Jahr zu Jahr; für einen eigenen Pfad multiplizieren Sie die Jahresfaktoren selbst oder rechnen den Rechner abschnittsweise neu.",
+      },
+      {
+        q: "Was bedeutet eine negative Inflationsrate?",
+        a: "Deflation: Das Preisniveau fällt, der künftige Warenkorb kostet weniger, die kumulierte Rate wird negativ und dasselbe Geld kauft mehr. Der Rechner behandelt sie mit derselben Formel und kennzeichnet das Szenario in der Oberfläche.",
+      },
+    ],
+  },
+  "auto-loan-calculator": {
+    name: "Autokreditrechner",
+    tagline:
+      "Preis minus Anzahlung, finanziert zu Ihrem Satz über 36 bis 84 Monate: Monatsrate, Gesamtzinsen und eine Amortisationstabelle Jahr für Jahr.",
+    intro: [
+      "Geben Sie den Autopreis, die Anzahlung (als Prozent oder fester Betrag), den jährlichen Zinssatz und eine Laufzeit in Monaten ein. Der Rechner finanziert die Differenz und wendet die Standardformel der Amortisation mit fallendem Saldo an — dieselbe Mathematik, die Banken für jeden Ratenkredit verwenden.",
+      "Sie erhalten die Monatsrate, den Kreditbetrag, die Gesamtzinsen über die Laufzeit und den Gesamtbetrag, dazu eine Jahrestabelle, die Zins und Tilgung trennt und das Restguthaben verfolgt. Ein Donut-Diagramm zeigt, wie viel vom Deal das Auto ist und wie viel der Zins.",
+      "Autokreditlaufzeiten liegen typischerweise bei 36 bis 84 Monaten. Kürzere Laufzeiten kosten pro Monat mehr und insgesamt weniger Zinsen; die Tabelle macht diesen Kompromiss konkret, statt ihn einem Slogan über das Bleiben unter 60 Monaten zu überlassen.",
+      "Der Zinssatz, den Sie eingeben, ist ein Beispiel, kein Angebot — Händler- und Bankangebote variieren mit Bonität, Laufzeit und Aktionen. Alles wird lokal in Ihrem Browser berechnet, also können Sie echte Angebote einfügen und direkt vergleichen.",
+    ],
+    steps: [
+      "Geben Sie den Autopreis und die Anzahlung als Prozent oder Betrag ein.",
+      "Legen Sie den jährlichen Zinssatz fest, der Ihnen angeboten wird.",
+      "Geben Sie die Laufzeit in Monaten ein — Autokredite laufen üblicherweise 36–84 Monate.",
+      "Lesen Sie Monatsrate, Gesamtzinsen und die jährliche Amortisationstabelle.",
+    ],
+    faqs: [
+      {
+        q: "Wie wird die Monatsrate berechnet?",
+        a: "Mit der Standard-Amortisationsformel M = L × r × (1+r)^n / ((1+r)^n − 1), wobei L der finanzierte Betrag (Preis − Anzahlung), r der Monatssatz (jährlich ÷ 12 ÷ 100) und n die Anzahl der Monate ist. Ein Auto für 30.000 $ mit 20 % Anzahlung bei 6 % über 60 Monate ergibt rund 463,99 $ pro Monat.",
+      },
+      {
+        q: "Spart eine längere Laufzeit Geld?",
+        a: "Nein — sie spart Liquidität, kein Geld. Von 60 auf 84 Monate gestreckt senkt jede Rate, fügt aber Monate von Zinsen auf einem langsam sinkenden Saldo hinzu, sodass die Gesamtzinsen steigen. Vergleichen Sie beim Wählen der Laufzeit die Spalte der Gesamtzinsen, nicht die der Rate.",
+      },
+      {
+        q: "Was zählt hier als Anzahlung?",
+        a: "Alles, was Sie im Voraus zahlen: Bargeld, eine Anrechnung Ihres Gebrauchtwagens (Trade-in) oder Rabatte. Geben Sie sie als Prozent des Preises oder als festen Betrag ein. Deckt die Anzahlung den ganzen Preis, sagt Ihnen das Tool, dass kein Kredit nötig ist.",
+      },
+      {
+        q: "Enthält er Gebühren, Steuern oder Versicherungen?",
+        a: "Nein. Er modelliert nur Zins und Tilgung. Umsatzsteuer, Zulassung, Händlergebühren und GAP-Versicherung ändern den finanzierten Betrag oder erhöhen die Monatskosten — rechnen Sie neu, mit diesen Posten in den Preis eingerollt, wenn Sie sie finanzieren.",
+      },
+    ],
+  },
 };
 
 export default de;

@@ -10329,4 +10329,184 @@ export const it: Record<string, ToolCopy> = {
       },
     ],
   },
+  /* ------------------------------------------------------------------ */
+  /* Calcolatori: ammortamento mensile, data presunta del parto, imposta  */
+  /* ------------------------------------------------------------------ */
+  "amortization-calculator": {
+    name: "Calcolatore di ammortamento mensile",
+    tagline:
+      "Il piano di ammortamento completo mese per mese: come ogni rata si divide tra interessi e capitale, il saldo residuo alla fine di ogni anno e gli interessi totali del prestito.",
+    intro: [
+      "Inserisci importo, tasso annuo e durata: ogni mese diventa una riga che mostra gli interessi maturati sul saldo, la quota di capitale rimborsata e il saldo residuo. Dove la maggior parte dei calcolatori comprime tutto in righe annuali, la vista mensile riproduce esattamente il registro che tiene il prestatore.",
+      "Inserisci un anno nel campo del saldo per sapere con precisione quanto si dovrebbe ancora alla fine di quell'anno — il numero che conta per una vendita, un rifinanziamento o un'estinzione anticipata, perché è quello che riporterebbe un conteggio finale.",
+    ],
+    steps: [
+      "Inserisci importo del prestito, tasso annuo e durata in anni.",
+      "Leggi la rata mensile, gli interessi totali e il totale rimborsato.",
+      "Inserisci un anno per vedere il saldo a fine anno e sfoglia la tabella mensile.",
+    ],
+    faqs: [
+      {
+        q: "In cosa differisce da una tabella di ammortamento annuale?",
+        a: "Una tabella annuale somma dodici mesi in una riga e sfuma il passaggio dalla fase dominata dagli interessi a quella dominata dal capitale. La tabella mensile tiene separato ogni periodo e individua il mese esatto in cui il capitale supera per la prima volta gli interessi.",
+      },
+      {
+        q: "Cosa presuppone il saldo dopo N anni?",
+        a: "Che tutte le rate siano state pagate puntualmente e che non ci siano state estinzioni anticipate: è la stima più vicina a un conteggio di saldo in quel momento, al netto degli interessi pro-rata e delle spese che il prestatore può aggiungere.",
+      },
+    ],
+  },
+  "due-date-calculator": {
+    name: "Calcolatore della data presunta del parto",
+    tagline:
+      "Stima la data presunta del parto dal primo giorno dell'ultima mestruazione e dalla durata del ciclo, segui l'età gestazionale di oggi e la finestra di termine tra 37 e 42 settimane.",
+    intro: [
+      "Inserisci il primo giorno dell'ultima mestruazione e, se il tuo ciclo non è quello standard di 28 giorni, la sua durata. Lo strumento applica la regola di Naegele — ultima mestruazione + 280 giorni — spostata della differenza tra il tuo ciclo e 28 giorni, e mostra la data presunta, l'età gestazionale odierna in settimane e giorni, i giorni rimanenti e la finestra di termine.",
+      "La finestra di termine conta più della data singola: qualsiasi parto tra la 37ª e la 42ª settimana è considerato a termine, e circa metà dei nascituri arriva entro una settimana prima o dopo la stima. Pianificare sull'intervallo toglie pressione al giorno unico.",
+    ],
+    steps: [
+      "Inserisci il primo giorno dell'ultima mestruazione.",
+      "Correggi la durata del ciclo se è diversa da 28 giorni.",
+      "Leggi data presunta ed età gestazionale, poi pianifica attorno alla finestra.",
+    ],
+    faqs: [
+      {
+        q: "Quanto è precisa una data calcolata dall'ultima mestruazione?",
+        a: "Come statistica di popolazione è ragionevole: con un ciclo regolare e noto, circa metà dei parti avviene entro una settimana dalla stima. Per un giorno singolo resta intrinsecamente approssimativa — l'ecografia del primo trimestre è decisamente più affidabile.",
+      },
+      {
+        q: "Perché la durata del ciclo sposta la data?",
+        a: "La regola di Naegele assume un ciclo di 28 giorni con ovulazione al 14º giorno. Un ciclo di 32 giorni sposta l'ovulazione più tardi e la data si allontana di 4 giorni. Lo scorrimento lineare funziona bene vicino al ciclo normale e è poco affidabile con cicli irregolari.",
+      },
+    ],
+  },
+  "income-tax-calculator": {
+    name: "Calcolatore imposta federale USA",
+    tagline:
+      "Guarda l'imposta federale americana costruirsi scaglione dopo scaglione: reddito imponibile, imposta totale, aliquota marginale contro effettiva e quanto costa esattamente ogni scaglione dal 10 al 37%.",
+    intro: [
+      "Inserisci il reddito annuo, uno stato di dichiarazione (single o sposati con dichiarazione congiunta) e una detrazione: lo strumento percorre gli scaglioni federali 2026 un gradino alla volta. Il risultato non è una cifra intimidatoria ma il meccanismo reale: quanto reddito cade nello scaglione al 10%, quanto in quello al 12%, fino a dove atterra l'ultimo dollaro.",
+      "L'aliquota marginale — l'imposta sull'ultimo dollaro — è il riferimento per aumenti, detrazioni e redditi extra. Quella effettiva — imposta totale divisa per reddito — è ciò che sente la busta paga, e resta sempre sotto la marginale appena si supera il primo scaglione.",
+    ],
+    steps: [
+      "Inserisci il reddito annuo prima delle detrazioni.",
+      "Scegli single o sposati con dichiarazione congiunta.",
+      "Regola la detrazione — precompilata con la detrazione standard 2026 — e leggi aliquote e tabella degli scaglioni.",
+    ],
+    faqs: [
+      {
+        q: "Qual è la differenza tra aliquota marginale ed effettiva?",
+        a: "La marginale è l'imposta sul dollaro successivo: è lo scaglione dove finisce il reddito imponibile, quella che conta per valutare un aumento o una detrazione. L'effettiva è imposta totale divisa per reddito totale. Con 100.000 $ da single e la detrazione standard 2026, la marginale è 22% e l'effettiva circa 13,2%.",
+      },
+      {
+        q: "Quanto sono aggiornati questi scaglioni?",
+        a: "Sono le soglie 2026 corrette dall'inflazione pubblicate dall'IRS nel Revenue Procedure 2025-32, mostrate qui come modello illustrativo. L'IRS rettifica gli scaglioni quasi ogni anno: verifica le pubblicazioni più recenti per l'anno in cui dichiari davvero.",
+      },
+    ],
+  },
+  "retirement-calculator": {
+    name: "Calcolatore pensionistico",
+    tagline:
+      "Scopri in cosa diventano i tuoi risparmi alla pensione: il totale, quanto compra in denaro di oggi e l'importo mensile che potresti prelevare.",
+    intro: [
+      "Inserisci l'età attuale, l'età della pensione, i risparmi esistenti, il versamento mensile e un rendimento annuale ipotizzato. Il calcolatore fa crescere il saldo con capitalizzazione mensile — il versamento di ogni mese si aggiunge all'inizio del mese — e mostra il totale che ti attende all'età della pensione.",
+      "Una cifra in dollari del 2055 si lusinga da sola, così lo strumento divide anche quel totale per (1 + inflazione)^anni per esprimerlo in potere d'acquisto odierno, e calcola il prelievo mensile fisso che svuoterebbe il fondo durante i tuoi anni di pensione se lo stesso rendimento continuasse.",
+      "Tutto è aritmetica sui numeri che fornisci. Il rendimento è un'assunzione, non una previsione — prova valori pessimistici e ottimistici e osserva quanto oscilla la risposta. Nulla dei tuoi risparmi lascia il browser.",
+      "La tabella annuale sotto i risultati mostra versamenti, guadagni e saldo a fine di ogni anno, così vedi se la crescita del tuo piano viene soprattutto dai tuoi depositi o soprattutto dall'interesse composto — l'attraversamento di solito richiede anni.",
+    ],
+    steps: [
+      "Inserisci l'età attuale e l'età in cui pensi di andare in pensione.",
+      "Aggiungi i risparmi attuali, il versamento mensile e un rendimento annuale ipotizzato.",
+      "Imposta l'inflazione e il numero di anni per cui il fondo dovrà durare in pensione.",
+      "Leggi il totale, il suo potere d'acquisto in denaro di oggi e il prelievo mensile.",
+    ],
+    faqs: [
+      {
+        q: "Come si calcola il prelievo mensile?",
+        a: "È l'importo fisso che, continuando lo stesso rendimento ipotizzato in pensione, svuota esattamente il fondo negli anni di pensione che imposti — la formula standard della rendita. Se il rendimento ipotizzato è 0%, è semplicemente il totale diviso per i mesi.",
+      },
+      {
+        q: "Perché la cifra del potere d'acquisto è minore del totale?",
+        a: "Perché l'inflazione erode il denaro. Un totale T raggiunto dopo n anni di inflazione i compra ciò che oggi compra T ÷ (1 + i)^n. Con un'inflazione del 2,5% per 30 anni il divisore è vicino a 2,1: quasi metà del numero principale è illusione di potere d'acquisto.",
+      },
+      {
+        q: "Modella imposte, piani pensionistici o previdenza pubblica?",
+        a: "No. Modella un solo fondo che cresce a un'assunta quota, senza limiti di versamento, trattamento fiscale, integrazioni del datore di lavoro né pensioni pubbliche. Considera il risultato un dato di pianificazione, non una dichiarazione legale o fiscale.",
+      },
+      {
+        q: "Che rendimento dovrei ipotizzare?",
+        a: "È un giudizio che questo strumento si rifiuta deliberatamente di fare per te. La pratica comune è eseguire più scenari — una quota bassa prudente, una intermedia, una ottimistica — e lasciare che la dispersione delle risposte, non un numero unico, guidi la decisione.",
+      },
+    ],
+  },
+  "inflation-calculator": {
+    name: "Calcolatore inflazione",
+    tagline:
+      "Inserisci un importo, un tasso di inflazione e anni per vedere quanto costerà lo stesso paniere, l'inflazione cumulata e quanto comprerà allora il tuo denaro.",
+    intro: [
+      "Il denaro non si restringe, ma ciò che compra sì. Inserisci un importo, un tasso medio di inflazione annuo e un numero di anni: il calcolatore applica il fattore composto (1 + i)^n — la stessa logica dell'interesse composto, ma che lavora contro di te.",
+      "Escono tre risposte: quanto costerà dopo n anni un paniere che oggi costa quell'importo, l'inflazione cumulata del periodo e cosa comprerà allora la stessa somma, espressa in prezzi di oggi. Una tabella anno per anno ripete lo stesso confronto per ogni anno intermedio.",
+      "Un tasso negativo è ammesso e modella la deflazione: i prezzi scendono, il tasso cumulato diventa negativo e il denaro compra di più. Il tasso che inserisci è solo un'assunzione d'esempio — l'inflazione di lungo periodo non è costante, quindi tratta una media unica come uno smussatore.",
+      "Tutto si calcola nel tuo browser e non chiede alcun dato. Usalo per confrontare trattative salariali, aumenti dell'affitto, contratti lunghi e obiettivi di risparmio con l'imposta silenziosa che l'inflazione preleva su ogni numero fisso.",
+    ],
+    steps: [
+      "Inserisci l'importo di denaro o il prezzo attuale di un paniere.",
+      "Imposta un tasso medio annuo di inflazione ipotizzato.",
+      "Inserisci il numero di anni da proiettare.",
+      "Leggi il costo futuro del paniere, l'inflazione cumulata e il potere d'acquisto residuo.",
+    ],
+    faqs: [
+      {
+        q: "Che cos'è l'inflazione cumulata?",
+        a: "L'aumento totale dei prezzi su tutto il periodo: (1 + i)^n − 1. Al 3% all'anno per 10 anni è circa il 34,4% — dieci cifre annue del 3% non fanno il 30%, perché ogni rialzo si compone su quello dell'anno precedente.",
+      },
+      {
+        q: "Perché la stessa somma compra meno in futuro?",
+        a: "Perché i prezzi salgono mentre l'importo resta fermo. Dividere per (1 + i)^n converte l'importo futuro in denaro di oggi: al 3% per 10 anni, 100 compreranno allora ciò che oggi comprano circa 74,4.",
+      },
+      {
+        q: "Gestisce tassi di inflazione diversi per anno?",
+        a: "No — applica un unico tasso medio costante, il modo standard per mostrare l'ordine di grandezza. L'inflazione reale oscilla di anno in anno; per un percorso personalizzato moltiplica tu stesso i fattori annuali o rilancia lo strumento a tratti.",
+      },
+      {
+        q: "Cosa significa un tasso di inflazione negativo?",
+        a: "Deflazione: il livello dei prezzi scende, il paniere futuro costa meno, il tasso cumulato diventa negativo e lo stesso denaro compra di più. Il calcolatore lo gestisce con la stessa formula e segnala lo scenario nell'interfaccia.",
+      },
+    ],
+  },
+  "auto-loan-calculator": {
+    name: "Calcolatore prestito auto",
+    tagline:
+      "Prezzo meno l'anticipo, finanziato al tuo tasso su 36–84 mesi: rata mensile, interessi totali e tabella di ammortamento anno per anno.",
+    intro: [
+      "Inserisci il prezzo dell'auto, l'anticipo (in percentuale o come importo fisso), il tasso d'interesse annuo e una durata in mesi. Il calcolatore finanzia la differenza e applica la formula standard di ammortamento a saldo decrescente — la stessa matematica che le banche usano per qualsiasi prestito a rate.",
+      "Ottieni la rata mensile, l'importo finanziato, gli interessi totali sulla durata e il totale pagato, più una tabella annuale che separa capitale e interessi e segue il saldo residuo. Un grafico a ciambella mostra quanta parte dell'affare è l'auto e quanta è l'interesse.",
+      "Le durate dei prestiti auto vanno tipicamente da 36 a 84 mesi. Le durate brevi costano di più al mese e meno in interessi totali; la tabella rende concreto questo compromesso invece di lasciarlo a uno slogan sul restare sotto i 60 mesi.",
+      "Il tasso che inserisci è un esempio, non un'offerta — le quotazioni di concessionarie e banche variano con il credito, la durata e le promozioni. Tutto è calcolato localmente nel tuo browser, così puoi incollare quotazioni reali e confrontarle fianco a fianco.",
+    ],
+    steps: [
+      "Inserisci il prezzo dell'auto e l'anticipo, in percentuale o come importo.",
+      "Imposta il tasso annuale che ti è stato proposto.",
+      "Inserisci la durata in mesi — i prestiti auto girano di solito su 36–84 mesi.",
+      "Leggi la rata mensile, gli interessi totali e la tabella di ammortamento annuale.",
+    ],
+    faqs: [
+      {
+        q: "Come si calcola la rata mensile?",
+        a: "Con la formula standard di ammortamento M = L × r × (1+r)^n / ((1+r)^n − 1), dove L è l'importo finanziato (prezzo − anticipo), r il tasso mensile (annuale ÷ 12 ÷ 100) e n il numero di mesi. Un'auto da 30.000 $ con il 20% di anticipo al 6% per 60 mesi fa circa 463,99 $ al mese.",
+      },
+      {
+        q: "Una durata più lunga fa risparmiare denaro?",
+        a: "No — risparmia flusso di cassa, non denaro. Allungare da 60 a 84 mesi abbassa ogni rata ma aggiunge mesi di interessi su un saldo che cala lentamente, così gli interessi totali salgono. Quando scegli la durata, confronta la colonna degli interessi totali, non quella della rata.",
+      },
+      {
+        q: "Cosa conta come anticipo qui?",
+        a: "Tutto ciò che paghi in anticipo: contanti, permuta di un'auto o sconti. Inseriscilo in percentuale del prezzo o come importo fisso. Se l'anticipo copre l'intero prezzo, lo strumento ti dice che non serve alcun prestito.",
+      },
+      {
+        q: "Include spese, tasse o assicurazioni?",
+        a: "No. Modella solo capitale e interessi. Imposta d'immatricolazione, bollo, spese della concessionaria e assicurazione gap cambiano l'importo finanziato o aggiungono un costo mensile — ricalcola con queste voci incluse nel prezzo se li finanzi.",
+      },
+    ],
+  },
 };

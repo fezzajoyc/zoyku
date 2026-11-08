@@ -10349,4 +10349,184 @@ export const tr: Record<string, ToolCopy> = {
       },
     ],
   },
+  /* ------------------------------------------------------------------ */
+  /* Hesaplayıcılar: aylık taksit planı, tahmini doğum tarihi, federal vergi */
+  /* ------------------------------------------------------------------ */
+  "amortization-calculator": {
+    name: "Aylık taksit planı hesaplayıcı",
+    tagline:
+      "Ay ay tam taksit planı: her ödemenin faiz ve anapara olarak bölünüşü, herhangi bir yılın sonunda kalan bakiye ve kredinin gerçek toplam faiz maliyeti.",
+    intro: [
+      "Kredi tutarını, yıllık faizi ve vadeyi girin: her ay kendi satırına dönüşür — o ayın bakiyesi üzerinden işleyen faiz, ödemenin anaparaya giden kısmı ve ardından kalan bakiye. Çoğu hesaplayıcı bunu yıllık satırlara sıkıştırırken aylık görünüm, borç verenin defterine geçirdiği biçimiyle kaydı gösterir.",
+      "Bakiye alanına bir yıl girin ve o yılın sonunda tam olarak ne kadar borçlu olacağınızı görün — satış, yeniden finansman veya erken kapatma düşünüyorsanız önemli olan sayı budur, çünkü kapanış belgesi tam bu tutarı taşır.",
+    ],
+    steps: [
+      "Kredi tutarını, yıllık faizi ve vadeyi yıl olarak girin.",
+      "Aylık ödemeyi, toplam faizi ve toplam ödemeyi okuyun.",
+      "Yıl sonundaki bakiyeyi görmek için bir yıl girin ve aylık tabloyu inceleyin.",
+    ],
+    faqs: [
+      {
+        q: "Yıllık taksit planından farkı nedir?",
+        a: "Yıllık tablo on iki ayı tek satıra toplar; faiz ağırlıklı başlangıç ile anapara ağırlıklı bitiş birbirine karışır. Aylık tablo her dönemi ayrı tutar ve anaparanın ilk kez faizi geçtiği ayı tam olarak gösterir.",
+      },
+      {
+        q: "N yıl sonraki bakiye ne varsayar?",
+        a: "Tüm ödemelerin zamanında yapıldığını ve ekstra anapara ödemesi yapılmadığını varsayar. O andaki kapanış tutarına en yakın tahmindir — borç vereni ekleyebileceği günlük faiz ve masraflar hariç.",
+      },
+    ],
+  },
+  "due-date-calculator": {
+    name: "Tahmini doğum tarihi hesaplayıcı",
+    tagline:
+      "Son adetin ilk günü ve döngü uzunluğundan tahmini doğum tarihini hesaplayın, bugünkü gebelik haftasını takip edin ve 37–42 haftalık miad aralığını görün.",
+    intro: [
+      "Son adetin ilk gününü ve —döngünüz standart 28 gün değilse— uzunluğunu girin. Araç Naegele kuralını uygular: son adet + 280 gün, döngünüz ile 28 gün arasındaki fark kadar kaydırılarak. Tahmini tarih, bugünkü gebelik haftası (hafta ve gün), kalan günler ve miad aralığı ekrana gelir.",
+      "Miad aralığı tek tarihten daha önemlidir: 37.–42. haftalar arasındaki her doğum miadında sayılır ve bebeklerin yaklaşık yarısı tahminin bir hafta önünde ya da ardında dünyaya gelir. Aralığa göre planlamak tek günün baskısını azaltır.",
+    ],
+    steps: [
+      "Son adetin ilk gününü girin.",
+      "Döngü 28 gün değilse uzunluğunu düzeltin.",
+      "Tahmini tarih ve gebelik haftasını okuyun, sonra miad aralığına göre planlayın.",
+    ],
+    faqs: [
+      {
+        q: "Son adetten hesaplanan tarih ne kadar doğrudur?",
+        a: "Nüfus istatistiği olarak makuldür: bilinen düzenli bir döngüde doğumların yaklaşık yarısı tahminin bir hafta civarında olur. Tek bir gün için doğası gereği belirsizdir — ilk üç aylık dönemdeki ultrason belirgin biçimde daha güvenilirdir.",
+      },
+      {
+        q: "Döngü uzunluğu tarihi neden kaydırır?",
+        a: "Naegele kuralı 14. günde yumurtlama varsayan 28 günlük döngüyü esas alır. 32 günlük döngü yumurtlamayı geciktirir, tahmin 4 gün kayar. Doğrusal kaydırma normal döngüye yakınken işler; düzensiz döngülerde güvenilmezdir.",
+      },
+    ],
+  },
+  "income-tax-calculator": {
+    name: "ABD federal gelir vergisi hesaplayıcı",
+    tagline:
+      "ABD federal vergisinin dilim dilim nasıl oluştuğunu görün: vergiye tabi gelir, toplam vergi, marjinal ve efektif oran farkı ve 10'dan 37'ye kadar her dilimin tam maliyeti.",
+    intro: [
+      "Yıllık geliri, beyan durumunu (bekâr veya evli ortak beyan) ve bir kesintiyi girin: araç 2026 federal dilimlerini tek tek adımlar. Sonuç korkutucu bir toplam değil, gerçek mekanizmadır: gelirin ne kadarı %10 dilimine düşer, ne kadarı %12'ye, ve son dolar nereye konar.",
+      "Marjinal oran — son dolarınızın vergisi — zam, kesinti ve ek gelir kararlarının referansıdır. Efektif oran — toplam verginin gelire bölümü — maaşın gerçekten hissettiği orandır ve ilk dilim aşılır aşılmaz marjinalin altında kalır.",
+    ],
+    steps: [
+      "Kesintiler öncesi yıllık geliri girin.",
+      "Bekâr ya da evli ortak beyan seçin.",
+      "Kesintiyi ayarlayın — 2026 standart kesintisiyle önceden dolu — ve oranlarla dilim tablosunu okuyun.",
+    ],
+    faqs: [
+      {
+        q: "Marjinal oran ile efektif oran arasındaki fark nedir?",
+        a: "Marjinal, bir sonraki doların vergisidir: vergiye tabi gelirin bittiği dilimdir; zam, kesinti veya ek gelir kararlarında o önemlidir. Efektif, toplam verginin toplam gelire bölümüdür. 2026 standart kesintisiyle bekâr 100.000 $ gelirde marjinal %22, efektif yaklaşık %13,2'dir.",
+      },
+      {
+        q: "Bu dilimler ne kadar güncel?",
+        a: "IRS'nin Revenue Procedure 2025-32 ile yayımladığı, enflasyona göre düzeltilmiş 2026 eşikleridir ve burada örnek model olarak sunulur. IRS dilimleri neredeyse her yıl ayarlar: gerçekten beyan vereceğiniz yıl için en güncel yayımlarını kontrol edin.",
+      },
+    ],
+  },
+  "retirement-calculator": {
+    name: "Emeklilik Birikim Hesaplayıcı",
+    tagline:
+      "Birikimlerinin emekliliğe kadar neye dönüştüğünü gör: toplam, bugünün parasıyla ne alır ve her ay ne kadar çekebilirsin.",
+    intro: [
+      "Mevcut yaşını, emeklilik yaşını, mevcut birikimleri, aylık katkıyı ve varsayılan yıllık getiriyi gir. Hesaplayıcı bakiyeyi aylık bileşikle büyütür — her ayın katkısı ayın başında eklenir — ve emeklilik yaşında seni bekleyen toplamı gösterir.",
+      "2055 dolarındaki bir rakam kendini şişirir; bu yüzden araç toplamı (1 + enflasyon)^yıl'a bölerek bugünkü alım gücüyle de söyler ve aynı getirinin sürmesi hâlinde fonu emeklilik yılların boyunca tam tüketen sabit aylık çekim tutarını hesaplar.",
+      "Buradaki her şey girdiğin sayılar üzerinde aritmetik. Getiri bir varsayımdır, öngörü değil — kötümser ve iyimser değerleri dene, yanıtın ne kadar savrulduğunu gör. Birikimlerine dair hiçbir şey tarayıcıdan çıkmaz.",
+      "Sonuçların altındaki yıllık tablo her yıl sonunda katkıyı, kazancı ve bakiyeyi gösterir; planının büyümesi ağırlıkla senin yatırımlarından mı yoksa bileşikten mi geliyor, görürsün — kesişim genelde yıllar alır.",
+    ],
+    steps: [
+      "Mevcut yaşını ve emekli olmayı planladığın yaşı gir.",
+      "Mevcut birikimi, aylık katkıyı ve varsayılan yıllık getiriyi ekle.",
+      "Enflasyonu ve fonun emeklilikte kaç yıl dayanması gerektiğini ayarla.",
+      "Toplamı, bugünün parasıyla alım gücünü ve aylık çekimi oku.",
+    ],
+    faqs: [
+      {
+        q: "Aylık çekim tutarı nasıl hesaplanır?",
+        a: "Aynı varsayılan getiri emeklilikte de sürerse, fonu belirlediğin emeklilik yılları içinde tam tüketen sabit tutardır — standart yıllık (annüite) formülü. Getiri varsayımı %0'sa yalnızca toplamın ay sayısına bölümüdür.",
+      },
+      {
+        q: "Alım gücü rakamı toplamdan neden küçük?",
+        a: "Çünkü enflasyon parayı aşındırır. Enflasyon i ile n yıl sonra erişilen T toplamı, bugün T ÷ (1 + i)^n değerinin alacağını alır. 30 yıl boyunca %2,5 enflasyonda bölen yaklaşık 2,1'dir: manşet rakamının neredeyse yarısı alım gücü yanılsamasıdır.",
+      },
+      {
+        q: "Vergileri, emeklilik planlarını veya sosyal güvenliği modelliyor mu?",
+        a: "Hayır. Tek bir fonun tek bir varsayılan oranla büyümesini modeller; katkı sınırları, vergi muamelesi, işveren eşleşmesi veya devlet emekliliği içermez. Çıktıyı yasal ya da vergisel bir beyan değil, planlamanın bir girdisi say.",
+      },
+      {
+        q: "Hangi getiriyi varsaymalıyım?",
+        a: "Bu araç bilinçli olarak bu yargıyı senin yerine vermez. Yaygın pratik birkaç senaryo koşmaktır — temkinli düşük bir oran, orta bir oran, iyimser bir oran — ve kararı tek bir rakamın değil yanıtların yayılımının belirlemesine izin vermektir.",
+      },
+    ],
+  },
+  "inflation-calculator": {
+    name: "Enflasyon Hesaplayıcı",
+    tagline:
+      "Bir tutar, enflasyon oranı ve yıl gir; aynı sepetin ne kadara geleceğini, birikimli enflasyonu ve paranın o zaman ne alacağını gör.",
+    intro: [
+      "Para küçülmez ama satın aldığı şey küçülür. Bir tutar, yıllık ortalama enflasyon oranı ve yıl sayısı gir; hesaplayıcı bileşik enflasyon çarpanını (1 + i)^n uygular — faizle aynı bileşik mantık, ama aleyhine işleyen.",
+      "Üç yanıt çıkar: bugün bu tutara mal olan bir sepetin n yıl sonra kaç paraya geleceği, dönem boyunca birikimli enflasyon ve aynı paranın o zaman ne alacağı — bugünkü fiyatlarla ifade edilmiş. Yıl yıl tablo, aradaki her yıl için aynı karşılaştırmayı gösterir.",
+      "Negatif orana izin verilir ve deflasyonu modeller: fiyatlar düşer, birikimli oran negatife döner, para daha çok alır. Girdiğin oran örneklendirme amaçlı bir varsayımdır — uzun vadeli enflasyon sabit değildir; tek bir ortalamayı düzleştirici say.",
+      "Her şey tarayıcında hesaplanır, hiçbir veri istemez. Ücret müzakerelerini, kira artışlarını, uzun sözleşmeleri ve birikim hedeflerini, enflasyonun her sabit rakama koyduğu sessiz vergiye karşı yoklamak için kullan.",
+    ],
+    steps: [
+      "Para tutarını veya bir sepetin güncel fiyatını gir.",
+      "Varsayılan yıllık ortalama enflasyon oranını ayarla.",
+      "Projelendirilecek yıl sayısını gir.",
+      "Sepetin gelecekteki maliyetini, birikimli enflasyonu ve kalan alım gücünü oku.",
+    ],
+    faqs: [
+      {
+        q: "Birikimli enflasyon nedir?",
+        a: "Tüm dönemdeki toplam fiyat artışı: (1 + i)^n − 1. Yılda %3 ile 10 yıl yaklaşık %34,4 eder — on adet yıllık %3, %30 etmez, çünkü her yılın artışı önceki yılın fiyatı üzerine bileşiklenir.",
+      },
+      {
+        q: "Aynı tutar gelecekte neden daha az alır?",
+        a: "Çünkü fiyatlar yükselirken tutar aynı kalır. Elde edilen (1 + i)^n değerine bölmek gelecekteki tutarı bugünün parasına çevirir: %3 ile 10 yılda, o günkü 100 bugün yaklaşık 74,4'ün aldığını alır.",
+      },
+      {
+        q: "Yıla göre farklı enflasyon oranlarını destekliyor mu?",
+        a: "Hayır — ölçek göstermenin standart yolu olan tek bir sabit ortalama oran uygular. Gerçek enflasyon yıldan yıla savrulur; özel bir yol için yıllık çarpanları kendin çarp ya da aracı parçalar hâlinde yeniden koş.",
+      },
+      {
+        q: "Negatif enflasyon oranı ne demek?",
+        a: "Deflasyon: fiyat düzeyi düşer, gelecekteki sepet ucuzlar, birikimli oran negatife döner ve aynı para daha çok alır. Hesaplayıcı aynı formülle işler ve senaryoyu arayüzde işaretler.",
+      },
+    ],
+  },
+  "auto-loan-calculator": {
+    name: "Araç Kredisi Hesaplayıcı",
+    tagline:
+      "Fiyat eksi peşinat, kendi oranınla 36–84 ay finansman: aylık taksit, toplam faiz ve yıl yıl amortisman tablosu.",
+    intro: [
+      "Aracın fiyatını, peşinatı (yüzde ya da sabit tutar), yıllık faiz oranını ve ay cinsinden vadeyi gir. Hesaplayıcı farkı finanse eder ve bankaların her taksitli kredide kullandığı standart azalan bakiyeli amortisman formülünü uygular.",
+      "Aylık taksiti, kredi tutarını, vade boyunca toplam faizi ve ödenen toplamı alırsın; ayrıca ana para ile faizi ayıran ve kalan bakiyeyi izleyen yıllık bir tablo. Halka grafik, işin ne kadarının araç ne kadarının faiz olduğunu gösterir.",
+      "Taşıt kredisi vadeleri tipik olarak 36 ile 84 ay arasıdır. Kısa vadeler aylık daha pahalı, toplam faizde daha ucuzdur; tablo bu takası somutlaştırır ve onu «60 ayın altında kal» sloganına bırakmaz.",
+      "Girdiğin oran örnektir, teklif değil — bayi ve banka kotasyonları kredi notuna, vadeye ve kampanyalara göre değişir. Her şey tarayıcında yerel hesaplanır; gerçek teklifleri yapıştırıp yan yana karşılaştırman güvenlidir.",
+    ],
+    steps: [
+      "Aracın fiyatını ve peşinatı yüzde ya da tutar olarak gir.",
+      "Sana önerilen yıllık faiz oranını ayarla.",
+      "Vadeyi ay olarak gir — taşıt kredileri genelde 36–84 ay sürer.",
+      "Aylık taksiti, toplam faizi ve yıllık amortisman tablosunu oku.",
+    ],
+    faqs: [
+      {
+        q: "Aylık taksit nasıl hesaplanır?",
+        a: "Standart amortisman formülüyle M = L × r × (1+r)^n / ((1+r)^n − 1); burada L finanse edilen tutar (fiyat − peşinat), r aylık oran (yıllık ÷ 12 ÷ 100), n ay sayısıdır. %20 peşinatla 30.000 $'lık araç, %6'dan 60 ayda ayda yaklaşık 463,99 $ eder.",
+      },
+      {
+        q: "Daha uzun vade para kazandırır mı?",
+        a: "Hayır — nakit akışını rahatlatır, parayı değil. 60'tan 84 aya uzatmak her taksiti düşürür ama yavaş azalan bir bakiye üzerinde faiz ayları ekler; toplam faiz artar. Vade seçerken taksit kolonunu değil toplam faiz kolonunu karşılaştır.",
+      },
+      {
+        q: "Burada peşinat sayılan nedir?",
+        a: "Peşin ödediğin her şey: nakit, takas aracı bedeli ya da kampanya indirimleri. Fiyatın yüzdesi ya da sabit tutar olarak gir. Peşinat tüm fiyatı karşılıyorsa araç krediye gerek olmadığını söyler.",
+      },
+      {
+        q: "Masrafları, vergileri veya sigortayı içerir mi?",
+        a: "Hayır. Yalnızca ana para ve faizi modeller. Satış vergisi, tescil, bayi masrafları ve GAP sigortası finanse edilen tutarı değiştirir ya da aylık maliyet ekler — bunları finanse ediyorsan fiyata katıp yeniden hesapla.",
+      },
+    ],
+  },
 };

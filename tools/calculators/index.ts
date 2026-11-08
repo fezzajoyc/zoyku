@@ -90,6 +90,12 @@ export const CALC_TOOLS = [
   countdownTimer,
   etaCalculator,
   ipv4SubnetCalculator,
+  retirementCalculator,
+  inflationCalculator,
+  autoLoanCalculator,
+  amortizationCalculator,
+  dueDateCalculator,
+  incomeTaxCalculator,
 ];
 
 import overtimePayCalculator from "./overtime-pay-calculator";
@@ -103,3 +109,11 @@ import stopwatch from "./stopwatch";
 import countdownTimer from "./countdown-timer";
 import etaCalculator from "./eta-calculator";
 import ipv4SubnetCalculator from "./ipv4-subnet-calculator";
+
+import retirementCalculator from "./retirement-calculator";
+import inflationCalculator from "./inflation-calculator";
+import autoLoanCalculator from "./auto-loan-calculator";
+
+import amortizationCalculator from "./amortization-calculator";
+import dueDateCalculator from "./due-date-calculator";
+import incomeTaxCalculator from "./income-tax-calculator";

@@ -400,3 +400,111 @@ export function apyBalance(principal: number, apyPct: number, years: number): nu
   if (!valid) return NaN;
   return principal * Math.pow(1 + apyPct / 100, years);
 }
+
+// ─────────────────────────── 退休储蓄(Retirement) ───────────────────────────
+// 积累期复用 compound()(月频、期初计入的 annuity-due);购买力按 (1+i)^年数 复利口径
+// 精确折现:real = nominal ÷ (1 + 通胀率)^年数,不用"名义减通胀"的线性近似。
+// 月取款额 = 退休时总额在退休年限内按同一回报率继续增值、正好取完的固定月付,
+// 即标准年金公式(与 mortgagePayment 同构):W = B·r·(1+r)ⁿ / ((1+r)ⁿ − 1),r=0 时 W = B/n。
+// 手算锚点:35→60 岁(25 年),现有 50,000、月存 500、年回报 6%、通胀 2.5%、退休取款 20 年:
+//   (1.005)³⁰⁰ ≈ 4.464969812 → 总额 ≈ 50000×4.464969812 + 500×1.005×(3.464969812/0.005) ≈ 571,477.96
+//   购买力 = 571477.96 ÷ 1.025²⁵ ≈ 571477.96 ÷ 1.853944098 ≈ 308,249.83
+//   月取款 = 571477.96×0.005×3.310204476 ÷ 2.310204476 ≈ 4,094.25
+// 0% 锚点:40→60 岁(20 年)现有 120,000、月存 0、回报 0%、取款 20 年 → 总额 120,000,月取恰好 500。
+
+export type RetirementResult = {
+  years: number; // 积累年数(退休年龄 − 当前年龄)
+  nominalTotal: number; // 退休时总额(名义)
+  contributed: number; // 累计投入(现有储蓄 + 月存合计)
+  realTotal: number; // 经通胀调整的购买力(按今天的钱)
+  monthlyWithdrawal: number; // 退休期月取款额(名义;退休期内按同一回报率计息、取完为止)
+  schedule: ScheduleRow[]; // 逐年积累表(同 compound 的行结构)
+};
+
+const RETIREMENT_NAN: RetirementResult = {
+  years: NaN, nominalTotal: NaN, contributed: NaN, realTotal: NaN, monthlyWithdrawal: NaN, schedule: [],
+};
+
+/**
+ * 退休储蓄测算。currentAge ∈ [0, 100];retireAge ∈ (currentAge, 120] 且年数 ≤ 100;
+ * currentSavings ≥ 0;monthlyContribution ≥ 0;annualReturnPct ≥ 0;inflationPct ≥ 0;
+ * retirementYears ∈ (0, 100](退休后取款年限,默认 20)。任一非法时全部字段为 NaN、表为空。
+ */
+export function retirementProjection(
+  currentAge: number,
+  retireAge: number,
+  currentSavings: number,
+  monthlyContribution: number,
+  annualReturnPct: number,
+  inflationPct = 0,
+  retirementYears = 20,
+): RetirementResult {
+  const years = retireAge - currentAge;
+  const valid =
+    Number.isFinite(currentAge) && currentAge >= 0 && currentAge <= 100 &&
+    Number.isFinite(retireAge) && retireAge > currentAge && retireAge <= 120 &&
+    Number.isFinite(years) && years <= 100 &&
+    Number.isFinite(currentSavings) && currentSavings >= 0 &&
+    Number.isFinite(monthlyContribution) && monthlyContribution >= 0 &&
+    Number.isFinite(annualReturnPct) && annualReturnPct >= 0 &&
+    Number.isFinite(inflationPct) && inflationPct >= 0 &&
+    Number.isFinite(retirementYears) && retirementYears > 0 && retirementYears <= 100;
+  if (!valid) return RETIREMENT_NAN;
+  const acc = compound(currentSavings, monthlyContribution, annualReturnPct, years, "monthly");
+  return {
+    years,
+    nominalTotal: acc.total,
+    contributed: acc.contributed,
+    realTotal: acc.total / Math.pow(1 + inflationPct / 100, years),
+    monthlyWithdrawal: acc.total > 0 ? mortgagePayment(acc.total, annualReturnPct, retirementYears) : 0,
+    schedule: acc.schedule,
+  };
+}
+
+// ─────────────────────────── 通胀购买力(Inflation) ───────────────────────────
+// 同一篮子:n 年后的价格 = 金额 × (1+i)ⁿ;这笔钱 n 年后的实际购买力 = 金额 ÷ (1+i)ⁿ;
+// 累计通胀率 = ((1+i)ⁿ − 1) × 100。年数按整年取整(Math.round)。
+// 允许通缩(通胀率 > −100):价格下降、购买力上升、累计通胀率为负;
+// 通胀率 ≤ −100 会使乘数归零或变负(通胀率 −100% 意味着价格归零,超出本工具语义),返回 NaN。
+// 手算锚点:100 元、年通胀 3%、10 年 → (1.03)¹⁰ = 1.343916379344
+//   → 同价篮子 134.39,累计通胀 34.39%,购买力 100 ÷ 1.343916 ≈ 74.41。
+// 通缩锚点:100 元、年 −2%、5 年 → (0.98)⁵ = 0.9039207968 → 篮子 90.39,累计 −9.61%,购买力 110.63。
+
+export type InflationYear = { year: number; cost: number; value: number };
+
+export type InflationResult = {
+  futureCost: number; // n 年后买同一篮子需要的钱
+  realValue: number; // 这笔钱 n 年后的购买力(按今天的物价)
+  cumulativeInflationPct: number; // 累计通胀率(通缩时为负)
+  schedule: InflationYear[]; // 逐年对照表
+};
+
+const INFLATION_NAN: InflationResult = {
+  futureCost: NaN, realValue: NaN, cumulativeInflationPct: NaN, schedule: [],
+};
+
+/**
+ * 通胀调整。amount ≥ 0;inflationRatePct > −100(允许通缩);years > 0 且 ≤ 100(按整年取整)。
+ * 任一非法时全部字段为 NaN、表为空。
+ */
+export function inflationAdjusted(amount: number, inflationRatePct: number, years: number): InflationResult {
+  const valid =
+    Number.isFinite(amount) && amount >= 0 &&
+    Number.isFinite(inflationRatePct) && inflationRatePct > -100 &&
+    Number.isFinite(years) && years > 0 && years <= 100;
+  if (!valid) return INFLATION_NAN;
+  const i = inflationRatePct / 100;
+  const n = Math.round(years);
+  const factor = Math.pow(1 + i, n);
+  const schedule: InflationYear[] = [];
+  for (let k = 1; k <= n; k++) {
+    const f = Math.pow(1 + i, k);
+    schedule.push({ year: k, cost: amount * f, value: amount / f });
+  }
+  return {
+    futureCost: amount * factor,
+    realValue: amount / factor,
+    cumulativeInflationPct: (factor - 1) * 100,
+    schedule,
+  };
+}

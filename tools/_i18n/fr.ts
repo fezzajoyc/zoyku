@@ -10337,4 +10337,184 @@ export const fr: Record<string, ToolCopy> = {
       },
     ],
   },
+  /* ------------------------------------------------------------------ */
+  /* Calculators : amortisation mensuelle, date prévue, impôt fédéral     */
+  /* ------------------------------------------------------------------ */
+  "amortization-calculator": {
+    name: "Calculateur d'amortissement mensuel",
+    tagline:
+      "La table d'amortissement complète, mois par mois : répartition intérêts/capital de chaque mensualité, solde restant à la fin de n'importe quelle année et intérêts totaux du crédit.",
+    intro: [
+      "Saisissez le montant du prêt, le taux annuel et la durée : chaque mois devient une ligne qui montre les intérêts facturés sur le solde, le capital remboursé et le solde restant. Là où la plupart des calculateurs compactent l'ensemble en lignes annuelles, la vue mensuelle reproduit exactement le grand livre du prêteur.",
+      "Saisissez une année dans le champ de solde pour connaître précisément ce qui resterait dû à la fin de cette année — le chiffre qui compte pour une vente, un rachat ou une renégociation, puisque c'est celui qu'afficherait une attestation de remboursement.",
+    ],
+    steps: [
+      "Saisissez le montant du prêt, le taux annuel et la durée en années.",
+      "Lisez la mensualité, les intérêts totaux et le total remboursé.",
+      "Entrez une année pour voir le solde restant à sa fin, puis parcourez la table mensuelle.",
+    ],
+    faqs: [
+      {
+        q: "En quoi diffère-t-elle d'une table d'amortissement annuelle ?",
+        a: "Une table annuelle regroupe douze mois en une ligne et brouille le passage d'une phase dominée par les intérêts à une phase dominée par le capital. La table mensuelle sépare chaque période et permet de situer exactement le mois où le capital dépasse pour la première fois les intérêts.",
+      },
+      {
+        q: "Que suppose le calcul du solde après N années ?",
+        a: "Que toutes les mensualités ont été payées à temps et qu'aucun remboursement anticipé n'a été effectué : c'est l'estimation la plus proche d'une attestation de solde à ce moment, hors intérêts quotidiens et frais éventuels du prêteur.",
+      },
+    ],
+  },
+  "due-date-calculator": {
+    name: "Calculateur de date prévue d'accouchement",
+    tagline:
+      "Estimez la date prévue d'accouchement à partir des dernières règles et de la longueur du cycle, suivez l'âge gestationnel du jour et la fenêtre de terme de 37 à 42 semaines.",
+    intro: [
+      "Saisissez le premier jour des dernières règles et, si votre cycle n'est pas le cycle théorique de 28 jours, sa longueur. L'outil applique la règle de Naegele — dernier jour des règles + 280 jours — décalée de la différence entre votre cycle et 28 jours, puis affiche la date prévue, l'âge gestationnel du jour en semaines et jours, les jours restants et la fenêtre de terme.",
+      "La fenêtre de terme compte davantage que la date unique : tout accouchement entre la 37e et la 42e semaine est considéré à terme, et environ la moitié des naissances surviennent dans la semaine qui précède ou suit la date estimée. Planifier autour de l'intervalle évite l'anxiété du jour unique.",
+    ],
+    steps: [
+      "Saisissez le premier jour des dernières règles.",
+      "Ajustez la longueur du cycle si elle diffère de 28 jours.",
+      "Lisez la date prévue et l'âge gestationnel, puis planifiez autour de la fenêtre de terme.",
+    ],
+    faqs: [
+      {
+        q: "Quelle est la précision d'une date calculée à partir des règles ?",
+        a: "Comme statistique de population, elle est raisonnable : avec un cycle régulier et connu, environ la moitié des naissances surviennent à une semaine près de l'estimation. Pour un jour précis, elle reste floue — l'échographie du premier trimestre est nettement plus fiable.",
+      },
+      {
+        q: "Pourquoi la longueur du cycle décale-t-elle la date ?",
+        a: "La règle de Naegele suppose un cycle de 28 jours avec ovulation au 14e jour. Un cycle de 32 jours déplace l'ovulation plus tard par rapport aux règles, donc la date recule de 4 jours. Ce décalage linéaire marche bien près du cycle normal et reste peu fiable pour des cycles irréguliers.",
+      },
+    ],
+  },
+  "income-tax-calculator": {
+    name: "Calculateur d'impôt fédéral américain",
+    tagline:
+      "Voyez l'impôt fédéral se construire tranche par tranche : revenu imposable, impôt total, taux marginal contre effectif, et ce que coûte exactement chaque tranche de 10 à 37 %.",
+    intro: [
+      "Saisissez vos revenus annuels, un statut de déclaration (célibataire ou mariés en commun) et une déduction : l'outil parcourt les tranches fédérales 2026 une à une. Le résultat n'est pas un total intimidant mais le mécanisme réel : combien de revenus tombe dans la tranche à 10 %, dans celle à 12 %, et ainsi de suite jusqu'au dernier dollar.",
+      "Le taux marginal — l'impôt sur votre dernier dollar — sert aux décisions d'augmentation, de déduction ou de revenu supplémentaire. Le taux effectif — impôt total divisé par revenu — est ce que ressent la fiche de paie, et il reste toujours inférieur au marginal dès que l'on dépasse la première tranche.",
+    ],
+    steps: [
+      "Saisissez vos revenus annuels avant déductions.",
+      "Choisissez célibataire ou mariés déclaration commune.",
+      "Réglez la déduction — préremplie avec la déduction standard 2026 — puis lisez les taux et la table des tranches.",
+    ],
+    faqs: [
+      {
+        q: "Quelle différence entre taux marginal et taux effectif ?",
+        a: "Le marginal est l'impôt sur le dollar suivant : c'est la tranche où se termine votre revenu imposable, celle qui compte pour juger une augmentation ou une déduction. L'effectif est l'impôt total rapporté au revenu total. À 100 000 $ de revenu célibataire avec la déduction standard 2026, le marginal est de 22 % et l'effectif d'environ 13,2 %.",
+      },
+      {
+        q: "Ces tranches sont-elles à jour ?",
+        a: "Ce sont les seuils 2026 ajustés par l'inflation et publiés par l'IRS dans le Revenue Procedure 2025-32, présentés ici comme modèle illustratif. L'IRS ajuste les tranches presque chaque année : vérifiez ses publications les plus récentes pour l'année que vous déclarez réellement.",
+      },
+    ],
+  },
+  "retirement-calculator": {
+    name: "Calculatrice de retraite",
+    tagline:
+      "Voyez ce que deviennent vos économies à la retraite : le total, ce qu'il achète en argent d'aujourd'hui et la somme mensuelle que vous pourriez retirer.",
+    intro: [
+      "Saisissez votre âge actuel, l'âge de départ à la retraite, l'épargne existante, le versement mensuel et un rendement annuel supposé. La calculatrice fait croître le solde avec capitalisation mensuelle — le versement de chaque mois est ajouté au début du mois — et affiche le total qui vous attend à l'âge de la retraite.",
+      "Un chiffre en dollars de 2055 se flatte lui-même, aussi l'outil divise-t-il ce total par (1 + inflation)^années pour l'exprimer en pouvoir d'achat d'aujourd'hui, et calcule le retrait mensuel fixe qui viderait le fond sur vos années de retraite si le même rendement se poursuivait.",
+      "Tout n'est qu'arithmétique sur les chiffres que vous fournissez. Le rendement est une hypothèse, pas une prévision — essayez des valeurs pessimistes et optimistes et observez l'amplitude des réponses. Rien de votre épargne ne quitte le navigateur.",
+      "Le tableau annuel sous les résultats montre versements, gains et solde à la fin de chaque année, pour voir si la croissance de votre plan vient surtout de vos dépôts ou surtout des intérêts composés — le point de croisement demande généralement des années.",
+    ],
+    steps: [
+      "Saisissez votre âge actuel et l'âge auquel vous comptez partir à la retraite.",
+      "Ajoutez l'épargne actuelle, le versement mensuel et un rendement annuel supposé.",
+      "Réglez l'inflation et le nombre d'années pendant lesquelles le fond devra durer.",
+      "Lisez le total, son pouvoir d'achat en argent d'aujourd'hui et le retrait mensuel.",
+    ],
+    faqs: [
+      {
+        q: "Comment le retrait mensuel est-il calculé ?",
+        a: "C'est le montant fixe qui, le même rendement supposé se poursuivant à la retraite, vide exactement le fond sur les années de retraite que vous fixez — la formule standard d'annuité. Si le rendement supposé est de 0 %, ce n'est tout simplement que le total divisé par les mois.",
+      },
+      {
+        q: "Pourquoi le chiffre de pouvoir d'achat est-il inférieur au total ?",
+        a: "Parce que l'inflation érode la monnaie. Un total T atteint après n années d'inflation i n'achète que ce que T ÷ (1 + i)^n achète aujourd'hui. À 2,5 % d'inflation pendant 30 ans, le diviseur avoisine 2,1 : près de la moitié du chiffre affiché n'est qu'illusion de pouvoir d'achat.",
+      },
+      {
+        q: "Modèle-t-il les impôts, les plans de pension ou la sécurité sociale ?",
+        a: "Non. Il modélise un unique capital croissant à un taux supposé, sans plafonds de versement, traitement fiscal, abondement d'employeur ni pension publique. Considérez le résultat comme une donnée d'entrée de votre planification, non comme un avis juridique ou fiscal.",
+      },
+      {
+        q: "Quel rendement dois-je supposer ?",
+        a: "C'est un jugement que cet outil refuse délibérément de porter à votre place. La pratique courante consiste à exécuter plusieurs scénarios — un taux bas prudent, un intermédiaire, un optimiste — et à laisser l'étalement des réponses, non un chiffre unique, guider la décision.",
+      },
+    ],
+  },
+  "inflation-calculator": {
+    name: "Calculatrice d'inflation",
+    tagline:
+      "Saisissez un montant, un taux d'inflation et des années pour voir ce que coûtera le même panier, l'inflation cumulée et ce qu'achètera alors votre argent.",
+    intro: [
+      "L'argent ne rétrécit pas, mais ce qu'il achète, si. Saisissez un montant, un taux d'inflation moyen par an et un nombre d'années : la calculatrice applique le facteur composé (1 + i)^n — la même logique de capitalisation que l'intérêt, mais travaillant contre vous.",
+      "Trois réponses sortent : ce que coûtera après n années un panier qui coûte ce montant aujourd'hui, l'inflation cumulée sur la période, et ce que la même somme achètera alors, exprimée en prix d'aujourd'hui. Un tableau année par année reproduit la même comparaison pour chaque année intermédiaire.",
+      "Un taux négatif est admis et modélise la déflation : les prix baissent, le taux cumulé passe en négatif et l'argent achète davantage. Le taux saisi n'est qu'une hypothèse d'exemple — l'inflation de long terme n'est pas une constante, traitez donc une moyenne unique comme un lisseur.",
+      "Tout se calcule dans votre navigateur, sans aucune donnée demandée. Servez-vous-en pour confronter négociations salariales, hausses de loyer, contrats longs et objectifs d'épargne à l'impôt silencieux que l'inflation prélève sur chaque chiffre fixe.",
+    ],
+    steps: [
+      "Saisissez le montant d'argent ou le prix actuel d'un panier.",
+      "Fixez un taux d'inflation moyen annuel supposé.",
+      "Entrez le nombre d'années à projeter.",
+      "Lisez le coût futur du panier, l'inflation cumulée et le pouvoir d'achat restant.",
+    ],
+    faqs: [
+      {
+        q: "Qu'est-ce que l'inflation cumulée ?",
+        a: "La hausse totale des prix sur toute la période : (1 + i)^n − 1. À 3 % par an pendant 10 ans, elle avoisine 34,4 % — dix chiffres annuels de 3 % ne font pas 30 %, car chaque hausse se compose sur celle de l'année précédente.",
+      },
+      {
+        q: "Pourquoi la même somme achète-t-elle moins à l'avenir ?",
+        a: "Parce que les prix montent pendant que le montant reste figé. Diviser par (1 + i)^n convertit le montant futur en argent d'aujourd'hui : à 3 % pendant 10 ans, 100 achètent alors ce qu'achètent aujourd'hui environ 74,4.",
+      },
+      {
+        q: "Gère-t-il des taux d'inflation différents selon les années ?",
+        a: "Non — il applique un taux moyen unique et constant, la façon standard de montrer les ordres de grandeur. L'inflation réelle fluctue d'une année sur l'autre ; pour un cheminement personnalisé, multipliez vous-même les facteurs annuels ou relancez l'outil par tranches.",
+      },
+      {
+        q: "Que signifie un taux d'inflation négatif ?",
+        a: "La déflation : le niveau des prix baisse, le panier futur coûte moins cher, le taux cumulé devient négatif et la même monnaie achète davantage. La calculatrice l'emploie avec la même formule et signale ce scénario dans l'interface.",
+      },
+    ],
+  },
+  "auto-loan-calculator": {
+    name: "Calculatrice de crédit auto",
+    tagline:
+      "Prix moins l'apport, financé à votre taux sur 36 à 84 mois : mensualité, intérêts totaux et tableau d'amortissement année par année.",
+    intro: [
+      "Saisissez le prix de la voiture, l'apport (en pourcentage ou en montant fixe), le taux d'intérêt annuel et une durée en mois. La calculatrice finance la différence et applique la formule d'amortissement standard à solde décroissant — la même arithmétique que celle des banques pour tout prêt à tempérament.",
+      "Vous obtenez la mensualité, le montant financé, les intérêts totaux sur la durée et le total payé, plus un tableau annuel qui sépare capital et intérêts et suit le solde restant. Un graphique en anneau montre quelle part de l'opération est la voiture et quelle part est l'intérêt.",
+      "Les crédits auto courent typiquement de 36 à 84 mois. Les durées courtes coûtent plus cher par mois et moins en intérêts totaux ; le tableau rend cet arbitrage concret au lieu de le laisser à un slogan sur le fait de rester sous 60 mois.",
+      "Le taux que vous saisissez est un exemple, pas une offre — les cotations des concessionnaires et des banques varient selon le crédit, la durée et les incitations. Tout se calcule localement dans votre navigateur : collez donc de vraies offres et comparez-les côte à côte en toute sécurité.",
+    ],
+    steps: [
+      "Saisissez le prix de la voiture et l'apport, en pourcentage ou en montant.",
+      "Réglez le taux annuel qui vous est proposé.",
+      "Entrez la durée en mois — les crédits auto courent couramment de 36 à 84 mois.",
+      "Lisez la mensualité, les intérêts totaux et le tableau d'amortissement annuel.",
+    ],
+    faqs: [
+      {
+        q: "Comment la mensualité est-elle calculée ?",
+        a: "Avec la formule d'amortissement standard M = L × r × (1+r)^n / ((1+r)^n − 1), où L est le montant financé (prix − apport), r le taux mensuel (annuel ÷ 12 ÷ 100) et n le nombre de mois. Une voiture de 30 000 $ avec 20 % d'apport à 6 % sur 60 mois donne environ 463,99 $ par mois.",
+      },
+      {
+        q: "Une durée plus longue fait-elle économiser de l'argent ?",
+        a: "Non — elle épargne la trésorerie, pas l'argent. Étirer de 60 à 84 mois abaisse chaque mensualité mais ajoute des mois d'intérêts sur un solde qui décroît lentement, si bien que les intérêts totaux montent. Comparez la colonne des intérêts totaux, pas celle des mensualités, au moment de choisir la durée.",
+      },
+      {
+        q: "Qu'est-ce qui compte comme apport ici ?",
+        a: "Tout ce que vous payez d'avance : liquidités, reprise d'un véhicule ou primes. Saisissez-le en pourcentage du prix ou en montant fixe. Si l'apport couvre la totalité du prix, l'outil vous dit qu'aucun prêt n'est nécessaire.",
+      },
+      {
+        q: "Inclut-il les frais, taxes ou assurances ?",
+        a: "Non. Il modélise le capital et les intérêts seuls. Taxe de vente, immatriculation, frais de concessionnaire et assurance valeur à neuf modifient le montant financé ou ajoutent un coût mensuel — recalculez avec ces éléments intégrés au prix si vous les financez.",
+      },
+    ],
+  },
 };
