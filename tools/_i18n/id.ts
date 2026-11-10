@@ -10436,4 +10436,63 @@ export const id: Record<string, ToolCopy> = {
       { q: "Apa saja yang dihitung sebagai uang muka?", a: "Semua yang Anda bayar di depan: uang tunai, kredit tukar tambah, atau diskon. Masukkan sebagai persen harga atau jumlah tetap. Bila uang muka menutup seluruh harga, alat memberi tahu bahwa pinjaman tidak diperlukan. Biaya, pajak, dan asuransi tidak dimodelkan." },
     ],
   },
+  "word-export": {
+    name: "Ekspor ke Word",
+    tagline:
+      "Ubah teks dan gambar menjadi .docx sungguhan langsung di browser Anda — dengan heading, daftar, kutipan, blok kode, dan gambar tersemat, tanpa unggah.",
+    intro: [
+      "Tulis atau tempel konten Anda di editor bergaya Markdown, masukkan gambar, lalu ekspor dokumen Word sungguhan yang terbuka mulus di Microsoft Word, Google Docs, LibreOffice, Pages, dan WPS. Heading menjadi gaya heading sungguhan, bullet dan daftar bernomor menjadi daftar native Word, kutipan mendapat garis tepi kiri klasik, blok kode mempertahankan font monospace, dan setiap placeholder {{image:n}} menyematkan berkas gambar yang sebenarnya.",
+      "Seluruh konversi berjalan di dalam tab browser Anda dengan pustaka docx — teks dan gambar tidak pernah menyentuh server. Karena itu alat ini aman untuk naskah yang belum diterbitkan, draf klien, laporan internal, dan apa pun yang terikat NDA, serta tetap berfungsi luring setelah halaman termuat.",
+      "Gambar disematkan pada resolusi tersimpannya dan diskalakan agar muat pada lebar halaman dengan mempertahankan rasio aspek, sehingga foto tetap tajam saat dicetak. PNG, JPEG, GIF, dan BMP semuanya diterima, dan Anda bisa menempelkan gambar langsung dari papan klip (tangkapan layar → Ctrl+V → selesai).",
+    ],
+    steps: [
+      "Tulis atau tempel konten Anda memakai sintaks bergaya Markdown yang ditampilkan di bawah editor.",
+      "Masukkan atau tempel gambar, lalu klik tombol ↩n pada thumbnail untuk menyisipkan placeholder {{image:n}}-nya di posisi yang tepat.",
+      "Beri nama berkas dan klik Ekspor .docx — unduhan langsung dimulai.",
+    ],
+    faqs: [
+      {
+        q: "Apakah ini berkas Word sungguhan atau sekadar HTML yang diganti nama?",
+        a: ".docx sungguhan: paket Office Open XML dibangun di browser Anda dengan pustaka docx — gaya heading yang benar, daftar native, dan bagian gambar tersemat di bawah word/media/. Pemeriksa ejaan, panel gaya, dan panel navigasi Word semuanya berfungsi normal.",
+      },
+      {
+        q: "Bagaimana mengatur letak kemunculan gambar?",
+        a: "Gambar muncul di dokumen tepat di tempat Anda meletakkan placeholdernya. Tambahkan gambar, klik tombol ↩n-nya (atau ketik {{image:n}} sendiri), dan gambar disematkan pada titik itu dalam alur teks, diskalakan agar pas dengan lebar halaman.",
+      },
+      {
+        q: "Apakah format tetap utuh saat dibuka di Google Docs atau Pages?",
+        a: "Ya — heading, bullet, daftar bernomor, kutipan, dan gambar adalah fitur standar Word, bukan markup aneh. Bold dan italic di dalam paragraf ikut terbawa sebagai format karakter.",
+      },
+      {
+        q: "Apakah ada yang diunggah?",
+        a: "Tidak. Dokumen dirakit di browser Anda dan langsung diunduh — teks dan gambar tidak pernah meninggalkan perangkat Anda.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Mengapa sintaks Markdown, bukan toolbar rich-text",
+        paragraphs: [
+          "Toolbar rich-text terdengar lebih ramah, tetapi ia menyembunyikan struktur dokumen di dalam mesin status WYSIWYG yang sulit diaudit dan mustahil ditempel antar-alat. Markdown menyimpan struktur dalam teks polos: setiap heading dan penanda daftar terlihat jelas, konten bisa ditempel dari sumber mana pun, dan penyuntingannya memakai keterampilan keyboard yang sudah Anda kuasai. Untuk tahap ekspor perbedaannya hilang — keduanya menghasilkan paragraf Word yang sama — tetapi untuk menyusun draf, teks polos dengan penanda yang terlihat lebih cepat dan tidak pernah rusak.",
+          "Himpunan sintaks yang didukung sengaja dibuat kecil: tiga level heading, bold dan italic, bullet, daftar bernomor, kutipan blok, blok kode, garis pemisah, dan placeholder gambar. Itu sudah menutupi laporan, dokumentasi, draf blog, dan tugas sekolah. Konstruksi yang lebih besar — tabel, catatan kaki, kolom — lebih baik dikerjakan di Word sendiri setelah impor; berpura-pura mendukungnya di editor browser hanya menghasilkan berkas yang rapuh.",
+          "Sintaks placeholder gambar ada karena gambar adalah satu-satunya hal yang tak bisa dibawa teks polos. {{image:n}} cukup pendek untuk diketik, cukup unik untuk tak pernah berbenturan dengan prosa, dan eksplisit soal urutan — gambar 1 adalah thumbnail pertama dalam antrean, gambar 2 yang kedua, tanpa peduli nama berkasnya.",
+        ],
+      },
+      {
+        heading: "Apa arti \"tersemat\" bagi gambar Anda",
+        paragraphs: [
+          "Gambar di dalam .docx disimpan di dalam berkas itu sendiri di bawah word/media/ — bukan ditautkan ke disk atau URL. Dokumen hasil ekspor tetap utuh saat dikirim lewat surel, dipindah antar mesin, atau diarsipkan; tak ada yang bisa merusak gambarnya nanti. Byte gambar disematkan persis seperti yang diberikan, jadi foto 2 MB membuat dokumen bertambah sekitar 2 MB; jika perlu berkas yang lebih ringan, kompres dulu gambarnya.",
+          "Penskalaan tidak merusak dalam arti tata letak: transformasi yang ditulis ke dokumen hanya menetapkan ukuran tampilan, dan resolusi asli tetap tersedia. Word menskalakan ulang dengan tajam saat ekspor ke PDF atau cetak karena bitmap resolusi penuh itulah yang dirender. Lebar yang melebihi area cetak dibatasi ke halaman dengan rasio aspek dipertahankan, sehingga tak ada gambar yang keluar dari margin.",
+          "Dukungan format mengikuti yang ditangani Word secara native: PNG (tangkapan layar, diagram), JPEG (foto), GIF (animasinya hilang — bingkai pertama yang dipakai), dan BMP. WebP dan HEIC tidak diterima karena kompatibilitas Word terhadap keduanya di dalam OOXML tidak konsisten antar versi; mengonversinya lebih dulu memberi hasil yang bisa diprediksi.",
+        ],
+      },
+      {
+        heading: "Di mana alat ini berdiri di samping alat-alat PDF",
+        paragraphs: [
+          "Alat ini dan alat-alat PDF memecahkan masalah yang berlawanan. Ekspor ke Word mengambil teks dan gambar draf Anda dan menghasilkan dokumen yang bisa diedit — titik awal alur kerja. Alat-alat PDF (konversi, gabung, sensor, tanda tangan) bekerja pada dokumen jadi — titik akhir alur kerja. Keduanya bersama-sama menutup perjalanan pulang-pergi: draf dalam format Word di sini, difinalkan dan dibagikan sebagai PDF di sana.",
+          "Alat pdf-to-word adalah arah sebaliknya: ia mengambil PDF yang sudah ada dan memulihkan teks yang bisa diedit. Pakai itu ketika PDF adalah masukan yang tak bisa Anda edit; pakai yang ini ketika teksnya milik Anda dan Word adalah tujuannya. Keduanya berjalan sepenuhnya di browser, jadi tidak ada yang menambah langkah unggah dalam penanganan dokumen Anda.",
+          "Karena semuanya lokal, halaman ini juga bisa jadi tempat coretan: tempel catatan rapat, tambahkan tangkapan layar dari papan klip, ekspor, lalu tutup tabnya. Tanpa akun, tanpa riwayat, tanpa salinan server atas apa pun yang Anda tulis.",
+        ],
+      },
+    ],
+  },
 };

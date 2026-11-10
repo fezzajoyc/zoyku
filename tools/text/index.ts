@@ -16,6 +16,7 @@ import slugGenerator from "./slug-generator";
 import findAndReplace from "./find-and-replace";
 import fancyTextGenerator from "./fancy-text-generator";
 import emojiPicker from "./emoji-picker";
+import wordExport from "./word-export";
 
 export const TEXT_TOOLS = [
   caseConverter,
@@ -36,5 +37,6 @@ export const TEXT_TOOLS = [
   texttobinaryTool,
   texttounicodeTool,
   texttonatoalphabetTool,
+  wordExport,
 
 ];

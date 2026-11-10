@@ -10509,4 +10509,63 @@ export const it: Record<string, ToolCopy> = {
       },
     ],
   },
+  "word-export": {
+    name: "Esporta in Word",
+    tagline:
+      "Trasforma testo e immagini in un vero .docx nel tuo browser — titoli, elenchi, citazioni, blocchi di codice e immagini incorporate, senza caricamenti.",
+    intro: [
+      "Scrivi o incolla il tuo contenuto in un editor in stile Markdown, trascina le immagini ed esporta un vero documento Word che si apre in Microsoft Word, Google Docs, LibreOffice, Pages e WPS. I titoli diventano veri stili di titolo, gli elenchi puntati e numerati diventati veri elenchi Word, le citazioni ricevono la classica barra a sinistra, i blocchi di codice mantengono il font a spaziatura fissa e ogni segnaposto {{image:n}} incorpora il file immagine reale.",
+      "Tutta la conversione avviene nella scheda del tuo browser con la libreria docx — testo e immagini non toccano mai un server. Questo lo rende sicuro per manoscritti inediti, bozze per clienti, report interni e tutto ciò che è sotto NDA, e la pagina funziona offline una volta caricata.",
+      "Le immagini vengono incorporate alla risoluzione con cui sono state salvate e ridimensionate per stare nella larghezza della pagina mantenendo le proporzioni, quindi le foto restano nitide in stampa. Sono accettati PNG, JPEG, GIF e BMP, e puoi incollare un'immagine direttamente dagli appunti (screenshot → Ctrl+V → fatto).",
+    ],
+    steps: [
+      "Scrivi o incolla il contenuto usando la sintassi in stile Markdown mostrata sotto l'editor.",
+      "Trascina o incolla le immagini, poi clicca il pulsante ↩n su una miniature per inserire il suo segnaposto {{image:n}} dove ti serve.",
+      "Dai un nome al file e premi Esporta .docx — il download parte subito.",
+    ],
+    faqs: [
+      {
+        q: "È un vero file Word o solo HTML rinominato?",
+        a: "Un vero .docx: il pacchetto Office Open XML viene costruito nel tuo browser con la libreria docx — veri stili di titolo, elenchi nativi, parti immagine incorporate sotto word/media/. Correttore ortografico, pannello degli stili e riquadro di spostamento di Word funzionano normalmente.",
+      },
+      {
+        q: "Come controllo dove compare un'immagine?",
+        a: "Le immagini finiscono nel documento esattamente dove metti il loro segnaposto. Aggiungi un'immagine, clicca il suo pulsante ↩n (o scrivi {{image:n}} tu stesso), e la foto viene incorporata in quel punto del flusso di testo, ridimensionata per la larghezza della pagina.",
+      },
+      {
+        q: "La formattazione sopravvive all'apertura in Google Docs o Pages?",
+        a: "Sì — titoli, punti elenco, elenchi numerati, citazioni e immagini sono funzioni standard di Word, non marcature esotiche. Grassetto e corsivo nei paragrafi vengono mantenuti come formattazione del carattere.",
+      },
+      {
+        q: "Viene caricato qualcosa?",
+        a: "No. Il documento viene assemblato nel tuo browser e scaricato direttamente — testo e immagini non lasciano mai il tuo dispositivo.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Perché la sintassi Markdown invece di una barra di formattazione",
+        paragraphs: [
+          "Una barra di formattazione ricca sembra più amichevole, ma nasconde la struttura del documento dentro una macchina a stati WYSIWYG difficile da verificare e impossibile da incollare tra strumenti. Markdown tiene la struttura nel testo semplice: vedi ogni titolo e ogni marcatore di elenco, incollhi contenuto da qualsiasi fonte e lo modifichi con le stesse abilità da tastiera che hai già. Per il passo di esportazione la differenza sparisce — entrambi producono gli stessi paragrafi Word — ma per scrivere, il testo semplice con marcatori visibili è più veloce e non si corrompe mai.",
+          "Il sottoinsieme supportato è volutamente piccolo: tre livelli di titolo, grassetto e corsivo, elenchi puntati, elenchi numerati, citazioni, blocchi di codice, righe orizzontali e segnaposto immagine. Copre report, documentazione, bozze di blog e compiti. Le strutture più grandi — tabelle, note a piè di pagina, colonne — si fanno meglio in Word dopo l'importazione; fingere di supportarle in un editor da browser produce file fragili.",
+          "La sintassi del segnaposto immagine esiste perché le immagini sono l'unica cosa che il testo semplice non può trasportare. {{image:n}} è abbastanza corto da digitare, abbastanza unico da non scontrarsi mai con la prosa, ed esplicito sull'ordine — immagine 1 è la prima miniature della coda, immagine 2 la seconda, a prescindere dai nomi dei file.",
+        ],
+      },
+      {
+        heading: "Cosa significa \"incorporata\" per le tue immagini",
+        paragraphs: [
+          "Le immagini dentro un .docx sono salvate nel file stesso sotto word/media/ — non collegate al tuo disco o a un URL. Il documento esportato resta completo quando lo invii per email, lo sposti tra macchine o lo archivi; niente può rompere l'immagine dopo. I byte dell'immagine vengono incorporati così come sono, quindi una foto da 2 MB ingrossa il documento di circa 2 MB; se ti serve un file più leggero, comprimi prima le immagini.",
+          "Il ridimensionamento non è distruttivo ai fini del layout: la trasformazione scritta nel documento imposta la dimensione di visualizzazione, e la risoluzione originale resta disponibile. Word ridimensiona con nitidezza all'esportazione in PDF o in stampa perché viene renderizzato il bitmap a risoluzione piena. Le larghezze oltre l'area stampabile vengono limitate alla pagina mantenendo le proporzioni, quindi nessuna immagine sborda oltre il margine.",
+          "Il supporto dei formati segue ciò che Word gestisce nativamente: PNG (screenshot, diagrammi), JPEG (foto), GIF (le animazioni perdono l'animazione — si usa il primo fotogramma) e BMP. WebP e HEIC non sono accettati perché la compatibilità di Word con loro dentro OOXML è incoerente tra versioni; convertirli prima dà un risultato prevedibile.",
+        ],
+      },
+      {
+        heading: "Come si colloca accanto agli strumenti PDF",
+        paragraphs: [
+          "Questo strumento e gli strumenti PDF risolvono problemi opposti. Esporta in Word prende il tuo testo di bozza e le immagini e produce un documento modificabile — l'inizio di un flusso di lavoro. Gli strumenti PDF (convertire, unire, oscurare, firmare) operano su documenti finiti — la fine del flusso. Insieme coprono il viaggio di andata e ritorno: scrivi la bozza in formato Word qui, finalizza e condividi come PDF là.",
+          "Lo strumento pdf-to-word è la direzione inversa: prende un PDF esistente e recupera testo modificabile. Usalo quando il PDF è l'input che non puoi modificare; usa questo quando il testo è tuo e Word è la destinazione. Entrambi girano interamente nel browser, quindi nessuno dei due aggiunge un passaggio di caricamento alla gestione dei tuoi documenti.",
+          "Poiché tutto è locale, questa pagina funziona anche come blocco note: incolla le note della riunione, aggiungi screenshot dagli appunti, esporta e chiudi la scheda. Nessun account, nessuna cronologia, nessuna copia sul server di quello che hai scritto.",
+        ],
+      },
+    ],
+  },
 };

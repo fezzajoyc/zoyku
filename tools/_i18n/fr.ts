@@ -10517,4 +10517,63 @@ export const fr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "word-export": {
+    name: "Exporter vers Word",
+    tagline:
+      "Transformez texte et images en un vrai .docx dans votre navigateur — titres, listes, citations, blocs de code et images incrustées, sans aucun envoi.",
+    intro: [
+      "Rédigez ou collez votre contenu dans un éditeur style Markdown, déposez vos images et exportez un véritable document Word qui s'ouvre dans Microsoft Word, Google Docs, LibreOffice, Pages et WPS. Les titres deviennent de vrais styles de titre, les puces et listes numérotées de vraies listes Word, les citations reçoivent la bordure gauche classique, les blocs de code conservent leur police à chasse fixe, et chaque marqueur {{image:n}} incruste le fichier image réel.",
+      "Toute la conversion s'exécute dans l'onglet de votre navigateur avec la bibliothèque docx — le texte et les images ne touchent jamais un serveur. Cela le rend sûr pour les manuscrits inédits, les brouillons clients, les rapports internes et tout ce qui est sous NDA, et la page fonctionne hors ligne une fois chargée.",
+      "Les images sont incrustées à leur résolution enregistrée et mises à l'échelle pour tenir dans la largeur de la page en conservant leurs proportions, donc les photos restent nettes à l'impression. PNG, JPEG, GIF et BMP sont tous acceptés, et vous pouvez coller une image directement depuis le presse-papiers (capture → Ctrl+V → c'est fait).",
+    ],
+    steps: [
+      "Tapez ou collez votre contenu en utilisant la syntaxe style Markdown affichée sous l'éditeur.",
+      "Déposez ou collez des images, puis cliquez sur le bouton ↩n d'une vignette pour insérer son marqueur {{image:n}} à l'endroit voulu.",
+      "Nommez le fichier et cliquez sur Exporter .docx — le téléchargement démarre immédiatement.",
+    ],
+    faqs: [
+      {
+        q: "Est-ce un vrai fichier Word ou juste du HTML renommé ?",
+        a: "Un vrai .docx : le paquet Office Open XML est construit dans votre navigateur avec la bibliothèque docx — de vrais styles de titre, des listes natives, des parties d'image incrustées sous word/media/. Le correcteur orthographique, le volet Styles et le volet Navigation de Word fonctionnent normalement.",
+      },
+      {
+        q: "Comment contrôler l'endroit où une image apparaît ?",
+        a: "Les images atterrissent dans le document exactement où vous placez leur marqueur. Ajoutez une image, cliquez sur son bouton ↩n (ou tapez {{image:n}} vous-même), et l'image est incrustée à cet endroit du flux de texte, mise à l'échelle pour tenir dans la largeur de la page.",
+      },
+      {
+        q: "La mise en forme survit-elle à l'ouverture dans Google Docs ou Pages ?",
+        a: "Oui — titres, puces, listes numérotées, citations et images sont des fonctions standard de Word, pas un balisage exotique. Le gras et l'italique dans les paragraphes sont conservés comme mise en forme de caractères.",
+      },
+      {
+        q: "Quelque chose est-il envoyé sur un serveur ?",
+        a: "Non. Le document est assemblé dans votre navigateur et téléchargé directement — le texte et les images ne quittent jamais votre appareil.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Pourquoi la syntaxe Markdown plutôt qu'une barre de texte enrichi",
+        paragraphs: [
+          "Une barre de texte enrichi semble plus accueillante, mais elle cache la structure du document dans une machine à états WYSIWYG difficile à auditer et impossible à coller entre outils. Markdown garde la structure en texte brut : vous voyez chaque titre et chaque marqueur de liste, vous collez du contenu de n'importe quelle source, et vous l'éditez avec les mêmes réflexes clavier que vous avez déjà. Pour l'étape d'export la différence disparaît — les deux produisent les mêmes paragraphes Word — mais pour la rédaction, le texte brut à marqueurs visibles est plus rapide et ne se corrompt jamais.",
+          "Le sous-ensemble pris en charge est volontairement restreint : trois niveaux de titre, gras et italique, puces, listes numérotées, citations, blocs de code, filets horizontaux et marqueurs d'image. Cela couvre rapports, documentation, brouillons de blog et devoirs. Les constructions plus larges — tableaux, notes de bas de page, colonnes — se font mieux dans Word même après l'import ; prétendre les gérer dans un éditeur navigateur produit des fichiers fragiles.",
+          "La syntaxe de marqueur d'image existe parce que les images sont la seule chose que le texte brut ne peut pas transporter. {{image:n}} est assez court à taper, assez unique pour ne jamais entrer en collision avec la prose, et explicite sur l'ordre — image 1 est la première vignette de la file, image 2 la deuxième, quel que soit le nom des fichiers.",
+        ],
+      },
+      {
+        heading: "Ce que « incrustée » signifie pour vos images",
+        paragraphs: [
+          "Les images d'un .docx sont stockées dans le fichier lui-même sous word/media/ — pas liées à votre disque ni à une URL. Le document exporté reste complet quand vous l'envoyez par courriel, le déplacez entre machines ou l'archivez ; rien ne peut casser l'image ensuite. Les octets de l'image sont incrustés tels quels, donc une photo de 2 Mo grossit le document d'environ 2 Mo ; si vous voulez un fichier plus léger, compressez d'abord les images.",
+          "La mise à l'échelle est non destructive au sens de la mise en page : la transformation écrite dans le document définit la taille d'affichage, et la résolution d'origine reste disponible. Word re-échelonne avec netteté à l'export PDF ou à l'impression parce que c'est le bitmap pleine résolution qui est rendu. Les largeurs dépassant la zone imprimable sont ramenées à la page en conservant les proportions, donc aucune image ne dépasse la marge.",
+          "La prise en charge des formats suit ce que Word gère nativement : PNG (captures, diagrammes), JPEG (photos), GIF (les animations perdent leur animation — la première image est utilisée) et BMP. WebP et HEIC ne sont pas acceptés car la compatibilité de Word avec eux dans OOXML est incohérente selon les versions ; les convertir d'abord donne un résultat prévisible.",
+        ],
+      },
+      {
+        heading: "Où cet outil se situe face aux outils PDF",
+        paragraphs: [
+          "Cet outil et les outils PDF résolvent des problèmes opposés. Exporter vers Word prend votre texte de brouillon et vos images et produit un document modifiable — le point de départ d'un flux de travail. Les outils PDF (convertir, fusionner, expurger, signer) opèrent sur des documents finis — la fin du flux. Ensemble ils couvrent l'aller-retour : rédigez au format Word ici, finalisez et partagez en PDF là-bas.",
+          "L'outil pdf-to-word est la direction inverse : il prend un PDF existant et récupère du texte modifiable. Utilisez-le quand le PDF est l'entrée que vous ne pouvez pas modifier ; utilisez celui-ci quand le texte est le vôtre et Word la destination. Les deux tournent entièrement dans le navigateur, donc aucun n'ajoute d'étape d'envoi à votre gestion de documents.",
+          "Comme tout est local, cette page sert aussi de brouillon : collez des notes de réunion, ajoutez des captures depuis le presse-papiers, exportez, puis jetez l'onglet. Pas de compte, pas d'historique, aucune copie serveur de ce que vous avez écrit.",
+        ],
+      },
+    ],
+  },
 };

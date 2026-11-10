@@ -10529,4 +10529,62 @@ export const tr: Record<string, ToolCopy> = {
       },
     ],
   },
+  "word-export": {
+    name: "Word'a Aktar",
+    tagline: "Metni ve görselleri tarayıcıda gerçek bir .docx'e dönüştür — başlıklar, listeler, alıntılar, kod blokları ve gömülü resimler, yükleme yok.",
+    intro: [
+      "İçeriğini Markdown tarzı bir editörde yaz veya yapıştır, resimleri sürükle ve Microsoft Word, Google Docs, LibreOffice, Pages ve WPS'te sorunsuz açılan gerçek bir Word belgesi dışa aktar. Başlıklar gerçek başlık stillerine, madde işaretleri ve numaralı listeler Word'un yerleşik listelerine dönüşür; alıntılar klasik sol çizgiyi alır, kod blokları eş genişlikli yazı tipini korur ve her {{image:n}} yer tutucusu gerçek resim dosyasını gömer.",
+      "Dönüşümün tamamı docx kütüphanesiyle tarayıcı sekmenin içinde çalışır — metin ve resimler asla bir sunucuya gitmez. Bu, yayımlanmamış el yazmaları, müşteri taslakları, iç raporlar ve gizlilik sözleşmesi kapsamındaki her şey için güvenli olur; sayfa yüklendikten sonra çevrimdışı da çalışır.",
+      "Resimler depolanan çözünürlükleriyle gömülür ve en-boy oranı korunarak sayfa genişliğine sığdırılır, böylece fotoğraflar baskıda net kalır. PNG, JPEG, GIF ve BMP kabul edilir; ayrıca bir resmi doğrudan panodan yapıştırabilirsin (ekran görüntüsü → Ctrl+V → bitti).",
+    ],
+    steps: [
+      "İçeriğini editörün altında gösterilen Markdown tarzı söz dizimiyle yaz veya yapıştır.",
+      "Resimleri sürükle ya da yapıştır, sonra bir küçük resmin ↩n düğmesine tıklayarak onun {{image:n}} yer tutucusunu olması gereken yere ekle.",
+      "Dosyaya bir ad ver ve .docx dışa aktar'a bas — indirme hemen başlar.",
+    ],
+    faqs: [
+      {
+        q: "Bu gerçek bir Word dosyası mı, yoksa sadece adı değiştirilmiş HTML mi?",
+        a: "Gerçek bir .docx: Office Open XML paketi tarayıcında docx kütüphanesiyle oluşturulur — doğru başlık stilleri, yerleşik listeler, word/media/ altında gömülü resim parçaları. Word'un yazım denetimi, stiller bölmesi ve gezinti bölmesi tamamen normal çalışır.",
+      },
+      {
+        q: "Bir resmin nerede görüneceğini nasıl kontrol ederim?",
+        a: "Resimler, yer tutucusunu koyduğun yere tam olarak yerleşir. Bir resim ekleyip ↩n düğmesine tıkla (ya da {{image:n}} kendin yaz), resim metin akışının o noktasına sayfa genişliğine sığdırılarak gömülür.",
+      },
+      {
+        q: "Google Docs veya Pages'te açınca biçimlendirmem korunur mu?",
+        a: "Evet — başlıklar, madde işaretleri, numaralı listeler, alıntılar ve resimlerin hepsi Word'un standart özellikleri, egzotik biçimlendirme değil. Paragraf içindeki kalın ve italik, karakter biçimlendirmesi olarak taşınır.",
+      },
+      {
+        q: "Bir şey yüklenecek mi?",
+        a: "Hayır. Belge tarayıcında oluşturulur ve doğrudan indirilir — metin ve resimler cihazından asla çıkmaz.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Zengin metin araç çubuğu yerine neden Markdown söz dizimi",
+        paragraphs: [
+          "Zengin metin araç çubuğu daha dostça görünür, ama belgenin yapısını denetlemesi zor ve araçlar arasında taşınamayan bir WYSIWYG durum makinesinin içine saklar. Markdown yapısını düz metinde tutar: her başlığı ve liste işaretini görür, içeriği her kaynaktan yapıştırabilir ve zaten sahip olduğun klavye alışkanlıklarıyla düzenlersin. Dışa aktarma adımı için fark kaybolur — ikisi de aynı Word paragraflarını üretir — ama taslak yazarken işaretleri görünen düz metin daha hızlıdır ve asla bozulmaz.",
+          "Desteklenen alt küme bilinçli olarak küçüktür: üç başlık düzeyi, kalın ve italik, madde işaretleri, numaralı listeler, blok alıntılar, kod blokları, yatay çizgiler ve resim yer tutucuları. Bu, raporları, belgeleri, blog taslaklarını ve ödevleri kapsar. Daha büyük yapılar — tablolar, dipnotlar, sütunlar — içe aktarımdan sonra Word'ün kendisinde yapılmalı; tarayıcı editöründe destekliyormuş gibi görünmek kırılgan dosyalar üretir.",
+          "Resim yer tutucusu söz dizimi vardır çünkü resimler düz metnin taşıyamadığı tek şeydir. {{image:n}} yazmaya yeterince kısa, düzyazıyla asla çakışmayacak kadar özgün ve sıralama konusunda açık — resim 1 kuyruktaki ilk küçük resim, resim 2 ikincisidir; dosya adlarıyla ilgisi yoktur.",
+        ],
+      },
+      {
+        heading: "\"Gömülü\" resimlerin için ne demek",
+        paragraphs: [
+          "Bir .docx içindeki resimler dosyanın kendisinde, word/media/ altında saklanır — diskine veya bir URL'ye bağlanmaz. Dışa aktarılan belge, onu e-postayla gönderirken, makineler arasında taşırken veya arşivlerken eksiksiz kalır; hiçbir şey resmi sonradan bozamaz. Resim baytları verildiği haliyle gömülür, bu yüzden 2 MB'lık bir fotoğraf belgeyi yaklaşık 2 MB büyütür; daha hafif bir dosya istersen önce resimleri sıkıştır.",
+          "Ölçekleme düzen açısından yıkıcı değildir: belgeye yazılan dönüşüm yalnızca görüntü boyutunu ayarlar, özgün çözünürlük korunur. Word, PDF'e aktarırken veya yazdırırken tam çözünürlüklü bitmap işlendiği için ölçekleme net kalır. Yazdırılabilir alanı aşan genişlikler en-oranı korunarak sayfaya sınırlandırılır, böylece hiçbir resim kenar boşluğunu taşmaz.",
+          "Format desteği Word'un yerinde yönettiğiyle sınırlıdır: PNG (ekran görüntüleri, şemalar), JPEG (fotoğraflar), GIF (animasyonlar animasyonunu kaybeder — ilk kare kullanılır) ve BMP. WebP ve HEIC kabul edilmez, çünkü Word'ün OOXML içinde bunlara uyumu sürümler arasında tutarsızdır; önce dönüştürmek öngörülebilir bir sonuç verir.",
+        ],
+      },
+      {
+        heading: "PDF araçlarının yanında yeri neresi",
+        paragraphs: [
+          "Bu araç ile PDF araçları birbirinin tersi problemleri çözer. Word'a Aktar, taslak metnini ve resimlerini alıp düzenlenebilir bir belge üretir — bir iş akışının başlangıç noktası. PDF araçları (dönüştürme, birleştirme, karartma, imzalama) bitmiş belgelerle çalışır — iş akışının sonu. İkisi birlikte gidiş-dönüşü kapsar: burada Word formatında taslak yaz, orada bitirip PDF olarak paylaş.",
+          "pdf-to-word aracı ters yöndedir: var olan bir PDF'den düzenlenebilir metni kurtarır. PDF, düzenleyemediğin girdi ise onu kullan; metin sana aitse ve hedef Word ise bu aracı kullan. İkisi de tamamen tarayıcıda çalışır, böylece hiçbiri belge işleyişine bir yükleme adımı eklemez.",
+          "Her şey yerel olduğu için bu sayfa bir taslak defteri gibi de kullanılabilir: toplantı notlarını yapıştır, panodan ekran görüntüsü ekle, dışa aktar ve sekmeyi kapat. Hesap yok, geçmiş yok, yazdığın hiçbir şeyin sunucu kopyası yok.",
+        ],
+      },
+    ],
+  },
 };

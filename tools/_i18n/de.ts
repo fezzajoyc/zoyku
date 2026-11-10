@@ -10508,6 +10508,64 @@ export const de: Record<string, ToolCopy> = {
       },
     ],
   },
+  "word-export": {
+    name: "Als Word exportieren",
+    tagline: "Verwandeln Sie Text und Bilder im Browser in eine echte .docx — Überschriften, Listen, Zitate, Codeblöcke und eingebettete Bilder, ganz ohne Upload.",
+    intro: [
+      "Schreiben oder fügen Sie Ihren Inhalt in einem Markdown-artigen Editor ein, ziehen Sie Bilder hinein und exportieren Sie ein echtes Word-Dokument, das in Microsoft Word, Google Docs, LibreOffice, Pages und WPS problemlos öffnet. Überschriften werden zu echten Überschriftenstilen, Aufzählungen und nummerierte Listen zu nativen Word-Listen, Zitate erhalten die klassische linke Linie, Codeblöcke behalten ihre Monospace-Schrift, und jeder {{image:n}}-Platzhalter bettet die tatsächliche Bilddatei ein.",
+      "Die gesamte Konvertierung läuft in Ihrem Browser-Tab mit der docx-Bibliothek — Text und Bilder berühren nie einen Server. Das macht das Werkzeug sicher für unveröffentlichte Manuskripte, Kundenentwürfe, interne Berichte und alles, was unter NDA steht, und es funktioniert nach dem Laden der Seite auch offline.",
+      "Bilder werden mit ihrer gespeicherten Auflösung eingebettet und bei erhaltenem Seitenverhältnis auf die Seitenbreite skaliert, sodass Fotos im Druck gestochen scharf bleiben. PNG, JPEG, GIF und BMP werden alle akzeptiert, und Sie können ein Bild direkt aus der Zwischenablage einfügen (Screenshot → Strg+V → fertig).",
+    ],
+    steps: [
+      "Tippen oder fügen Sie Ihren Inhalt ein, und zwar mit der Markdown-artigen Syntax, die unter dem Editor angezeigt wird.",
+      "Ziehen Sie Bilder hinein oder fügen Sie sie ein, und klicken Sie auf die ↩n-Schaltfläche eines Vorschaubilds, um seinen {{image:n}}-Platzhalter an der richtigen Stelle einzufügen.",
+      "Geben Sie der Datei einen Namen und klicken Sie auf .docx exportieren — der Download beginnt sofort.",
+    ],
+    faqs: [
+      {
+        q: "Ist das eine echte Word-Datei oder nur umbenanntes HTML?",
+        a: "Eine echte .docx: Das Office-Open-XML-Paket wird in Ihrem Browser mit der docx-Bibliothek gebaut — korrekte Überschriftenstile, native Listen, eingebettete Bildteile unter word/media/. Rechtschreibprüfung, Formatvorlagen und Navigationsbereich von Word funktionieren ganz normal.",
+      },
+      {
+        q: "Wie steuere ich, wo ein Bild erscheint?",
+        a: "Bilder landen im Dokument genau dort, wo Sie ihren Platzhalter setzen. Fügen Sie ein Bild hinzu, klicken Sie auf seine ↩n-Schaltfläche (oder tippen Sie {{image:n}} selbst), und das Bild wird an dieser Stelle im Textfluss eingebettet, passend zur Seitenbreite skaliert.",
+      },
+      {
+        q: "Überlebt meine Formatierung das Öffnen in Google Docs oder Pages?",
+        a: "Ja — Überschriften, Aufzählungen, nummerierte Listen, Zitate und Bilder sind alles Standardfunktionen von Word, kein exotisches Markup. Fett und Kursiv in Absätzen werden als Zeichenformatierung übernommen.",
+      },
+      {
+        q: "Wird irgend etwas hochgeladen?",
+        a: "Nein. Das Dokument wird in Ihrem Browser zusammengesetzt und direkt heruntergeladen — Text und Bilder verlassen Ihr Gerät nie.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Warum Markdown-Syntax statt einer Rich-Text-Symbolleiste",
+        paragraphs: [
+          "Eine Rich-Text-Symbolleiste klingt freundlicher, aber sie versteckt die Struktur des Dokuments in einem WYSIWYG-Zustandsautomaten, der schwer zu prüfen und zwischen Werkzeugen nicht übertragbar ist. Markdown hält die Struktur im Klartext fest: Sie sehen jede Überschrift und jedes Listenzeichen, können Inhalte aus jeder Quelle einfügen und alles mit denselben Tastaturfertigkeiten bearbeiten, die Sie schon haben. Für den Exportschritt verschwindet der Unterschied — beide liefern dieselben Word-Absätze — aber zum Entwerfen ist Klartext mit sichtbaren Markierungen schneller und verdirbt nie.",
+          "Die unterstützte Teilmenge ist bewusst klein gehalten: drei Überschriftenebenen, Fett und Kursiv, Aufzählungen, nummerierte Listen, Blockzitate, Codeblöcke, Trennlinien und Bildplatzhalter. Das deckt Berichte, Dokumentation, Blogentwürfe und Hausaufgaben ab. Größere Konstrukte — Tabellen, Fußnoten, Spalten — gehören nach dem Import in Word selbst; vorgetäuschte Unterstützung im Browser-Editor erzeugt nur spröde Dateien.",
+          "Die Bildplatzhalter-Syntax existiert, weil Bilder das Einzige sind, was Klartext nicht tragen kann. {{image:n}} ist kurz genug zum Tippen, einzigartig genug, um nie mit Fließtext zu kollidieren, und explizit bei der Reihenfolge — Bild 1 ist das erste Vorschaubild in der Warteschlange, Bild 2 das zweite, unabhängig von Dateinamen.",
+        ],
+      },
+      {
+        heading: "Was „eingebettet“ für Ihre Bilder bedeutet",
+        paragraphs: [
+          "Bilder in einer .docx werden in der Datei selbst unter word/media/ gespeichert — nicht als Verweis auf Ihre Festplatte oder eine URL. Das exportierte Dokument bleibt vollständig, wenn Sie es mailen, zwischen Rechnern verschieben oder archivieren; nichts kann das Bild später beschädigen. Die Bildbytes werden genau wie geliefert eingebettet, sodass ein 2-MB-Foto das Dokument um etwa 2 MB vergrößert; wenn Sie eine leichtere Datei brauchen, komprimieren Sie die Bilder zuerst.",
+          "Skalieren ist im Layoutsinne zerstörungsfrei: Die im Dokument abgelegte Transformation setzt nur die Anzeigegröße, und die ursprüngliche Auflösung bleibt erhalten. Word skaliert beim Export zu PDF oder Druck gestochen scharf, weil die Bitmap in voller Auflösung gerendert wird. Breiten über dem bedruckbaren Bereich werden bei erhaltenem Seitenverhältnis auf die Seite begrenzt, sodass kein Bild je über den Rand hinausläuft.",
+          "Die Formatunterstützung folgt dem, was Word nativ beherrscht: PNG (Screenshots, Diagramme), JPEG (Fotos), GIF (Animationen verlieren die Animation — der erste Frame wird verwendet) und BMP. WebP und HEIC werden nicht akzeptiert, weil Words eigene Kompatibilität damit innerhalb von OOXML über Versionen hinweg uneinheitlich ist; eine vorherige Konvertierung liefert ein vorhersagbares Ergebnis.",
+        ],
+      },
+      {
+        heading: "Wie dieses Werkzeug neben den PDF-Werkzeugen einzuordnen ist",
+        paragraphs: [
+          "Dieses Werkzeug und die PDF-Werkzeuge lösen gegensätzliche Probleme. „Als Word exportieren“ nimmt Ihren Entwurf aus Text und Bildern und erzeugt ein editierbares Dokument — den Startpunkt eines Arbeitsablaufs. Die PDF-Werkzeuge (Konvertieren, Zusammenführen, Schwärzen, Signieren) arbeiten auf fertigen Dokumenten — dem Ende eines Arbeitsablaufs. Zusammen decken sie den Rundtrip ab: hier im Word-Format entwerfen, dort finalisieren und als PDF teilen.",
+          "Das pdf-to-word-Werkzeug ist die umgekehrte Richtung: Es nimmt ein vorhandenes PDF und stellt editierbaren Text wieder her. Benutzen Sie es, wenn das PDF der Input ist, den Sie nicht bearbeiten können; benutzen Sie dieses Werkzeug, wenn der Text Ihrer ist und Word das Ziel. Beide laufen vollständig im Browser, also fügt keiner Ihrer Dokumentverarbeitung einen Upload-Schritt hinzu.",
+          "Weil alles lokal ist, taugt diese Seite auch als Notizblock: Besprechungsnotizen einfügen, Screenshots aus der Zwischenablage hinzufügen, exportieren und den Tab wieder schließen. Kein Konto, kein Verlauf, keine Serverkopie von irgendetwas, das Sie geschrieben haben.",
+        ],
+      },
+    ],
+  },
 };
 
 export default de;

@@ -10424,4 +10424,62 @@ export const vi: Record<string, ToolCopy> = {
       { q: "Cái gì tính là khoản trả trước ở đây?", a: "Mọi thứ bạn trả trước: tiền mặt, khấu trừ xe đổi cũ hoặc chiết khấu. Nhập theo phần trăm giá hoặc số tiền cố định; nếu trả trước phủ hết giá xe, công cụ báo là không cần vay. Phí, thuế và bảo hiểm không nằm trong mô hình." },
     ],
   },
+  "word-export": {
+    name: "Xuất Word",
+    tagline: "Chuyển văn bản và hình ảnh thành tệp .docx thật ngay trong trình duyệt — tiêu đề, danh sách, trích dẫn, khối mã và ảnh nhúng, không cần tải lên.",
+    intro: [
+      "Viết hoặc dán nội dung của bạn trong trình soạn thảo kiểu Markdown, kéo thả hình ảnh vào, và xuất một tài liệu Word thật mở bình thường trong Microsoft Word, Google Docs, LibreOffice, Pages và WPS. Tiêu đề trở thành kiểu tiêu đề thật, danh sách gạch đầu dòng và đánh số trở thành danh sách gốc của Word, trích dẫn có đường kẻ trái kinh điển, khối mã giữ nguyên phông chữ mono, và mỗi trình giữ chỗ {{image:n}} nhúng đúng tệp hình ảnh thực tế.",
+      "Toàn bộ quá trình chuyển đổi chạy ngay trong thẻ trình duyệt của bạn bằng thư viện docx — văn bản và hình ảnh không bao giờ chạm đến máy chủ. Điều đó làm công cụ này an toàn cho bản thảo chưa công bố, bản nháp của khách hàng, báo cáo nội bộ và mọi thứ nằm dưới giao bảo mật, và nó vẫn hoạt động ngoại tuyến sau khi trang đã tải xong.",
+      "Hình ảnh được nhúng ở độ phân giải đã lưu và thu về vừa chiều rộng trang mà vẫn giữ nguyên tỷ lệ, nên ảnh in ra sắc nét. PNG, JPEG, GIF và BMP đều được chấp nhận, và bạn có thể dán ảnh thẳng từ clipboard (chụp màn hình → Ctrl+V → xong).",
+    ],
+    steps: [
+      "Gõ hoặc dán nội dung của bạn theo cú pháp kiểu Markdown được hiển thị bên dưới trình soạn thảo.",
+      "Kéo thả hoặc dán hình ảnh, rồi nhấn nút ↩n trên một hình thu nhỏ để chèn trình giữ chỗ {{image:n}} của nó vào đúng chỗ cần đặt.",
+      "Đặt tên tệp và nhấn Xuất .docx — bản tải xuống bắt đầu ngay lập tức.",
+    ],
+    faqs: [
+      {
+        q: "Đây là tệp Word thật hay chỉ là HTML đổi tên?",
+        a: "Một tệp .docx thật: gói Office Open XML được dựng ngay trong trình duyệt bằng thư viện docx — kiểu tiêu đề chuẩn, danh sách gốc, các phần ảnh nhúng dưới word/media/. Kiểm tra chính tả, bảng kiểu và khung điều hướng của Word đều hoạt động bình thường.",
+      },
+      {
+        q: "Làm thế nào để kiểm soát vị trí xuất hiện của một hình ảnh?",
+        a: "Ảnh rơi vào tài liệu đúng chỗ bạn đặt trình giữ chỗ của nó. Thêm ảnh, nhấn nút ↩n của nó (hoặc tự gõ {{image:n}}), và bức ảnh được nhúng tại điểm đó trong dòng chữ, thu về vừa chiều rộng trang.",
+      },
+      {
+        q: "Định dạng của tôi có giữ nguyên khi mở trong Google Docs hay Pages không?",
+        a: "Có — tiêu đề, gạch đầu dòng, danh sách đánh số, trích dẫn và hình ảnh đều là tính năng chuẩn của Word, không phải đánh dấu lạ. Chữ đậm và nghiêng trong đoạn văn được giữ lại dưới dạng định dạng ký tự.",
+      },
+      {
+        q: "Có gì được tải lên không?",
+        a: "Không. Tài liệu được lắp ráp trong trình duyệt và tải xuống trực tiếp — văn bản và hình ảnh không bao giờ rời khỏi thiết bị của bạn.",
+      },
+    ],
+    deepDive: [
+      {
+        heading: "Vì sao dùng cú pháp Markdown thay vì thanh công cụ văn bản định dạng",
+        paragraphs: [
+          "Thanh công cụ văn bản định dạng nghe có vẻ thân thiện hơn, nhưng nó giấu cấu trúc tài liệu bên trong một máy trạng thái WYSIWYG khó kiểm tra và không thể dán qua lại giữa các công cụ. Markdown giữ cấu trúc trong văn bản thuần: bạn nhìn thấy mọi tiêu đề và mọi ký hiệu danh sách, dán nội dung từ bất kỳ nguồn nào, và chỉnh sửa bằng chính kỹ năng bàn phím bạn đã có. Với bước xuất thì khác biệt biến mất — cả hai cho ra cùng các đoạn Word — nhưng khi soạn thảo, văn bản thuần với ký hiệu nhìn thấy được thì nhanh hơn và không bao giờ hỏng.",
+          "Tập con được hỗ trợ được giữ cố ý nhỏ: ba cấp tiêu đề, chữ đậm và nghiêng, gạch đầu dòng, danh sách đánh số, trích dẫn khối, khối mã, đường phân cách và trình giữ chỗ ảnh. Điều đó đủ cho báo cáo, tài liệu, bản nháp blog và bài tập về nhà. Những cấu trúc lớn hơn — bảng, chú thích chân trang, chia cột — nên làm trong Word sau khi nhập; giả vờ hỗ trợ chúng trong trình soạn thảo trình duyệt chỉ tạo ra tệp mong manh.",
+          "Cú pháp trình giữ chỗ ảnh tồn tại vì ảnh là thứ duy nhất mà văn bản thuần không mang được. {{image:n}} đủ ngắn để gõ, đủ độc nhất để không bao giờ va vào phần văn xuôi, và tường minh về thứ tự — ảnh 1 là hình thu nhỏ đầu tiên trong hàng đợi, ảnh 2 là hình thứ hai, bất kể tên tệp.",
+        ],
+      },
+      {
+        heading: "\"Nhúng\" có nghĩa là gì với hình ảnh của bạn",
+        paragraphs: [
+          "Ảnh bên trong tệp .docx được lưu ngay trong chính tệp, dưới word/media/ — không liên kết đến đĩa của bạn hay một URL. Tài liệu xuất ra vẫn trọn vẹn khi bạn gửi qua email, chuyển giữa các máy hoặc lưu trữ; không gì có thể làm hỏng bức ảnh về sau. Các byte ảnh được nhúng đúng như đã cung cấp, nên một ảnh 2 MB làm tài liệu lớn hơn khoảng 2 MB; nếu cần tệp nhẹ hơn, hãy nén ảnh trước.",
+          "Thu nhỏ không phá hủy về mặt bố cục: phép biến đổi ghi vào tài liệu chỉ đặt kích thước hiển thị, và độ phân giải gốc vẫn được giữ lại. Word thu lại sắc nét khi xuất PDF hoặc in vì bitmap ở độ phân giải đầy đủ mới là thứ được kết xuất. Chiều rộng vượt vùng in được chạm về giới hạn trang mà vẫn giữ tỷ lệ, nên không ảnh nào tràn qua lề.",
+          "Hỗ trợ định dạng theo những gì Word xử lý gốc: PNG (ảnh chụp màn hình, sơ đồ), JPEG (ảnh chụp), GIF (ảnh động mất phần động — khung đầu tiên được dùng) và BMP. WebP và HEIC không được chấp nhận vì độ tương thích của Word với chúng trong OOXML không nhất quán giữa các phiên bản; chuyển đổi trước sẽ cho kết quả dễ đoán.",
+        ],
+      },
+      {
+        heading: "Công cụ này đứng ở đâu bên cạnh các công cụ PDF",
+        paragraphs: [
+          "Công cụ này và các công cụ PDF giải quyết những bài toán ngược nhau. Xuất Word lấy bản nháp văn bản và hình ảnh của bạn và tạo ra một tài liệu có thể chỉnh sửa — điểm khởi đầu của một quy trình. Các công cụ PDF (chuyển đổi, gộp, che, ký) thao tác trên tài liệu đã hoàn thành — điểm cuối của quy trình. Cộng lại chúng phủ trọn vòng đi-về: soạn thảo ở định dạng Word tại đây, hoàn thiện và chia sẻ dưới dạng PDF tại đó.",
+          "Công cụ pdf-to-word là chiều ngược lại: nó lấy một PDF có sẵn và khôi phục văn bản có thể chỉnh sửa. Dùng nó khi PDF là đầu vào bạn không thể chỉnh sửa; dùng công cụ này khi văn bản là của bạn và Word là đích đến. Cả hai đều chạy hoàn toàn trong trình duyệt, nên không cái nào thêm bước tải lên vào việc xử lý tài liệu của bạn.",
+          "Vì mọi thứ đều cục bộ, trang này cũng dùng được như giấy nháp: dán ghi chú cuộc họp, thêm ảnh chụp màn hình từ clipboard, xuất ra, rồi đóng thẻ. Không tài khoản, không lịch sử, không bản sao trên máy chủ của bất cứ điều gì bạn đã viết.",
+        ],
+      },
+    ],
+  },
 };
