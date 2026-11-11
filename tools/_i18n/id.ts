@@ -6181,7 +6181,7 @@ export const id: Record<string, ToolCopy> = {
   "percentage-calculator": {
     name: "Kalkulator Persen",
     tagline:
-      "Tiga soal persen dalam satu alat langsung: X% dari Y, X berapa persen dari Y, dan perubahan persen antara dua nilai.",
+      "Kalkulator persen lengkap: X% dari Y, X berapa persen dari Y, dan persentase naik-turun dua nilai — hasil langsung dengan label naik/turun. Untuk diskon, pajak, target penjualan, dan kenaikan gaji.",
     intro: [
       "Tiga pertanyaan yang benar-benar ditanyakan orang: “berapa 15% dari 200?”, “30 berapa persen dari 150?”, dan “penjualan naik dari 480 ke 610 — berapa persen?”. Ganti mode sekali klik dan rumusnya menyesuaikan tiap kasus.",
       "Perubahan persen itu bertanda dan diberi label naik atau turun, jadi penurunan dari 500 ke 400 terbaca jelas −20%, bukan angka positif yang membingungkan.",
