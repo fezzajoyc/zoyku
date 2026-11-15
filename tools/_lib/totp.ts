@@ -66,7 +66,13 @@ export function parseOtpauth(
   const params = new URLSearchParams(m[2]);
   const secret = (params.get("secret") ?? "").replace(/\s/g, "");
   if (!secret) return null;
-  const label = decodeURIComponent(m[1] ?? "");
+  // 畸形百分号编码(如 "otpauth://totp/%?...")不该炸掉解析:label 仅为展示,解码失败用原文
+  let label = m[1] ?? "";
+  try {
+    label = decodeURIComponent(label);
+  } catch {
+    // keep raw label
+  }
   const account = label.includes(":") ? label.split(":").pop()?.trim() : label.trim();
   const algoRaw = (params.get("algorithm") ?? "").toUpperCase().replace("-", "");
   const algo = ALGOS.find((a) => a.replace("-", "") === algoRaw);

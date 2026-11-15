@@ -107,3 +107,18 @@ describe("parseOtpauth", () => {
     expect(parseOtpauth("https://example.com")).toBeNull();
   });
 });
+
+describe("parseOtpauth(畸形输入不抛)", () => {
+  it("非法百分号编码不抛 URIError,secret 照常提取", () => {
+    expect(() => parseOtpauth("otpauth://totp/%?secret=JBSWY3DPEHPK3PXP")).not.toThrow();
+    const r = parseOtpauth("otpauth://totp/%?secret=JBSWY3DPEHPK3PXP");
+    expect(r?.secret).toBe("JBSWY3DPEHPK3PXP");
+  });
+
+  it("半坏编码保留原文 label,不影响参数解析", () => {
+    const r = parseOtpauth("otpauth://totp/Alice:Bob%20C%F8?secret=JBSWY3DPEHPK3PXP&digits=8");
+    expect(r?.secret).toBe("JBSWY3DPEHPK3PXP");
+    expect(r?.digits).toBe(8);
+    expect(r?.account).toContain("Bob");
+  });
+});

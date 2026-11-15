@@ -1,4 +1,4 @@
-# 同行对标报告(2026-10-31)
+# 同行对标报告(初版 2026-10-31,数字更新 2026-11-15)
 
 对标对象:convert.csidehsp.org(直接竞品)、iLovePDF、TinyWow。数据来源:三方 sitemap 全量抓取。
 
@@ -6,10 +6,10 @@
 
 | | convert.csidehsp | iLovePDF | TinyWow | **Zoyku** |
 |---|---|---|---|---|
-| 工具数 | 123(含自重复) | ~30 | 300+ | **123** |
+| 工具数 | 123(含自重复) | ~30 | 300+ | **205**(2026-11-15,registry 为事实源) |
 | 工具页 HTML | 全站同一个 SPA 空壳 | 每页独立 SSR | 每页独立 SSR | **每页独立 SSR** |
 | 标题格式 | 全站首页标题 | "Merge PDF - Combine PDF files online for free" | 工具名 | **"{name} — Free, No Upload"(隐私 USP 后缀)** |
-| 语言 | 1 | 25+ | 1+机器翻 | **5(人工)** |
+| 语言 | 1 | 25+ | 1+机器翻 | **15(5 语内联 + 10 语 overlay,全人工撰写)** |
 | canonical | 全指向首页(自杀式) | 自指 | 自指 | **自指** |
 | 文件处理 | 服务器上传 | 服务器上传 | 服务器上传 | **100% 浏览器本地** |
 | 结构化数据 | 无 | 有 | 有 | **WebApplication+Breadcrumb+FAQ+ItemList** |

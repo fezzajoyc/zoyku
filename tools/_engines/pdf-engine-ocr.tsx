@@ -28,10 +28,20 @@ function loadTesseract(): Promise<Record<string, unknown>> {
     script.async = true;
     script.onload = () => {
       if (w.Tesseract) resolve(w.Tesseract as Record<string, unknown>);
-      else reject(new Error("cdn"));
+      else {
+        script.remove();
+        reject(new Error("cdn"));
+      }
     };
-    script.onerror = () => reject(new Error("cdn"));
+    script.onerror = () => {
+      script.remove();
+      reject(new Error("cdn"));
+    };
     document.head.appendChild(script);
+  });
+  // CDN 失败不缓存 rejected 状态:下一次调用真正重试(重新注入 script)
+  tesseractPromise.catch(() => {
+    tesseractPromise = null;
   });
   return tesseractPromise;
 }
@@ -56,6 +66,13 @@ const UI: Record<string, L> = {
     ja: "CDN から OCR エンジンを読み込めませんでした。ネットワークを確認して再試行してください。PDF ファイル自体は端末から送信されません。",
     es: "No se pudo cargar el motor de OCR desde el CDN. Comprueba tu conexión e inténtalo de nuevo: el PDF nunca sale de tu dispositivo.",
     pt: "Não foi possível carregar o motor de OCR do CDN. Verifique sua conexão e tente novamente — o PDF nunca sai do seu dispositivo.",
+  },
+  noText: {
+    en: "No text was recognized. The scan may be blank, too low-resolution, or in a language not selected — try another language pack or a sharper scan.",
+    zh: "没有识别出文字。可能是空白页、分辨率过低,或语言选错——换个语言包或更清晰的扫描件再试。",
+    ja: "テキストが認識されませんでした。白紙・低解像度・言語選択ミスの可能性があります。言語パックを変えるか、より鮮明な走査で再試行してください。",
+    es: "No se reconoció ningún texto. La página puede estar en blanco, a baja resolución o en un idioma no seleccionado: prueba otro paquete de idioma o un escaneo más nítido.",
+    pt: "Nenhum texto foi reconhecido. A página pode estar em branco, com baixa resolução ou em um idioma não selecionado — tente outro pacote de idioma ou uma digitalização mais nítida.",
   },
 };
 
@@ -132,7 +149,7 @@ export function PdfOcrEngine() {
       pdf.destroy();
       const full = parts.join("\n\n");
       setText(full);
-      if (!full) setStatus(t.common.error);
+      if (!full) setErr(tr(UI.noText, locale));
     } catch (e) {
       const msg = e instanceof Error ? e.message : "";
       if (msg === "cdn") setErr(tr(UI.cdnFail, locale));
