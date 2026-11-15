@@ -172,7 +172,7 @@ const ko: Dictionary = {
   },
 
   footer: {
-    line: "브라우저에서 도는 무료 도구. 여기서 하는 일은 기기를 떠나지 않습니다.",
+    line: "브라우저 무료 도구. 파일은 절대 기기를 떠나지 않습니다.",
     privacy: "개인정보",
     terms: "약관",
     about: "소개",

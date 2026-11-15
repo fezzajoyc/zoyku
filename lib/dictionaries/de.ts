@@ -170,7 +170,7 @@ const de = {
   },
 
   footer: {
-    line: "Kostenlose Browser-Tools. Nichts, was Sie hier tun, verlässt Ihr Gerät.",
+    line: "Kostenlose Browser-Tools. Ihre Dateien verlassen niemals Ihr Gerät.",
     privacy: "Datenschutz",
     terms: "Nutzungsbedingungen",
     about: "Über uns",

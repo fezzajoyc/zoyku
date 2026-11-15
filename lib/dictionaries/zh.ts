@@ -167,7 +167,7 @@ const zh: Dictionary = {
   },
 
   footer: {
-    line: "免费浏览器工具。你在这里做的一切都不会离开你的设备。",
+    line: "免费浏览器工具。你的文件永远不会离开你的设备。",
     privacy: "隐私",
     terms: "条款",
     about: "关于",

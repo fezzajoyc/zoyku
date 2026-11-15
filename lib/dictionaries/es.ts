@@ -167,7 +167,7 @@ const es: Dictionary = {
   },
 
   footer: {
-    line: "Herramientas gratuitas en el navegador. Nada de lo que hagas aquí sale de tu dispositivo.",
+    line: "Herramientas gratuitas en el navegador. Tus archivos nunca salen de tu dispositivo.",
     privacy: "Privacidad",
     terms: "Términos",
     about: "Acerca de",

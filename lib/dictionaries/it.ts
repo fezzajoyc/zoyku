@@ -170,7 +170,7 @@ const it = {
   },
 
   footer: {
-    line: "Strumenti gratuiti nel browser. Nulla di ciò che fai qui lascia il tuo dispositivo.",
+    line: "Strumenti gratuiti nel browser. I tuoi file non lasciano mai il tuo dispositivo.",
     privacy: "Privacy",
     terms: "Termini",
     about: "Chi siamo",

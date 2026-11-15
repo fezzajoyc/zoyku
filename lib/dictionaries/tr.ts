@@ -169,7 +169,7 @@ const tr = {
   },
 
   footer: {
-    line: "Ücretsiz tarayıcı araçları. Burada yaptığın hiçbir şey cihazından çıkmaz.",
+    line: "Ücretsiz tarayıcı araçları. Dosyalarınız cihazınızdan asla çıkmaz.",
     privacy: "Gizlilik",
     terms: "Kullanım Koşulları",
     about: "Hakkında",

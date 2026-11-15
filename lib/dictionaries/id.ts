@@ -170,7 +170,7 @@ const id = {
   },
 
   footer: {
-    line: "Alat browser gratis. Apa pun yang Anda lakukan di sini tidak meninggalkan perangkat Anda.",
+    line: "Alat browser gratis. File Anda tidak pernah meninggalkan perangkat Anda.",
     privacy: "Privasi",
     terms: "Ketentuan",
     about: "Tentang",

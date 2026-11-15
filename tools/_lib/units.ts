@@ -166,6 +166,7 @@ export const ENERGY: UnitCategory = {
     u("wh", "Wh", 3600, n("watt-hour", "瓦时", "ワット時", "vatio-hora", "watt-hora")),
     u("kwh", "kWh", 3.6e6, n("kilowatt-hour", "千瓦时", "キロワット時", "kilovatio-hora", "quilowatt-hora")),
     u("btu", "BTU", 1055.05585262, n("British thermal unit", "英热单位", "英熱量", "unidad térmica británica", "unidade térmica britânica")),
+    u("ev", "eV", 1.602176634e-19, n("electronvolt", "电子伏特", "電子ボルト", "electronvoltio", "elétron-volt")),
   ],
 };
 

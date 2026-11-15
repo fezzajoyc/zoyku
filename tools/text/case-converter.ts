@@ -13,10 +13,10 @@ export default defineTool({
       name: "Case Converter",
       tagline: "Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case and 6 more styles — live.",
       intro: [
-        "Eleven case styles on one page: sentence case for body writing, Title Case for headlines, lowercase and UPPERCASE for quick fixes, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE for code identifiers, plus alternating and inverse case for tests and jokes.",
+        "Thirteen case styles on one page: sentence case for body writing, Title Case for headlines, lowercase and UPPERCASE for quick fixes, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE for code identifiers, plus alternating and inverse case for tests and jokes.",
         "Title Case follows the editorial small-words convention: articles, short conjunctions and prepositions (a, an, the, and, of, to, vs …) stay lowercase unless they open or close the title. Sentence case re-capitalizes after Western (. ! ?) and full-width (。！？) sentence marks, so mixed Chinese-English text is handled too.",
         "Code styles split identifiers intelligently: camelCase boundaries such as parseHTMLValue are split before conversion, and accented Latin letters (é, ñ, ü) are kept rather than discarded. Alternating case alternates letters only — punctuation and digits keep their positions — and inverse swaps each character's case in place.",
-        "Everything recalculates as you type with no button mashing, and the conversion never leaves your browser. Compared with find-and-replace or hand-written regexes, this applies all eleven transforms at once so you can compare outputs side by side before pasting.",
+        "Everything recalculates as you type with no button mashing, and the conversion never leaves your browser. Compared with find-and-replace or hand-written regexes, this applies all thirteen transforms at once so you can compare outputs side by side before pasting.",
       ],
       steps: [
         "Paste or type your text into the input box.",
@@ -66,9 +66,9 @@ export default defineTool({
     },
     zh: {
       name: "大小写转换",
-      tagline: "大写、小写、标题式、camelCase、snake_case 等 11 种大小写风格实时互转。",
+      tagline: "大写、小写、标题式、camelCase、snake_case 等 13 种大小写风格实时互转。",
       intro: [
-        "一页提供 11 种大小写风格:写作用的句首大写、标题用的 Title Case,写代码用的 camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE,还有大小写交替和互换。",
+        "一页提供 13 种大小写风格:写作用的句首大写、标题用的 Title Case,写代码用的 camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE,还有大小写交替和互换。",
         "输入即转换,无需反复点按钮,整个过程都在你的浏览器里完成。",
       ],
       steps: [
@@ -119,7 +119,7 @@ export default defineTool({
     },
     ja: {
       name: "ケース変換",
-      tagline: "大文字・小文字・タイトルケース・camelCase・snake_case など 11 スタイルにリアルタイム変換。",
+      tagline: "大文字・小文字・タイトルケース・camelCase・snake_case など 13 スタイルにリアルタイム変換。",
       intro: [
         "11 種類のケーススタイルを 1 ページで:文章向けのセンテンスケース、見出し向けのタイトルケース、コード向けの camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE、さらに交互と反転。",
         "入力しながら即時変換。ボタン連打は不要で、変換はすべてブラウザ内で完結します。",
@@ -174,7 +174,7 @@ export default defineTool({
       name: "Convertidor de mayúsculas y minúsculas",
       tagline: "Convierte texto entre MAYÚSCULAS, minúsculas, Tipo Título, camelCase, snake_case y 6 estilos más.",
       intro: [
-        "Once estilos en una página: tipo oración para escritura, Tipo Título para titulares, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE para código, más alternante e inverso.",
+        "Trece estilos en una página: tipo oración para escritura, Tipo Título para titulares, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE para código, más alternante e inverso.",
         "Todo se recalcula mientras escribes: sin pulsar botones una y otra vez, y la conversión nunca sale de tu navegador.",
       ],
       steps: [
@@ -227,7 +227,7 @@ export default defineTool({
       name: "Conversor de maiúsculas e minúsculas",
       tagline: "Converta texto entre MAIÚSCULAS, minúsculas, Tipo Título, camelCase, snake_case e mais 6 estilos.",
       intro: [
-        "Onze estilos numa página: tipo sentença para escrita, Tipo Título para manchetes, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE para código, mais alternado e inverso.",
+        "Treze estilos numa página: tipo sentença para escrita, Tipo Título para manchetes, camelCase / PascalCase / snake_case / kebab-case / CONSTANT_CASE para código, mais alternado e inverso.",
         "Tudo é recalculado enquanto você digita — sem ficar apertando botões — e a conversão nunca sai do seu navegador.",
       ],
       steps: [

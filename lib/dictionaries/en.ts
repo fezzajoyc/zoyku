@@ -187,7 +187,7 @@ const en = {
   },
 
   footer: {
-    line: "Free browser tools. Nothing you do here leaves your device.",
+    line: "Free browser tools. Your files never leave your device.",
     privacy: "Privacy",
     terms: "Terms",
     about: "About",

@@ -1021,7 +1021,7 @@ export const tr: Record<string, ToolCopy> = {
         heading: "Dil ayarları ve aranabilirlik: kullanılabilir çıktı elde etmek",
         paragraphs: [
           "OCR dili tanır ve yanlış dili seçmek en sık kalite katilidir. Tanıma motorları harf dizilimlerini seçilen dilin istatistikleriyle değerlendirir — İspanyolca metni yalnızca İngilizce modelle geçirirsen her aksanlı karakter şüpheli olur ve ñ, á, ü gürültüye erir. Çok dilli belgeler, ilgili diller etkinleştirilmeden, azınlık dilindeki geçişler anlamsız dizeler olarak çıkar.",
-          "Aranabilirlik bir katman daha taşır: tanınan metin katmanı görselin arkasındadır; görüntüleyicide arama tümceyi bulur ve doğru sayfaya atlar ama altındaki piksellere dokunulmaz. Ciddi her OCR ürününün ürettiği standart «sandviç» yapısı budur — arşivin görünümünü korurken tam metin arama kazanır; kayıt saklama için ikisinin en iyisi.",
+          "Aranabilir PDF, ham OCR'in bir sonraki adımıdır: tam OCR takımları tanınan metni sayfa görselinin arkasına yeniden iliştirir — standart «sandviç» yapısı budur — görüntüleyicide arama tümceyi bulur ve doğru sayfaya atlar ama piksellere dokunulmaz. Bu araç tanıma adımında durur ve metni öylece teslim eder; iş akışın aranabilir bir PDF gerektiriyorsa metni önce bu araçla al, ardından yazma işini bir masaüstü OCR paketinde bitir.",
           "Arşivler için pratik bir akış: doğru dille tüm yığını bir kez OCR'le, sonra birkaç bilinen tümceyi (bir isim, bir tarih, bir fatura numarası) aratarak örnekleme doğrula. Aramalar tutuyorsa metin katmanı çalışıyordur; tutmuyorsa ya dil yanlıştır ya da tarama kalitesi tanıma eşiğinin altındadır — arama sonucu hangi sayfaları yeniden tarayacağını söyler.",
         ],
       },
@@ -1029,7 +1029,7 @@ export const tr: Record<string, ToolCopy> = {
         heading: "Tanıma kendi cihazında, başkasının arşivinde değil",
         paragraphs: [
           "OCR gerektiren belgeler orantısız biçimde duyarlı olanlardır: eski vergi kayıtları, sağlık geçmişleri, personel dosyaları, tapular, akademik transkriptler. Bunları bir web OCR hizmetine vermek, kayıtlarının tam okunabilir metninin — çıkarılmış, indekslenmiş, makine-aranabilir — hakkında hiçbir şey bilmediğin bir altyapıda durması demektir. Metin, taranmış görselin kendisinden bile taşınabilirdir: çıkarıldıktan sonra haberin olmadan kopyalanabilir, indekslenebilir, işlenebilir.",
-          "Bu araç metni tamamen tarayıcında tanır: taranan sayfalar cihazında işlenir, metin katmanı yerelde iliştirilir ve aranabilir PDF doğrudan diske yazılır. Arşivinin hiçbir sayfası yüklenmez, çıkarılan hiçbir metin makineni terk etmez. Çevrimdışı çalışma aynıdır; bu da, iyi bir sebeple havadan kopuk makinelerde yaşayan arşivlere uyar.",
+          "Bu araç metni tamamen tarayıcında tanır: taranan sayfalar cihazında işlenir ve çıkarılan metin kopyalanmaya ya da .txt olarak kaydedilmeye hazırdır — hiçbir PDF yeniden yazılmaz ve metin, yeniden yazılmadan, kendisiyle gayet yeter. Arşivinin hiçbir sayfası yüklenmez, çıkarılan hiçbir metin makineni terk etmez. Çevrimdışı çalışma aynıdır; bu da, iyi bir sebeple havadan kopuk makinelerde yaşayan arşivlere uyar.",
           "Önceden bilinmesi iyi bir pazarlık: büyük bir yığının tarayıcıda tanınması zaman ve bellek ister, çünkü hesap veri merkezinde değil kendi donanımında döner. 20 sayfalık bir tarama için saniyeler; 500 sayfalık arşiv için bir mola kahve. Kazanç, kayıtlarını dijitalleştirmenin en özel adımının tümüyle senin kontrolünde olmasıdır.",
         ],
       },

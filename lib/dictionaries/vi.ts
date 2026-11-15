@@ -170,7 +170,7 @@ const vi = {
   },
 
   footer: {
-    line: "Công cụ trình duyệt miễn phí. Mọi thứ bạn làm ở đây đều ở lại thiết bị của bạn.",
+    line: "Công cụ trình duyệt miễn phí. Tệp của bạn không bao giờ rời khỏi thiết bị.",
     privacy: "Quyền riêng tư",
     terms: "Điều khoản",
     about: "Giới thiệu",

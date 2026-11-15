@@ -172,7 +172,7 @@ const fr: Dictionary = {
   },
 
   footer: {
-    line: "Des outils gratuits dans le navigateur. Rien de ce que vous faites ici ne quitte votre appareil.",
+    line: "Des outils gratuits dans le navigateur. Vos fichiers ne quittent jamais votre appareil.",
     privacy: "Confidentialité",
     terms: "Conditions",
     about: "À propos",
