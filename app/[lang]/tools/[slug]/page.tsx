@@ -12,6 +12,8 @@ import { JsonLd } from "@/components/jsonld";
 import { trackRecent, ToolEmbedBox, EmbedGate, RecentTracker } from "@/components/tool-extras";
 import { PinButton } from "@/components/pin-button";
 import { NextToolsBar } from "@/components/next-tools-bar";
+import { processingInfo, toolSources } from "@/lib/tool-processing";
+import { trustCopy } from "@/lib/trust-copy";
 
 export function generateStaticParams() {
   return LOCALES.flatMap((lang) => ALL_TOOLS.map((tool) => ({ lang, slug: tool.slug })));
@@ -48,7 +50,7 @@ export async function generateMetadata({
     LOCALES.map((l) => [HTML_LANG[l], `/${l}/tools/${tool.slug}`]),
   );
   return {
-    title: metaTitle(c.h1 ?? c.name, USP[lang] ?? USP.en!),
+    title: metaTitle(c.h1 ?? c.name, processingInfo(slug, lang).kind === "network" ? dict(lang).home.trustFree : USP[lang] ?? USP.en!),
     description: metaDesc(c.tagline),
     alternates: {
       canonical: `/${lang}/tools/${tool.slug}`,
@@ -80,6 +82,9 @@ export default async function ToolPage({
   const related = relatedTools(tool);
   const url = `${SITE.domain}/${locale}/tools/${tool.slug}`;
   const Engine = tool.engine.component;
+  const processing = processingInfo(slug, locale);
+  const sources = toolSources(slug);
+  const trust = trustCopy(locale);
   // embed 模式(?embed=1)改由客户端 EmbedGate 自检测 + data-embed-hide CSS 隐藏:
   // 此前读取 searchParams 使页面变 dynamic(private no-cache),CDN 全 MISS 每次回源——CWV 轮实测发现。
   // embed 访客极少,SSR 仍输出内容(仅 CSS 隐藏),静态化收益远大于 embed 模式的首帧多渲染。
@@ -163,6 +168,10 @@ export default async function ToolPage({
       </div>
 
       <EmbedGate />
+      <aside data-processing={processing.kind} className="mb-5 max-w-3xl rounded-xl border hairline bg-[var(--color-surface)] px-4 py-3 text-[13px] leading-6 text-[var(--color-sub)]">
+        <strong className="block font-semibold text-[var(--color-ink)]">{processing.label}</strong>
+        <p>{processing.note} <Link className="underline underline-offset-4" href={`/${locale}/privacy`}>{trust.details}</Link></p>
+      </aside>
       <Engine {...tool.engine.props} />
       <RecentTracker slug={tool.slug} icon={tool.icon} />
 
@@ -182,10 +191,13 @@ export default async function ToolPage({
         />
       </div>
 
-      <p className="mt-4 flex items-start gap-2 text-[13px] leading-5 text-[var(--color-sub)]">
-        <Icon name="lock" size={15} className="mt-0.5 flex-none text-[var(--color-good)]" />
-        {t.tool.privacyNote}
-      </p>
+      {sources.length > 0 && <section className="mt-8 max-w-3xl rounded-xl border hairline p-4">
+        <h2 className="text-sm font-semibold">{trust.sources}</h2>
+        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {sources.map(source => <li key={source.url}><a className="underline underline-offset-4" href={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a></li>)}
+        </ul>
+        <p className="mt-3 text-[13px] leading-6 text-[var(--color-sub)]">{trust.limits}</p>
+      </section>}
 
       <section className="mt-12 max-w-3xl">
         <SectionHead title={t.tool.howTo} />
@@ -259,7 +271,7 @@ export default async function ToolPage({
       <div className="mt-10">
         <Pill tone="good">
           <Icon name="check" size={13} />
-          100% {locale === "zh" ? "本地处理" : locale === "ja" ? "ローカル処理" : "local processing"}
+          {processing.label}
         </Pill>
       </div>
     </Container>

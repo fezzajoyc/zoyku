@@ -88,7 +88,7 @@ const ko: Dictionary = {
     text: { name: "텍스트", desc: "입력하는 즉시 텍스트를 세고, 정리하고, 정렬하고, 변환합니다." },
     developer: { name: "개발", desc: "매일 쓰는 포매터, 인코더, 디코더, 생성기 모음." },
     seo: { name: "SEO", desc: "메타 태그, 스키마 마크업, SERP 미리보기 등 온페이지 SEO 도우미." },
-    security: { name: "보안", desc: "비밀번호, 해시, 조회 도구 — 기기에서 생성하고 확인합니다." },
+    security: { name: "보안", desc: "로컬 암호·보안 도구와 연결 방식을 명시한 도메인·IP 조회." },
     utility: { name: "생활", desc: "단위 변환기, 계산기 등 생활 속 도우미." },
   },
 

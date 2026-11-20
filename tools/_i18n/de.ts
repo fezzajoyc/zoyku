@@ -6215,9 +6215,9 @@ export const de: Record<string, ToolCopy> = {
     tagline:
       "Sehen, wie Ersparnisse mit Zinseszins wachsen — Einlage, monatliche Beiträge und Zinssatz eingeben und Endsaldo plus Tabelle Jahr für Jahr erhalten.",
     intro: [
-      "Zinseszins ist Zins auf Zins: Jede Periode erwirtschaftet das Guthaben einen Anteil des Jahreszinses, und jede Einlage, die Sie ergänzen, beginnt ebenfalls, eigenen Zins zu verdienen. Dieser Rechner führt diese Rekursion Perioden für Perioden durch — für eine Anfangseinlage plus regelmäßige monatliche Beiträge, bei monatlicher, quartalsweiser oder jährlicher Verzinsung.",
-      "Das Ergebnis ist das Endsaldo, die Summe Ihrer Einzahlungen und der Zins, den der Zinseszinseffekt erzeugte — plus eine Tabelle Jahr für Jahr, damit Sie genau sehen, wann die Kurve zu biegen beginnt. Alles rechnet live, und die benutzte Formel steht direkt unter den Zahlen, damit Sie sie mit der Projektion Ihrer Bank abgleichen können.",
-    ],
+  "Einzahlungen erfolgen jeden Monat am Monatsanfang, unabhängig von der Zinsfrequenz. Bei n Zinsperioden pro Jahr beträgt der äquivalente Monatsfaktor (1 + Jahreszins/n)^(n/12). Künftige Einzahlungen werden nicht vorgezogen. Der Nominalzins bleibt konstant; Gebühren und Steuern fehlen.",
+  "Nein. Es ist ein Szenario mit konstantem Zins. Reale Renditen, Gebühren und Steuern können abweichen."
+],
     steps: [
       "Geben Sie die Anfangseinlage und den monatlich ergänzten Betrag ein (0 für eine Einmalanlage).",
       "Setzen Sie den Jahreszinssatz, die Laufzeit in Jahren und wie oft verzinst wird.",
@@ -6225,45 +6225,16 @@ export const de: Record<string, ToolCopy> = {
       "Lesen Sie Endsaldo, Gesamteinzahlungen und Zinsertrag und prüfen Sie die Tabelle Jahr für Jahr.",
     ],
     faqs: [
-      {
-        q: "Welche Formel nutzt der Rechner?",
-        a: "Dieselbe Guthaben-Rekursion, mit der Banken Ersparnisse projizieren: pro Periode Guthaben ← (Guthaben + Beitrag) × (1 + r), wobei r = Jahreszins ÷ Perioden pro Jahr (12 monatlich, 4 quartalsweise, 1 jährlich). Beiträge werden zu Beginn jeder Periode eingezahlt und verzinsen sich ab dieser Periode. Beispiel: 10.000 Anfang, 100/Monat bei 5 % über 10 Jahre mit monatlicher Verzinsung ergibt ein Endsaldo von 32.063,02 — 22.000,00 eingezahlt und 10.063,02 Zins.",
-      },
-      {
-        q: "Warum erhalte ich auf anderen Rechnern leicht andere Ergebnisse?",
-        a: "Die Zeitpunkte der Konventionen unterscheiden sich. Manche Tools behandeln Beiträge als Periodenende-Einzahlungen (sie verzinsen sich in ihrer Ankunftsperiode nicht), manche nehmen tägliche Verzinsung an, manche runden jede Periode. Dieses Tool zahlt zu Periodenbeginn ein und rundet nie zwischendurch; eine 0,1-%-Differenz zu einer anderen Site ist meist diese Konvention, kein Fehler.",
-      },
-      {
-        q: "Enthält das Ergebnis Steuern, Gebühren oder Inflation?",
-        a: "Nein — das Ergebnis ist nominales Wachstum zum eingegebenen Satz. Zinssteuern, Kontogebühren und Inflation senken alle den realen Ertrag, behandeln Sie das Endsaldo also als Obergrenze dessen, was Sie tatsächlich behalten.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Warum die Verzinsungshäufigkeit das Ergebnis ändert",
-        paragraphs: [
-          "Die Verzinsungshäufigkeit entscheidet, wie oft verdiente Zinsen zur Summe stoßen und eigene verdienen. Der periodische Satz ist der Jahressatz geteilt durch die Zahl der Perioden, also nutzt monatliche Verzinsung bei 8 % 0,667 % pro Monat — und weil dieser Zins zwölf Mal pro Jahr gutgeschrieben wird statt einmal, kriecht der effektive Jahresertrag über 8 %. Täglich schlägt monatlich, monatlich quartalsweise, quartalsweise jährlich — stets in dieser Reihenfolge bei demselben Nominalsatz.",
-          "Was Menschen überrascht, ist, wie klein die Lücke bei Konsumentensätzen ist. Bei 5 % nominal ergibt jährliche Verzinsung 5,00 % und monatliche etwa 5,12 % — ein Zehntel Punkt, das erst über Jahrzehnte oder bei großen Guthaben zu echtem Geld wird. Das Marketing nutzt das: Eine Bank kann einen Nominalsatz quoten, der identisch wirkt wie der einer Konkurrentin, während ihre Verzinsungshäufigkeit stillschweigend den Unterschied macht.",
-          "Die Häufigkeit ändert die Antwort nur, wenn der Nominalsatz das ist, was Sie vergleichen. Sobald alles in einen effektiven Jahresertrag umgerechnet ist, ist die Häufigkeit bereits eingefaltet, und zwei Konten mit demselben Effektivzins sind wirklich gleichwertig — genau deshalb existiert der APY-Rechner auf dieser Site neben diesem.",
-        ],
-      },
-      {
-        heading: "Der Schnittpunkt — und warum die Zeit den Satz beherrscht",
-        paragraphs: [
-          "Die Jahr-für-Jahr-Tabelle existiert, um einen bestimmten Moment zu zeigen: den Schnittpunkt, an dem die in einem Jahr verdienten Zinsen Ihre eigenen Beiträge überholen. Bei moderaten Sätzen dauert das Jahrzehnte — weshalb Zinseszins in den ersten zehn Jahren unscheinbar wirkt und nach dreißig absurd. Die Kurve ist flach, dann biegt sie — und fast jeder unterschätzt, wie spät die Biegung ankommt.",
-          "Deshalb zählt der Startbetrag mehr, als der Optimierer-Instinkt vermuten lässt. Ein Zusatzpunkt Satz ist linear; ein Zusatzjahrzehnt Zinseszins ist exponentiell. Zwischen zehn Jahre früher bei bescheidenem Satz zu starten und heute bei einem Punkt höherem Satz gewinnt der frühere Start meist mit unbequemer Marge — die Tabelle lässt Sie diese Behauptung auf eigenen Zahlen prüfen, statt sie zu glauben.",
-          "Zwei ehrliche Vorbehalte: Das Werkzeug legt Beiträge zu Beginn jeder Periode an, was die optimistische Konvention ist, und es nimmt an, dass der Satz sich nie ändert — was keine echte Anlage einhält. Die Ausgabe ist ein Szenario, keine Prognose; besonders das Schnittpunkt-Jahr sollte als „ungefähr wann“ gelesen werden, nicht als Datum zum Einkreisen.",
-        ],
-      },
-      {
-        heading: "Nominelles Wachstum, reale Kaufkraft",
-        paragraphs: [
-          "Alles, was der Rechner zeigt, ist nominal: Der Satz, den Sie tippten, angewandt auf das Guthaben, das Sie tippten — ohne Steuer, ohne Gebühr, ohne Inflation. Jede dieser Kräfte schneidet von einer anderen Seite: Steuern auf Zinsen senken den gutgeschriebenen Satz, Kontogebühren subtrahieren feste Beträge, und die Inflation schrumpft stillschweigend, was das Schlussguthaben kauft. Die Zahl auf dem Bildschirm ist eine Obergrenze dessen, was Sie tatsächlich behielten.",
-          "Eine nützliche Verstandesübung: Vor der Eingabe die erwartete Jahresinflation vom Satz abziehen. Eine 5%-Rendite nominal mit 2,5 % Inflation verzinst sich genauso, erzählt aber eine viel ehrlichere Geschichte über die künftige Kaufkraft des Guthabens. Die Mathematik ist identisch; nur die Deutung ändert sich.",
-          "Und wie bei jedem Werkzeug hier läuft die Projektion vollständig in Ihrem Browser: Guthaben, Sätze und Beitragsbeträge verlassen Ihr Gerät nie, also lässt sich gefahrlos modellieren, was Sie nicht in ein Formular einfügen würden, das Daten an einen Server sendet.",
-        ],
-      },
-    ],
+  {
+    "q": "Wie werden Einzahlungen und Zinsen berechnet?",
+    "a": "Einzahlungen erfolgen jeden Monat am Monatsanfang, unabhängig von der Zinsfrequenz. Bei n Zinsperioden pro Jahr beträgt der äquivalente Monatsfaktor (1 + Jahreszins/n)^(n/12). Künftige Einzahlungen werden nicht vorgezogen. Der Nominalzins bleibt konstant; Gebühren und Steuern fehlen."
+  },
+  {
+    "q": "Ist dies eine garantierte Prognose?",
+    "a": "Nein. Es ist ein Szenario mit konstantem Zins. Reale Renditen, Gebühren und Steuern können abweichen."
+  }
+],
+    deepDive: [],
   },
   "currency-converter": {
     name: "Währungsrechner",
@@ -8211,9 +8182,8 @@ export const de: Record<string, ToolCopy> = {
     tagline:
       "Berechnen Sie Ihren Grundumsatz mit der Mifflin-St-Jeor-Gleichung (1990) — die Kalorien, die Ihr Körper bei voller Ruhe täglich verbrennt.",
     intro: [
-      "Ihr Grundumsatz (BMR) ist die Energie, die Ihr Körper allein zum Leben braucht — Atmung, Blutkreislauf, Wärme —, noch vor jeder Bewegung oder Verdauung. Dieser Rechner nutzt die Mifflin-St-Jeor-Gleichung, veröffentlicht 1990 und bis heute die genaueste breit genutzte Vorhersageformel für moderne Bevölkerungen: Männer 10 × Gewicht (kg) + 6,25 × Größe (cm) − 5 × Alter + 5; Frauen derselbe Ausdruck minus 161.",
-      "Geben Sie Ihre Daten in metrischen oder imperialen Einheiten ein, das Ergebnis aktualisiert sich beim Tippen. Behandeln Sie die Zahl als Schätzung auf Populationsebene — typischerweise innerhalb von etwa ±10 % einer Labormessung —, nicht als medizinische Diagnose.",
-    ],
+  "Nur für Erwachsene ab 18, nicht während Schwangerschaft oder Stillzeit. Ziele unter 1.000 kcal/Tag werden nicht ausgegeben. Ein fehlendes Ziel erfordert fachlichen Rat, keine weitere Einschränkung."
+],
     steps: [
       "Wählen Sie Ihr Geschlecht sowie metrische (cm + kg) oder imperiale (ft + in + lb) Einheiten.",
       "Geben Sie Größe, Gewicht und Alter ein.",
@@ -8221,54 +8191,24 @@ export const de: Record<string, ToolCopy> = {
       "Speisen Sie ihn in den Kalorienrechner ein, für Erhaltungs- und Zielwerte.",
     ],
     faqs: [
-      {
-        q: "Welche Formel wird genutzt, und wie genau ist sie?",
-        a: "Die Mifflin-St-Jeor-Gleichung, 1990 veröffentlicht und von der American Dietetic Association nach Validierung gegen indirekte Kalorimetrie empfohlen. Sie sagt die gemessene Ruheenergie für die meisten Erwachsenen auf etwa ±10 % voraus — genauer als die ältere Harris-Benedict-Gleichung (1919).",
-      },
-      {
-        q: "Was ist der Unterschied zwischen BMR und täglichem Kalorienbedarf?",
-        a: "Der BMR deckt nur volle Ruhe. Ihr echter Tagesverbrauch ist der BMR mal einem Aktivitätsfaktor — etwa 1,2 für einen sitzenden Tag bis 1,9 für sehr aktive Menschen. Der Kalorienrechner wendet diesen Multiplikator und Ihr Ziel für Sie an.",
-      },
-      {
-        q: "Ist das medizinischer Rat?",
-        a: "Nein — das ist eine Schätzung, kein medizinischer Rat. Krankheit, Medikamente, Schwangerschaft und ungewöhnliche Körperzusammensetzungen verschieben den realen Energieverbrauch; besprechen Sie jede Ernährungsänderung mit einer Fachkraft.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Mifflin-St Jeor gegen die älteren Gleichungen",
-        paragraphs: [
-          "Dieses Werkzeug nutzt die Mifflin-St-Jeor-Gleichung, veröffentlicht 1990: für Männer 10 × Gewicht (kg) + 6,25 × Größe (cm) − 5 × Alter + 5, für Frauen denselben Ausdruck minus 161 statt der +5. Sie wurde an gemessenem Ruheenergieverbrauch angepasst und gegen indirekte Kalorimetrie validiert, den Labor-Goldstandard, der den Sauerstoffverbrauch direkt misst.",
-          "Die Alternative, der Sie am häufigsten begegnen, ist Harris-Benedict, ursprünglich 1919 veröffentlicht und 1984 überarbeitet. Ein breit zitierter Vergleich der American Dietetic Association von 2005 fand Mifflin-St Jeor für moderne Populationen genauer — weshalb dieser Rechner darauf standardisiert. Eine dritte Option, Katch-McArdle, nutzt fettfreie Masse statt Gewicht und kann schärfer sein für Menschen, die ihren Körperfettanteil kennen — aber sie verlangt eine Zahl, die die meisten nicht haben.",
-          "Der praktische Schluss: Die Unterschiede zwischen diesen Gleichungen liegen typischerweise bei Zehnerpotenzen von Kilokalorien — kleiner als die tagtägliche Schwankung Ihres eigenen Verbrauchs. Weichen zwei Rechner leicht ab, ist die Formelwahl meist der Grund, und keine ist falsch.",
-        ],
-      },
-      {
-        heading: "Die Zahl lesen: BMR ist nicht Ihr Tagesverbrauch",
-        paragraphs: [
-          "BMR ist der Boden, nicht das Budget. Er deckt Atmung, Kreislauf, Zellreparatur und Temperaturregulation bei vollständiger Ruhe — grob 60–70 % dessen, was die meisten sitzend lebenden Erwachsenen an einem Tag verbrennen. Ihr echter Gesamt-Tagesenergieverbrauch (TDEE) ist BMR multipliziert mit einem Aktivitätsfaktor, von etwa 1,2 für einen Schreibtischtag bis rund 1,9 für schwere körperliche Arbeit oder tägliches hartes Training.",
-          "Diese Multiplikation zählt mehr als die Formel selbst. Zwei Menschen mit identischem BMR können allein durch Lebensweise 800+ kcal pro Tag auseinander verbrennen. Dieser Rechner meldet bewusst nur BMR; der Kalorienrechner auf dieser Site geht den nächsten Schritt und wendet Aktivitätsfaktor und Ziel für Sie an.",
-          "Ein nützlicher Verstandescheck: BMR skaliert hauptsächlich mit Gewicht, Größe und Alter, also die Einheiten nachprüfen, wenn das Ergebnis nach einer kleinen Eingabeänderung scharf springt — kg gegen lb ist der klassische Vermischer.",
-        ],
-      },
-      {
-        heading: "Häufige Fehler und ehrliche Grenzen",
-        paragraphs: [
-          "Jede prädiktive Gleichung trägt individuellen Fehler. Mifflin-St Jeor landet für die meisten Erwachsenen innerhalb grob ±10 % der Labormessung, aber Einzelpersonen mit sehr hoher oder niedriger Muskelmasse, Schilddrüsenzuständen oder bestimmten Medikamenten können weit außerhalb dieses Bands liegen. Behandeln Sie die Ausgabe als Planungsstartpunkt, keine physiologische Tatsache.",
-          "Nutzen Sie BMR nicht, um darunter zu essen zu rechtfertigen. Der Ruheumsatz ist bereits von dem fettfreien Gewebe gedeckt, das Sie am Leben hält; aggressive Defizite unter BMR sind eine Entscheidung für eine medizinische Fachkraft, nicht für einen Rechner. Ebenso heißt metabolische Anpassung: Die Zahl, die Sie bei 90 kg berechneten, hört bei 80 kg auf, akkurat zu sein — neu berechnen, wenn sich Ihr Gewicht ändert.",
-          "Wie alles auf dieser Site läuft die Berechnung vollständig in Ihrem Browser: Keine Eingaben werden irgendwohin gesendet, also kein Grund zu zögern, echte Zahlen einzugeben.",
-        ],
-      },
-    ],
+  {
+    "q": "Für wen gilt diese Schätzung?",
+    "a": "Nur für Erwachsene ab 18, nicht während Schwangerschaft oder Stillzeit. Ziele unter 1.000 kcal/Tag werden nicht ausgegeben. Ein fehlendes Ziel erfordert fachlichen Rat, keine weitere Einschränkung."
+  },
+  {
+    "q": "Wie genau ist die Schätzung?",
+    "a": "Eine Bevölkerungsschätzung, keine Verordnung. Klären Sie Ihren Bedarf mit Fachpersonal."
+  }
+],
+    deepDive: [],
   },
   "calorie-calculator": {
     name: "Kalorienrechner",
     tagline:
       "Machen Sie aus Ihrem BMR tägliche Kalorienziele: fünf Aktivitätslevel (×1,2–1,9) plus Ziele zum Abnehmen, Halten oder Zunehmen von etwa ±500 kcal pro Tag.",
     intro: [
-      "Der tägliche Energiebedarf ist Ihr BMR mal einem Aktivitätsfaktor: 1,2 sitzend, 1,375 leicht aktiv, 1,55 mäßig aktiv, 1,725 sehr aktiv und 1,9 extra aktiv. Dieses Produkt — der Gesamtumsatz (TDEE) — ist es, was Ihr aktuelles Gewicht hält. Der BMR selbst stammt aus der Mifflin-St-Jeor-Gleichung (1990).",
-      "Wählen Sie ein Ziel, und das Tool passt den Erhaltungswert an: etwa −500 kcal/Tag, um rund 0,5 kg pro Woche abzunehmen, +500 kcal/Tag zum Zunehmen, oder keine Änderung zum Halten. Die ±500-kcal-Heuristik folgt daraus, dass 1 kg Körperfett ≈ 7.700 kcal speichert. Alles hier ist eine Schätzung — der echte Stoffwechsel passt sich an, wenn sich Gewicht und Gewohnheiten ändern.",
-    ],
+  "Nur für Erwachsene ab 18, nicht während Schwangerschaft oder Stillzeit. Ziele unter 1.000 kcal/Tag werden nicht ausgegeben. Ein fehlendes Ziel erfordert fachlichen Rat, keine weitere Einschränkung."
+],
     steps: [
       "Wählen Sie Geschlecht und Einheiten und geben Sie Größe, Gewicht und Alter ein.",
       "Wählen Sie das Aktivitätslevel, das einer typischen Woche entspricht.",
@@ -8276,45 +8216,16 @@ export const de: Record<string, ToolCopy> = {
       "Lesen Sie den Erhaltungswert (TDEE) und Ihre Zielkalorien pro Tag.",
     ],
     faqs: [
-      {
-        q: "Welche Formel und Faktoren werden genutzt?",
-        a: "BMR aus der Mifflin-St-Jeor-Gleichung (1990), multipliziert mit den Standard-TDEE-Aktivitätsfaktoren: 1,2 sitzend, 1,375 leicht aktiv, 1,55 mäßig aktiv, 1,725 sehr aktiv, 1,9 extra aktiv. Ziele addieren oder subtrahieren etwa 500 kcal/Tag, die klassische Heuristik für eine wöchentliche Änderung von 0,5 kg (1 kg Fett ≈ 7.700 kcal).",
-      },
-      {
-        q: "Ist ein Defizit von 500 kcal sicher, und wann zeigen sich Ergebnisse?",
-        a: "Etwa −500 kcal/Tag für eine Änderung von ≈0,5 kg/Woche gelten in den meisten Public-Health-Leitlinien als moderat und tragfähig. Früher Verlust ist zum Teil Wasser, und der Verbrauch sinkt, je leichter Sie werden — wöchentliche Ergebnisse verlaufen also nicht linear; rechnen Sie alle paar Kilo neu.",
-      },
-      {
-        q: "Ist das medizinischer Rat?",
-        a: "Nein — das ist eine Schätzung, kein medizinischer Rat. Wenn Sie schwanger sind, eine chronische Erkrankung managen, Medikamente nehmen oder eine Vorgeschichte mit Essstörungen haben, legen Sie Ziele mit einer Fachkraft fest.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Wie die Erhaltungszahl gebaut wird",
-        paragraphs: [
-          "Die Berechnung ist eine Zweischritt-Kette. Zuerst stammt der BMR aus der Mifflin-St-Jeor-Gleichung (1990): Männer 10 × Gewicht (kg) + 6,25 × Größe (cm) − 5 × Alter + 5, Frauen denselben Ausdruck minus 161. Zweitens wird dieser BMR mit einem von fünf üblichen Aktivitätsfaktoren multipliziert: 1,2 sitzend, 1,375 leicht aktiv, 1,55 mäßig aktiv, 1,725 sehr aktiv, 1,9 extra aktiv.",
-          "Die fünf Faktoren gehen auf die Harris-Benedict-Tradition zurück und haben überlebt, weil sie sauber darauf mappen, wie Menschen tatsächlich leben: Workouts allein definieren Aktivität nicht — eine Bauarbeiterin ohne Fitnessstudio-Zeit landet höher als eine Büroangestellte mit drei Einheiten pro Woche.",
-          "Zieljustagen wenden dann die klassische Heuristik an: 1 kg Körperfett speichert grob 7.700 kcal, also entspricht etwa ±500 kcal pro Tag grob 0,5 kg Wöchentliche Änderung. Der Rechner subtrahiert 500 zum Abnehmen, addiert 500 zum Zunehmen und lässt die Erhaltung unangetastet.",
-        ],
-      },
-      {
-        heading: "Das Ziel deuten: erwarten Sie eine Kurve, keine Linie",
-        paragraphs: [
-          "Früher Gewichtsverlust übertrifft stets die Mathematik: Die erste Woche oder zwei fällt größtenteils Wasser und Glykogen, nicht Fett. Danach verlangsamen sich Ergebnisse, weil Ihr Verbrauch sinkt, je leichter Sie werden — eine Person, die 90 kg wog, verbrennt bei 82 kg weniger, also produziert das Defizit, das im ersten Monat ein halbes Kilo pro Woche brachte, im dritten oft ein Drittel davon.",
-          "Der praktische Workflow ist, das Ziel als Hypothese zu behandeln: unter konstanten Bedingungen wiegen, gegen einen zweiwöchigen rollenden Durchschnitt vergleichen statt gegen tägliches Rauschen, und um 100–200 kcal justieren, wenn der Trend mehrere Wochen stockt.",
-          "Nach jedem paar Kilo Änderung neu berechnen, und daran denken, dass dieselbe Erhaltungszahl sehr verschiedene Ausgänge trägt, je nachdem, was Sie essen — Protein, Ballaststoffe und Essens-Timing ändern die Kalorienmathematik nicht, aber sie ändern, wie lebbar sich das Defizit anfühlt.",
-        ],
-      },
-      {
-        heading: "Häufige Fehler",
-        paragraphs: [
-          "Der häufigste Fehler ist, das Aktivitätsniveau aufzublähen. Menschen zählen ein Workout als „mäßig aktiv“ und sitzen dann auch noch zehn Stunden am Tag; trainieren Sie 3–5 Mal pro Woche, aber arbeiten Sie am Schreibtisch, ist 1,55 meist schon großzügig. Im Zweifel den niedrigeren Faktor wählen und an gemessenen Ergebnissen justieren.",
-          "Stapeln Sie die ±500-Justage nicht über Vernunft hinaus. Defizite weit unter BMR oder Zuwächse von +1.000 kcal pro Tag produzieren meist Erschöpfung beziehungsweise Fettzuwachs; nachhaltige Raten für die meisten Erwachsenen liegen in beide Richtungen bei 0,25–0,75 kg pro Woche. Wer schwanger ist, eine chronische Erkrankung managt oder eine Geschichte gestörten Essens hat, sollte Ziele mit einer Klinikfachkraft setzen.",
-          "Behandeln Sie zuletzt jede Ausgabe hier als Populationsdurchschnitts-Schätzung: Der echte Stoffwechsel variiert zwischen Einzelpersonen um grob ±10 %, und nur Ihr eigener gemessener Trend über Wochen entscheidet die Frage.",
-        ],
-      },
-    ],
+  {
+    "q": "Für wen gilt diese Schätzung?",
+    "a": "Nur für Erwachsene ab 18, nicht während Schwangerschaft oder Stillzeit. Ziele unter 1.000 kcal/Tag werden nicht ausgegeben. Ein fehlendes Ziel erfordert fachlichen Rat, keine weitere Einschränkung."
+  },
+  {
+    "q": "Wie genau ist die Schätzung?",
+    "a": "Eine Bevölkerungsschätzung, keine Verordnung. Klären Sie Ihren Bedarf mit Fachpersonal."
+  }
+],
+    deepDive: [],
   },
   "body-fat-calculator": {
     name: "Körperfett-Rechner",

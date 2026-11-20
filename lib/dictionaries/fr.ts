@@ -88,7 +88,7 @@ const fr: Dictionary = {
     text: { name: "Texte", desc: "Comptez, nettoyez, triez et transformez du texte instantanément, pendant la saisie." },
     developer: { name: "Développement", desc: "Formateurs, encodeurs, décodeurs et générateurs pour le quotidien du développeur." },
     seo: { name: "SEO", desc: "Balises meta, données structurées, aperçu SERP et autres assistants de référencement." },
-    security: { name: "Sécurité", desc: "Mots de passe, empreintes et vérifications — générés et contrôlés sur votre appareil." },
+    security: { name: "Sécurité", desc: "Mots de passe et vérifications locales, avec recherches de domaines et IP clairement expliquées." },
     utility: { name: "Utilitaires", desc: "Convertisseurs d'unités, calculatrices et assistants du quotidien." },
   },
 

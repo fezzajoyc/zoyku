@@ -6,7 +6,7 @@ import {
 } from "../tools/_lib/finance";
 import { gpaFromCourses } from "../tools/_lib/grade";
 import {
-  bmr, idealWeightRange, navyBodyFat, tdee, waterIntake,
+  bmr, idealWeightRange, navyBodyFat, tdee, waterIntake, HEALTH_LIMITS,
 } from "../tools/_lib/health";
 import { hrZones, maxHeartRate } from "../tools/_lib/heart-rate";
 import { shoeConvert } from "../tools/_lib/shoe-size";
@@ -98,7 +98,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "compound_interest",
     title: "Compound interest",
-    description: "Compound interest calculator: future value of a lump sum or savings plan with regular contributions (annuity-due: contribution at period start). Returns total, contributed, interest and a year-by-year schedule.",
+    description: "Compound interest calculator: future value of a lump sum or savings plan with deposits at the start of every month regardless of compounding frequency. Monthly growth uses (1 + nominal annual rate / n)^(n/12); no future deposits are prepaid. Returns total, contributed, interest and a year-by-year schedule.",
     schema: {
       principal: z.number().min(0),
       monthly_contribution: z.number().min(0).describe("monthly deposit"),
@@ -159,27 +159,36 @@ export const MCP_TOOLS: McpToolDef[] = [
   {
     name: "bmr",
     title: "Basal metabolic rate",
-    description: "BMR (basal metabolic rate) calculator via the Mifflin-St Jeor equation (1990). Estimate only — not medical advice. Metric units.",
+    description: "BMR (basal metabolic rate) calculator via the Mifflin-St Jeor equation (1990). Estimate only — not medical advice. Metric units. Adults18+ only; not for pregnancy or breastfeeding.",
     schema: {
-      weight_kg: z.number().positive(),
-      height_cm: z.number().positive(),
-      age: z.number().positive(),
+      weight_kg: z.number().min(HEALTH_LIMITS.minWeightKg).max(HEALTH_LIMITS.maxWeightKg),
+      height_cm: z.number().min(HEALTH_LIMITS.minHeightCm).max(HEALTH_LIMITS.maxHeightCm),
+      age: z.number().min(18).max(130).describe("adult age, 18–130 years"),
       sex: z.enum(["male", "female"]),
     },
-    run: (a) => text(num(bmr(a.weight_kg, a.height_cm, a.age, a.sex)) + " kcal/day (Mifflin-St Jeor estimate)"),
+    run: (a) => {
+      const result = bmr(a.weight_kg, a.height_cm, a.age, a.sex);
+      if (!Number.isFinite(result) || result <= 0) return { content: [{ type: "text", text: "Invalid adult energy estimate; check the stated measurement limits." }], isError: true };
+      return text(num(result) + " kcal/day (Mifflin-St Jeor adult estimate)");
+    },
   },
   {
     name: "tdee",
     title: "Daily calorie needs (TDEE)",
     description: "TDEE calculator (daily calorie needs): total daily energy expenditure = BMR (Mifflin-St Jeor) × activity factor (sedentary 1.2 … very active 1.9). Estimate only — not medical advice.",
     schema: {
-      weight_kg: z.number().positive(),
-      height_cm: z.number().positive(),
-      age: z.number().positive(),
+      weight_kg: z.number().min(HEALTH_LIMITS.minWeightKg).max(HEALTH_LIMITS.maxWeightKg),
+      height_cm: z.number().min(HEALTH_LIMITS.minHeightCm).max(HEALTH_LIMITS.maxHeightCm),
+      age: z.number().min(18).max(130).describe("adult age, 18–130 years"),
       sex: z.enum(["male", "female"]),
       activity: z.enum(["sedentary", "light", "moderate", "active", "very_active"]),
     },
-    run: (a) => text(num(tdee(bmr(a.weight_kg, a.height_cm, a.age, a.sex), a.activity)) + " kcal/day"),
+    run: (a) => {
+      const activity = { sedentary: "sedentary", light: "lightlyActive", moderate: "moderatelyActive", active: "veryActive", very_active: "extraActive" } as const;
+      const result = tdee(bmr(a.weight_kg, a.height_cm, a.age, a.sex), activity[a.activity as keyof typeof activity]);
+      if (!Number.isFinite(result) || result <= 0) return { content: [{ type: "text", text: "Invalid adult energy estimate; check the stated measurement limits." }], isError: true };
+      return text(num(result) + " kcal/day (adult estimate)");
+    },
   },
   {
     name: "body_fat_navy",

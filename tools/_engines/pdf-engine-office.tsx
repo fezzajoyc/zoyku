@@ -4,20 +4,11 @@ import { useCallback, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { CopyButton, DropZone, downloadBlob, formatBytes } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
-import { SHARED, Err, Ghost, Label, Primary, Progress, baseName, canvasToBlob, loadPdf, renderPageToCanvas, toPdfBlob, tr, type L } from "./pdf-ui";
-import { escapeXml, itemsToLines, linesToParagraphs, lineToCells, sanitizeWinAnsi, type TextLine } from "./pdf-text";
+import { OFFICE_UI as UI } from "./pdf-locales";
+import { SHARED, Err, Ghost, Label, Primary, Progress, baseName, loadPdf, renderPageToCanvas, toPdfBlob, tr } from "./pdf-ui";
+import { escapeXml, itemsToLines, linesToParagraphs, lineToCells, type TextLine } from "./pdf-text";
 
 export type OfficeTarget = "text" | "docx" | "xlsx" | "pptx" | "fromdocx";
-
-const UI: Record<string, L> = {
-  text: { en: "Extract text", zh: "提取文本", ja: "テキストを抽出", es: "Extraer texto", pt: "Extrair texto" },
-  docx: { en: "Convert to Word", zh: "转换为 Word", ja: "Word に変換", es: "Convertir a Word", pt: "Converter para Word" },
-  xlsx: { en: "Convert to Excel", zh: "转换为 Excel", ja: "Excel に変換", es: "Convertir a Excel", pt: "Converter para Excel" },
-  pptx: { en: "Convert to PowerPoint", zh: "转换为 PowerPoint", ja: "PowerPoint に変換", es: "Convertir a PowerPoint", pt: "Converter para PowerPoint" },
-  fromdocx: { en: "Convert to PDF", zh: "转换为 PDF", ja: "PDF に変換", es: "Convertir a PDF", pt: "Converter para PDF" },
-  empty: { en: "No text found in this PDF.", zh: "该 PDF 中没有找到文本。", ja: "この PDF にテキストが見つかりません。", es: "No se encontró texto en este PDF.", pt: "Nenhum texto encontrado neste PDF." },
-  words: { en: "words", zh: "字", ja: "語", es: "palabras", pt: "palavras" },
-};
 
 /* ------------------------------------------------------------------ */
 /* Text extraction from PDF (pdf.js)                                   */
@@ -124,6 +115,15 @@ async function typesetBlocksToPdf(blocks: Block[]): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const body = await doc.embedFont(StandardFonts.Helvetica);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+  // Validate every paragraph before laying out any pages. Silently replacing
+  // unsupported scripts with '?' would turn a successful download into data loss.
+  for (const block of blocks) {
+    try {
+      (block.bold ? bold : body).encodeText(block.text);
+    } catch {
+      throw new Error("unsupportedText");
+    }
+  }
   const W = 595.28;
   const H = 841.89;
   const M = 57;
@@ -143,7 +143,7 @@ async function typesetBlocksToPdf(blocks: Block[]): Promise<Uint8Array> {
       page = doc.addPage([W, H]);
       y = H - M;
     }
-    for (const line of wrapText(sanitizeWinAnsi(b.text), font, size, maxWidth)) {
+    for (const line of wrapText(b.text, font, size, maxWidth)) {
       if (y - lh < M) {
         page = doc.addPage([W, H]);
         y = H - M;
@@ -314,6 +314,7 @@ export function PdfOfficeEngine({ target }: { target: OfficeTarget }) {
     } catch (e) {
       const msg = e instanceof Error ? e.message : "";
       if (msg === "empty") setErr(tr(UI.empty, locale));
+      else if (msg === "unsupportedText") setErr(tr(UI.unsupportedText, locale));
       else if (msg === "nodocx") setErr(tr(SHARED.failed, locale));
       else setErr(tr(SHARED.failed, locale));
     } finally {
@@ -326,6 +327,11 @@ export function PdfOfficeEngine({ target }: { target: OfficeTarget }) {
 
   return (
     <ToolPanel>
+      {target === "fromdocx" && (
+        <p className="mb-3 rounded-xl bg-[var(--color-surface)] px-3.5 py-3 text-[13.5px] leading-5 text-[var(--color-sub)]">
+          {tr(UI.wordLimit, locale)}
+        </p>
+      )}
       {!file ? (
         <div>
           <DropZone onFiles={pick} accept={accept} multiple={false}>

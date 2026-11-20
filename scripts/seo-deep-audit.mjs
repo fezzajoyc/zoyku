@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { readJsonLd, hasSchemaType } from "./schema-utils.mjs";
+import { createPoliteFetcher, sitemapUrls } from "./seo-audit.mjs";
 /**
  * 深度 SEO 审计(参考 ghb-next 的分层抽样 + 分级报告,适配 Zoyku):
  *
@@ -35,7 +37,7 @@ export function expectedHref(lang, samplePath) {
   return `/${lang === "x-default" ? "en" : lang}${pathNoLang}`;
 }
 
-/** 分层样本。kind 决定附加检查(tool 页额外查 og:image/FAQPage)。 */
+/** 分层样本。kind 决定附加检查(tool 页额外查 og:image/WebApplication)。 */
 export function samples() {
   const out = [];
   for (const l of ["en", "zh", "ja", "es", "pt", "ar"]) out.push({ kind: "home", path: `/${l}` });
@@ -65,7 +67,7 @@ const INFRA = [
   { kind: "mcp", path: "/mcp", mustContain: "tools" },
 ];
 
-export function checkPage(sample, r, locales = LOCALES) {
+export function checkPage(sample, r, locales = LOCALES, canonicalOrigin = new URL(BASE).origin) {
   const issues = [];
   const url = `${BASE}${sample.path}`;
 
@@ -108,7 +110,7 @@ export function checkPage(sample, r, locales = LOCALES) {
 
   // canonical 必须等于期望值
   const canonical = html.match(/rel="canonical" href="([^"]+)"/)?.[1];
-  const wantCanonical = `${new URL(BASE).origin}${sample.path}`;
+  const wantCanonical = `${canonicalOrigin}${sample.path}`;
   if (!canonical) issues.push({ url, type: "missing-canonical", sev: "P1", detail: "" });
   else if (canonical !== wantCanonical) {
     issues.push({ url, type: "canonical-mismatch", sev: "P1", detail: `${canonical} want ${wantCanonical}` });
@@ -132,24 +134,15 @@ export function checkPage(sample, r, locales = LOCALES) {
     }
   }
 
-  // JSON-LD:每块可解析、是对象、带 @type
-  for (const m of html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)) {
-    try {
-      const parsed = JSON.parse(m[1]);
-      const nodes = Array.isArray(parsed) ? parsed : [parsed];
-      const bad = nodes.some((n) => typeof n !== "object" || n === null || Array.isArray(n) || !n["@type"]);
-      if (bad) {
-        issues.push({ url, type: "ld+json-invalid", sev: "P1", detail: "missing @type or not an object" });
-      }
-    } catch (e) {
-      issues.push({ url, type: "ld+json-unparsable", sev: "P0", detail: String(e).slice(0, 80) });
-    }
+  const schema = readJsonLd(html);
+  for (const error of schema.errors) {
+    issues.push({ url, type: error.kind === "parse" ? "ld+json-unparsable" : "ld+json-invalid", sev: error.kind === "parse" ? "P0" : "P1", detail: error.message });
   }
 
-  // 工具页附加:og:image 与 FAQPage 必须在场
+  // 工具页附加:og:image 与 WebApplication 必须在场
   if (sample.kind === "tool") {
     if (!/og:image/.test(html)) issues.push({ url, type: "missing-og-image", sev: "P1", detail: "" });
-    if (!/FAQPage/.test(html)) issues.push({ url, type: "missing-faq-schema", sev: "P1", detail: "" });
+    if (!hasSchemaType(schema.nodes, "WebApplication")) issues.push({ url, type: "missing-application-schema", sev: "P1", detail: "" });
   }
   // 工具 .md 答案页:应为纯文本 markdown
   if (sample.kind === "tool-md" && !/^#/.test((r.body ?? "").trim())) {
@@ -158,10 +151,12 @@ export function checkPage(sample, r, locales = LOCALES) {
   return issues;
 }
 
+const fetchPolitely = createPoliteFetcher();
+
 async function fetchOne(path) {
   const started = Date.now();
   try {
-    const res = await fetch(`${BASE}${path}`, { redirect: "manual", signal: AbortSignal.timeout(20_000) });
+    const res = await fetchPolitely(`${BASE}${path}`, { redirect: "manual" });
     const body = res.status === 200 ? await res.text() : "";
     return { status: res.status, body, ms: Date.now() - started };
   } catch (e) {
@@ -174,22 +169,22 @@ const SEV_RANK = { P0: 0, P1: 1, P2: 2 };
 async function main() {
   const pages = samples();
   const issues = [];
-
-  // 页面抽样,低并发
-  const queue = [...pages];
-  const CONCURRENCY = 6;
-  async function worker() {
-    while (queue.length) {
-      const sample = queue.shift();
-      const r = await fetchOne(sample.path);
-      issues.push(...checkPage(sample, r));
-    }
+  const sitemapResponse = await fetchOne("/sitemap.xml");
+  let canonicalOrigin = new URL(BASE).origin;
+  if (sitemapResponse.status === 200) {
+    try { canonicalOrigin = new URL(sitemapUrls(sitemapResponse.body)[0]).origin; }
+    catch (error) { issues.push({ url: `${BASE}/sitemap.xml`, type: "sitemap-invalid", sev: "P0", detail: error.message }); }
   }
-  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+
+  // Sequential requests share the same polite gate as the sitemap audit.
+  for (const sample of pages) {
+    const response = await fetchOne(sample.path);
+    issues.push(...checkPage(sample, response, LOCALES, canonicalOrigin));
+  }
 
   // 基础设施端点
   for (const item of INFRA) {
-    const r = await fetchOne(item.path);
+    const r = item.path === "/sitemap.xml" ? sitemapResponse : await fetchOne(item.path);
     if (r.error || r.status !== 200) {
       issues.push({ url: `${BASE}${item.path}`, type: "infra-unreachable", sev: "P0", detail: r.error || `status ${r.status}` });
     } else if (item.mustContain && !r.body.includes(item.mustContain)) {
@@ -217,8 +212,10 @@ async function main() {
 
   const report = {
     base: BASE,
+    canonicalOrigin,
     generatedAt: new Date().toISOString(),
     sampleCount: pages.length + INFRA.length,
+    http: { ...fetchPolitely.stats },
     issueCount: issues.length,
     bySeverity,
     issues,

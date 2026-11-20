@@ -6224,9 +6224,9 @@ export const vi: Record<string, ToolCopy> = {
     tagline:
       "Xem tiền tiết kiệm lớn lên thế nào với lãi kép — nhập khoản gửi, đóng góp hằng tháng và lãi suất để nhận số dư cuối cùng và bảng từng năm.",
     intro: [
-      "Lãi kép là lãi trên lãi: mỗi kỳ, số dư hưởng một phần lãi suất năm, và mỗi khoản bạn thêm vào bắt đầu hưởng lãi riêng của nó. Máy tính chạy phép cộng dồn này từng kỳ cho khoản gửi ban đầu cộng đóng góp đều hằng tháng, với kỳ ghép theo tháng, quý hay năm.",
-      "Kết quả là số dư cuối cùng, tổng tiền bạn đã bỏ vào, và phần lãi mà lãi kép sinh ra — cộng bảng từng năm để bạn thấy chính xác khi nào đường cong bắt đầu dốc lên. Mọi thứ tính lại trực tiếp, và công thức được in ngay dưới các con số để bạn đối chiếu với dự phóng của ngân hàng.",
-    ],
+  "Tiền góp được thêm đầu mỗi tháng bất kể tần suất ghép lãi. Với n kỳ mỗi năm, hệ số tháng tương đương là (1 + lãi suất năm/n)^(n/12). Không đưa tiền góp tương lai về trước. Lãi danh nghĩa cố định, chưa gồm phí và thuế.",
+  "Không. Đây là kịch bản lãi cố định; lợi nhuận thực, phí và thuế có thể thay đổi kết quả."
+],
     steps: [
       "Nhập khoản gửi ban đầu và số tiền thêm mỗi tháng (0 nếu gửi một lần).",
       "Đặt lãi suất năm, số năm và tần suất ghép lãi.",
@@ -6234,45 +6234,16 @@ export const vi: Record<string, ToolCopy> = {
       "Đọc số dư cuối, tổng đóng góp và lãi kiếm được, rồi xem bảng từng năm.",
     ],
     faqs: [
-      {
-        q: "Máy tính dùng công thức nào?",
-        a: "Chính phép cộng dồn số dư mà ngân hàng dùng để dự phóng tiết kiệm: mỗi kỳ, balance ← (balance + contribution) × (1 + r), trong đó r = lãi suất năm ÷ số kỳ mỗi năm (12 cho tháng, 4 cho quý, 1 cho năm). Khoản đóng góp được gửi vào đầu mỗi kỳ nên hưởng lãi từ kỳ đó. Ví dụ: 10.000 ban đầu, 100/tháng ở 5% trong 10 năm ghép theo tháng cho số dư cuối 32.063,02 — 22.000,00 đã đóng và 10.063,02 tiền lãi.",
-      },
-      {
-        q: "Vì sao kết quả trên máy tính khác hơi lệch?",
-        a: "Quy ước thời điểm khác nhau. Một số công cụ coi khoản đóng góp là gửi cuối kỳ (không hưởng lãi trong kỳ đến), một số giả định ghép theo ngày, một số làm tròn từng kỳ. Công cụ này gửi vào đầu mỗi kỳ và không bao giờ làm tròn bước trung gian; lệch 0,1% với trang khác thường là do quy ước ấy, không phải lỗi.",
-      },
-      {
-        q: "Có tính thuế, phí hay lạm phát?",
-        a: "Không — kết quả là tăng trưởng danh nghĩa ở lãi suất bạn nhập. Thuế lãi, phí tài khoản và lạm phát đều làm giảm lợi nhuận thực, nên hãy coi số dư cuối là trần của những gì bạn thật sự giữ được.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Vì sao tần suất ghép lãi đổi câu trả lời",
-        paragraphs: [
-          "Tần suất ghép lãi quyết định lãi kiếm được nhập vào gốc bao lâu một lần và bắt đầu tự sinh lãi. Lãi suất kỳ là lãi năm chia số kỳ, nên ghép hàng tháng ở 8% dùng 0,667% mỗi tháng — và vì lãi ấy được ghi mười hai lần một năm thay vì một lần, hiệu suất năm hiệu dụng bò lên trên 8%. Ngày thắng tháng, tháng thắng quý, quý thắng năm, luôn theo thứ tự đó cho cùng lãi suất danh nghĩa.",
-          "Điều làm người ta ngạc nhiên là khoảng hở nhỏ thế nào ở lãi suất tiêu dùng. Ở 5% danh nghĩa, ghép năm cho 5,00% và ghép tháng cỡ 5,12% — một phần mười điểm chỉ trở thành tiền thật qua hàng thập kỷ hay trên số dư lớn. Marketing khai thác điều này: một ngân hàng có thể báo lãi danh nghĩa trông y hệt đối thủ trong khi tần suất ghép lãi lặng lẽ làm phần khác biệt.",
-          "Tần suất chỉ đổi câu trả lời nếu lãi danh nghĩa là thứ bạn so sánh. Khi mọi thứ đã đổi thành hiệu suất năm hiệu dụng, tần suất đã được gộp sẵn và hai tài khoản cùng APY thực sự tương đương — đó chính là lý do máy tính APY trên trang này tồn tại cạnh cái này.",
-        ],
-      },
-      {
-        heading: "Điểm giao nhau, và vì sao thời gian áp đảo lãi suất",
-        paragraphs: [
-          "Bảng theo từng năm tồn tại để hiện một thời điểm cụ thể: điểm giao nhau, nơi lãi kiếm được trong một năm vượt qua phần đóng góp của chính bạn. Ở lãi suất vừa phải điều đó mất hàng thập kỷ, đó là lý do ghép lãi cảm thấy không ấn tượng trong mười năm đầu và phi lý sau ba mươi. Đường cong phẳng rồi uốn — và gần như ai cũng đánh giá thấp việc khúc uốn đến muộn thế nào.",
-          "Đó cũng là lý do số vốn ban đầu quan trọng hơn trực giác của người tối ưu hóa gợi ý. Một điểm lãi suất thêm vào là tuyến tính; một thập kỷ ghép lãi thêm vào là cấp số nhân. Giữa bắt đầu sớm mười năm với lãi khiêm tốn và bắt đầu hôm nay với lãi cao hơn một điểm, khởi đầu sớm thường thắng với một biên khó chịu — bảng cho bạn kiểm chứng tuyên bố ấy trên chính con số của mình thay vì tin mù.",
-          "Hai lưu ý trung thực: công cụ ghi nhận phần đóng góp ở đầu mỗi kỳ, là quy ước lạc quan, và nó giả định lãi suất không bao giờ đổi, điều không khoản đầu tư thật nào giữ. Kết quả là một kịch bản, không phải một dự báo — riêng năm giao nhau nên được đọc là “khoảng khi nào”, không phải một ngày để khoanh tròn.",
-        ],
-      },
-      {
-        heading: "Tăng trưởng danh nghĩa, sức mua thật",
-        paragraphs: [
-          "Mọi thứ máy tính hiển thị đều là danh nghĩa: lãi suất bạn gõ áp lên số dư bạn gõ, không thuế, không phí, không lạm phát. Mỗi lực ấy cắt từ một phía khác — thuế trên lãi hạ lãi được ghi, phí tài khoản trừ khoản cố định, và lạm phát lặng lẽ co thứ số dư cuối mua nổi. Con số trên màn hình là một trần trên thứ bạn thực sự giữ được.",
-          "Một bài kiểm thực dụng hữu ích: trừ lạm phát năm mong đợi khỏi lãi suất trước khi nhập. Một lợi suất 5% danh nghĩa với lạm phát 2,5% ghép lãi cùng một cách nhưng kể một câu chuyện trung thực hơn nhiều về sức mua tương lai của số dư. Phép toán đồng nhất; chỉ cách diễn giải đổi.",
-          "Và như mọi công cụ ở đây, phép chiếu chạy hoàn toàn trong trình duyệt của bạn: số dư, lãi suất và số tiền đóng góp không bao giờ rời thiết bị, nên an toàn để mô hình những con số bạn chẳng muốn dán vào một form gửi dữ liệu lên máy chủ.",
-        ],
-      },
-    ],
+  {
+    "q": "Tiền góp và lãi được tính thế nào?",
+    "a": "Tiền góp được thêm đầu mỗi tháng bất kể tần suất ghép lãi. Với n kỳ mỗi năm, hệ số tháng tương đương là (1 + lãi suất năm/n)^(n/12). Không đưa tiền góp tương lai về trước. Lãi danh nghĩa cố định, chưa gồm phí và thuế."
+  },
+  {
+    "q": "Đây có phải dự báo bảo đảm?",
+    "a": "Không. Đây là kịch bản lãi cố định; lợi nhuận thực, phí và thuế có thể thay đổi kết quả."
+  }
+],
+    deepDive: [],
   },
   "currency-converter": {
     name: "Chuyển đổi tiền tệ",
@@ -8220,9 +8191,8 @@ export const vi: Record<string, ToolCopy> = {
     tagline:
       "Tính chuyển hóa cơ bản bằng phương trình Mifflin-St Jeor (1990) — số calo cơ thể bạn đốt mỗi ngày khi nghỉ ngơi hoàn toàn.",
     intro: [
-      "Chuyển hóa cơ bản (BMR) là năng lượng cơ thể tiêu chỉ để sống — thở, bơm máu, giữ ấm — trước mọi cử động hay tiêu hoá. Máy tính này dùng phương trình Mifflin-St Jeor, công bố năm 1990 và đến nay vẫn là công cụ dự đoán rộng dùng chính xác nhất cho dân số hiện đại: nam 10 × cân nặng (kg) + 6,25 × chiều cao (cm) − 5 × tuổi + 5; nữ lấy biểu thức đó trừ 161.",
-      "Nhập thông số theo đơn vị mét hay Anh và kết quả cập nhật khi bạn gõ. Hãy coi con số này là ước lượng mức dân số — thường lệch khoảng ±10% so với đo trong phòng thí nghiệm — chứ không phải chẩn đoán y khoa.",
-    ],
+  "Chỉ cho người lớn từ18 tuổi, không dùng khi mang thai hoặc cho con bú. Không hiển thị mục tiêu dưới1.000 kcal/ngày. Nếu không có mục tiêu, hãy hỏi chuyên gia thay vì hạn chế thêm."
+],
     steps: [
       "Chọn giới tính và đơn vị mét (cm + kg) hay Anh (ft + in + lb).",
       "Nhập chiều cao, cân nặng và tuổi.",
@@ -8230,54 +8200,24 @@ export const vi: Record<string, ToolCopy> = {
       "Đưa vào máy tính calo để lấy mức duy trì và mục tiêu.",
     ],
     faqs: [
-      {
-        q: "Dùng công thức nào và chính xác cỡ nào?",
-        a: "Phương trình Mifflin-St Jeor, công bố 1990 và được Hiệp hội Dinh dưỡng Hoa Kỳ khuyến nghị sau khi đối chiếu với phép đo nhiệt lượng gián tiếp. Nó dự đoán năng lượng nghỉ đo được trong khoảng ±10% cho phần lớn người trưởng thành, chính xác hơn phương trình Harris-Benedict cũ (1919).",
-      },
-      {
-        q: "BMR khác nhu cầu calo hằng ngày chỗ nào?",
-        a: "BMR chỉ tính nghỉ hoàn toàn. Đốt thật mỗi ngày của bạn là BMR nhân hệ số hoạt động — khoảng 1,2 cho ngày ít vận động đến 1,9 với người rất năng động. Máy tính calo sẽ nhân hệ số đó và áp mục tiêu của bạn giúp bạn.",
-      },
-      {
-        q: "Có phải lời khuyên y khoa không?",
-        a: "Không — đây là ước lượng, không phải lời khuyên y khoa. Bệnh tật, thuốc, thai kỳ và cơ thể thành phần khác thường đều làm dịch chi tiêu năng lượng thật; mọi thay đổi ăn uống nên bàn với chuyên gia y tế.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Mifflin-St Jeor với các phương trình cũ hơn",
-        paragraphs: [
-          "Công cụ này dùng phương trình Mifflin-St Jeor, công bố năm 1990: với nam, 10 × cân nặng (kg) + 6,25 × chiều cao (cm) − 5 × tuổi + 5, và với nữ cùng biểu thức trừ 161 thay vì cộng 5. Nó được khớp với năng suất năng lượng nghỉ đo thực tế và được kiểm chứng đối với calorimetry gián tiếp, tiêu chuẩn vàng phòng lab đo trực tiếp lượng oxy tiêu thụ.",
-          "Phương án thay thế bạn gặp nhiều nhất là Harris-Benedict, công bố gốc năm 1919 và sửa năm 1984. Một so sánh năm 2005 của Hiệp hội Ăn kiêng Mỹ được trích rộng rãi thấy Mifflin-St Jeor chính xác hơn cho các quần thể hiện đại, đó là lý do máy tính này chuẩn hóa trên nó. Một lựa chọn thứ ba, Katch-McArdle, dùng khối cơ nạc thay vì cân nặng và có thể sắc hơn với những người biết tỷ lệ mỡ cơ thể — nhưng nó đòi một con số đa số người không có.",
-          "Kết luận thực dụng: khác biệt giữa các phương trình này thường vài chục kilocalorie, nhỏ hơn biến động ngày-hqua-ngày-nay trong chi tiêu của chính bạn. Nếu hai máy tính lệch nhau nhẹ, lựa chọn công thức thường là nguyên nhân, và không cái nào sai.",
-        ],
-      },
-      {
-        heading: "Đọc con số: BMR không phải mức đốt hằng ngày của bạn",
-        paragraphs: [
-          "BMR là mức sàn, không phải ngân sách. Nó phủ thở, tuần hoàn, sửa chữa tế bào và điều nhiệt ở trạng thái nghỉ hoàn toàn — cỡ 60–70% thứ đa số người lớn ít vận động đốt trong một ngày. Tổng chi tiêu năng lượng hằng ngày thật (TDEE) của bạn là BMR nhân với một hệ số hoạt động, từ cỡ 1,2 cho một ngày dính bàn làm việc đến cỡ 1,9 cho lao động thể lực nặng hay tập nặng hằng ngày.",
-          "Phép nhân ấy quan trọng hơn chính công thức. Hai người cùng BMR có thể đốt lệch nhau hơn 800 kcal mỗi ngày thuần túy từ lối sống. Máy tính này cố ý chỉ báo BMR; máy tính calo trên trang này bước tiếp và áp hệ số hoạt động cùng một mục tiêu thay bạn.",
-          "Một phép kiểm thực tế hữu ích: BMR co giãn chủ yếu theo cân nặng, chiều cao và tuổi, nên nếu kết quả dịch mạnh sau một thay đổi đầu vào nhỏ, hãy kiểm lại đơn vị — kg với lb là cú nhầm kinh điển.",
-        ],
-      },
-      {
-        heading: "Các lỗi phổ thông và giới hạn trung thực",
-        paragraphs: [
-          "Mọi phương trình dự báo mang lỗi cá nhân. Mifflin-St Jeor đáp trong cỡ ±10% của phép đo lab với đa số người lớn, nhưng các cá nhân có khối cơ rất cao hay thấp, rối loạn tuyến giáp, hay một số thuốc có thể nằm xa ngoài dải ấy. Hãy coi output là một điểm khởi đầu lập kế hoạch, không phải một sự thật sinh lý.",
-          "Đừng dùng BMR để biện minh cho việc ăn dưới nó. Chuyển hóa nghỉ đã được các mô nạc giữ bạn sống che phủ; các thâm hụt hung hãn dưới BMR là một quyết định cho nhân viên y tế, không phải cho một máy tính. Tương tự, thích nghi chuyển hóa nghĩa là con số bạn tính ở 90 kg ngừng chính xác ở 80 kg — hãy tính lại khi cân nặng đổi.",
-          "Như mọi thứ trên trang này, phép tính chạy hoàn toàn trong trình duyệt của bạn: không đầu vào nào được gửi đi đâu, nên chẳng có lý do gì ngại nhập các số thật.",
-        ],
-      },
-    ],
+  {
+    "q": "Ước tính này dành cho ai?",
+    "a": "Chỉ cho người lớn từ18 tuổi, không dùng khi mang thai hoặc cho con bú. Không hiển thị mục tiêu dưới1.000 kcal/ngày. Nếu không có mục tiêu, hãy hỏi chuyên gia thay vì hạn chế thêm."
+  },
+  {
+    "q": "Ước tính chính xác đến đâu?",
+    "a": "Ước tính chung, không phải chỉ định. Hãy kiểm tra nhu cầu với chuyên gia."
+  }
+],
+    deepDive: [],
   },
   "calorie-calculator": {
     name: "Máy tính calo",
     tagline:
       "Biến BMR thành mục tiêu calo hằng ngày: năm mức hoạt động (×1,2–1,9) cộng mục tiêu giảm, giữ hay tăng khoảng ±500 kcal mỗi ngày.",
     intro: [
-      "Nhu cầu năng lượng hằng ngày là BMR nhân hệ số hoạt động: 1,2 ít vận động, 1,375 vận động nhẹ, 1,55 vừa phải, 1,725 nhiều vận động và 1,9 rất năng động. Tích đó — tổng năng lượng tiêu hao mỗi ngày (TDEE) — là cái giữ cân nặng hiện tại của bạn. Bản thân BMR lấy từ phương trình Mifflin-St Jeor (1990).",
-      "Chọn mục tiêu và công cụ chỉnh con số duy trì: khoảng −500 kcal/ngày để giảm cỡ 0,5 kg mỗi tuần, +500 kcal/ngày để tăng, hay giữ nguyên để duy trì. Kinh nghiệm ±500 kcal rút ra từ việc 1 kg mỡ tích ≈ 7.700 kcal. Mọi thứ ở đây đều là ước lượng — chuyển hoá thật thích nghi khi cân nặng và thói quen đổi.",
-    ],
+  "Chỉ cho người lớn từ18 tuổi, không dùng khi mang thai hoặc cho con bú. Không hiển thị mục tiêu dưới1.000 kcal/ngày. Nếu không có mục tiêu, hãy hỏi chuyên gia thay vì hạn chế thêm."
+],
     steps: [
       "Chọn giới tính, đơn vị và nhập chiều cao, cân nặng, tuổi.",
       "Chọn mức hoạt động khớp với một tuần điển hình.",
@@ -8285,45 +8225,16 @@ export const vi: Record<string, ToolCopy> = {
       "Đọc mức duy trì (TDEE) và calo mục tiêu mỗi ngày.",
     ],
     faqs: [
-      {
-        q: "Dùng công thức và hệ số nào?",
-        a: "BMR từ phương trình Mifflin-St Jeor (1990), nhân các hệ số hoạt động TDEE chuẩn: 1,2 ít vận động, 1,375 nhẹ, 1,55 vừa, 1,725 nhiều, 1,9 rất năng động. Mục tiêu cộng hay trừ khoảng 500 kcal/ngày — kinh nghiệm kinh điển cho thay đổi 0,5 kg mỗi tuần (1 kg mỡ ≈ 7.700 kcal).",
-      },
-      {
-        q: "Thâm hụt 500 kcal có an toàn, kết quả bao lâu hiện ra?",
-        a: "Khoảng −500 kcal/ngày cho thay đổi ≈0,5 kg/tuần là nhịp mà phần lớn hướng dẫn sức khoẻ cộng đồng gọi là vừa phải và bền. Sụt đầu tiên có phần nước, và tiêu hao giảm khi bạn nhẹ đi, nên kết quả theo tuần không tuyến tính — tính lại mỗi vài ký.",
-      },
-      {
-        q: "Có phải lời khuyên y khoa không?",
-        a: "Không — đây là ước lượng, không phải lời khuyên y khoa. Nếu bạn mang thai, quản bệnh mãn tính, đang uống thuốc hay từng rối loạn ăn uống, hãy đặt mục tiêu cùng chuyên gia y tế.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Con số duy trì được dựng thế nào",
-        paragraphs: [
-          "Phép tính là một chuỗi hai bước. Trước, BMR đến từ phương trình Mifflin-St Jeor (1990): nam 10 × cân nặng (kg) + 6,25 × chiều cao (cm) − 5 × tuổi + 5, nữ cùng biểu thức trừ 161. Sau, BMR ấy được nhân với một trong năm hệ số hoạt động chuẩn: 1,2 ít vận động, 1,375 hoạt động nhẹ, 1,55 vừa phải, 1,725 rất hoạt động, 1,9 cực hoạt động.",
-          "Năm hệ số ấy truy về truyền thống Harris-Benedict và sống sót vì chúng ánh xạ sạch lên cách mọi người thực sự sống: riêng các buổi tập không định nghĩa hoạt động — một công nhân xây dựng không vào phòng gym vẫn nằm cao hơn một nhân viên văn phòng có ba buổi mỗi tuần.",
-          "Các điều chỉnh mục tiêu sau đó áp heuristic kinh điển: 1 kg mỡ cơ thể chứa cỡ 7.700 kcal, nên cỡ ±500 kcal mỗi ngày tương ứng khoảng 0,5 kg thay đổi mỗi tuần. Máy tính trừ 500 để giảm, cộng 500 để tăng, và để nguyên phần duy trì.",
-        ],
-      },
-      {
-        heading: "Diễn giải mục tiêu: đợi một đường cong, không phải một đường thẳng",
-        paragraphs: [
-          "Giảm cân đầu luôn vượt phép toán: một hai tuần đầu rơi chủ yếu là nước và glycogen, không phải mỡ. Sau đó kết quả chậm lại vì chi tiêu của bạn giảm khi bạn nhẹ đi — một người từng nặng 90 kg đốt ít hơn ở 82 kg, nên thâm hụt từng cho nửa ký mỗi tuần trong tháng đầu thường chỉ còn một phần ba vào tháng ba.",
-          "Quy trình thực dụng là coi mục tiêu như một giả thuyết: cân dưới các điều kiện nhất quán, so với một trung bình động hai tuần thay vì nhiễu hằng ngày, và chỉnh 100–200 kcal khi xu hướng ngập ngừng vài tuần.",
-          "Tính lại sau mỗi vài ký thay đổi, và nhớ cùng một con số duy trì hỗ trợ các kết quả rất khác nhau tùy bạn ăn gì — protein, chất xơ và thời điểm ăn không đổi phép toán calo, nhưng đổi cảm giác sống được bao lâu với thâm hụt.",
-        ],
-      },
-      {
-        heading: "Các lỗi phổ thông",
-        paragraphs: [
-          "Lỗi thường gặp nhất là thổi phồng mức hoạt động. Mọi người đếm một buổi tập là “hoạt động vừa” rồi lại ngồi mười tiếng mỗi ngày; nếu bạn tập 3–5 lần mỗi tuần nhưng làm việc văn phòng, 1,55 thường đã là hào phóng. Khi phân vân, hãy chọn hệ số thấp hơn và chỉnh từ kết quả đo được.",
-          "Đừng chồng điều chỉnh ±500 quá mức. Các thâm hụt xa dưới BMR hay các lần tăng +1.000 kcal mỗi ngày phần lớn cho mệt mỏi và tăng mỡ tương ứng; các mức bền cho đa số người lớn là 0,25–0,75 kg mỗi tuần theo cả hai hướng. Bất kỳ ai đang mang thai, quản lý một bệnh mạn tính, hay có tiền sử rối loạn ăn uống nên đặt mục tiêu cùng một bác sĩ lâm sàng thay vào.",
-          "Cuối cùng, hãy coi mọi output ở đây như một ước lượng trung bình quần thể: chuyển hóa thật dao động cỡ ±10% giữa các cá nhân, và chỉ xu hướng đo được của chính bạn qua các tuần mới kết thúc cuộc tranh luận.",
-        ],
-      },
-    ],
+  {
+    "q": "Ước tính này dành cho ai?",
+    "a": "Chỉ cho người lớn từ18 tuổi, không dùng khi mang thai hoặc cho con bú. Không hiển thị mục tiêu dưới1.000 kcal/ngày. Nếu không có mục tiêu, hãy hỏi chuyên gia thay vì hạn chế thêm."
+  },
+  {
+    "q": "Ước tính chính xác đến đâu?",
+    "a": "Ước tính chung, không phải chỉ định. Hãy kiểm tra nhu cầu với chuyên gia."
+  }
+],
+    deepDive: [],
   },
   "body-fat-calculator": {
     name: "Máy tính tỷ lệ mỡ",

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /**
+ * @deprecated Unused legacy component. The homepage mounts HomeMaterialScene instead.
  * 滚动驱动的材质过渡(Scroll-Driven Material Transition)。
  * 只做一件事:rAF 节流地把 smoothstep(60,420,scrollY) 写进容器的 --blend 变量(0→1)。
  * 所有视觉插值(背景 scale/opacity、卡片模糊/背景色/边框高光)都在 CSS 里由 --blend 驱动,

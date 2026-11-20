@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { LOCALES, SITE, isCategory, isLocale } from "@/lib/site";
 import { ALL_TOOLS, TOOL_BY_SLUG } from "@/tools/registry";
+import { processingInfo } from "@/lib/tool-processing";
+import { toolCopy } from "@/lib/tool-copy";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -19,9 +21,13 @@ export default async function OgImage({
   const { lang, slug } = await params;
   const tool = TOOL_BY_SLUG.get(slug);
   // OG 图固定英文:视觉资产统一品牌声线,且免去 CJK 字体的运行时拉取
-  const c = tool ? tool.copy.en : { name: "Zoyku", h1: "Zoyku", tagline: SITE.tagline };
+  const c = tool ? toolCopy(tool, "en") : { name: "Zoyku", h1: "Zoyku", tagline: SITE.tagline };
   const categoryName = tool && isCategory(tool.category) ? tool.category.toUpperCase() : "";
-  const tagline = c.tagline.length > 110 ? `${c.tagline.slice(0, 107)}…` : c.tagline;
+  // The bundled share-card font does not contain this decorative arrow.
+  // Use an ASCII separator instead of triggering a remote font fetch per locale.
+  const heading = (c.h1 ?? c.name).replaceAll("⇄", "/");
+  const summary = c.tagline.replaceAll("⇄", "/");
+  const tagline = summary.length > 110 ? `${summary.slice(0, 107)}…` : summary;
 
   return new ImageResponse(
     (
@@ -82,7 +88,7 @@ export default async function OgImage({
               display: "flex",
             }}
           >
-            {c.h1 ?? c.name}
+            {heading}
           </div>
           <div style={{ fontSize: 32, color: "#6e6e73", lineHeight: 1.4, display: "flex" }}>
             {tagline}
@@ -103,7 +109,7 @@ export default async function OgImage({
               fontWeight: 600,
             }}
           >
-            100% local
+            {processingInfo(slug, "en").label}
           </div>
         </div>
       </div>

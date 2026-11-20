@@ -103,7 +103,7 @@ const en = {
     text: { name: "Text", desc: "Count, clean, sort and transform text instantly as you type." },
     developer: { name: "Developer", desc: "Formatters, encoders, decoders and generators for daily dev work." },
     seo: { name: "SEO", desc: "Meta tags, schema markup, SERP preview and other on-page SEO helpers." },
-    security: { name: "Security", desc: "Passwords, hashes and lookups — generated and checked on your device." },
+    security: { name: "Security", desc: "Local password tools and security checks, plus clearly disclosed domain and IP lookups." },
     utility: { name: "Utility", desc: "Unit converters, calculators and everyday helpers." },
   },
 

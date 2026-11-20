@@ -11,6 +11,7 @@ import {
   ACTIVITY_FACTORS,
   CM_PER_INCH,
   KG_PER_LB,
+  HEALTH_LIMITS,
   cmFromFtIn,
   bmr,
   calorieGoal,
@@ -62,6 +63,48 @@ const S: Record<string, Record<string, string>> = {
   totalOut: { en: "Daily target", zh: "每日目标", ja: "1日の目標", es: "Objetivo diario", pt: "Meta diária", fr: "Objectif quotidien", de: "Tagesziel", ru: "Дневная цель", it: "Obiettivo giornaliero", tr: "Günlük hedef", ko: "일일 목표", ar: "الهدف اليومي", hi: "दैनिक लक्ष्य", id: "Target harian", vi: "Mục tiêu hằng ngày" },
   exerciseMin: { en: "Exercise (min/day)", zh: "运动时间(分钟/天)", ja: "運動(分/日)", es: "Ejercicio (min/día)", pt: "Exercício (min/dia)", fr: "Exercice (min/jour)", de: "Sport (Min./Tag)", ru: "Упражнения (мин/день)", it: "Esercizio (min/giorno)", tr: "Egzersiz (dk/gün)", ko: "운동(분/일)", ar: "التمرين (دقيقة/يوم)", hi: "व्यायाम (मिनट/दिन)", id: "Olahraga (menit/hari)", vi: "Vận động (phút/ngày)" },
 };
+
+export const ENERGY_GUARDS: Record<string, Record<Locale, string>> = {
+  adult: {
+    en: "For adults aged 18 and over only. Children and teenagers need age-specific assessment by a qualified clinician.",
+    zh: "仅适用于年满 18 岁的成年人。儿童和青少年需要由专业医护人员按年龄评估。",
+    ja: "18歳以上の成人専用です。子どもや10代の方は、医療専門家による年齢に応じた評価が必要です。",
+    es: "Solo para adultos de 18 años o más. Los menores necesitan una evaluación según su edad por un profesional sanitario.",
+    pt: "Apenas para adultos a partir de 18 anos. Crianças e adolescentes precisam de avaliação por idade com um profissional de saúde.",
+    fr: "Réservé aux adultes de 18 ans et plus. Les mineurs ont besoin d'une évaluation adaptée à leur âge par un professionnel de santé.",
+    de: "Nur für Erwachsene ab 18 Jahren. Kinder und Jugendliche benötigen eine altersgerechte ärztliche Beurteilung.",
+    ru: "Только для взрослых от 18 лет. Детям и подросткам нужна оценка специалиста с учётом возраста.",
+    it: "Solo per adulti dai 18 anni. Bambini e adolescenti richiedono una valutazione per età da parte di un professionista sanitario.",
+    tr: "Yalnızca 18 yaş ve üzeri yetişkinler içindir. Çocuklar ve gençler için bir sağlık uzmanının yaşa özel değerlendirmesi gerekir.",
+    ko: "만 18세 이상 성인 전용입니다. 어린이와 청소년은 의료 전문가의 연령별 평가가 필요합니다.",
+    ar: "للبالغين بعمر 18 سنة فأكثر فقط. يحتاج الأطفال والمراهقون إلى تقييم مناسب للعمر من مختص صحي.",
+    hi: "केवल 18 वर्ष या उससे अधिक उम्र के वयस्कों के लिए। बच्चों और किशोरों को योग्य चिकित्सक से उम्र के अनुसार मूल्यांकन चाहिए।",
+    id: "Hanya untuk orang dewasa berusia 18 tahun ke atas. Anak dan remaja memerlukan penilaian sesuai usia oleh tenaga kesehatan.",
+    vi: "Chỉ dành cho người lớn từ 18 tuổi. Trẻ em và thanh thiếu niên cần được chuyên gia y tế đánh giá theo độ tuổi.",
+  },
+  low: {
+    en: "No calorie target is shown: this estimate is below 1,000 kcal/day, the minimum used by NIH NIDDK's Body Weight Planner. Seek a qualified clinician's advice. A higher result is not automatically suitable.",
+    zh: "未显示热量目标：估算低于 NIH NIDDK 体重规划器采用的每日 1,000 千卡下限。请咨询专业医护人员；高于此下限也不代表一定适合你。",
+    ja: "推定値がNIH NIDDKの体重プランナーの下限である1日1,000 kcalを下回るため、目標は表示しません。医療専門家に相談してください。この下限以上でも適切とは限りません。",
+    es: "No se muestra el objetivo: la estimación es inferior a 1.000 kcal/día, el mínimo del planificador de peso de NIH NIDDK. Consulte a un profesional sanitario; superar este mínimo no garantiza que sea adecuado.",
+    pt: "Meta não exibida: a estimativa está abaixo de 1.000 kcal/dia, o mínimo do planejador de peso do NIH NIDDK. Consulte um profissional de saúde. Um valor maior não é automaticamente adequado.",
+    fr: "Objectif masqué : estimation inférieure à 1 000 kcal/jour, le minimum du planificateur de poids du NIH NIDDK. Consultez un professionnel de santé. Un résultat supérieur n'est pas forcément adapté.",
+    de: "Kein Kalorienziel angezeigt: Die Schätzung liegt unter 1.000 kcal/Tag, dem Minimum des NIH-NIDDK-Gewichtsplaners. Holen Sie ärztlichen Rat ein. Ein höherer Wert ist nicht automatisch geeignet.",
+    ru: "Цель не показана: оценка ниже 1000 ккал/день — минимума планировщика веса NIH NIDDK. Обратитесь к специалисту. Более высокий результат также не гарантирует подходящую норму.",
+    it: "Obiettivo non mostrato: la stima è inferiore a 1.000 kcal/giorno, il minimo del pianificatore del peso NIH NIDDK. Consultare un professionista sanitario. Un valore superiore non è automaticamente adatto.",
+    tr: "Kalori hedefi gösterilmiyor: tahmin, NIH NIDDK kilo planlayıcısının alt sınırı olan 1.000 kcal/günün altında. Bir sağlık uzmanına danışın. Daha yüksek bir sonuç otomatik olarak uygun değildir.",
+    ko: "추정치가 NIH NIDDK 체중 계획기의 하한인 하루 1,000kcal 미만이라 목표를 표시하지 않습니다. 의료 전문가와 상담하세요. 더 높은 결과도 적합성을 보장하지 않습니다.",
+    ar: "لم يُعرض هدف السعرات لأن التقدير أقل من 1000 سعرة/يوم، وهو الحد الأدنى في مخطط الوزن لدى NIH NIDDK. استشر مختصًا صحيًا. النتيجة الأعلى ليست مناسبة تلقائيًا.",
+    hi: "कैलोरी लक्ष्य नहीं दिखाया गया: अनुमान NIH NIDDK के वज़न योजनाकार की न्यूनतम सीमा 1,000 kcal/दिन से कम है। योग्य चिकित्सक की सलाह लें। अधिक परिणाम भी अपने-आप उपयुक्त नहीं होता।",
+    id: "Target kalori tidak ditampilkan: estimasi di bawah 1.000 kcal/hari, batas minimum perencana berat badan NIH NIDDK. Konsultasikan dengan tenaga kesehatan. Hasil lebih tinggi belum tentu sesuai.",
+    vi: "Không hiển thị mục tiêu: ước tính dưới 1.000 kcal/ngày, mức tối thiểu của công cụ lập kế hoạch cân nặng NIH NIDDK. Hãy hỏi chuyên gia y tế. Kết quả cao hơn cũng không mặc nhiên phù hợp.",
+  },
+};
+
+export function HealthEnergyWarning({ age, maintenance, target, locale }: { age: number; maintenance: number; target: number; locale: Locale }) {
+  const key = Number.isFinite(age) && age < HEALTH_LIMITS.minAgeYears ? "adult" : Number.isFinite(maintenance) && !Number.isFinite(target) ? "low" : null;
+  return key ? <p role="alert" className="error-bg mt-4 rounded-xl px-4 py-3 text-[13.5px] leading-6 text-[var(--color-bad)]">{ENERGY_GUARDS[key][locale]}</p> : null;
+}
 
 const ACTIVITY_LABELS: Record<ActivityKey, Record<string, string>> = {
   sedentary: {
@@ -344,6 +387,8 @@ function Energy({ kind }: { kind: "bmr" | "calorie" }) {
           cols={kind === "bmr" ? "sm:grid-cols-1" : "sm:grid-cols-3"}
         />
       </div>
+
+      <HealthEnergyWarning age={a} maintenance={t} target={target} locale={locale} />
 
       <div className="mt-4">
         <Note>

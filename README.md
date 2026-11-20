@@ -1,6 +1,6 @@
 # Zoyku — 205 个纯浏览器端工具站
 
-对标 calculator.net / TinyWow 的出海工具站组合旗舰。**205 个工具 × 15 语言 = 3,045 个工具页**(+35 个分类页 + 15 个首页 ≈ 3,210 条 sitemap URL),全部逻辑在浏览器本地执行——无后端、无上传、零服务器成本。同行对标详见 [docs/benchmark.md](docs/benchmark.md)。
+对标 calculator.net / TinyWow 的出海工具站组合旗舰。**205 个工具 × 15 语言 = 3,075 个工具页**(+105 个分类页 + 15 个首页 ≈ 3,210 条 sitemap URL),全部逻辑在浏览器本地执行——无后端、无上传、零服务器成本。同行对标详见 [docs/benchmark.md](docs/benchmark.md)。
 
 ## 数字事实源(改任何数字前先跑)
 

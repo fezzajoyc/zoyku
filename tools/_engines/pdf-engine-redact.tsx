@@ -4,32 +4,14 @@ import { useCallback, useRef, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { DropZone, downloadBlob, formatBytes } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
+import { REDACT_UI as UI } from "./pdf-locales";
+import { preparePagesForRedaction, UnsupportedRedactionError } from "../_lib/pdf-redaction";
 import {
   SHARED, Err, FileRow, Label, Primary, Progress, baseName, loadPdf,
-  renderPageToCanvas, toPdfBlob, tr, type L,
+  renderPageToCanvas, toPdfBlob, tr,
 } from "./pdf-ui";
 
 type Rect = { x: number; y: number; w: number; h: number }; // 页面分数坐标,y 自顶
-
-const UI: Record<string, L> = {
-  redact: { en: "Redact PDF", zh: "涂黑 PDF", ja: "PDF を黒塗り", es: "Censurar PDF", pt: "Tachar PDF" },
-  addFile: { en: "Drop a PDF to redact", zh: "拖入要涂黑的 PDF", ja: "黒塗りする PDF をドロップ", es: "Suelta un PDF para censurar", pt: "Solte um PDF para tachar" },
-  dragHint: { en: "Drag boxes over the content to remove. Add as many as you need.", zh: "在要删除的内容上拖出黑框,可添加多个。", ja: "削除したい内容の上をドラッグして枠を作ります。いくつでも追加できます。", es: "Arrastra recuadros sobre el contenido a eliminar. Añade todos los que necesites.", pt: "Arraste retângulos sobre o conteúdo a remover. Adicione quantos precisar." },
-  boxesOnPage: { en: "Boxes on this page", zh: "本页黑框", ja: "このページの枠", es: "Recuadros en esta página", pt: "Retângulos nesta página" },
-  clearPage: { en: "Clear this page", zh: "清空本页", ja: "このページをクリア", es: "Vaciar esta página", pt: "Limpar esta página" },
-  clearAll: { en: "Clear all pages", zh: "清空全部", ja: "すべてクリア", es: "Vaciar todo", pt: "Limpar tudo" },
-  pageOf: { en: "Page {n} of {total}", zh: "第 {n} / {total} 页", ja: "{total} ページ中 {n} ページ目", es: "Página {n} de {total}", pt: "Página {n} de {total}" },
-  empty: { en: "No boxes yet — nothing to redact on export.", zh: "还没有黑框——导出时不会有任何涂黑。", ja: "まだ枠がありません——書き出しても黒塗りはありません。", es: "Aún no hay recuadros — la exportación no censurará nada.", pt: "Ainda sem retângulos — a exportação não tachará nada." },
-  redactNote: {
-    en: "True redaction, not a black sticker: each page is re-rendered at 150 DPI and the marked regions are destroyed before the new PDF is written. The text under the boxes is physically gone — it cannot be selected, extracted or recovered, at the cost that redacted pages become images (no selectable text). Pages without boxes are copied unchanged.",
-    zh: "真删除,不是贴黑条:每页按 150 DPI 重新渲染,标记区域在写入新 PDF 前被物理销毁。黑框下的文字彻底消失——无法选中、无法提取、无法恢复;代价是被涂黑的页变成图像(无可选文本)。没有黑框的页原样复制。",
-    ja: "黒シールではなく本物の削除:各ページを 150 DPI で再レンダリングし、マークした領域は新しい PDF を書き出す前に破壊されます。枠の下のテキストは物理的に消え、選択・抽出・復元はできません。その代償として黒塗りページは画像になります(テキスト選択不可)。枠のないページはそのままコピーされます。",
-    es: "Censura real, no una etiqueta negra: cada página se vuelve a renderizar a 150 DPI y las regiones marcadas se destruyen antes de escribir el nuevo PDF. El texto bajo los recuadros desaparece físicamente: no se puede seleccionar, extraer ni recuperar, a cambio de que las páginas censuradas pasen a ser imágenes (sin texto seleccionable). Las páginas sin recuadros se copian sin cambios.",
-    pt: "Tachadura real, não um adesivo preto: cada página é re-renderizada a 150 DPI e as regiões marcadas são destruídas antes de o novo PDF ser gravado. O texto sob os retângulos desaparece fisicamente — não pode ser selecionado, extraído nem recuperado; em troca, as páginas tachadas viram imagens (sem texto selecionável). Páginas sem retângulos são copiadas sem alteração.",
-  },
-};
-
-const num2 = (v: number) => Math.round(v * 100);
 
 export function PdfRedactEngine() {
   const { t, locale } = useI18n();
@@ -69,16 +51,14 @@ export function PdfRedactEngine() {
     setBoxes({});
     setPageNo(1);
     try {
-      const { loadPdfjs, loadPdf } = await import("./pdf-ui");
-      await loadPdfjs();
       const bytes = new Uint8Array(await f.arrayBuffer());
       const doc = await loadPdf(bytes);
       docRef.current = { doc, file: f };
       setFile(f);
       setPageCount(doc.numPages);
       await renderPreview(doc, 1);
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e));
+    } catch {
+      setErr(tr(SHARED.failed, locale));
     }
   };
 
@@ -140,33 +120,44 @@ export function PdfRedactEngine() {
     setOut(null);
     try {
       const { doc, file: f } = docRef.current;
-      const { PDFDocument } = await import("pdf-lib");
+      const pdfLib = await import("pdf-lib");
+      const { PDFDocument } = pdfLib;
+      const source = await PDFDocument.load(await f.arrayBuffer());
+      preparePagesForRedaction(source, source.getPageIndices().filter((index) => !boxes[index + 1]?.length), pdfLib);
       const outDoc = await PDFDocument.create();
       const DPI = 150;
       const scale = DPI / 72;
       for (let n = 1; n <= pageCount; n++) {
+        const rects = boxes[n] ?? [];
+        if (rects.length === 0) {
+          const [unchanged] = await outDoc.copyPages(source, [n - 1]);
+          outDoc.addPage(unchanged);
+          setProgress(n / pageCount * 0.9);
+          continue;
+        }
         const page = await doc.getPage(n);
         const vp = page.getViewport({ scale: 1 });
         const canvas = await renderPageToCanvas(page, scale);
         const ctx = canvas.getContext("2d");
-        const rects = boxes[n] ?? [];
-        if (ctx && rects.length > 0) {
-          ctx.fillStyle = "#000000";
-          for (const r of rects) {
-            ctx.fillRect(r.x * canvas.width, r.y * canvas.height, r.w * canvas.width, r.h * canvas.height);
-          }
+        if (!ctx) throw new Error("canvas unavailable");
+        ctx.fillStyle = "#000000";
+        for (const r of rects) {
+          const x = Math.floor(r.x * canvas.width);
+          const y = Math.floor(r.y * canvas.height);
+          ctx.fillRect(x, y, Math.ceil((r.x + r.w) * canvas.width) - x, Math.ceil((r.y + r.h) * canvas.height) - y);
         }
         const jpeg = canvasToJpegBytes(canvas);
         const img = await outDoc.embedJpg(jpeg);
         const p = outDoc.addPage([vp.width, vp.height]);
         p.drawImage(img, { x: 0, y: 0, width: vp.width, height: vp.height });
-        setProgress(Math.round((n / pageCount) * 90));
+        page.cleanup();
+        setProgress(n / pageCount * 0.9);
       }
       const bytes = await outDoc.save();
-      setProgress(100);
+      setProgress(1);
       setOut({ name: `${baseName(f.name)}-redacted.pdf`, blob: toPdfBlob(bytes) });
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e));
+    } catch (error) {
+      setErr(tr(error instanceof UnsupportedRedactionError ? UI.unsupported : SHARED.failed, locale));
     } finally {
       setBusy(false);
     }
@@ -175,6 +166,9 @@ export function PdfRedactEngine() {
   return (
     <ToolPanel>
       <div className="space-y-5">
+        <p className="rounded-xl bg-[var(--color-surface)] px-3.5 py-3 text-[13.5px] leading-5 text-[var(--color-sub)]">
+          {tr(UI.redactNote, locale)}
+        </p>
         {!file ? (
           <DropZone accept="application/pdf" multiple={false} onFiles={(fs) => fs[0] && onFile(fs[0])}>
             {tr(UI.addFile, locale)}
@@ -225,10 +219,6 @@ export function PdfRedactEngine() {
                 </p>
               </div>
             )}
-
-            <p className="rounded-xl bg-[var(--color-surface)] px-3.5 py-3 text-[13.5px] leading-5 text-[var(--color-sub)]">
-              {tr(UI.redactNote, locale)}
-            </p>
 
             {busy && <Progress value={progress} />}
             <Err msg={err} />

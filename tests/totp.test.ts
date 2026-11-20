@@ -83,23 +83,29 @@ describe("base32Decode", () => {
 });
 
 describe("parseOtpauth", () => {
+  it("imports all defaults after a nondefault URI rather than inheriting its settings", () => {
+    const first = parseOtpauth("otpauth://totp/first?secret=JBSWY3DPEHPK3PXP&digits=8&period=60&algorithm=SHA512")!;
+    const second = parseOtpauth("otpauth://totp/second?secret=JBSWY3DPEHPK3PXP")!;
+    expect({ ...first, ...second }).toMatchObject({ digits: 6, period: 30, algo: "SHA-1" });
+  });
+
+  it.each(["digits=7", "digits=", "period=45", "period=0", "period=", "algorithm=MD5", "algorithm="])("rejects unsupported explicit settings: %s", (setting) => {
+    expect(parseOtpauth(`otpauth://totp/x?secret=JBSWY3DPEHPK3PXP&${setting}`)).toBeNull();
+  });
   it("标准 Google Authenticator 链接", () => {
     const r = parseOtpauth("otpauth://totp/Alice?secret=JBSWY3DPEHPK3PXP&issuer=Example");
     expect(r).toMatchObject({ secret: "JBSWY3DPEHPK3PXP", account: "Alice" });
-    expect(r!.digits).toBeUndefined();
-    expect(r!.algo).toBeUndefined();
+    expect(r).toMatchObject({ digits: 6, period: 30, algo: "SHA-1" });
   });
   it("带 issuer 前缀的 label 取账户段", () => {
     const r = parseOtpauth("otpauth://totp/Example:alice@example.com?secret=JBSWY3DPEHPK3PXP");
     expect(r!.account).toBe("alice@example.com");
   });
-  it("digits/period/algorithm 合法值解析,非法值回退 undefined", () => {
+  it("digits/period/algorithm 合法值解析,非法显式值拒绝导入", () => {
     const good = parseOtpauth("otpauth://totp/x?secret=JBSW&digits=8&period=60&algorithm=SHA256");
     expect(good).toMatchObject({ digits: 8, period: 60, algo: "SHA-256" });
     const bad = parseOtpauth("otpauth://totp/x?secret=JBSW&digits=7&period=45&algorithm=MD5");
-    expect(bad!.digits).toBeUndefined();
-    expect(bad!.period).toBeUndefined();
-    expect(bad!.algo).toBeUndefined();
+    expect(bad).toBeNull();
   });
   it("非 totp / 无 secret 返回 null", () => {
     expect(parseOtpauth("otpauth://hotp/x?secret=JBSW")).toBeNull();

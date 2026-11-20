@@ -86,7 +86,7 @@ const de = {
     text: { name: "Text", desc: "Text zählen, bereinigen, sortieren und umwandeln — sofort bei jeder Eingabe." },
     developer: { name: "Entwickler", desc: "Formatierer, Encoder, Decoder und Generatoren für die tägliche Entwicklerarbeit." },
     seo: { name: "SEO", desc: "Meta-Tags, Schema-Markup, SERP-Vorschau und weitere On-Page-SEO-Helfer." },
-    security: { name: "Sicherheit", desc: "Passwörter, Hashes und Lookups — auf Ihrem Gerät erzeugt und geprüft." },
+    security: { name: "Sicherheit", desc: "Lokale Passwort- und Sicherheitswerkzeuge sowie klar erläuterte Domain- und IP-Abfragen." },
     utility: { name: "Werkzeuge", desc: "Einheitenrechner, Taschenrechner und Alltags-Helfer." },
   },
 

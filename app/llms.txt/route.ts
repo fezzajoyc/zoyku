@@ -6,7 +6,7 @@ export function GET() {
   const lines: string[] = [
     `# ${SITE.name}`,
     "",
-    `> ${SITE.tagline} All ${count()} tools run entirely in the user's browser — no uploads, no accounts. Available in ${LOCALES.length} languages.`,
+    `> ${SITE.tagline} ${count()} browser tools, no accounts. Files are processed locally; DNS, IP, WHOIS, email-domain and currency tools use disclosed external APIs. OCR and media tools download runtime resources. Available in ${LOCALES.length} languages.`,
     "",
     "## Categories",
     "",

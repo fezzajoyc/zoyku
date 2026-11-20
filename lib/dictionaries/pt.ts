@@ -83,7 +83,7 @@ const pt: Dictionary = {
     text: { name: "Texto", desc: "Conte, limpe, ordene e transforme texto na hora, enquanto digita." },
     developer: { name: "Desenvolvedor", desc: "Formatadores, codificadores, decodificadores e geradores para o dia a dia." },
     seo: { name: "SEO", desc: "Meta tags, dados estruturados, prévia de SERP e outros auxiliares de SEO." },
-    security: { name: "Segurança", desc: "Senhas, hashes e consultas — gerados e verificados no seu dispositivo." },
+    security: { name: "Segurança", desc: "Senhas e verificações locais, além de consultas de domínio e IP claramente explicadas." },
     utility: { name: "Utilidades", desc: "Conversores de unidades, calculadoras e ajudas do cotidiano." },
   },
 

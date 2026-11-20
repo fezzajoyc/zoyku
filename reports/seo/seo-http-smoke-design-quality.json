@@ -1,0 +1,40 @@
+{
+  "mode": "http",
+  "source": "http://127.0.0.1:3477",
+  "generatedAt": "2026-11-20T07:40:38.275Z",
+  "sitemapCount": 3210,
+  "checked": 24,
+  "selectedUrls": [
+    "https://zoyku.com/en",
+    "https://zoyku.com/en/tools",
+    "https://zoyku.com/en/categories/pdf",
+    "https://zoyku.com/en/tools/case-converter",
+    "https://zoyku.com/vi/tools/extract-audio",
+    "https://zoyku.com/en/tools/area-converter",
+    "https://zoyku.com/en/tools/gpa-calculator",
+    "https://zoyku.com/zh/tools/totp-generator",
+    "https://zoyku.com/ja/tools/uuid-generator",
+    "https://zoyku.com/es/tools/unlock-pdf",
+    "https://zoyku.com/pt/tools/reverse-text",
+    "https://zoyku.com/pt/tools/qr-scanner",
+    "https://zoyku.com/fr/tools/meta-tag-generator",
+    "https://zoyku.com/de/tools/chmod-calculator",
+    "https://zoyku.com/ru/tools/sign-pdf",
+    "https://zoyku.com/ru/tools/auto-loan-calculator",
+    "https://zoyku.com/it/tools/emi-calculator",
+    "https://zoyku.com/tr/tools/json-to-csv",
+    "https://zoyku.com/ko/tools/png-to-jpg",
+    "https://zoyku.com/ar/tools/text-to-nato-alphabet",
+    "https://zoyku.com/ar/tools/cooking-conversion",
+    "https://zoyku.com/hi/tools/utm-builder",
+    "https://zoyku.com/id/tools/html-minifier",
+    "https://zoyku.com/vi/tools/pdf-to-ppt"
+  ],
+  "failures": [],
+  "http": {
+    "requests": 25,
+    "rateLimited": 0,
+    "retries": 0
+  },
+  "scope": "HTTP status and sitemap HTML content"
+}

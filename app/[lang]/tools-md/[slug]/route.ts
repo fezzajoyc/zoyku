@@ -3,6 +3,7 @@ import { dict } from "@/lib/i18n";
 import { SITE, LOCALES, isLocale, isCategory, type Locale } from "@/lib/site";
 import { ALL_TOOLS, TOOL_BY_SLUG } from "@/tools/registry";
 import { toolCopy } from "@/lib/tool-copy";
+import { processingInfo, toolSources } from "@/lib/tool-processing";
 
 export const dynamic = "force-static";
 
@@ -30,7 +31,8 @@ export function GET(
       `- URL: ${url}`,
       `- Category: ${t.categories[tool.category].name}`,
       `- Price: free, no account required`,
-      `- Privacy: runs entirely in the browser; user data never leaves the device`,
+      `- Processing: ${processingInfo(slug, locale).note}`,
+      ...toolSources(slug).map(source => `- Source: [${source.label}](${source.url})`),
       "",
       "## What it does",
       "",

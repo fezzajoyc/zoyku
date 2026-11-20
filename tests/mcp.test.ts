@@ -87,4 +87,24 @@ describe("zoyku MCP server", () => {
     expect(parsed.aaaNormal).toBe(false);
     await client.close();
   });
+  it("resolves every advertised activity option with the shared formula", async () => {
+    const client = await connect();
+    try {
+      for (const [activity,factor] of [["sedentary",1.2],["light",1.375],["moderate",1.55],["active",1.725],["very_active",1.9]] as const) {
+        const result = await client.callTool({name:"tdee",arguments:{weight_kg:80,height_cm:180,age:30,sex:"male",activity}});
+        expect(result.isError,activity).not.toBe(true);
+        expect(Number.parseFloat((result.content as {text:string}[])[0].text),activity).toBeCloseTo(1780*factor,2);
+      }
+    } finally { await client.close(); }
+  });
+  it("rejects child and out-of-range health measurements at the protocol boundary", async () => {
+    const client=await connect();
+    try {
+      for(const name of ["bmr","tdee"]) for(const patch of [{age:10},{height_cm:1},{weight_kg:701}]) {
+        const result=await client.callTool({name,arguments:{weight_kg:80,height_cm:180,age:30,sex:"male",activity:"sedentary",...patch}});
+        expect(result.isError,JSON.stringify({name,patch})).toBe(true);
+      }
+    } finally { await client.close(); }
+  });
+
 });

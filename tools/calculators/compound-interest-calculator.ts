@@ -15,7 +15,7 @@ export default defineTool({
       intro: [
         "Compound interest is interest on interest: each period the balance earns a share of the annual rate, and every deposit you add starts earning its own interest too. This calculator runs that recursion period by period for an initial deposit plus regular monthly contributions, at monthly, quarterly or annual compounding.",
         "The result is the final balance, the total you put in, and the interest the compounding generated — plus a year-by-year table so you can see exactly when the curve starts to bend. Everything recalculates live, and the formula used is printed right under the numbers, so you can check it against your bank's own projection.",
-        "Compounding follows the standard recurrence Bₜ₊₁ = Bₜ × (1 + i) + C, where i is the periodic rate (annual rate ÷ compounding periods per year) and C is the contribution made each period. Monthly compounding at 8% therefore earns slightly more than annual compounding at 8%, because interest starts earning interest sooner.",
+        "Contributions are made at the start of each month for all compounding frequencies. The monthly growth factor is g = (1 + annual rate ÷ n)^(n ÷ 12), where n is 12, 4 or 1 and the rate is decimal; monthly balance follows B ← (B + monthly contribution) × g. Fractional periods avoid investing future deposits early; duration is rounded to whole months.",
         "The tool separates principal deposited from interest earned, so you can see the crossover point where growth from interest overtakes your own contributions — usually decades out at moderate rates. Results assume the rate stays constant, which real investments do not; treat the output as a planning scenario rather than a forecast.",],
       steps: [
         "Enter the initial deposit and the amount you will add every month (0 for a one-off deposit).",
@@ -26,11 +26,11 @@ export default defineTool({
       faqs: [
         {
           q: "What formula does the calculator use?",
-          a: "The same balance recursion banks use to project savings: each period, balance ← (balance + contribution) × (1 + r), where r = annual rate ÷ periods per year (12 for monthly, 4 for quarterly, 1 for annual). Contributions are deposited at the start of each period, so they earn interest from that period on. Example: 10,000 initial, 100/month at 5% for 10 years with monthly compounding gives a final balance of 32,063.02 — 22,000.00 contributed and 10,063.02 in interest.",
+          a: "Deposits always arrive at the start of each month. Monthly balance is B ← (B + monthly deposit) × g, where g = (1 + annual rate ÷ n)^(n ÷ 12), n = 12, 4 or 1 and the rate is decimal. This fractional-period convention never prepays future deposits; the duration is rounded to whole months. Example: 10,000 initial, 100/month at 5% for 10 years with monthly compounding gives a final balance of 32,063.02 — 22,000.00 contributed and 10,063.02 in interest.",
         },
         {
           q: "Why do I get slightly different results on other calculators?",
-          a: "Timing conventions differ. Some tools treat contributions as end-of-period deposits (they earn no interest in the period they arrive), some assume daily compounding, and some round each period. This tool deposits at the start of each period and never rounds intermediate steps; a 0.1% difference against another site is usually that convention, not an error.",
+          a: "Timing conventions differ. Some tools treat contributions as end-of-period deposits (they earn no interest in the period they arrive), some assume daily compounding, and some round each period. This tool deposits at the start of each month and never rounds intermediate steps; a 0.1% difference against another site is usually that convention, not an error.",
         },
         {
           q: "Does it include taxes, fees or inflation?",
@@ -51,7 +51,7 @@ export default defineTool({
           paragraphs: [
             "The year-by-year table exists to show one specific moment: the crossover, where interest earned in a year overtakes your own contributions. At moderate rates this takes decades, which is why compounding feels unimpressive for the first ten years and absurd after thirty. The curve is flat, then bends — and almost everyone underestimates how late the bend arrives.",
             "This is also why the starting amount matters more than the optimiser's instinct suggests. An extra point of rate is linear; an extra decade of compounding is exponential. Between starting ten years earlier at a modest rate and starting today at a rate a point higher, the earlier start usually wins by an uncomfortable margin — the table lets you test that claim on your own numbers instead of taking it on faith.",
-            "Two honest caveats: the tool deposits contributions at the start of each period, which is the optimistic convention, and it assumes the rate never changes, which no real investment honors. The output is a scenario, not a forecast — the crossover year especially should be read as “roughly when”, not a date to circle.",
+            "Two honest caveats: the tool deposits contributions at the start of each month, which is the optimistic convention, and it assumes the rate never changes, which no real investment honors. The output is a scenario, not a forecast — the crossover year especially should be read as “roughly when”, not a date to circle.",
           ],
         },
         {
@@ -81,11 +81,11 @@ export default defineTool({
       faqs: [
         {
           q: "计算用的是哪个公式?",
-          a: "与银行测算储蓄目标相同的余额递推式:每期 余额 ← (余额 + 投入) × (1 + r),其中 r = 年利率 ÷ 每年期数(月复利 12、季复利 4、年复利 1)。投入在每期期初存入,当期即开始计息。例如初始 10,000、每月 100、年利率 5%、按月复利 10 年,终值为 32,063.02,其中累计投入 22,000.00,利息 10,063.02。",
+          a: "无论复利频率如何，均在每月月初存入。每月余额 B ← (B + 月投入) × g，g = (1 + 年利率 ÷ n)^(n ÷ 12)，n 为 12、4 或 1，利率用小数表示。采用不足整期的等效增长，不提前计入未来投入；年限按整月取整。例如初始 10,000、每月 100、年利率 5%、按月复利 10 年,终值为 32,063.02,其中累计投入 22,000.00,利息 10,063.02。",
         },
         {
           q: "为什么和其他计算器结果略有出入?",
-          a: "口径不同。有的工具把定投算作期末存入(当期不计息),有的按日复利,有的每期四舍五入。本工具在每期期初存入、中间过程不做舍入;与其他网站相差 0.1% 左右通常是口径差异,不是算错。",
+          a: "口径不同。有的工具把定投算作期末存入(当期不计息),有的按日复利,有的每期四舍五入。本工具在每月月初存入、中间过程不做舍入;与其他网站相差 0.1% 左右通常是口径差异,不是算错。",
         },
         {
           q: "包含税费、手续费或通货膨胀吗?",
@@ -106,7 +106,7 @@ export default defineTool({
           paragraphs: [
             "逐年明细表的存在是为了呈现一个特定时刻:交叉点——某一年的利息首次超过你自己投入的钱。在温和利率下,这需要几十年,所以复利在前十年显得平平无奇、三十年后却像变魔术。曲线先平后陡,而几乎所有人都低估了变陡来得有多晚。",
             "这也解释了为什么“早开始”比优化控觉得的更重要。多一个点的利率是线性增益;多十年的复利是指数增益。在“早十年、利率一般”和“今天开始、利率高一个点”之间,通常早开始赢得不体面地多。别信这句话——把两组数字填进表格,自己验证。",
-            "两个诚实的提醒:本工具在每期期初存入定投,这是偏乐观的口径;它还假设利率永远不变,而没有任何真实投资兑现过这一点。输出是情景,不是预测——尤其是交叉点那一年,应读作“大致这个阶段”,而不是可以圈起来的日期。",
+            "两个诚实的提醒:本工具在每月月初存入定投,这是偏乐观的口径;它还假设利率永远不变,而没有任何真实投资兑现过这一点。输出是情景,不是预测——尤其是交叉点那一年,应读作“大致这个阶段”,而不是可以圈起来的日期。",
           ],
         },
         {
@@ -136,11 +136,11 @@ export default defineTool({
       faqs: [
         {
           q: "どの式で計算していますか?",
-          a: "銀行の積立シミュレーションと同じ残高の漸化式を使います。各期で 残高 ← (残高 + 積立額) × (1 + r)、r は年利 ÷ 年間の期数(月複利 12、四半期複利 4、年複利 1)です。積立は各期の初めに預け入れられ、当期から利息がつきます。例えば初期 10,000・毎月 100・年利 5%・10 年(月複利)では最終残高は 32,063.02 となり、投入 22,000.00・利息 10,063.02 です。",
+          a: "複利頻度にかかわらず毎月初めに積み立てます。毎月 B ← (B + 月額積立) × g、g = (1 + 年利 ÷ n)^(n ÷ 12)、nは12・4・1、年利は小数です。端数期間の等価成長を使い、将来の積立を先取りしません。期間は月単位に丸めます。例えば初期 10,000・毎月 100・年利 5%・10 年(月複利)では最終残高は 32,063.02 となり、投入 22,000.00・利息 10,063.02 です。",
         },
         {
           q: "他の計算機と結果が少し違うのはなぜですか?",
-          a: "前提の扱いが異なるためです。積立を期末預け入れ(当期は無利息)とする計算機や、日複利を仮定するもの、各期で丸めるものもあります。このツールは各期の初めに預け入れ、途中で丸めません。他サイトとの差が 0.1% 程度なら大抵は前提の違いで、計算誤りではありません。",
+          a: "前提の扱いが異なるためです。積立を期末預け入れ(当期は無利息)とする計算機や、日複利を仮定するもの、各期で丸めるものもあります。このツールは毎月初めに預け入れ、途中で丸めません。他サイトとの差が 0.1% 程度なら大抵は前提の違いで、計算誤りではありません。",
         },
         {
           q: "税金や手数料、インフレは考慮されますか?",
@@ -191,11 +191,11 @@ export default defineTool({
       faqs: [
         {
           q: "¿Qué fórmula utiliza la calculadora?",
-          a: "La misma recursión de saldo que usan los bancos para proyectar ahorros: en cada periodo, saldo ← (saldo + aporte) × (1 + r), con r = tasa anual ÷ periodos por año (12 mensual, 4 trimestral, 1 anual). Los aportes se depositan al inicio de cada periodo y generan intereses desde ese periodo. Con 10.000 inicial, 100 al mes al 5 % durante 10 años con capitalización mensual, el saldo final es 32.063,02: 22.000,00 aportados y 10.063,02 de intereses.",
+          a: "Los aportes siempre entran al inicio de cada mes. Cada mes: B ← (B + aporte mensual) × g; g = (1 + tasa anual ÷ n)^(n ÷ 12), n = 12, 4 o 1, tasa decimal. Se usan periodos fraccionarios sin anticipar aportes futuros y el plazo se redondea a meses enteros. Con 10.000 inicial, 100 al mes al 5 % durante 10 años con capitalización mensual, el saldo final es 32.063,02: 22.000,00 aportados y 10.063,02 de intereses.",
         },
         {
           q: "¿Por qué obtengo resultados ligeramente distintos en otras webs?",
-          a: "Por las convenciones de tiempo. Algunas calculadoras tratan los aportes como depósitos a fin de periodo (no rinden el periodo en que llegan), otras asumen capitalización diaria y otras redondean cada periodo. Esta herramienta deposita al inicio de cada periodo y no redondea pasos intermedios; una diferencia del 0,1 % con otro sitio suele ser convención, no un error.",
+          a: "Por las convenciones de tiempo. Algunas calculadoras tratan los aportes como depósitos a fin de periodo (no rinden el periodo en que llegan), otras asumen capitalización diaria y otras redondean cada periodo. Esta herramienta deposita al inicio de cada mes y no redondea pasos intermedios; una diferencia del 0,1 % con otro sitio suele ser convención, no un error.",
         },
         {
           q: "¿Incluye impuestos, comisiones o inflación?",
@@ -216,7 +216,7 @@ export default defineTool({
           paragraphs: [
             "La tabla año por año existe para mostrar un momento concreto: el cruce, cuando el interés ganado en un año supera sus propios aportes. Con tasas moderadas esto tarda décadas, y por eso el interés compuesto parece tibio los primeros diez años y absurdo después de treinta. La curva es plana y luego se dobla — y casi todos subestiman lo tarde que llega el doblez.",
             "También por eso el punto de partida pesa más de lo que sugiere el instinto optimizador. Un punto extra de tasa es lineal; una década extra de capitalización es exponencial. Entre empezar diez años antes con una tasa modesta y empezar hoy con un punto más, el comienzo temprano suele ganar por un margen incómodo. No se lo crea: pruebe ambos números en la tabla.",
-            "Dos advertencias honestas: la herramienta deposita los aportes al inicio de cada periodo, la convención optimista, y asume que la tasa nunca cambia, algo que ninguna inversión real cumple. El resultado es un escenario, no un pronóstico — el año del cruce sobre todo debe leerse como “aproximadamente cuando”, no como una fecha para marcar.",
+            "Dos advertencias honestas: la herramienta deposita los aportes al inicio de cada mes, la convención optimista, y asume que la tasa nunca cambia, algo que ninguna inversión real cumple. El resultado es un escenario, no un pronóstico — el año del cruce sobre todo debe leerse como “aproximadamente cuando”, no como una fecha para marcar.",
           ],
         },
         {
@@ -246,11 +246,11 @@ export default defineTool({
       faqs: [
         {
           q: "Qual fórmula a calculadora usa?",
-          a: "A mesma recursão de saldo que os bancos usam para projetar poupança: a cada período, saldo ← (saldo + aporte) × (1 + r), com r = taxa anual ÷ períodos por ano (12 mensal, 4 trimestral, 1 anual). Os aportes entram no início de cada período e rendem desde então. Com 10.000 iniciais, 100 por mês a 5% por 10 anos com capitalização mensal, o saldo final é 32.063,02 — sendo 22.000,00 aportados e 10.063,02 de juros.",
+          a: "Os aportes sempre entram no início de cada mês. Por mês: B ← (B + aporte mensal) × g; g = (1 + taxa anual ÷ n)^(n ÷ 12), n = 12, 4 ou 1, taxa decimal. Usamos períodos fracionários sem antecipar aportes futuros; o prazo é arredondado em meses inteiros. Com 10.000 iniciais, 100 por mês a 5% por 10 anos com capitalização mensal, o saldo final é 32.063,02 — sendo 22.000,00 aportados e 10.063,02 de juros.",
         },
         {
           q: "Por que o resultado difere um pouco de outras calculadoras?",
-          a: "Por causa das convenções de tempo. Algumas ferramentas tratam os aportes como depósitos no fim do período (sem render no período em que chegam), outras assumem capitalização diária e outras arredondam cada período. Esta deposita no início de cada período e não arredonda etapas intermediárias; uma diferença de 0,1% em relação a outro site costuma ser convenção, não erro.",
+          a: "Por causa das convenções de tempo. Algumas ferramentas tratam os aportes como depósitos no fim do período (sem render no período em que chegam), outras assumem capitalização diária e outras arredondam cada período. Esta deposita no início de cada mês e não arredonda etapas intermediárias; uma diferença de 0,1% em relação a outro site costuma ser convenção, não erro.",
         },
         {
           q: "Inclui impostos, tarifas ou inflação?",
@@ -271,7 +271,7 @@ export default defineTool({
           paragraphs: [
             "A tabela ano a ano existe para mostrar um momento específico: a virada, quando os juros ganhos num ano superam seus próprios aportes. Com taxas moderadas isso leva décadas, e é por isso que os juros compostos parecem mornos nos primeiros dez anos e absurdos depois de trinta. A curva é plana e depois dobra — e quase todo mundo subestima o quão tarde chega a dobra.",
             "Também por isso o ponto de partida pesa mais do que o instinto otimizador sugere. Um ponto extra de taxa é linear; uma década extra de capitalização é exponencial. Entre começar dez anos antes com uma taxa modesta e começar hoje com um ponto a mais, o começo cedo costuma vencer por uma margem desconfortável. Não acredite por fé: teste os dois números na tabela.",
-            "Duas ressalvas honestas: a ferramenta deposita os aportes no início de cada período, a convenção otimista, e assume que a taxa nunca muda, coisa que nenhum investimento real cumpre. O resultado é um cenário, não uma previsão — o ano da virada em especial deve ser lido como “mais ou menos quando”, não como uma data para circular.",
+            "Duas ressalvas honestas: a ferramenta deposita os aportes no início de cada mês, a convenção otimista, e assume que a taxa nunca muda, coisa que nenhum investimento real cumpre. O resultado é um cenário, não uma previsão — o ano da virada em especial deve ser lido como “mais ou menos quando”, não como uma data para circular.",
           ],
         },
         {

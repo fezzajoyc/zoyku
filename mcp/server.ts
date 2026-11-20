@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { MCP_TOOLS } from "./tools";
 
 /**
- * Zoyku MCP server(stdio):把站上 163 个工具背后的纯函数逻辑
+ * Zoyku MCP server(stdio):将站点的纯函数逻辑
  * 暴露为 AI 可执行工具。人和 AI 用同一份经过测试的实现。
  *
  * 构建后运行:npx zoyku-mcp(或 node mcp/dist/server.mjs)
@@ -14,7 +14,7 @@ export function createServer() {
     { name: "zoyku", version: "1.0.0" },
     {
       instructions:
-        "Zoyku: free browser tools (https://zoyku.com). These executable tools run the same tested logic as the website. Domain guide: finance → mortgage_payment, compound_interest, apy, break_even; health → bmr, tdee, body_fat, water_intake; fitness → pace_calculator, one_rep_max, heart_rate_zones; dates → business_days, sleep_cycle; units → call list_unit_categories first, then unit_convert. 175+ more browser tools (PDF, image, text, security, SEO) live on the website. Health calculators are estimates, not medical advice. Distances for pace tools are in km; body-fat uses cm.",
+        "Zoyku: free browser tools (https://zoyku.com). These executable tools run the same tested logic as the website. Domain guide: finance → mortgage_payment, compound_interest, apy, break_even; health → bmr, tdee, body_fat, water_intake; fitness → pace_calculator, one_rep_max, heart_rate_zones; dates → business_days, sleep_cycle; units → call list_unit_categories first, then unit_convert. Additional browser tools (PDF, image, text, security, SEO) live on the website. Health calculators are estimates, not medical advice. Distances for pace tools are in km; body-fat uses cm.",
     },
   );
 

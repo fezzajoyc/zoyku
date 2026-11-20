@@ -60,7 +60,7 @@ export async function totp(
 
 export function parseOtpauth(
   raw: string,
-): { secret: string; digits?: number; period?: number; algo?: TotpAlgo; account?: string } | null {
+): { secret: string; digits: number; period: number; algo: TotpAlgo; account?: string } | null {
   const m = raw.trim().match(/^otpauth:\/\/totp\/?([^?]*)\?(.*)$/i);
   if (!m) return null;
   const params = new URLSearchParams(m[2]);
@@ -74,14 +74,15 @@ export function parseOtpauth(
     // keep raw label
   }
   const account = label.includes(":") ? label.split(":").pop()?.trim() : label.trim();
-  const algoRaw = (params.get("algorithm") ?? "").toUpperCase().replace("-", "");
+  const algoRaw = (params.get("algorithm") ?? "SHA1").toUpperCase().replace("-", "");
   const algo = ALGOS.find((a) => a.replace("-", "") === algoRaw);
-  const digitsRaw = Number(params.get("digits"));
-  const periodRaw = Number(params.get("period"));
+  const digitsRaw = Number(params.get("digits") ?? "6");
+  const periodRaw = Number(params.get("period") ?? "30");
+  if (!algo || (digitsRaw !== 6 && digitsRaw !== 8) || (periodRaw !== 30 && periodRaw !== 60)) return null;
   return {
     secret,
-    digits: digitsRaw === 6 || digitsRaw === 8 ? digitsRaw : undefined,
-    period: periodRaw === 30 || periodRaw === 60 ? periodRaw : undefined,
+    digits: digitsRaw,
+    period: periodRaw,
     algo,
     account: account || undefined,
   };

@@ -85,7 +85,7 @@ const tr = {
     text: { name: "Metin", desc: "Metni yazarken anında say, temizle, sırala ve dönüştür." },
     developer: { name: "Geliştirici", desc: "Günlük geliştirici işleri için biçimlendiriciler, kodlayıcılar, çözücüler ve üreteçler." },
     seo: { name: "SEO", desc: "Meta etiketleri, schema işaretlemesi, SERP önizlemesi ve diğer sayfa içi SEO yardımcıları." },
-    security: { name: "Güvenlik", desc: "Şifreler, karma (hash) değerleri ve sorgular — cihazında üretilir, cihazında denetlenir." },
+    security: { name: "Güvenlik", desc: "Yerel parola ve güvenlik araçları, ayrıca açıkça belirtilen alan adı ve IP sorguları." },
     utility: { name: "Yardımcı Araçlar", desc: "Birim dönüştürücüler, hesap makineleri ve günlük yardımcılar." },
   },
 

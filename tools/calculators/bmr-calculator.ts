@@ -13,6 +13,7 @@ export default defineTool({
       tagline:
         "Calculate your basal metabolic rate with the Mifflin-St Jeor equation (1990) — the calories your body burns at complete rest every day.",
       intro: [
+        "For adults aged 18 and over only; this equation is not used here for children or teenagers.",
         "Your basal metabolic rate (BMR) is the energy your body spends just staying alive — breathing, circulating blood, keeping warm — before any movement or digestion. This calculator uses the Mifflin-St Jeor equation, published in 1990 and still the most accurate widely used predictor for modern populations: men 10 × weight (kg) + 6.25 × height (cm) − 5 × age + 5; women the same expression minus 161.",
         "Enter your details in metric or imperial units and the result updates as you type. Treat the number as a population-level estimate — typically within about ±10% of a lab measurement — not a medical diagnosis.",
         "Mifflin–St Jeor is chosen over the older Harris–Benedict equation because validation studies (notably the 2005 ADA comparison) found it predicts measured resting energy expenditure more accurately for today's populations. It needs only weight, height, age and sex — no lab equipment, unlike calorimetry, which is the gold standard.",
@@ -69,6 +70,7 @@ export default defineTool({
       tagline:
         "用 Mifflin–St Jeor 公式(1990)计算基础代谢率,看看身体在完全静息状态下每天消耗多少千卡,支持公制与英制输入。",
       intro: [
+        "仅适用于年满 18 岁的成年人；本工具不将该公式用于儿童或青少年。",
         "基础代谢率(BMR)是身体维持呼吸、血液循环、体温等基本生命活动所消耗的能量,不含任何运动与消化。本计算器采用 1990 年发表的 Mifflin–St Jeor 公式——对现代人群仍是最准确的常用预测式之一:男性 10 × 体重(kg)+ 6.25 × 身高(cm)− 5 × 年龄 + 5,女性在此基础上再减 161。",
         "支持公制或英制输入,结果随输入实时更新。请把它当作人群层面的估算值——与实验室测量通常相差 ±10% 左右,不构成医学诊断。",
       ],
@@ -124,6 +126,7 @@ export default defineTool({
       tagline:
         "Mifflin–St Jeor 式(1990)で基礎代謝率(BMR)を計算。完全に安静な状態で 1 日に消費するカロリーを把握でき、単位はどちらにも対応。",
       intro: [
+        "18歳以上の成人専用です。この式を子どもや10代の方には適用しません。",
         "基礎代謝率(BMR)とは、呼吸・血液循環・体温維持など、生きているだけで消費するエネルギーのこと。運動や消化は含みません。この計算ツールは 1990 年に発表された Mifflin–St Jeor 式を使います。現代の集団に対して最も精度の高い汎用予測式の一つで、男性は 10 × 体重 + 6.25 × 身長 − 5 × 年齢 + 5、女性はさらに 161 を引いた値です。",
         "メートル法・ヤード・ポンド法のどちらでも入力でき、結果はリアルタイムで更新されます。数値は集団レベルの推定値で、実測値とは ±10% 程度の差が出ることがあります。医学的な診断ではありません。",
       ],
@@ -171,6 +174,7 @@ export default defineTool({
       tagline:
         "Calcule su metabolismo basal con la ecuación Mifflin-St Jeor (1990): las calorías que su cuerpo quema en reposo completo cada día.",
       intro: [
+        "Solo para adultos de 18 años o más; esta ecuación no se aplica aquí a menores.",
         "Su metabolismo basal (TMB) es la energía que el cuerpo gasta solo por mantenerse vivo — respirar, circular la sangre, conservar el calor — antes de cualquier movimiento o digestión. Esta calculadora usa la ecuación de Mifflin-St Jeor, publicada en 1990 y aún el predictor general más preciso para poblaciones actuales: hombres 10 × peso (kg) + 6,25 × altura (cm) − 5 × edad + 5; mujeres la misma expresión menos 161.",
         "Introduzca sus datos en unidades métricas o imperiales y el resultado se actualiza al escribir. Considere la cifra una estimación poblacional — normalmente dentro de un ±10% de la medición de laboratorio — no un diagnóstico médico.",
       ],
@@ -218,6 +222,7 @@ export default defineTool({
       tagline:
         "Calcule seu metabolismo basal com a equação Mifflin-St Jeor (1990) — as calorias que seu corpo queima em repouso completo todos os dias.",
       intro: [
+        "Apenas para adultos a partir de 18 anos; esta equação não é aplicada aqui a crianças ou adolescentes.",
         "Seu metabolismo basal (TMB) é a energia que o corpo gasta só para continuar vivo — respirar, circular o sangue, manter a temperatura — antes de qualquer movimento ou digestão. Esta calculadora usa a equação de Mifflin-St Jeor, publicada em 1990 e ainda o preditor geral mais preciso para populações atuais: homens 10 × peso (kg) + 6,25 × altura (cm) − 5 × idade + 5; mulheres a mesma expressão menos 161.",
         "Informe seus dados em unidades métricas ou imperiais e o resultado atualiza enquanto você digita. Trate o número como uma estimativa populacional — normalmente a ±10% de uma medição de laboratório — e não como um diagnóstico médico.",
       ],

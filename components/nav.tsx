@@ -1,70 +1,168 @@
 "use client";
 
-import { useState } from "react";
-
-import { SITE } from "@/lib/site";
-
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { CATEGORIES, SITE } from "@/lib/site";
 import { useI18n } from "./i18n-provider";
 import { LangSwitch } from "./lang-switch";
 import { CommandPalette } from "./command-palette";
 import { ThemeToggle } from "./theme-toggle";
 import { Icon } from "./icons";
 import { BrandLogo } from "./brand-logo";
-import { CATEGORIES } from "@/lib/site";
+import { closeCategoryDetails } from "@/lib/home-interactions";
 
 export function Nav() {
   const { locale, t } = useI18n();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const categoryDetails = useRef<HTMLDetailsElement>(null);
+  const closePalette = useCallback(() => setPaletteOpen(false), []);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setMenuOpen(false);
+        setPaletteOpen((current) => !current);
+      }
+      if (event.key === "Escape") {
+        closeCategoryDetails(event, categoryDetails.current);
+        setMenuOpen(false);
+        if (menuOpen) menuButton.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
   return (
     <>
-
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--color-accent)] focus:px-4 focus:py-2 focus:text-white"
-      >
-        Skip to content
+      <a href="#main" className="site-skip-link">
+        {SKIP_LABEL[locale] ?? SKIP_LABEL.en}
       </a>
-      <header className="sticky top-0 z-40 border-b hairline bg-[var(--color-nav)] backdrop-blur-md">
-      <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-4 px-5 sm:px-8">
-        <Link href={`/${locale}`} className="flex items-center gap-2.5 font-semibold tracking-tight">
-          <span className="inline-flex rounded-lg bg-[var(--color-ink)] p-1.5 text-white dark:bg-white dark:text-[#1d1d1f]">
-            <BrandLogo size={16} />
-          </span>
-          <span className="text-[15.5px] font-bold">{SITE.name}</span>
-        </Link>
-        <nav
-          className="no-scrollbar -mx-1 flex flex-1 items-center gap-3 overflow-x-auto px-1 text-[13px] text-[var(--color-sub)] xl:gap-3.5 xl:text-[13.5px]"
-          aria-label={t.nav.menu}
-        >
-          <Link href={`/${locale}/tools`} className="flex-none transition-colors hover:text-[var(--color-ink)]">
-            {t.nav.tools}
+      <header className="site-header">
+        <div className="home-container site-nav-row">
+          <Link
+            href={`/${locale}`}
+            className="site-brand"
+            onClick={() => setMenuOpen(false)}
+          >
+            <span className="site-brand-mark">
+              <BrandLogo size={19} />
+            </span>
+            <span>{SITE.name.toLowerCase()}</span>
           </Link>
-          {CATEGORIES.map((c) => (
-            <Link
-              key={c}
-              href={`/${locale}/categories/${c}`}
-              className="flex-none whitespace-nowrap transition-colors hover:text-[var(--color-ink)]"
+          <nav className="site-desktop-nav" aria-label={t.nav.menu}>
+            <Link href={`/${locale}/tools`}>{t.nav.tools}</Link>
+            <details ref={categoryDetails} className="site-category-menu">
+              <summary>
+                {t.nav.categories}
+                <span aria-hidden="true">⌄</span>
+              </summary>
+              <div>
+                {CATEGORIES.map((category) => (
+                  <Link
+                    key={category}
+                    href={`/${locale}/categories/${category}`}
+                    onClick={(event) =>
+                      event.currentTarget
+                        .closest("details")
+                        ?.removeAttribute("open")
+                    }
+                  >
+                    {t.categories[category].name}
+                  </Link>
+                ))}
+              </div>
+            </details>
+            <Link href={`/${locale}/about`}>{t.nav.about}</Link>
+          </nav>
+          <div className="site-nav-actions">
+            <button
+              type="button"
+              onClick={() => {
+                setPaletteOpen(true);
+                setMenuOpen(false);
+              }}
+              aria-label={t.nav.search}
+              className="site-icon-button"
             >
-              {t.categories[c].name}
-            </Link>
-          ))}
-        </nav>
-        <button
-          type="button"
-          onClick={() => setPaletteOpen(true)}
-          aria-label={t.nav.search}
-          className="inline-flex items-center gap-2 rounded-full border hairline px-3 py-1.5 text-[13px] text-[var(--color-sub)] transition-colors hover:bg-[var(--color-surface)]"
+              <Icon name="search" size={18} />
+            </button>
+            <span className="site-theme-control">
+              <ThemeToggle />
+            </span>
+            <span className="site-language-control">
+              <LangSwitch />
+            </span>
+            <button
+              ref={menuButton}
+              type="button"
+              className="site-mobile-menu-toggle site-icon-button"
+              aria-label={t.nav.menu}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setMenuOpen((current) => !current)}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
+                {menuOpen ? (
+                  <path d="m6 6 12 12M18 6 6 18" />
+                ) : (
+                  <path d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+        </div>
+        <nav
+          id="mobile-navigation"
+          className="site-mobile-nav"
+          aria-label={t.nav.menu}
+          hidden={!menuOpen}
+          onClick={(event) => {
+            if ((event.target as HTMLElement).closest("a")) setMenuOpen(false);
+          }}
         >
-          <Icon name="search" size={14} />
-          <span className="hidden md:inline">{t.tools.filterPlaceholder.replace("…", "")}</span>
-          <kbd className="hidden rounded-md border hairline bg-[var(--color-surface)] px-1.5 py-0.5 text-[11px] md:inline">⌘K</kbd>
-        </button>
-        <ThemeToggle />
-        <LangSwitch />
-      </div>
-    </header>
-      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+          <Link href={`/${locale}/tools`}>{t.nav.tools}</Link>
+          <p>{t.nav.categories}</p>
+          <div>
+            {CATEGORIES.map((category) => (
+              <Link key={category} href={`/${locale}/categories/${category}`}>
+                {t.categories[category].name}
+              </Link>
+            ))}
+          </div>
+          <Link href={`/${locale}/about`}>{t.nav.about}</Link>
+          <Link href={`/${locale}/privacy`}>{t.footer.privacy}</Link>
+        </nav>
+      </header>
+      <CommandPalette open={paletteOpen} onClose={closePalette} />
     </>
   );
 }
+
+const SKIP_LABEL: Record<string, string> = {
+  en: "Skip to content",
+  zh: "跳到主要内容",
+  ja: "本文へ移動",
+  es: "Ir al contenido",
+  pt: "Ir para o conteúdo",
+  fr: "Aller au contenu",
+  de: "Zum Inhalt",
+  ru: "Перейти к содержимому",
+  it: "Vai al contenuto",
+  tr: "İçeriğe geç",
+  ko: "본문으로 이동",
+  ar: "انتقل إلى المحتوى",
+  hi: "सामग्री पर जाएँ",
+  id: "Lewati ke konten",
+  vi: "Đến nội dung",
+};

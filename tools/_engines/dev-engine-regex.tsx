@@ -231,7 +231,7 @@ export function DevRegexEngine({
                       <span key={gi} className="text-[var(--color-sub)]"> ${gi + 1} {g === undefined ? "—" : `"${g}"`}</span>
                     ))}
                     {m.named.map(([name, v]) => (
-                      <span key={name} className="text-[var(--color-sub)]"> &lt;{name}&gt; "{v}"</span>
+                      <span key={name} className="text-[var(--color-sub)]"> &lt;{name}&gt; &quot;{v}&quot;</span>
                     ))}
                   </li>
                 ))}

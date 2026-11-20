@@ -7101,9 +7101,9 @@ export const id: Record<string, ToolCopy> = {
     tagline:
       "Lihat bagaimana tabungan tumbuh dengan bunga majemuk — masukkan setoran, kontribusi bulanan, dan suku bunga untuk mendapat saldo akhir dan tabel tahunan.",
     intro: [
-      "Bunga majemuk adalah bunga atas bunga: tiap periode saldo menghasilkan porsi suku bunga tahunan, dan setiap setoran yang Anda tambahkan mulai menghasilkan bunganya sendiri. Kalkulator ini menjalankan rekursi itu periode demi periode untuk setoran awal plus kontribusi bulanan rutin, dengan compounding bulanan, kuartalan, atau tahunan.",
-      "Hasilnya saldo akhir, total yang Anda masukkan, dan bunga yang dihasilkan compounding — plus tabel tahunan agar Anda melihat persis kapan kurvanya mulai melengkung. Semuanya dihitung ulang langsung, dan rumus yang dipakai tercetak tepat di bawah angkanya, jadi Anda bisa memeriksanya terhadap proyeksi bank Anda sendiri.",
-    ],
+  "Setoran masuk pada awal setiap bulan, apa pun frekuensi bunga majemuk. Untuk n periode per tahun, faktor bulanan setara adalah (1 + tingkat tahunan/n)^(n/12). Setoran masa depan tidak dimajukan. Tingkat nominal tetap, tanpa biaya atau pajak.",
+  "Tidak. Ini skenario tingkat tetap; imbal hasil nyata, biaya dan pajak dapat mengubah hasil."
+],
     steps: [
       "Masukkan setoran awal dan jumlah yang akan Anda tambahkan tiap bulan (0 untuk setoran sekali).",
       "Atur suku bunga tahunan, jumlah tahun, dan seberapa sering bunga di-compound.",
@@ -7111,45 +7111,16 @@ export const id: Record<string, ToolCopy> = {
       "Baca saldo akhir, total kontribusi, dan bunga yang dihasilkan, lalu periksa tabel tahunannya.",
     ],
     faqs: [
-      {
-        q: "Rumus apa yang dipakai kalkulator ini?",
-        a: "Rekursi saldo yang sama dengan yang dipakai bank untuk memproyeksikan tabungan: tiap periode, saldo ← (saldo + kontribusi) × (1 + r), di mana r = suku bunga tahunan ÷ periode per tahun (12 bulanan, 4 kuartalan, 1 tahunan). Kontribusi disetor di awal tiap periode, jadi menghasilkan bunga sejak periode itu. Contoh: 10.000 awal, 100/bulan pada 5% selama 10 tahun dengan compounding bulanan memberi saldo akhir 32.063,02 — 22.000,00 kontribusi dan 10.063,02 bunga.",
-      },
-      {
-        q: "Kenapa saya mendapat hasil sedikit berbeda di kalkulator lain?",
-        a: "Konvensi pewaktuannya berbeda. Sebagian alat memperlakukan kontribusi sebagai setoran akhir-periode (tidak menghasilkan bunga pada periode kedatangannya), sebagian mengasumsikan compounding harian, dan sebagian membulatkan tiap periode. Alat ini menyetor di awal tiap periode dan tidak pernah membulatkan langkah perantara; selisih 0,1% terhadap situs lain biasanya konvensi itu, bukan kesalahan.",
-      },
-      {
-        q: "Apakah mencakup pajak, biaya, atau inflasi?",
-        a: "Tidak — hasilnya pertumbuhan nominal pada suku bunga yang Anda masukkan. Pajak atas bunga, biaya akun, dan inflasi semuanya mengurangi imbal hasil nyata, jadi perlakukan saldo akhir sebagai batas atas dari yang benar-benar akan Anda pegang.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Mengapa frekuensi perbungaan mengubah jawabannya",
-        paragraphs: [
-          "Frekuensi perbungaan memutuskan seberapa sering bunga yang diperoleh bergabung ke pokoknya dan mulai memperoleh miliknya sendiri. Tingkat periodenya adalah tingkat tahunan dibagi jumlah periodenya, jadi perbungaan bulanan pada 8% memakai 0,667% per bulan — dan karena bunga itu dikreditkan dua belas kali setahun alih-alih sekali, hasil tahunan efektifnya merayap di atas 8%. Harian mengalahkan bulanan, bulanan mengalahkan kuartalan, kuartalan mengalahkan tahunan, selalu dalam urutan itu untuk tingkat nominal yang sama.",
-          "Yang mengejutkan orang adalah seberapa kecil celahnya pada tingkat konsumen. Pada 5% nominal, perbungaan tahunan menghasilkan 5,00% dan perbungaan bulanan sekitar 5,12% — sepersepuluh poin yang hanya menjadi uang serius melintasi dekade atau pada saldo besar. Pemasaran mengeksploitasi ini: satu bank bisa mengutip satu tingkat nominal yang tampak identik dengan pesaingnya sementara frekuensi perbungaannya diam-diam yang membedakan.",
-          "Frekuensi hanya mengubah jawabannya jika tingkat nominalnya yang Anda bandingkan. Begitu semuanya dikonversi ke satu hasil tahunan efektif, frekuensinya sudah terlipat ke dalam dan dua akun dengan APY yang sama sungguh setara — persis alasan kalkulator APY di situs ini ada di samping yang ini.",
-        ],
-      },
-      {
-        heading: "Titik-persilangan, dan kenapa waktu mendominasi tingkat",
-        paragraphs: [
-          "Tabel tahun-per-tahun ada untuk menampilkan satu momen spesifik: titik persilangannya, tempat bunga yang diperoleh dalam satu tahun melampaui kontribusi Anda sendiri. Pada tingkat sedang ini butuh dekade-dekade, itulah sebabnya perbungaan terasa tak mengesankan selama sepuluh tahun pertama dan absurd setelah tiga puluh. Kurvanya datar, lalu membengkok — dan hampir semua orang meremehkan seberapa terlambat lengkungan itu datang.",
-          "Inilah juga mengapa jumlah awal lebih berarti daripada yang disarankan naluri pengoptimalnya. Satu poin tingkat ekstra itu linear; satu dekade perbungaan ekstra itu eksponensial. Di antara mulai sepuluh tahun lebih awal pada tingkat sederhana dan mulai hari ini pada tingkat satu poin lebih tinggi, awal yang lebih awal biasanya menang dengan margin yang tidak nyaman — tabelnya membiarkan Anda menguji klaim itu pada angka Anda sendiri alih-alih menerimanya bulat.",
-          "Dua peringatan jujur: alatnya menyetorkan kontribusi di awal tiap periode, yang adalah konvensi optimisnya, dan ia mengasumsikan tingkatnya tak pernah berubah, yang tak dihormati investasi nyata mana pun. Keluarannya satu skenario, bukan satu prakiraan — tahun persilangannya terutama seharusnya dibaca “kira-kira kapan”, bukan satu tanggal untuk dilingkari.",
-        ],
-      },
-      {
-        heading: "Pertumbuhan nominal, daya-beli nyata",
-        paragraphs: [
-          "Semua yang ditampilkan kalkulator itu nominal: tingkat yang Anda ketik diterapkan ke saldo yang Anda ketik, tanpa pajak, tanpa biaya, tanpa inflasi. Tiap kekuatan itu memotong dari sisi yang berbeda — pajak atas bunga mengurangi tingkat yang dikreditkan, biaya akun mengurangkan jumlah tetap, dan inflasi diam-diam mengecilkan yang dibeli saldo akhirnya. Angka di layar adalah batas atas dari apa yang benar-benar akan Anda pertahankan.",
-          "Satu latihan kewarasan yang berguna: kurangkan inflasi tahunan yang Anda harapkan dari tingkatnya sebelum memasukkannya. Satu imbal hasil nominal 5% dengan inflasi 2,5% berbunga dengan cara yang sama tetapi menceritakan satu kisah yang jauh lebih jujur tentang daya-beli masa depan saldonya. Matematikanya identik; hanya tafsirnya yang berubah.",
-          "Dan seperti setiap alat di sini, proyeksinya berjalan sepenuhnya di browser Anda: saldo, tingkat, dan jumlah kontribusi tak pernah meninggalkan perangkat Anda, jadi aman memodelkan angka yang tak akan Anda tempel ke satu formulir yang mengirim data ke satu server.",
-        ],
-      },
-    ],
+  {
+    "q": "Bagaimana setoran dan bunga diterapkan?",
+    "a": "Setoran masuk pada awal setiap bulan, apa pun frekuensi bunga majemuk. Untuk n periode per tahun, faktor bulanan setara adalah (1 + tingkat tahunan/n)^(n/12). Setoran masa depan tidak dimajukan. Tingkat nominal tetap, tanpa biaya atau pajak."
+  },
+  {
+    "q": "Apakah ini perkiraan terjamin?",
+    "a": "Tidak. Ini skenario tingkat tetap; imbal hasil nyata, biaya dan pajak dapat mengubah hasil."
+  }
+],
+    deepDive: [],
   },
   "random-name-picker": {
     name: "Pemilih Nama Acak",
@@ -8232,9 +8203,8 @@ export const id: Record<string, ToolCopy> = {
     tagline:
       "Hitung laju metabolisme dasar Anda dengan persamaan Mifflin-St Jeor (1990) — kalori yang dibakar tubuh Anda setiap hari dalam istirahat total.",
     intro: [
-      "Laju metabolisme dasar (BMR) Anda adalah energi yang dibelanjakan tubuh hanya untuk tetap hidup — bernapas, mengalirkan darah, menjaga kehangatan — sebelum gerakan atau pencernaan apa pun. Kalkulator ini memakai persamaan Mifflin-St Jeor, diterbitkan tahun 1990 dan masih prediktor paling akurat yang lazim dipakai untuk populasi modern: pria 10 × berat (kg) + 6,25 × tinggi (cm) − 5 × usia + 5; wanita ekspresi yang sama dikurangi 161.",
-      "Masukkan data Anda dalam satuan metrik atau imperial dan hasilnya diperbarui saat mengetik. Perlakukan angka ini sebagai perkiraan tingkat populasi — biasanya dalam sekitar ±10% dari pengukuran laboratorium — bukan diagnosis medis.",
-    ],
+  "Hanya untuk dewasa18 tahun ke atas, bukan untuk kehamilan atau menyusui. Target di bawah1.000 kcal/hari tidak ditampilkan. Jika target tidak tersedia, minta saran profesional, jangan menambah pembatasan."
+],
     steps: [
       "Pilih jenis kelamin dan satuan metrik (cm + kg) atau imperial (ft + in + lb).",
       "Masukkan tinggi, berat, dan usia.",
@@ -8242,54 +8212,24 @@ export const id: Record<string, ToolCopy> = {
       "Masukkan ke kalkulator kalori untuk angka pemeliharaan dan target.",
     ],
     faqs: [
-      {
-        q: "Rumus apa yang dipakai, dan seberapa akurat?",
-        a: "Persamaan Mifflin-St Jeor, diterbitkan 1990 dan direkomendasikan American Dietetic Association setelah divalidasi terhadap kalorimetri tak langsung. Ia memprediksi pengeluaran energi istirahat terukur dalam sekitar ±10% untuk kebanyakan orang dewasa, lebih akurat daripada persamaan Harris-Benedict yang lama (1919).",
-      },
-      {
-        q: "Apa bedanya BMR dengan kebutuhan kalori harian?",
-        a: "BMR hanya menutup istirahat total. Pembakaran harian asli Anda adalah BMR dikali faktor aktivitas — sekitar 1,2 untuk hari sedenter hingga 1,9 untuk orang sangat aktif. Kalkulator kalori menerapkan pengali itu dan tujuan Anda untuk Anda.",
-      },
-      {
-        q: "Apakah ini nasihat medis?",
-        a: "Tidak — ini perkiraan, bukan nasihat medis. Penyakit, obat, kehamilan, dan komposisi tubuh yang tak biasa semuanya menggeser pengeluaran energi nyata; diskusikan perubahan diet apa pun dengan tenaga kesehatan.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Mifflin-St Jeor versus persamaan-persamaan yang lebih tua",
-        paragraphs: [
-          "Alat ini memakai persamaan Mifflin-St Jeor, diterbitkan 1990: untuk pria, 10 × berat (kg) + 6,25 × tinggi (cm) − 5 × usia + 5, dan untuk wanita ekspresi yang sama dikurangi 161 alih-alih +5. Ia dipaskan ke pengeluaran energi istirahat yang terukur dan divalidasi terhadap kalorimetri tidak-langsung, standar-emas lab yang mengukur konsumsi oksigen secara langsung.",
-          "Alternatif yang paling sering Anda temui adalah Harris-Benedict, aslinya diterbitkan 1919 dan direvisi 1984. Satu perbandingan American Dietetic Association 2005 yang luas dikutip menemukan Mifflin-St Jeor lebih akurat untuk populasi modern, itulah sebabnya kalkulator ini menstandarkan padanya. Satu opsi ketiga, Katch-McArdle, memakai massa tanpa-lemak alih-alih berat dan bisa lebih tajam bagi orang yang tahu persentase lemak tubuh mereka — tetapi ia menuntut satu angka yang tak dimiliki kebanyakan orang.",
-          "Kesimpulan praktisnya: selisih antara persamaan-persamaan ini biasanya puluhan kilokalori, lebih kecil daripada variasi hari-ke-hari pengeluaran Anda sendiri. Jika dua kalkulator sedikit tak sepakat, pilihan rumusnya biasanya alasannya, dan tak satu pun salah.",
-        ],
-      },
-      {
-        heading: "Membaca angkanya: BMR bukan pembakaran harian Anda",
-        paragraphs: [
-          "BMR adalah lantainya, bukan anggarannya. Ia mencakup pernapasan, sirkulasi, perbaikan sel, dan regulasi suhu pada istirahat total — kira-kira 60–70% dari yang dibakar kebanyakan orang dewasa sedentari dalam satu hari. Pengeluaran energi harian total (TDEE) Anda yang nyata adalah BMR dikali satu faktor aktivitas, dari sekitar 1,2 untuk satu hari terikat-meja hingga sekitar 1,9 untuk kerja fisik berat atau pelatihan keras harian.",
-          "Perkalian itu lebih berarti daripada rumusnya sendiri. Dua orang dengan BMR identik bisa membakar 800+ kcal terpisah per hari murni dari gaya hidup. Kalkulator ini sengaja hanya melaporkan BMR; kalkulator kalori di situs ini mengambil langkah berikutnya dan menerapkan faktor aktivitas dan satu sasaran untuk Anda.",
-          "Satu pemeriksaan kewarasan yang berguna: BMR berskala terutama dengan berat, tinggi, dan usia, jadi jika hasilnya bergeser tajam setelah satu perubahan masukan kecil, periksa-ulang unitnya — kg versus lb adalah kecampuran klasiknya.",
-        ],
-      },
-      {
-        heading: "Kesalahan umum dan batas jujurnya",
-        paragraphs: [
-          "Tiap persamaan prediktif membawa kesalahan individual. Mifflin-St Jeor mendarat dalam kira-kira ±10% pengukuran lab bagi kebanyakan orang dewasa, tetapi individu dengan massa otot sangat tinggi atau rendah, kondisi tiroid, atau obat-obatan tertentu bisa duduk jauh di luar pita itu. Perlakukan keluarannya sebagai satu titik awal perencanaan, bukan satu fakta fisiologis.",
-          "Jangan gunakan BMR untuk membenarkan makan di bawahnya. Metabolisme istirahat sudah dicakup oleh jaringan tanpa-lemak yang menjaga Anda hidup; defisit agresif di bawah BMR adalah keputusan untuk satu profesional kesehatan, bukan satu kalkulator. Serupa, adaptasi metabolik berarti angka yang Anda hitung pada 90 kg berhenti akurat pada 80 kg — hitung-ulang saat berat Anda berubah.",
-          "Seperti segala hal di situs ini, perhitungannya berjalan sepenuhnya di browser Anda: tak ada masukan yang dikirim ke mana pun, jadi tak ada alasan ragu memasukkan angka nyata.",
-        ],
-      },
-    ],
+  {
+    "q": "Untuk siapa perkiraan ini?",
+    "a": "Hanya untuk dewasa18 tahun ke atas, bukan untuk kehamilan atau menyusui. Target di bawah1.000 kcal/hari tidak ditampilkan. Jika target tidak tersedia, minta saran profesional, jangan menambah pembatasan."
+  },
+  {
+    "q": "Seberapa akurat perkiraan ini?",
+    "a": "Perkiraan populasi, bukan resep. Periksa kebutuhan bersama profesional."
+  }
+],
+    deepDive: [],
   },
   "calorie-calculator": {
     name: "Kalkulator Kalori",
     tagline:
       "Ubah BMR Anda menjadi target kalori harian: lima tingkat aktivitas (×1,2–1,9) plus tujuan menurunkan, mempertahankan, atau menambah sekitar ±500 kcal per hari.",
     intro: [
-      "Kebutuhan energi harian adalah BMR Anda dikali faktor aktivitas: 1,2 sedenter, 1,375 aktif ringan, 1,55 aktif sedang, 1,725 sangat aktif, dan 1,9 ekstra aktif. Hasil kali itu — pengeluaran energi harian total (TDEE) — adalah yang dibutuhkan mempertahankan berat Anda sekarang. BMR-nya sendiri berasal dari persamaan Mifflin-St Jeor (1990).",
-      "Pilih tujuan dan alat menyesuaikan angka pemeliharaan: sekitar −500 kcal/hari untuk menurun sekitar 0,5 kg per minggu, +500 kcal/hari untuk menambah, atau tanpa perubahan untuk mempertahankan. Heuristik ±500 kcal mengikuti dari fakta bahwa 1 kg lemak tubuh menyimpan ≈ 7.700 kcal. Semua di sini perkiraan — metabolisme nyata menyesuaikan saat berat dan kebiasaan Anda berubah.",
-    ],
+  "Hanya untuk dewasa18 tahun ke atas, bukan untuk kehamilan atau menyusui. Target di bawah1.000 kcal/hari tidak ditampilkan. Jika target tidak tersedia, minta saran profesional, jangan menambah pembatasan."
+],
     steps: [
       "Pilih jenis kelamin, satuan, dan masukkan tinggi, berat, dan usia.",
       "Pilih tingkat aktivitas yang cocok dengan minggu tipikal Anda.",
@@ -8297,45 +8237,16 @@ export const id: Record<string, ToolCopy> = {
       "Baca pemeliharaan (TDEE) dan kalori target harian Anda.",
     ],
     faqs: [
-      {
-        q: "Rumus dan faktor apa yang dipakai?",
-        a: "BMR dari persamaan Mifflin-St Jeor (1990), dikali faktor aktivitas TDEE standar: 1,2 sedenter, 1,375 aktif ringan, 1,55 aktif sedang, 1,725 sangat aktif, 1,9 ekstra aktif. Tujuan menambah atau mengurangi sekitar 500 kcal/hari, heuristik klasik untuk perubahan 0,5 kg per minggu (1 kg lemak ≈ 7.700 kcal).",
-      },
-      {
-        q: "Apakah defisit 500 kcal aman, dan kapan hasil terlihat?",
-        a: "Sekitar −500 kcal/hari untuk perubahan ≈0,5 kg/minggu adalah laju yang oleh kebanyakan panduan kesehatan masyarakat disebut moderat dan berkelanjutan. Penurunan awal sebagian air, dan pengeluaran turun saat Anda meringkas, jadi hasil mingguan tidak linier — hitung ulang tiap beberapa kilogram.",
-      },
-      {
-        q: "Apakah ini nasihat medis?",
-        a: "Tidak — ini perkiraan, bukan nasihat medis. Jika Anda hamil, mengelola kondisi kronis, minum obat, atau punya riwayat gangguan makan, tetapkan target bersama tenaga kesehatan.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Bagaimana angka pemeliharaannya dibangun",
-        paragraphs: [
-          "Perhitungannya satu rantai dua-langkah. Pertama, BMR datang dari persamaan Mifflin-St Jeor (1990): pria 10 × berat (kg) + 6,25 × tinggi (cm) − 5 × usia + 5, wanita ekspresi yang sama dikurangi 161. Kedua, BMR itu dikalikan salah satu dari lima faktor aktivitas standar: 1,2 sedentari, 1,375 ringan-aktif, 1,55 moderat-aktif, 1,725 sangat-aktif, 1,9 ekstra-aktif.",
-          "Lima faktor itu menelusuri kembali ke tradisi Harris-Benedict dan selamat karena mereka memetakan bersih ke cara orang benar-benar hidup: latihan sendirian tak mendefinisikan aktivitas — satu pekerja konstruksi tanpa waktu gym mendarat lebih tinggi daripada satu pekerja kantor dengan tiga sesi seminggu.",
-          "Penyesuaian sasaran kemudian menerapkan heuristik klasiknya: 1 kg lemak tubuh menyimpan kira-kira 7.700 kcal, jadi sekitar ±500 kcal per hari berkorespondensi kira-kira 0,5 kg perubahan mingguan. Kalkulator mengurangi 500 untuk menurunkan, menambah 500 untuk menaikkan, dan membiarkan pemeliharaannya tak tersentuh.",
-        ],
-      },
-      {
-        heading: "Menafsirkan sasarannya: harapkan satu kurva, bukan satu garis",
-        paragraphs: [
-          "Penurunan berat awal selalu melampaui matematikanya: satu-dua minggu pertama kebanyakan menurunkan air dan glikogen, bukan lemak. Setelah itu hasilnya melambat karena pengeluaran Anda turun saat Anda menjadi lebih ringan — orang yang menimbang 90 kg membakar lebih sedikit pada 82 kg, jadi defisit yang menghasilkan setengah kilo seminggu di bulan pertama sering menghasilkan sepertiga itu di bulan ketiga.",
-          "Alur kerja praktisnya adalah memperlakukan sasarannya sebagai satu hipotesis: timbang dalam kondisi konsisten, bandingkan terhadap satu rata-rata bergulir dua-minggu alih-alih derau harian, dan sesuaikan 100–200 kcal ketika trennya berhenti selama beberapa minggu.",
-          "Hitung-ulang setelah tiap beberapa kilo perubahan, dan ingat bahwa angka pemeliharaan yang sama mendukung hasil yang sangat berbeda tergantung apa yang Anda makan — protein, serat, dan waktu makan tak mengubah matematika kalorinya, tetapi mereka mengubah seberapa layak-huni defisitnya terasa.",
-        ],
-      },
-      {
-        heading: "Kesalahan umum",
-        paragraphs: [
-          "Kesalahan paling sering adalah menggembungkan tingkat aktivitas. Orang menghitung satu latihan sebagai “moderat-aktif” lalu juga duduk sepuluh jam sehari; jika Anda berolahraga 3–5 kali seminggu tetapi bekerja di satu pekerjaan meja, 1,55 biasanya sudah murah hati. Saat ragu, pilih faktor yang lebih rendah dan sesuaikan dari hasil yang terukur.",
-          "Jangan menumpuk penyesuaian ±500 melampaui nalar. Defisit jauh di bawah BMR Anda atau kenaikan +1.000 kcal sehari kebanyakan menghasilkan kelelahan dan kenaikan lemak masing-masing; tingkat yang berkelanjutan bagi kebanyakan orang dewasa adalah 0,25–0,75 kg per minggu di kedua arah. Siapa pun yang hamil, mengelola satu kondisi kronis, atau dengan riwayat gangguan-makan seharusnya menyetel sasaran dengan satu klinisi alih-alih.",
-          "Terakhir, perlakukan tiap keluaran di sini sebagai satu estimasi rata-rata-populasi: metabolisme nyata bervariasi kira-kira ±10% antar individu, dan hanya tren terukur Anda sendiri selama berminggu-minggu yang menyelesaikan pertanyaannya.",
-        ],
-      },
-    ],
+  {
+    "q": "Untuk siapa perkiraan ini?",
+    "a": "Hanya untuk dewasa18 tahun ke atas, bukan untuk kehamilan atau menyusui. Target di bawah1.000 kcal/hari tidak ditampilkan. Jika target tidak tersedia, minta saran profesional, jangan menambah pembatasan."
+  },
+  {
+    "q": "Seberapa akurat perkiraan ini?",
+    "a": "Perkiraan populasi, bukan resep. Periksa kebutuhan bersama profesional."
+  }
+],
+    deepDive: [],
   },
   "body-fat-calculator": {
     name: "Kalkulator Lemak Tubuh",

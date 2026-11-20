@@ -86,7 +86,7 @@ const id = {
     text: { name: "Teks", desc: "Hitung, bersihkan, urutkan, dan olah teks secara instan sambil Anda mengetik." },
     developer: { name: "Developer", desc: "Formatter, encoder, decoder, dan generator untuk kerja harian developer." },
     seo: { name: "SEO", desc: "Meta tag, schema markup, pratinjau SERP, dan alat bantu SEO on-page lainnya." },
-    security: { name: "Keamanan", desc: "Kata sandi, hash, dan pencarian data — dibuat dan diperiksa di perangkat Anda." },
+    security: { name: "Keamanan", desc: "Alat kata sandi dan pemeriksaan lokal, serta kueri domain dan IP yang dijelaskan jelas." },
     utility: { name: "Utilitas", desc: "Konverter satuan, kalkulator, dan alat bantu sehari-hari." },
   },
 

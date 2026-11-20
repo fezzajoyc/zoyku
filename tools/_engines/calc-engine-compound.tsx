@@ -7,14 +7,12 @@ import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, Stats, TableBox, fmtMoney, pick } from "./calc-ui";
 import { compound, type Freq } from "../_lib/finance";
 import { DonutChart, BalanceChart, chartText } from "./calc-charts";
+import type { Locale } from "@/lib/site";
 
 /**
  * Compound interest with regular monthly contributions.
- * Periodic rate r = annual / periods_per_year; per period the contributions
- * made during that period are deposited first, then interest accrues:
- *   FV ← (FV + contribution_per_period) × (1 + r)
- * Deposits land at the start of each period (annuity-due), which is what the
- * recursion above says — stated honestly in the FAQ.
+ * Deposits land at the start of each month regardless of compounding frequency.
+ * Monthly-equivalent growth g = (1 + annual / n)^(n / 12), n = 12 / 4 / 1.
  */
 
 const CURRENCIES: Record<string, { symbol: string; frac: number }> = {
@@ -40,6 +38,24 @@ const S = {
   thInterest: { en: "Interest", zh: "利息", ja: "利息", es: "Intereses", pt: "Juros", fr: "Intérêts", de: "Zinsen", ru: "Проценты", it: "Interessi", tr: "Faiz", ko: "이자", ar: "الفائدة", hi: "ब्याज", id: "Bunga", vi: "Tiền lãi" },
   thBalance: { en: "Balance", zh: "余额", ja: "残高", es: "Saldo", pt: "Saldo", fr: "Solde", de: "Guthaben", ru: "Баланс", it: "Saldo", tr: "Bakiye", ko: "잔액", ar: "الرصيد", hi: "शेष", id: "Saldo", vi: "Số dư" },
   table: { en: "Year-by-year growth", zh: "逐年增长明细", ja: "年ごとの推移", es: "Crecimiento año por año", pt: "Crescimento ano a ano", fr: "Croissance année par année", de: "Wachstum Jahr für Jahr", ru: "Рост по годам", it: "Crescita anno per anno", tr: "Yıl yıl büyüme", ko: "연도별 성장", ar: "النمو سنة بسنة", hi: "वर्ष-दर-वर्ष वृद्धि", id: "Pertumbuhan tahunan", vi: "Tăng trưởng từng năm" },
+};
+
+export const COMPOUND_CONVENTION: Record<Locale, string> = {
+  en: "Deposits are made at the start of every month, for every compounding choice. Each month: B ← (B + monthly deposit) × g, where g = (1 + annual rate ÷ n)^(n ÷ 12), n = 12, 4 or 1 and the rate is decimal. This uses fractional periods; future deposits are never invested early. Duration is rounded to whole months.",
+  zh: "无论复利频率如何，均在每月月初存入。每月 B ← (B + 月投入) × g，其中 g = (1 + 年利率 ÷ n)^(n ÷ 12)，n 为 12、4 或 1，利率用小数表示。采用不足整期的等效增长，不提前计入未来投入；年限按整月取整。",
+  ja: "複利頻度にかかわらず毎月初めに積み立てます。毎月 B ← (B + 月額積立) × g、g = (1 + 年利 ÷ n)^(n ÷ 12)、nは12・4・1、年利は小数です。端数期間の等価成長を使い、将来の積立を先取りしません。期間は月単位に丸めます。",
+  es: "Los aportes se hacen al inicio de cada mes con cualquier frecuencia. Cada mes: B ← (B + aporte mensual) × g; g = (1 + tasa anual ÷ n)^(n ÷ 12), n = 12, 4 o 1, tasa decimal. Se usan periodos fraccionarios sin anticipar aportes futuros. El plazo se redondea a meses enteros.",
+  pt: "Os aportes entram no início de cada mês em todas as frequências. Por mês: B ← (B + aporte mensal) × g; g = (1 + taxa anual ÷ n)^(n ÷ 12), n = 12, 4 ou 1, taxa decimal. Usamos períodos fracionários sem antecipar aportes futuros. O prazo é arredondado em meses inteiros.",
+  fr: "Les versements ont lieu au début de chaque mois pour toute fréquence. Chaque mois : B ← (B + versement mensuel) × g ; g = (1 + taux annuel ÷ n)^(n ÷ 12), n = 12, 4 ou 1, taux décimal. Les périodes fractionnaires évitent d'anticiper les versements futurs. Durée arrondie en mois entiers.",
+  de: "Einzahlungen erfolgen bei jeder Verzinsung zu Monatsbeginn. Monatlich: B ← (B + Monatseinzahlung) × g, g = (1 + Jahreszins ÷ n)^(n ÷ 12), n = 12, 4 oder 1, Zinssatz dezimal. Anteilsperioden verhindern vorzeitige künftige Einzahlungen. Laufzeit auf volle Monate gerundet.",
+  ru: "Взносы поступают в начале каждого месяца при любой капитализации. Ежемесячно: B ← (B + взнос) × g; g = (1 + годовая ставка ÷ n)^(n ÷ 12), n = 12, 4 или 1, ставка десятичная. Используются доли периода без досрочного учёта будущих взносов. Срок округляется до месяцев.",
+  it: "I versamenti avvengono a inizio mese con ogni frequenza. Ogni mese: B ← (B + versamento mensile) × g; g = (1 + tasso annuo ÷ n)^(n ÷ 12), n = 12, 4 o 1, tasso decimale. I periodi frazionari non anticipano i versamenti futuri. Durata arrotondata a mesi interi.",
+  tr: "Her bileşik sıklığında ay başında katkı yatırılır. Aylık: B ← (B + aylık katkı) × g; g = (1 + yıllık oran ÷ n)^(n ÷ 12), n = 12, 4 veya 1; oran ondalıktır. Kesirli dönemler kullanılır, gelecek katkılar erken yatırılmaz. Süre tam aya yuvarlanır.",
+  ko: "복리 주기와 관계없이 매월 초 납입합니다. 매월 B ← (B + 월 납입액) × g, g = (1 + 연이율 ÷ n)^(n ÷ 12), n은 12, 4, 1이고 이율은 소수입니다. 부분 기간의 등가 성장을 적용하며 미래 납입액을 미리 투자하지 않습니다. 기간은 월 단위로 반올림합니다.",
+  ar: "تُودع المساهمات أول كل شهر مهما كان تكرار التركيب. شهريًا: B ← (B + الإيداع الشهري) × g؛ حيث g = (1 + المعدل السنوي ÷ n)^(n ÷ 12)، وn = 12 أو 4 أو 1 والمعدل عشري. تُستخدم فترات كسرية دون تقديم الإيداعات المستقبلية. المدة مقربة لأشهر كاملة.",
+  hi: "हर चक्रवृद्धि विकल्प में जमा हर महीने की शुरुआत में होता है। मासिक: B ← (B + मासिक जमा) × g, जहाँ g = (1 + वार्षिक दर ÷ n)^(n ÷ 12), n = 12, 4 या 1 और दर दशमलव में है। आंशिक अवधि का उपयोग होता है; भविष्य की जमा पहले नहीं लगती। अवधि पूरे महीनों में पूर्णांकित होती है।",
+  id: "Setoran masuk awal bulan untuk semua frekuensi. Tiap bulan: B ← (B + setoran bulanan) × g; g = (1 + bunga tahunan ÷ n)^(n ÷ 12), n = 12, 4, atau 1 dan bunga desimal. Periode pecahan digunakan tanpa menginvestasikan setoran masa depan lebih awal. Durasi dibulatkan ke bulan penuh.",
+  vi: "Nộp tiền đầu mỗi tháng với mọi kỳ ghép lãi. Mỗi tháng: B ← (B + tiền nộp tháng) × g; g = (1 + lãi suất năm ÷ n)^(n ÷ 12), n = 12, 4 hoặc 1, lãi suất dạng thập phân. Dùng kỳ lẻ, không đầu tư trước khoản nộp tương lai. Thời hạn làm tròn theo tháng.",
 };
 
 function num(s: string): number {
@@ -116,23 +132,7 @@ export function CalcEngineCompound() {
 
       <div className="mt-3">
         <Note>
-          {pick(locale, {
-            en: "Each period the balance grows as FV ← (FV + contribution) × (1 + r), with r = annual rate ÷ periods per year (12 / 4 / 1). Contributions are deposited at the start of each period, so each one earns interest from that period on.",
-            zh: "每期余额按 FV ← (FV + 投入) × (1 + r) 递推,其中 r = 年利率 ÷ 每年期数(12 / 4 / 1)。投入在每期期初存入,因此从当期起就开始产生利息。",
-            ja: "各期の残高は FV ← (FV + 積立額) × (1 + r) で計算します。r は年利 ÷ 年間の期数(12 / 4 / 1)です。積立は各期の初めに預け入れられるため、当期から利息がつきます。",
-            es: "En cada periodo el saldo crece como FV ← (FV + aporte) × (1 + r), con r = tasa anual ÷ periodos por año (12 / 4 / 1). Los aportes se depositan al inicio de cada periodo, así que generan intereses desde ese periodo.",
-            pt: "A cada período o saldo cresce como FV ← (FV + aporte) × (1 + r), com r = taxa anual ÷ períodos por ano (12 / 4 / 1). Os aportes entram no início de cada período, então rendem desde esse período.",
-            fr: "À chaque période, le solde croît selon FV ← (FV + versement) × (1 + r), avec r = taux annuel ÷ périodes par an (12 / 4 / 1). Les versements sont déposés en début de période et rapportent donc dès cette période.",
-            de: "Pro Periode wächst das Guthaben als FV ← (FV + Einzahlung) × (1 + r), mit r = Jahreszins ÷ Perioden pro Jahr (12 / 4 / 1). Einzahlungen erfolgen zu Periodenbeginn und verzinsen sich ab dieser Periode.",
-            ru: "Каждый период баланс растёт как FV ← (FV + взнос) × (1 + r), где r = годовая ставка ÷ периодов в год (12 / 4 / 1). Взносы вносятся в начале периода и приносят проценты с этого периода.",
-            it: "A ogni periodo il saldo cresce come FV ← (FV + versamento) × (1 + r), con r = tasso annuo ÷ periodi all'anno (12 / 4 / 1). I versamenti sono depositati all'inizio del periodo e maturano interessi da quel periodo.",
-            tr: "Her dönem bakiye FV ← (FV + katkı) × (1 + r) olarak büyür; r = yıllık oran ÷ yıllık dönem (12 / 4 / 1). Katkılar dönemin başında yatırılır ve o dönemden itibaren faiz kazanır.",
-            ko: "각 기기마다 잔액은 FV ← (FV + 납입액) × (1 + r)로 증가합니다(r = 연 이자율 ÷ 연간 기기 수, 12/4/1). 납입액은 기기 시작 시 입금되어 해당 기기부터 이자가 붙습니다.",
-            ar: "في كل فترة ينمو الرصيد كـ FV ← (FV + المساهمة) × (1 + r)، حيث r = المعدل السنوي ÷ الفترات في السنة (12 / 4 / 1). تُودع المساهمات في بداية كل فترة فتكتسب الفائدة من تلك الفترة.",
-            hi: "हर अवधि में शेष FV ← (FV + योगदान) × (1 + r) से बढ़ता है, r = वार्षिक दर ÷ वार्षिक अवधियाँ (12 / 4 / 1)। योगदान प्रत्येक अवधि के आरंभ में जमा होते हैं, इसलिए उस अवधि से ब्याज अर्जित करते हैं।",
-            id: "Setiap periode saldo bertumbuh sebagai FV ← (FV + kontribusi) × (1 + r), dengan r = suku bunga tahunan ÷ periode per tahun (12 / 4 / 1). Kontribusi disetor di awal periode sehingga berbunga sejak periode itu.",
-            vi: "Mỗi kỳ số dư tăng theo FV ← (FV + khoản nộp) × (1 + r), với r = lãi suất năm ÷ số kỳ mỗi năm (12 / 4 / 1). Khoản nộp được gửi đầu kỳ nên sinh lãi từ kỳ đó.",
-          })}
+          {COMPOUND_CONVENTION[locale]}
         </Note>
       </div>
 

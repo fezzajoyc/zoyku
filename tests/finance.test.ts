@@ -37,9 +37,32 @@ function closedFV(
   return principal * g + perPeriod * (1 + r) * ((g - 1) / r);
 }
 
-function perPeriodOf(monthly: number, freq: Freq): number {
-  return monthly * (12 / PERIODS_PER_YEAR[freq]);
+// Same actual monthly cash flow for every nominal compounding frequency.
+// A deposit made at the beginning of month k grows only for the months left.
+function monthlyCashFlowFV(p: number, c: number, annual: number, years: number, freq: Freq): number {
+  const n = PERIODS_PER_YEAR[freq];
+  const factor = Math.pow(1 + annual / 100 / n, n / 12);
+  const months = Math.round(years * 12);
+  return p * Math.pow(factor, months) + Array.from({ length: months }, (_, k) => c * Math.pow(factor, months - k)).reduce((a, b) => a + b, 0);
 }
+
+describe("compound: monthly deposits stay monthly for every compounding frequency", () => {
+  it.each(["monthly", "quarterly", "annually"] as Freq[])("%s never prepays a later month's contribution", (freq) => {
+    expect(compound(0, 100, 12, 1, freq).total).toBeCloseTo(monthlyCashFlowFV(0, 100, 12, 1, freq), 8);
+    expect(compound(2000, 100, 12, 1.5, freq).total).toBeCloseTo(monthlyCashFlowFV(2000, 100, 12, 1.5, freq), 8);
+    expect(compound(0, 100, 12, 1.5, freq).contributed).toBe(1800);
+  });
+
+  it("more frequent compounding increases growth for the same monthly cash flow", () => {
+    const annual = compound(0, 100, 12, 1, "annually");
+    const quarterly = compound(0, 100, 12, 1, "quarterly");
+    const monthly = compound(0, 100, 12, 1, "monthly");
+    expect(annual.total).toBeLessThan(quarterly.total);
+    expect(quarterly.total).toBeLessThan(monthly.total);
+    expect(monthly.total).toBeCloseTo(1280.932804332895, 8);
+    expect([annual, quarterly, monthly].map((r) => r.contributed)).toEqual([1200, 1200, 1200]);
+  });
+});
 
 describe("compound: reference case (10000 + 100/mo, 5 %, 10 years, monthly)", () => {
   const res = compound(10000, 100, 5, 10, "monthly");
@@ -112,13 +135,13 @@ describe("compound: 0 % rate", () => {
 });
 
 describe("compound: quarterly frequency", () => {
-  // 独立核对:r = 8 %/4 = 2 %/季,每期投入 = 100 × 3 = 300,n = 12 期
+  // Quarterly nominal growth, with monthly deposits and fractional periods.
   const res = compound(1000, 100, 8, 3, "quarterly");
 
-  it("charges once per quarter: n = years × 4 periods, contributing 300 per quarter", () => {
+  it("uses quarterly nominal growth while depositing 100 each month", () => {
     expect(PERIODS_PER_YEAR.quarterly).toBe(4);
     expect(res.contributed).toBe(1000 + 100 * 36);
-    expect(res.total).toBeCloseTo(closedFV(1000, 300, 8, 4, 3), 6);
+    expect(res.total).toBeCloseTo(monthlyCashFlowFV(1000, 100, 8, 3, "quarterly"), 6);
   });
 
   it("emits 3 year-end rows with quarter-scaled contributions 2200, 3400, 4600", () => {
@@ -129,13 +152,12 @@ describe("compound: quarterly frequency", () => {
 });
 
 describe("compound: annually frequency", () => {
-  // 独立手算:每年一次性投入 12 个月份 14400;r = 6 %,n = 5 期。
-  // 1.06⁵ = 1.3382255776(十进制精确)→ FV = 5000×1.3382255776 + 14400×1.06×(0.3382255776/0.06) = 92735.71482944
+  // Monthly deposits grow for their actual remaining months at 1.06^(1/12).
   const res = compound(5000, 1200, 6, 5, "annually");
 
-  it("deposits a full year (12 × monthly) once per year and totals 92735.71", () => {
-    expect(Math.abs(res.total - 92735.71482944)).toBeLessThanOrEqual(0.01);
-    expect(res.total).toBeCloseTo(closedFV(5000, perPeriodOf(1200, "annually"), 6, 1, 5), 8);
+  it("deposits 1200 each month and totals 90479.94 without prepaying future months", () => {
+    expect(Math.abs(res.total - 90479.94194688583)).toBeLessThanOrEqual(0.01);
+    expect(res.total).toBeCloseTo(monthlyCashFlowFV(5000, 1200, 6, 5, "annually"), 8);
   });
 
   it("emits one row per year with annual contributions 19400…77000", () => {

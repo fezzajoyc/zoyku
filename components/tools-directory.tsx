@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Icon } from "./icons";
 import { tileStyle } from "@/lib/tool-colors";
 import { readPins, togglePin } from "@/lib/pins";
+import { searchTools } from "@/lib/tool-search";
 
 type Item = {
   slug: string;
@@ -31,13 +32,11 @@ export function ToolsDirectory({
     hrefLang: string;
   };
 }) {
-  const [query, setQuery] = useState(() => {
-    if (typeof window === "undefined") return "";
-    return new URLSearchParams(window.location.search).get("q") ?? "";
-  });
+  const [query, setQuery] = useState("");
   const [pins, setPins] = useState<string[]>([]);
 
   useEffect(() => {
+    setQuery(new URLSearchParams(window.location.search).get("q") ?? "");
     setPins(readPins());
   }, []);
 
@@ -45,18 +44,7 @@ export function ToolsDirectory({
     setPins((prev) => togglePin(slug, prev));
   };
 
-  const q = query.trim().toLowerCase();
-
-  const filtered = useMemo(
-    () =>
-      q
-        ? tools.filter(
-            (tool) =>
-              tool.name.toLowerCase().includes(q) || tool.tagline.toLowerCase().includes(q),
-          )
-        : tools,
-    [tools, q],
-  );
+  const filtered = useMemo(() => searchTools(tools, query), [tools, query]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Item[]>();
@@ -112,23 +100,29 @@ export function ToolsDirectory({
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((tool) => (
-              <Link
+              <div
                 key={tool.slug}
-                href={`/${labels.hrefLang}/tools/${tool.slug}`}
-                className="group relative flex items-start gap-3 rounded-xl border hairline bg-white p-4 transition-colors dark:bg-[var(--color-card)] hover:bg-[var(--color-surface)]"
+                className="group relative rounded-xl border hairline bg-[var(--color-card)] transition-colors hover:bg-[var(--color-surface)]"
               >
-                <span
-                  className="mt-0.5 inline-flex flex-none rounded-lg p-2"
-                  style={tileStyle(tool.slug, tool.category)}
+                <Link
+                  href={`/${labels.hrefLang}/tools/${tool.slug}`}
+                  className="flex min-w-0 items-start gap-3 p-4 pe-10"
                 >
-                  <Icon name={tool.icon} size={18} />
-                </span>
-                <span>
-                  <span className="block pr-5 font-medium leading-tight">{tool.name}</span>
-                  <span className="mt-1 line-clamp-2 block text-[13px] leading-5 text-[var(--color-sub)]">
-                    {tool.tagline}
+                  <span
+                    className="mt-0.5 inline-flex flex-none rounded-lg p-2"
+                    style={tileStyle(tool.slug, tool.category)}
+                  >
+                    <Icon name={tool.icon} size={18} />
                   </span>
-                </span>
+                  <span className="min-w-0">
+                    <span className="block pr-5 font-medium leading-tight">
+                      {tool.name}
+                    </span>
+                    <span className="mt-1 line-clamp-2 text-[13px] leading-5 text-[var(--color-sub)]">
+                      {tool.tagline}
+                    </span>
+                  </span>
+                </Link>
                 <button
                   type="button"
                   onClick={(e) => {
@@ -136,17 +130,17 @@ export function ToolsDirectory({
                     e.stopPropagation();
                     togglePinLocal(tool.slug);
                   }}
-                  aria-label={pins.includes(tool.slug) ? labels.unpin : labels.pin}
+                  aria-label={`${pins.includes(tool.slug) ? labels.unpin : labels.pin}: ${tool.name}`}
                   aria-pressed={pins.includes(tool.slug)}
-                  className={`absolute right-2.5 top-2.5 rounded-md p-1 text-[13px] transition-all ${
+                  className={`absolute end-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-md text-[18px] transition-all ${
                     pins.includes(tool.slug)
-                      ? "text-[#f59e0b] opacity-100"
-                      : "text-[var(--color-sub)] opacity-0 hover:text-[var(--color-ink)] focus-visible:opacity-100 group-hover:opacity-100"
+                      ? "text-[#946509] dark:text-[#f4c15d] opacity-100"
+                      : "text-[var(--color-sub)] opacity-70 hover:opacity-100 hover:text-[var(--color-ink)] focus-visible:opacity-100 group-hover:opacity-100"
                   }`}
                 >
                   ★
                 </button>
-              </Link>
+              </div>
             ))}
           </div>
         </section>

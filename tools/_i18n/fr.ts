@@ -6224,9 +6224,9 @@ export const fr: Record<string, ToolCopy> = {
     tagline:
       "Voyez comment l'épargne pousse avec les intérêts composés — saisissez un dépôt, des versements mensuels et un taux pour obtenir le solde final et un tableau année par année.",
     intro: [
-      "L'intérêt composé, c'est l'intérêt sur l'intérêt : à chaque période le solde gagne une part du taux annuel, et chaque versement que vous ajoutez se met à gagner ses propres intérêts. Cette calculatrice déroule cette récursion période par période pour un dépôt initial plus des versements mensuels réguliers, avec capitalisation mensuelle, trimestrielle ou annuelle.",
-      "Le résultat donne le solde final, le total versé et les intérêts générés par la capitalisation — plus un tableau année par année pour voir exactement quand la courbe commence à se courber. Tout se recalcule en direct, et la formule utilisée est imprimée juste sous les chiffres pour la vérifier face à la projection de votre banque.",
-    ],
+  "Les versements arrivent au début de chaque mois, quelle que soit la fréquence de capitalisation. Pour n capitalisations par an, le facteur mensuel équivalent est (1 + taux annuel/n)^(n/12). Aucun versement futur n’est avancé. Le taux est nominal, constant, hors frais et impôts.",
+  "Non. Il s’agit d’un scénario avec taux constant ; les rendements réels, frais et impôts peuvent changer le résultat."
+],
     steps: [
       "Saisissez le dépôt initial et le montant que vous ajouterez chaque mois (0 pour un dépôt unique).",
       "Réglez le taux d'intérêt annuel, le nombre d'années et la fréquence de capitalisation.",
@@ -6234,45 +6234,16 @@ export const fr: Record<string, ToolCopy> = {
       "Lisez le solde final, les versements totaux et les intérêts gagnés, puis consultez le tableau année par année.",
     ],
     faqs: [
-      {
-        q: "Quelle formule la calculatrice utilise-t-elle ?",
-        a: "La même récursion de solde que les banques pour projeter l'épargne : à chaque période, solde ← (solde + versement) × (1 + r), où r = taux annuel ÷ périodes par an (12 pour mensuel, 4 pour trimestriel, 1 pour annuel). Les versements sont déposés au début de chaque période et gagnent donc des intérêts dès cette période. Exemple : 10 000 initial, 100/mois à 5 % pendant 10 ans avec capitalisation mensuelle donnent un solde final de 32 063,02 — 22 000,00 versés et 10 063,02 d'intérêts.",
-      },
-      {
-        q: "Pourquoi obtiens-je des résultats légèrement différents sur d'autres calculatrices ?",
-        a: "Les conventions de temporalité diffèrent. Certains outils traitent les versements comme des dépôts de fin de période (ils ne gagnent pas d'intérêts pendant la période d'arrivée), d'autres supposent une capitalisation quotidienne, d'autres arrondissent chaque période. Cet outil dépose au début de chaque période et n'arrondit jamais les étapes intermédiaires ; un écart de 0,1 % avec un autre site vient généralement de cette convention, pas d'une erreur.",
-      },
-      {
-        q: "Inclut-il impôts, frais ou inflation ?",
-        a: "Non — le résultat est une croissance nominale au taux saisi. Impôts sur les intérêts, frais de compte et inflation réduisent tous le rendement réel : traitez le solde final comme une borne supérieure de ce que vous garderiez vraiment.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Pourquoi la fréquence de capitalisation change la réponse",
-        paragraphs: [
-          "La fréquence de capitalisation décide à quelle fréquence les intérêts gagnés rejoignent le capital et commencent à gagner les leurs. Le taux périodique est le taux annuel divisé par le nombre de périodes, donc une capitalisation mensuelle à 8 % emploie 0,667 % par mois — et parce que ces intérêts sont crédités douze fois par an au lieu d'une, le rendement annuel effectif rampe au-dessus de 8 %. Le quotidien bat le mensuel, le mensuel bat le trimestriel, le trimestriel bat l'annuel, toujours dans cet ordre à taux nominal égal.",
-          "Ce qui surprend, c'est la petitesse de l'écart aux taux grand public. À 5 % nominal, la capitalisation annuelle rend 5,00 % et la mensuelle environ 5,12 % — un dixième de point qui ne devient de l'argent sérieux qu'au fil des décennies ou sur de gros soldes. Le marketing en joue : une banque peut quoter un taux nominal qui paraît identique à celui d'un concurrent pendant que sa fréquence de capitalisation fait la différenciation en silence.",
-          "La fréquence ne change la réponse que si le taux nominal est ce que vous comparez. Une fois tout converti en rendement annuel effectif, la fréquence est déjà repliée dedans et deux comptes au même APY sont réellement équivalents — exactement pourquoi le calculateur APY de ce site existe à côté de celui-ci.",
-        ],
-      },
-      {
-        heading: "Le croisement, et pourquoi le temps domine le taux",
-        paragraphs: [
-          "La table année par année existe pour montrer un moment précis : le croisement, où les intérêts gagnés en une année dépassent vos propres versements. À taux modérés cela prend des décennies — voilà pourquoi la capitalisation paraît peu impressionnante les dix premières années et absurde après trente. La courbe est plate, puis se plie — et presque tout le monde sous-estime la tardiveté du pli.",
-          "Voilà aussi pourquoi le montant de départ compte plus que l'instinct de l'optimiseur ne le suggère. Un point de taux de plus est linéaire ; une décennie de capitalisation de plus est exponentielle. Entre commencer dix ans plus tôt à un taux modeste et commencer aujourd'hui à un taux un point plus haut, le départ précoce gagne en général d'une marge inconfortable — la table vous laisse tester cette affirmation sur vos propres chiffres au lieu d'y croire sur parole.",
-          "Deux réserves honnêtes : l'outil verse les contributions au début de chaque période, la convention optimiste, et il présume un taux qui ne change jamais, ce qu'aucun vrai investissement n'honore. La sortie est un scénario, pas une prévision — l'année de croisement surtout se lit comme « à peu près quand », pas une date à entourer.",
-        ],
-      },
-      {
-        heading: "Croissance nominale, pouvoir d'achat réel",
-        paragraphs: [
-          "Tout ce que le calculateur montre est nominal : le taux tapé appliqué au solde tapé, sans impôt, sans frais, sans inflation. Chacune de ces forces coupe d'un côté différent — les impôts sur les intérêts réduisent le taux crédité, les frais de compte soustraient des montants fixes, et l'inflation rétrécit en silence ce que le solde final achète. Le nombre à l'écran est une borne haute de ce que vous garderiez réellement.",
-          "Un exercice de bon sens utile : soustrayez votre inflation annuelle attendue du taux avant de le saisir. Un rendement nominal de 5 % avec 2,5 % d'inflation se capitalise pareil mais raconte une histoire bien plus honnête sur le pouvoir d'achat futur du solde. La mathématique est identique ; seule l'interprétation change.",
-          "Et comme pour chaque outil ici, la projection tourne entièrement dans votre navigateur : soldes, taux et montants de versement ne quittent jamais votre appareil — de quoi modéliser des chiffres que vous ne colleriez pas dans un formulaire qui envoie les données à un serveur.",
-        ],
-      },
-    ],
+  {
+    "q": "Comment les versements et intérêts sont-ils appliqués ?",
+    "a": "Les versements arrivent au début de chaque mois, quelle que soit la fréquence de capitalisation. Pour n capitalisations par an, le facteur mensuel équivalent est (1 + taux annuel/n)^(n/12). Aucun versement futur n’est avancé. Le taux est nominal, constant, hors frais et impôts."
+  },
+  {
+    "q": "Est-ce une prévision garantie ?",
+    "a": "Non. Il s’agit d’un scénario avec taux constant ; les rendements réels, frais et impôts peuvent changer le résultat."
+  }
+],
+    deepDive: [],
   },
   "currency-converter": {
     name: "Convertisseur de devises",
@@ -8220,9 +8191,8 @@ export const fr: Record<string, ToolCopy> = {
     tagline:
       "Calculez votre métabolisme de base avec l’équation de Mifflin-St Jeor (1990) — les calories que votre corps brûle au repos complet chaque jour.",
     intro: [
-      "Votre métabolisme de base (BMR) est l’énergie que votre corps dépense juste pour rester en vie — respirer, faire circuler le sang, se maintenir chaud — avant tout mouvement ou digestion. Cette calculatrice utilise l’équation de Mifflin-St Jeor, publiée en 1990 et toujours le prédicteur largement utilisé le plus précis pour les populations modernes : hommes 10 × poids (kg) + 6,25 × taille (cm) − 5 × âge + 5 ; femmes la même expression moins 161.",
-      "Saisissez vos données en unités métriques ou impériales et le résultat se met à jour pendant la frappe. Traitez ce nombre comme une estimation à l’échelle d’une population — généralement à ±10 % environ d’une mesure en laboratoire — pas comme un diagnostic médical.",
-    ],
+  "Réservé aux adultes de 18 ans et plus, hors grossesse et allaitement. Ce calcul ne propose pas d’objectif inférieur à 1 000 kcal/jour ; l’absence d’objectif demande un avis professionnel, pas une restriction supplémentaire."
+],
     steps: [
       "Choisissez votre sexe et les unités métriques (cm + kg) ou impériales (ft + in + lb).",
       "Saisissez votre stature, votre poids et votre âge.",
@@ -8230,54 +8200,24 @@ export const fr: Record<string, ToolCopy> = {
       "Alimentez-en la calculatrice de calories pour obtenir maintenance et objectifs.",
     ],
     faqs: [
-      {
-        q: "Quelle formule est utilisée, et quelle est sa précision ?",
-        a: "L’équation de Mifflin-St Jeor, publiée en 1990 et recommandée par l’American Dietetic Association après validation contre la calorimétrie indirecte. Elle prédit la dépense énergétique de repos mesurée à ±10 % environ pour la plupart des adultes, plus précisément que l’ancienne équation de Harris-Benedict (1919).",
-      },
-      {
-        q: "Quelle différence entre BMR et besoins caloriques quotidiens ?",
-        a: "Le BMR couvre le repos complet uniquement. Votre dépense réelle est le BMR multiplié par un facteur d’activité — environ 1,2 pour une journée sédentaire jusqu’à 1,9 pour les personnes très actives. La calculatrice de calories applique ce multiplicateur et votre objectif pour vous.",
-      },
-      {
-        q: "Est-ce un conseil médical ?",
-        a: "Non — c’est une estimation, pas un conseil médical. Maladie, médicaments, grossesse et compositions corporelles inhabituelles déplacent toutes la dépense énergétique réelle : discutez de tout changement d’alimentation avec un professionnel de santé.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Mifflin-St Jeor contre les équations anciennes",
-        paragraphs: [
-          "Cet outil emploie l'équation de Mifflin-St Jeor, publiée en 1990 : pour les hommes, 10 × poids (kg) + 6,25 × taille (cm) − 5 × âge + 5, et pour les femmes la même expression moins 161 au lieu du +5. Elle fut ajustée sur la dépense énergétique de repos mesurée et validée contre la calorimétrie indirecte, l'étalon-or de laboratoire qui mesure directement la consommation d'oxygène.",
-          "L'alternative que vous rencontrerez le plus souvent est Harris-Benedict, publiée à l'origine en 1919 et révisée en 1984. Une comparaison de 2005 de l'American Dietetic Association largement citée a trouvé Mifflin-St Jeor plus précise pour les populations modernes — voilà pourquoi ce calculateur s'y standardise. Une troisième option, Katch-McArdle, emploie la masse maigre au lieu du poids et peut être plus affûtée pour les gens qui connaissent leur pourcentage de graisse — mais elle réclame un nombre que la plupart n'ont pas.",
-          "À retenir : les différences entre ces équations sont typiquement de quelques dizaines de kilocalories, plus petites que la variation quotidienne de votre propre dépense. Si deux calculateurs désaccordent légèrement, le choix de formule en est en général la raison, et aucune n'est fausse.",
-        ],
-      },
-      {
-        heading: "Lire le nombre : le BMR n'est pas votre brûlage quotidien",
-        paragraphs: [
-          "Le BMR est le plancher, pas le budget. Il couvre respiration, circulation, réparation cellulaire et régulation de température au repos complet — à peu près 60 à 70 % de ce que la plupart des adultes sédentaires brûlent en une journée. Votre vraie dépense énergétique quotidienne totale (TDEE) est le BMR multiplié par un facteur d'activité, d'environ 1,2 pour une journée de bureau à environ 1,9 pour un travail physique lourd ou entraînement dur quotidien.",
-          "Cette multiplication compte plus que la formule elle-même. Deux personnes au BMR identique peuvent brûler plus de 800 kcal d'écart par jour rien que par le mode de vie. Ce calculateur ne rapporte délibérément que le BMR ; le calculateur de calories du site franchit l'étape suivante et applique pour vous le facteur d'activité et un objectif.",
-          "Un contrôle de bon sens utile : le BMR s'échelle surtout avec poids, taille et âge, donc si le résultat saute nettement après un petit changement d'entrée, recontrôlez les unités — kg contre lb est le mélange classique.",
-        ],
-      },
-      {
-        heading: "Erreurs courantes et limites honnêtes",
-        paragraphs: [
-          "Chaque équation prédictive porte une erreur individuelle. Mifflin-St Jeor atterrit dans à peu près ±10 % de la mesure de laboratoire pour la plupart des adultes, mais les individus à masse musculaire très haute ou basse, troubles thyroïdiens ou certains médicaments peuvent siéger bien hors de cette bande. Traitez la sortie comme un point de départ de planification, pas un fait physiologique.",
-          "N'employez pas le BMR pour justifier de manger en dessous. Le métabolisme de repos est déjà couvert par le tissu maigre qui vous garde en vie ; les déficits agressifs sous le BMR sont une décision pour un professionnel de santé, pas pour un calculateur. Pareillement, l'adaptation métabolique signifie que le nombre calculé à 90 kg cesse d'être exact à 80 kg — recalculez à mesure que votre poids change.",
-          "Comme tout sur ce site, le calcul tourne entièrement dans votre navigateur : aucune entrée n'est envoyée nulle part, donc aucune raison d'hésiter à entrer de vrais chiffres.",
-        ],
-      },
-    ],
+  {
+    "q": "À qui cette estimation convient-elle ?",
+    "a": "Réservé aux adultes de 18 ans et plus, hors grossesse et allaitement. Ce calcul ne propose pas d’objectif inférieur à 1 000 kcal/jour ; l’absence d’objectif demande un avis professionnel, pas une restriction supplémentaire."
+  },
+  {
+    "q": "Quel degré de précision attendre ?",
+    "a": "Une estimation de population, pas une prescription. Vérifiez vos besoins avec un professionnel."
+  }
+],
+    deepDive: [],
   },
   "calorie-calculator": {
     name: "Calculatrice de calories",
     tagline:
       "Transformez votre BMR en objectifs caloriques quotidiens : cinq niveaux d’activité (×1,2–1,9) plus des objectifs perdre, maintenir ou prendre d’environ ±500 kcal par jour.",
     intro: [
-      "Les besoins énergétiques quotidiens sont votre BMR multiplié par un facteur d’activité : 1,2 sédentaire, 1,375 légèrement actif, 1,55 modérément actif, 1,725 très actif et 1,9 extra actif. Ce produit — la dépense énergétique totale quotidienne (TDEE) — est ce que demande le maintien de votre poids actuel. Le BMR provient lui-même de l’équation de Mifflin-St Jeor (1990).",
-      "Choisissez un objectif et l’outil ajuste le chiffre de maintenance : environ −500 kcal/jour pour perdre à peu près 0,5 kg par semaine, +500 kcal/jour pour prendre, ou aucun changement pour maintenir. L’heuristique des ±500 kcal découle du fait qu’1 kg de graisse corporelle stocke ≈ 7 700 kcal. Tout ici est une estimation — le métabolisme réel s’adapte à mesure que poids et habitudes changent.",
-    ],
+  "Réservé aux adultes de 18 ans et plus, hors grossesse et allaitement. Ce calcul ne propose pas d’objectif inférieur à 1 000 kcal/jour ; l’absence d’objectif demande un avis professionnel, pas une restriction supplémentaire."
+],
     steps: [
       "Choisissez votre sexe, vos unités et saisissez taille, poids et âge.",
       "Choisissez le niveau d’activité qui correspond à une semaine type.",
@@ -8285,45 +8225,16 @@ export const fr: Record<string, ToolCopy> = {
       "Lisez la maintenance (TDEE) et vos calories cibles par jour.",
     ],
     faqs: [
-      {
-        q: "Quels formules et facteurs sont utilisés ?",
-        a: "Le BMR selon Mifflin-St Jeor (1990), multiplié par les facteurs d’activité TDEE standard : 1,2 sédentaire, 1,375 légèrement actif, 1,55 modérément actif, 1,725 très actif, 1,9 extra actif. Les objectifs ajoutent ou retranchent environ 500 kcal/jour, l’heuristique classique d’un changement hebdomadaire de 0,5 kg (1 kg de graisse ≈ 7 700 kcal).",
-      },
-      {
-        q: "Un déficit de 500 kcal est-il sûr, et quand verrai-je des résultats ?",
-        a: "Environ −500 kcal/jour pour un changement de ≈0,5 kg/semaine est le rythme que la plupart des recommandations de santé publique qualifient de modéré et durable. La perte initiale comprend de l’eau, et la dépense baisse à mesure que vous vous allégez : les résultats hebdomadaires ne sont pas linéaires — recalculez tous les quelques kilos.",
-      },
-      {
-        q: "Est-ce un conseil médical ?",
-        a: "Non — c’est une estimation, pas un conseil médical. Si vous êtes enceinte, gérez une maladie chronique, prenez des médicaments ou avez des antécédents de troubles alimentaires, fixez vos objectifs avec un professionnel de santé.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Comment le chiffre de maintenance se bâtit",
-        paragraphs: [
-          "Le calcul est une chaîne à deux étapes. D'abord, le BMR vient de l'équation de Mifflin-St Jeor (1990) : hommes 10 × poids (kg) + 6,25 × taille (cm) − 5 × âge + 5, femmes la même expression moins 161. Ensuite, ce BMR se multiplie par un des cinq facteurs d'activité standards : 1,2 sédentaire, 1,375 légèrement actif, 1,55 modérément actif, 1,725 très actif, 1,9 extra actif.",
-          "Les cinq facteurs remontent à la tradition Harris-Benedict et ont survécu parce qu'ils se mappent proprement à la façon dont les gens vivent réellement : les séances seules ne définissent pas l'activité — un ouvrier du bâtiment sans salle atterrit plus haut qu'un employé de bureau à trois séances par semaine.",
-          "Les ajustements d'objectif appliquent ensuite l'heuristique classique : 1 kg de graisse corporelle stocke à peu près 7 700 kcal, donc environ ±500 kcal par jour correspond à grosso modo 0,5 kg de changement hebdomadaire. Le calculateur soustrait 500 pour perdre, ajoute 500 pour prendre, et laisse la maintenance intacte.",
-        ],
-      },
-      {
-        heading: "Interpréter la cible : attendez-vous à une courbe, pas une ligne",
-        paragraphs: [
-          "La perte de poids précoce dépasse toujours la mathématique : la première semaine ou deux lâche surtout de l'eau et du glycogène, pas de la graisse. Après cela, les résultats ralentissent parce que votre dépense tombe à mesure que vous devenez plus léger — une personne qui pesait 90 kg brûle moins à 82 kg, donc le déficit qui produisait un demi-kilo par semaine le premier mois en produit souvent un tiers de cela au troisième mois.",
-          "Le flux pratique est de traiter la cible comme une hypothèse : pesez-vous dans des conditions constantes, comparez contre une moyenne glissante de deux semaines plutôt que le bruit quotidien, et ajustez de 100 à 200 kcal quand la tendance stalle plusieurs semaines.",
-          "Recalculez après chaque quelques kilos de changement, et rappelez-vous que le même chiffre de maintenance soutient des résultats très différents selon ce que vous mangez — protéines, fibres et temps des repas ne changent pas la mathématique des calories, mais ils changent la vivabilité du déficit.",
-        ],
-      },
-      {
-        heading: "Erreurs courantes",
-        paragraphs: [
-          "L'erreur la plus fréquente est de gonfler le niveau d'activité. Les gens comptent une séance comme « modérément actif » puis siègent aussi dix heures par jour ; si vous vous exercez 3 à 5 fois par semaine mais travaillez un job de bureau, 1,55 est en général déjà généreux. En cas de doute, prenez le facteur bas et ajustez depuis les résultats mesurés.",
-          "N'empilez pas l'ajustement ±500 au-delà de la raison. Des déficits bien sous votre BMR ou des gains de +1 000 kcal par jour produisent surtout fatigue et prise de graisse respectivement ; les taux durables pour la plupart des adultes vont de 0,25 à 0,75 kg par semaine dans les deux sens. Toute personne enceinte, gérant une condition chronique, ou avec un historique de troubles alimentaires devrait poser ses cibles avec un clinicien à la place.",
-          "Enfin, traitez chaque sortie ici comme une estimation de moyenne de population : le vrai métabolisme varie d'à peu près ±10 % entre individus, et seule votre propre tendance mesurée sur des semaines tranche la question.",
-        ],
-      },
-    ],
+  {
+    "q": "À qui cette estimation convient-elle ?",
+    "a": "Réservé aux adultes de 18 ans et plus, hors grossesse et allaitement. Ce calcul ne propose pas d’objectif inférieur à 1 000 kcal/jour ; l’absence d’objectif demande un avis professionnel, pas une restriction supplémentaire."
+  },
+  {
+    "q": "Quel degré de précision attendre ?",
+    "a": "Une estimation de population, pas une prescription. Vérifiez vos besoins avec un professionnel."
+  }
+],
+    deepDive: [],
   },
   "body-fat-calculator": {
     name: "Calculatrice de masse grasse",

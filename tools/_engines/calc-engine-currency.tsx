@@ -5,6 +5,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { Icon } from "@/components/icons";
 import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, fmt, pick, INTL_LOCALES } from "./calc-ui";
+import { makeRateCache, parseRateCache, rateCacheFresh, type RateCache } from "@/tools/_lib/currency-cache";
 
 /**
  * Currency converter — the ONLY calculator in this batch that touches the
@@ -15,7 +16,6 @@ import { Field, NumIn, Note, Sel, fmt, pick, INTL_LOCALES } from "./calc-ui";
 
 const API = "https://open.er-api.com/v6/latest/USD";
 const CACHE_KEY = "zoyku-fx-rates-v1";
-const TTL_MS = 60 * 60 * 1000; // 1 hour
 
 const COMMON = [
   "USD", "EUR", "GBP", "JPY", "CNY", "INR", "AUD", "CAD", "CHF", "HKD",
@@ -104,15 +104,13 @@ const LABELS: Record<string, Record<string, string>> = {
   allCurrencies: { en: "All currencies", zh: "全部货币", ja: "すべての通貨", es: "Todas las monedas", pt: "Todas las moedas", fr: "Toutes les devises", de: "Alle Währungen", ru: "Все валюты", it: "Tutte le valute", tr: "Tüm para birimleri", ko: "모든 통화", ar: "كل العملات", hi: "सभी मुद्राएँ", id: "Semua mata uang", vi: "Tất cả tiền tệ" },
 };
 
-type CacheEntry = { t: number; r: Record<string, number> };
+type CacheEntry = RateCache;
 
 function readCache(): CacheEntry | null {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as CacheEntry;
-    if (parsed && typeof parsed.t === "number" && parsed.r && typeof parsed.r.USD === "number") return parsed;
-    return null;
+    return parseRateCache(JSON.parse(raw));
   } catch {
     return null;
   }
@@ -150,7 +148,7 @@ export function CalcEngineCurrency() {
   const load = useCallback(async (force: boolean) => {
     setStatus((s) => (rates ? s : "loading"));
     const cache = readCache();
-    if (!force && cache && Date.now() - cache.t < TTL_MS) {
+    if (!force && cache && rateCacheFresh(cache)) {
       setRates(cache.r);
       setUpdated(cache.t);
       setStale(false);
@@ -160,9 +158,7 @@ export function CalcEngineCurrency() {
     try {
       const res = await fetch(API);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = (await res.json()) as { result?: string; time_last_update_unix?: number; rates?: Record<string, number> };
-      if (data.result !== "success" || !data.rates || !data.rates.USD) throw new Error("bad payload");
-      const entry: CacheEntry = { t: (data.time_last_update_unix ?? Date.now() / 1000) * 1000, r: data.rates };
+      const entry = makeRateCache(await res.json());
       writeCache(entry);
       setRates(entry.r);
       setUpdated(entry.t);

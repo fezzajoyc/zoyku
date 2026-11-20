@@ -11,7 +11,7 @@ function htmlOf(overrides = {}) {
 <link rel="canonical" href="http://localhost:3000/en/tools/word-counter">
 ${LOCALES.map((l) => `<link rel="alternate" hreflang="${l}" href="http://localhost:3000/${l}/tools/word-counter">`).join("\n")}
 <link rel="alternate" hreflang="x-default" href="http://localhost:3000/en/tools/word-counter">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication"}</script>
 </head><body><h1>Word Counter</h1></body></html>${overrides.tail ?? ""}`;
 }
 
@@ -102,7 +102,7 @@ describe("checkPage", () => {
 
   it("JSON-LD 不可解析报 P0;数组每项必须带 @type(缺则 P1)", () => {
     const broken = htmlOf().replace(
-      '{"@context":"https://schema.org","@type":"FAQPage"}',
+      '{"@context":"https://schema.org","@type":"WebApplication"}',
       '{"@context": broken,,,}',
     );
     const issues = checkPage(
@@ -113,7 +113,7 @@ describe("checkPage", () => {
     expect(issues.some((i) => i.type === "ld+json-unparsable" && i.sev === "P0")).toBe(true);
 
     const arr = htmlOf().replace(
-      '{"@context":"https://schema.org","@type":"FAQPage"}',
+      '{"@context":"https://schema.org","@type":"WebApplication"}',
       '[{"@type":"Thing"},{"context":"no-type"}]',
     );
     const issues2 = checkPage(
@@ -124,7 +124,7 @@ describe("checkPage", () => {
     expect(issues2.some((i) => i.type === "ld+json-invalid")).toBe(true);
   });
 
-  it("工具页缺 og:image/FAQPage 报 P1;重定向样本检查 3xx", () => {
+  it("工具页缺 og:image/WebApplication 报 P1;重定向样本检查 3xx", () => {
     const noOg = htmlOf().replace(/<meta property="og:image"[^>]*>/, "");
     const issues = checkPage(
       { kind: "tool", path: "/en/tools/word-counter" },
@@ -139,6 +139,15 @@ describe("checkPage", () => {
       LOCALES,
     );
     expect(issues2.some((i) => i.type === "unexpected-status")).toBe(true);
+  });
+
+
+  it("requires an actual parsed application node, not a word in the page body", () => {
+    const body=htmlOf().replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, "")+"<p>WebApplication</p>";
+    const missing=checkPage({kind:"tool",path:"/en/tools/word-counter"},{status:200,body,ms:1},LOCALES);
+    expect(missing.some(i=>i.type==="missing-application-schema")).toBe(true);
+    const graph=htmlOf().replace('{"@context":"https://schema.org","@type":"WebApplication"}', '{"@context":"https://schema.org","@graph":[{"@type":["SoftwareApplication","WebApplication"]}]}');
+    expect(checkPage({kind:"tool",path:"/en/tools/word-counter"},{status:200,body:graph,ms:1},LOCALES)).toEqual([]);
   });
 
   it("慢响应报 P2;5xx 报 P0", () => {
@@ -166,5 +175,25 @@ describe("samples", () => {
     expect(s.filter((x) => x.kind === "category").length).toBe(8);
     expect(s.some((x) => x.path.includes("hmac-generator"))).toBe(true);
     expect(s.some((x) => x.kind === "tool-md")).toBe(true);
+  });
+});
+
+describe("local audit of production canonicals", () => {
+  it("compares canonicals with the public sitemap origin, not the HTTP transport origin", () => {
+    const body = htmlOf().replaceAll("http://localhost:3000", "https://zoyku.com");
+    const issues = checkPage(
+      { kind: "tool", path: "/en/tools/word-counter" },
+      { status: 200, body, ms: 1 },
+      LOCALES,
+      "https://zoyku.com",
+    );
+    expect(issues).toEqual([]);
+    const wrong = checkPage(
+      { kind: "tool", path: "/en/tools/word-counter" },
+      { status: 200, body: body.replace('rel="canonical" href="https://zoyku.com/en/tools/word-counter"', 'rel="canonical" href="http://localhost:3000/en/tools/word-counter"'), ms: 1 },
+      LOCALES,
+      "https://zoyku.com",
+    );
+    expect(wrong.some((issue) => issue.type === "canonical-mismatch")).toBe(true);
   });
 });

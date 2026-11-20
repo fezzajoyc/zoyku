@@ -10,8 +10,7 @@ import { readPins, togglePin } from "@/lib/pins";
 type Item = { slug: string; category: string; icon: string; name: string };
 
 /**
- * 引擎下方的"下一步"接力条:处理完成后接着用相关工具(iLovePDF pipeline 模式)。
- * 引擎输出留在浏览器内存,这些工具同样本地运行,接力不出设备。
+ * 引擎下方的相关工具快捷入口。只负责导航,不自动把输入或输出传给下一工具。
  */
 export function NextToolsBar({
   tools,
@@ -48,11 +47,11 @@ export function NextToolsBar({
         {tools.map((tool) => {
           const isPinned = pins.includes(tool.slug);
           return (
-            <Link
+            <div
               key={tool.slug}
-              href={`/${locale}/tools/${tool.slug}`}
-              className="group inline-flex items-center gap-2 rounded-full border hairline bg-[var(--color-card)] px-3.5 py-2 text-[13px] font-medium transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(0,0,0,0.06)]"
+              className="group inline-flex items-center rounded-full border hairline bg-[var(--color-card)] text-[13px] font-medium transition-all hover:-translate-y-0.5 hover:shadow-[0_4px_14px_rgba(0,0,0,0.06)]"
             >
+              <Link href={`/${locale}/tools/${tool.slug}`} className="inline-flex items-center gap-2 rounded-full py-2 pl-3.5 pr-1.5">
               <span
                 className="inline-flex flex-none rounded-md p-1.5 transition-transform group-hover:scale-105"
                 style={tileStyle(tool.slug, tool.category)}
@@ -60,24 +59,23 @@ export function NextToolsBar({
                 <Icon name={tool.icon} size={13} />
               </span>
               {tool.name}
+              </Link>
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onClick={() => {
                   setPins((prev) => togglePin(tool.slug, prev));
                 }}
-                aria-label={isPinned ? labels.pinned[1] : labels.pinned[0]}
+                aria-label={`${isPinned ? labels.pinned[1] : labels.pinned[0]}: ${tool.name}`}
                 aria-pressed={isPinned}
-                className={`-mr-1 rounded p-1.5 -m-1 text-[12px] transition-opacity max-sm:opacity-100 ${
+                className={`mr-2 rounded p-1.5 text-[12px] transition-opacity max-sm:opacity-100 focus-visible:opacity-100 ${
                   isPinned
-                    ? "text-[#f59e0b] opacity-100"
+                    ? "text-[#946509] dark:text-[#f4c15d] opacity-100"
                     : "text-[var(--color-sub)] opacity-0 group-hover:opacity-100"
                 }`}
               >
                 ★
               </button>
-            </Link>
+            </div>
           );
         })}
       </div>

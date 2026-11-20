@@ -13,6 +13,7 @@ export default defineTool({
       tagline:
         "Turn your BMR into daily calorie targets: five activity levels (×1.2–1.9) plus lose, maintain or gain goals of about ±500 kcal a day.",
       intro: [
+        "For adults aged 18 and over only. Targets below 1,000 kcal/day are withheld, following the NIH NIDDK Body Weight Planner minimum; a higher number is not automatically appropriate. Consult a qualified clinician for an individual plan.",
         "Daily energy needs are your BMR multiplied by an activity factor: 1.2 sedentary, 1.375 lightly active, 1.55 moderately active, 1.725 very active and 1.9 extra active. That product — total daily energy expenditure (TDEE) — is what keeping your current weight takes. The BMR itself comes from the Mifflin-St Jeor equation (1990).",
         "Pick a goal and the tool adjusts the maintenance figure: about −500 kcal/day to lose roughly 0.5 kg per week, +500 kcal/day to gain, or no change to maintain. The ±500 kcal heuristic follows from 1 kg of body fat storing ≈ 7,700 kcal. Everything here is an estimate — real metabolism adapts as your weight and habits change.",
         "The activity multipliers follow the widely used Harris–Benedict-style convention, and Mifflin–St Jeor itself is: men 10 × weight (kg) + 6.25 × height (cm) − 5 × age + 5, women the same expression with −161 instead of +5. Weight-loss and gain targets are set as deviations from maintenance rather than arbitrary fixed deficits.",
@@ -69,6 +70,7 @@ export default defineTool({
       tagline:
         "按 Mifflin–St Jeor 公式算基础代谢,再乘五档活动系数(久坐 1.2 到极高强度 1.9)得到每日总消耗 TDEE;减重、维持、增重目标按约 ±500 千卡每天给出建议摄入,改数字实时重算。减肥和增肌的起点数字,一页算清。",
       intro: [
+        "仅适用于年满 18 岁的成年人。按 NIH NIDDK 体重规划器的下限，不显示低于每日 1,000 千卡的目标；高于此值也不代表一定适合你。个体方案请咨询专业医护人员。",
         "每日能量需求等于基础代谢乘以活动系数:久坐 1.2、轻度活动 1.375、中度活动 1.55、高强度活动 1.725、极高强度 1.9。乘积就是总能量消耗(TDEE),即维持当前体重所需的热量。基础代谢本身由 Mifflin–St Jeor 公式(1990)算出。",
         "选择目标后,工具会在维持热量上调整:减重约 −500 千卡/天(大致每周 0.5 公斤),增重 +500 千卡/天,维持则不变。±500 千卡的估算来自 1 公斤脂肪 ≈ 7,700 千卡。所有结果都是估算——真实代谢会随体重和习惯变化而调整。",
       ],
@@ -124,6 +126,7 @@ export default defineTool({
       tagline:
         "基礎代謝から 1 日のカロリー目標を算出。5 段階の活動レベル(×1.2〜1.9)と、減量・維持・増量(約 ±500 kcal/日)の目標に対応します。",
       intro: [
+        "18歳以上の成人専用です。NIH NIDDKの体重プランナーの下限に従い、1日1,000 kcal未満の目標は表示しません。これ以上でも適切とは限りません。個別の計画は医療専門家に相談してください。",
         "1 日のエネルギー需要は基礎代謝に活動係数を掛けたものです:座位 1.2・軽い運動 1.375・中程度 1.55・激しい運動 1.725・非常に激しい 1.9。この積が総エネルギー消費量(TDEE)、つまり現在の体重を維持するのに必要なカロリーです。基礎代謝には Mifflin–St Jeor 式(1990)を使います。",
         "目標を選ぶと維持カロリーが調整されます:減量は約 −500 kcal/日(週約 0.5 kg)、増量は +500 kcal/日、維持は変わりません。±500 kcal の目安は体脂肪 1 kg ≈ 7,700 kcal から来ています。すべて推定値であり、実際の代謝は体重や習慣の変化に合わせて動きます。",
       ],
@@ -171,6 +174,7 @@ export default defineTool({
       tagline:
         "Convierta su TMB en objetivos diarios de calorías: cinco niveles de actividad (×1,2–1,9) y metas de perder, mantener o ganar unos ±500 kcal.",
       intro: [
+        "Solo para adultos de 18 años o más. No se muestran objetivos inferiores a 1.000 kcal/día, el mínimo del planificador de peso de NIH NIDDK; un valor superior no garantiza que sea adecuado. Consulte a un profesional sanitario para un plan individual.",
         "Sus necesidades diarias de energía son su TMB multiplicada por un factor de actividad: 1,2 sedentario, 1,375 ligeramente activo, 1,55 moderadamente activo, 1,725 muy activo y 1,9 extra activo. Ese producto — el gasto energético total diario (TDEE) — es lo que cuesta mantener su peso actual. La TMB procede de la ecuación de Mifflin-St Jeor (1990).",
         "Elija un objetivo y la herramienta ajusta la cifra de mantenimiento: unos −500 kcal/día para perder cerca de 0,5 kg por semana, +500 kcal/día para ganar, o sin cambios para mantener. La heurística de ±500 kcal se debe a que 1 kg de grasa corporal almacena ≈ 7.700 kcal. Todo esto es una estimación: el metabolismo real se adapta al cambiar su peso y sus hábitos.",
       ],
@@ -218,6 +222,7 @@ export default defineTool({
       tagline:
         "Transforme sua TMB em metas diárias de calorias: cinco níveis de atividade (×1,2–1,9) e objetivos de perder, manter ou ganhar ±500 kcal.",
       intro: [
+        "Apenas para adultos a partir de 18 anos. Metas abaixo de 1.000 kcal/dia não são exibidas, conforme o mínimo do planejador de peso NIH NIDDK; um valor maior não é automaticamente adequado. Consulte um profissional de saúde para um plano individual.",
         "Suas necessidades diárias de energia são sua TMB multiplicada por um fator de atividade: 1,2 sedentário, 1,375 levemente ativo, 1,55 moderadamente ativo, 1,725 muito ativo e 1,9 extra ativo. Esse produto — o gasto energético total diário (TDEE) — é o que custa manter seu peso atual. A TMB vem da equação de Mifflin-St Jeor (1990).",
         "Escolha um objetivo e a ferramenta ajusta o valor de manutenção: cerca de −500 kcal/dia para perder aproximadamente 0,5 kg por semana, +500 kcal/dia para ganhar, ou nenhuma mudança para manter. A heurística de ±500 kcal vem de 1 kg de gordura armazenar ≈ 7.700 kcal. Tudo aqui é estimativa — o metabolismo real se adapta conforme seu peso e hábitos mudam.",
       ],

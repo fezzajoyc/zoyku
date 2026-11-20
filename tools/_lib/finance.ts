@@ -1,7 +1,9 @@
 /**
  * 复利计算纯逻辑(从 calc-engine-compound 抽出,引擎只做 UI)。
- * 语义:期初计入当期投入(annuity-due),再计息:
- *   FV ← (FV + contribution_per_period) × (1 + r),r = annual / periods_per_year
+ * Monthly cash flow, independently of the selected nominal compounding frequency.
+ * A contribution lands at the beginning of each month; the monthly-equivalent
+ * growth factor is g = (1 + annual / periods_per_year)^(periods_per_year / 12).
+ * This fractional-period convention never invests future deposits early.
  */
 
 export type Freq = "monthly" | "quarterly" | "annually";
@@ -28,29 +30,29 @@ export function compound(
     Number.isFinite(monthlyContribution) && monthlyContribution >= 0 &&
     Number.isFinite(annualRatePct) && annualRatePct >= 0 &&
     Number.isFinite(years) && years > 0 && years <= 100;
-  if (!valid) return { total: NaN, contributed: NaN, schedule: [] };
+  if (!valid || !Object.hasOwn(PERIODS_PER_YEAR, freq)) return { total: NaN, contributed: NaN, schedule: [] };
 
   const ppy = PERIODS_PER_YEAR[freq];
-  const r = annualRatePct / 100 / ppy;
-  const perPeriod = monthlyContribution * (12 / ppy);
-  const n = Math.round(years * ppy);
+  const growth = Math.pow(1 + annualRatePct / 100 / ppy, ppy / 12);
+  const n = Math.round(years * 12);
+  if (n < 1) return { total: NaN, contributed: NaN, schedule: [] };
 
   let fv = principal;
   const rows: ScheduleRow[] = [];
   for (let k = 1; k <= n; k++) {
-    fv = (fv + perPeriod) * (1 + r);
-    const isYearEnd = k % ppy === 0;
+    fv = (fv + monthlyContribution) * growth;
+    const isYearEnd = k % 12 === 0;
     if (isYearEnd || k === n) {
-      const deposited = principal + monthlyContribution * (k * (12 / ppy));
+      const deposited = principal + monthlyContribution * k;
       rows.push({
-        year: Math.ceil(k / ppy),
+        year: Math.ceil(k / 12),
         contrib: deposited,
         interest: fv - deposited,
         balance: fv,
       });
     }
   }
-  const totalContrib = principal + monthlyContribution * n * (12 / ppy);
+  const totalContrib = principal + monthlyContribution * n;
   return { total: fv, contributed: totalContrib, schedule: rows };
 }
 

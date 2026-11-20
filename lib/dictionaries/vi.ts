@@ -86,7 +86,7 @@ const vi = {
     text: { name: "Văn bản", desc: "Đếm, làm sạch, sắp xếp và biến đổi văn bản tức thì khi bạn gõ." },
     developer: { name: "Lập trình viên", desc: "Trình định dạng, bộ mã hóa, bộ giải mã và trình tạo cho công việc dev hằng ngày." },
     seo: { name: "SEO", desc: "Thẻ meta, dữ liệu có cấu trúc, xem trước SERP và các trợ thủ SEO trên trang." },
-    security: { name: "Bảo mật", desc: "Mật khẩu, hàm băm và tra cứu — tạo và kiểm tra ngay trên thiết bị của bạn." },
+    security: { name: "Bảo mật", desc: "Công cụ mật khẩu và kiểm tra cục bộ, cùng tra cứu tên miền và IP được giải thích rõ." },
     utility: { name: "Tiện ích", desc: "Bộ chuyển đổi đơn vị, máy tính và các trợ thủ hằng ngày." },
   },
 

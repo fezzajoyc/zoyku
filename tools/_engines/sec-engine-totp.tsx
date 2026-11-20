@@ -72,9 +72,27 @@ const LABELS: Record<string, Record<string, string>> = {
     pt: "Importado do link otpauth{extra}", fr: "Importé depuis un lien otpauth{extra}", de: "Aus otpauth-Link importiert{extra}", ru: "Импортировано из ссылки otpauth{extra}", it: "Importato da link otpauth{extra}", tr: "otpauth bağlantısından içe aktarıldı{extra}", ko: "otpauth 링크에서 가져옴{extra}", ar: "تم الاستيراد من رابط otpauth{extra}", hi: "otpauth लिंक से आयातित{extra}", id: "Diimpor dari tautan otpauth{extra}", vi: "Đã nhập từ liên kết otpauth{extra}",
   },
   forAccount: { en: " for {account}", zh: "({account})", ja: "({account})", es: " de {account}", pt: " de {account}", fr: " pour {account}", de: " für {account}", ru: " для {account}", it: " per {account}", tr: " ({account})", ko: " ({account})", ar: " لـ {account}", hi: " ({account})", id: " untuk {account}", vi: " cho {account}" },
+  errLink: {
+    en: "Cannot import this TOTP link. It needs a secret and supported settings: SHA1/SHA256/SHA512, 6 or 8 digits, and 30 or 60 seconds. Omitted settings default to SHA1, 6 digits and 30 seconds.",
+    zh: "无法导入此 TOTP 链接。需要密钥及支持的设置：SHA1/SHA256/SHA512、6 或 8 位、30 或 60 秒。省略参数时默认使用 SHA1、6 位和 30 秒。",
+    ja: "このTOTPリンクは読み込めません。シークレットと対応設定（SHA1/SHA256/SHA512、6/8桁、30/60秒）が必要です。省略時はSHA1・6桁・30秒です。",
+    es: "No se puede importar este enlace TOTP. Requiere un secreto y SHA1/SHA256/SHA512, 6 u 8 dígitos y 30 o 60 segundos. Si se omiten, se usa SHA1, 6 dígitos y 30 segundos.",
+    pt: "Não foi possível importar o link TOTP. É necessário um segredo e SHA1/SHA256/SHA512, 6 ou 8 dígitos e 30 ou 60 segundos. O padrão é SHA1, 6 dígitos e 30 segundos.",
+    fr: "Lien TOTP non importable. Un secret et des paramètres compatibles sont requis : SHA1/SHA256/SHA512, 6 ou 8 chiffres, 30 ou 60 secondes. Par défaut : SHA1, 6 chiffres, 30 secondes.",
+    de: "TOTP-Link nicht importierbar. Erfordert ein Secret und SHA1/SHA256/SHA512, 6 oder 8 Stellen und 30 oder 60 Sekunden. Ohne Angabe gelten SHA1, 6 Stellen und 30 Sekunden.",
+    ru: "Не удалось импортировать ссылку TOTP. Нужны ключ и параметры SHA1/SHA256/SHA512, 6 или 8 цифр, 30 или 60 секунд. По умолчанию: SHA1, 6 цифр, 30 секунд.",
+    it: "Impossibile importare il link TOTP. Servono un segreto e SHA1/SHA256/SHA512, 6 o 8 cifre, 30 o 60 secondi. Se omessi: SHA1, 6 cifre e 30 secondi.",
+    tr: "TOTP bağlantısı içe aktarılamıyor. Gizli anahtar ve SHA1/SHA256/SHA512, 6 veya 8 hane, 30 veya 60 saniye gerekir. Varsayılanlar SHA1, 6 hane ve 30 saniyedir.",
+    ko: "TOTP 링크를 가져올 수 없습니다. 시크릿과 지원 설정(SHA1/SHA256/SHA512, 6/8자리, 30/60초)이 필요합니다. 생략 시 SHA1, 6자리, 30초가 적용됩니다.",
+    ar: "تعذر استيراد رابط TOTP. يلزم مفتاح وإعدادات مدعومة: SHA1/SHA256/SHA512 و6 أو 8 خانات و30 أو 60 ثانية. الإعدادات الافتراضية SHA1 و6 خانات و30 ثانية.",
+    hi: "यह TOTP लिंक आयात नहीं हो सका। सीक्रेट और समर्थित सेटिंग चाहिए: SHA1/SHA256/SHA512, 6 या 8 अंक, 30 या 60 सेकंड। न देने पर SHA1, 6 अंक और 30 सेकंड लागू होते हैं।",
+    id: "Tautan TOTP tidak dapat diimpor. Perlu secret dan pengaturan SHA1/SHA256/SHA512, 6 atau 8 digit, 30 atau 60 detik. Jika dihilangkan, digunakan SHA1, 6 digit, 30 detik.",
+    vi: "Không thể nhập liên kết TOTP. Cần secret và thiết lập hỗ trợ: SHA1/SHA256/SHA512, 6 hoặc 8 chữ số, 30 hoặc 60 giây. Khi bỏ trống: SHA1, 6 chữ số, 30 giây.",
+  },
 };
 
 const B32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+export const TOTP_LINK_LABELS = LABELS.errLink;
 
 export function SecTotpEngine() {
   const { locale } = useI18n();
@@ -94,10 +112,10 @@ export function SecTotpEngine() {
     const s = input.trim();
     if (!s) return { kind: "empty" as const };
     let secret = s;
-    let link: { digits?: number; period?: number; algo?: TotpAlgo; account?: string } | null = null;
+    let link: { digits: number; period: number; algo: TotpAlgo; account?: string } | null = null;
     if (/^otpauth:\/\//i.test(s)) {
       const p = parseOtpauth(s);
-      if (!p) return { kind: "invalid" as const };
+      if (!p) return { kind: "invalidLink" as const };
       secret = p.secret;
       link = { digits: p.digits, period: p.period, algo: p.algo, account: p.account };
     }
@@ -111,6 +129,11 @@ export function SecTotpEngine() {
 
   // 同步解析结果到错误提示 / 链接参数
   useEffect(() => {
+    if (parsed.kind === "invalidLink") {
+      setError(L("errLink"));
+      setImported(null);
+      return;
+    }
     if (parsed.kind === "invalid") {
       setError(L("errChars"));
       setImported(null);
@@ -123,9 +146,9 @@ export function SecTotpEngine() {
     }
     setError(null);
     if (parsed.kind === "ok" && parsed.link) {
-      if (parsed.link.digits) setDigits(parsed.link.digits);
-      if (parsed.link.period) setPeriod(parsed.link.period);
-      if (parsed.link.algo) setAlgo(parsed.link.algo);
+      setDigits(parsed.link.digits);
+      setPeriod(parsed.link.period);
+      setAlgo(parsed.link.algo);
       const extra = parsed.link.account
         ? L("forAccount").replace("{account}", parsed.link.account)
         : "";

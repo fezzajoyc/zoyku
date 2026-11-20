@@ -83,7 +83,7 @@ const zh: Dictionary = {
     text: { name: "文本", desc: "统计、清洗、排序、变换,边输入边出结果。" },
     developer: { name: "开发者", desc: "格式化、编解码、生成器,日常开发随手用。" },
     seo: { name: "SEO", desc: "Meta 标签、结构化数据、SERP 预览等页面级 SEO 助手。" },
-    security: { name: "安全", desc: "密码、哈希与查询——都在你的设备上生成与校验。" },
+    security: { name: "安全", desc: "本地密码工具与安全检查，以及明确披露联网方式的域名和 IP 查询。" },
     utility: { name: "实用工具", desc: "单位换算、计算器与日常小工具。" },
   },
 

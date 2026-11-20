@@ -90,10 +90,15 @@ describe("bmr: metric/imperial parity (same person, both systems, ±0.5%)", () =
 });
 
 describe("bmr: boundaries and invalid inputs (documented limits)", () => {
-  it("age 10 and 130 compute; 9 and 131 → NaN (validated on adults)", () => {
-    expect(bmr(80, 180, 10, "male")).toBeCloseTo(refBmr(80, 180, 10, "male"), 9);
+  it("does not return nonpositive basal energy for extreme measurements inside the shared limits", () => {
+    expect(bmr(2, 50, 130, "male")).toBeNaN();
+    expect(bmr(2, 50, 130, "female")).toBeNaN();
+    expect(bmr(34.85, 50, 100, "female")).toBeNaN(); // 348.5 + 312.5 - 500 - 161 = 0
+  });
+  it("adult ages 18 and 130 compute; 17 and 131 → NaN", () => {
+    expect(bmr(80, 180, 18, "male")).toBeCloseTo(refBmr(80, 180, 18, "male"), 9);
     expect(bmr(80, 180, 130, "male")).toBeCloseTo(refBmr(80, 180, 130, "male"), 9);
-    expect(bmr(80, 180, 9, "male")).toBeNaN();
+    expect(bmr(80, 180, 17, "male")).toBeNaN();
     expect(bmr(80, 180, 131, "male")).toBeNaN();
   });
 
@@ -179,6 +184,18 @@ describe("tdee: BMR × standard activity factors", () => {
 });
 
 describe("calorieGoal: ±500 kcal goal adjustments", () => {
+  it("does not publish targets below 1000 kcal/day as ordinary calorie goals", () => {
+    expect(calorieGoal(1246.8, "lose")).toBeNaN();
+    expect(calorieGoal(1499.99, "lose")).toBeNaN();
+    expect(calorieGoal(999, "maintain")).toBeNaN();
+    expect(calorieGoal(1500, "lose")).toBe(1000);
+  });
+
+  it("adult energy equations reject children instead of suggesting a child's deficit", () => {
+    expect(bmr(30, 130, 10, "female")).toBeNaN();
+    expect(bmr(60, 165, 17.99, "female")).toBeNaN();
+    expect(Number.isFinite(bmr(60, 165, 18, "female"))).toBe(true);
+  });
   it("adjustments are exactly lose −500, maintain 0, gain +500", () => {
     expect(GOAL_ADJUSTMENTS).toEqual({ lose: -500, maintain: 0, gain: 500 });
   });

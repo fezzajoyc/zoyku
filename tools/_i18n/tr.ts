@@ -7101,9 +7101,9 @@ export const tr: Record<string, ToolCopy> = {
     tagline:
       "Tasarrufların bileşik faizle nasıl büyüdüğünü gör — bir anapara, aylık katkı ve oran gir; nihai bakiyeyi ve yıl yıl tabloyu al.",
     intro: [
-      "Bileşik faiz, faizin faizidir: her dönem bakiye yıllık oranın bir payını kazanır ve eklediğin her anapara kendi faizini kazanmaya başlar. Bu hesaplayıcı, o özyinelemeyi dönem dönem yürütür — bir başlangıç anaparası ve düzenli aylık katkılarla, aylık, üç aylık veya yıllık bileşikle.",
-      "Sonuç, nihai bakiye, yatırdığın toplam ve bileşiklemenin ürettiği faizdir — artı eğrinin ne zaman kırılmaya başladığını tam görebileceğin yıl yıl bir tablo. Her şey canlı yeniden hesaplanır ve kullanılan formül, rakamların hemen altında basılır; bankanın kendi projeksiyonuyla karşılaştırırsın.",
-    ],
+  "Ödemeler bileşik faiz sıklığından bağımsız olarak her ayın başında yapılır. Yılda n dönem için eşdeğer aylık çarpan (1 + yıllık oran/n)^(n/12) olur. Gelecekteki ödemeler öne alınmaz. Nominal oran sabittir; ücret ve vergi dahil değildir.",
+  "Hayır. Sabit oranlı bir senaryodur; gerçek getiri, ücret ve vergiler sonucu değiştirir."
+],
     steps: [
       "Başlangıç anaparasını ve her ay ekleyeceğin tutarı gir (tek seferlik anapara için 0).",
       "Yıllık faiz oranını, yıl sayısını ve faizin ne sıklıkla bileşik uygulandığını ayarla.",
@@ -7111,45 +7111,16 @@ export const tr: Record<string, ToolCopy> = {
       "Nihai bakiyeyi, toplam katkıyı ve kazanılan faizi oku, sonra yıl yıl tabloyu kontrol et.",
     ],
     faqs: [
-      {
-        q: "Hesaplayıcı hangi formülü kullanır?",
-        a: "Bankaların tasarruf projeksiyonunda kullandığı bakiye özyinelemesi: her dönem, bakiye ← (bakiye + katkı) × (1 + r); r = yıllık oran ÷ yıl başına dönem (aylık için 12, üç aylık için 4, yıllık için 1). Katkılar her dönemin başında yatırılır; o dönemden itibaren faiz kazanır. Örnek: 10.000 başlangıç, %5 ile ayda 100, 10 yıl, aylık bileşik; 32.063,02 nihai bakiye — 22.000,00 katkı ve 10.063,02 faiz.",
-      },
-      {
-        q: "Diğer hesaplayıcılarda neden hafif farklı sonuç alıyorum?",
-        a: "Zamanlama gelenekleri farklıdır. Bazı araçlar katkıları dönem sonunda yatırım sayar (geldikleri dönemde faiz kazanmazlar), bazıları günlük bileşik varsayar, bazıları her dönemi yuvarlar. Bu araç, her dönemin başında yatırır ve ara adımları asla yuvarlamaz; başka bir siteye karşı %0,1'lik fark genellikle o gelenektir, hata değildir.",
-      },
-      {
-        q: "Vergi, masraf veya enflasyonu dâhil ediyor mu?",
-        a: "Hayır — sonuç, girdiğin oranda nominal büyümedir. Faiz vergileri, hesap masrafları ve enflasyon, gerçek getirinin tamamını düşürür; nihai bakiyeyi, gerçekte elinde kalacak miktarın üst sınırı olarak gör.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Bileşikleştirme sıklığı neden cevabı değiştirir",
-        paragraphs: [
-          "Bileşikleştirme sıklığı, kazanılan faizin anaparaya katılıp kendi faizini kazanmaya başlama sıklığını belirler. Dönemsel oran yıllık oranın dönem sayısına bölümüdür; %8'de aylık bileşikleştirme aylık %0,667 kullanır — o faiz yılda bir yerine on iki kez aktarıldığından etkin yıllık getiri %8'in üstüne sürünür. Günlük aylığı yener, aylık çeyreği yener, çeyrek yıllığı yener; aynı nominal oranda hep bu sırayla.",
-          "İnsanları şaşırtan şey tüketici oranlarında boşluğun ne kadar küçük olmasıdır. %5 nominalde yıllık bileşikleştirme %5,00; aylık bileşikleştirme yaklaşık %5,12 verir — yalnızca on yıllarda ya da büyük bakiyelerde ciddi para olan bir onda bir puan. Pazarlama bunu sömürür: bir banka rakibininkine özdeş görünen nominal oran kotarabilir; bileşikleştirme sıklığı sessizce farkı belirlerken.",
-          "Sıklık cevabı yalnızca karşılaştırılan şey nominal oran olduğunda değiştirir. Her şey etkin yıllık getiriye çevrildiğinde sıklık çoktan içine katlanmıştır ve aynı APY'ye sahip iki hesap gerçekten eşdeğerdir — sitenin APY hesaplayıcısının bunun yanında var olmasının tam sebebi.",
-        ],
-      },
-      {
-        heading: "Kavşak — ve zamanın oranı neden yendiği",
-        paragraphs: [
-          "Yıl-yıl tablo belirli bir anı göstermek için vardır: kavşak; bir yılda kazanılan faizin kendi katkılarını aşması. Ilıman oranlarda bu on yıllar alır; bileşikleştirmenin ilk on yıl sönük, otuz yıl sonra saçmalık hissettirmesinin sebebi budur. Eğri düzdür sonra kırılır — ve neredeyse herkes kırılmanın ne kadar geç geldiğini eksik tahmin eder.",
-          "Bu, başlangıç tutarının iyileştiricinin sezgisinin ima ettiğinden fazla önem taşımasının da sebebidir. Bir puan fazla oran doğrusaldır; bir on yıl fazla bileşikleştirme üsteldir. Mütevazı oranda on yıl erken başlamak ile bugün bir puan yüksek oranda başlamak arasında, erken başlamak genelde rahatsız edici bir marjla kazanır — tablo o iddiayı imana dayanmadan kendi rakamların üzerinde sınamanı sağlar.",
-          "İki dürüst uyarı: araç katkıları her dönemin başına yatırır — iyimser gelenektir — ve oranın hiç değişmediğini varsayar; hiçbir gerçek yatırım onu onurlandırmaz. Çıktı bir senaryodur, tahmin değil — kavşak yılı özellikle daire içine alınacak bir tarih değil «kabaca ne zaman» olarak okunmalıdır.",
-        ],
-      },
-      {
-        heading: "Nominal büyüme, gerçek satın alma gücü",
-        paragraphs: [
-          "Hesaplayıcının gösterdiği her şey nominaldir: yazdığın oran, yazdığın bakiyeye uygulanmış; vergi yok, ücret yok, enflasyon yok. Her üçü de farklı taraftan keser — faiz vergileri aktarılan oranı düşürür; hesap ücretleri sabit tutarlar düşürür; enflasyon nihai bakiyenin alacağını sessizce küçültür. Ekrandaki sayı, gerçekten tutacaklarının üst sınırıdır.",
-          "Faydalı bir akıl sağlığı egzersizi: girmeden önce orandan beklediğin yıllık enflasyonu düş. %2,5 enflasyonla %5 nominal getiri aynı biçimde bileşir ama bakiyenin gelecekteki satın alma gücü hakkında çok daha dürüst bir hikâye anlatır. Matematik özdeştir; yalnızca yorum değişir.",
-          "Ve buradaki her araç gibi projeksiyon tamamen tarayıcında çalışır: bakiyeler, oranlar ve katkı tutarları cihazından hiç çıkmaz; veriyi sunucuya gönderen bir forma yapıştırmayacağın rakamları modellemek güvenlidir.",
-        ],
-      },
-    ],
+  {
+    "q": "Ödemeler ve faiz nasıl uygulanır?",
+    "a": "Ödemeler bileşik faiz sıklığından bağımsız olarak her ayın başında yapılır. Yılda n dönem için eşdeğer aylık çarpan (1 + yıllık oran/n)^(n/12) olur. Gelecekteki ödemeler öne alınmaz. Nominal oran sabittir; ücret ve vergi dahil değildir."
+  },
+  {
+    "q": "Bu garantili bir tahmin mi?",
+    "a": "Hayır. Sabit oranlı bir senaryodur; gerçek getiri, ücret ve vergiler sonucu değiştirir."
+  }
+],
+    deepDive: [],
   },
   "random-name-picker": {
     name: "Rastgele İsim Seçici",
@@ -8232,9 +8203,8 @@ export const tr: Record<string, ToolCopy> = {
     tagline:
       "Mifflin-St Jeor denklemiyle (1990) bazal metabolizma hızını hesapla — vücudunun her gün tam dinlenmede yaktığı kaloriler.",
     intro: [
-      "Bazal metabolizma hızın (BMR), vücudunun yalnızca hayatta kalmak için harcadığı enerjidir: nefes, kan dolaşımı, ısınma — her türlü hareket ve sindirimden önce. Bu hesaplayıcı 1990'da yayımlanan ve modern popülasyonlar için en doğru yaygın tahminci olmayı sürdüren Mifflin-St Jeor denklemini kullanır: erkekler 10 × kilo (kg) + 6,25 × boy (cm) − 5 × yaş + 5; kadınlar aynı ifadenin 161 eksiği.",
-      "Bilgilerini metrik ya da imparatorluk birimiyle gir, sonuç yazarken güncellenir. Sayıyı nüfus düzeyi bir tahmin olarak gör — laboratuvar ölçümünden genellikle yaklaşık ±10% uzaklıkta — tıbbi teşhis olarak değil.",
-    ],
+  "Yalnızca18 yaş ve üzeri yetişkinler içindir; hamilelik ve emzirme hariçtir. 1000 kcal/gün altındaki hedefler sunulmaz. Hedef yoksa daha fazla kısıtlama yerine uzman görüşü alın."
+],
     steps: [
       "Cinsiyetini ve metrik (cm + kg) ya da imparatorluk (ft + in + lb) birimleri seç.",
       "Boy, kilo ve yaşını gir.",
@@ -8242,54 +8212,24 @@ export const tr: Record<string, ToolCopy> = {
       "Koruma ve hedef değerler için kalori hesaplayıcıya aktar.",
     ],
     faqs: [
-      {
-        q: "Hangi formül kullanılıyor ve ne kadar doğru?",
-        a: "1990'da yayımlanan ve American Dietetic Association'ın dolaylı kalorimetriyle doğrulamasından sonra önerdiği Mifflin-St Jeor denklemi. Çoğu yetişkin için ölçülen istirahat enerjisini kabaca ±10% içinde öngörür; eski Harris-Benedict denkleminin (1919) önündedir.",
-      },
-      {
-        q: "BMR ile günlük kalori ihtiyacının farkı ne?",
-        a: "BMR yalnızca tam dinlenmeyi kapsar. Gerçek günlük yakımın BMR'nin bir aktivite katsayısıyla çarpımıdır — hareketsiz bir gün için yaklaşık 1,2, çok aktif kişiler için 1,9'a kadar. Kalori hesaplayıcı bu çarpanı ve hedefini senin adına uygular.",
-      },
-      {
-        q: "Bu tıbbi tavsiye mi?",
-        a: "Hayır — bu bir tahmindir, tıbbi tavsiye değil. Hastalık, ilaç, gebelik ve alışılmadık vücut kompozisyonu gerçek enerji harcamasını kaydırır; beslenme değişikliğini bir sağlık uzmanıyla konuş.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Mifflin-St Jeor ile eski denklemler karşılaştırması",
-        paragraphs: [
-          "Bu araç 1990'da yayımlanan Mifflin-St Jeor denklemi kullanır: erkekler için 10 × ağırlık (kg) + 6,25 × boy (cm) − 5 × yaş + 5; kadınlar için aynı ifadenin +5 yerine −161'i. Ölçülmüş dinlenme enerji harcamasına kalibre edildi ve oksijen tüketimini doğrudan ölçen laboratuvar altın standardı indirekt kalorimetriyle doğrulandı.",
-          "En sık karşılaşacağın alternatif Harris-Benedict'dir; özgün olarak 1919'da yayımlandı ve 1984'te revize edildi. 2005 American Dietetic Association karşılaştırması, Mifflin-St Jeor'un modern popülasyonlar için daha doğru bulunduğu genişçe atıf yapıldı; bu hesaplayıcının onu standardize etmesinin sebebi budur. Üçüncü seçenek Katch-McArdle, ağırlık yerine yağsız vücut kütlesi kullanır; vücut yağ yüzdesini bilenler için keskin olabilir — ama çoğu insanın taşımadığı bir sayı ister.",
-          "Pratik çıkarım: bu denklemler arasındaki farklar tipik olarak onlarca kilokaloridir; kendi harcamalarının gün-gün değişkenliğinden küçük. İki hesaplayıcı hafifçe ayrışıyorsa formül seçimi genelde nedenidir; ikisi de yanlış değildir.",
-        ],
-      },
-      {
-        heading: "Sayıyı okumak: BMR günlük harcaman değildir",
-        paragraphs: [
-          "BMR tabandır, bütçe değil. Tam dinlenmede nefes almayı, dolaşımı, hücre onarımını ve sıcaklık düzenlemesini kapsar — hareketsiz yetişkinlerin günde yaktığının kabaca %60–70'i. Gerçek toplam günlük enerji harcaman (TDEE), BMR'nin bir aktivite faktörüyle çarpımıdır; masabaşı gün için yaklaşık 1,2'den ağır fiziksel iş ya da günlük sert antrenman için yaklaşık 1,9'a.",
-          "O çarpma formülün kendisinden fazla sayar. Özdeş BMR'li iki insan yalnızca yaşam tarzından günde 800+ kcal ayrabilir. Bu hesaplayıcı bilinçli olarak yalnızca BMR rapor eder; sitenin kalori hesaplayıcı sonraki adımı atar; aktivite faktörünü ve bir hedefi senin için uygular.",
-          "Faydalı bir akıl sağlığı kontrolü: BMR esas olarak ağırlık, boy ve yaşla ölçeklenir; sonuç küçük bir girdi değişiminden sert kayarsa birimleri yeniden kontrol et — kg ile lb karıştırmak klasik hatadır.",
-        ],
-      },
-      {
-        heading: "Sıradan hatalar ve dürüst sınırlar",
-        paragraphs: [
-          "Her tahminsel denklem bireysel hata taşır. Mifflin-St Jeor çoğu yetişkin için laboratuvar ölçümünün kabaca ±%10'una düşer ama çok yüksek ya da düşük kas kitlesi taşıyan, tiroid durumları olan ya da belirli ilaç kullanan bireyler o bandın epey dışına düşebilir. Çıktıyı fizyolojik bir gerçek değil planlama başlangıç noktası olarak ele.",
-          "BMR'nin altında yemeyi gerekçelendirmek için BMR kullanma. Dinlenme metabolizması seni hayatta tutan yağsız doku tarafından çoktan kapsanır; BMR altındaki agresif açıklar bir hesaplayıcı için değil bir sağlık uzmanı için karardır. Benzer biçimde metabolik adaptasyon, 90 kg'da hesapladığın sayının 80 kg'da doğru olmayı bıraktığı demektir — ağırlık değiştikçe yeniden hesapla.",
-          "Sitedeki her şey gibi hesaplama tümüyle tarayıcında çalışır: hiçbir girdi hiçbir yere gönderilmez; gerçek rakamları girmekte tereddüt etmek için hiçbir neden yoktur. Sayfa çevrimdışı da çalışır; salonda, seyahatte, telefonla yeniden hesaplanabilir.",
-        ],
-      },
-    ],
+  {
+    "q": "Bu tahmin kimler içindir?",
+    "a": "Yalnızca18 yaş ve üzeri yetişkinler içindir; hamilelik ve emzirme hariçtir. 1000 kcal/gün altındaki hedefler sunulmaz. Hedef yoksa daha fazla kısıtlama yerine uzman görüşü alın."
+  },
+  {
+    "q": "Tahmin ne kadar doğrudur?",
+    "a": "Bir nüfus tahminidir, reçete değildir. Gereksiniminizi bir uzmanla değerlendirin."
+  }
+],
+    deepDive: [],
   },
   "calorie-calculator": {
     name: "Kalori Hesaplayıcı",
     tagline:
       "BMR'ni günlük kalori hedeflerine çevir: beş aktivite düzeyi (×1,2–1,9) artı yaklaşık ±500 kcal/gün ile vermek, korumak veya almak hedefleri.",
     intro: [
-      "Günlük enerji ihtiyacı, BMR'nin bir aktivite katsayısıyla çarpımıdır: 1,2 hareketsiz, 1,375 hafif aktif, 1,55 orta aktif, 1,725 çok aktif ve 1,9 ekstra aktif. Bu çarpım — toplam günlük enerji harcaması (TDEE) — şu anki kilonu korumak için gerekendir. BMR'nin kendisi Mifflin-St Jeor denkleminin (1990) ürünüdür.",
-      "Bir hedef seç, araç koruma değerini ayarlar: haftada yaklaşık 0,5 kg vermek için yaklaşık −500 kcal/gün, almak için +500 kcal/gün, korumak için değişiklik yok. ±500 kcal buluşu 1 kg vücut yağının ≈ 7.700 kcal depolamasından gelir. Buradaki her şey tahmindir — gerçek metabolizma kilon ve alışkanlıkların değiştikçe uyum sağlar.",
-    ],
+  "Yalnızca18 yaş ve üzeri yetişkinler içindir; hamilelik ve emzirme hariçtir. 1000 kcal/gün altındaki hedefler sunulmaz. Hedef yoksa daha fazla kısıtlama yerine uzman görüşü alın."
+],
     steps: [
       "Cinsiyetini ve birimlerini seç, boy, kilo ve yaş gir.",
       "Tipik bir haftaya uyan aktivite düzeyini seç.",
@@ -8297,45 +8237,16 @@ export const tr: Record<string, ToolCopy> = {
       "Koruma değerini (TDEE) ve günlük hedef kalorilerini oku.",
     ],
     faqs: [
-      {
-        q: "Hangi formül ve katsayılar kullanılır?",
-        a: "Mifflin-St Jeor denkleminden (1990) BMR, standart TDEE aktivite katsayılarıyla çarpılır: 1,2 hareketsiz, 1,375 hafif aktif, 1,55 orta aktif, 1,725 çok aktif, 1,9 ekstra aktif. Hedefler yaklaşık 500 kcal/gün ekler veya çıkarır — haftada 0,5 kg değişimin klasik buluşu (1 kg yağ ≈ 7.700 kcal).",
-      },
-      {
-        q: "500 kcal açık güvenli mi, sonuçlar ne zaman görünür?",
-        a: "≈0,5 kg/hafta değişim için yaklaşık −500 kcal/gün, çoğu halk sağlığı kılavuzunun ılımlı ve sürdürülebilir dediği hızdır. Erken kaybın bir kısmı sudur ve hafifledikçe harcama düşer; haftalık sonuçlar doğrusal değildir — birkaç kiloda bir yeniden hesapla.",
-      },
-      {
-        q: "Bu tıbbi tavsiye mi?",
-        a: "Hayır — bu bir tahmindir, tıbbi tavsiye değil. Gebelik, kronik hastalık yönetimi, ilaç kullanımı veya yeme bozukluğu öykün varsa hedefleri bir sağlık uzmanıyla belirle.",
-      },
-    ],
-    deepDive: [
-      {
-        heading: "Bakım sayısı nasıl kurulur",
-        paragraphs: [
-          "Hesap iki adımlı bir zincirdir. Önce BMR Mifflin-St Jeor denklemlerinden gelir (1990): erkekler 10 × ağırlık (kg) + 6,25 × boy (cm) − 5 × yaş + 5; kadınlar aynı ifadenin 161 eksiği. Sonra o BMR beş standart aktivite faktöründen biriyle çarpılır: 1,2 hareketsiz; 1,375 hafif aktif; 1,55 orta aktif; 1,725 çok aktif; 1,9 ekstra aktif.",
-          "Beş faktör Harris-Benedict geleneğine iz sürer ve insanların gerçekten nasıl yaşadığına temiz eşlendiği için sağ çıkar: aktiviteyi yalnızca antrenmanlar tanımlamaz — salonu hiç görmeyen bir inşaat işçisi, haftada üç oturum yapan bir ofis çalışanından daha yüksek düşer.",
-          "Hedef ayarlamaları sonra klasik sezgiyi uygular: 1 kg vücut yağı kabaca 7.700 kcal saklar; günde yaklaşık ±500 kcal kabaca haftada 0,5 kg değişime karşılık gelir. Hesaplayıcı kilo vermek için 500 düşer, almak için 500 ekler ve bakıma dokunmaz.",
-        ],
-      },
-      {
-        heading: "Hedefi yorumlamak: çizgi değil eğri bekle",
-        paragraphs: [
-          "Erken kilo kaybı hep matematiği geçer: ilk bir iki hafta çoğunlukla su ve glikojen düşer; yağ değil. Ondan sonra sonuçlar yavaşlar; çünkü harcaman hafifledikçe düşer — 90 kg taşıyan kişi 82 kg'da daha az yakar; birinci ayda haftada yarım kilo üreten açı üçüncü ayda genelde bunun üçte birini üretir.",
-          "Pratik akış hedefi bir hipotez saymaktır: tutarlı koşullarda tart, günlük gürültüye karşı iki haftalık kayan ortalamayla karşılaştır ve eğilim birkaç hafta takıldığında 100–200 kcal ayarla. Kaba güç değil ölçülmüş düzeltme, başarıyı belirleyendir.",
-          "Her birkaç kilo değişiklikten sonra yeniden hesapla ve aynı bakım sayısının ne yediğine göre çok farklı sonuçlar desteklediğini hatırla — protein, lif ve yemek zamanlaması kalori matematiğini değiştirmez ama açığın ne kadar yaşanabilir hissettirdiğini değiştirir.",
-        ],
-      },
-      {
-        heading: "Sıradan hatalar",
-        paragraphs: [
-          "En sık hata aktivite düzeyini şişirmektir. İnsanlar bir antrenmanı «orta aktif» sayar ve yine de günde on saat oturur; haftada 3–5 kez egzersiz yapıp masa başı çalışıyorsan 1,55 genelde bile cömerttir. Şüphedeysen daha düşük faktörü seç ve ölçülmüş sonuçlardan ayarla.",
-          "±500 ayarını akıl sınırının ötesinde istifleme. BMR'nin çok altındaki açıklar ya da günde +1.000 kcal'lik artışlar çoğunlukla sırasıyla yorgunluk ve yağ artışı üretir; çoğu yetişkin için sürdürülebilir oranlar iki yönde de haftada 0,25–0,75 kg'dır. Hamile olan, kronik bir durumu yöneten ya da düzensiz beslenme geçmişi taşıyan herkes hedefleri bir klinisyenle kurmalıdır.",
-          "Son olarak buradaki her çıktıyı bir popülasyon-ortalaması tahmini olarak ele: gerçek metabolizma bireyler arasında kabaca ±%10 varyasyon taşır; soruyu haftalarca kendi ölçülmüş eğilimin kapatır — formül başlangıç noktasıdır, kapanış değil.",
-        ],
-      },
-    ],
+  {
+    "q": "Bu tahmin kimler içindir?",
+    "a": "Yalnızca18 yaş ve üzeri yetişkinler içindir; hamilelik ve emzirme hariçtir. 1000 kcal/gün altındaki hedefler sunulmaz. Hedef yoksa daha fazla kısıtlama yerine uzman görüşü alın."
+  },
+  {
+    "q": "Tahmin ne kadar doğrudur?",
+    "a": "Bir nüfus tahminidir, reçete değildir. Gereksiniminizi bir uzmanla değerlendirin."
+  }
+],
+    deepDive: [],
   },
   "body-fat-calculator": {
     name: "Vücut Yağı Hesaplayıcı",

@@ -25,7 +25,10 @@
  * functions return NaN rather than a meaningless number):
  *  - height 50–272 cm (tallest recorded person: 272 cm),
  *  - weight 2–700 kg (heaviest recorded person: ≈635 kg),
- *  - age 10–130 years (Mifflin–St Jeor was validated on adults),
+ *  - age 18–130 years (adult estimates only),
+ *  - calorie targets below 1,000 kcal/day are not returned; this is a
+ *    screening floor, not an assurance that a higher target is suitable.
+ *    Source: NIH NIDDK Body Weight Planner (adult eligibility and minimum).
  *  - ideal-weight heights 120–272 cm (below that the Devine extrapolation
  *    stops being meaningful),
  *  - exercise minutes 0–1440 (a full day).
@@ -43,11 +46,12 @@ export const HEALTH_LIMITS = {
   maxHeightCm: 272,
   minWeightKg: 2,
   maxWeightKg: 700,
-  minAgeYears: 10,
+  minAgeYears: 18,
   maxAgeYears: 130,
   minIdealWeightHeightCm: 120,
   minExerciseMin: 0,
   maxExerciseMin: 1440,
+  minCalorieTarget: 1000,
 } as const;
 
 export type Sex = "male" | "female";
@@ -73,9 +77,8 @@ export function bmr(weightKg: number, heightCm: number, ageYears: number, sex: S
   if (!ok(heightCm, HEALTH_LIMITS.minHeightCm, HEALTH_LIMITS.maxHeightCm)) return NaN;
   if (!ok(ageYears, HEALTH_LIMITS.minAgeYears, HEALTH_LIMITS.maxAgeYears)) return NaN;
   const base = 10 * weightKg + 6.25 * heightCm - 5 * ageYears;
-  if (sex === "male") return base + 5;
-  if (sex === "female") return base - 161;
-  return NaN; // unknown sex at runtime
+  const estimate = sex === "male" ? base + 5 : sex === "female" ? base - 161 : NaN;
+  return estimate > 0 ? estimate : NaN;
 }
 
 /* ---------------- TDEE + calorie goals ---------------- */
@@ -112,7 +115,8 @@ export const GOAL_ADJUSTMENTS: Record<GoalKey, number> = {
 export function calorieGoal(tdeeValue: number, goal: GoalKey): number {
   const adj = GOAL_ADJUSTMENTS[goal];
   if (adj === undefined || !Number.isFinite(tdeeValue) || tdeeValue <= 0) return NaN;
-  return tdeeValue + adj;
+  const target = tdeeValue + adj;
+  return target >= HEALTH_LIMITS.minCalorieTarget ? target : NaN;
 }
 
 /* ---------------- Body fat (US Navy / Hodgdon & Beckett, 1984) ---------------- */

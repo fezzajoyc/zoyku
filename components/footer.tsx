@@ -1,47 +1,61 @@
 "use client";
 
-import { SITE } from "@/lib/site";
-
 import Link from "next/link";
+import { SITE } from "@/lib/site";
+import { HOME_COPY } from "@/lib/home-copy";
 import { useI18n } from "./i18n-provider";
-import { CATEGORIES } from "@/lib/site";
+import { BrandLogo } from "./brand-logo";
 
 export function Footer() {
   const { locale, t } = useI18n();
   return (
-    <footer className="mt-16 border-t hairline bg-[var(--color-surface)]">
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-10 sm:grid-cols-3 sm:px-8">
-        <div>
-          <p className="font-semibold">{SITE.name}</p>
-          <p className="mt-2 max-w-xs text-[13px] leading-5 text-[var(--color-sub)]">{t.footer.line}</p>
+    <footer className="site-footer">
+      <div className="home-container site-footer-row">
+        <div className="site-footer-brand">
+          <Link href={`/${locale}`} className="site-brand">
+            <span className="site-brand-mark">
+              <BrandLogo size={14} />
+            </span>
+            <span>{SITE.name.toLowerCase()}</span>
+          </Link>
+          <span>{HOME_COPY[locale].footer}</span>
         </div>
-        <div>
-          <p className="text-[13px] font-semibold">{t.nav.categories}</p>
-          <ul className="mt-2 space-y-1.5 text-[13px] text-[var(--color-sub)]">
-            {CATEGORIES.map((c) => (
-              <li key={c}>
-                <Link href={`/${locale}/categories/${c}`} className="hover:text-[var(--color-ink)]">
-                  {t.categories[c].name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <nav aria-label={t.nav.menu}>
+          <Link href={`/${locale}/tools`}>{t.nav.tools}</Link>
+          <Link href={`/${locale}#categories`}>{t.nav.categories}</Link>
+          <Link href={`/${locale}/about`}>{t.footer.about}</Link>
+          <Link href={`/${locale}/privacy`}>{t.footer.privacy}</Link>
+          <Link href={`/${locale}/terms`}>{t.footer.terms}</Link>
+          <Link href={`/${locale}/mcp`}>MCP</Link>
+        </nav>
+        <div className="site-footer-meta">
+          <span>
+            © {new Date().getFullYear()} {SITE.name}
+          </span>
+          <a
+            href="https://github.com/fezzajoyc/zoyku/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.footer.reportIssue}
+          >
+            <IconGitHub />
+          </a>
         </div>
-        <div>
-          <p className="text-[13px] font-semibold">{t.nav.about}</p>
-          <ul className="mt-2 space-y-1.5 text-[13px] text-[var(--color-sub)]">
-            <li><Link href={`/${locale}/about`} className="hover:text-[var(--color-ink)]">{t.footer.about}</Link></li>
-            <li><Link href={`/${locale}/privacy`} className="hover:text-[var(--color-ink)]">{t.footer.privacy}</Link></li>
-            <li><Link href={`/${locale}/terms`} className="hover:text-[var(--color-ink)]">{t.footer.terms}</Link></li>
-            <li><Link href={`/${locale}/tools`} className="hover:text-[var(--color-ink)]">{t.nav.tools}</Link></li>
-            <li><Link href={`/${locale}/mcp`} className="hover:text-[var(--color-ink)]">MCP</Link></li>
-            <li><a href="https://github.com/fezzajoyc/zoyku/issues" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-ink)]">{t.footer.reportIssue}</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t hairline py-4 text-center text-[12px] text-[var(--color-sub)]">
-        © {new Date().getFullYear()} {SITE.name}
       </div>
     </footer>
+  );
+}
+
+function IconGitHub() {
+  return (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03a9.6 9.6 0 0 1 5 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.69-4.58 4.94.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+    </svg>
   );
 }

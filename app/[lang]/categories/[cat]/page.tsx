@@ -5,7 +5,6 @@ import { dict, HTML_LANG } from "@/lib/i18n";
 import { CATEGORIES, isCategory, isLocale, LOCALES, type Locale } from "@/lib/site";
 import { toolsByCategory } from "@/tools/registry";
 import { categoryIntro } from "@/tools/_lib/category-intros";
-import { categoryFaqPool } from "@/tools/_lib/category-faqs";
 import { Breadcrumb, Container, Prose, SectionHead, ToolCard } from "@/components/ui";
 import { JsonLd } from "@/components/jsonld";
 import { SITE } from "@/lib/site";
@@ -60,20 +59,9 @@ export default async function CategoryPage({
           url: `${SITE.domain}/${locale}/categories/${cat}`,
         }}
       />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: categoryFaqPool(cat, locale).map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }}
-      />
       <Breadcrumb
         items={[
-          { label: "Zoyku", href: `/${locale}` },
+          { label: SITE.name, href: `/${locale}` },
           { label: t.categories[cat].name },
         ]}
       />
@@ -110,17 +98,6 @@ export default async function CategoryPage({
         </div>
       </section>
 
-      <section className="mt-12 max-w-3xl">
-        <SectionHead title={t.tool.faq} />
-        <div>
-          {categoryFaqPool(cat, locale).map((f, i) => (
-            <details key={i} className="faq" open={i === 0}>
-              <summary>{f.q}</summary>
-              <p className="faq-a">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
     </Container>
   );
 }

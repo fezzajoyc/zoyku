@@ -7,6 +7,7 @@ import type { Locale } from "@/lib/site";
 import { Icon } from "@/components/icons";
 import { ToolPanel } from "@/components/ui";
 import { CopyButton } from "@/components/client-ui";
+import { isIpRateLimited } from "../_lib/ip-lookup";
 
 /**
  * DNS / IP / WHOIS 三合一查询引擎,由服务端 props.kind 切换(props 可序列化)。
@@ -19,7 +20,26 @@ import { CopyButton } from "@/components/client-ui";
 
 export type SecLookupKind = "dns" | "ip" | "whois";
 
+export const IP_RATE_LIMIT_LABELS: Record<Locale, string> = {
+  en: "The free IP lookup service has reached its request limit. Wait a few minutes before retrying; a shared network may share the same quota.",
+  zh: "免费 IP 查询服务已达到请求上限。请等待几分钟后重试；同一共享网络可能共用配额。",
+  ja: "無料IP検索サービスのリクエスト上限に達しました。数分待ってから再試行してください。同じネットワークでは割り当てを共有する場合があります。",
+  es: "El servicio gratuito de IP ha alcanzado su límite. Espere unos minutos antes de reintentar; una red compartida puede compartir la misma cuota.",
+  pt: "O serviço gratuito de IP atingiu o limite de consultas. Aguarde alguns minutos antes de tentar novamente; redes compartilhadas podem dividir a mesma cota.",
+  fr: "Le service IP gratuit a atteint sa limite de requêtes. Patientez quelques minutes avant de réessayer ; un réseau partagé peut partager le même quota.",
+  de: "Der kostenlose IP-Dienst hat sein Anfragelimit erreicht. Warten Sie einige Minuten. Gemeinsam genutzte Netzwerke teilen sich möglicherweise das Kontingent.",
+  ru: "Бесплатный сервис IP достиг лимита запросов. Подождите несколько минут; пользователи общей сети могут делить одну квоту.",
+  it: "Il servizio IP gratuito ha raggiunto il limite di richieste. Attendi qualche minuto; una rete condivisa può usare la stessa quota.",
+  tr: "Ücretsiz IP sorgu hizmetinin istek sınırına ulaşıldı. Yeniden denemeden önce birkaç dakika bekleyin; ortak ağ aynı kotayı paylaşabilir.",
+  ko: "무료 IP 조회 서비스의 요청 한도에 도달했습니다. 몇 분 뒤 다시 시도하세요. 공유 네트워크에서는 한도를 함께 사용할 수 있습니다.",
+  ar: "بلغت خدمة البحث المجانية عن IP حد الطلبات. انتظر بضع دقائق قبل المحاولة؛ قد تتشارك الشبكة الواحدة الحصة نفسها.",
+  hi: "मुफ़्त IP खोज सेवा की अनुरोध सीमा पूरी हो गई है। कुछ मिनट बाद फिर कोशिश करें; साझा नेटवर्क पर एक ही कोटा साझा हो सकता है।",
+  id: "Layanan pencarian IP gratis telah mencapai batas permintaan. Tunggu beberapa menit sebelum mencoba lagi; jaringan bersama mungkin berbagi kuota.",
+  vi: "Dịch vụ tra cứu IP miễn phí đã đạt giới hạn yêu cầu. Hãy chờ vài phút rồi thử lại; mạng dùng chung có thể dùng chung hạn mức.",
+};
+
 const LABELS: Record<string, Record<string, string>> = {
+  errIpRateLimited: IP_RATE_LIMIT_LABELS,
   lookup: { en: "Look up", zh: "查询", ja: "検索", es: "Consultar", pt: "Consultar" },
   queryPlaceholder: {
     en: "example.com",
@@ -362,8 +382,14 @@ function IpPanel({ locale }: { locale: Locale }) {
       setError(null);
       try {
         const res = await fetch(`https://ipwho.is/${ip ? encodeURIComponent(ip) : ""}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as IpWhoResponse;
+        const json = await res.json().catch(() => null) as IpWhoResponse | null;
+        if (isIpRateLimited(res.status, json)) {
+          setData(null);
+          setError(L(locale, "errIpRateLimited"));
+          setStatus("error");
+          return;
+        }
+        if (!res.ok || !json) throw new Error(`HTTP ${res.status}`);
         if (json.success === false) throw new Error(json.message || "lookup failed");
         setData(json);
         setStatus("done");

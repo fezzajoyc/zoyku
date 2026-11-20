@@ -1,0 +1,179 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "zoyku" [ref=e5] [cursor=pointer]:
+        - /url: /en
+      - navigation "Menu" [ref=e10]:
+        - link "All tools" [ref=e11] [cursor=pointer]:
+          - /url: /en/tools
+        - group [ref=e12]:
+          - generic "Categories" [ref=e13] [cursor=pointer]:
+            - text: Categories
+            - generic [aria-hidden] [ref=e14]: ⌄
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /en/about
+      - generic [ref=e16]:
+        - button "Search" [ref=e17]
+        - button "Switch to dark mode" [ref=e22]
+        - generic [ref=e26]:
+          - generic [ref=e27]: Language
+          - combobox "Language" [ref=e28]:
+            - option "English" [selected]
+            - option "中文"
+            - option "日本語"
+            - option "Español"
+            - option "Português"
+            - option "Français"
+            - option "Deutsch"
+            - option "Русский"
+            - option "Italiano"
+            - option "Türkçe"
+            - option "한국어"
+            - option "العربية"
+            - option "हिन्दी"
+            - option "Bahasa Indonesia"
+            - option "Tiếng Việt"
+  - main [ref=e29]:
+    - generic [ref=e30]:
+      - region "Your tools. Your files. Your privacy." [ref=e31]:
+        - generic [ref=e32]:
+          - paragraph [ref=e33]: 205 free online tools
+          - heading "Your tools. Your files. Your privacy." [level=1] [ref=e35]:
+            - generic [ref=e36]: Your tools.
+            - generic [ref=e37]:
+              - text: Your files.
+              - emphasis [ref=e38]: Your privacy.
+          - paragraph [ref=e39]: Free browser tools for PDFs, images, text, code and everyday tasks.
+          - generic [ref=e40]:
+            - search [ref=e41]:
+              - searchbox "Search tools…" [ref=e45]
+              - generic [aria-hidden] [ref=e46]: ⌘ K
+            - generic [ref=e47]:
+              - generic [ref=e48]:
+                - generic [ref=e49]: "Try:"
+                - link "Merge PDF" [ref=e50] [cursor=pointer]:
+                  - /url: /en/tools/merge-pdf
+                - link "·Image Compressor" [ref=e51] [cursor=pointer]:
+                  - /url: /en/tools/image-compressor
+                - link "·JSON Formatter" [ref=e52] [cursor=pointer]:
+                  - /url: /en/tools/json-formatter
+              - button "Pinned" [ref=e53]:
+                - generic [aria-hidden] [ref=e54]: ☆
+                - text: Pinned
+          - list "Privacy by design" [ref=e55]:
+            - listitem [ref=e56]: No signup
+            - listitem [ref=e60]: No uploads for local tools
+            - listitem [ref=e63]: Free to use
+      - generic [ref=e66]:
+        - region "Featured tools" [ref=e67]:
+          - generic [ref=e68]:
+            - heading "Featured tools" [level=2] [ref=e69]
+            - link "All tools" [ref=e70] [cursor=pointer]:
+              - /url: /en/tools
+              - text: All tools
+              - generic [aria-hidden] [ref=e71]: →
+          - generic [ref=e72]:
+            - link "Merge PDF Combine multiple PDFs" [ref=e73] [cursor=pointer]:
+              - /url: /en/tools/merge-pdf
+              - generic [ref=e78]:
+                - heading "Merge PDF" [level=3] [ref=e79]
+                - generic [ref=e80]: Combine multiple PDFs
+              - generic [aria-hidden] [ref=e81]: →
+            - link "Image Compressor Reduce image size" [ref=e82] [cursor=pointer]:
+              - /url: /en/tools/image-compressor
+              - generic [ref=e88]:
+                - heading "Image Compressor" [level=3] [ref=e89]
+                - generic [ref=e90]: Reduce image size
+              - generic [aria-hidden] [ref=e91]: →
+            - link "Word Counter Count words & characters" [ref=e92] [cursor=pointer]:
+              - /url: /en/tools/word-counter
+              - generic [aria-hidden] [ref=e94]: Aa
+              - generic [ref=e95]:
+                - heading "Word Counter" [level=3] [ref=e96]
+                - generic [ref=e97]: Count words & characters
+              - generic [aria-hidden] [ref=e98]: →
+            - link "JSON Formatter Format JSON instantly" [ref=e99] [cursor=pointer]:
+              - /url: /en/tools/json-formatter
+              - generic [aria-hidden] [ref=e101]: "{ }"
+              - generic [ref=e102]:
+                - heading "JSON Formatter" [level=3] [ref=e103]
+                - generic [ref=e104]: Format JSON instantly
+              - generic [aria-hidden] [ref=e105]: →
+        - region "Explore by category" [ref=e106]:
+          - generic [ref=e107]:
+            - heading "Explore by category" [level=2] [ref=e108]
+            - link "Browse all categories" [ref=e109] [cursor=pointer]:
+              - /url: /en/tools
+              - text: Browse all categories
+              - generic [aria-hidden] [ref=e110]: →
+          - generic [ref=e111]:
+            - link "PDF 26 tools" [ref=e112] [cursor=pointer]:
+              - /url: /en/categories/pdf
+              - generic [ref=e117]:
+                - heading "PDF" [level=3] [ref=e118]
+                - generic [ref=e119]: 26 tools
+            - link "Image 23 tools" [ref=e120] [cursor=pointer]:
+              - /url: /en/categories/image
+              - generic [ref=e126]:
+                - heading "Image" [level=3] [ref=e127]
+                - generic [ref=e128]: 23 tools
+            - link "Text 19 tools" [ref=e129] [cursor=pointer]:
+              - /url: /en/categories/text
+              - generic [ref=e133]:
+                - heading "Text" [level=3] [ref=e134]
+                - generic [ref=e135]: 19 tools
+            - link "Developer 46 tools" [ref=e136] [cursor=pointer]:
+              - /url: /en/categories/developer
+              - generic [ref=e142]:
+                - heading "Developer" [level=3] [ref=e143]
+                - generic [ref=e144]: 46 tools
+            - link "SEO 10 tools" [ref=e145] [cursor=pointer]:
+              - /url: /en/categories/seo
+              - generic [ref=e150]:
+                - heading "SEO" [level=3] [ref=e151]
+                - generic [ref=e152]: 10 tools
+            - link "Security 9 tools" [ref=e153] [cursor=pointer]:
+              - /url: /en/categories/security
+              - generic [ref=e158]:
+                - heading "Security" [level=3] [ref=e159]
+                - generic [ref=e160]: 9 tools
+            - link "Utility 72 tools" [ref=e161] [cursor=pointer]:
+              - /url: /en/categories/utility
+              - generic [ref=e168]:
+                - heading "Utility" [level=3] [ref=e169]
+                - generic [ref=e170]: 72 tools
+        - region "Local tools. Your files stay yours." [ref=e171]:
+          - generic [ref=e176]:
+            - paragraph [ref=e177]: Privacy by design
+            - heading "Local tools. Your files stay yours." [level=2] [ref=e178]
+            - text: File tools process in your browser. Tools using external services say so.
+          - link "Read the full privacy note" [ref=e179] [cursor=pointer]:
+            - /url: /en/privacy
+            - text: Read the full privacy note
+            - generic [aria-hidden] [ref=e180]: →
+  - contentinfo [ref=e181]:
+    - generic [ref=e182]:
+      - generic [ref=e183]:
+        - link "zoyku" [ref=e184] [cursor=pointer]:
+          - /url: /en
+        - generic [ref=e189]: Useful tools. A simpler internet.
+      - navigation "Menu" [ref=e190]:
+        - link "All tools" [ref=e191] [cursor=pointer]:
+          - /url: /en/tools
+        - link "Categories" [ref=e192] [cursor=pointer]:
+          - /url: /en#categories
+        - link "About" [ref=e193] [cursor=pointer]:
+          - /url: /en/about
+        - link "Privacy" [ref=e194] [cursor=pointer]:
+          - /url: /en/privacy
+        - link "Terms" [ref=e195] [cursor=pointer]:
+          - /url: /en/terms
+        - link "MCP" [ref=e196] [cursor=pointer]:
+          - /url: /en/mcp
+      - generic [ref=e197]:
+        - generic [ref=e198]: © 2026 Zoyku
+        - link "Report an issue" [ref=e199] [cursor=pointer]:
+          - /url: https://github.com/fezzajoyc/zoyku/issues
+  - alert [ref=e202]
