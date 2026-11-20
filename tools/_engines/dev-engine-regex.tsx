@@ -1,15 +1,23 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
+import {
+  MAX_TEST_CHARS, regexRun, regexWorkerSource,
+  workerFallbackAllowed,
+  type RegexMatch, type RegexRunResult, type WorkerOutcome,
+} from "@/tools/_lib/regex";
 
 /**
  * 正则测试器:pattern + flags + 测试文本,实时高亮全部匹配并列出捕获组。
- * 带零宽匹配与循环保护(guard 上限)。
+ *
+ * 关键改动(竞品 regex101 对标 + ReDoS 实测):匹配放到 Blob Worker 里跑,
+ * 主线程用 250ms 超时竞速 —— 灾难性回溯(实测 (a+)+ 对 27 个 a 需 ~1.3s,同步执行会冻结整个标签页)
+ * 超时后 terminate worker 并提示用户,页面保持可交互。Worker 不可用时降级为同步 regexRun + 长度上限。
  */
 
-type Match = { text: string; index: number; groups: (string | undefined)[]; named: [string, string][] };
+type Match = RegexMatch;
 
 const FLAGS = ["g", "i", "m", "s", "u"] as const;
 
@@ -28,12 +36,46 @@ const L = {
   noMatch: { en: "No matches yet.", zh: "暂无匹配。", ja: "一致はまだありません。", es: "Aún no hay coincidencias.", pt: "Ainda sem correspondências." },
   match: { en: "Match", zh: "匹配", ja: "一致", es: "Coincidencia", pt: "Correspondência" },
   at: { en: "index", zh: "位置", ja: "位置", es: "índice", pt: "índice" },
-};
+  timeout: {
+    en: "Match timed out — this pattern may backtrack catastrophically on this input. Try a simpler pattern or a shorter test string.",
+    zh: "匹配超时——这个模式在该文本上可能发生灾难性回溯。请简化模式或缩短测试文本。",
+    ja: "一致検索がタイムアウトしました——このパターンは入力に対して破滅的なバックトラックを起こす可能性があります。パターンを簡略化するか文字列を短くしてください。",
+    es: "La búsqueda agotó el tiempo: este patrón puede tener retroceso catastrófico con esta entrada. Prueba un patrón más simple o una cadena más corta.",
+    pt: "A correspondência expirou — este padrão pode ter backtracking catastrófico nesta entrada. Simplifique o padrão ou encurte o texto.",
+  },
+} as const;
 
 const pick = (label: Record<string, string>, locale: string) => label[locale] ?? label.en;
 const fillLocal = (tpl: string, n: number) => tpl.replace("{n}", String(n));
 
-const MAX_RENDER = 500;
+const WORKER_TIMEOUT_MS = 250;
+
+/** 在 Worker 里跑一次匹配,区分超时 / 环境不可用 / 成功。 */
+function runInWorker(pattern: string, flags: string, text: string): Promise<WorkerOutcome> {
+  return new Promise((resolve) => {
+    let worker: Worker;
+    let blobUrl: string;
+    try {
+      const src = regexWorkerSource();
+      blobUrl = URL.createObjectURL(new Blob([src], { type: "text/javascript" }));
+      worker = new Worker(blobUrl);
+    } catch {
+      resolve({ kind: "unavailable" });
+      return;
+    }
+    let done = false;
+    const finish = (outcome: WorkerOutcome) => {
+      if (done) return;
+      done = true; clearTimeout(timer); worker.terminate();
+      URL.revokeObjectURL(blobUrl); // worker 终止后再回收,避免有些浏览器加载未完成时脚本被抽走
+      resolve(outcome);
+    };
+    const timer = setTimeout(() => finish({ kind: "timeout" }), WORKER_TIMEOUT_MS);
+    worker.onmessage = (ev) => finish({ kind: "ok", result: ev.data as RegexRunResult });
+    worker.onerror = () => finish({ kind: "unavailable" });
+    worker.postMessage({ pattern, flags, text });
+  });
+}
 
 export function DevRegexEngine({
   defaultPattern = "",
@@ -46,39 +88,43 @@ export function DevRegexEngine({
   const [pattern, setPattern] = useState(defaultPattern);
   const [flags, setFlags] = useState<Record<string, boolean>>({ g: true, i: false, m: false, s: false, u: false });
   const [text, setText] = useState("");
+  const [parsed, setParsed] = useState<RegexRunResult>({ matches: [], error: null, truncated: false });
+  const [timeout, setTimeoutFlag] = useState(false);
+  const seqRef = useRef(0);
 
-  const parsed = useMemo(() => {
-    if (!pattern) return { error: null as string | null, matches: [] as Match[] };
-    try {
-      const f = FLAGS.filter((x) => flags[x]).join("");
-      const re = new RegExp(pattern, f);
-      const matches: Match[] = [];
-      let guard = 0;
-      while (guard++ < 10000) {
-        const m = re.exec(text);
-        if (!m) break;
-        matches.push({
-          text: m[0],
-          index: m.index,
-          groups: m.slice(1),
-          named: m.groups ? Object.entries(m.groups).filter(([, v]) => v !== undefined) : [],
-        });
-        if (m[0] === "") {
-          re.lastIndex++;
-          if (re.lastIndex > text.length) break;
-        }
-        if (matches.length >= MAX_RENDER) break;
-      }
-      return { error: null as string | null, matches };
-    } catch (e) {
-      return { error: e instanceof Error ? e.message : String(e), matches: [] as Match[] };
+  const flagStr = FLAGS.filter((x) => flags[x]).join("");
+
+  useEffect(() => {
+    const seq = ++seqRef.current;
+    if (!pattern || !text) {
+      setParsed({ matches: [], error: null, truncated: false });
+      setTimeoutFlag(false);
+      return;
     }
-  }, [pattern, flags, text]);
+    const capped = text.length > MAX_TEST_CHARS ? text.slice(0, MAX_TEST_CHARS) : text;
+    let cancelled = false;
+    void (async () => {
+      const outcome = await runInWorker(pattern, flagStr, capped);
+      if (cancelled || seq !== seqRef.current) return;
+      // 只有"环境不支持 Worker"才同步兜底;超时绝不降级(否则把冻结搬回主线程)
+      if (outcome.kind === "ok") {
+        setParsed(outcome.result);
+        setTimeoutFlag(false);
+      } else if (workerFallbackAllowed(outcome, capped.length)) {
+        setParsed(regexRun(pattern, flagStr, capped));
+        setTimeoutFlag(false);
+      } else {
+        setParsed({ matches: [], error: null, truncated: false });
+        setTimeoutFlag(true);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [pattern, flagStr, text]);
 
   const segments = useMemo(() => {
     const out: { s: string; hit: boolean }[] = [];
     let cursor = 0;
-    for (const m of parsed.matches.slice(0, MAX_RENDER)) {
+    for (const m of parsed.matches) {
       if (m.index > cursor) out.push({ s: text.slice(cursor, m.index), hit: false });
       if (m.text) out.push({ s: m.text, hit: true });
       cursor = m.text === "" ? m.index + 1 : m.index + m.text.length;
@@ -128,6 +174,7 @@ export function DevRegexEngine({
             className="field mono"
             rows={5}
             value={text}
+            maxLength={MAX_TEST_CHARS}
             onChange={(e) => setText(e.target.value)}
             placeholder={t.common.input}
             spellCheck={false}
@@ -144,11 +191,12 @@ export function DevRegexEngine({
           )}
         </div>
 
-        {parsed.error ? (
-          <p
-            className="mono whitespace-pre-wrap rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]"
-            role="alert"
-          >
+        {timeout ? (
+          <p role="alert" className="rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]">
+            {pick(L.timeout, locale)}
+          </p>
+        ) : parsed.error ? (
+          <p role="alert" className="mono whitespace-pre-wrap rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]">
             {parsed.error}
           </p>
         ) : (
@@ -159,47 +207,31 @@ export function DevRegexEngine({
               ) : (
                 segments.map((seg, i) =>
                   seg.hit ? (
-                    <mark
-                      key={i}
-                      className="rounded-[3px] bg-[rgba(0,113,227,0.25)] text-[var(--color-ink)]"
-                    >
+                    <mark key={i} className="rounded-[3px] bg-[rgba(0,113,227,0.25)] text-[var(--color-ink)]">
                       {seg.s}
                     </mark>
-                  ) : (
-                    <span key={i}>{seg.s}</span>
-                  ),
+                  ) : <span key={i}>{seg.s}</span>,
                 )
               )}
             </div>
 
             <p className="text-[13.5px] font-medium text-[var(--color-sub)]">
               {fillLocal(pick(L.matches, locale), parsed.matches.length)}
-              {parsed.matches.length >= MAX_RENDER && ` · ${fillLocal(pick(L.truncated, locale), MAX_RENDER)}`}
+              {parsed.truncated && ` · ${fillLocal(pick(L.truncated, locale), 500)}`}
             </p>
 
             {parsed.matches.length > 0 && (
               <ul className="max-h-72 space-y-1.5 overflow-y-auto">
                 {parsed.matches.map((m, i) => (
                   <li key={i} className="mono rounded-xl bg-[var(--color-surface)] px-3.5 py-2 text-[13px] leading-5">
-                    <span className="font-semibold">
-                      {pick(L.match, locale)} #{i + 1}
-                    </span>{" "}
-                    <span className="text-[var(--color-sub)]">
-                      {pick(L.at, locale)} {m.index}
-                    </span>
-                    {" · "}
-                    {m.text === "" ? '""' : m.text}
+                    <span className="font-semibold">{pick(L.match, locale)} #{i + 1}</span>{" "}
+                    <span className="text-[var(--color-sub)]">{pick(L.at, locale)} {m.index}</span>
+                    {" · "}{m.text === "" ? '""' : m.text}
                     {m.groups.map((g, gi) => (
-                      <span key={gi} className="text-[var(--color-sub)]">
-                        {" "}
-                        ${gi + 1} {g === undefined ? "—" : `"${g}"`}
-                      </span>
+                      <span key={gi} className="text-[var(--color-sub)]"> ${gi + 1} {g === undefined ? "—" : `"${g}"`}</span>
                     ))}
                     {m.named.map(([name, v]) => (
-                      <span key={name} className="text-[var(--color-sub)]">
-                        {" "}
-                        &lt;{name}&gt; "{v}"
-                      </span>
+                      <span key={name} className="text-[var(--color-sub)]"> &lt;{name}&gt; "{v}"</span>
                     ))}
                   </li>
                 ))}
