@@ -10,11 +10,13 @@ import { CHINESE_ID_STANDARD_URL } from "@/tools/_lib/chinese-id";
 import { CHINESE_ID_MESSAGES } from "@/tools/_lib/chinese-id-copy";
 import validator from "@/tools/security/chinese-id-validator";
 import generator from "@/tools/security/chinese-id-generator";
+import { fill } from "@/tools/_lib/types";
 
 describe("Chinese ID localized routes", () => {
   it.each(LOCALES)("authors metadata and every UI/error label natively for %s", (locale) => {
     const messages = CHINESE_ID_MESSAGES[locale];
     expect(messages).toBeDefined();
+    expect(messages).toHaveProperty("downloadFailed");
     for (const [key, value] of Object.entries(messages)) {
       if (key === "errors") {
         for (const message of Object.values(value)) expect(String(message).trim().length).toBeGreaterThan(2);
@@ -33,8 +35,14 @@ describe("Chinese ID localized routes", () => {
         expect(messages.localNote).not.toBe(CHINESE_ID_MESSAGES.en.localNote);
         expect(messages.limitNote).not.toBe(CHINESE_ID_MESSAGES.en.limitNote);
         expect(messages.errors.checksum).not.toBe(CHINESE_ID_MESSAGES.en.errors.checksum);
+        expect(Reflect.get(messages, "downloadFailed")).not.toBe(Reflect.get(CHINESE_ID_MESSAGES.en, "downloadFailed"));
       }
     }
+  });
+  it("uses quantity-neutral English summaries for single and multiple results", () => {
+    expect(fill(CHINESE_ID_MESSAGES.en.results, { total: 1, valid: 1, invalid: 0 })).toBe("Rows checked: 1; pass: 1; fail: 0.");
+    expect(fill(CHINESE_ID_MESSAGES.en.generated, { total: 1 })).toBe("Distinct test samples generated in this batch: 1.");
+    expect(fill(CHINESE_ID_MESSAGES.en.results, { total: 2, valid: 1, invalid: 1 })).toBe("Rows checked: 2; pass: 1; fail: 1.");
   });
   it("registers independently useful routes with serializable mode props", () => {
     expect(validator.slug).toBe("chinese-id-validator");

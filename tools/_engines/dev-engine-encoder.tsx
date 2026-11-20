@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { HTML_LANG } from "@/lib/i18n";
 import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
+import { decodeJwt, JWT_INPUT_LIMIT, jwtTimeClaim } from "@/tools/_lib/jwt";
+import { jwtCopy } from "@/tools/_lib/jwt-copy";
 
 /**
  * 编解码通用引擎:base64 编/解码(UTF-8 安全)、URL 编/解码、JWT 解码。
@@ -31,12 +33,6 @@ function base64Decode(s: string): string {
   return new TextDecoder().decode(bytes);
 }
 
-function base64UrlDecode(part: string): string {
-  const b64 = part.replace(/-/g, "+").replace(/_/g, "/");
-  const pad = b64.length % 4 ? "=".repeat(4 - (b64.length % 4)) : "";
-  return base64Decode(b64 + pad);
-}
-
 const L = {
   plus: {
     en: "Treat + as space",
@@ -48,29 +44,6 @@ const L = {
   header: { en: "Header", zh: "Header(头部)", ja: "Header(ヘッダー)", es: "Header (encabezado)", pt: "Header (cabeçalho)" },
   payload: { en: "Payload", zh: "Payload(负载)", ja: "Payload(ペイロード)", es: "Payload (carga útil)", pt: "Payload (carga útil)" },
   signature: { en: "Signature", zh: "Signature(签名)", ja: "Signature(署名)", es: "Signature (firma)", pt: "Signature (assinatura)" },
-  unsigned: {
-    en: "No signature part (unsigned token)",
-    zh: "没有签名部分(未签名 token)",
-    ja: "署名部分がありません(未署名トークン)",
-    es: "Sin parte de firma (token sin firmar)",
-    pt: "Sem parte de assinatura (token não assinado)",
-  },
-  sigNote: {
-    en: "Decoding a JWT does not verify it — signature verification requires the secret or public key.",
-    zh: "解码 JWT 不等于验证 JWT——验签需要密钥或公钥。",
-    ja: "JWT のデコードは検証ではありません。署名の検証には秘密鍵または公開鍵が必要です。",
-    es: "Decodificar un JWT no lo verifica: validar la firma requiere la clave secreta o pública.",
-    pt: "Decodificar um JWT não o verifica — validar a assinatura exige a chave secreta ou pública.",
-  },
-  notJwt: {
-    en: "This doesn't look like a JWT — expected two or three dot-separated Base64URL parts.",
-    zh: "这看起来不是 JWT——应为两到三个以点分隔的 Base64URL 部分。",
-    ja: "JWT として認識できません。ドット区切りの 2〜3 個の Base64URL 部分が必要です。",
-    es: "Esto no parece un JWT: se esperaban dos o tres partes Base64URL separadas por puntos.",
-    pt: "Isto não parece um JWT — eram esperadas duas ou três partes Base64URL separadas por pontos.",
-  },
-  expired: { en: "expired", zh: "已过期", ja: "期限切れ", es: "caducado", pt: "expirado" },
-  active: { en: "active", zh: "有效", ja: "有効", es: "activo", pt: "ativo" },
   component: { en: "encodeURIComponent", zh: "encodeURIComponent", ja: "encodeURIComponent", es: "encodeURIComponent", pt: "encodeURIComponent" },
   full: { en: "encodeURI", zh: "encodeURI", ja: "encodeURI", es: "encodeURI", pt: "encodeURI" },
   fullDecode: { en: "decodeURI", zh: "decodeURI", ja: "decodeURI", es: "decodeURI", pt: "decodeURI" },
@@ -84,17 +57,16 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
   const [input, setInput] = useState("");
   const [component, setComponent] = useState(true);
   const [plusAsSpace, setPlusAsSpace] = useState(false);
+  const [decodedAt, setDecodedAt] = useState(0);
+  const id = useId();
+  const jwtLabels = jwtCopy(locale);
 
   const isJwt = codec === "jwt-decode";
   const isUrl = codec === "url-encode" || codec === "url-decode";
 
-  const fmtDate = (sec: number) =>
-    new Intl.DateTimeFormat(HTML_LANG[locale] ?? HTML_LANG.en, { dateStyle: "medium", timeStyle: "medium" }).format(
-      new Date(sec * 1000),
-    );
-
   const result = useMemo(() => {
     const src = input;
+    if (codec === "jwt-decode" && src.length > JWT_INPUT_LIMIT) return { out: "", err: jwtCopy(locale).error, jwt: null };
     if (!src.trim()) return { out: "", err: null as string | null, jwt: null };
     if (codec === "base64-encode") {
       try {
@@ -131,39 +103,42 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
     }
     // jwt-decode
     try {
-      const parts = src.trim().split(".");
-      if (parts.length < 2 || parts.length > 3) throw new Error("shape");
-      const header = JSON.parse(base64UrlDecode(parts[0]));
-      const payload = JSON.parse(base64UrlDecode(parts[1]));
-      return { out: "", err: null, jwt: { header, payload, signature: parts[2] ?? null } };
+      return { out: "", err: null, jwt: decodeJwt(src) };
     } catch {
-      return { out: "", err: pick(L.notJwt, locale), jwt: null };
+      return { out: "", err: jwtCopy(locale).error, jwt: null };
     }
   }, [input, codec, component, plusAsSpace, locale]);
 
   const claims = useMemo(() => {
     if (!result.jwt) return [];
-    const now = Math.floor(Date.now() / 1000);
-    return (["exp", "iat", "nbf"] as const)
-      .filter((k) => result.jwt && typeof result.jwt.payload[k] === "number")
-      .map((k) => {
-        const v = result.jwt!.payload[k] as number;
-        return { key: k, date: fmtDate(v), unix: v, expired: k === "exp" && v < now };
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [result.jwt, locale]);
+    const formatter = new Intl.DateTimeFormat(HTML_LANG[locale] ?? HTML_LANG.en, { dateStyle: "medium", timeStyle: "medium" });
+    return result.jwt.claims.map(({ key, raw }) => {
+      const claim = jwtTimeClaim(raw, decodedAt);
+      return { key, ...claim, date: claim.date ? formatter.format(claim.date) : null };
+    });
+  }, [result.jwt, locale, decodedAt]);
 
   return (
     <ToolPanel>
-      <div className="space-y-4">
+      <div className="space-y-4" data-encoder-tool={codec}>
+        {isJwt && <div className="space-y-1.5 text-[13px] leading-5 text-[var(--color-sub)]">
+          <p id={`${id}-note`}>{jwtLabels.note}</p>
+          <p id={`${id}-limits`}>{jwtLabels.limits}</p>
+        </div>}
         <textarea
           className="field mono"
           rows={isJwt ? 5 : 6}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            if (isJwt) setDecodedAt(Date.now() / 1000);
+          }}
           placeholder={t.common.input}
           spellCheck={false}
           aria-label={t.common.input}
+          aria-invalid={!!result.err}
+          aria-describedby={[isJwt ? `${id}-note ${id}-limits` : "", result.err ? `${id}-error` : ""].filter(Boolean).join(" ") || undefined}
+          dir={isJwt ? "ltr" : undefined}
         />
 
         {isUrl && (
@@ -171,6 +146,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
             <button
               type="button"
               onClick={() => setComponent(true)}
+              aria-pressed={component}
               className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
                 component
                   ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
@@ -182,6 +158,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
             <button
               type="button"
               onClick={() => setComponent(false)}
+              aria-pressed={!component}
               className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
                 !component
                   ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
@@ -208,6 +185,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
           <p
             className="mono whitespace-pre-wrap rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]"
             role="alert"
+            id={`${id}-error`}
           >
             {result.err}
           </p>
@@ -215,19 +193,19 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
 
         {result.jwt ? (
           <div className="space-y-3">
-            <JwtBlock caption={pick(L.header, locale)} value={JSON.stringify(result.jwt.header, null, 2)} />
-            <JwtBlock caption={pick(L.payload, locale)} value={JSON.stringify(result.jwt.payload, null, 2)} />
+            <JwtBlock caption={pick(L.header, locale)} value={result.jwt.headerText} />
+            <JwtBlock caption={pick(L.payload, locale)} value={result.jwt.payloadText} />
             {claims.length > 0 && (
               <div className="space-y-1">
                 {claims.map((c) => (
                   <p key={c.key} className="mono text-[13px] leading-5 text-[var(--color-sub)]">
                     <span className="font-semibold text-[var(--color-ink)]">{c.key}</span>
                     {" → "}
-                    {c.date}
-                    {c.key === "exp" && (
+                    {c.date ?? (c.issue === "type" ? jwtLabels.type : jwtLabels.range)}
+                    {c.key === "exp" && c.date && (
                       <span className={c.expired ? "text-[var(--color-bad)]" : "text-[var(--color-good)]"}>
                         {" "}
-                        ({c.expired ? pick(L.expired, locale) : pick(L.active, locale)})
+                        ({c.expired ? jwtLabels.expired : jwtLabels.active})
                       </span>
                     )}
                   </p>
@@ -241,9 +219,8 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
                   {result.jwt.signature}
                 </p>
               ) : (
-                <p className="text-[13.5px] text-[var(--color-sub)]">{pick(L.unsigned, locale)}</p>
+                <p className="text-[13.5px] text-[var(--color-sub)]">{jwtLabels.missing}</p>
               )}
-              <p className="mt-1.5 text-[13px] leading-5 text-[var(--color-sub)]">{pick(L.sigNote, locale)}</p>
             </div>
           </div>
         ) : (
@@ -262,7 +239,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
 
         <div className="flex flex-wrap gap-2.5">
           {!isJwt && <CopyButton value={result.out} />}
-          {isJwt && result.jwt && <CopyButton value={JSON.stringify(result.jwt.payload, null, 2)} />}
+          {isJwt && result.jwt && <CopyButton value={result.jwt.payloadText} />}
           <button
             type="button"
             onClick={() => setInput("")}
@@ -280,7 +257,7 @@ function JwtBlock({ caption, value }: { caption: string; value: string }) {
   return (
     <div>
       <p className="mb-1 text-[13px] font-semibold">{caption}</p>
-      <pre className="mono overflow-x-auto rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13px] leading-5">
+      <pre tabIndex={0} role="region" aria-label={caption} dir="ltr" className="mono overflow-x-auto rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13px] leading-5">
         {value}
       </pre>
     </div>

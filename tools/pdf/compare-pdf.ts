@@ -4,7 +4,7 @@ import { defineTool } from "../_lib/types";
 export default defineTool({
   slug: "compare-pdf",
   category: "pdf",
-  icon: "diff",
+  icon: "pdf",
   engine: { component: PdfCompareEngine },
   related: ["redact-pdf", "merge-pdf", "split-pdf", "pdf-to-text", "text-diff", "sign-pdf", "flatten-pdf", "rotate-pdf"],
   copy: {

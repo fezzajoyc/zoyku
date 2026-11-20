@@ -36,12 +36,16 @@ const PATHS: Record<string, string> = {
 
 export type IconKey = keyof typeof PATHS | string;
 
+export function hasIcon(name: string): boolean {
+  return Object.hasOwn(PATHS, name);
+}
+
 export function Icon({
   name,
   size = 20,
   ...rest
 }: { name: IconKey; size?: number } & SVGProps<SVGSVGElement>) {
-  const d = PATHS[name] ?? PATHS.file;
+  const d = hasIcon(name) ? PATHS[name] : PATHS.file;
   return (
     <svg
       viewBox="0 0 24 24"

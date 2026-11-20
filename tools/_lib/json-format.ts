@@ -35,6 +35,9 @@ type JsonNode =
   | { kind: "array"; items: JsonNode[] }
   | { kind: "object"; members: Member[] };
 
+/** Ordered, literal-preserving tree; decoded keys are optional for consumers. */
+export type JsonLosslessNode = JsonNode;
+
 /**
  * Parses into ordered member lists rather than assigning untrusted object
  * keys. JSON.parse is used only to decode a validated key string for sorting;
@@ -42,7 +45,7 @@ type JsonNode =
  * SyntaxError is translated to the existing line/column diagnostics by the
  * public transforms; limit errors remain explicit and are never truncated.
  */
-export function formatJsonLossless(source: string, options: JsonFormatOptions = {}): string {
+export function parseJsonLossless(source: string, decodeKeys = false): JsonLosslessNode {
   if (source.length > JSON_FORMAT_LIMITS.inputCharacters) {
     throw new JsonFormatLimitError("input", "JSON input exceeds the maximum of 1,000,000 UTF-16 code units. Reduce the input size.");
   }
@@ -51,7 +54,6 @@ export function formatJsonLossless(source: string, options: JsonFormatOptions = 
   let values = 0;
   const length = source.length;
   const number = /-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/y;
-  const sortKeys = options.sortKeys === true;
 
   const syntax = (message: string): never => {
     throw new SyntaxError(`${message} at character ${index + 1}`);
@@ -135,7 +137,7 @@ export function formatJsonLossless(source: string, options: JsonFormatOptions = 
         index++;
         members.push({
           keyRaw,
-          sortKey: sortKeys ? JSON.parse(keyRaw) as string : "",
+          sortKey: decodeKeys ? JSON.parse(keyRaw) as string : "",
           order: members.length,
           value: parseValue(depth + 1),
         });
@@ -168,6 +170,12 @@ export function formatJsonLossless(source: string, options: JsonFormatOptions = 
   const root = parseValue(0);
   skipWhitespace();
   if (index < length) return syntax("Unexpected content after JSON value");
+  return root;
+}
+
+export function formatJsonLossless(source: string, options: JsonFormatOptions = {}): string {
+  const sortKeys = options.sortKeys === true;
+  const root = parseJsonLossless(source, sortKeys);
 
   // Match JSON.stringify's bounded numeric indentation contract, without
   // using its value serialization. The UI supplies 2, 4, or a single tab.

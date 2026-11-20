@@ -18,10 +18,10 @@
       "rmb-uppercase"
     ],
     "delta": 4,
-    "committed": false,
+    "committed": true,
     "pushed": false,
     "deployed": false,
-    "release_status": "本地验证209工具；新增信用校验/人民币大写见2026-11-21记录。写入前Git尚未提交，最终以Git为准；未推送、未部署。"
+    "release_status": "本批自审本地验收及提交；提交身份/哈希以Git为准。原工作区仅在干净且可快进时同步；未推送/部署。"
   },
   "counting_rules": [
     "47+57=104仅是两份矩阵的源条目数，不是104个唯一缺口或104个待新增工具。",
@@ -220,6 +220,79 @@
         "scripts/rmb-uppercase-qa.mjs"
       ],
       "release_status": "本地全量/生产验证通过；未推送、未部署，见2026-11-21记录"
+    },
+    {
+      "id": "DL-08",
+      "name": "JWT/CSV/URL既有工具保值与错误恢复",
+      "source_ids": [],
+      "slugs": [
+        "jwt-decoder",
+        "json-to-csv",
+        "csv-to-json",
+        "url-parser"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "JWT对象/UTF8/重复顶层键与安全时间注释、JSON数字原文；CSV所选分隔转义、安全推断、空记录/BOM、精确输出预算；URL裸主机端口、空段与scheme歧义说明。",
+      "limits": "详见2026-11-21自审验收；CSV类型不可普遍逆转、JWT不验证信任、URL由浏览器规范化。",
+      "not_completed": "不含JWT验签/JWE解密、通用表格类型往返、完整专业CSV选项或原字节URL解析。",
+      "evidence_paths": [
+        "tools/_lib/jwt.ts",
+        "tools/_lib/jwt-copy.ts",
+        "tools/_lib/csv.ts",
+        "tools/_lib/csv-copy.ts",
+        "tools/_lib/url-parser.ts",
+        "scripts/jwt-qa.mjs",
+        "scripts/csv-qa.mjs",
+        "scripts/url-parser-qa.mjs",
+        "docs/research/2026-11-21-self-review-recovery-verification.md"
+      ],
+      "release_status": "本地生产验证；未推送/部署"
+    },
+    {
+      "id": "DL-09",
+      "name": "共享复制与身份证异步通知/TXT恢复",
+      "source_ids": [
+        "CN-001",
+        "CN-002"
+      ],
+      "slugs": [
+        "chinese-id-validator",
+        "chinese-id-generator"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "复制真成功反馈、失败恢复、源/回调/卸载及新操作失效旧任务；身份证字段/显示/复制/下载互相隔离旧提示，失败URL回收；保留单button原结构。",
+      "limits": "Clipboard OS操作不可取消；保护界面和回调不回流旧状态。",
+      "not_completed": "开发态偶发首交互准备超时根因未确认；生产20冷上下文和88回归未复现，保留诊断。",
+      "evidence_paths": [
+        "components/client-ui.tsx",
+        "components/copy-button-copy.ts",
+        "tools/_engines/chinese-id-engine.tsx",
+        "scripts/copy-button-qa.mjs",
+        "scripts/chinese-id-qa.mjs",
+        "docs/research/2026-11-21-self-review-recovery-verification.md"
+      ],
+      "release_status": "本地生产验证；未推送/部署"
+    },
+    {
+      "id": "DL-10",
+      "name": "图标注册契约及原型属性安全回退",
+      "source_ids": [],
+      "slugs": [
+        "rmb-uppercase",
+        "compare-pdf"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "209注册项均存在真实glyph；未知及constructor/toString/__proto__仅按own property回退；修正两处不存在的key。",
+      "limits": "不改变图标系统视觉规范。",
+      "not_completed": "不构成整体设计封版。",
+      "evidence_paths": [
+        "components/icons.tsx",
+        "tests/icons.test.tsx",
+        "tools/utility/rmb-uppercase.ts",
+        "tools/pdf/compare-pdf.ts",
+        "docs/research/2026-11-21-self-review-recovery-verification.md"
+      ],
+      "release_status": "本地全量/构建及相关页面回归；未推送/部署"
     }
   ],
   "source_records": [
@@ -2616,32 +2689,44 @@
       "not_added_to_own_192_tests": true,
       "scope": "四种OS/手动主题、持久化和样本文字/按钮对比度；不推断全站AA"
     },
-    "integration_verification_file": "docs/research/2026-11-21-china-money-credit-verification.md",
+    "integration_verification_file": "docs/research/2026-11-21-self-review-recovery-verification.md",
     "final_integration": {
-      "unit_test_files": 69,
-      "unit_tests_passed": 1871,
+      "unit_test_files": 81,
+      "unit_tests_passed": 2201,
       "unit_tests_failed": 0,
       "typescript_exit": 0,
       "lint_errors": 0,
-      "lint_warnings": 55,
-      "lint_diagnostics_unchanged_from_baseline": true,
+      "lint_warnings": 54,
+      "lint_change": "Baseline 55; one JWT render-time Date.now warning removed. Modified product files have no warnings.",
       "build_paths": 9757,
+      "build_id": "-qZlUFz-QUTF6lhxiQSgH",
       "seo_static_checked": 3270,
       "seo_static_failures": 0,
       "seo_http_checked": 24,
       "seo_http_failures": 0,
+      "seo_http_requests": 25,
+      "seo_http_rate_limited": 0,
       "production_browser_suites": {
         "cold_first_input": 20,
+        "chinese_id_cold_first_input": 20,
+        "copy": 36,
+        "csv": 46,
+        "jwt": 43,
+        "url": 27,
         "social_credit": 31,
         "rmb": 47,
         "home": 26,
         "theme": 9,
         "tool": 13,
         "regex": 4,
-        "chinese_id": 44,
+        "chinese_id": 88,
         "json": 52
       },
+      "production_distinct_browser_checks": 462,
       "browser_failed": 0,
+      "browser_build_scope": "All suites first optimized build; final JWT raw-whitespace guard followed by new full tests/build/SEO/HTTP and JWT/CSV browser reruns. Unchanged suites retain first-build evidence. Repeated checks not added.",
+      "supplemental_csv_unpaced_failure_retained": true,
+      "unknown_dev_chinese_id_startup_cause_retained": true,
       "pushed": false,
       "deployed": false,
       "accessibility_incomplete_remains": true
@@ -2672,6 +2757,36 @@
         "pushed": false,
         "deployed": false,
         "accessibility_incomplete_remains": true
+      },
+      {
+        "unit_test_files": 69,
+        "unit_tests_passed": 1871,
+        "unit_tests_failed": 0,
+        "typescript_exit": 0,
+        "lint_errors": 0,
+        "lint_warnings": 55,
+        "lint_diagnostics_unchanged_from_baseline": true,
+        "build_paths": 9757,
+        "seo_static_checked": 3270,
+        "seo_static_failures": 0,
+        "seo_http_checked": 24,
+        "seo_http_failures": 0,
+        "production_browser_suites": {
+          "cold_first_input": 20,
+          "social_credit": 31,
+          "rmb": 47,
+          "home": 26,
+          "theme": 9,
+          "tool": 13,
+          "regex": 4,
+          "chinese_id": 44,
+          "json": 52
+        },
+        "browser_failed": 0,
+        "pushed": false,
+        "deployed": false,
+        "accessibility_incomplete_remains": true,
+        "verification_file": "docs/research/2026-11-21-china-money-credit-verification.md"
       }
     ]
   },
@@ -2696,5 +2811,11 @@
       "当前站点被政策判罚",
       "广告收入或回本周期"
     ]
-  }
+  },
+  "current_integration_branch": "codex/self-review-recovery",
+  "self_review_followups": [
+    "开发态身份证首次快速输入/提交偶发超时保留状态诊断；当前生产冷启动未复现，不将根因标已修。",
+    "多语快速导航额外失败保留；最终有节流CSV46/46且所有文档200，继续记录响应状态。",
+    "全站无障碍人工复核、真实设备/CWV与同行同样本比较继续开放；本批不新增工具或关闭原功能缺口。"
+  ]
 }

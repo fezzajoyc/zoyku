@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { useI18n } from "./i18n-provider";
 import { Icon } from "./icons";
+import { COPY_BUTTON_MESSAGES } from "./copy-button-copy";
 
 export function CopyButton({
   value,
@@ -16,39 +17,92 @@ export function CopyButton({
   /** 复制成功后的附加动作(如密码工具的定时隐藏明文) */
   onCopied?: () => void;
 }) {
-  const { t } = useI18n();
-  const [done, setDone] = useState(false);
+  const { locale, t } = useI18n();
+  const recoveryId = useId();
+  const [feedback, setFeedback] = useState<{
+    value: string | (() => string);
+    onCopied?: () => void;
+    kind: "success" | "error";
+  } | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const revision = useRef(0);
+  const state = feedback && feedback.value === value && feedback.onCopied === onCopied ? feedback.kind : "idle";
+  const message = COPY_BUTTON_MESSAGES[locale];
+
+  // A changed source/callback or unmount invalidates work before it can report
+  // success, invoke an outdated callback, or leave its feedback timer running.
+  useLayoutEffect(() => () => {
+    revision.current++;
+    if (timer.current !== null) {
+      clearTimeout(timer.current);
+      timer.current = null;
+    }
+  }, [value, onCopied]);
 
   const copy = useCallback(async () => {
-    const text = typeof value === "function" ? value() : value;
-    if (!text) return; // 空内容不进剪贴板、不闪 ✓
+    const current = ++revision.current;
+    const isCurrent = () => current === revision.current;
+    if (timer.current !== null) {
+      clearTimeout(timer.current);
+      timer.current = null;
+    }
+    setFeedback(null);
+    let text: string;
+    try { text = typeof value === "function" ? value() : value; }
+    catch {
+      if (isCurrent()) setFeedback({ value, onCopied, kind: "error" });
+      return;
+    }
+    if (!text) return;
+    let copied = false;
     try {
       await navigator.clipboard.writeText(text);
+      copied = true;
     } catch {
-      // http 环境降级
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
+      if (!isCurrent()) return;
+      const active = document.activeElement;
+      let textarea: HTMLTextAreaElement | undefined;
+      try {
+        textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.readOnly = true;
+        textarea.tabIndex = -1;
+        textarea.setAttribute("aria-hidden", "true");
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus({ preventScroll: true });
+        textarea.select();
+        copied = document.execCommand("copy") === true;
+      } catch { copied = false; }
+      finally {
+        textarea?.remove();
+        if (active instanceof HTMLElement && active.isConnected) active.focus({ preventScroll: true });
+      }
     }
-    setDone(true);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setDone(false), 1600);
+    if (!isCurrent()) return;
+    setFeedback({ value, onCopied, kind: copied ? "success" : "error" });
+    if (!copied) return;
+    timer.current = setTimeout(() => {
+      timer.current = null;
+      if (isCurrent()) setFeedback(null);
+    }, 1600);
     onCopied?.();
   }, [value, onCopied]);
 
   return (
     <button
+      data-copy-button
       type="button"
       onClick={copy}
       aria-live="polite"
+      aria-describedby={state === "error" ? recoveryId : undefined}
+      title={state === "error" ? message.recovery : undefined}
       className={`inline-flex items-center gap-1.5 rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium transition-colors hover:bg-[var(--color-surface)] ${className}`}
     >
-      <Icon name={done ? "check" : "file"} size={14} />
-      {done ? t.common.copied : (label ?? t.common.copy)}
+      <Icon name={state === "success" ? "check" : "file"} size={14} />
+      {state === "success" ? t.common.copied : state === "error" ? message.failed : (label ?? t.common.copy)}
+      {state === "error" && <span id={recoveryId} hidden>{message.recovery}</span>}
     </button>
   );
 }

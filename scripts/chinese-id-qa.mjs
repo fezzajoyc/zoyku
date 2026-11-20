@@ -275,7 +275,7 @@ export async function chineseIdAdditionalQA(page, options = {}) {
           await root().getByLabel('ID numbers, one per line').fill(body + (value === 10 ? 'X' : value));
           await root().getByRole('button', { name: 'Validate numbers', exact: true }).click();
           await check('unknown county code with recognized province is not labeled fake', async () => {
-            assert.match(await root().getByRole('status').innerText(), /1 pass/);
+            assert.match(await root().getByRole('status').innerText(), /pass: 1/);
           });
         } else {
           await root().getByLabel('Manually supplied six-digit area code').fill('110105');
@@ -288,7 +288,7 @@ export async function chineseIdAdditionalQA(page, options = {}) {
             try {
               await context.setOffline(true);
               await root().getByRole('button', { name: 'Generate test samples', exact: true }).click();
-              assert.match(await root().getByRole('status').innerText(), /2 distinct test samples/);
+              assert.match(await root().getByRole('status').innerText(), /Distinct test samples generated in this batch: 2/);
               assert.equal(requests.filter(value => value.includes('110105') || value.includes('2000-02-29')).length, 0);
             } finally { await context.setOffline(false); page.off('request', onRequest); }
           });
@@ -331,18 +331,349 @@ export async function chineseIdAdditionalQA(page, options = {}) {
   return report;
 }
 
-/** Run both suites. The caller owns Playwright/browser lifetime and asserts ok. */
+const DOWNLOAD_FAILURES = {
+  en: 'The TXT could not be prepared. Copy the displayed result instead.',
+  zh: '未能准备 TXT 下载，请改为复制当前显示的结果。',
+  ja: 'TXT を準備できませんでした。表示中の結果をコピーしてください。',
+  es: 'No se pudo preparar el TXT. Copia el resultado mostrado.',
+  pt: 'Não foi possível preparar o TXT. Copie o resultado exibido.',
+  fr: 'Le TXT n’a pas pu être préparé. Copiez le résultat affiché.',
+  de: 'Die TXT-Datei konnte nicht vorbereitet werden. Kopieren Sie das angezeigte Ergebnis.',
+  ru: 'Не удалось подготовить TXT. Скопируйте отображаемый результат.',
+  it: 'Impossibile preparare il TXT. Copia il risultato visualizzato.',
+  tr: 'TXT hazırlanamadı. Bunun yerine görünen sonucu kopyalayın.',
+  ko: 'TXT를 준비하지 못했습니다. 대신 표시된 결과를 복사하세요.',
+  ar: 'تعذر تجهيز TXT. انسخ النتيجة المعروضة بدلاً من ذلك.',
+  hi: 'TXT तैयार नहीं हो सका। इसके बजाय दिख रहा परिणाम कॉपी करें।',
+  id: 'TXT tidak dapat disiapkan. Salin hasil yang ditampilkan sebagai gantinya.',
+  vi: 'Không chuẩn bị được TXT. Hãy sao chép kết quả đang hiển thị.',
+};
+
+/** Both modes: 36 delayed clipboard scenarios, download faults and 15 locales. */
+export async function chineseIdRecoveryQA(page, options = {}) {
+  const { baseURL, reportDir, axePath } = settings(options);
+  await mkdir(reportDir, { recursive: true });
+  const { issues, check, result } = collector();
+  const pageErrors = [], audits = [], traffic = [], messages = [];
+  const root = () => page.locator('[data-chinese-id-tool]');
+  const submit = () => root().locator('button[type="submit"]');
+  const clear = () => root().locator('form button[type="button"]');
+  const reveal = () => root().locator('button[aria-pressed]');
+  const copy = () => root().locator('section button').nth(1);
+  const download = () => root().locator('section button').nth(2);
+  const onPageError = error => pageErrors.push(error.message);
+  const onRequest = request => traffic.push(request.url() + ' ' + (request.postData() || ''));
+  const onConsole = message => messages.push(message.text());
+  const prepare = async mode => {
+    await root().locator('input[id$="-reference"]').fill(REFERENCE_DATE);
+    if (mode === 'validator') await root().locator('textarea').fill('11010519491231002X');
+    else {
+      await root().locator('input[id$="-area"]').fill('110105');
+      await root().locator('input[id$="-birth"]').fill('2000-02-29');
+      await root().locator('input[id$="-sequence"]').fill('1');
+      await root().locator('input[id$="-count"]').fill('1');
+    }
+    await submit().click();
+    try { assert.equal(await reveal().getAttribute('aria-pressed'), 'false'); }
+    catch (error) {
+      const state = await page.evaluate(() => {
+        const tool = document.querySelector('[data-chinese-id-tool]');
+        return {
+          url: location.href,
+          locale: document.documentElement.lang,
+          navigation: performance.getEntriesByType('navigation').at(-1)?.type,
+          mode: tool?.getAttribute('data-chinese-id-tool'),
+          fields: [...(tool?.querySelectorAll('input,textarea,select') ?? [])].map(field => ({
+            key: field.id.split('-').at(-1), type: field.type,
+            // Record lengths rather than identity-number or area-code fixtures.
+            value: field.tagName === 'TEXTAREA' || field.id.endsWith('-area') ? { length: field.value.length } : field.value,
+          })),
+          status: tool?.querySelector('[role="status"]')?.textContent,
+          alerts: [...(tool?.querySelectorAll('[role="alert"]') ?? [])].map(node => node.textContent),
+          resultSections: tool?.querySelectorAll('section').length,
+        };
+      });
+      const developmentMessages = messages.filter(message => /fast refresh|hmr|reload|rebuild|compil|hydration/i.test(message)).slice(-8);
+      throw new Error(`${error.message}\nPreparation diagnostics: ${JSON.stringify({ state, developmentMessages })}`);
+    }
+  };
+  let finished = false;
+  if (!axePath) issues.push({ name: 'accessibility prerequisite', error: 'axePath is required; four recovery light/dark audits were not run.' });
+  else {
+    const context = page.context();
+    page.on('pageerror', onPageError); page.on('request', onRequest); page.on('console', onConsole);
+    try {
+      await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseURL).origin });
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
+      for (const mode of ['validator', 'generator']) {
+        await visit(page, baseURL, `/en/tools/chinese-id-${mode}`);
+        const delayedCopy = async (action, outcome) => {
+          await prepare(mode);
+          if (action === 'hide') await reveal().click();
+          await page.evaluate(() => {
+            const clipboard = navigator.clipboard;
+            const descriptor = Object.getOwnPropertyDescriptor(clipboard, 'writeText');
+            Object.defineProperty(clipboard, 'writeText', { configurable: true, value: () => new Promise((resolve, reject) => {
+              window.__chineseIdCopyPending = { resolve, reject };
+            }) });
+            window.__chineseIdRestoreClipboard = () => {
+              if (descriptor) Object.defineProperty(clipboard, 'writeText', descriptor);
+              else delete clipboard.writeText;
+              delete window.__chineseIdCopyPending; delete window.__chineseIdRestoreClipboard;
+            };
+          });
+          try {
+            await copy().click();
+            assert.ok(await page.evaluate(() => Boolean(window.__chineseIdCopyPending)));
+            if (action === 'edit') {
+              if (mode === 'validator') await root().locator('textarea').fill('11010519491231002x');
+              else await root().locator('input[id$="-count"]').fill('2');
+            } else if (action === 'clear') await clear().click();
+            else if (action === 'rerun') await submit().click();
+            else await reveal().click();
+            const expected = await root().getByRole('status').innerText();
+            await page.evaluate(fail => {
+              const pending = window.__chineseIdCopyPending;
+              if (fail) pending.reject(new Error('Injected delayed clipboard failure'));
+              else pending.resolve();
+            }, outcome === 'reject');
+            await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+            assert.equal(await root().getByRole('status').innerText(), expected, `${action}/${outcome}: obsolete clipboard notice`);
+          } finally { await page.evaluate(() => window.__chineseIdRestoreClipboard?.()); }
+        };
+        const delayedCases = async actions => {
+          const failures = [];
+          for (const action of actions) for (const outcome of ['resolve', 'reject']) {
+            try { await delayedCopy(action, outcome); }
+            catch (error) { failures.push(error.message); }
+          }
+          assert.deepEqual(failures, []);
+        };
+        await check(`${mode}: delayed copy cannot overwrite edited or cleared states`, async () => { await delayedCases(['edit', 'clear']); });
+        await check(`${mode}: delayed copy cannot overwrite reruns`, async () => { await delayedCases(['rerun']); });
+        await check(`${mode}: delayed copy cannot overwrite reveal or mask changes`, async () => { await delayedCases(['reveal', 'hide']); });
+        const overlappingAction = async (action, outcome, newerFails) => {
+          await prepare(mode);
+          await page.evaluate(failDownload => {
+            const clipboard = navigator.clipboard;
+            const descriptor = Object.getOwnPropertyDescriptor(clipboard, 'writeText');
+            const click = HTMLAnchorElement.prototype.click;
+            const pending = []; window.__chineseIdOverlappingCopies = pending;
+            Object.defineProperty(clipboard, 'writeText', { configurable: true, value: () => new Promise((resolve, reject) => pending.push({ resolve, reject })) });
+            HTMLAnchorElement.prototype.click = () => {
+              if (failDownload) throw new DOMException('Injected newer download failure', 'NotSupportedError');
+            };
+            window.__chineseIdRestoreOverlap = () => {
+              if (descriptor) Object.defineProperty(clipboard, 'writeText', descriptor); else delete clipboard.writeText;
+              HTMLAnchorElement.prototype.click = click;
+              delete window.__chineseIdOverlappingCopies; delete window.__chineseIdRestoreOverlap;
+            };
+          }, newerFails);
+          try {
+            await copy().click();
+            assert.equal(await page.evaluate(() => window.__chineseIdOverlappingCopies.length), 1);
+            const expected = action === 'copy'
+              ? newerFails ? 'Copy failed. Select the displayed text and copy it manually.' : 'Displayed text copied.'
+              : newerFails ? DOWNLOAD_FAILURES.en : 'TXT download prepared.';
+            if (action === 'copy') {
+              await copy().click();
+              assert.equal(await page.evaluate(() => window.__chineseIdOverlappingCopies.length), 2);
+              await page.evaluate(failed => {
+                const latest = window.__chineseIdOverlappingCopies[1];
+                if (failed) latest.reject(new Error('Injected newer clipboard failure')); else latest.resolve();
+              }, newerFails);
+            } else await download().click();
+            await page.waitForFunction(value => document.querySelector('[data-chinese-id-tool] [role="status"]')?.textContent === value, expected);
+            await page.evaluate(failed => {
+              const older = window.__chineseIdOverlappingCopies[0];
+              if (failed) older.reject(new Error('Injected older clipboard failure')); else older.resolve();
+            }, outcome === 'reject');
+            await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+            assert.equal(await root().getByRole('status').innerText(), expected, `${action}/${newerFails ? 'failure' : 'success'}/${outcome}: older copy replaced the latest action notice`);
+          } finally { await page.evaluate(() => window.__chineseIdRestoreOverlap?.()); }
+        };
+        await check(`${mode}: newer Copy success or failure supersedes older pending Copy`, async () => {
+          const failures = [];
+          for (const outcome of ['resolve', 'reject']) {
+            try { await overlappingAction('copy', outcome, outcome === 'resolve'); }
+            catch (error) { failures.push(error.message); }
+          }
+          for (const previousFails of [false, true]) {
+            try {
+              await prepare(mode);
+              const summary = await root().getByRole('status').innerText();
+              await page.evaluate(() => {
+                const clipboard = navigator.clipboard, descriptor = Object.getOwnPropertyDescriptor(clipboard, 'writeText');
+                const pending = []; window.__chineseIdPendingNotices = pending;
+                Object.defineProperty(clipboard, 'writeText', { configurable: true, value: () => new Promise((resolve, reject) => pending.push({ resolve, reject })) });
+                window.__chineseIdRestorePendingNotices = () => {
+                  pending[1]?.resolve();
+                  if (descriptor) Object.defineProperty(clipboard, 'writeText', descriptor); else delete clipboard.writeText;
+                  delete window.__chineseIdPendingNotices; delete window.__chineseIdRestorePendingNotices;
+                };
+              });
+              try {
+                await copy().click();
+                await page.evaluate(failed => {
+                  const first = window.__chineseIdPendingNotices[0];
+                  if (failed) first.reject(new Error('Injected previous clipboard failure')); else first.resolve();
+                }, previousFails);
+                const previous = previousFails ? 'Copy failed. Select the displayed text and copy it manually.' : 'Displayed text copied.';
+                await page.waitForFunction(value => document.querySelector('[data-chinese-id-tool] [role="status"]')?.textContent === value, previous);
+                await copy().click();
+                assert.equal(await page.evaluate(() => window.__chineseIdPendingNotices.length), 2);
+                assert.equal(await root().getByRole('status').innerText(), summary, 'new pending Copy retained an obsolete success or failure notice');
+              } finally {
+                await page.evaluate(() => window.__chineseIdRestorePendingNotices?.());
+                await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+              }
+            } catch (error) { failures.push(error.message); }
+          }
+          assert.deepEqual(failures, []);
+        });
+        await check(`${mode}: newer Download success or failure supersedes older pending Copy`, async () => {
+          const failures = [];
+          for (const newerFails of [false, true]) for (const outcome of ['resolve', 'reject']) {
+            try { await overlappingAction('download', outcome, newerFails); }
+            catch (error) { failures.push(error.message); }
+          }
+          assert.deepEqual(failures, []);
+        });
+        await check(`${mode}: unavailable blob URL announces download failure`, async () => {
+          await prepare(mode);
+          await page.evaluate(() => {
+            const descriptor = Object.getOwnPropertyDescriptor(URL, 'createObjectURL');
+            Object.defineProperty(URL, 'createObjectURL', { configurable: true, value: () => { throw new DOMException('Injected unavailable blob URL', 'NotSupportedError'); } });
+            window.__chineseIdRestoreBlob = () => { Object.defineProperty(URL, 'createObjectURL', descriptor); delete window.__chineseIdRestoreBlob; };
+          });
+          try {
+            await download().click();
+            assert.equal(await root().getByRole('status').innerText(), DOWNLOAD_FAILURES.en);
+          } finally { await page.evaluate(() => window.__chineseIdRestoreBlob?.()); }
+        });
+        await check(`${mode}: failed anchor click still revokes its blob URL`, async () => {
+          await visit(page, baseURL, `/en/tools/chinese-id-${mode}`); await prepare(mode);
+          await page.evaluate(() => {
+            const create = URL.createObjectURL, revoke = URL.revokeObjectURL, click = HTMLAnchorElement.prototype.click;
+            const state = { created: [], revoked: [] }; window.__chineseIdBlobState = state;
+            URL.createObjectURL = value => { const url = create.call(URL, value); state.created.push(url); return url; };
+            URL.revokeObjectURL = url => { state.revoked.push(url); return revoke.call(URL, url); };
+            HTMLAnchorElement.prototype.click = () => { throw new DOMException('Injected unavailable anchor download', 'NotSupportedError'); };
+            window.__chineseIdRestoreAnchor = () => {
+              URL.createObjectURL = create; URL.revokeObjectURL = revoke; HTMLAnchorElement.prototype.click = click;
+              for (const url of state.created) if (!state.revoked.includes(url)) revoke.call(URL, url);
+              delete window.__chineseIdBlobState; delete window.__chineseIdRestoreAnchor;
+            };
+          });
+          try {
+            await download().click();
+            const failures = [];
+            if (await root().getByRole('status').innerText() !== DOWNLOAD_FAILURES.en) failures.push('download failure was not announced');
+            try {
+              await page.waitForFunction(() => window.__chineseIdBlobState.created.length === 1 && window.__chineseIdBlobState.revoked.length === 1 && window.__chineseIdBlobState.revoked[0] === window.__chineseIdBlobState.created[0], undefined, { timeout: 3000 });
+            } catch { failures.push('blob URL was not revoked exactly once after failed click'); }
+            assert.deepEqual(failures, []);
+          } finally { await page.evaluate(() => window.__chineseIdRestoreAnchor?.()); }
+        });
+        for (const [locale, failureText] of Object.entries(DOWNLOAD_FAILURES)) {
+          await check(`${mode}/${locale}: localized failure notices and manual-copy recovery`, async () => {
+            await visit(page, baseURL, `/${locale}/tools/chinese-id-${mode}`); await prepare(mode);
+            const summary = await root().getByRole('status').innerText();
+            await page.evaluate(() => {
+              const descriptor = Object.getOwnPropertyDescriptor(URL, 'createObjectURL');
+              Object.defineProperty(URL, 'createObjectURL', { configurable: true, value: () => { throw new DOMException('Injected localized download failure', 'NotSupportedError'); } });
+              window.__chineseIdRestoreBlob = () => { Object.defineProperty(URL, 'createObjectURL', descriptor); delete window.__chineseIdRestoreBlob; };
+            });
+            try { await download().click(); assert.equal(await root().getByRole('status').innerText(), failureText); }
+            finally { await page.evaluate(() => window.__chineseIdRestoreBlob?.()); }
+            if (locale === 'en') {
+              await page.addScriptTag({ path: axePath });
+              audits.push(await auditTool(page, mode, 'download-failure-light'));
+              await setDark(page, true); audits.push(await auditTool(page, mode, 'download-failure-dark')); await setDark(page, false);
+              await root().screenshot({ path: join(reportDir, `chinese-id-${mode}-recovery.png`) });
+            }
+            await page.evaluate(() => {
+              const clipboard = navigator.clipboard, descriptor = Object.getOwnPropertyDescriptor(clipboard, 'writeText');
+              Object.defineProperty(clipboard, 'writeText', { configurable: true, value: () => Promise.reject(new Error('Injected localized copy failure')) });
+              window.__chineseIdRestoreClipboard = () => {
+                if (descriptor) Object.defineProperty(clipboard, 'writeText', descriptor); else delete clipboard.writeText;
+                delete window.__chineseIdRestoreClipboard;
+              };
+            });
+            let copyFailure;
+            try {
+              await copy().click();
+              await page.waitForFunction(({ previous, summary }) => {
+                const text = document.querySelector('[data-chinese-id-tool] [role="status"]')?.textContent;
+                return text && text !== previous && text !== summary;
+              }, { previous: failureText, summary });
+              copyFailure = await root().getByRole('status').innerText();
+              assert.ok(copyFailure.trim()); assert.notEqual(copyFailure, summary);
+              if (locale === 'en') assert.equal(copyFailure, 'Copy failed. Select the displayed text and copy it manually.');
+              else assert.notEqual(copyFailure, 'Copy failed. Select the displayed text and copy it manually.');
+            } finally { await page.evaluate(() => window.__chineseIdRestoreClipboard?.()); }
+            const visible = await root().getByTestId(mode === 'validator' ? 'validated-number' : 'generated-numbers').innerText();
+            await copy().click();
+            await page.waitForFunction(({ previous, summary }) => {
+              const text = document.querySelector('[data-chinese-id-tool] [role="status"]')?.textContent;
+              return text && text !== previous && text !== summary;
+            }, { previous: copyFailure, summary });
+            const copied = await page.evaluate(() => navigator.clipboard.readText());
+            assert.ok(copied.includes(visible)); assert.ok(visible.includes('*'));
+            assert.ok(!copied.includes('11010519491231002X') && !copied.includes('11010520000229'));
+            await clear().click();
+            assert.equal(await root().locator('input[id$="-reference"]').inputValue(), '');
+            assert.equal(await root().locator('section').count(), 0);
+            assert.equal(page.url(), `${baseURL}/${locale}/tools/chinese-id-${mode}`);
+          });
+        }
+      }
+      const storage = await page.evaluate(() => JSON.stringify({ local: Object.entries(localStorage), session: Object.entries(sessionStorage) }));
+      if (storage.includes('11010519491231002') || storage.includes('11010520000229')) issues.push({ name: 'input persistence', error: 'Fixture input appeared in storage.' });
+      finished = true;
+    } catch (error) { issues.push({ name: 'recovery setup', error: error.message }); }
+    finally {
+      page.off('pageerror', onPageError); page.off('request', onRequest); page.off('console', onConsole);
+      await context.setOffline(false);
+      await page.evaluate(() => document.documentElement.classList.remove('dark')).catch(() => {});
+    }
+  }
+  if (pageErrors.length) issues.push({ name: 'uncaught browser errors', error: pageErrors.join('\n') });
+  const carriesInput = value => value.includes('11010519491231002') || value.includes('11010520000229');
+  if (traffic.some(carriesInput) || messages.some(carriesInput)) issues.push({ name: 'input privacy', error: 'Fixture input appeared in a request or console message.' });
+  const audited = audits.length === 4;
+  const accessibility = {
+    status: !audited ? 'not_completed' : audits.some(item => item.violations.length) ? 'failed' : audits.some(item => item.incomplete.length) ? 'needs_review' : 'passed',
+    expectedStates: 4, completedStates: audits.length,
+    violations: audited ? audits.reduce((sum, item) => sum + item.violations.length, 0) : null,
+    incomplete: audited ? audits.reduce((sum, item) => sum + item.incomplete.length, 0) : null,
+  };
+  const functional = result(44, finished);
+  const report = { ...functional, ok: functional.ok && accessibility.status === 'passed', completed: functional.completed && audited,
+    failed: functional.failed + audits.filter(item => item.violations.length || item.incomplete.length).length,
+    pageErrors, audits, accessibilityAuditRun: audited, accessibility };
+  await writeFile(join(reportDir, 'chinese-id-recovery-qa.json'), JSON.stringify(report, null, 2));
+  return report;
+}
+
+/** Run all suites. The caller owns Playwright/browser lifetime and asserts ok. */
 export default async function chineseIdQA(page, options = {}) {
   const { reportDir } = settings(options);
   const browser = await chineseIdBrowserQA(page, options);
   const additional = await chineseIdAdditionalQA(page, options);
+  const recovery = await chineseIdRecoveryQA(page, options);
+  const audited = additional.accessibilityAuditRun && recovery.accessibilityAuditRun;
+  const violations = audited ? additional.accessibility.violations + recovery.accessibility.violations : null;
+  const incomplete = audited ? additional.accessibility.incomplete + recovery.accessibility.incomplete : null;
   const report = {
-    ok: browser.ok && additional.ok,
-    completed: browser.completed && additional.completed,
-    passed: browser.passed + additional.passed,
-    failed: browser.failed + additional.failed,
-    accessibility: additional.accessibility,
-    suites: { browser, additional },
+    ok: browser.ok && additional.ok && recovery.ok,
+    completed: browser.completed && additional.completed && recovery.completed,
+    passed: browser.passed + additional.passed + recovery.passed,
+    failed: browser.failed + additional.failed + recovery.failed,
+    accessibility: { status: !audited ? 'not_completed' : violations ? 'failed' : incomplete ? 'needs_review' : 'passed',
+      expectedStates: 10, completedStates: additional.accessibility.completedStates + recovery.accessibility.completedStates, violations, incomplete },
+    suites: { browser, additional, recovery },
   };
   await writeFile(join(reportDir, 'chinese-id-checks.json'), JSON.stringify(report, null, 2));
   return report;

@@ -1,60 +1,34 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import type { Locale } from "@/lib/site";
+import { parseUrl } from "../_lib/url-parser";
 
 /**
  * URL 拆解引擎:纯浏览器 URL API,无依赖。
- * 无协议头时按浏览器惯例补 https:// 重试;解析失败给内联友好提示,绝不崩溃。
+ * 主机/端口与自定义 scheme 的保守区分见纯函数及下方本地说明。
  */
 
-type Param = { key: string; value: string };
-
-type ParsedUrl = {
-  protocol: string;
-  host: string;
-  port: string;
-  pathname: string;
-  segments: string[];
-  params: Param[];
-  hash: string;
+export const URL_PARSER_POLICY_NOTES: Record<Locale, string> = {
+  en: "Bare dotted hosts and localhost with numeric ports use HTTPS. Other colon prefixes are kept as schemes, including custom ones. Use https:// or scheme:// to disambiguate; IPv6 hosts need [brackets]. Internal and trailing empty path segments are retained.",
+  zh: "带数字端口的裸点分主机及 localhost 按 HTTPS 解析；其他冒号前缀保留为协议，包括自定义协议。有歧义时请写明 https:// 或 scheme://；IPv6 主机需加 [方括号]。保留路径内部及末尾的空段。",
+  ja: "数値ポート付きのドットを含むホストと localhost は HTTPS と解釈します。他のコロン接頭辞は独自スキームを含め保持します。曖昧な場合は https:// または scheme:// を明記し、IPv6 ホストは [角括弧] で囲んでください。途中と末尾の空のパス要素を保持します。",
+  es: "Los hosts con puntos y localhost con puerto numérico usan HTTPS. Los demás prefijos con dos puntos se conservan como esquemas, incluidos los propios. Usa https:// o scheme:// para aclararlo; IPv6 requiere [corchetes]. Se conservan segmentos vacíos internos y finales.",
+  pt: "Hosts com ponto e localhost com porta numérica usam HTTPS. Outros prefixos com dois-pontos são mantidos como esquemas, inclusive personalizados. Use https:// ou scheme:// para esclarecer; IPv6 exige [colchetes]. Segmentos vazios internos e finais são preservados.",
+  fr: "Les hôtes avec un point et localhost avec port numérique utilisent HTTPS. Les autres préfixes suivis de deux-points restent des schémas, même personnalisés. Précisez https:// ou scheme:// en cas d’ambiguïté ; IPv6 exige des [crochets]. Les segments vides internes et finaux sont conservés.",
+  de: "Punktierte Hosts und localhost mit numerischem Port werden als HTTPS interpretiert. Andere Doppelpunkt-Präfixe bleiben Schemes, auch eigene. Bei Mehrdeutigkeit https:// oder scheme:// angeben; IPv6-Hosts benötigen [Klammern]. Innere und abschließende leere Pfadsegmente bleiben erhalten.",
+  ru: "Имена хостов с точкой и localhost с числовым портом используют HTTPS. Другие префиксы с двоеточием сохраняются как схемы, включая собственные. Укажите https:// или scheme:// для ясности; IPv6 требует [скобок]. Пустые сегменты внутри и в конце пути сохраняются.",
+  it: "Gli host con punti e localhost con porta numerica usano HTTPS. Gli altri prefissi con due punti restano schemi, anche personalizzati. Specifica https:// o scheme:// per chiarire; IPv6 richiede [parentesi quadre]. I segmenti vuoti interni e finali vengono mantenuti.",
+  tr: "Sayısal portlu noktalı ana makineler ve localhost, HTTPS olarak yorumlanır. Diğer iki nokta önekleri özel olanlar dâhil şema olarak korunur. Belirsizlikte https:// veya scheme:// yazın; IPv6 için [köşeli parantez] gerekir. İç ve sondaki boş yol parçaları korunur.",
+  ko: "숫자 포트가 붙은 점 포함 호스트와 localhost는 HTTPS로 해석합니다. 다른 콜론 접두사는 사용자 정의를 포함해 스킴으로 유지합니다. 모호하면 https:// 또는 scheme://를 명시하고 IPv6 호스트는 [대괄호]로 감싸세요. 경로 내부와 끝의 빈 세그먼트도 유지합니다.",
+  ar: "تستخدم أسماء المضيف ذات النقاط وlocalhost مع منفذ رقمي HTTPS. تُحفظ بادئات النقطتين الأخرى كمخططات، ومنها المخصصة. اكتب https:// أو scheme:// لإزالة الغموض؛ يحتاج IPv6 إلى [أقواس]. تُحفظ مقاطع المسار الفارغة الداخلية والنهائية.",
+  hi: "बिंदु वाले होस्ट और संख्यात्मक पोर्ट वाला localhost, HTTPS मानते हैं। अन्य कोलन उपसर्ग कस्टम सहित स्कीम के रूप में रहते हैं। अस्पष्टता में https:// या scheme:// दें; IPv6 होस्ट को [कोष्ठक] चाहिए। पथ के बीच और अंत के खाली खंड बने रहते हैं।",
+  id: "Host bertitik dan localhost dengan port numerik memakai HTTPS. Awalan titik dua lainnya tetap menjadi skema, termasuk skema khusus. Gunakan https:// atau scheme:// agar jelas; IPv6 perlu [kurung siku]. Segmen kosong di tengah dan akhir jalur dipertahankan.",
+  vi: "Máy chủ có dấu chấm và localhost kèm cổng số dùng HTTPS. Các tiền tố dấu hai chấm khác được giữ làm lược đồ, kể cả tùy chỉnh. Ghi https:// hoặc scheme:// để tránh mơ hồ; IPv6 cần [ngoặc vuông]. Giữ các đoạn đường dẫn rỗng bên trong và cuối.",
 };
-
-function parseUrl(raw: string): ParsedUrl | null {
-  const trimmed = raw.trim();
-  // URL 不允许内部空白;外层空白仅做 trim
-  if (!trimmed || /\s/.test(trimmed)) return null;
-  let candidate = trimmed;
-  if (candidate.startsWith("//")) candidate = `https:${candidate}`;
-  else if (!/^[a-z][a-z0-9+.-]*:/i.test(candidate)) candidate = `https://${candidate}`;
-  try {
-    const u = new URL(candidate);
-    const segments = u.pathname
-      .split("/")
-      .filter(Boolean)
-      .map((seg) => {
-        try {
-          return decodeURIComponent(seg);
-        } catch {
-          return seg; // 非法百分号编码按原样展示
-        }
-      });
-    return {
-      protocol: u.protocol.replace(/:$/, ""),
-      host: u.hostname,
-      port: u.port,
-      pathname: u.pathname,
-      segments,
-      params: [...u.searchParams.entries()].map(([key, value]) => ({ key, value })),
-      hash: u.hash.replace(/^#/, ""),
-    };
-  } catch {
-    return null;
-  }
-}
 
 const L: Record<string, Record<string, string>> = {
   protocol: { en: "Protocol", zh: "协议", ja: "プロトコル", es: "Protocolo", pt: "Protocolo" },
@@ -100,6 +74,7 @@ export function DevUrlParserEngine({
   sample?: string;
 }) {
   const { locale, t } = useI18n();
+  const id = useId();
   const [input, setInput] = useState("");
 
   const parsed = useMemo(() => parseUrl(input), [input]);
@@ -131,7 +106,7 @@ export function DevUrlParserEngine({
 
   return (
     <ToolPanel>
-      <div className="space-y-4">
+      <div className="space-y-4" data-url-parser-tool>
         <input
           type="url"
           className="field mono"
@@ -140,7 +115,9 @@ export function DevUrlParserEngine({
           placeholder="https://example.com/path?query=1#hash"
           spellCheck={false}
           aria-label={t.common.input}
+          aria-describedby={`${id}-policy`}
         />
+        <p id={`${id}-policy`} className="text-[13px] leading-6 text-[var(--color-sub)]">{URL_PARSER_POLICY_NOTES[locale]}</p>
 
         {hasInput && !parsed && (
           <p
@@ -170,7 +147,7 @@ export function DevUrlParserEngine({
                   {parsed.segments.map((seg, i) => (
                     <p key={`${i}-${seg}`} className="mono flex items-center gap-3 px-3.5 py-2 text-[13.5px]">
                       <span className="w-8 flex-none text-right text-[var(--color-sub)]">/{i + 1}</span>
-                      <span className="min-w-0 break-all">{seg}</span>
+                      <span className="min-w-0 break-all" data-testid="url-path-segment">{seg === "" ? pick(L.empty, locale) : seg}</span>
                     </p>
                   ))}
                 </div>
