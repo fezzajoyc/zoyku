@@ -22,6 +22,124 @@ const NAMES = {
   id: 'Nominal RMB dalam angka finansial Tionghoa', vi: 'Số tiền RMB bằng chữ số tài chính Trung Quốc',
 };
 
+export const RMB_NOTICE_RACE_CASE_COUNT = 12;
+
+/** Focused, one-navigation regression matrix; mocks only environment APIs. */
+export async function rmbUppercaseNoticeRaceQA(page, { baseURL = 'http://127.0.0.1:3480', reportDir } = {}) {
+  const checks = [], pageErrors = [];
+  const root = () => page.locator('[data-rmb-uppercase-tool]');
+  const status = () => root().locator('p[role="status"]');
+  const copy = () => root().getByRole('button', { name: 'Copy current result', exact: true }).click();
+  const notice = {
+    copied: 'Current result copied.', copyFailed: 'Copy failed. Select the result text below and copy it manually, or try again.',
+    downloaded: 'Current TXT download prepared.', downloadFailed: 'The TXT could not be prepared. Copy the displayed result instead.',
+    ready: 'Amount converted. Check both displayed amounts.',
+  };
+  const onError = error => pageErrors.push(error.message);
+  const expectNotice = async expected => {
+    await page.waitForFunction(text => document.querySelector('[data-rmb-uppercase-tool] p[role="status"]')?.textContent === text, expected);
+    assert.equal(await status().innerText(), expected);
+  };
+  const prepare = async () => {
+    await root().getByRole('button', { name: 'Clear', exact: true }).click();
+    await root().locator('input[type="text"]').fill('6007.14');
+    await root().locator('button[type="submit"]').click();
+    await page.waitForFunction(() => document.querySelector('[data-testid="rmb-uppercase-output"]')?.value === '人民币陆仟零柒元壹角肆分');
+  };
+  const pendingClipboard = () => page.evaluate(() => {
+    window.__rmbNoticeCalls = [];
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+      writeText: text => new Promise((resolve, reject) => window.__rmbNoticeCalls.push({ text, resolve, reject, settled: false })),
+    } });
+  });
+  const settle = (index, outcome) => page.evaluate(async ({ index, outcome }) => {
+    const call = window.__rmbNoticeCalls[index];
+    if (!call) throw new Error(`Missing clipboard call ${index}`);
+    call.settled = true;
+    if (outcome === 'resolve') call.resolve();
+    else call.reject(new DOMException('Expected clipboard denial', 'NotAllowedError'));
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  }, { index, outcome });
+  const download = async outcome => {
+    if (outcome === 'success') {
+      const pending = page.waitForEvent('download');
+      await root().getByRole('button', { name: 'Download current TXT', exact: true }).click();
+      assert.equal((await pending).suggestedFilename(), 'rmb-uppercase.txt');
+      await expectNotice(notice.downloaded);
+    } else {
+      await page.evaluate(() => { URL.createObjectURL = () => { throw new DOMException('Expected Blob URL failure', 'NotSupportedError'); }; });
+      try {
+        await root().getByRole('button', { name: 'Download current TXT', exact: true }).click();
+        await expectNotice(notice.downloadFailed);
+      } finally { await page.evaluate(() => { URL.createObjectURL = window.__rmbNoticeOriginal.create; }); }
+    }
+  };
+  const check = async (name, run) => {
+    try { await run(); checks.push({ name, passed: true }); }
+    catch (error) {
+      checks.push({ name, passed: false, error: error.message, diagnostic: await page.evaluate(() => ({
+        status: document.querySelector('[data-rmb-uppercase-tool] p[role="status"]')?.textContent,
+        output: document.querySelector('[data-testid="rmb-uppercase-output"]')?.value,
+        clipboardCalls: window.__rmbNoticeCalls?.map(call => ({ text: call.text, settled: call.settled })),
+      })).catch(() => null) });
+    } finally {
+      await page.evaluate(async () => {
+        for (const call of window.__rmbNoticeCalls ?? []) if (!call.settled) { call.settled = true; call.resolve(); }
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      });
+    }
+  };
+
+  await page.goto(`${baseURL.replace(/\/$/, '')}/en/tools/rmb-uppercase`);
+  await root().waitFor(); await page.waitForLoadState('networkidle');
+  await page.evaluate(() => {
+    window.__rmbNoticeOriginal = { clipboard: Object.getOwnPropertyDescriptor(navigator, 'clipboard'), create: URL.createObjectURL };
+  });
+  page.on('pageerror', onError);
+  try {
+    for (const latest of ['resolve', 'reject']) for (const late of ['resolve', 'reject']) {
+      await check(`copy B ${latest} remains after earlier copy A ${late}`, async () => {
+        await prepare(); await pendingClipboard(); await copy(); await copy();
+        await settle(1, latest); const expected = latest === 'resolve' ? notice.copied : notice.copyFailed;
+        await expectNotice(expected); await settle(0, late);
+        assert.equal(await status().innerText(), expected, 'earlier clipboard completion replaced the later copy notice');
+      });
+    }
+    for (const outcome of ['success', 'failure']) for (const late of ['resolve', 'reject']) {
+      await check(`download ${outcome} remains after earlier copy ${late}`, async () => {
+        await prepare(); await pendingClipboard(); await copy(); await download(outcome);
+        await settle(0, late);
+        assert.equal(await status().innerText(), outcome === 'success' ? notice.downloaded : notice.downloadFailed, 'earlier clipboard completion replaced the later download notice');
+      });
+    }
+    for (const previous of ['copied', 'copyFailed', 'downloaded', 'downloadFailed']) {
+      await check(`starting a pending copy clears previous ${previous} notice`, async () => {
+        await prepare();
+        if (previous === 'downloaded' || previous === 'downloadFailed') await download(previous === 'downloaded' ? 'success' : 'failure');
+        else {
+          await page.evaluate(fail => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { if (fail) throw new DOMException('Expected denied', 'NotAllowedError'); } } }), previous === 'copyFailed');
+          await copy(); await expectNotice(notice[previous]);
+        }
+        await pendingClipboard(); await copy();
+        assert.equal(await status().innerText(), notice.ready, 'previous completed notice remained visible during a new pending copy');
+      });
+    }
+  } finally {
+    await page.evaluate(() => {
+      const original = window.__rmbNoticeOriginal;
+      if (original.clipboard) Object.defineProperty(navigator, 'clipboard', original.clipboard);
+      else delete navigator.clipboard;
+      URL.createObjectURL = original.create;
+      delete window.__rmbNoticeOriginal; delete window.__rmbNoticeCalls;
+    });
+    page.off('pageerror', onError);
+  }
+  const report = { ok: checks.length === RMB_NOTICE_RACE_CASE_COUNT && checks.every(check => check.passed) && pageErrors.length === 0,
+    completed: checks.length === RMB_NOTICE_RACE_CASE_COUNT, expectedChecks: RMB_NOTICE_RACE_CASE_COUNT, checks, pageErrors };
+  if (reportDir) { await mkdir(reportDir, { recursive: true }); await writeFile(join(reportDir, 'rmb-notice-races.json'), JSON.stringify(report, null, 2)); }
+  return report;
+}
+
 /**
  * Real browser QA with a caller-owned page/context. No browser or machine path
  * is embedded here. Pass an installed axe.min.js path explicitly; a missing
@@ -37,7 +155,7 @@ export async function rmbUppercaseBrowserQA(page, {
   const origin = new URL(baseURL).origin;
   baseURL = baseURL.replace(/\/$/, '');
   const checks = [], issues = [], audits = [], pageErrors = [];
-  const expectedChecks = 47;
+  const expectedChecks = 47 + RMB_NOTICE_RACE_CASE_COUNT;
   const root = () => page.locator('[data-rmb-uppercase-tool]');
   const input = () => root().locator('input[type="text"]');
   const output = () => root().getByTestId('rmb-uppercase-output');
@@ -184,6 +302,9 @@ export async function rmbUppercaseBrowserQA(page, {
       assert.equal(await output().count(), 0);
       assert.match(await status().innerText(), /Enter an amount/);
     });
+    const noticeRaces = await rmbUppercaseNoticeRaceQA(page, { baseURL, reportDir });
+    checks.push(...noticeRaces.checks);
+    if (!noticeRaces.completed) issues.push('RMB notice race matrix did not complete');
     await check('TXT contains only the current displayed normalized and uppercase result', async () => {
       await visit(); await convert('16409.02', OFFICIAL_CASES[4][1]);
       const pending = page.waitForEvent('download');

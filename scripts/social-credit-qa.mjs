@@ -5,7 +5,9 @@ import { join } from 'node:path';
 const EXAMPLE = '91350100M000100Y43';
 const MASKED = '913***********0Y43';
 const ALPHABET = '0123456789ABCDEFGHJKLMNPQRTUWXY';
-const EXPECTED_CHECKS = 31;
+const ORIGINAL_EXPECTED_CHECKS = 31;
+const NOTICE_EXPECTED_CHECKS = 10;
+const EXPECTED_CHECKS = ORIGINAL_EXPECTED_CHECKS + NOTICE_EXPECTED_CHECKS;
 const EXPECTED_AUDITS = 34;
 const NAMES = {
   en: 'Unified Social Credit Code Validator', zh: '统一社会信用代码校验器', ja: '統一社会信用コード検証',
@@ -75,7 +77,7 @@ export default async function socialCreditQA(page, {
     }
   };
   const run = async input => { await textarea().fill(input); await submit().click(); };
-  let finished = false;
+  let finished = false, noticeSuite = null;
   if (!axePath) issues.push({ name: 'accessibility prerequisite', error: 'axePath is required; 34 required light/dark accessibility states were not run.' });
   else {
     const context = page.context();
@@ -305,6 +307,9 @@ export default async function socialCreditQA(page, {
           assert.ok(!storage.includes(EXAMPLE));
         } finally { await context.setOffline(false); page.off('request', onRequest); page.off('console', onConsole); }
       });
+      noticeSuite = await socialCreditNoticeQA(page, { baseURL, reportDir });
+      checks.push(...noticeSuite.checks);
+      issues.push(...noticeSuite.issues);
       finished = true;
     } catch (error) { issues.push({ name: 'browser flow', error: error.message }); }
     finally {
@@ -328,8 +333,127 @@ export default async function socialCreditQA(page, {
   const completed = finished && checks.length === EXPECTED_CHECKS && audited;
   const report = {
     ok: completed && failed === 0, completed, expectedChecks: EXPECTED_CHECKS, passed, failed,
-    checks, issues, pageErrors, accessibilityAuditRun: audited, accessibility, audits,
+    originalExpectedChecks: ORIGINAL_EXPECTED_CHECKS, noticeExpectedChecks: NOTICE_EXPECTED_CHECKS,
+    checks, issues, pageErrors, accessibilityAuditRun: audited, accessibility, audits, noticeSuite,
   };
   await writeFile(join(reportDir, 'social-credit-checks.json'), JSON.stringify(report, null, 2));
+  return report;
+}
+
+/** Fast clipboard-notice regression; the caller owns its page and browser. */
+export async function socialCreditNoticeQA(page, {
+  baseURL = 'http://127.0.0.1:3480', reportDir = '/tmp/zoyku-social-credit',
+} = {}) {
+  await mkdir(reportDir, { recursive: true });
+  baseURL = baseURL.replace(/\/$/, '');
+  const checks = [], issues = [], pageErrors = [];
+  const check = async (name, run) => {
+    try { await run(); checks.push({ name, passed: true }); }
+    catch (error) { checks.push({ name, passed: false, error: error.message }); }
+  };
+  const copied = 'Displayed text copied.';
+  const copyFailed = 'Copy failed. Select the displayed text and copy it manually.';
+  const downloaded = 'TXT download prepared.';
+  const downloadFailed = 'The TXT could not be prepared. Copy the displayed result instead.';
+  const onPageError = error => pageErrors.push(error.message);
+  let finished = false;
+  if (!page) issues.push({ name: 'browser prerequisite', error: 'A caller-owned page is required; clipboard-notice checks were not run.' });
+  else {
+    const context = page.context();
+    const root = () => page.locator('[data-social-credit-tool]');
+    const copy = () => root().getByRole('button', { name: 'Copy displayed TXT', exact: true });
+    const download = () => root().getByRole('button', { name: 'Download displayed TXT', exact: true });
+    const status = () => root().getByRole('status');
+    const prepare = async () => {
+      await root().locator('textarea').fill(EXAMPLE);
+      await root().locator('button[type="submit"]').click();
+      assert.equal(await root().getByTestId('social-credit-number').innerText(), MASKED);
+      assert.equal(await root().locator('button[aria-pressed]').getAttribute('aria-pressed'), 'false');
+      return status().innerText();
+    };
+    const installClipboard = async (downloadFailure = null) => {
+      await page.evaluate(failed => {
+        const clipboard = navigator.clipboard, descriptor = Object.getOwnPropertyDescriptor(clipboard, 'writeText');
+        const click = HTMLAnchorElement.prototype.click;
+        const pending = []; window.__socialCreditNoticeCopies = pending;
+        Object.defineProperty(clipboard, 'writeText', { configurable: true, value: () => new Promise((resolve, reject) => pending.push({ resolve, reject })) });
+        if (failed !== null) HTMLAnchorElement.prototype.click = () => {
+          if (failed) throw new DOMException('Injected newer download failure', 'NotSupportedError');
+        };
+        window.__socialCreditRestoreNotices = () => {
+          for (const promise of pending) promise.resolve();
+          if (descriptor) Object.defineProperty(clipboard, 'writeText', descriptor); else delete clipboard.writeText;
+          HTMLAnchorElement.prototype.click = click;
+          delete window.__socialCreditNoticeCopies; delete window.__socialCreditRestoreNotices;
+        };
+      }, downloadFailure);
+    };
+    const settle = async (index, failed) => {
+      await page.evaluate(({ index, failed }) => {
+        const pending = window.__socialCreditNoticeCopies[index];
+        if (failed) pending.reject(new Error('Injected clipboard failure')); else pending.resolve();
+      }, { index, failed });
+    };
+    const waitStatus = expected => page.waitForFunction(value => document.querySelector('[data-social-credit-tool] [role="status"]')?.textContent === value, expected);
+    const paint = () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const restore = async () => { await page.evaluate(() => window.__socialCreditRestoreNotices?.()); await paint(); };
+    page.on('pageerror', onPageError);
+    try {
+      await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseURL).origin });
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' });
+      await page.goto(`${baseURL}/en/tools/social-credit-validator`);
+      await page.locator('.site-theme-control button').waitFor();
+      await root().locator('button[type="submit"]').waitFor();
+      for (const newerFails of [false, true]) for (const olderFails of [false, true]) {
+        await check(`newer Copy ${newerFails ? 'failure' : 'success'} survives older Copy ${olderFails ? 'rejection' : 'resolution'}`, async () => {
+          await prepare(); await installClipboard();
+          try {
+            await copy().click(); await copy().click();
+            assert.equal(await page.evaluate(() => window.__socialCreditNoticeCopies.length), 2);
+            await settle(1, newerFails);
+            const expected = newerFails ? copyFailed : copied;
+            await waitStatus(expected);
+            await settle(0, olderFails); await paint();
+            assert.equal(await status().innerText(), expected);
+          } finally { await restore(); }
+        });
+      }
+      for (const newerFails of [false, true]) for (const olderFails of [false, true]) {
+        await check(`newer Download ${newerFails ? 'failure' : 'success'} survives older Copy ${olderFails ? 'rejection' : 'resolution'}`, async () => {
+          await prepare(); await installClipboard(newerFails);
+          try {
+            await copy().click();
+            assert.equal(await page.evaluate(() => window.__socialCreditNoticeCopies.length), 1);
+            await download().click();
+            const expected = newerFails ? downloadFailed : downloaded;
+            await waitStatus(expected);
+            await settle(0, olderFails); await paint();
+            assert.equal(await status().innerText(), expected);
+          } finally { await restore(); }
+        });
+      }
+      for (const previousFails of [false, true]) {
+        await check(`pending Copy clears the previous ${previousFails ? 'failure' : 'success'} notice`, async () => {
+          const summary = await prepare(); await installClipboard();
+          try {
+            await copy().click(); await settle(0, previousFails); await waitStatus(previousFails ? copyFailed : copied);
+            await copy().click();
+            assert.equal(await page.evaluate(() => window.__socialCreditNoticeCopies.length), 2);
+            assert.equal(await status().innerText(), summary);
+            await settle(1, false); await waitStatus(copied);
+          } finally { await restore(); }
+        });
+      }
+      finished = true;
+    } catch (error) { issues.push({ name: 'browser flow', error: error.message }); }
+    finally { page.off('pageerror', onPageError); await restore().catch(() => {}); }
+  }
+  if (pageErrors.length) issues.push({ name: 'uncaught browser errors', error: pageErrors.join('\n') });
+  const passed = checks.filter(check => check.passed).length;
+  const failed = checks.length - passed + issues.length;
+  const completed = finished && checks.length === NOTICE_EXPECTED_CHECKS;
+  const report = { ok: completed && failed === 0, completed, expectedChecks: NOTICE_EXPECTED_CHECKS, passed, failed, checks, issues, pageErrors };
+  await writeFile(join(reportDir, 'social-credit-notice-checks.json'), JSON.stringify(report, null, 2));
   return report;
 }

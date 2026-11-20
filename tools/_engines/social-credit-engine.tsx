@@ -35,7 +35,8 @@ export function SocialCreditEngine() {
   const valid = rows.filter(row => row.valid).length;
   const summary = rows.length ? fill(l.summary, { total: rows.length, valid, invalid: rows.length - valid }) : l.empty;
   const copy = async () => {
-    const current = revision.current;
+    const current = ++revision.current;
+    setNotice("");
     try {
       await navigator.clipboard.writeText(displayedText);
       if (current === revision.current) setNotice(l.copied);
@@ -44,6 +45,7 @@ export function SocialCreditEngine() {
     }
   };
   const download = () => {
+    revision.current++;
     try {
       const url = URL.createObjectURL(new Blob([displayedText + "\n"], { type: "text/plain;charset=utf-8" }));
       setTimeout(() => URL.revokeObjectURL(url), 1000);

@@ -30,7 +30,8 @@ export function RmbUppercaseEngine() {
   };
   const displayedText = result ? `${l.normalizedLabel}: ￥${result.normalizedAmount}\n${l.uppercaseLabel}: ${result.uppercase}` : "";
   const copy = async () => {
-    const current = revision.current;
+    const current = ++revision.current;
+    setNotice("");
     try {
       await navigator.clipboard.writeText(displayedText);
       if (current === revision.current) setNotice(l.copied);
@@ -39,6 +40,7 @@ export function RmbUppercaseEngine() {
     }
   };
   const download = () => {
+    revision.current++;
     try {
       const url = URL.createObjectURL(new Blob([displayedText + "\n"], { type: "text/plain;charset=utf-8" }));
       setTimeout(() => URL.revokeObjectURL(url), 1000);

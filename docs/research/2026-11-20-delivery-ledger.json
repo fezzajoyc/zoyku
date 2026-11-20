@@ -21,7 +21,7 @@
     "committed": true,
     "pushed": false,
     "deployed": false,
-    "release_status": "本批自审本地验收及提交；提交身份/哈希以Git为准。原工作区仅在干净且可快进时同步；未推送/部署。"
+    "release_status": "209工具；本地导出通知顺序修复、验收及提交；原工作区仅在干净且可快进时同步。提交以Git为准，未推送/部署。"
   },
   "counting_rules": [
     "47+57=104仅是两份矩阵的源条目数，不是104个唯一缺口或104个待新增工具。",
@@ -293,6 +293,30 @@
         "docs/research/2026-11-21-self-review-recovery-verification.md"
       ],
       "release_status": "本地全量/构建及相关页面回归；未推送/部署"
+    },
+    {
+      "id": "DL-11",
+      "name": "信用代码/人民币导出通知顺序",
+      "source_ids": [
+        "CN-003",
+        "CN-005"
+      ],
+      "slugs": [
+        "social-credit-validator",
+        "rmb-uppercase"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "两个engine各三行，新的Copy/Download使旧待定Copy失效；新Copy清旧通知。新增10+12场景先红后绿，原31/47与34/6axe保留，生产41/59及20冷上下文通过。",
+      "limits": "只保证界面通知的操作先后，不取消已提交给OS的Clipboard写入。",
+      "not_completed": "未知首交互/导航根因和全站AA仍开放；不改变算法/来源/数据/文案，不新增工具。",
+      "evidence_paths": [
+        "tools/_engines/social-credit-engine.tsx",
+        "tools/_engines/rmb-uppercase-engine.tsx",
+        "scripts/social-credit-qa.mjs",
+        "scripts/rmb-uppercase-qa.mjs",
+        "docs/research/2026-11-21-export-notice-order-verification.md"
+      ],
+      "release_status": "本地生产验证通过；未推送/部署"
     }
   ],
   "source_records": [
@@ -2689,17 +2713,17 @@
       "not_added_to_own_192_tests": true,
       "scope": "四种OS/手动主题、持久化和样本文字/按钮对比度；不推断全站AA"
     },
-    "integration_verification_file": "docs/research/2026-11-21-self-review-recovery-verification.md",
+    "integration_verification_file": "docs/research/2026-11-21-export-notice-order-verification.md",
     "final_integration": {
-      "unit_test_files": 81,
-      "unit_tests_passed": 2201,
+      "unit_test_files": 82,
+      "unit_tests_passed": 2204,
       "unit_tests_failed": 0,
       "typescript_exit": 0,
       "lint_errors": 0,
       "lint_warnings": 54,
-      "lint_change": "Baseline 55; one JWT render-time Date.now warning removed. Modified product files have no warnings.",
+      "lint_diagnostics_unchanged_from_baseline": true,
       "build_paths": 9757,
-      "build_id": "-qZlUFz-QUTF6lhxiQSgH",
+      "build_id": "vuehGE6fiYQ_UYUDRNcag",
       "seo_static_checked": 3270,
       "seo_static_failures": 0,
       "seo_http_checked": 24,
@@ -2708,25 +2732,12 @@
       "seo_http_rate_limited": 0,
       "production_browser_suites": {
         "cold_first_input": 20,
-        "chinese_id_cold_first_input": 20,
-        "copy": 36,
-        "csv": 46,
-        "jwt": 43,
-        "url": 27,
-        "social_credit": 31,
-        "rmb": 47,
-        "home": 26,
-        "theme": 9,
-        "tool": 13,
-        "regex": 4,
-        "chinese_id": 88,
-        "json": 52
+        "social_credit": 41,
+        "rmb": 59
       },
-      "production_distinct_browser_checks": 462,
+      "production_distinct_browser_checks": 120,
       "browser_failed": 0,
-      "browser_build_scope": "All suites first optimized build; final JWT raw-whitespace guard followed by new full tests/build/SEO/HTTP and JWT/CSV browser reruns. Unchanged suites retain first-build evidence. Repeated checks not added.",
-      "supplemental_csv_unpaced_failure_retained": true,
-      "unknown_dev_chinese_id_startup_cause_retained": true,
+      "production_browser_scope": "This export-notice patch: two changed tools plus 20 immediate first-input cold contexts. Previous full 462-check snapshot is preserved in integration_history.",
       "pushed": false,
       "deployed": false,
       "accessibility_incomplete_remains": true
@@ -2787,6 +2798,48 @@
         "deployed": false,
         "accessibility_incomplete_remains": true,
         "verification_file": "docs/research/2026-11-21-china-money-credit-verification.md"
+      },
+      {
+        "unit_test_files": 81,
+        "unit_tests_passed": 2201,
+        "unit_tests_failed": 0,
+        "typescript_exit": 0,
+        "lint_errors": 0,
+        "lint_warnings": 54,
+        "lint_change": "Baseline 55; one JWT render-time Date.now warning removed. Modified product files have no warnings.",
+        "build_paths": 9757,
+        "build_id": "-qZlUFz-QUTF6lhxiQSgH",
+        "seo_static_checked": 3270,
+        "seo_static_failures": 0,
+        "seo_http_checked": 24,
+        "seo_http_failures": 0,
+        "seo_http_requests": 25,
+        "seo_http_rate_limited": 0,
+        "production_browser_suites": {
+          "cold_first_input": 20,
+          "chinese_id_cold_first_input": 20,
+          "copy": 36,
+          "csv": 46,
+          "jwt": 43,
+          "url": 27,
+          "social_credit": 31,
+          "rmb": 47,
+          "home": 26,
+          "theme": 9,
+          "tool": 13,
+          "regex": 4,
+          "chinese_id": 88,
+          "json": 52
+        },
+        "production_distinct_browser_checks": 462,
+        "browser_failed": 0,
+        "browser_build_scope": "All suites first optimized build; final JWT raw-whitespace guard followed by new full tests/build/SEO/HTTP and JWT/CSV browser reruns. Unchanged suites retain first-build evidence. Repeated checks not added.",
+        "supplemental_csv_unpaced_failure_retained": true,
+        "unknown_dev_chinese_id_startup_cause_retained": true,
+        "pushed": false,
+        "deployed": false,
+        "accessibility_incomplete_remains": true,
+        "verification_file": "docs/research/2026-11-21-self-review-recovery-verification.md"
       }
     ]
   },
@@ -2812,7 +2865,7 @@
       "广告收入或回本周期"
     ]
   },
-  "current_integration_branch": "codex/self-review-recovery",
+  "current_integration_branch": "codex/export-notice-order",
   "self_review_followups": [
     "开发态身份证首次快速输入/提交偶发超时保留状态诊断；当前生产冷启动未复现，不将根因标已修。",
     "多语快速导航额外失败保留；最终有节流CSV46/46且所有文档200，继续记录响应状态。",
