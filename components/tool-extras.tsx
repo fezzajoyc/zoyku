@@ -57,7 +57,7 @@ export function ToolEmbedBox({
         </div>
       </div>
       <div className="mt-3 rounded-xl border hairline bg-white p-3 dark:bg-white/5">
-        <code className="mono block overflow-x-auto whitespace-nowrap text-[11.5px] leading-5">
+        <code tabIndex={0} className="mono block overflow-x-auto whitespace-nowrap text-[11.5px] leading-5">
           {code}
         </code>
       </div>

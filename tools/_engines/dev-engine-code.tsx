@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { CopyButton, formatBytes } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import { TRANSFORMS } from "../_lib/transform-registry";
 import { jsonHintKey, type JsonHintKey } from "../_lib/transforms";
+import { JsonFormatLimitError } from "../_lib/json-format";
+import { jsonFormatLimitMessage, jsonFormatResourceNote } from "../_lib/json-capability-copy";
 
 /**
  * Developer 类目的格式化/压缩/校验通用引擎:
@@ -160,8 +162,10 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
   const [indentChoice, setIndentChoice] = useState<"2" | "4" | "tab">("2");
   const [sortOn, setSortOn] = useState(false);
   const [sqlState, setSqlState] = useState<{ out: string; err: string | null }>({ out: "", err: null });
+  const resourceId = useId();
 
   const isSql = mode === "sql-format";
+  const isJsonFormat = mode === "json-beautify" || mode === "json-minify";
 
   useEffect(() => {
     if (!isSql) return;
@@ -189,6 +193,7 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
 
   const run = useMemo(() => {
     if (isSql) return { out: sqlState.out, err: sqlState.err, valid: null as boolean | null };
+    if (isJsonFormat && input === "") return { out: "", err: null, valid: null as boolean | null };
     const fn = TRANSFORMS[mode];
     if (!fn) return { out: "", err: null, valid: null as boolean | null };
     try {
@@ -209,9 +214,12 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
       }
       return { out, err: null, valid: null as boolean | null };
     } catch (e) {
-      return { out: "", err: e instanceof Error ? e.message : String(e), valid: null as boolean | null };
+      const err = isJsonFormat && e instanceof JsonFormatLimitError
+        ? jsonFormatLimitMessage(locale, e.kind)
+        : e instanceof Error ? e.message : String(e);
+      return { out: "", err, valid: null as boolean | null };
     }
-  }, [input, mode, indentChoice, sortOn, validator, isSql, sqlState]);
+  }, [input, mode, indentChoice, sortOn, validator, isSql, isJsonFormat, sqlState, locale]);
 
   const sizeInfo = useMemo(() => {
     if (!showSize || !input || !run.out || run.out === input) return null;
@@ -224,6 +232,7 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
   return (
     <ToolPanel>
       <div className="space-y-4">
+        {isJsonFormat && <p id={resourceId} className="text-[13px] leading-5 text-[var(--color-sub)]">{jsonFormatResourceNote(locale)}</p>}
         <textarea
           className="field mono"
           rows={9}
@@ -232,6 +241,8 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
           placeholder={t.common.input}
           spellCheck={false}
           aria-label={t.common.input}
+          aria-describedby={isJsonFormat ? resourceId : undefined}
+          aria-invalid={isJsonFormat ? Boolean(run.err) : undefined}
         />
 
         {indent && (
@@ -241,6 +252,7 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
                 key={key}
                 type="button"
                 onClick={() => setIndentChoice(key)}
+                aria-pressed={indentChoice === key}
                 className={`mono rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   indentChoice === key
                     ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
@@ -329,7 +341,7 @@ export function DevCodeEngine({ mode, indent = false, showSize = false, validato
             <button
               type="button"
               onClick={() => setInput(sample)}
-              className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-strong)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
+              className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
             >
               {t.common.sample}
             </button>

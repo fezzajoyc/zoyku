@@ -82,7 +82,7 @@ export function ToolsDirectory({
             </button>
             <Link
               href={`/${labels.hrefLang}`}
-              className="rounded-full bg-[var(--color-accent)] px-4 py-2 text-[13.5px] font-medium text-white transition-colors hover:bg-[var(--color-accent-strong)]"
+              className="rounded-full bg-[var(--color-action-bg)] px-4 py-2 text-[13.5px] font-medium text-white transition-colors hover:bg-[var(--color-action-hover)]"
             >
               {labels.backHome}
             </Link>

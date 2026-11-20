@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { buildSync } from "esbuild";
+import { fileURLToPath } from "node:url";
 import {
   MAX_RENDER, isRiskyPattern, regexRun, regexWorkerSource, workerFallbackAllowed,
 } from "../tools/_lib/regex";
@@ -17,10 +19,40 @@ describe("regexRun(纯逻辑,与 Worker 同源)", () => {
     expect(r.matches[0].named).toEqual([["y", "2026"], ["m", "11"]]);
   });
 
-  it("零宽匹配不死循环(每次 lastIndex++)", () => {
+  it("零宽匹配不死循环", () => {
     const r = regexRun("(?=a)", "g", "aaa");
     expect(r.matches.length).toBe(3);
     expect(r.matches.map((m) => m.index)).toEqual([0, 1, 2]);
+  });
+
+  it("关闭 g 时只返回首次匹配", () => {
+    expect(regexRun("a", "", "aba")).toEqual({
+      matches: [{ text: "a", index: 0, groups: [], named: [] }],
+      error: null,
+      truncated: false,
+    });
+    expect(regexRun("(?:)", "u", "😀").matches.map((m) => m.index)).toEqual([0]);
+  });
+
+  it("Unicode 零宽匹配按码点前进并保留 UTF-16 索引", () => {
+    const r = regexRun("(?:)", "gu", "😀中😀");
+    expect(r.matches.map((m) => m.index)).toEqual([0, 2, 3, 5]);
+    expect(r.truncated).toBe(false);
+    expect(regexRun("中", "gu", "😀中").matches[0].index).toBe(2);
+  });
+
+  it("不启用 u 时零宽匹配使用 UTF-16 代码单元", () => {
+    expect(regexRun("(?:)", "g", "😀").matches.map((m) => m.index)).toEqual([0, 1, 2]);
+  });
+
+  it("恰好达到显示上限时不谎报截断", () => {
+    expect(regexRun("a", "g", "a".repeat(MAX_RENDER)).truncated).toBe(false);
+    expect(regexRun("a", "g", "aa", 2)).toEqual({
+      matches: [0, 1].map((index) => ({ text: "a", index, groups: [], named: [] })),
+      error: null,
+      truncated: false,
+    });
+    expect(regexRun("a", "g", "aaa", 2).truncated).toBe(true);
   });
 
   it("上限截断标记 truncated", () => {
@@ -38,6 +70,15 @@ describe("regexRun(纯逻辑,与 Worker 同源)", () => {
   it("无 pattern 返回空结果", () => {
     expect(regexRun("", "g", "abc")).toEqual({ matches: [], error: null, truncated: false });
   });
+
+  it("支持空文本、无匹配、CJK 和未参与捕获组", () => {
+    expect(regexRun("^$", "g", "").matches.map((m) => m.text)).toEqual([""]);
+    expect(regexRun("x", "g", "中文😀").matches).toEqual([]);
+    expect(regexRun("(?<optional>a)?(中)", "g", "中").matches[0]).toEqual({
+      text: "中", index: 0, groups: [undefined, "中"], named: [],
+    });
+    expect(regexRun("a", "gg", "a").error).toBeTruthy();
+  });
 });
 
 describe("isRiskyPattern(ReDoS 教学提示)", () => {
@@ -51,6 +92,26 @@ describe("isRiskyPattern(ReDoS 教学提示)", () => {
 });
 
 describe("regexWorkerSource(Blob Worker 源码)", () => {
+  it("生产压缩后 Worker 仍不依赖模块闭包变量名", () => {
+    const bundled = buildSync({
+      entryPoints: [fileURLToPath(new URL("../tools/_lib/regex.ts", import.meta.url))],
+      bundle: true, write: false, minify: true, format: "cjs", platform: "browser", target: "es2018",
+    }).outputFiles[0].text;
+    const bundledModule = { exports: {} as { regexWorkerSource: typeof regexWorkerSource } };
+    new Function("module", "exports", bundled)(bundledModule, bundledModule.exports);
+    let posted: unknown;
+    const workerSelf: { onmessage?: (event: { data: unknown }) => void; postMessage: (result: unknown) => void } = {
+      postMessage(result) { posted = result; },
+    };
+    new Function("self", bundledModule.exports.regexWorkerSource())(workerSelf);
+    workerSelf.onmessage?.({ data: { pattern: "(?:)", flags: "gu", text: "😀" } });
+    expect(posted).toEqual({
+      matches: [0, 2].map((index) => ({ text: "", index, groups: [], named: [] })),
+      error: null,
+      truncated: false,
+    });
+  });
+
   it("源码含 regexRun 实现与 postMessage,可直接在 Worker 上下文执行", () => {
     const src = regexWorkerSource();
     expect(src).toContain("self.onmessage");
@@ -72,6 +133,21 @@ describe("regexWorkerSource(Blob Worker 源码)", () => {
     new Function("self", src)(fakeSelf);
     (handler as unknown as (ev: { data: unknown }) => void)({ data: { pattern: "a", flags: "g", text: "aba" } });
     expect((posted as { matches: { text: string }[] }).matches.map((m) => m.text)).toEqual(["a", "a"]);
+  });
+
+  it.each([
+    { pattern: "a", flags: "", text: "aba" },
+    { pattern: "(?:)", flags: "gu", text: "😀中😀" },
+    { pattern: "a", flags: "g", text: "a".repeat(MAX_RENDER) },
+    { pattern: "a", flags: "g", text: "a".repeat(MAX_RENDER + 1) },
+  ])("Worker 无模块闭包且保持相同行为: $flags / $pattern", (data) => {
+    let posted: unknown;
+    const workerSelf: { onmessage?: (event: { data: typeof data }) => void; postMessage: (result: unknown) => void } = {
+      postMessage(result) { posted = result; },
+    };
+    new Function("self", regexWorkerSource())(workerSelf);
+    workerSelf.onmessage?.({ data });
+    expect(posted).toEqual(regexRun(data.pattern, data.flags, data.text));
   });
 });
 

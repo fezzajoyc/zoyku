@@ -122,7 +122,7 @@ export function DevEngineJsonPlus({ mode }: { mode: Mode }) {
           ) : (
             result.entries.map((e: JsonDiffEntry, i) => (
               <div key={i} className="whitespace-pre-wrap">
-                <span className={e.type === "added" ? "text-[var(--color-good)]" : e.type === "removed" ? "text-[var(--color-bad)]" : "text-[var(--color-accent-strong)]"}>
+                <span className={e.type === "added" ? "text-[var(--color-good)]" : e.type === "removed" ? "text-[var(--color-bad)]" : "text-[var(--color-accent-text)]"}>
                   {e.type === "added" ? "+" : e.type === "removed" ? "−" : "~"}
                 </span>{" "}
                 {e.path}

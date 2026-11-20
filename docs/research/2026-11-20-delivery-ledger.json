@@ -1,0 +1,2613 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Zoyku 研究综合交付账本与批判性评价",
+  "research_date": "2026-11-20",
+  "timezone": "Asia/Shanghai",
+  "checkpoint_utc": "2026-11-20T15:39:40.083434Z",
+  "branch": "codex/tool-parity-cn",
+  "baseline": {
+    "commit": "dccdbfd",
+    "tool_definition_count": 205
+  },
+  "working_tree": {
+    "tool_definition_count": 207,
+    "net_new_tool_routes": [
+      "chinese-id-validator",
+      "chinese-id-generator"
+    ],
+    "delta": 2,
+    "committed": false,
+    "pushed": false,
+    "deployed": false,
+    "release_status": "本地全量、生产构建及本轮浏览器验证已完成；未推送、未部署。committed为本次记录写入前检查点，提交状态以Git为准。"
+  },
+  "counting_rules": [
+    "47+57=104仅是两份矩阵的源条目数，不是104个唯一缺口或104个待新增工具。",
+    "本账本逐一映射104个源条目及6个benchmark对象；B01–B06为账本内交叉引用。",
+    "40个规划组用于安排共享内核/数据/验收，不是精确去重后的功能数，更不是40条承诺新增路由。",
+    "基线状态不回写；通过worktree_status单列本轮进展，保留旧benchmark的历史观察及证据边界。",
+    "同一能力的多同行证据、算法兼容性子项、已有选项、不同政策版本和输入模板不得反复算新增工具。"
+  ],
+  "source_artifacts": [
+    "docs/research/2026-11-20-domestic-tool-gaps.md",
+    "docs/research/2026-11-20-domestic-tool-gaps.json",
+    "docs/research/2026-11-20-global-tool-gaps.md",
+    "docs/research/2026-11-20-global-tool-gaps.json",
+    "docs/research/2026-11-20-shared-tool-benchmark.md",
+    "docs/research/2026-11-20-shared-tool-benchmark.json",
+    "docs/benchmark.md"
+  ],
+  "summary": {
+    "domestic_source_rows": 47,
+    "global_source_rows": 57,
+    "source_matrix_rows": 104,
+    "benchmark_subjects": 6,
+    "mapped_observations": 110,
+    "planning_groups": 40,
+    "new_route_delta": 2,
+    "full_site_quality_claim": false,
+    "source_record_worktree_status_counts": {
+      "implemented_scoped_worktree": 2,
+      "remaining_gap": 91,
+      "existing_baseline": 10,
+      "needs_evidence": 1
+    }
+  },
+  "delivery_status_definitions": {
+    "implemented_scoped_worktree": "在明确缩小范围内代码和专项已补；不表示原研究条目所有扩展或数据依赖都完成，不表示已发布",
+    "regression_fixed_scoped_worktree": "复现的具体回归已修，仍保留覆盖/专业功能差距",
+    "core_implemented_ui_pending": "纯内核与专项已补；页面状态/文案/浏览器验收待主任务",
+    "existing_baseline": "基线已有，保留与回归",
+    "remaining_gap": "本轮未实施，按规划组/优先级安排",
+    "needs_evidence": "证据不足，不能承诺对齐或建同义路由",
+    "implemented_worktree_parent_browser_reported": "源码差异已核；浏览器专项来自主任务报告，不加入本账本自运行计数，不推断全站质量。",
+    "scoped_verified_local": "本轮限定功能、15语UI和生产浏览器已验证；不等于所有同行差距关闭、全站认证或已部署。"
+  },
+  "deliveries": [
+    {
+      "id": "DL-01",
+      "name": "中国身份证校验/解析页",
+      "source_ids": [
+        "CN-001"
+      ],
+      "slugs": [
+        "chinese-id-validator"
+      ],
+      "state": "implemented_scoped_worktree",
+      "evidence_paths": [
+        "tools/security/chinese-id-validator.ts",
+        "tools/_lib/chinese-id.ts",
+        "tools/_engines/chinese-id-engine.tsx",
+        "tools/_lib/chinese-id-copy.ts",
+        "tests/chinese-id.test.ts",
+        "tests/chinese-id-ui.test.ts"
+      ],
+      "completed_scope": "15/18位规则检查、明确19xx旧号假设、日期/校验位/顺序/省级前缀、参考日期、批量行结果、默认遮盖与当前显示TXT导出。",
+      "limits": "最多100非空行/20,000 UTF-16 code units；单条规范化前最多256 code units。",
+      "not_completed": "不核验现行/历史县级代码，不查询颁发/实名，不证明身份存在；CN-012仍未完成。",
+      "release_status": "本地全量/生产构建/本轮生产浏览器已验证；未推送、未部署，见2026-11-20-verification.md。"
+    },
+    {
+      "id": "DL-02",
+      "name": "中国身份证规则测试样本页",
+      "source_ids": [
+        "CN-002"
+      ],
+      "slugs": [
+        "chinese-id-generator"
+      ],
+      "state": "implemented_scoped_worktree",
+      "evidence_paths": [
+        "tools/security/chinese-id-generator.ts",
+        "tools/_lib/chinese-id.ts",
+        "tools/_engines/chinese-id-engine.tsx",
+        "tools/_lib/chinese-id-copy.ts",
+        "tests/chinese-id.test.ts",
+        "tests/chinese-id-ui.test.ts"
+      ],
+      "completed_scope": "手填六位码、生日、参考日期、奇偶/起始顺序与1–100条确定性测试样本；只保证本批次互异；默认遮盖与TXT。",
+      "limits": "1–100条；顺序码容量不足时显式拒绝。",
+      "not_completed": "不自带完整区划数据库，不承诺随机/跨批唯一或不与真实号码碰撞，不作身份证明。",
+      "release_status": "本地全量/生产构建/本轮生产浏览器已验证；未推送、未部署，见2026-11-20-verification.md。"
+    },
+    {
+      "id": "DL-03",
+      "name": "正则基础匹配回归修复",
+      "source_ids": [
+        "B06"
+      ],
+      "slugs": [
+        "regex-tester"
+      ],
+      "state": "regression_fixed_scoped_worktree",
+      "evidence_paths": [
+        "tools/_lib/regex.ts",
+        "tools/_engines/dev-engine-regex.tsx",
+        "tests/regex.test.ts",
+        "tests/regex-ui.test.tsx",
+        "docs/research/2026-11-20-shared-tool-benchmark.json"
+      ],
+      "completed_scope": "非全局一次匹配、gu零宽按码点前进、UTF-16索引、空匹配不消耗预览、确有501条才提示截断；真实Worker超时后可恢复。",
+      "limits": "最多500条可见匹配、测试文本20,000 UTF-16 code units、Worker 250ms。",
+      "not_completed": "多方言、完整模式解释、保存用例和同行同输入性能比较仍未完成。",
+      "release_status": "本地全量/生产构建/本轮生产浏览器已验证；未推送、未部署，见2026-11-20-verification.md。"
+    },
+    {
+      "id": "DL-04",
+      "name": "JSON Formatter/Minifier无损处理与15语UI",
+      "source_ids": [
+        "B03"
+      ],
+      "slugs": [
+        "json-formatter",
+        "json-minifier"
+      ],
+      "state": "scoped_verified_local",
+      "evidence_paths": [
+        "tools/_lib/json-format.ts",
+        "tools/_lib/transforms.ts",
+        "tests/json-lossless.test.ts",
+        "tools/_lib/json-capability-copy.ts",
+        "tools/_engines/dev-engine-code.tsx",
+        "tests/json-capability-copy.test.ts",
+        "tests/json-code-ui.test.tsx",
+        "scripts/json-parity-qa.mjs"
+      ],
+      "completed_scope": "只改空白；保留数值原始字面量、字符串转义、重复键与原键序；显式按解码键稳定排序，数组原序；原型键不用对象赋值。 已同步15语文案、四类限额错误、精确空态/Clear与缩进选择语义。",
+      "limits": "JSON_FORMAT_LIMITS={inputCharacters:1000000,outputCharacters:4000000,maxDepth:200,maxValues:100000}；字符为UTF-16 code units；值数包含容器、不含对象键。超限抛JsonFormatLimitError，不截断。",
+      "not_completed": "本页文件工作流和树/图视图未补；重复键的下游解释仍可能不同；jsonValidate/findJsonError/deepSortKeys保持原契约。",
+      "release_status": "本地全量/生产构建/本轮生产浏览器已验证；未推送、未部署，见2026-11-20-verification.md。"
+    },
+    {
+      "id": "DL-05",
+      "name": "手动深浅主题与动效偏好修复",
+      "source_ids": [],
+      "slugs": [],
+      "state": "scoped_verified_local",
+      "evidence_level": "source_diff_and_parent_task_report",
+      "evidence_paths": [
+        "app/globals.css"
+      ],
+      "completed_scope": "手动.dark variant与FAQ减少动画；文字与白字按钮使用独立对比度token，浅色原色值保持。生产主题9/9并独立审查。",
+      "limits": "主题5/5是主任务报告的专项，不加入本账本自主运行192条计数。",
+      "not_completed": "非像素还原或全站AA；其它状态、真实设备和读屏检查继续。",
+      "release_status": "本地全量/生产构建/本轮生产浏览器已验证；未推送、未部署，见2026-11-20-verification.md。"
+    }
+  ],
+  "source_records": [
+    {
+      "source_id": "CN-001",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "居民身份证格式校验与信息解析",
+      "baseline_status": "missing",
+      "worktree_status": "implemented_scoped_worktree",
+      "primary_group_id": "K01",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-002",
+        "CN-012"
+      ],
+      "delivery_ids": [
+        "DL-01"
+      ]
+    },
+    {
+      "source_id": "CN-002",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "身份证校验规则测试样本",
+      "baseline_status": "missing",
+      "worktree_status": "implemented_scoped_worktree",
+      "primary_group_id": "K01",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-001",
+        "CN-012"
+      ],
+      "delivery_ids": [
+        "DL-02"
+      ]
+    },
+    {
+      "source_id": "CN-003",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "统一社会信用代码格式校验与分段解析",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K02",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-004",
+        "CN-017"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-004",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "统一社会信用代码测试样本与中文Mock导出",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K02",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-003",
+        "CN-017"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-005",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "人民币金额大写",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K03",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-006"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-006",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中文数字/财务大写反向转阿拉伯数字",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K03",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-005"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-007",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "公历农历双向转换",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K04",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-008",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中国法定节假日和调休工作日计算",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K04",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-009",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "年度放假调休总览与拼假方案",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K04",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-010",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "农历生日与下次农历生日倒计时",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K04",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-011",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "二十四节气、干支和生肖的历法说明",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K04",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-012",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "省市县行政区划和历史代码查询",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K05",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-001",
+        "CN-002"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-013",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "地区邮政编码与电话区号查询/反查",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K05",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-014",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "汉字转拼音与多音字校正",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K06",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-015",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "汉字拼音首字母缩写",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K06",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-016",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "简体/繁体及台湾香港地区转换",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K06",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-017",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中文姓名/地址等本地Mock字段",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K07",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-003",
+        "CN-004"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-018",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "简体中文/繁体中文占位假文",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K07",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-019",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "GBK/GB18030等中文字符集编码转换",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K09",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-020",
+        "CN-021",
+        "CN-047",
+        "G21",
+        "G50"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-020",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "文本/二进制文件与HEX互转",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K09",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-019",
+        "CN-021",
+        "CN-047",
+        "G21",
+        "G50"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-021",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "Base64的中文字符集与原始字节模式",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K09",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-047",
+        "G21",
+        "G50"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-022",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "2到36进制及小数互转",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K10",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-023",
+        "G03",
+        "G04"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-023",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "IEEE754浮点位模式和大小端转换",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K10",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-022",
+        "G03",
+        "G04"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-024",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "国密SM3摘要及HMAC-SM3",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K11",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "G01",
+        "G02",
+        "G57"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-025",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "国密SM2加密解密与密钥格式",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K12",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-026",
+        "G06",
+        "G53"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-026",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "国密SM2签名验签及用户ID",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K12",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-025",
+        "G06",
+        "G53"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-027",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "国密SM4加密解密与模式参数",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K13",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "G07"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-028",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "CRC16-Modbus及协议校验字节序",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K14",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-029",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "BCC异或/LRC纵向冗余校验",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K14",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "G54"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-030",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中国工资薪金累计预扣与年度个税",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K15",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-031",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "年终奖单独/并入综合所得对比",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K15",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-032",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "五险一金个人/单位成本测算",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K15",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-033",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "渐进式延迟退休年龄/日期查询",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K16",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-034",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中国增值税价税分离及分币闭合",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K17",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-035",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "城建税/教育费附加等附加税费",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K17",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-036",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "二手住房买卖税费分项",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K17",
+      "source_priority": "P2",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-037",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中国房贷等额本金与等额本息对比",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K18",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-038",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "住房公积金贷款场景",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K18",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-039",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "商业贷+公积金组合贷",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K18",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-040",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "一次性提前还贷、缩期/减供及重算",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K18",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-041",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "车牌简称/发牌地区查询",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K19",
+      "source_priority": "P2",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-042",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "手机号原始号段归属地查询",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K19",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G23"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-043",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "满减凑单与多张券到手价",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K20",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-044",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中英文/数字之间自动加空格",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K08",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-045",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "中国大陆盲文翻译/输入辅助",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K21",
+      "source_priority": "P2",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-046",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "全角/半角双向转换（已有，勿重复造）",
+      "baseline_status": "existing_no_proven_gap",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K08",
+      "source_priority": "KEEP",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "CN-047",
+      "source_report": "2026-11-20-domestic-tool-gaps.json",
+      "source_capability": "Unicode转义与文本二进制（已有基础）",
+      "baseline_status": "existing_no_proven_gap",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K09",
+      "source_priority": "KEEP",
+      "related_source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-021",
+        "G21",
+        "G50"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G01",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "文本与文件的 MD5 / SHA-1 / SHA-2 哈希",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K11",
+      "source_priority": "KEEP",
+      "related_source_ids": [
+        "CN-024",
+        "G02",
+        "G57"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G02",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "SHA-224 / RIPEMD160 与摘要 Base64 / Base64url / 二进制输出",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K11",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "CN-024",
+        "G01",
+        "G57"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G03",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "DEC / HEX / OCT / BIN 任意大非负整数互转",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K10",
+      "source_priority": "KEEP",
+      "related_source_ids": [
+        "CN-022",
+        "CN-023",
+        "G04"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G04",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "2–64 自定义整数进制",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K10",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-022",
+        "CN-023",
+        "G03"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G05",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "bcrypt 哈希与校验",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K22",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G06",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "RSA PEM 密钥对生成",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K12",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-025",
+        "CN-026",
+        "G53"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G07",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "AES 文本加密 / 解密",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K13",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-027"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G08",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "TOML ↔ JSON",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K23",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "G09"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G09",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "YAML ↔ TOML",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K23",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "G08"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G10",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "docker run → Compose 配置",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K23",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G11",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "IBAN 校验与结构解析",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K24",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G12",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "MAC 地址厂商查询",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K24",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G13",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "MAC 测试地址生成",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K24",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G14",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "RFC4193 IPv6 ULA 前缀生成",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K24",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G15",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "IPv4 地址区间展开",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K24",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G16",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "UUID NIL / v1 / v3 / v5 与命名空间",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K25",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G17",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "TOTP 注册密钥 / otpauth 导出二维码 / 相邻时间窗",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K25",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "G22"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G18",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "MIME 类型与扩展名检索",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K27",
+      "source_priority": "KEEP",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G19",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "chmod 数字/符号权限",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K27",
+      "source_priority": "KEEP",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G20",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "Cron @daily 等别名",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K26",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G21",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "任意二进制文件 ↔ Base64 下载",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K09",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-021",
+        "CN-047",
+        "G50"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G22",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "Wi-Fi 二维码结构表单",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K25",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "G17"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G23",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "国际电话号码解析与格式化",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K19",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-042"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G24",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "HTTP Basic Authorization 头构建",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K09",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G25",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "扫描 PDF → 可搜索文本层 PDF",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K28",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "G31",
+        "G32"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G26",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF → 可编辑文字/图片/形状 PPTX",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K29",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G40",
+        "G41"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G27",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "已知密码的 PDF 解密/移除保护",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K30",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G28",
+        "G29",
+        "G30"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G28",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 添加密码和权限",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K30",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G27",
+        "G29",
+        "G30"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G29",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "证书数字签名",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K30",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G27",
+        "G28",
+        "G30"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G30",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 数字签名验证",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K30",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G27",
+        "G28",
+        "G29"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G31",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF/A-2b 转换",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K31",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G25",
+        "G32"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G32",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF/A 与 PDF/UA 检查",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K31",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G25",
+        "G31"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G33",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "创建/编辑可填写 PDF 表单",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K32",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G34",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 书签目录编辑",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K32",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "B02",
+        "G42"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G35",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "每张多页 / 小册子拼版",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K32",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G36",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 线性化 / 快速网页查看",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K31",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G37",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 元数据移除",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K32",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G38",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "损坏 PDF 修复",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K31",
+      "source_priority": "P2",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G39",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF → SVG 矢量输出",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K29",
+      "source_priority": "P2",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G40",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "保留布局/图像的 PDF → Word",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K29",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G26",
+        "G41"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G41",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 表格 → 有类型单元格/日期 Excel",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K29",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G26",
+        "G40"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G42",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 合并",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K32",
+      "source_priority": "KEEP",
+      "related_source_ids": [
+        "B02",
+        "G34"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G43",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 按页/范围拆分",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K32",
+      "source_priority": "KEEP",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G44",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PDF 表单扁平化",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K32",
+      "source_priority": "KEEP",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G45",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "提取 PDF 嵌入图片",
+      "baseline_status": "existing",
+      "worktree_status": "existing_baseline",
+      "primary_group_id": "K32",
+      "source_priority": "KEEP",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G46",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "可配置存入时点/频率/年增长率的复利",
+      "baseline_status": "partial",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K33",
+      "source_priority": "P0",
+      "related_source_ids": [
+        "B05"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G47",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "按现金流求 IRR",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K33",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G48",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "总体/样本标准差及步骤",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K33",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G49",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "多操作配方 / 保存加载 / 逐步执行",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K34",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G55"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G50",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "原始字节 Base58 编码/解码",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K09",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-021",
+        "CN-047",
+        "G21"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G51",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "Gzip / Gunzip / Zlib 二进制压缩解压",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K35",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G52",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "输入字节的 Shannon 熵与频率分析",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K36",
+      "source_priority": "P1",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G53",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "PEM / DER X.509 证书解析",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K12",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-025",
+        "CN-026",
+        "G06"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G54",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "字节 XOR 变换",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K14",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-029"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G55",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "Magic 自动识别与有限深度解码建议",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K34",
+      "source_priority": "P2",
+      "related_source_ids": [
+        "G49"
+      ],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G56",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "JWT 签名验证",
+      "baseline_status": "missing",
+      "worktree_status": "remaining_gap",
+      "primary_group_id": "K37",
+      "source_priority": "P0",
+      "related_source_ids": [],
+      "delivery_ids": []
+    },
+    {
+      "source_id": "G57",
+      "source_report": "2026-11-20-global-tool-gaps.json",
+      "source_capability": "同行 SHA3 标签与 FIPS 202 SHA-3 / Keccak 的精确兼容性",
+      "baseline_status": "unknown",
+      "worktree_status": "needs_evidence",
+      "primary_group_id": "K11",
+      "source_priority": "P1",
+      "related_source_ids": [
+        "CN-024",
+        "G01",
+        "G02"
+      ],
+      "delivery_ids": []
+    }
+  ],
+  "benchmark_records": [
+    {
+      "ledger_id": "B01",
+      "slug": "image-compressor",
+      "source_report": "2026-11-20-shared-tool-benchmark.json",
+      "id_assignment_note": "B01–B06为本账本分配的交叉引用，不是原报告ID或新路由",
+      "baseline_dimension_judgment": "落后",
+      "judgment_scope": "格式/流程覆盖及自身文案兑现度；不代表压缩画质、压缩率或总体产品排名",
+      "primary_group_id": "K39",
+      "worktree_status": "coverage_gap_and_copy_review",
+      "latest_note": "15语诚实能力说明已通过本轮集成检查；底层AVIF/JXL、逐文件设置和同画质表现缺口未关闭。",
+      "delivery_ids": []
+    },
+    {
+      "ledger_id": "B02",
+      "slug": "merge-pdf",
+      "source_report": "2026-11-20-shared-tool-benchmark.json",
+      "id_assignment_note": "B01–B06为本账本分配的交叉引用，不是原报告ID或新路由",
+      "baseline_dimension_judgment": "相当",
+      "judgment_scope": "基本多文件排序合并能力；未证明复杂PDF兼容性相当",
+      "primary_group_id": "K32",
+      "worktree_status": "existing_base_complex_files_unknown",
+      "latest_note": "基础合并已实测，复杂书签/表单/签名/链接和大文件表现仍未知，不因简单两页样本就关复杂兼容性项。",
+      "delivery_ids": []
+    },
+    {
+      "ledger_id": "B03",
+      "slug": "json-formatter",
+      "source_report": "2026-11-20-shared-tool-benchmark.json",
+      "id_assignment_note": "B01–B06为本账本分配的交叉引用，不是原报告ID或新路由",
+      "baseline_dimension_judgment": "落后",
+      "judgment_scope": "该路由的可视化/导入导出覆盖及自身保真承诺；同行保真结果未知",
+      "primary_group_id": "K40",
+      "worktree_status": "scoped_verified_local",
+      "latest_note": "无损内核、15语说明/限额错误、空态/Clear与52项生产浏览器已验证；本页树/图/文件工作流未因此补齐。",
+      "delivery_ids": [
+        "DL-04"
+      ]
+    },
+    {
+      "ledger_id": "B04",
+      "slug": "word-counter",
+      "source_report": "2026-11-20-shared-tool-benchmark.json",
+      "id_assignment_note": "B01–B06为本账本分配的交叉引用，不是原报告ID或新路由",
+      "baseline_dimension_judgment": "相当",
+      "judgment_scope": "基础统计和写作概览能力；不同词法定义不能据此判断谁更准确",
+      "primary_group_id": "K08",
+      "worktree_status": "existing_base_semantics_review",
+      "latest_note": "基础统计已有；码点/字素/中文分词和可读性启发式须清楚说明，可选保存不应覆盖默认不保存行为。",
+      "delivery_ids": []
+    },
+    {
+      "ledger_id": "B05",
+      "slug": "compound-interest-calculator",
+      "source_report": "2026-11-20-shared-tool-benchmark.json",
+      "id_assignment_note": "B01–B06为本账本分配的交叉引用，不是原报告ID或新路由",
+      "baseline_dimension_judgment": "落后",
+      "judgment_scope": "可配置场景覆盖；本地已测基本算术正确，未证明同行总体更准",
+      "primary_group_id": "K33",
+      "worktree_status": "parameter_gaps_remaining",
+      "latest_note": "基本算术样本已核，投入时点/频率/增长率等G46差距仍在；货币标签不是汇率功能。",
+      "delivery_ids": []
+    },
+    {
+      "ledger_id": "B06",
+      "slug": "regex-tester",
+      "source_report": "2026-11-20-shared-tool-benchmark.json",
+      "id_assignment_note": "B01–B06为本账本分配的交叉引用，不是原报告ID或新路由",
+      "baseline_dimension_judgment": "落后",
+      "judgment_scope": "解释和多方言调试覆盖；本地已修复匹配基础正确性回归",
+      "primary_group_id": "K38",
+      "worktree_status": "regression_fixed_scope_gap_remaining",
+      "latest_note": "非g、Unicode零宽推进、500/501截断与预览回归已修；仍是JS引擎，未补PCRE/Python等方言或逐token解释。",
+      "delivery_ids": [
+        "DL-03"
+      ]
+    }
+  ],
+  "planning_groups": [
+    {
+      "id": "K01",
+      "name": "中国身份证规则与测试样本",
+      "source_ids": [
+        "CN-001",
+        "CN-002"
+      ],
+      "grouping_rule": "同一规则内核，校验与测试生成是两种工作流；当前只核省级前缀，不吞并完整区划项目。",
+      "remaining_priority": "REVIEW"
+    },
+    {
+      "id": "K02",
+      "name": "统一社会信用代码",
+      "source_ids": [
+        "CN-003",
+        "CN-004"
+      ],
+      "grouping_rule": "校验解析与测试生成复用校验位/字符集；企业登记真实性不在范围内。",
+      "remaining_priority": "P0-next"
+    },
+    {
+      "id": "K03",
+      "name": "人民币与中文数字",
+      "source_ids": [
+        "CN-005",
+        "CN-006"
+      ],
+      "grouping_rule": "前向金额大写与反向中文数字解析相关但不等价；先核规则与字符串金额内核。",
+      "remaining_priority": "P0-next"
+    },
+    {
+      "id": "K04",
+      "name": "中国历法与工作日",
+      "source_ids": [
+        "CN-007",
+        "CN-008",
+        "CN-009",
+        "CN-010",
+        "CN-011"
+      ],
+      "grouping_rule": "农历、节气、生日和法定调休是相邻能力；年度政策数据不能由农历算法代替。",
+      "remaining_priority": "P1-gated"
+    },
+    {
+      "id": "K05",
+      "name": "行政区划/邮编/区号",
+      "source_ids": [
+        "CN-012",
+        "CN-013"
+      ],
+      "grouping_rule": "不同代码体系共享版本化数据治理，不能一张省表冒充县级或历史全量数据。",
+      "remaining_priority": "P1-gated"
+    },
+    {
+      "id": "K06",
+      "name": "拼音与简繁地区词汇",
+      "source_ids": [
+        "CN-014",
+        "CN-015",
+        "CN-016"
+      ],
+      "grouping_rule": "可共用词典加载与转写框架，但多音字、简繁和台港词汇规则分别验收。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K07",
+      "name": "中文测试数据与占位文本",
+      "source_ids": [
+        "CN-017",
+        "CN-018"
+      ],
+      "grouping_rule": "中文Mock和假文可共享导出/语言设置，不把随机抽名当作姓名地址生成。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K08",
+      "name": "文本规则与字词统计",
+      "source_ids": [
+        "CN-044",
+        "CN-046",
+        "B04"
+      ],
+      "grouping_rule": "排版空格、全半角、词/码点统计是不同规则；已有能力保留，统计定义须明确。",
+      "remaining_priority": "P1/KEEP"
+    },
+    {
+      "id": "K09",
+      "name": "文本/原始字节编码",
+      "source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-021",
+        "CN-047",
+        "G21",
+        "G24",
+        "G50"
+      ],
+      "grouping_rule": "中文字符集、HEX、Base64文件和Base58复用字节内核；字符集与协议模板不是同一算法。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K10",
+      "name": "整数进制与浮点位表示",
+      "source_ids": [
+        "CN-022",
+        "CN-023",
+        "G03",
+        "G04"
+      ],
+      "grouping_rule": "2–36与2–64整数范围重合；小数、符号与IEEE754内存表示保持独立验收。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K11",
+      "name": "摘要算法与输出编码",
+      "source_ids": [
+        "CN-024",
+        "G01",
+        "G02",
+        "G57"
+      ],
+      "grouping_rule": "保留已有文件哈希；SM3、SHA224/RIPEMD及SHA3变体分别验证，G57只是G02兼容性子项。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K12",
+      "name": "公钥密码与证书解析",
+      "source_ids": [
+        "CN-025",
+        "CN-026",
+        "G06",
+        "G53"
+      ],
+      "grouping_rule": "共享字节/PEM/ASN.1基础，不把RSA、SM2、X.509解析互相视作等价。",
+      "remaining_priority": "P1/P2"
+    },
+    {
+      "id": "K13",
+      "name": "对称加密",
+      "source_ids": [
+        "CN-027",
+        "G07"
+      ],
+      "grouping_rule": "AES与SM4共享认证加密/IV等交互规则，算法和格式分别验收。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K14",
+      "name": "协议校验与字节XOR",
+      "source_ids": [
+        "CN-028",
+        "CN-029",
+        "G54"
+      ],
+      "grouping_rule": "BCC可能使用异或聚合，但CRC/LRC与通用XOR变换并非一项能力。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K15",
+      "name": "中国工资个税与社保",
+      "source_ids": [
+        "CN-030",
+        "CN-031",
+        "CN-032"
+      ],
+      "grouping_rule": "同一工资现金流场景，税、年终奖和社保须按地区/年度规则分别管理。",
+      "remaining_priority": "P2-policy-gate"
+    },
+    {
+      "id": "K16",
+      "name": "中国退休日期政策",
+      "source_ids": [
+        "CN-033"
+      ],
+      "grouping_rule": "法定退休日期不同于储蓄退休模型；依赖现行官方规则和类别边界。",
+      "remaining_priority": "P2-policy-gate"
+    },
+    {
+      "id": "K17",
+      "name": "中国增值税与交易税费",
+      "source_ids": [
+        "CN-034",
+        "CN-035",
+        "CN-036"
+      ],
+      "grouping_rule": "通用价税公式已在；中国口径、附加和住房交易税按有效期分别治理。",
+      "remaining_priority": "P2-policy-gate"
+    },
+    {
+      "id": "K18",
+      "name": "中国房贷情景",
+      "source_ids": [
+        "CN-037",
+        "CN-038",
+        "CN-039",
+        "CN-040"
+      ],
+      "grouping_rule": "等额本金/组合贷/一次性提前还款复用现有摊销内核，不重复创建基础本息公式。",
+      "remaining_priority": "P1-gated"
+    },
+    {
+      "id": "K19",
+      "name": "地区号段与国际号码解析",
+      "source_ids": [
+        "CN-041",
+        "CN-042",
+        "G23"
+      ],
+      "grouping_rule": "车牌地区、原始号段和国际号码格式不是同一查询；只是共享数据维护/隐私约束。",
+      "remaining_priority": "P2-data-gate"
+    },
+    {
+      "id": "K20",
+      "name": "优惠券与满减",
+      "source_ids": [
+        "CN-043"
+      ],
+      "grouping_rule": "扩展现有折扣计算器的规则组合，不把相乘折扣误作凑单。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K21",
+      "name": "中国盲文辅助",
+      "source_ids": [
+        "CN-045"
+      ],
+      "grouping_rule": "与拼音或普通Unicode样式不同，需要授权标准和目标用户专业验收。",
+      "remaining_priority": "P2-specialist-gate"
+    },
+    {
+      "id": "K22",
+      "name": "密码哈希",
+      "source_ids": [
+        "G05"
+      ],
+      "grouping_rule": "bcrypt成本/salt/校验语义独立于普通摘要。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K23",
+      "name": "配置格式转换",
+      "source_ids": [
+        "G08",
+        "G09",
+        "G10"
+      ],
+      "grouping_rule": "TOML双向转换共享解析器；docker命令解析是不同适配器，不直接执行输入命令。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K24",
+      "name": "网络/账户编码与地址",
+      "source_ids": [
+        "G11",
+        "G12",
+        "G13",
+        "G14",
+        "G15"
+      ],
+      "grouping_rule": "IBAN、OUI、MAC和IPv6/IPv4范围为独立能力，按字典与解析内核复用规划，不称为同一工具。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K25",
+      "name": "UUID/OTP/QR结构模板",
+      "source_ids": [
+        "G16",
+        "G17",
+        "G22"
+      ],
+      "grouping_rule": "复用既有UUID/TOTP/QR；注册URI与Wi-Fi载荷不同，不新造二维码算法。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K26",
+      "name": "Cron别名",
+      "source_ids": [
+        "G20"
+      ],
+      "grouping_rule": "现有cron解析扩展，保留当前5/6段语义与下一次执行时间。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K27",
+      "name": "MIME与chmod参考工具",
+      "source_ids": [
+        "G18",
+        "G19"
+      ],
+      "grouping_rule": "均已有基础能力；只做数据和边界回归，不新增同义路由。",
+      "remaining_priority": "KEEP"
+    },
+    {
+      "id": "K28",
+      "name": "可搜索PDF OCR",
+      "source_ids": [
+        "G25"
+      ],
+      "grouping_rule": "TXT OCR已在，写回可搜索文本层尚未完成；PDF/A是另一项合规能力。",
+      "remaining_priority": "P1-high-dependency"
+    },
+    {
+      "id": "K29",
+      "name": "PDF与Office/矢量重建",
+      "source_ids": [
+        "G26",
+        "G39",
+        "G40",
+        "G41"
+      ],
+      "grouping_rule": "共享PDF抽取/布局基础但各目标格式不同；PPT整页图像不等于可编辑元素。",
+      "remaining_priority": "P2-engine-gate"
+    },
+    {
+      "id": "K30",
+      "name": "PDF密码与证书签名",
+      "source_ids": [
+        "G27",
+        "G28",
+        "G29",
+        "G30"
+      ],
+      "grouping_rule": "密码读写、可视签名、数字签名、验签分别验收；现有unlock不解密。",
+      "remaining_priority": "P2-engine-gate"
+    },
+    {
+      "id": "K31",
+      "name": "PDF归档/结构质量",
+      "source_ids": [
+        "G31",
+        "G32",
+        "G36",
+        "G38"
+      ],
+      "grouping_rule": "PDF/A/UA、线性化和修复需要专业引擎；保存成功或改元数据不算合规。",
+      "remaining_priority": "P2-engine-gate"
+    },
+    {
+      "id": "K32",
+      "name": "PDF组织与表单元数据",
+      "source_ids": [
+        "G33",
+        "G34",
+        "G35",
+        "G37",
+        "G42",
+        "G43",
+        "G44",
+        "G45",
+        "B02"
+      ],
+      "grouping_rule": "合并/拆分/扁平化/提图已有；表单创建、书签、拼版、独立元数据清理是增量。",
+      "remaining_priority": "P1/KEEP"
+    },
+    {
+      "id": "K33",
+      "name": "金融现金流与统计",
+      "source_ids": [
+        "G46",
+        "G47",
+        "G48",
+        "B05"
+      ],
+      "grouping_rule": "G46与B05是同一复利参数差距的不同同行证据；IRR与标准差是另两个内核。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K34",
+      "name": "转换配方与识别建议",
+      "source_ids": [
+        "G49",
+        "G55"
+      ],
+      "grouping_rule": "工作流编排与Magic识别不是简单增加路由；先具备有预算的纯转换内核。",
+      "remaining_priority": "P2"
+    },
+    {
+      "id": "K35",
+      "name": "二进制压缩/解压",
+      "source_ids": [
+        "G51"
+      ],
+      "grouping_rule": "Gzip/Zlib是文件能力；内部JSZip打包不代表已提供压缩工具。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K36",
+      "name": "字节统计熵",
+      "source_ids": [
+        "G52"
+      ],
+      "grouping_rule": "数据Shannon熵不同于密码评分或生成token的理论熵。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K37",
+      "name": "JWT验签",
+      "source_ids": [
+        "G56"
+      ],
+      "grouping_rule": "在已有JWT解码器中增加明确验签模式，不能用解码结果当信任结论。",
+      "remaining_priority": "P1-security-gate"
+    },
+    {
+      "id": "K38",
+      "name": "正则基础与调试",
+      "source_ids": [
+        "B06"
+      ],
+      "grouping_rule": "本轮修复基础匹配回归；多方言/逐token解释仍是不同能力。",
+      "remaining_priority": "REVIEW/P1"
+    },
+    {
+      "id": "K39",
+      "name": "图片压缩流程与诚实性",
+      "source_ids": [
+        "B01"
+      ],
+      "grouping_rule": "格式范围、每文件设置、画质/速度证据分别验收；文案修正不是新增编解码器。",
+      "remaining_priority": "P1"
+    },
+    {
+      "id": "K40",
+      "name": "JSON词法保真与页面工作流",
+      "source_ids": [
+        "B03"
+      ],
+      "grouping_rule": "本轮无损内核修复来自同题benchmark；树浏览另有既有路由，当前页文件工作流仍未补。",
+      "remaining_priority": "P0-close"
+    }
+  ],
+  "overlap_relations": [
+    {
+      "id": "O01",
+      "source_ids": [
+        "CN-001",
+        "CN-002"
+      ],
+      "relationship": "shared_core_distinct_workflows",
+      "note": "身份证校验和规则样本生成共享内核，已新增两个清晰分工的路由；不是同一入口重复计数。"
+    },
+    {
+      "id": "O02",
+      "source_ids": [
+        "CN-001",
+        "CN-002",
+        "CN-012"
+      ],
+      "relationship": "data_dependency_not_completion",
+      "note": "身份证仅验证六位形状/省级前缀；完整现行/历史县级区划仍由CN-012承担，不能因两页新增就关单。"
+    },
+    {
+      "id": "O03",
+      "source_ids": [
+        "CN-003",
+        "CN-004",
+        "CN-017"
+      ],
+      "relationship": "shared_schema_export",
+      "note": "信用代码校验/生成和中文Mock可共享字段/导出框架，但单独逐项验收。"
+    },
+    {
+      "id": "O04",
+      "source_ids": [
+        "CN-005",
+        "CN-006"
+      ],
+      "relationship": "forward_reverse_related",
+      "note": "人民币前向大写与一般中文数字反向解析范围不同，不可把一个简单转换器宣称为双向全覆盖。"
+    },
+    {
+      "id": "O05",
+      "source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-021",
+        "CN-047",
+        "G21",
+        "G50"
+      ],
+      "relationship": "partial_overlap_byte_core",
+      "note": "UTF-8基础已有；旧字符集、原始HEX、任意文件Base64与Base58复用字节层但各有缺口。"
+    },
+    {
+      "id": "O06",
+      "source_ids": [
+        "CN-022",
+        "CN-023",
+        "G03",
+        "G04"
+      ],
+      "relationship": "overlapping_integer_subset",
+      "note": "CN-022的整数2–36部分与G04的2–64重合；小数与IEEE754属于额外语义。G03基础四进制已存在。"
+    },
+    {
+      "id": "O07",
+      "source_ids": [
+        "CN-024",
+        "G01",
+        "G02",
+        "G57"
+      ],
+      "relationship": "same_engine_distinct_algorithms",
+      "note": "哈希输出共享引擎；SM3与SHA224/RIPEMD不是同算法。G57仅G02中的SHA3/Keccak兼容性待核实子项。"
+    },
+    {
+      "id": "O08",
+      "source_ids": [
+        "CN-025",
+        "CN-026",
+        "G06",
+        "G53"
+      ],
+      "relationship": "shared_key_formats_not_equivalent",
+      "note": "RSA和SM2不能互相关单；X.509解析也不等于密钥生成、加解密或签名验证。"
+    },
+    {
+      "id": "O09",
+      "source_ids": [
+        "CN-027",
+        "G07"
+      ],
+      "relationship": "parallel_algorithms",
+      "note": "SM4与AES共享认证加密交互和参数治理，但不能将其中之一当作另一项已实现。"
+    },
+    {
+      "id": "O10",
+      "source_ids": [
+        "CN-029",
+        "G54"
+      ],
+      "relationship": "primitive_subset",
+      "note": "BCC异或聚合可能复用XOR原语，通用XOR变换不自动实现LRC/BCC报文校验与字节序。"
+    },
+    {
+      "id": "O11",
+      "source_ids": [
+        "CN-042",
+        "G23"
+      ],
+      "relationship": "related_dataset_not_same_capability",
+      "note": "原始号段归属地与国际号码格式解析相互独立；携号转网后不能声称原始号段代表现运营商。"
+    },
+    {
+      "id": "O12",
+      "source_ids": [
+        "G08",
+        "G09"
+      ],
+      "relationship": "shared_parser_adapter",
+      "note": "TOML↔JSON与TOML↔YAML复用TOML解析器，不需要两套独立TOML内核。"
+    },
+    {
+      "id": "O13",
+      "source_ids": [
+        "G17",
+        "G22"
+      ],
+      "relationship": "reuse_existing_qr",
+      "note": "TOTP注册QR与Wi-Fi QR只是不同结构载荷；已有qr-generator应复用。"
+    },
+    {
+      "id": "O14",
+      "source_ids": [
+        "G25",
+        "G31",
+        "G32"
+      ],
+      "relationship": "output_vs_conformance",
+      "note": "可搜索文本层并不代表PDF/A或PDF/UA合规，OCR完成不能关闭归档/无障碍标准项。"
+    },
+    {
+      "id": "O15",
+      "source_ids": [
+        "G26",
+        "G40",
+        "G41"
+      ],
+      "relationship": "shared_extraction_distinct_outputs",
+      "note": "PDF→PPT/Word/Excel共享抽取和布局难点，但图像PPT、重排DOCX、文本XLSX不等于对象级重建。"
+    },
+    {
+      "id": "O16",
+      "source_ids": [
+        "G27",
+        "G28",
+        "G29",
+        "G30"
+      ],
+      "relationship": "same_family_distinct_security_operations",
+      "note": "密码加解密与证书签名/验签分开；可视签名不等于数字签名。"
+    },
+    {
+      "id": "O17",
+      "source_ids": [
+        "G34",
+        "G42",
+        "B02"
+      ],
+      "relationship": "existing_base_plus_unverified_complexity",
+      "note": "G42与B02重复确认基础合并；书签编辑和合并后书签保留是不同问题，复杂PDF兼容性仍未知。"
+    },
+    {
+      "id": "O18",
+      "source_ids": [
+        "G46",
+        "B05"
+      ],
+      "relationship": "same_gap_independent_peer_sources",
+      "note": "都是既有复利计算器缺少投入时点/频率等参数的证据，不产生第二个复利工具需求。"
+    },
+    {
+      "id": "O19",
+      "source_ids": [
+        "G49",
+        "G55"
+      ],
+      "relationship": "shared_foundation_distinct_workflows",
+      "note": "配方编排与自动识别建议分别规划；工具数量增加不自动构成工作流能力。"
+    }
+  ],
+  "next_queue": [
+    {
+      "id": "N01",
+      "priority": "P0-close",
+      "groups": [
+        "K01",
+        "K38",
+        "K40"
+      ],
+      "source_ids": [
+        "CN-001",
+        "CN-002",
+        "B03",
+        "B06"
+      ],
+      "proposal": "本轮限定功能集成收尾已完成，见2026-11-20-verification.md；后续继续回归，不把专业功能差距或部署标完成。",
+      "rationale": "避免把已修内核留在旧页面承诺下；已有明确失败与专项验收证据，优先级高于添加更多路由。",
+      "gates": [
+        "主任务全量测试/构建",
+        "15语页面可见状态与移动/键盘抽查",
+        "无截断/无身份真实性误导",
+        "未通过前不标发布"
+      ],
+      "status": "completed_scoped_local"
+    },
+    {
+      "id": "N02",
+      "priority": "P0-next",
+      "groups": [
+        "K02"
+      ],
+      "source_ids": [
+        "CN-003",
+        "CN-004"
+      ],
+      "proposal": "下一批先做统一社会信用代码校验/分段；规则核实后再复用生成测试样本。",
+      "rationale": "中国场景明确、规则边界可验证，可复用现有批量/遮盖/导出/错误组件。不是基于搜索量排序。",
+      "gates": [
+        "确认现行官方标准及登记部门/机构类别字典有效性",
+        "字符/长度/MOD31/校验位独立向量",
+        "不查企业存在/在营/信用",
+        "生成只作测试且可能碰撞"
+      ]
+    },
+    {
+      "id": "N03",
+      "priority": "P0-next",
+      "groups": [
+        "K03"
+      ],
+      "source_ids": [
+        "CN-005",
+        "CN-006"
+      ],
+      "proposal": "人民币金额大写先完成前向金额转换；反向中文数字放在同内核后续模式。",
+      "rationale": "纯字符串/整数逻辑可离线，输入输出容易构造独立验收；前提是规则原文可核实。",
+      "gates": [
+        "人民银行等正式支付结算/票据规则原文待补验",
+        "金额以字符串/整数分处理，避免浮点金额误差",
+        "零/角分/整正/负数/舍入/上限显式定义",
+        "不是复制同行输出当规范"
+      ]
+    },
+    {
+      "id": "N04",
+      "priority": "P1",
+      "groups": [
+        "K09",
+        "K10"
+      ],
+      "source_ids": [
+        "CN-019",
+        "CN-020",
+        "CN-021",
+        "CN-022",
+        "CN-023",
+        "G04",
+        "G21",
+        "G50"
+      ],
+      "proposal": "先统一字节文件Base64/HEX与整数进制扩展；旧字符集、小数和IEEE754分阶段。",
+      "rationale": "多份目录重合、复用现有工具而非新建同义引擎，依赖面可控。",
+      "gates": [
+        "整数base64与文件Base64不混淆",
+        "文件字节往返/前导零/非法字符",
+        "明确编码与大小限额",
+        "GB18030等编码版本与库授权核实"
+      ]
+    },
+    {
+      "id": "N05",
+      "priority": "P1",
+      "groups": [
+        "K06",
+        "K07"
+      ],
+      "source_ids": [
+        "CN-014",
+        "CN-015",
+        "CN-016",
+        "CN-017",
+        "CN-018"
+      ],
+      "proposal": "拼音/首字母和简繁地区转换依数据授权安排，再补中文假文/Mock。",
+      "rationale": "中国用户可理解的能力差异；可共用懒加载字典/导出，但多音字不能假装唯一正确。",
+      "gates": [
+        "数据/库许可及更新机制",
+        "多音字人工修正",
+        "地区词汇范围与不可逆说明",
+        "中文/表情/生僻字测试"
+      ]
+    },
+    {
+      "id": "N06",
+      "priority": "P1-gated",
+      "groups": [
+        "K04",
+        "K05"
+      ],
+      "source_ids": [
+        "CN-007",
+        "CN-008",
+        "CN-009",
+        "CN-010",
+        "CN-011",
+        "CN-012",
+        "CN-013"
+      ],
+      "proposal": "先做版本化中国调休工作日和区划基础；农历、生日与拼假按算法/数据覆盖另验。",
+      "rationale": "会解锁多场景；但每年政策和历史区划维护成本高于纯转换，不能把年度数据硬编码成永久最新。",
+      "gates": [
+        "官方年度通知/历史有效期",
+        "周末补班覆盖",
+        "时区/闰月策略",
+        "未知地区不判伪造"
+      ]
+    },
+    {
+      "id": "N07",
+      "priority": "P1",
+      "groups": [
+        "K11",
+        "K14",
+        "K33"
+      ],
+      "source_ids": [
+        "CN-024",
+        "CN-028",
+        "CN-029",
+        "G02",
+        "G46",
+        "G48"
+      ],
+      "proposal": "在字节层后补SM3/CRC等可验证核心、复利现金流选项和标准差；不同时展开全部密码体系。",
+      "rationale": "可用标准向量/独立公式验证；复利和统计应复用现有图表/表格。",
+      "gates": [
+        "SHA3/Keccak名称先核实",
+        "CRC多项式/初值/反射/异或/端序明确",
+        "复利时点闭式公式对照",
+        "样本/总体与数值稳定性"
+      ]
+    },
+    {
+      "id": "N08",
+      "priority": "P2-dependency",
+      "groups": [
+        "K12",
+        "K13",
+        "K15",
+        "K16",
+        "K17",
+        "K19",
+        "K21",
+        "K28",
+        "K29",
+        "K30",
+        "K31",
+        "K34"
+      ],
+      "source_ids": [
+        "CN-025",
+        "CN-026",
+        "CN-027",
+        "CN-030",
+        "CN-031",
+        "CN-032",
+        "CN-033",
+        "CN-034",
+        "CN-035",
+        "CN-036",
+        "CN-041",
+        "CN-042",
+        "CN-045",
+        "G25",
+        "G26",
+        "G27",
+        "G28",
+        "G29",
+        "G30",
+        "G31",
+        "G32",
+        "G38",
+        "G39",
+        "G40",
+        "G41",
+        "G49",
+        "G55"
+      ],
+      "proposal": "政策/授权/专业引擎密集能力保持依赖门槛，不与下一批低依赖转换器并行铺开。",
+      "rationale": "原报告P0代表场景相关，不等于忽略发布依赖；维护与错误代价决定分阶段。",
+      "gates": [
+        "政策/标准/数据授权可核实",
+        "大型引擎成本/隐私/懒加载方案",
+        "专业语料与独立验收",
+        "不可实现时维持诚实未支持"
+      ]
+    }
+  ],
+  "non_peer_design_references": [
+    {
+      "id": "D01",
+      "name": "GOV.UK File upload",
+      "url": "https://design-system.service.gov.uk/components/file-upload/",
+      "evidence_level": "official_reference_read",
+      "observed": "读取原生选择/拖放、明确类型/大小/数量/空文件/加密等错误、关联提示与改进组件的可翻译状态说明。",
+      "proposed_adaptation": "把本地选择/处理与实际上传分清；在输入附近告知支持类型/限额，逐文件显示成功/失败与重试入口，保留键盘可操作控件。",
+      "scope_boundary": "参考交互语义，不照搬政府站视觉；本地处理不应错误标成上传。只读官方说明，未对其组件作读屏实测。",
+      "accessed_on": "2026-11-20"
+    },
+    {
+      "id": "D02",
+      "name": "GOV.UK Error summary",
+      "url": "https://design-system.service.gov.uk/components/error-summary/",
+      "evidence_level": "official_reference_read",
+      "observed": "官方要求校验错误同时出现在顶部摘要和字段旁，摘要取得焦点、链接到错误字段，摘要与字段错误文字保持一致。",
+      "proposed_adaptation": "身份证等多字段工具用一个可聚焦摘要串联内联错误；修正后保持输入，避免只用颜色或顶部笼统失败。",
+      "scope_boundary": "本账本仅给可复用验收标准，不据此认定全站已符合GOV.UK或WCAG AA。",
+      "accessed_on": "2026-11-20"
+    },
+    {
+      "id": "D03",
+      "name": "Stripe Checkout quickstart",
+      "url": "https://docs.stripe.com/checkout/quickstart",
+      "evidence_level": "official_reference_read",
+      "observed": "官方例子把预览/触发、客户端与服务端职责、成功返回和成功/认证/拒绝测试场景组织成可运行流程。",
+      "proposed_adaptation": "借鉴一条主任务路线和明确可验证样例：输入/设置→处理→检查→复制或下载→失败恢复；高级选项按需要展示。",
+      "scope_boundary": "不是给工具站接支付，不复制支付或转化营销词，也不声称其页面结构必然提升Zoyku转化。",
+      "accessed_on": "2026-11-20"
+    },
+    {
+      "id": "D04",
+      "name": "Apple Human Interface Guidelines — Materials",
+      "url": "https://developer.apple.com/design/human-interface-guidelines/materials",
+      "data_url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/materials.json",
+      "evidence_level": "official_docc_content_read",
+      "observed": "普通HTML不可简化；成功读取Apple官方DocC内容，确认材质用于区分层级，Liquid Glass宜克制用于控制/导航，需优先可读性并考虑系统透明度/对比度设置。",
+      "proposed_adaptation": "把内容与操作层级做清楚；工作区保持稳定清晰底色，材质仅用于有语义的浮层/导航；透明效果不能压过文本与错误状态。",
+      "scope_boundary": "这是跨平台原则借鉴，不声称网页已经像素还原Apple、等同原生系统材质或完成辅助功能验收。",
+      "accessed_on": "2026-11-20"
+    },
+    {
+      "id": "D05",
+      "name": "Squoosh",
+      "url": "https://squoosh.app/",
+      "evidence_level": "official_page_read_http_200",
+      "http_status": 200,
+      "observed": "已读官方“打开图像、检查差异、调整、保存”的流程与本地处理说明；本次HEAD为HTTP/2 200。主任务另曾记录浏览器200，此状态码不是压缩正确性证明。",
+      "proposed_adaptation": "图片工作流突出原图/结果可检查、实际输出格式、尺寸/字节与保存；同画质比较需新样本测量，不能从PNG转JPEG单例推演压缩优势。",
+      "scope_boundary": "未在Squoosh提交本地样本、审计网络或比较速度/画质；其本地处理为官方说明，不借此证明整站第三方资源行为。",
+      "accessed_on": "2026-11-20"
+    },
+    {
+      "id": "D06",
+      "name": "Google Search — Spam policies",
+      "url": "https://developers.google.com/search/docs/essentials/spam-policies",
+      "accessed_on": "2026-11-20",
+      "evidence_level": "unavailable_pending_verification",
+      "observed": "本轮web.open未返回可读正文；mcp fetch报告robots连接错误，fetchWebContent 20秒超时，curl 15秒连接超时。未取得政策正文，不计为已核官方来源。",
+      "proposed_adaptation": "官方具体条款待取得可读正文后再引用。现阶段仅采用项目自身判断：每页应有可完成的独立任务、可检查输出、真实边界与维护责任；页数和多语URL数量不能单独算SEO成果。",
+      "scope_boundary": "不对本站作违规或合规判定，不把记忆/搜索摘要/空工具返回当本轮证据；SEO经营结果仍需真实后台数据。"
+    },
+    {
+      "id": "D07",
+      "name": "Tailwind CSS — Dark mode",
+      "url": "https://tailwindcss.com/docs/dark-mode",
+      "accessed_on": "2026-11-20",
+      "evidence_level": "official_reference_read",
+      "observed": "独立读取官方Dark mode正文，手动主题用自定义dark variant驱动.dark选择器；该方式与本轮globals.css差异相符。主任务另以Context7核对并报告主题浏览器5/5。",
+      "proposed_adaptation": "让显式主题切换与dark工具类使用同一状态源，并用真实浏览器核对系统深/浅与手动切换组合。",
+      "scope_boundary": "本账本未修改CSS；这只证明特定修复与官方用法一致，不证明所有页面配色或无障碍完整性。"
+    }
+  ],
+  "critical_assessment": [
+    {
+      "viewpoint": "用户",
+      "facts": [
+        "当前207是注册工具定义数；身份证两页默认遮盖、限额和真实性边界有源码及专项证据。",
+        "基线同题样本暴露JSON值丢失、正则循环/截断和图片文案超出实现；修复与诚实性说明比页面数量更直接影响任务可靠性。",
+        "PDF OCR现为TXT、PPT为整页图像、unlock不解密；同名入口存在仍可能无法完成用户期望。"
+      ],
+      "judgments": [
+        "优先让一项任务可完成、可检查、可恢复，再扩宽选项；不能用更多说明文字代替缺失输出。",
+        "面向中国用户的优势需要正确规则、可核实数据和适当语言，不只是把美元换成人民币符号。"
+      ],
+      "next_evidence": [
+        "用代表用户任务观察首次完成、误解限额/输出格式、错误后恢复与键盘操作。",
+        "确认15语关键状态可理解；移动端真实文件/长文本/窄屏场景另验。"
+      ]
+    },
+    {
+      "viewpoint": "同行产品",
+      "facts": [
+        "全球57与国内47是选定能力条目，6工具benchmark中的同行只读官方说明；没有共同输入的双方完整产物/性能对照。",
+        "多个差距是现有引擎选项：Base64字节模式、Wi-Fi载荷、UUID版本、复利现金流和Cron别名；文件哈希与四进制并不缺。",
+        "PDF专业格式/Office重建和维护型词典/政策数据是真实依赖壁垒，不能靠新增SEO路由抹平。",
+        "Google政策正文在本轮连接/超时失败后仍未读到；保留官方入口待核，不作本站违规或合规结论。"
+      ],
+      "judgments": [
+        "适合形成可复用的浏览器转换与中国规则内核；没有证据支持“全面最强”或功能数量排名。",
+        "借鉴GOV.UK的错误恢复、Stripe的可运行主流程、Apple的层级克制、Squoosh的可检查结果，比复制竞品外观更能形成统一产品规则。",
+        "SEO页面扩展应服务独立用户任务；同一选项换标题、多语URL铺量或复述官方说明都不能单独算产品/SEO成果。"
+      ],
+      "next_evidence": [
+        "建立固定语料与输出语义的双方同样本对照，按质量/速度/内存/隐私行为分别记录。",
+        "对每个规划组记录支持/不支持、数据日期、依赖和许可证；不只列目录。"
+      ]
+    },
+    {
+      "viewpoint": "投资人/经营者",
+      "facts": [
+        "本次没有真实Search Console曝光/点击/收录数据、实际访问/留存/任务完成率、广告或付费收入、获客成本与维护成本数据。",
+        "没有线上真实用户CWV分布或可与竞品比较的统一设备性能数据；一次浏览器200、Lighthouse或专项测试都不能替代这些数据。",
+        "207工具、15语言、测试通过、可索引HTML/规范URL是产品/工程事实，不能推出排名、搜索需求、收入或回本周期。"
+      ],
+      "judgments": [
+        "可肯定的是工程可验证性、边界诚实性和内核复用正在改善；商业回报仍是待验证假设。",
+        "当前不能形成收益/估值/回本结论；应先以小批能力验证用户任务与获取渠道，再按真实数据调整投入。"
+      ],
+      "next_evidence": [
+        "按工具/语言聚合任务开始/成功/错误/导出与回访，避免收集用户输入、身份证号或敏感内容。",
+        "获取Search Console、访问/渠道/留存、收入和成本口径及观察窗口；同时收集真实用户CWV。",
+        "比较维护工时、CDN/模型/服务端费用和支持成本；浏览器内处理不意味着零运营成本。"
+      ]
+    }
+  ],
+  "verification": {
+    "command": "npx vitest run tests/chinese-id.test.ts tests/chinese-id-ui.test.ts tests/regex.test.ts tests/regex-ui.test.tsx tests/json-lossless.test.ts",
+    "result": {
+      "test_files_passed": 5,
+      "tests_passed": 192,
+      "tests_failed": 0,
+      "duration_seconds": 2.84
+    },
+    "scope": "本次账本整理时重新运行的专项；不是全仓测试/构建/最终UI验收",
+    "previous_benchmark": "六工具基线/局部修复观察有9项本地浏览器检查通过，包含已知JSON数据变化的复现；通过不代表该JSON结果正确或全部缺口关闭。",
+    "final_full_suite_owner": "root task",
+    "production_code_changes_in_ledger_task": false,
+    "parent_reported_theme_browser": {
+      "source": "root production browser report plus independent agent rerun",
+      "checks_passed": 9,
+      "checks_failed": 0,
+      "not_added_to_own_192_tests": true,
+      "scope": "四种OS/手动主题、持久化和样本文字/按钮对比度；不推断全站AA"
+    },
+    "integration_verification_file": "docs/research/2026-11-20-verification.md",
+    "final_integration": {
+      "unit_test_files": 64,
+      "unit_tests_passed": 1666,
+      "unit_tests_failed": 0,
+      "typescript_exit": 0,
+      "lint_errors": 0,
+      "lint_warnings": 55,
+      "lint_diagnostics_unchanged_from_baseline": true,
+      "build_paths": 9667,
+      "seo_static_checked": 3240,
+      "seo_static_failures": 0,
+      "seo_http_checked": 24,
+      "seo_http_failures": 0,
+      "production_browser_suites": {
+        "home": 26,
+        "theme": 9,
+        "tool": 12,
+        "regex": 4,
+        "chinese_id": 44,
+        "json": 52
+      },
+      "browser_failed": 0,
+      "pushed": false,
+      "deployed": false,
+      "accessibility_incomplete_remains": true
+    }
+  },
+  "release_gates": [
+    "UI未进行像素级还原确认，不能标封版。",
+    "没有全站AA审计结论；自动扫描/单点键盘检查不能替代读屏、焦点、缩放、对比度、动效、移动/RTL等系统验收。",
+    "未有同样本同行全面交互/性能/画质比较，不能给总体排名。",
+    "未有真实流量/收入/成本/CWV数据，不能给收益、估值或回本结论。",
+    "本轮全量/本地生产构建已验证；未推送、未部署，不得把本地通过写成已上线。",
+    "Google政策正文待核；页数/多语URL数量不替代用户价值或SEO经营证据，这是项目判断而非本轮已核政策归因。"
+  ],
+  "seo_quality_gate": {
+    "source_ids": [
+      "D06"
+    ],
+    "status": "official_policy_pending_verification_outcomes_unknown",
+    "rule": "Google具体政策正文待核；当前“页数不是SEO成果”为本项目的经营/质量判断，不冒充已读取Google具体条款。先检查任务独特性、真实输出、限额与失败恢复、来源/维护和语言可用性，再用真实搜索/任务数据评估。",
+    "not_claimed": [
+      "Google排名提升",
+      "实际收录/点击增长",
+      "搜索量或竞争度",
+      "当前站点被政策判罚",
+      "广告收入或回本周期"
+    ]
+  }
+}

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --color-bg: #ffffff;
@@ -8,6 +9,9 @@
   --color-surface: #f5f5f7;
   --color-accent: #5750e6;
   --color-accent-strong: #443acb;
+  --color-accent-text: #443acb;
+  --color-action-bg: #5750e6;
+  --color-action-hover: #443acb;
   --color-good: #1a7f37;
   --color-bad: #b25000;
   --color-hairline: rgba(0, 0, 0, 0.08);
@@ -27,6 +31,9 @@
   --color-surface: #1d1d1f;
   --color-accent: #2997ff;
   --color-accent-strong: #0071e3;
+  --color-accent-text: #2997ff;
+  --color-action-bg: #0066cc;
+  --color-action-hover: #0054a8;
   --color-good: #30d158;
   --color-bad: #ff453a;
   --color-hairline: rgba(255, 255, 255, 0.12);
@@ -213,12 +220,12 @@ details.faq {
 
 /* Apple 经典纯黑/白底主按钮 (Apple Primary Button) */
 .apple-btn-primary {
-  background: var(--color-accent);
+  background: var(--color-action-bg);
   color: #ffffff;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .apple-btn-primary:hover {
-  background: var(--color-accent-strong);
+  background: var(--color-action-hover);
 }
 
 /* Apple 链接风格 (Apple Blue Link with Chevron) */
@@ -424,6 +431,9 @@ a:active {
 
 details.faq .faq-a {
   animation: faq-in 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  details.faq .faq-a { animation: none; }
 }
 @keyframes faq-in {
   from {

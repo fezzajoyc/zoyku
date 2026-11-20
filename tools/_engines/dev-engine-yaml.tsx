@@ -60,7 +60,7 @@ export function DevEngineYaml({ mode }: { mode: Mode }) {
           type="button"
           onClick={convert}
           disabled={busy || !input.trim()}
-          className="rounded-full bg-[var(--color-accent)] px-5 py-2 text-[14px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="rounded-full bg-[var(--color-action-bg)] px-5 py-2 text-[14px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           {mode === "json2yaml" ? "JSON → YAML" : "YAML → JSON"}
         </button>

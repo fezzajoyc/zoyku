@@ -125,7 +125,7 @@ export function CalcEngineCountdown() {
           type="button"
           onClick={() => { if (!running) setDone(false); setRunning((r) => !r); }}
           disabled={total <= 0 && !running}
-          className="rounded-full bg-[var(--color-accent)] px-6 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="rounded-full bg-[var(--color-action-bg)] px-6 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           {running
             ? pick(locale, { en: "Pause", zh: "暂停", ja: "一時停止", es: "Pausar", pt: "Pausar", fr: "Pause", de: "Pause", ru: "Пауза", it: "Pausa", tr: "Duraklat", ko: "일시정지", ar: "إيقاف مؤقت", hi: "रोकें", id: "Jeda", vi: "Tạm dừng" })

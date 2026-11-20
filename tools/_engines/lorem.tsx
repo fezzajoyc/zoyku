@@ -35,7 +35,7 @@ export function LoremGenerator() {
         <button
           type="button"
           onClick={() => setOutput(loremParagraphs(count))}
-          className="rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[var(--color-accent-strong)]"
+          className="rounded-full bg-[var(--color-action-bg)] px-4 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[var(--color-action-hover)]"
         >
           {t.common.reset}
         </button>

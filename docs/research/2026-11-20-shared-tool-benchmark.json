@@ -1,0 +1,497 @@
+{
+  "schemaVersion": 1,
+  "researchDate": "2026-11-20",
+  "timezone": "Asia/Shanghai",
+  "checkedAtUTC": "2026-11-20T14:15:16Z",
+  "baselineCommit": "dccdbfd",
+  "branch": "codex/tool-parity-cn",
+  "workingTreeStatus": "在基线工作树检查，regex局部修复尚未提交；其他代理并行变更不属于本报告实现范围",
+  "scope": "六个已有工具的能力/契约抽样比较；六页均有本地浏览器真实输入。同行只读取官方页面，没有交互输入，也没有上传文件。",
+  "ratingDefinitions": {
+    "优势": "列明维度有直接结构/流程证据优于选定同行；不是总体排名",
+    "相当": "列明基础能力双方均存在；不等于输出质量和性能相同",
+    "落后": "列明能力覆盖或自身契约有可证明缺口；不代表同行所有维度都更好",
+    "未知": "缺乏同样本实测/资料，不作推断"
+  },
+  "limitations": [
+    "不能据六工具或单个样本声称Zoyku全面优于同行。",
+    "没有共同输入的双方产物或性能、画质、准确率、可访问性打分；同行功能说明不等于功能正确性证明。",
+    "本文“相当”只按明确列出的基础能力维度理解；“优势”仅限具体免上传流程，不推断第三方恶意或隐私违规。",
+    "外部官方资料使用直连fetch读取，日期为读取日期，不是页面发布日期；没有将搜索摘要或未返回的搜索结果作证据。",
+    "初次图片下载脚本误找Download按钮而超时，核对DOM后改用实际Save按钮，完整9项重跑通过；未将测试选择器问题写成产品故障。",
+    "本次仅修改regex相关文件和本报告，image/JSON缺口只记录；不纳入其他代理的功能修复。"
+  ],
+  "peerSources": [
+    {
+      "id": "P1",
+      "name": "TinyPNG 官方首页",
+      "url": "https://tinypng.com/",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "页面说明智能有损压缩，标题列 AVIF、JPEG XL、WebP、PNG、JPEG；免费 Web 上传每批最多20张、单张最多5MB。仅核查说明，不复述其效果承诺为实测结论。"
+    },
+    {
+      "id": "P2",
+      "name": "iLovePDF 官方合并页",
+      "url": "https://www.ilovepdf.com/merge_pdf",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "页面提供选择/上传PDF、拖拽排序和合并流程，并显示上传进度相关界面文本。"
+    },
+    {
+      "id": "P3",
+      "name": "JSONFormatter 官方首页",
+      "url": "https://jsonformatter.org/",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "页面列格式化、校验、树/图视图、文件导入导出和本地存储；明确介绍其使用解析后序列化。没有实测其数字保真或重复键策略。"
+    },
+    {
+      "id": "P4",
+      "name": "WordCounter 官方首页",
+      "url": "https://wordcounter.net/",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "页面列实时字词/字符计数、关键词密度、阅读/演讲时间、阅读级别和自动保存；本次未启用其语法/查重功能或输入样本。"
+    },
+    {
+      "id": "P5",
+      "name": "Calculator.net 利息计算器官方页",
+      "url": "https://www.calculator.net/interest-calculator.html",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "表单和说明列初始投资、年度/月度投入、期初/期末投入、年/月期限、税和通胀、结果构成与累计表。只用于参数覆盖比较，不采纳网页中的投资收益或税务例子。"
+    },
+    {
+      "id": "P6",
+      "name": "Calculator.net 复利频率换算官方页",
+      "url": "https://www.calculator.net/compound-interest-calculator.html",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "页面明确这一路由主要换算复利频率，并指向利息计算器完成余额累积；说明列日、双周、半月、月、季、半年、年和连续频率。没有把同名路由直接视作同一种工具。"
+    },
+    {
+      "id": "P7",
+      "name": "regex101 官方首页",
+      "url": "https://regex101.com/",
+      "evidenceLevel": "official_page",
+      "browserInteractionTested": false,
+      "observed": "页面列模式解释与多个正则方言（含JavaScript、PCRE2、Python等），另介绍交互图解。未测试其运行结果、性能、隐私流量或不同套餐边界。"
+    }
+  ],
+  "tools": [
+    {
+      "slug": "image-compressor",
+      "peerSourceIds": [
+        "P1"
+      ],
+      "summaryJudgment": "落后",
+      "judgmentScope": "格式/流程覆盖及自身文案兑现度；不代表压缩画质、压缩率或总体产品排名",
+      "localSources": [
+        "tools/image/image-compressor.ts",
+        "tools/_engines/image-engine-canvas.tsx",
+        "tools/_engines/image-results.tsx",
+        "tools/_engines/image-util.ts"
+      ],
+      "dimensions": [
+        {
+          "dimension": "内容在设备上处理",
+          "rating": "优势",
+          "evidence": "本地源码由loadImage/Canvas/toBlob处理；TinyPNG官方页面为上传服务。优势限于免上传流程，不是对任何服务隐私合规性的判断。"
+        },
+        {
+          "dimension": "批量压缩流程",
+          "rating": "相当",
+          "evidence": "本地2张真实PNG产生2条结果并下载JPEG；同行官方页列批量压缩。双方通用批处理能力存在，未作同样本产物比较。"
+        },
+        {
+          "dimension": "格式覆盖",
+          "rating": "落后",
+          "evidence": "本地输出选项只有JPG/WebP/PNG；TinyPNG官方标题另外列AVIF和JPEG XL压缩。不能据此断言本地浏览器完全无法解码AVIF。"
+        },
+        {
+          "dimension": "同等视觉质量下体积、速度与大图稳定性",
+          "rating": "未知",
+          "evidence": "没有将同一组图像提交同行，也未做SSIM/感知质量和设备基准。"
+        }
+      ],
+      "observedLimitations": [
+        "dccdbfd英文intro声称可逐文件调节，实际只有一个全局quality状态，浏览器也只见一个滑块；逐文件前后体积读数不等于逐文件设置。",
+        "dccdbfd英文正文将RAW/无体积限制写成通用能力；实际依赖浏览器解码和Canvas资源，未发现RAW专用解码器，不能保证任意RAW或无限尺寸。",
+        "PNG走Canvas无损重编码，源码未见专用PNG量化路径；不能仅看编码方式推定与同行的实际压缩率差异。",
+        "合成PNG从46766B转JPEG为9061B，是单个样本不同编码的结果，不能外推为优于同行或对所有图片都节省81%。"
+      ],
+      "nextAcceptance": [
+        "修正文案或补齐真实逐文件设置；声明解码/内存边界。",
+        "用照片、透明截图、已压缩JPEG、动画/色彩配置和大像素样本作同画质比较。"
+      ]
+    },
+    {
+      "slug": "merge-pdf",
+      "peerSourceIds": [
+        "P2"
+      ],
+      "summaryJudgment": "相当",
+      "judgmentScope": "基本多文件排序合并能力；未证明复杂PDF兼容性相当",
+      "localSources": [
+        "tools/pdf/merge-pdf.ts",
+        "tools/_engines/pdf-engine-pages.tsx",
+        "tools/_engines/pdf-ui.tsx"
+      ],
+      "dimensions": [
+        {
+          "dimension": "免上传处理",
+          "rating": "优势",
+          "evidence": "本地pdf-lib在浏览器读取/生成；同行官方合并页明确上传流程。"
+        },
+        {
+          "dimension": "基础选择、排序、合并",
+          "rating": "相当",
+          "evidence": "本地支持文件拖拽及上/下按钮；实测2份合法PDF调序后下载，解析输出2页宽度为[300,200]；同行官方页列拖拽排序合并。"
+        },
+        {
+          "dimension": "书签、交互表单、签名与链接兼容性",
+          "rating": "未知",
+          "evidence": "本地正文已提示文档级信息限制，但未用复杂PDF语料与同行逐项验算。"
+        },
+        {
+          "dimension": "大文件耗时和内存",
+          "rating": "未知",
+          "evidence": "本次是2份简单PDF，不能支持正文中20+文件或100–200MB体验承诺。"
+        }
+      ],
+      "observedLimitations": [
+        "当前路由以文件列表排序；页缩略图逻辑在rearrange分支，不能把它算作merge页已具备的逐页可视化编排。",
+        "copyPages是页面对象复制，不是整个PDF逐字节不变；书签、表单值、文档级结构与数字签名需单独验证。"
+      ],
+      "nextAcceptance": [
+        "增加书签、同名表单、内部跳转、加密/损坏、混合页面尺寸和较大扫描件的产物语义检查。"
+      ]
+    },
+    {
+      "slug": "json-formatter",
+      "peerSourceIds": [
+        "P3"
+      ],
+      "summaryJudgment": "落后",
+      "judgmentScope": "该路由的可视化/导入导出覆盖及自身保真承诺；同行保真结果未知",
+      "localSources": [
+        "tools/developer/json-formatter.ts",
+        "tools/_lib/transforms.ts:397",
+        "tools/_engines/dev-engine-code.tsx"
+      ],
+      "dimensions": [
+        {
+          "dimension": "基本缩进格式化和语法反馈",
+          "rating": "相当",
+          "evidence": "本地提供2/4空格、Tab、可选排序及错误行列；同行官方页也列缩进和校验。未对全部错误位置进行双方对照。"
+        },
+        {
+          "dimension": "浏览器本地处理",
+          "rating": "相当",
+          "evidence": "双方实现/官方页均说明浏览器处理；没有流量审计证明第三方脚本行为。"
+        },
+        {
+          "dimension": "该路由内树/图浏览与文件工作流",
+          "rating": "落后",
+          "evidence": "同行首页列树视图、图视图、文件导入导出；本地该路由主要是输入/输出文本框。Zoyku另有json-viewer等路由，不算本页缺失整个站都没有。"
+        },
+        {
+          "dimension": "同行大整数、重复键和键序保真",
+          "rating": "未知",
+          "evidence": "同行官方说明也采用解析/序列化，但未作同行真实输入；不能声称同行一定保留或一定丢失。"
+        }
+      ],
+      "observedLimitations": [
+        "本地真实输入{id:9007199254740993,x:1,x:2,2:b,1:a}（合法带引号版本见browserEvidence）后：大整数变9007199254740992、只剩x:2、数字键排为1再2。",
+        "dccdbfd正文同时承认IEEE-754限制并承诺仅改空白/保持键序，前后矛盾；JSON.parse/JSON.stringify还会规范化数字和转义表示，不能称byte-for-byte等价。",
+        "本次按授权仅记录，没有修改JSON逻辑或JSON正文。"
+      ],
+      "nextAcceptance": [
+        "先明确词法保真或值重序列化契约；保真模式需使用token保留/无损数字方案并覆盖重复键、数字键和转义。"
+      ]
+    },
+    {
+      "slug": "word-counter",
+      "peerSourceIds": [
+        "P4"
+      ],
+      "summaryJudgment": "相当",
+      "judgmentScope": "基础统计和写作概览能力；不同词法定义不能据此判断谁更准确",
+      "localSources": [
+        "tools/text/word-counter.ts",
+        "tools/_engines/text-stats.tsx",
+        "tools/_lib/transforms.ts:1013"
+      ],
+      "dimensions": [
+        {
+          "dimension": "实时计数和写作概览",
+          "rating": "相当",
+          "evidence": "双方提供字词、字符、关键词、阅读时间/级别类能力；本地混合样本实测5词/15码点字符/2段落。"
+        },
+        {
+          "dimension": "中文与Unicode完整准确率",
+          "rating": "未知",
+          "evidence": "本地已检查基础CJK范围逐字+其他非空白token规则，字符用码点计数；未和同行对齐词/字/字素定义或测试扩展汉字/复杂emoji语料。"
+        },
+        {
+          "dimension": "自动保存",
+          "rating": "落后",
+          "evidence": "同行官方介绍自动保存；本地TextStats输入是组件useState，未发现该输入的持久化逻辑，页面也说明不保存。自动保存并非所有隐私场景都需要，应作为可选能力。"
+        },
+        {
+          "dimension": "英文可读性与语法/查重准确率",
+          "rating": "未知",
+          "evidence": "本地可读性为启发式；同行介绍相关写作功能，但本次没有质量语料或启用查重/语法。"
+        }
+      ],
+      "observedLimitations": [
+        "本地“字符”按Unicode码点，不等同用户感知字素；混合文本的words规则也不是中文分词。",
+        "该样本阅读级别显示-2.8且阅读时间最少1分钟，这是当前公式/取整行为，不是经语言学验证的中文级别。"
+      ],
+      "nextAcceptance": [
+        "把计数单位和词法规则写清楚；补扩展汉字、组合音标、emoji序列、URL/数字/连字符文本语料。",
+        "如新增自动保存，需自愿开启并可清除，保持当前不保存场景。"
+      ]
+    },
+    {
+      "slug": "compound-interest-calculator",
+      "peerSourceIds": [
+        "P5",
+        "P6"
+      ],
+      "summaryJudgment": "落后",
+      "judgmentScope": "可配置场景覆盖；本地已测基本算术正确，未证明同行总体更准",
+      "localSources": [
+        "tools/calculators/compound-interest-calculator.ts",
+        "tools/_engines/calc-engine-compound.tsx",
+        "tools/_lib/finance.ts:21"
+      ],
+      "dimensions": [
+        {
+          "dimension": "余额/投入/利息、图表和逐年表",
+          "rating": "相当",
+          "evidence": "本地和同行官方页均提供这类结果；本地1000本金、零追加、10%年复利2年显示1210，与1000×1.1²独立计算一致。"
+        },
+        {
+          "dimension": "投入时点和扩展输入",
+          "rating": "落后",
+          "evidence": "本地固定每月月初投入，复利选月/季/年；同行实际余额计算器提供期初/期末、年度/月度投入、税/通胀等选项。同行频率换算页还列更多频率，须与其余额路由区分。"
+        },
+        {
+          "dimension": "五种货币显示对比",
+          "rating": "未知",
+          "evidence": "本地USD/EUR/CNY/JPY/BRL为显示单位，没有汇率转换；此项仅记录本地能力，不把同行美元默认显示当缺陷。"
+        },
+        {
+          "dimension": "现实投资预测、政策税务与边界稳定性",
+          "rating": "未知",
+          "evidence": "输入为固定名义收益，结果不是收益保证；未对现实现金流、全部极值、同行税/通胀算法做独立核对。"
+        }
+      ],
+      "observedLimitations": [
+        "固定月初现金流与月等效增长是已说明的模型；切到季度/年度不会变成期末缴款。",
+        "当前没有期初/期末开关、非月度现金流、税或通胀参数；选择货币不做换汇。"
+      ],
+      "nextAcceptance": [
+        "如扩展参数，先定义现金流时点、计息频率和月数取整，使用闭式公式/独立现金流模型交叉核对。"
+      ]
+    },
+    {
+      "slug": "regex-tester",
+      "peerSourceIds": [
+        "P7"
+      ],
+      "summaryJudgment": "落后",
+      "judgmentScope": "解释和多方言调试覆盖；本地已修复匹配基础正确性回归",
+      "localSources": [
+        "tools/developer/regex-tester.ts",
+        "tools/_lib/regex.ts",
+        "tools/_engines/dev-engine-regex.tsx",
+        "tests/regex.test.ts",
+        "tests/regex-ui.test.tsx"
+      ],
+      "dimensions": [
+        {
+          "dimension": "JavaScript匹配/标志/捕获组基础",
+          "rating": "相当",
+          "evidence": "本地提供g/i/m/s/u、匹配高亮和编号/命名组；同行官方页含JavaScript。相当仅为功能存在，不是全语法互操作性结论。"
+        },
+        {
+          "dimension": "多方言、token解释和调试辅助",
+          "rating": "落后",
+          "evidence": "本地使用原生JavaScript RegExp，无模式逐token解释；regex101官方列多方言和解释/图解能力。未测套餐边界。"
+        },
+        {
+          "dimension": "超时隔离与错误恢复对比",
+          "rating": "未知",
+          "evidence": "本地Blob Worker有250ms超时并终止；真实危险样本显示超时，改回简单模式后恢复。同行也定位调试工具，但未以同样本测其具体超时策略，故本项仅说明本地基础防护已验证，同行策略与防护效果未知。"
+        },
+        {
+          "dimension": "同行性能、隐私和完整Unicode语义",
+          "rating": "未知",
+          "evidence": "未输入同行或审计其流量；本地只验证列明的回归，不宣称支持所有方言、引擎或浏览器。"
+        }
+      ],
+      "observedLimitations": [
+        "基线BUG：a/no-g/aba重复500次index0；(?:)/gu/😀零宽匹配循环index0，且预览损坏代理对；恰好500条也标截断。",
+        "本次局部修复后：非g只一次；gu空匹配按码点前进且仍报告UTF-16索引；空匹配预览不消费字符；第501条存在才标截断。",
+        "最多展示500匹配、测试文本最多20000 UTF-16代码单元、Worker执行250ms上限；均不是无限输入。",
+        "Worker与纯函数同源，测试实际在独立作用域运行源代码，并追加esbuild生产压缩后的源代码执行检查；未引入外部helper闭包。"
+      ],
+      "nextAcceptance": [
+        "扩展解释/替换/测试用例保存前先明确JS专用定位；不把PCRE语法直接搬入原生RegExp。",
+        "保持非g、零宽Unicode、UTF-16索引、500边界、完整预览和Worker独立作用域回归。"
+      ]
+    }
+  ],
+  "browserEvidence": {
+    "date": "2026-11-20",
+    "baseURL": "http://localhost:3480",
+    "browser": "157.0.8103.79",
+    "results": [
+      {
+        "name": "regex non-global first match",
+        "passed": true,
+        "input": {
+          "pattern": "a",
+          "flags": "",
+          "text": "aba"
+        },
+        "visibleMatches": [
+          "Match #1 index 0 · a"
+        ],
+        "preview": "aba"
+      },
+      {
+        "name": "regex gu zero-width emoji keeps full text and UTF-16 indices",
+        "passed": true,
+        "input": {
+          "pattern": "(?:)",
+          "flags": "gu",
+          "text": "😀中😀"
+        },
+        "visibleMatches": [
+          "Match #1 index 0 · \"\"",
+          "Match #2 index 2 · \"\"",
+          "Match #3 index 3 · \"\"",
+          "Match #4 index 5 · \"\""
+        ],
+        "preview": "😀中😀"
+      },
+      {
+        "name": "regex exact 500 versus overflow",
+        "passed": true,
+        "inputLengths": [
+          500,
+          501
+        ],
+        "visibleMatches": 500,
+        "truncationOnlyWhenOverflow": true,
+        "fullPreviewPreserved": true
+      },
+      {
+        "name": "regex catastrophic backtracking remains interruptible",
+        "passed": true,
+        "timeoutVisible": true,
+        "recoveredAfterEditing": true
+      },
+      {
+        "name": "JSON ordinary formatting and exposed data changes",
+        "passed": true,
+        "slug": "json-formatter",
+        "input": "{\"id\":9007199254740993,\"x\":1,\"x\":2,\"2\":\"b\",\"1\":\"a\"}",
+        "output": "{\n  \"1\": \"a\",\n  \"2\": \"b\",\n  \"id\": 9007199254740992,\n  \"x\": 2\n}",
+        "limitationReproduced": true
+      },
+      {
+        "name": "word counter mixed CJK and emoji",
+        "passed": true,
+        "slug": "word-counter",
+        "input": "你好 world😀!\n\n测试。",
+        "expected": {
+          "words": 5,
+          "characters": 15,
+          "paragraphs": 2
+        },
+        "visibleOutput": "你好 world😀!\n\n测试。\n×\nSentence flow\n1–6 words · punchy\n7–14 · standard\n15–24 · long\n25+ · very long\n\n5\n\nWords\n\n15\n\nCharacters\n\n12\n\nNo spaces\n\n2\n\nSentences\n\n2\n\nParagraphs\n\n3\n\nLines\n\n3\n\nUnique words\n\n8\n\nAvg word length\n\n1\n\nPages\n\n2.5\n\nAvg sentence (words)\n\n3\n\nLongest sentence (words)\n\n-2.8\n\nReading level\n\nReading time: 1 min read\nSpeaking time: 1 min read\nFlow looks good — sentence variety and reading level are in a comfortable range.\n\nTOP KEYWORDS\n\n测试\n1× (20%)\n你好\n1× (20%)\nworld😀!\n1× (20%)"
+      },
+      {
+        "name": "compound interest independent formula",
+        "passed": true,
+        "slug": "compound-interest-calculator",
+        "input": {
+          "principal": 1000,
+          "monthly": 0,
+          "annualRate": 10,
+          "years": 2,
+          "frequency": "annually"
+        },
+        "independentFormula": "1000 * (1 + 0.10) ** 2",
+        "expected": 1210,
+        "visibleOutput": "Initial deposit\nMonthly contribution\nAnnual interest rate (%)\nYears\nCompounding\nMonthly\nQuarterly\nAnnually\nCurrency\nUSD — $\nEUR — €\nCNY — ¥\nJPY — ¥\nBRL — R$\nFinal balance\n$1,210\nTotal contributed\n$1,000\nInterest earned\n$210\n\nDeposits are made at the start of every month, for every compounding choice. Each month: B ← (B + monthly deposit) × g, where g = (1 + annual rate ÷ n)^(n ÷ 12), n = 12, 4 or 1 and the rate is decimal. This uses fractional periods; future deposits are never invested early. Duration is rounded to whole months.\n\nPayment composition\nInterest\n17%\nPrincipal\n83%\nInterest\n17%\nRemaining balance over time\n$1,100\n$1,210\nYear-by-year growth\nYEAR\tCONTRIBUTED\tINTEREST\tBALANCE\n1\t$1,000\t$100\t$1,100\n2\t$1,000\t$210\t$1,210"
+      },
+      {
+        "name": "image compressor real PNG files and JPEG output",
+        "passed": true,
+        "slug": "image-compressor",
+        "inputFiles": 2,
+        "inputFormat": "PNG",
+        "dimensions": [
+          128,
+          128
+        ],
+        "inputBytesEach": 46766,
+        "outputName": "noise-a-min.jpg",
+        "outputBytes": 9061,
+        "outputFormat": "JPEG",
+        "qualityControls": 1,
+        "visibleOutput": "Applied to all files\n\nnoise-a.png\nnoise-b.png\nClear\nOutput format\nJPG\nWebP\nPNG\nQuality\n70%\n\n2 · 91.3 KB → 17.7 KB (−81%)\n\nDownload all\nnoise-a-min.jpg\n128×128 · 45.7 KB → 8.8 KB (−81%)\nSave\nnoise-b-min.jpg\n128×128 · 45.7 KB → 8.8 KB (−81%)\nSave"
+      },
+      {
+        "name": "merge PDF real bytes reordered and semantic output",
+        "passed": true,
+        "slug": "merge-pdf",
+        "inputFiles": 2,
+        "sourcePageWidths": [
+          200,
+          300
+        ],
+        "reordered": true,
+        "outputPages": 2,
+        "outputPageWidths": [
+          300,
+          200
+        ],
+        "outputName": "merged.pdf"
+      }
+    ]
+  },
+  "regressionEvidence": {
+    "command": "npm test -- tests/regex.test.ts tests/regex-ui.test.tsx",
+    "firstRun": {
+      "failed": 5,
+      "passed": 17,
+      "expectedFailures": [
+        "非g重复500次",
+        "gu零宽代理对重复",
+        "恰好500误报截断",
+        "emoji预览丢高代理字符",
+        "混合空匹配预览丢字"
+      ]
+    },
+    "afterFix": {
+      "passed": 23,
+      "failed": 0,
+      "includes": "额外生产minify后Worker源码在独立作用域执行的守护测试"
+    },
+    "typecheck": "初次npx tsc --noEmit被并行chinese-id测试尚未创建的模块阻塞，最终全局tsc/全量测试由根任务统一执行；不在此声称全仓通过"
+  },
+  "reproduction": {
+    "browser": "Google Chrome 157.0.8103.79",
+    "baseURL": "http://localhost:3480",
+    "scriptAtRunTime": "/tmp/zoyku-regex-benchmark.mjs",
+    "rawEvidenceAtRunTime": "/tmp/zoyku-regex-benchmark/browser-results.json",
+    "persistentEvidence": "本JSON内嵌browserEvidence完整输入、可见输出和下载语义断言；/tmp路径非长期工件保证"
+  }
+}

@@ -187,7 +187,7 @@ export function ImageMetadataEngine({ accept = "image/*" }: { accept?: string })
 
               {card.exif?.gps && (
                 <p className="mt-2.5 flex flex-wrap items-center gap-2 text-[13px]">
-                  <Icon name="globe" size={14} className="text-[var(--color-accent-strong)]" />
+                  <Icon name="globe" size={14} className="text-[var(--color-accent-text)]" />
                   <span className="font-medium">{L.gps[locale] ?? L.gps.en}:</span>
                   <span className="mono">
                     {card.exif.gps.lat.toFixed(6)}, {card.exif.gps.lon.toFixed(6)}
@@ -196,7 +196,7 @@ export function ImageMetadataEngine({ accept = "image/*" }: { accept?: string })
                     href={`https://www.google.com/maps?q=${card.exif.gps.lat},${card.exif.gps.lon}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-[var(--color-accent-strong)] hover:underline"
+                    className="font-medium text-[var(--color-accent-text)] hover:underline"
                   >
                     {L.openMap[locale] ?? L.openMap.en} ↗
                   </a>

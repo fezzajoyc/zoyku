@@ -1,15 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { ALL_TOOLS } from "@/tools/registry";
 import { OVERLAYS } from "@/tools/_i18n";
-import { LOCALES } from "@/lib/site";
+import { LOCALES, type Locale } from "@/lib/site";
 
 const SLUGS = new Set(ALL_TOOLS.map((t) => t.slug));
 
 describe("translation overlays", () => {
-  it("every registered overlay covers exactly the registry slugs", () => {
+  it("every overlay language covers the registry through native or overlay copy, without unknown slugs", () => {
     for (const [locale, overlay] of Object.entries(OVERLAYS)) {
+      expect(LOCALES).toContain(locale);
       const keys = new Set(Object.keys(overlay));
-      const missing = [...SLUGS].filter((s) => !keys.has(s));
+      // toolCopy deliberately gives a tool's authored locale copy precedence.
+      // A tool with all 15 authored locales does not need duplicate overlays.
+      const missing = ALL_TOOLS.filter((tool) => !tool.copy[locale as Locale] && !keys.has(tool.slug)).map((tool) => tool.slug);
       const extra = [...keys].filter((s) => !SLUGS.has(s));
       expect(missing, `${locale} missing: ${missing.join(",")}`).toEqual([]);
       expect(extra, `${locale} extra: ${extra.join(",")}`).toEqual([]);

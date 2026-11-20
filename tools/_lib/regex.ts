@@ -23,7 +23,7 @@ export const MAX_TEST_CHARS = 20000;
 
 /**
  * 实际匹配函数。刻意只用 ES2015 语法 + 无外部闭包,便于 .toString() 注入 Blob Worker。
- * 注意:零宽匹配 lastIndex++ 与上限保护都在这里,worker 和单测走同一份代码。
+ * 注意:零宽匹配按 u 标志推进与上限保护都在这里,worker 和单测走同一份代码。
  */
 export function regexRun(
   pattern: string,
@@ -36,22 +36,30 @@ export function regexRun(
     const re = new RegExp(pattern, flags);
     const matches: RegexMatch[] = [];
     let guard = 0;
+    let truncated = false;
     while (guard++ < MAX_GUARD) {
       const m = re.exec(text);
       if (!m) break;
+      // 多探测一次才知道还有未显示的匹配;恰好 maxRender 个不是截断。
+      if (matches.length >= maxRender) {
+        truncated = true;
+        break;
+      }
       matches.push({
         text: m[0],
         index: m.index,
         groups: m.slice(1),
         named: m.groups ? Object.entries(m.groups).filter(([, v]) => v !== undefined) as [string, string][] : [],
       });
+      if (!re.global) break;
       if (m[0] === "") {
-        re.lastIndex++;
+        // RegExp 索引始终是 UTF-16;u 模式跨过完整码点,避免落进代理对后回到原位。
+        const codePoint = text.codePointAt(re.lastIndex);
+        re.lastIndex += re.unicode && codePoint !== undefined && codePoint > 0xffff ? 2 : 1;
         if (re.lastIndex > text.length) break;
       }
-      if (matches.length >= maxRender) break;
     }
-    return { matches, error: null, truncated: matches.length >= maxRender };
+    return { matches, error: null, truncated };
   } catch (e) {
     return { matches: [], error: e instanceof Error ? e.message : String(e), truncated: false };
   }

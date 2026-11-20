@@ -371,7 +371,7 @@ export function SecEmailValidatorEngine() {
     <ToolPanel>
       <div className="space-y-4">
         <p className="flex items-start gap-2 rounded-xl bg-[rgba(0,113,227,0.06)] px-4 py-2.5 text-[13px] leading-5 text-[var(--color-sub)]">
-          <Icon name="globe" size={15} className="mt-0.5 flex-none text-[var(--color-accent-strong)]" />
+          <Icon name="globe" size={15} className="mt-0.5 flex-none text-[var(--color-accent-text)]" />
           {L("disclosure")}
         </p>
 
@@ -391,7 +391,7 @@ export function SecEmailValidatorEngine() {
             type="button"
             onClick={() => void run()}
             disabled={status === "loading" || email.trim().length === 0}
-            className="rounded-full bg-[var(--color-accent)] px-5 py-2 text-[13.5px] font-medium text-white transition-colors hover:bg-[var(--color-accent-strong)] disabled:opacity-60"
+            className="rounded-full bg-[var(--color-action-bg)] px-5 py-2 text-[13.5px] font-medium text-white transition-colors hover:bg-[var(--color-action-hover)] disabled:opacity-60"
           >
             {status === "loading" ? L("checking") : L("validate")}
           </button>

@@ -110,7 +110,7 @@ export function ImageGrayscaleEngine() {
           type="button"
           onClick={run}
           disabled={busy || !files.length}
-          className="rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           {busy ? t.common.processing : t.common.download}
         </button>

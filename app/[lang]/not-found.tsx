@@ -12,7 +12,7 @@ export default function NotFound() {
       <p className="mt-3 text-[15px] text-[var(--color-sub)]">{t.notFound.body}</p>
       <Link
         href={`/${locale}/tools`}
-        className="mt-6 inline-block rounded-full bg-[var(--color-accent)] px-6 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[var(--color-accent-strong)]"
+        className="mt-6 inline-block rounded-full bg-[var(--color-action-bg)] px-6 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[var(--color-action-hover)]"
       >
         {t.nav.tools}
       </Link>

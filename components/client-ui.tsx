@@ -93,7 +93,10 @@ export function DropZone({
       tabIndex={0}
       onClick={() => inputRef.current?.click()}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          inputRef.current?.click();
+        }
       }}
       onDragOver={(e) => {
         e.preventDefault();

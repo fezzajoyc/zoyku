@@ -341,7 +341,7 @@ export function ImageBorderEngine() {
           type="button"
           onClick={() => void run()}
           disabled={busy || !preview}
-          className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-4 py-2 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-action-bg)] px-4 py-2 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Icon name="crop" size={15} />
           {busy ? t.common.processing : trL("apply")}

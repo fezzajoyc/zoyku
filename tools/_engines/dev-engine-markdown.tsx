@@ -80,7 +80,7 @@ const PROSE = [
   "[&_h3]:mt-5 [&_h3]:mb-2 [&_h3]:text-[1.1rem] [&_h3]:font-semibold",
   "[&_h4]:mt-4 [&_h4]:mb-1 [&_h4]:font-semibold",
   "[&_p]:my-2.5 [&_ul]:my-2.5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:my-2.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:my-1",
-  "[&_a]:text-[var(--color-accent-strong)] [&_a]:underline",
+  "[&_a]:text-[var(--color-accent-text)] [&_a]:underline",
   "[&_blockquote]:my-3 [&_blockquote]:border-l-[3px] [&_blockquote]:border-[var(--color-hairline)] [&_blockquote]:pl-3 [&_blockquote]:text-[var(--color-sub)]",
   "[&_code]:rounded [&_code]:bg-[var(--color-surface)] [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.9em]",
   "[&_pre]:my-3 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-[var(--color-surface)] [&_pre]:p-3 [&_pre]:text-[13px] [&_pre_code]:bg-transparent [&_pre_code]:p-0",
@@ -147,7 +147,7 @@ export function DevMarkdownEngine({ sample = "" }: { sample?: string }) {
             <button
               type="button"
               onClick={() => setSrc(sample)}
-              className="mt-2 rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-strong)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
+              className="mt-2 rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
             >
               {t.common.sample}
             </button>

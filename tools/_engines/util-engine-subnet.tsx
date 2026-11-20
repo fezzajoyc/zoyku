@@ -157,7 +157,7 @@ function StatRow({
       <div className="text-[12.5px] font-medium text-[var(--color-sub)]">{label}</div>
       <div
         className={`mono mt-1 flex items-center gap-2 text-[17px] font-semibold leading-6 ${
-          accent ? "text-[var(--color-accent-strong)]" : tone === "good" ? "text-[var(--color-good)]" : ""
+          accent ? "text-[var(--color-accent-text)]" : tone === "good" ? "text-[var(--color-good)]" : ""
         }`}
         aria-live="polite"
       >

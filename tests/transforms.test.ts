@@ -404,8 +404,8 @@ describe("jsonBeautify", () => {
     expect(jsonBeautify("[1]", "\t")).toBe("[\n\t1\n]");
   });
 
-  it("decodes unicode escapes into their characters", () => {
-    expect(jsonBeautify('{"x":"\\u0041é"}')).toBe('{\n  "x": "Aé"\n}');
+  it("preserves the original Unicode escape spelling", () => {
+    expect(jsonBeautify('{"x":"\\u0041é"}')).toBe('{\n  "x": "\\u0041é"\n}');
   });
 
   it("throws an Error carrying the 1-based line and column for malformed input", () => {
@@ -426,9 +426,9 @@ describe("jsonMinify", () => {
     expect(() => jsonMinify("[1,]")).toThrow("Line 1, column 4: Unexpected token ']'");
   });
 
-  it("roundtrips with jsonBeautify without losing data", () => {
+  it("roundtrips with jsonBeautify without changing numeric literals", () => {
     const src = '{"x":{"y":[true,null,"éA"]},"z":1.5e3}';
-    expect(jsonMinify(jsonBeautify(src))).toBe('{"x":{"y":[true,null,"éA"]},"z":1500}');
+    expect(jsonMinify(jsonBeautify(src))).toBe('{"x":{"y":[true,null,"éA"]},"z":1.5e3}');
   });
 });
 

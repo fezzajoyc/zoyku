@@ -283,7 +283,7 @@ export function CalcEngineScientific() {
         className={`mono h-11 rounded-xl border text-[15px] font-medium transition-colors sm:h-12 ${
           isAction
             ? k === "="
-              ? "border-transparent bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-strong)]"
+              ? "border-transparent bg-[var(--color-action-bg)] text-white hover:bg-[var(--color-action-hover)]"
               : "hairline bg-[var(--color-surface)] hover:bg-[rgba(0,0,0,0.06)]"
             : `hairline hover:bg-[var(--color-surface)] ${extra}`
         }`}

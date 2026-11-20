@@ -250,7 +250,7 @@ export default async function ToolPage({
             right={
               <Link
                 href={`/${locale}/categories/${tool.category}`}
-                className="text-[13.5px] font-medium text-[var(--color-accent-strong)]"
+                className="text-[13.5px] font-medium text-[var(--color-accent-text)]"
               >
                 {t.tool.backToCategory.replace("{category}", categoryName)} →
               </Link>

@@ -184,7 +184,7 @@ export function ImageWatermarkEngine() {
           type="button"
           onClick={apply}
           disabled={busy || !files.length || !text.trim()}
-          className="rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           {trL("apply")}
         </button>

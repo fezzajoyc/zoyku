@@ -1,17 +1,17 @@
-# Zoyku — 205 个纯浏览器端工具站
+# Zoyku — 207 个浏览器工具
 
-对标 calculator.net / TinyWow 的出海工具站组合旗舰。**205 个工具 × 15 语言 = 3,075 个工具页**(+105 个分类页 + 15 个首页 ≈ 3,210 条 sitemap URL),全部逻辑在浏览器本地执行——无后端、无上传、零服务器成本。同行对标详见 [docs/benchmark.md](docs/benchmark.md)。
+面向全球用户的免费工具站。**207 个工具 × 15 语言 = 3,105 个工具页**；工具文件和本地文本在浏览器处理，DNS、IP、汇率等联网步骤单独披露。托管、静态资源及外部服务仍有成本和使用限制，不能概括为“零服务器成本”。同行能力、功能差距和验收范围详见 [docs/benchmark.md](docs/benchmark.md)。
 
 ## 数字事实源(改任何数字前先跑)
 
 | 事实 | 数值 | 来源(唯一事实源) |
 |---|---|---|
-| 工具数 | 205 | `tools/registry.ts` ALL_TOOLS.length(测试锚定 tests/registry.test.ts) |
+| 工具数 | 207 | `tools/registry.ts` ALL_TOOLS.length(测试锚定 tests/registry.test.ts) |
 | 语言数 | 15 | `lib/site.ts` LOCALES |
-| 工具页 | 205 × 15 = 3,075 | registry × LOCALES |
-| sitemap URL | 3,210 | 生产 /sitemap.xml(2026-11-15 实查) |
+| 工具页 | 207 × 15 = 3,105 | registry × LOCALES |
+| sitemap URL | 构建生成并审计 | 以本轮生成的 sitemap 与 SEO 报告为准，不能把本地改动当作已部署 |
 | MCP 可执行工具 | 35 | `mcp/server.ts` |
-| 测试 | 1,146+ | `npx vitest run` |
+| 测试 | 见最新验证记录 | `npx vitest run`，数量不等于全站功能或合规证明 |
 
 **纪律:README/首页/文案里的每个统计数字必须能对上事实源;数字变了先改事实源,再改文档。**
 
@@ -33,7 +33,7 @@ toolsite/
 │   ├── _engines/        # 客户端引擎(React)
 │   ├── _lib/            # 纯逻辑(可单测)+ unit-tool 工厂 + category-intros
 │   └── _i18n/           # 10 overlay 语种覆盖层
-├── tests/               # vitest:1,146 测试(数学/SEO/注册表/overlay 契约/文件产物)
+├── tests/               # vitest(数学/SEO/注册表/overlay 契约/文件产物)
 ├── mcp/                 # 35 个 AI 可执行工具(zod + stdio/HTTP 双通道)
 └── scripts/             # 部署前清理、生产巡检、SEO 审计
 ```

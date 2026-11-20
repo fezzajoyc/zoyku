@@ -203,7 +203,7 @@ export function ImageScreenshotEngine() {
             type="button"
             onClick={() => void capture()}
             disabled={busy || !supported}
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             <Icon name="download" size={16} />
             {busy ? "…" : L.start[locale] ?? L.start.en}
@@ -240,7 +240,7 @@ export function ImageScreenshotEngine() {
             <button
               type="button"
               onClick={() => void save()}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-4 py-2 text-[14px] font-semibold text-white transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-action-bg)] px-4 py-2 text-[14px] font-semibold text-white transition-opacity hover:opacity-90"
             >
               <Icon name="download" size={15} />
               {L.save[locale] ?? L.save.en}

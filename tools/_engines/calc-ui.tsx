@@ -180,7 +180,7 @@ export function Stats({
       : t === "bad"
         ? "text-[var(--color-bad)]"
         : t === "accent"
-          ? "text-[var(--color-accent-strong)]"
+          ? "text-[var(--color-accent-text)]"
           : "text-[var(--color-ink)]";
   return (
     <div className={`grid grid-cols-2 gap-3 ${cols}`}>
@@ -204,7 +204,7 @@ export function Note({ children }: { children: ReactNode }) {
 export function TableBox({ head, rows }: { head: string[]; rows: (string | number)[][] }) {
   return (
     <div className="overflow-hidden rounded-xl border hairline">
-      <div className="max-h-[26rem] overflow-y-auto">
+      <div tabIndex={0} className="max-h-[26rem] overflow-y-auto">
         <table className="w-full text-[14px]">
           <thead className="sticky top-0 bg-[var(--color-card)]">
             <tr className="border-b hairline text-[12.5px] uppercase tracking-wide text-[var(--color-sub)]">

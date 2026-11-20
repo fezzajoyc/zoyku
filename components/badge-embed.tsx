@@ -51,7 +51,7 @@ export function BadgeEmbed({
             <p className="mb-1.5 text-[11.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">
               {kind === "md" ? copyLabels.md : copyLabels.html}
             </p>
-            <code className="mono block overflow-x-auto whitespace-nowrap text-[11.5px] leading-5 text-[var(--color-ink)]">
+            <code tabIndex={0} className="mono block overflow-x-auto whitespace-nowrap text-[11.5px] leading-5 text-[var(--color-ink)]">
               {kind === "md" ? md : html}
             </code>
             <button

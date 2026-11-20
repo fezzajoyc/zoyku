@@ -80,7 +80,7 @@ export function CaseConverter() {
         aria-label={t.common.input}
       />
       {hasCJK && caseOnlyMode && (
-        <p className="mt-3 rounded-xl bg-[rgba(0,113,227,0.06)] px-3.5 py-2.5 text-[13px] leading-5 text-[var(--color-accent-strong)]">
+        <p className="mt-3 rounded-xl bg-[rgba(0,113,227,0.06)] px-3.5 py-2.5 text-[13px] leading-5 text-[var(--color-accent-text)]">
           {cjkHint[locale] ?? cjkHint.en}
         </p>
       )}

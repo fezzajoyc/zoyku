@@ -1,0 +1,2056 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Zoyku 中国用户工具竞争缺口目录",
+  "research_date": "2026-11-20",
+  "timezone": "Asia/Shanghai",
+  "baseline_commit": "dccdbfd",
+  "current_branch_at_write": "codex/tool-parity-cn",
+  "scope": "只写研究MD/JSON；未改应用、全局样式、registry或数据集；未commit/push/deploy",
+  "summary": {
+    "total_capabilities": 47,
+    "missing": 29,
+    "partial": 16,
+    "existing_no_proven_gap": 2,
+    "gap_capabilities": 45,
+    "priority_counts": {
+      "P0": 17,
+      "P1": 24,
+      "P2": 4,
+      "KEEP": 2
+    },
+    "tool_definition_count": 205,
+    "tool_definition_count_method": "tools/*/*.ts排除下划线目录，匹配字面slug；分类index逐一复核注册",
+    "implementation_group_count": 19
+  },
+  "status_definitions": {
+    "missing": "未发现等价实现，仍以列出的代码范围为准",
+    "partial": "已有基础；只补provable_gap所列差异",
+    "existing_no_proven_gap": "已存在基础能力，暂无证据支持重建"
+  },
+  "evidence_level_definitions": {
+    "directory_listing": "已读取官方目录中的标题、能力描述和目标链接；未操作目标工具",
+    "detail_page": "已读取相关官方详情页正文/HTML；非完整交互与算法验收"
+  },
+  "priority_definitions": {
+    "P0": "优先补齐基础数据/核心转换或直接中国场景，不代表可跳过政策核实",
+    "P1": "复用P0内核逐步完善，避免重复引擎",
+    "P2": "数据授权/地域政策/可访问性专业验收成本较高，证据完备后实施",
+    "KEEP": "保留与回归，不新建等价引擎"
+  },
+  "limitations": [
+    "研究范围为能力存在性与可见规格比较，非搜索需求、收入/流量预测或同行全站穷尽清单；47项是本报告能力条目，不是承诺新增47个SEO路由。",
+    "29项missing表示在205个工具定义、分类注册表及相关引擎/纯函数扫描中未发现等价能力；16项partial有明确已有slug，缺口仅限列明的参数/算法/本地数据；2项existing_no_proven_gap应保留复用。",
+    "同行证据分detail_page与directory_listing。目录级只证明页面描述与链接存在，未逐一打开、点击或独立验算；详细页级也未做完整浏览器交互、准确率、安全审计或性能比较。",
+    "已按代码检查避免名称误判：case-converter含全角/半角；mortgage-calculator含CNY和每月额外还款；text-to-unicode及text-to-binary已有基础；VAT已有通用加税/拆税。",
+    "BEJSON首页因robots明确禁止自动访问而未能查看；不把其能力、工具计数或页面内容当证据。人民银行主页也被robots拒绝，人民币规则原文需实施前人工/允许方式核对。",
+    "Exa返回401 Invalid API key；通用搜索给出不相关结果，另一批搜索未及时返回被中止；web.run未返回可用来源。本报告不使用这些搜索结果，主证据为直连官方产品页面。",
+    "政府网、税务总局、民政部、中国邮政主页可读；国家标准与人社主页返回HTML简化失败。权威主页URL是后续政策/数据查证入口，不代表已拿到逐条有效政策或数据授权。",
+    "不复制同行正文、源码、商业字典或身份记录；报告为能力/验收规格的原创归纳。身份证、信用代码等生成只规划带“仅供测试”标注的规则样本，不声明真实存在或保证不撞号。",
+    "优先级依据场景贴合、依赖复用、可验证性和维护成本，无搜索量、收入、转化率、同行数量等未经验证数字。政策/数据无法核实时保持未支持或手动输入，不能自动冒充最新。"
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "name": "LDDGO 字符目录",
+      "url": "https://www.lddgo.net/base/class?classID=1",
+      "type": "directory",
+      "observed": "已读取原始HTML标题、描述、工具链接；用于字符集/中文假文/全半角等能力，未操作工具",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S02",
+      "name": "LDDGO 转换目录",
+      "url": "https://www.lddgo.net/base/class?classID=2",
+      "type": "directory",
+      "observed": "已读取人民币大写、简繁、拼音、36进制/浮点、字符集Base64等目录描述和链接",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S03",
+      "name": "LDDGO 加密目录",
+      "url": "https://www.lddgo.net/base/class?classID=3",
+      "type": "directory",
+      "observed": "已读取SM2/SM4、CRC/BCC/LRC等目录描述和链接",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S04",
+      "name": "LDDGO 更多目录",
+      "url": "https://www.lddgo.net/base/class?classID=5",
+      "type": "directory",
+      "observed": "已读取身份证、农历、房贷、公积金/组合贷、退休等目录描述和链接",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S05",
+      "name": "365工具箱官方首页",
+      "url": "https://www.toolbox365.cn/",
+      "type": "directory",
+      "observed": "已读取页面内目录及工具链接，不采信其自述总工具数或性能数字为独立事实",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S06",
+      "name": "三贝计算器官方首页",
+      "url": "https://www.23bei.com/",
+      "type": "directory",
+      "observed": "已读取可验证域名和导航，确认CRC16与IEEE754页面链接；不推测其他域名",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S07",
+      "name": "LDDGO 身份证详情",
+      "url": "https://www.lddgo.net/common/identity",
+      "type": "detail",
+      "observed": "单个/批量、15/18位、校验、编码地区；页内自述行政区划依据2019数据，非本次确认最新",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S08",
+      "name": "LDDGO 身份证测试样本详情",
+      "url": "https://www.lddgo.net/common/idgenerator",
+      "type": "detail",
+      "observed": "参数/数量/输出，页内明确仅供学习测试",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S09",
+      "name": "LDDGO 中国工作日详情",
+      "url": "https://www.lddgo.net/common/workday",
+      "type": "detail",
+      "observed": "四类日子、日期列表、区间和按天数求日期；与Zoyku端点语义有差异，不能直接混用",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S10",
+      "name": "LDDGO 农历详情",
+      "url": "https://www.lddgo.net/common/lunar",
+      "type": "detail",
+      "observed": "双向、闰月/大小月、节气/生肖/干支以及起点说明",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S11",
+      "name": "365 万年历详情",
+      "url": "https://www.toolbox365.cn/tools/calendar/",
+      "type": "detail",
+      "observed": "年度假期/调休/拼假/农历；其覆盖年份和chinese-days来源是同行自述，未逐日核验",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S12",
+      "name": "365 行政区划详情",
+      "url": "https://www.toolbox365.cn/tools/district/",
+      "type": "detail",
+      "observed": "三级级联/邮编/区号，声明代表邮编约55%覆盖且未逐条校对；未独立验证该比例",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S13",
+      "name": "365 中国个税详情",
+      "url": "https://www.toolbox365.cn/tools/tax-calc/",
+      "type": "detail",
+      "observed": "工资、扣除、年度汇总与奖金方案；政策数字仅作为同行界面观察，不是本报告法律结论",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S14",
+      "name": "365 五险一金详情",
+      "url": "https://www.toolbox365.cn/tools/si-fund/",
+      "type": "detail",
+      "observed": "个人与单位、基数比例、年度成本；不得将城市默认值直接复制",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S15",
+      "name": "365 国密详情",
+      "url": "https://www.toolbox365.cn/tools/sm-crypt/",
+      "type": "detail",
+      "observed": "SM2/3/4模式、字节编码与互通参数；本次未运行密钥/算法对拍，不采信其概括合规声明",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S16",
+      "name": "365 Mock详情",
+      "url": "https://www.toolbox365.cn/tools/mock-data/",
+      "type": "detail",
+      "observed": "本地中文字段、身份证/信用代码校验样本及导出；未采信“任意校验器”、碰撞概率、性能等未经验证数字",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S17",
+      "name": "三贝 CRC16-Modbus详情",
+      "url": "https://www.23bei.com/tool/59.html",
+      "type": "detail",
+      "observed": "输入字节、报文长度、MSB-LSB/LSB-MSB说明及示例；未读取其外链站点",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S18",
+      "name": "Yunfale 统一社会信用代码详情",
+      "url": "https://www.yunfale.com/credit-code-check/",
+      "type": "detail",
+      "observed": "18位格式/字符集/校验位/分段及真实性边界；标准版本仍需官方复核",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S19",
+      "name": "365 退休详情",
+      "url": "https://www.toolbox365.cn/tools/retire/",
+      "type": "detail",
+      "observed": "已读取原始HTML和说明段落；延期/弹性政策须另行核对官方原文",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S20",
+      "name": "365 价税分离详情",
+      "url": "https://www.toolbox365.cn/tools/vat-split/",
+      "type": "detail",
+      "observed": "已读取税额反推/含税/不含税与到分闭合说明；其2026政策文号与税率未做官方逐条复核",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S21",
+      "name": "365 二手房税费详情",
+      "url": "https://www.toolbox365.cn/tools/house-tax/",
+      "type": "detail",
+      "observed": "已读取双方税项/原值/核定据实及政策声明；不把其“2026现行”数字当已核准规则",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S22",
+      "name": "LDDGO 提前还贷详情",
+      "url": "https://www.lddgo.net/common/loan-prepayment-calculator",
+      "type": "detail",
+      "observed": "指定期次、部分/全清、减供/缩期/新利率、月表；页面明确不含罚息/手续费",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S23",
+      "name": "LDDGO 拼音详情",
+      "url": "https://www.lddgo.net/convert/pinyin",
+      "type": "detail",
+      "observed": "声调/ü/原文对照/多音字人工选择；页面有游客次数和字数限制，未测性能/准确率",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    },
+    {
+      "id": "S24",
+      "name": "LDDGO 数学目录（辅助查看）",
+      "url": "https://www.lddgo.net/base/class?classID=7",
+      "type": "directory",
+      "observed": "已查看，不用于虚增中国专用工具数量",
+      "accessed_on": "2026-11-20",
+      "method": "mcp__fetch__fetch"
+    }
+  ],
+  "authority_entrypoints": [
+    {
+      "area": "identity",
+      "authority_urls": [
+        "https://openstd.samr.gov.cn/",
+        "https://www.mca.gov.cn/"
+      ],
+      "requirement": "实施前核对公民身份号码现行标准；行政区划保留数据日期、历史撤并码及来源。格式/校验通过只说明规则成立，不证明身份存在，不作实名验证。"
+    },
+    {
+      "area": "credit",
+      "authority_urls": [
+        "https://openstd.samr.gov.cn/"
+      ],
+      "requirement": "实施前核对统一社会信用代码现行标准及登记部门/机构类别字典；候选依据GB 32100-2015须确认未被替代。校验通过不证明企业存在、在营或信用状况。"
+    },
+    {
+      "area": "rmb",
+      "authority_urls": [
+        "https://www.pbc.gov.cn/"
+      ],
+      "requirement": "按正式支付结算/票据人民币大写规则建立独立算例；明确角分、整/正、零、负数、上限和舍入。人民银行主页本次robots拒绝，具体规则原文尚须补验。"
+    },
+    {
+      "area": "calendar",
+      "authority_urls": [
+        "https://www.gov.cn/",
+        "https://openstd.samr.gov.cn/"
+      ],
+      "requirement": "农历按现行农历编算标准核对，明示覆盖年份、时区、闰月及生肖起点；法定放假与调休必须逐年绑定国务院办公厅通知，超出已发布年份标为未知，不能按周末预测冒充官方安排。"
+    },
+    {
+      "area": "district",
+      "authority_urls": [
+        "https://www.mca.gov.cn/",
+        "https://openstd.samr.gov.cn/"
+      ],
+      "requirement": "民政部行政区划变更公告/代码与历史沿革单独版本化；行政区划码和统计用区划码不能混用。展示数据截至日期，保留旧码查询；不得把旧码一概判无效。"
+    },
+    {
+      "area": "postal",
+      "authority_urls": [
+        "https://www.chinapost.com.cn/",
+        "https://www.mca.gov.cn/"
+      ],
+      "requirement": "邮编和电话区号独立于行政区划维护；代表邮编不能声称覆盖全部投递地址。核实数据授权与覆盖率；用官方邮政渠道抽验，显示更新日和缺失值。"
+    },
+    {
+      "area": "language",
+      "authority_urls": [
+        "https://www.moe.gov.cn/",
+        "https://www.unicode.org/"
+      ],
+      "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+    },
+    {
+      "area": "encoding",
+      "authority_urls": [
+        "https://encoding.spec.whatwg.org/",
+        "https://www.unicode.org/"
+      ],
+      "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+    },
+    {
+      "area": "crypto",
+      "authority_urls": [
+        "https://openstd.samr.gov.cn/",
+        "https://www.gmbz.org.cn/"
+      ],
+      "requirement": "实施前核对现行国密标准和公开标准向量，锁定经审查的本地实现；明确编码、模式、IV/nonce、填充、签名ID和密文排列。不得以提供算法工具宣称通过任何合规认证。"
+    },
+    {
+      "area": "checksum",
+      "authority_urls": [
+        "https://www.modbus.org/"
+      ],
+      "requirement": "按公开协议和独立标准向量对拍，逐一记录poly/init/refin/refout/xorout和字节序；CRC/BCC/LRC仅检错，不声称加密或密码学完整性保护。"
+    },
+    {
+      "area": "tax",
+      "authority_urls": [
+        "https://www.chinatax.gov.cn/",
+        "https://www.mof.gov.cn/"
+      ],
+      "requirement": "本次未完成税法政策逐条官方复核。实施前逐条取得税法/公告原文与适用日期，区分税年、纳税人身份、地区、扣除和征管口径；维护政策版本、到期提醒、官方链接与手动覆盖。不能直接复制同行税率或其“现行”声明。"
+    },
+    {
+      "area": "social",
+      "authority_urls": [
+        "https://www.mohrss.gov.cn/",
+        "https://www.chinatax.gov.cn/",
+        "https://www.mohurd.gov.cn/"
+      ],
+      "requirement": "城市×年度/生效月维护社保、公积金基数上下限、个人/单位比例和固定附加额，区分参保身份；只公布人工核实的城市预设，允许逐项覆盖，不能全国一套比例。"
+    },
+    {
+      "area": "retire",
+      "authority_urls": [
+        "https://www.gov.cn/",
+        "https://www.mohrss.gov.cn/"
+      ],
+      "requirement": "实施前核对渐进式延迟退休及弹性退休官方规则/附表、性别与原退休年龄类别、出生年月、最低缴费年限；显示政策生效版本和例外范围。本次不把同行参数视为官方复核结果。"
+    },
+    {
+      "area": "loan",
+      "authority_urls": [
+        "https://www.pbc.gov.cn/",
+        "https://www.mohurd.gov.cn/"
+      ],
+      "requirement": "纯还款数学可离线；LPR、公积金首/二套利率、城市贷款额度/资格等若预填须逐条取官方有效日期，默认用户合同为准。列清舍入、首期、提前还款当月和费用假设，不伪称银行报价。"
+    },
+    {
+      "area": "lookup",
+      "authority_urls": [
+        "https://www.miit.gov.cn/",
+        "https://www.mps.gov.cn/"
+      ],
+      "requirement": "号段/车牌字典需确认授权、来源与更新日期；手机号前缀只可反映原始号段分配，携号转网后不能断言现运营商或用户位置，任何格式样本不保证未被分配。"
+    },
+    {
+      "area": "general",
+      "authority_urls": [],
+      "requirement": "无动态法规依赖；写清计算或转换规则，以用户输入为准，记录字典/第三方依赖许可证和版本；不得把同行说明当作经过独立测试的准确率或性能。"
+    }
+  ],
+  "entries": [
+    {
+      "id": "CN-001",
+      "capability_name_zh": "居民身份证格式校验与信息解析",
+      "implementation_group": "cn-identity",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/identity",
+        "https://www.toolbox365.cn/tools/id-card/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "未发现身份证引擎。同行详细页提供15/18位、校验结果、出生年月/性别/编码地区以及单条/批量；只能解析编码信息，不能声称查到实际户籍、姓名或住址。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/",
+          "https://www.mca.gov.cn/"
+        ],
+        "requirement": "实施前核对公民身份号码现行标准；行政区划保留数据日期、历史撤并码及来源。格式/校验通过只说明规则成立，不证明身份存在，不作实名验证。"
+      },
+      "recommended_order": 1,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "新增本地身份证工具组，先校验和解析再做批量",
+      "quality_acceptance": "日期真伪、末位x/X、15位策略、闰日、历史地区、全角输入、错误定位与批量逐行结果；不得把未知地区误报为身份伪造。"
+    },
+    {
+      "id": "CN-002",
+      "capability_name_zh": "身份证校验规则测试样本",
+      "implementation_group": "cn-identity",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/idgenerator"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有random-number、token-generator不按身份证编码规则构造样本；同行支持地区/生日/性别/数量和批量输出，并明确仅供学习测试。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/",
+          "https://www.mca.gov.cn/"
+        ],
+        "requirement": "实施前核对公民身份号码现行标准；行政区划保留数据日期、历史撤并码及来源。格式/校验通过只说明规则成立，不证明身份存在，不作实名验证。"
+      },
+      "recommended_order": 18,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "同组增加醒目标注“仅供测试”的规则样本，不单独许诺身份生成",
+      "quality_acceptance": "提供正例和故意损坏校验位/日期的反例；每条标明虚构测试用途；不声称号码真实、未分配或与真人绝不重合，不附真实身份记录。"
+    },
+    {
+      "id": "CN-003",
+      "capability_name_zh": "统一社会信用代码格式校验与分段解析",
+      "implementation_group": "cn-credit-code",
+      "competitor_urls": [
+        "https://www.yunfale.com/credit-code-check/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无18位统一社会信用代码校验。同行详细页可检查允许字符、校验位、预期末位并说明各段；其页面明确不查企业登记信息。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "实施前核对统一社会信用代码现行标准及登记部门/机构类别字典；候选依据GB 32100-2015须确认未被替代。校验通过不证明企业存在、在营或信用状况。"
+      },
+      "recommended_order": 2,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "新增本地统一社会信用代码校验",
+      "quality_acceptance": "独立标准向量、大小写/全角/空白策略、非法字母、错一位、纯格式与登记真实性分开；不上传输入或写入可分享URL默认参数。"
+    },
+    {
+      "id": "CN-004",
+      "capability_name_zh": "统一社会信用代码测试样本与中文Mock导出",
+      "implementation_group": "cn-mock-data",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/mock-data/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有UUID、随机数和token无统一社会信用代码字段。同行Mock详细页包含该校验规则字段和JSON/JSONL/CSV/SQL输出。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "实施前核对统一社会信用代码现行标准及登记部门/机构类别字典；候选依据GB 32100-2015须确认未被替代。校验通过不证明企业存在、在营或信用状况。"
+      },
+      "recommended_order": 19,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "复用校验器构造明确虚构的测试字段，不另造“企业查询”",
+      "quality_acceptance": "校验样本和反例可控、CSV中文BOM可选、SQL标识符安全引用、输出数量与完整下载一致；不承诺真实机构。"
+    },
+    {
+      "id": "CN-005",
+      "capability_name_zh": "人民币金额大写",
+      "implementation_group": "cn-number",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/numberupper",
+        "https://www.toolbox365.cn/tools/numcn/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有壹贰叁、元角分、整等人民币金额转换；roman-numeral仅罗马数字，不能算同类已覆盖。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.pbc.gov.cn/"
+        ],
+        "requirement": "按正式支付结算/票据人民币大写规则建立独立算例；明确角分、整/正、零、负数、上限和舍入。人民银行主页本次robots拒绝，具体规则原文尚须补验。"
+      },
+      "recommended_order": 3,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "新增本地人民币金额大写",
+      "quality_acceptance": "十进制定点处理；0、零角有分、跨万亿、连续零、负数、超大金额、小数超过分和舍入策略均有独立算例。"
+    },
+    {
+      "id": "CN-006",
+      "capability_name_zh": "中文数字/财务大写反向转阿拉伯数字",
+      "implementation_group": "cn-number",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/chinese-number-to-arabic-number"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无一二三/壹贰叁到数值解析；同行目录明确双类中文数字输入并可复制/下载。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.pbc.gov.cn/"
+        ],
+        "requirement": "按正式支付结算/票据人民币大写规则建立独立算例；明确角分、整/正、零、负数、上限和舍入。人民银行主页本次robots拒绝，具体规则原文尚须补验。"
+      },
+      "recommended_order": 20,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "与人民币大写共用规范化与大整数内核",
+      "quality_acceptance": "区分普通数量词与金额；两/〇/零、拾佰仟万亿组合、重复单位和歧义输入显式报错，不猜测修复金额。"
+    },
+    {
+      "id": "CN-007",
+      "capability_name_zh": "公历农历双向转换",
+      "implementation_group": "cn-calendar",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/lunar"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/_engines/calc-engine-date.tsx"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "age-calculator/date-calculator只处理公历Date与ISO输入。同行提供双向转换、闰月/大小月判断及农历相关信息。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.gov.cn/",
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "农历按现行农历编算标准核对，明示覆盖年份、时区、闰月及生肖起点；法定放假与调休必须逐年绑定国务院办公厅通知，超出已发布年份标为未知，不能按周末预测冒充官方安排。"
+      },
+      "recommended_order": 4,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "新增农历核心后供其他日期工具复用",
+      "quality_acceptance": "明确年份覆盖与北京时间；闰月往返、月末、春节、世纪边界独立历表核对；不把未覆盖年份算出看似有效结果。"
+    },
+    {
+      "id": "CN-008",
+      "capability_name_zh": "中国法定节假日和调休工作日计算",
+      "implementation_group": "cn-calendar",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/workday"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "workdays-calculator"
+        ],
+        "code_evidence": [
+          "tools/_lib/workdays.ts",
+          "tools/_engines/calc-engine-workdays.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "当前isWorkday始终要求非周末，仅有holidays排除表，无法把周末补班日算回工作日；同行区分正常工作日/调休工作日/周末/节假日并给日期列表。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.gov.cn/",
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "农历按现行农历编算标准核对，明示覆盖年份、时区、闰月及生肖起点；法定放假与调休必须逐年绑定国务院办公厅通知，超出已发布年份标为未知，不能按周末预测冒充官方安排。"
+      },
+      "recommended_order": 5,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_annual_dataset",
+      "recommended_action": "扩展现有工作日计算器的中国日历模式，不另建重复引擎",
+      "quality_acceptance": "补班周末优先级高于周末规则；年度源通知逐日核对；不支持年份明确未知；保留现有自定义周末/假日和加减工作日端点语义。"
+    },
+    {
+      "id": "CN-009",
+      "capability_name_zh": "年度放假调休总览与拼假方案",
+      "implementation_group": "cn-calendar",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/calendar/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有countdown-timer和date-calculator没有年度中国放假/补班日历或按工作日枚举请假组合；同行提供月历、全年清单和请假方案。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.gov.cn/",
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "农历按现行农历编算标准核对，明示覆盖年份、时区、闰月及生肖起点；法定放假与调休必须逐年绑定国务院办公厅通知，超出已发布年份标为未知，不能按周末预测冒充官方安排。"
+      },
+      "recommended_order": 21,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_annual_dataset",
+      "recommended_action": "复用中国日历数据增加日历与拼假视图",
+      "quality_acceptance": "每项请假日必须实际是工作日，补班不能混入休息天；方案按真实规则枚举，说明连续休息范围、请假天数和排序标准。"
+    },
+    {
+      "id": "CN-010",
+      "capability_name_zh": "农历生日与下次农历生日倒计时",
+      "implementation_group": "cn-calendar",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/age-calc/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "age-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-date.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有年龄引擎只按公历月日构造下次生日，无农历及闰月生日策略；同行目录明确支持公历/农历生日。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.gov.cn/",
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "农历按现行农历编算标准核对，明示覆盖年份、时区、闰月及生肖起点；法定放假与调休必须逐年绑定国务院办公厅通知，超出已发布年份标为未知，不能按周末预测冒充官方安排。"
+      },
+      "recommended_order": 22,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "给年龄计算器增加农历生日模式",
+      "quality_acceptance": "闰月生日在无闰月年份的处理供用户选择；当日生日、除夕、农历生日跨公历年与1900/2100范围边界核对。"
+    },
+    {
+      "id": "CN-011",
+      "capability_name_zh": "二十四节气、干支和生肖的历法说明",
+      "implementation_group": "cn-calendar",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/lunar",
+        "https://www.toolbox365.cn/tools/calendar/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "未发现节气/干支/生肖历法。同行农历页有这些结果，并说明以春节作为生肖和农历年起点；不同习俗起点应显式区分。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.gov.cn/",
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "农历按现行农历编算标准核对，明示覆盖年份、时区、闰月及生肖起点；法定放假与调休必须逐年绑定国务院办公厅通知，超出已发布年份标为未知，不能按周末预测冒充官方安排。"
+      },
+      "recommended_order": 23,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "放入农历详情，不为了字段数拆出多个薄工具",
+      "quality_acceptance": "核对节气时刻与时区；清楚区分公历年、农历年和立春民俗口径；不延伸为命运预测。"
+    },
+    {
+      "id": "CN-012",
+      "capability_name_zh": "省市县行政区划和历史代码查询",
+      "implementation_group": "cn-district",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/district/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有省市县数据和代码查询。同行详细页提供三级级联、行政代码，并提醒历史废止码和开源聚合未逐条校验。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.mca.gov.cn/",
+          "https://openstd.samr.gov.cn/"
+        ],
+        "requirement": "民政部行政区划变更公告/代码与历史沿革单独版本化；行政区划码和统计用区划码不能混用。展示数据截至日期，保留旧码查询；不得把旧码一概判无效。"
+      },
+      "recommended_order": 6,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "建版本化行政区划数据集，供身份证和地址复用",
+      "quality_acceptance": "代码唯一、父子层级完整、撤并前后可追溯；有效期与当前/历史状态分开，不能把同名地名自动合并。"
+    },
+    {
+      "id": "CN-013",
+      "capability_name_zh": "地区邮政编码与电话区号查询/反查",
+      "implementation_group": "cn-district",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/district/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有邮编或电话区号查询。同行详细页提供查询，但自述仅行政区代表邮编、覆盖约55%；这一比例仅为同行自述，未独立验证。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.chinapost.com.cn/",
+          "https://www.mca.gov.cn/"
+        ],
+        "requirement": "邮编和电话区号独立于行政区划维护；代表邮编不能声称覆盖全部投递地址。核实数据授权与覆盖率；用官方邮政渠道抽验，显示更新日和缺失值。"
+      },
+      "recommended_order": 24,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "与行政区划同页但独立数据字段和覆盖说明",
+      "quality_acceptance": "一对多邮编/区号关系、前导0保留、代表邮编标签与未收录状态；不得用行政区划前缀推导邮编。"
+    },
+    {
+      "id": "CN-014",
+      "capability_name_zh": "汉字转拼音与多音字校正",
+      "implementation_group": "cn-language",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/pinyin",
+        "https://www.toolbox365.cn/tools/hanzi-pinyin/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无拼音字词典。同行详细页支持声调符号/数字、ü、大小写、原文对照、多音字选择、分隔符和未识别字符策略；slug-generator不是拼音转换。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.moe.gov.cn/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+      },
+      "recommended_order": 7,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dictionary",
+      "recommended_action": "新增本地词语级拼音，优先保障多音词与人工覆写",
+      "quality_acceptance": "重庆/银行/长大/姓氏、轻声、ü、繁体、扩展汉字/emoji混排；字典未收录明确保留或提示，不假装全部正确。"
+    },
+    {
+      "id": "CN-015",
+      "capability_name_zh": "汉字拼音首字母缩写",
+      "implementation_group": "cn-language",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/pinyin-first-letter"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "未发现中文转首字母；case-converter只变换已有字母大小写，不生成拼音。同行目录支持多音字及半角/全角参数。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.moe.gov.cn/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+      },
+      "recommended_order": 25,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dictionary",
+      "recommended_action": "作为拼音模式复用字典",
+      "quality_acceptance": "与完整拼音保持多音词处理一致；空白、数字、标点、英文、emoji保留策略和姓氏首字母可追溯。"
+    },
+    {
+      "id": "CN-016",
+      "capability_name_zh": "简体/繁体及台湾香港地区转换",
+      "implementation_group": "cn-language",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/traditional",
+        "https://www.toolbox365.cn/tools/zh-convert/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有简繁和地区词汇字典。case-converter全角/半角不能代替简繁转换；同行目录区分台湾正体/香港繁体与常用语替换。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.moe.gov.cn/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+      },
+      "recommended_order": 8,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dictionary",
+      "recommended_action": "新增本地地区化简繁转换",
+      "quality_acceptance": "词语级一对多/多对一、头发/发展、软件/軟體等语境样例；说明有损与不能保证往返相同，保存原文供比较。"
+    },
+    {
+      "id": "CN-017",
+      "capability_name_zh": "中文姓名/地址等本地Mock字段",
+      "implementation_group": "cn-mock-data",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/mock-data/",
+        "https://www.lddgo.net/string/random-name-generator"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "random-name-picker是从用户名单随机抽取，不是生成中文姓名/地区/地址的Mock字段；同行提供中文姓名和地址字段及结构化导出。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.moe.gov.cn/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+      },
+      "recommended_order": 26,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dictionary",
+      "recommended_action": "与测试身份证/信用代码合并为一个Mock生成器",
+      "quality_acceptance": "使用可授权的虚构词库，明确样本虚构、不保证不重名；省市县字段一致，引用关系和可重复种子可测试，不混入真实个人记录。"
+    },
+    {
+      "id": "CN-018",
+      "capability_name_zh": "简体中文/繁体中文占位假文",
+      "implementation_group": "cn-text",
+      "competitor_urls": [
+        "https://www.lddgo.net/string/lorem-ipsum"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "lorem-ipsum-generator"
+        ],
+        "code_evidence": [
+          "tools/_engines/lorem.tsx",
+          "tools/_lib/transforms.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有loremParagraphs来自固定拉丁文词池，无中文模式；同行目录支持简体中文、繁体中文与段落/语句参数。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.moe.gov.cn/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+      },
+      "recommended_order": 27,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dictionary",
+      "recommended_action": "扩展现有假文生成器语言模式",
+      "quality_acceptance": "中文字数/句数/段数参数可验证，中文标点自然；可重复种子、0/上限和下载完整性；避免未授权复制现成文章。"
+    },
+    {
+      "id": "CN-019",
+      "capability_name_zh": "GBK/GB18030等中文字符集编码转换",
+      "implementation_group": "cn-encoding",
+      "competitor_urls": [
+        "https://www.lddgo.net/string/char-encode",
+        "https://www.lddgo.net/string/charset-encoding-info-query"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "text-to-binary",
+          "base64-encoder",
+          "base64-decoder"
+        ],
+        "code_evidence": [
+          "tools/_engines/dev-engine-encoder.tsx",
+          "tools/_lib/transforms.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有文本二进制和Base64走无参数TextEncoder/TextDecoder，即UTF-8；没有中文旧系统常用字符集选择。同行目录提供字符集编码与解码查询。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 9,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_mapping",
+      "recommended_action": "建可测字节编码层，保持UTF-8默认并按需懒加载映射",
+      "quality_acceptance": "GBK/GB18030版本、扩展字/emoji不可编码情况、非法字节和往返；禁止静默问号替换后仍称无损。"
+    },
+    {
+      "id": "CN-020",
+      "capability_name_zh": "文本/二进制文件与HEX互转",
+      "implementation_group": "cn-encoding",
+      "competitor_urls": [
+        "https://www.lddgo.net/string/hex",
+        "https://www.lddgo.net/convert/filehex"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "text-to-binary",
+          "text-to-unicode"
+        ],
+        "code_evidence": [
+          "tools/_engines/dev-engine-encoder.tsx",
+          "tools/_lib/transforms.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "已有UTF-8二进制位串和Unicode码点转义，但无通用文本/文件字节HEX双向转换；Unicode的U+记法不能等同原始字节HEX。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 28,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "复用编码层添加HEX/文件视图",
+      "quality_acceptance": "每字节两位、空白和0x策略、奇数位/非法字符报错、空文件与NUL；文件往返必须逐字节一致。"
+    },
+    {
+      "id": "CN-021",
+      "capability_name_zh": "Base64的中文字符集与原始字节模式",
+      "implementation_group": "cn-encoding",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/stringbasesix"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "base64-encoder",
+          "base64-decoder",
+          "base64-image"
+        ],
+        "code_evidence": [
+          "tools/_engines/dev-engine-encoder.tsx",
+          "tools/_lib/transforms.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "Base64基础已存在；差异为现有文本模式固定UTF-8，同行目录支持选择字符集先转字节再编码。不能把Base64整体列为缺失。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 29,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_mapping",
+      "recommended_action": "扩展现有Base64模式，复用字节编码层",
+      "quality_acceptance": "相同文本在不同编码下给出可解释的字节差异；非法UTF-8、Base64URL/填充策略和二进制结果不能静默误解为文本。"
+    },
+    {
+      "id": "CN-022",
+      "capability_name_zh": "2到36进制及小数互转",
+      "implementation_group": "cn-radix",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/baseconverter"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "binary-converter"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-converters.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有Binary面板只有2/8/10/16，parseBig只接受非负整数；同行目录支持36以内进制与浮点。BigInt大整数能力已存在，应保留。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 10,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "扩展现有进制转换器的基数与精度控制",
+      "quality_acceptance": "负数、小数、循环小数、舍入位数与大整数精度明确；无效数字拒绝；不能把无限循环展示为精确有限结果。"
+    },
+    {
+      "id": "CN-023",
+      "capability_name_zh": "IEEE754浮点位模式和大小端转换",
+      "implementation_group": "cn-radix",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/numberbinary",
+        "https://www.23bei.com/tool/23.html"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "binary-converter"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-converters.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有BigInt数值进制转换不展示float/double内存表示、符号指数尾数或端序；LDDGO目录明确支持float/double/short/int/long和大小端。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 30,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "在进制工具组增加独立IEEE754模式",
+      "quality_acceptance": "+0/-0、NaN、±Infinity、非规格化、最大有限数、溢出和舍入；用DataView与独立参考向量对拍，区分数字16进制和字节HEX。"
+    },
+    {
+      "id": "CN-024",
+      "capability_name_zh": "国密SM3摘要及HMAC-SM3",
+      "implementation_group": "cn-crypto",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/sm-crypt/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/_engines/dev-engine-hash.tsx",
+          "tools/_engines/dev-engine-hmac.tsx"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有hash算法类型只有MD5/SHA-1/256/384/512，HMAC无SM3；同行详细页明确提供SM3摘要/HMAC。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/",
+          "https://www.gmbz.org.cn/"
+        ],
+        "requirement": "实施前核对现行国密标准和公开标准向量，锁定经审查的本地实现；明确编码、模式、IV/nonce、填充、签名ID和密文排列。不得以提供算法工具宣称通过任何合规认证。"
+      },
+      "recommended_order": 11,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "先补SM3并复用现有摘要交互",
+      "quality_acceptance": "公开标准向量、空字节、中文UTF-8、HEX/Base64字节输入和文件；摘要/HMAC区分，不能把相同字符的不同字节编码混淆。"
+    },
+    {
+      "id": "CN-025",
+      "capability_name_zh": "国密SM2加密解密与密钥格式",
+      "implementation_group": "cn-crypto",
+      "competitor_urls": [
+        "https://www.lddgo.net/encrypt/sm2-encrypt-decrypt",
+        "https://www.toolbox365.cn/tools/sm-crypt/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无SM2或其他公钥加密引擎。同行提供公钥加密/私钥解密、PEM/HEX以及C1C3C2/C1C2C3互通参数说明。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/",
+          "https://www.gmbz.org.cn/"
+        ],
+        "requirement": "实施前核对现行国密标准和公开标准向量，锁定经审查的本地实现；明确编码、模式、IV/nonce、填充、签名ID和密文排列。不得以提供算法工具宣称通过任何合规认证。"
+      },
+      "recommended_order": 31,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "国密组新增SM2加解密和格式校验",
+      "quality_acceptance": "标准向量与独立实现互通；密钥点校验、04前缀、排列、空/畸形密文清楚报错；私钥不持久化，不上传。"
+    },
+    {
+      "id": "CN-026",
+      "capability_name_zh": "国密SM2签名验签及用户ID",
+      "implementation_group": "cn-crypto",
+      "competitor_urls": [
+        "https://www.lddgo.net/encrypt/sm2-sign-verify",
+        "https://www.toolbox365.cn/tools/sm-crypt/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "jwt-decoder仅解析JWT不是SM2验签；没有SM2签名流程。同行详细页说明签名ID、ZA参与和签名验签模式。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/",
+          "https://www.gmbz.org.cn/"
+        ],
+        "requirement": "实施前核对现行国密标准和公开标准向量，锁定经审查的本地实现；明确编码、模式、IV/nonce、填充、签名ID和密文排列。不得以提供算法工具宣称通过任何合规认证。"
+      },
+      "recommended_order": 32,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "与SM2加解密共用密钥层，但签名模式独立",
+      "quality_acceptance": "用户ID不同应验签失败；签名格式raw/DER明确，篡改消息/签名拒绝，公私钥不匹配可诊断；使用安全随机源。"
+    },
+    {
+      "id": "CN-027",
+      "capability_name_zh": "国密SM4加密解密与模式参数",
+      "implementation_group": "cn-crypto",
+      "competitor_urls": [
+        "https://www.lddgo.net/encrypt/sm4",
+        "https://www.toolbox365.cn/tools/sm-crypt/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无SM4对称加密。LDDGO目录列多模式，365详细页列ECB/CBC/GCM及填充、IV/Tag和字节编码。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://openstd.samr.gov.cn/",
+          "https://www.gmbz.org.cn/"
+        ],
+        "requirement": "实施前核对现行国密标准和公开标准向量，锁定经审查的本地实现；明确编码、模式、IV/nonce、填充、签名ID和密文排列。不得以提供算法工具宣称通过任何合规认证。"
+      },
+      "recommended_order": 33,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "先实现已独立对拍的模式，未实现模式不伪装可用",
+      "quality_acceptance": "密钥/IV字节长度、填充、GCM认证失败、nonce要求、中文和二进制；逐模式标准向量，界面避免把ECB作为安全默认。"
+    },
+    {
+      "id": "CN-028",
+      "capability_name_zh": "CRC16-Modbus及协议校验字节序",
+      "implementation_group": "cn-protocol",
+      "competitor_urls": [
+        "https://www.23bei.com/tool/59.html",
+        "https://www.lddgo.net/encrypt/crc"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "hash-generator是密码摘要，不提供CRC。三贝详情可计算报文长度、MSB-LSB与Modbus低字节在前输出；LDDGO目录支持CRC8/16/32/64。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.modbus.org/"
+        ],
+        "requirement": "按公开协议和独立标准向量对拍，逐一记录poly/init/refin/refout/xorout和字节序；CRC/BCC/LRC仅检错，不声称加密或密码学完整性保护。"
+      },
+      "recommended_order": 12,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "先补CRC16-Modbus，再按明确参数扩展家族",
+      "quality_acceptance": "偶数HEX输入、空格/非法字符、空包、多种预置向量、结果大小端；每种CRC名称绑定完整参数，避免只写CRC16。"
+    },
+    {
+      "id": "CN-029",
+      "capability_name_zh": "BCC异或/LRC纵向冗余校验",
+      "implementation_group": "cn-protocol",
+      "competitor_urls": [
+        "https://www.lddgo.net/encrypt/bcc",
+        "https://www.lddgo.net/encrypt/lrc"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有BCC/LRC。同行目录有文本/HEX/Base64/文件字节输入及多进制结果，现有HMAC不能替代这些协议检错算法。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.modbus.org/"
+        ],
+        "requirement": "按公开协议和独立标准向量对拍，逐一记录poly/init/refin/refout/xorout和字节序；CRC/BCC/LRC仅检错，不声称加密或密码学完整性保护。"
+      },
+      "recommended_order": 34,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "与CRC共用字节输入层和参数可见输出",
+      "quality_acceptance": "空输入/单字节/0x00/0xFF、编码差异、溢出截断和补码规则对拍；明确算法差别，不将两者混为一种异或。"
+    },
+    {
+      "id": "CN-030",
+      "capability_name_zh": "中国工资薪金累计预扣与年度个税",
+      "implementation_group": "cn-payroll",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/tax-calc/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "income-tax-calculator"
+        ],
+        "code_evidence": [
+          "tools/calculators/income-tax-calculator.ts",
+          "tools/_lib/incometax.ts",
+          "tools/_engines/calc-engine-incometax.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "income-tax-calculator和incometax.ts明确为2026美国联邦税，只含single/married与美元扣除；没有中国累计预扣、专项附加扣除、社保或逐月表。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.chinatax.gov.cn/",
+          "https://www.mof.gov.cn/"
+        ],
+        "requirement": "本次未完成税法政策逐条官方复核。实施前逐条取得税法/公告原文与适用日期，区分税年、纳税人身份、地区、扣除和征管口径；维护政策版本、到期提醒、官方链接与手动覆盖。不能直接复制同行税率或其“现行”声明。"
+      },
+      "recommended_order": 13,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_policy_tables",
+      "recommended_action": "独立中国税制模块；可复用图表与表单，不能只换中文标题",
+      "quality_acceptance": "累计/非累计语义、年中入职、月收入波动、扣除变化、已有预扣、退补税边界；逐月税额汇总与年度税独立核对。"
+    },
+    {
+      "id": "CN-031",
+      "capability_name_zh": "年终奖单独/并入综合所得对比",
+      "implementation_group": "cn-payroll",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/tax-calc/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/calculators/income-tax-calculator.ts",
+          "tools/_lib/incometax.ts",
+          "tools/_engines/calc-engine-incometax.tsx"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有美国联邦模型没有中国全年一次性奖金规则；同行同页显示单独与并入两方案税额及到手差值。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.chinatax.gov.cn/",
+          "https://www.mof.gov.cn/"
+        ],
+        "requirement": "本次未完成税法政策逐条官方复核。实施前逐条取得税法/公告原文与适用日期，区分税年、纳税人身份、地区、扣除和征管口径；维护政策版本、到期提醒、官方链接与手动覆盖。不能直接复制同行税率或其“现行”声明。"
+      },
+      "recommended_order": 35,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_policy_tables",
+      "recommended_action": "作为中国个税的奖金模式，避免重复入口和不一致税表",
+      "quality_acceptance": "有效期间和适用条件必须绑定官方政策；临界点、低收入高扣除、零奖金、跨档增加收入后税后变化逐例核对；建议不代表申报资格判定。"
+    },
+    {
+      "id": "CN-032",
+      "capability_name_zh": "五险一金个人/单位成本测算",
+      "implementation_group": "cn-payroll",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/si-fund/",
+        "https://www.toolbox365.cn/tools/tax-calc/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有中国养老/医疗/失业/工伤/生育、公积金分项与单位成本。同行有个人/单位比例、基数和年度汇总；其税页也承认固定额、上下限等未全覆盖。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.mohrss.gov.cn/",
+          "https://www.chinatax.gov.cn/",
+          "https://www.mohurd.gov.cn/"
+        ],
+        "requirement": "城市×年度/生效月维护社保、公积金基数上下限、个人/单位比例和固定附加额，区分参保身份；只公布人工核实的城市预设，允许逐项覆盖，不能全国一套比例。"
+      },
+      "recommended_order": 14,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_city_policy_tables",
+      "recommended_action": "先做逐项自定义基数/比例的透明计算，再增加已核实城市预设",
+      "quality_acceptance": "上下限夹取、生效月、固定附加额、个人/单位不同项目、金额闭合到分；区分税前扣除和可用现金，缺失城市不套用别城规则。"
+    },
+    {
+      "id": "CN-033",
+      "capability_name_zh": "渐进式延迟退休年龄/日期查询",
+      "implementation_group": "cn-retirement",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/retirement-age",
+        "https://www.toolbox365.cn/tools/retire/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "retirement-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-retirement.tsx",
+          "tools/calculators/retirement-calculator.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有retirement-calculator是储蓄复利和提款估算，退休年龄由用户填，不计算中国法定退休日期；同行区分男性、原50岁女性、原55岁女性及弹性时间。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.gov.cn/",
+          "https://www.mohrss.gov.cn/"
+        ],
+        "requirement": "实施前核对渐进式延迟退休及弹性退休官方规则/附表、性别与原退休年龄类别、出生年月、最低缴费年限；显示政策生效版本和例外范围。本次不把同行参数视为官方复核结果。"
+      },
+      "recommended_order": 15,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_policy_tables",
+      "recommended_action": "新增政策查询，与储蓄预测明确区分",
+      "quality_acceptance": "按出生年月逐月对附表；原类别、改革前后端点、弹性上下限及最低缴费年限分别呈现；特殊工种等例外不得给确定结论。"
+    },
+    {
+      "id": "CN-034",
+      "capability_name_zh": "中国增值税价税分离及分币闭合",
+      "implementation_group": "cn-tax",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/vat-split/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "vat-calculator",
+          "gst-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-tax.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有VAT有含税/不含税双向通用公式，必须保留；差距是默认20%美元、无中国税率/征收率口径和政策有效期，浮点金额未做先定一项再差额闭合到分的显式政策。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.chinatax.gov.cn/",
+          "https://www.mof.gov.cn/"
+        ],
+        "requirement": "本次未完成税法政策逐条官方复核。实施前逐条取得税法/公告原文与适用日期，区分税年、纳税人身份、地区、扣除和征管口径；维护政策版本、到期提醒、官方链接与手动覆盖。不能直接复制同行税率或其“现行”声明。"
+      },
+      "recommended_order": 16,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_policy_tables",
+      "recommended_action": "增强VAT的中国模式，保留通用自定义税率",
+      "quality_acceptance": "含税=不含税+税额到分一致；13%等预设仅在官方核实后发布；输入税额反推、零税率、放弃减免和边界舍入明确。"
+    },
+    {
+      "id": "CN-035",
+      "capability_name_zh": "城建税/教育费附加等附加税费",
+      "implementation_group": "cn-tax",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/surtax/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有VAT/GST只拆一个税额，无按实缴流转税计算附加或适用减免。同行目录有地区档位、教育附加及减半选项。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.chinatax.gov.cn/",
+          "https://www.mof.gov.cn/"
+        ],
+        "requirement": "本次未完成税法政策逐条官方复核。实施前逐条取得税法/公告原文与适用日期，区分税年、纳税人身份、地区、扣除和征管口径；维护政策版本、到期提醒、官方链接与手动覆盖。不能直接复制同行税率或其“现行”声明。"
+      },
+      "recommended_order": 36,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_policy_tables",
+      "recommended_action": "中国税费模块增加附加计算",
+      "quality_acceptance": "计税依据与税率分开、城市/县镇/其他分类可说明、减免资格由用户确认并附政策日期；不能把票面销项税默认等同实缴VAT。"
+    },
+    {
+      "id": "CN-036",
+      "capability_name_zh": "二手住房买卖税费分项",
+      "implementation_group": "cn-tax",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/house-tax/"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "mortgage-calculator计算贷款月供并非交易税费；无契税/卖方增值税/个税及持有年限/套数条件。同行详细页有买卖双方分项及核定/据实试算。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.chinatax.gov.cn/",
+          "https://www.mof.gov.cn/"
+        ],
+        "requirement": "本次未完成税法政策逐条官方复核。实施前逐条取得税法/公告原文与适用日期，区分税年、纳税人身份、地区、扣除和征管口径；维护政策版本、到期提醒、官方链接与手动覆盖。不能直接复制同行税率或其“现行”声明。"
+      },
+      "recommended_order": 42,
+      "priority": "P2",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_city_policy_tables",
+      "recommended_action": "取得官方规则和地域例外后再做，不直接照抄同行“2026现行”税率",
+      "quality_acceptance": "满年按日期、面积阈值、家庭套数/唯一住房由用户核实；原值、税费扣除不重复；核定/据实是征管适用条件而非任意择低。"
+    },
+    {
+      "id": "CN-037",
+      "capability_name_zh": "中国房贷等额本金与等额本息对比",
+      "implementation_group": "cn-mortgage",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/houseloan"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "mortgage-calculator",
+          "loan-calculator",
+          "amortization-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-mortgage.tsx",
+          "tools/_lib/finance.ts",
+          "tools/_lib/amortize.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有mortgage已支持CNY、等额本息、年表，amortization有月表；但核心均固定本息，未提供等额本金切换。同行目录两种都提供。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.pbc.gov.cn/",
+          "https://www.mohurd.gov.cn/"
+        ],
+        "requirement": "纯还款数学可离线；LPR、公积金首/二套利率、城市贷款额度/资格等若预填须逐条取官方有效日期，默认用户合同为准。列清舍入、首期、提前还款当月和费用假设，不伪称银行报价。"
+      },
+      "recommended_order": 17,
+      "priority": "P0",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "扩展现有贷款数学和界面；不另建同公式薄页",
+      "quality_acceptance": "等额本金首末月、每月递减、零利率、末期舍入、两方案总本息；保留人民币切换和现有月/年表。"
+    },
+    {
+      "id": "CN-038",
+      "capability_name_zh": "住房公积金贷款场景",
+      "implementation_group": "cn-mortgage",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/profund"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "mortgage-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-mortgage.tsx",
+          "tools/_lib/finance.ts",
+          "tools/_lib/amortize.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有可手填利率算任意等额本息贷款，数学基础存在；未见公积金首/二套、贷款口径、已核实利率预设或等额本金模式。同行有明确公积金场景。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.pbc.gov.cn/",
+          "https://www.mohurd.gov.cn/"
+        ],
+        "requirement": "纯还款数学可离线；LPR、公积金首/二套利率、城市贷款额度/资格等若预填须逐条取官方有效日期，默认用户合同为准。列清舍入、首期、提前还款当月和费用假设，不伪称银行报价。"
+      },
+      "recommended_order": 37,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_policy_tables",
+      "recommended_action": "先用清楚标注的用户合同利率场景，再加官方版本预设",
+      "quality_acceptance": "不把利率计算当贷款资格/额度审批；地区/首二套/期限不同显示有效期；与同利率通用数学结果一致。"
+    },
+    {
+      "id": "CN-039",
+      "capability_name_zh": "商业贷+公积金组合贷",
+      "implementation_group": "cn-mortgage",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/portloan",
+        "https://www.toolbox365.cn/tools/mortgage/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "mortgage-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-mortgage.tsx",
+          "tools/_lib/finance.ts",
+          "tools/_lib/amortize.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有只有一笔贷款本金/利率，不能同时计算两个利率和各自余额后合并月供；不能视为已覆盖组合贷。同行目录明确提供。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.pbc.gov.cn/",
+          "https://www.mohurd.gov.cn/"
+        ],
+        "requirement": "纯还款数学可离线；LPR、公积金首/二套利率、城市贷款额度/资格等若预填须逐条取官方有效日期，默认用户合同为准。列清舍入、首期、提前还款当月和费用假设，不伪称银行报价。"
+      },
+      "recommended_order": 38,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "基于统一贷款内核组合两笔贷款和汇总表",
+      "quality_acceptance": "两笔期限/利率/还款方式不同、其中一笔为零、总月供逐月相加、提前还款指定分配到哪笔，禁止平均利率近似冒充精确。"
+    },
+    {
+      "id": "CN-040",
+      "capability_name_zh": "一次性提前还贷、缩期/减供及重算",
+      "implementation_group": "cn-mortgage",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/loan-prepayment-calculator"
+      ],
+      "evidence_level": "detail_page",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "mortgage-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-mortgage.tsx",
+          "tools/_lib/finance.ts",
+          "tools/_lib/amortize.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有mortgageAccelerated支持从开始每月持续额外还款，不能把它报为完全缺失；差距为指定第N期一次性还款、全清/部分、缩期/减供和新利率。同行详情明确这些方案。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.pbc.gov.cn/",
+          "https://www.mohurd.gov.cn/"
+        ],
+        "requirement": "纯还款数学可离线；LPR、公积金首/二套利率、城市贷款额度/资格等若预填须逐条取官方有效日期，默认用户合同为准。列清舍入、首期、提前还款当月和费用假设，不伪称银行报价。"
+      },
+      "recommended_order": 39,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "扩展已有提前还款内核，保留每月额外还款模式",
+      "quality_acceptance": "明确当月先还月供再提前还本；剩余本金上限、全额/部分、缩期/减供、罚息/手续费和新利率假设，展示前后现金流差异。"
+    },
+    {
+      "id": "CN-041",
+      "capability_name_zh": "车牌简称/发牌地区查询",
+      "implementation_group": "cn-lookup",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/car"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无中国车牌字典；同行目录提供全国车牌号码归属地。不得把地区解析延伸成车辆/车主查询。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.miit.gov.cn/",
+          "https://www.mps.gov.cn/"
+        ],
+        "requirement": "号段/车牌字典需确认授权、来源与更新日期；手机号前缀只可反映原始号段分配，携号转网后不能断言现运营商或用户位置，任何格式样本不保证未被分配。"
+      },
+      "recommended_order": 43,
+      "priority": "P2",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "提供省简称和发牌机关规则查询",
+      "quality_acceptance": "普通/新能源/特殊号牌范围明确；省简称多字形输入处理、未知前缀诚实未收录；不展示或收集真实车主数据。"
+    },
+    {
+      "id": "CN-042",
+      "capability_name_zh": "手机号原始号段归属地查询",
+      "implementation_group": "cn-lookup",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/phone",
+        "https://www.toolbox365.cn/tools/phone-location/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "无中国手机号段数据；同行有地区/运营商/号段查询及批量能力。只能验证这一页面能力声明，未验证号段数据及时性。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.miit.gov.cn/",
+          "https://www.mps.gov.cn/"
+        ],
+        "requirement": "号段/车牌字典需确认授权、来源与更新日期；手机号前缀只可反映原始号段分配，携号转网后不能断言现运营商或用户位置，任何格式样本不保证未被分配。"
+      },
+      "recommended_order": 44,
+      "priority": "P2",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dataset",
+      "recommended_action": "仅在取得可再分发数据后做本地前缀查询",
+      "quality_acceptance": "11位/+86/空白策略，虚拟运营商和新增号段、携号转网限制显式说明；不声称实时位置、现运营商或号码实名人。"
+    },
+    {
+      "id": "CN-043",
+      "capability_name_zh": "满减凑单与多张券到手价",
+      "implementation_group": "cn-shopping",
+      "competitor_urls": [
+        "https://www.toolbox365.cn/tools/discount/",
+        "https://www.toolbox365.cn/tools/final-price/"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "partial",
+        "slugs": [
+          "discount-calculator"
+        ],
+        "code_evidence": [
+          "tools/_engines/calc-engine-basic.tsx"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "现有discount只有原价、折扣%和第二折扣%的乘法；没有满减门槛、每满、多券/红包的顺序和凑单建议。同行目录列出这些具体能力。",
+      "data_source_update": {
+        "authority_urls": [],
+        "requirement": "无动态法规依赖；写清计算或转换规则，以用户输入为准，记录字典/第三方依赖许可证和版本；不得把同行说明当作经过独立测试的准确率或性能。"
+      },
+      "recommended_order": 40,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "扩展现有折扣工具的中国购物模式",
+      "quality_acceptance": "折/百分比标签不混；门槛边界、封顶、互斥/叠加顺序、凑单新增支出和真实节省分别显示；规则未知由用户配置。"
+    },
+    {
+      "id": "CN-044",
+      "capability_name_zh": "中英文/数字之间自动加空格",
+      "implementation_group": "cn-text",
+      "competitor_urls": [
+        "https://www.lddgo.net/string/add-space-between-chinese-and-english"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/_lib/transforms.ts",
+          "tools/_lib/transform-registry.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "现有remove-extra-spaces与text-cleaner是清理多余空白，未发现按中英文边界插入空格的转换；同行目录明确此功能。",
+      "data_source_update": {
+        "authority_urls": [],
+        "requirement": "无动态法规依赖；写清计算或转换规则，以用户输入为准，记录字典/第三方依赖许可证和版本；不得把同行说明当作经过独立测试的准确率或性能。"
+      },
+      "recommended_order": 41,
+      "priority": "P1",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "复用text工具引擎新增可独立测试转换",
+      "quality_acceptance": "Markdown/URL/代码块可选保护；中文数字、单位、全角标点、emoji、已有空格/换行幂等；说明排版偏好不强称唯一规范。"
+    },
+    {
+      "id": "CN-045",
+      "capability_name_zh": "中国大陆盲文翻译/输入辅助",
+      "implementation_group": "cn-accessibility",
+      "competitor_urls": [
+        "https://www.lddgo.net/common/braille",
+        "https://www.lddgo.net/common/braille-input"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "missing",
+        "slugs": [],
+        "code_evidence": [
+          "tools/registry.ts",
+          "tools/text/index.ts",
+          "tools/calculators/index.ts",
+          "tools/developer/index.ts",
+          "tools/security/index.ts",
+          "tools/unit/index.ts"
+        ],
+        "registry_scope_checked": "205个工具定义及分类注册表；同时检索_lib与_engines，未发现等价能力"
+      },
+      "provable_gap": "没有盲文转换或输入；同行目录说明现行盲文、双拼盲文与6/8点输入。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://www.moe.gov.cn/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "选用可再分发的字典并记录版本、来源和许可证；多音字、姓名、地区词语/用字差异需独立样例，提供人工选择或词典覆写，不能保证所有语境唯一正确。"
+      },
+      "recommended_order": 45,
+      "priority": "P2",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes_with_versioned_dictionary",
+      "recommended_action": "先确定规范和授权并请使用者验收，再做可访问性工具",
+      "quality_acceptance": "盲文体系、声调/分词规则明确；键盘和屏幕阅读器流程验收；不能把Unicode点阵映射等同高质量中文盲文翻译。"
+    },
+    {
+      "id": "CN-046",
+      "capability_name_zh": "全角/半角双向转换（已有，勿重复造）",
+      "implementation_group": "cn-text",
+      "competitor_urls": [
+        "https://www.lddgo.net/string/full-half-width-converter"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "existing_no_proven_gap",
+        "slugs": [
+          "case-converter",
+          "fancy-text-generator"
+        ],
+        "code_evidence": [
+          "tools/_engines/case-converter.tsx",
+          "tools/_lib/transforms.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "已在case-converter暴露全角/半角模式，transforms.ts有ASCII与全角区双向映射及空格处理；没有证据证明这一基础能力缺失。fancy还有单向全角样式。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 46,
+      "priority": "KEEP",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "保留现有功能并改善可发现性；只有补验发现差距再改",
+      "quality_acceptance": "同样例对拍U+3000/全角ASCII；先核实用户是否需要额外CJK标点规范化，不能为了与同行同名而新建重复引擎。"
+    },
+    {
+      "id": "CN-047",
+      "capability_name_zh": "Unicode转义与文本二进制（已有基础）",
+      "implementation_group": "cn-encoding",
+      "competitor_urls": [
+        "https://www.lddgo.net/convert/string-unicode",
+        "https://www.lddgo.net/convert/string-binary"
+      ],
+      "evidence_level": "directory_listing",
+      "zoyku": {
+        "status": "existing_no_proven_gap",
+        "slugs": [
+          "text-to-unicode",
+          "text-to-binary"
+        ],
+        "code_evidence": [
+          "tools/_engines/dev-engine-encoder.tsx",
+          "tools/_lib/transforms.ts"
+        ],
+        "registry_scope_checked": null
+      },
+      "provable_gap": "textUnicode已有u4/大括号/U+/十进制和反解，textBinary已有UTF-8字节双向。基础能力存在；GBK、原始HEX与编码范围浏览是本目录另列的具体差距。",
+      "data_source_update": {
+        "authority_urls": [
+          "https://encoding.spec.whatwg.org/",
+          "https://www.unicode.org/"
+        ],
+        "requirement": "明示字节编码、端序、填充/非法字符处理及有损转换；以公开规范和独立库/字节向量对拍，不以JavaScript字符串长度代替字节数；字典/映射版本固定。"
+      },
+      "recommended_order": 47,
+      "priority": "KEEP",
+      "priority_basis": "按中国场景相关性、复用依赖、可验证性和维护成本排序；非搜索量或收入预测",
+      "local_implementation": "yes",
+      "recommended_action": "保留现有基础，复用字节层；不重建Unicode或二进制工具",
+      "quality_acceptance": "中文/emoji/代理对与空白策略独立回归；不能用现有码点数量推断GBK字节数，也不以存在单页等同所有字符集已覆盖。"
+    }
+  ]
+}

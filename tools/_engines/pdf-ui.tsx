@@ -105,7 +105,7 @@ export function Primary({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+      className="rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
     >
       {children}
     </button>

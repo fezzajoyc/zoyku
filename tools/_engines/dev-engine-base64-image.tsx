@@ -248,7 +248,7 @@ export function DevBase64ImageEngine({ sample = "" }: { sample?: string }) {
                     <button
                       type="button"
                       onClick={() => setDecInput(sample)}
-                      className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-strong)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
+                      className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
                     >
                       {t.common.sample}
                     </button>
@@ -261,7 +261,7 @@ export function DevBase64ImageEngine({ sample = "" }: { sample?: string }) {
               <button
                 type="button"
                 onClick={() => setDecInput(sample)}
-                className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-strong)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
+                className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
               >
                 {t.common.sample}
               </button>

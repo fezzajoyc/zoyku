@@ -155,7 +155,7 @@ export function ImageMergeEngine() {
           type="button"
           onClick={merge}
           disabled={busy || files.length < 2}
-          className="rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           {trL("merge")}
         </button>

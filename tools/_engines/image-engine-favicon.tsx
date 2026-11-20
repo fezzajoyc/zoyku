@@ -331,7 +331,7 @@ export function ImageFaviconEngine() {
           type="button"
           onClick={() => void generate()}
           disabled={busy || !master}
-          className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
         >
           <Icon name="sparkle" size={15} />
           {busy ? t.common.processing : trL("generate")}

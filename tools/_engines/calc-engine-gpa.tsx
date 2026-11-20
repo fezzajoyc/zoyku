@@ -158,7 +158,7 @@ export function CalcEngineGpa() {
           <button
             type="button"
             onClick={() => setRows([...DEMO, { ...EMPTY_ROW }])}
-            className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-strong)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
+            className="rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
           >
             {t.common.sample}
           </button>

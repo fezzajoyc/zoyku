@@ -175,7 +175,7 @@ export function ImageOcrEngine() {
               type="button"
               onClick={() => void run()}
               disabled={busy}
-              className="rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full bg-[var(--color-action-bg)] px-5 py-2.5 text-[15px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {busy ? t.common.processing : trL("start")}
             </button>

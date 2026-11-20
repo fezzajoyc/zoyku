@@ -5,6 +5,15 @@ import { SITE } from "@/lib/site";
 import { HOME_COPY } from "@/lib/home-copy";
 import { useI18n } from "./i18n-provider";
 import { BrandLogo } from "./brand-logo";
+import type { Locale } from "@/lib/site";
+
+const FOOTER_NAV: Record<Locale, string> = {
+  en: "Footer navigation", zh: "页脚导航", ja: "フッターナビゲーション",
+  es: "Navegación del pie de página", pt: "Navegação do rodapé", fr: "Navigation de pied de page",
+  de: "Fußnavigation", ru: "Навигация в подвале", it: "Navigazione a piè di pagina",
+  tr: "Alt bilgi gezinmesi", ko: "바닥글 탐색", ar: "التنقل في تذييل الصفحة",
+  hi: "फ़ुटर नेविगेशन", id: "Navigasi footer", vi: "Điều hướng chân trang",
+};
 
 export function Footer() {
   const { locale, t } = useI18n();
@@ -20,7 +29,7 @@ export function Footer() {
           </Link>
           <span>{HOME_COPY[locale].footer}</span>
         </div>
-        <nav aria-label={t.nav.menu}>
+        <nav aria-label={FOOTER_NAV[locale]}>
           <Link href={`/${locale}/tools`} prefetch={false}>{t.nav.tools}</Link>
           <Link href={`/${locale}#categories`} prefetch={false}>{t.nav.categories}</Link>
           <Link href={`/${locale}/about`} prefetch={false}>{t.footer.about}</Link>

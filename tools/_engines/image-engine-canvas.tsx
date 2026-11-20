@@ -369,7 +369,7 @@ export function ImageCanvasEngine({
           <span className="text-[13px] font-semibold">{L.outputFormat[locale] ?? L.outputFormat.en}</span>
           {showFormatChips ? (
             (["image/jpeg", "image/webp", "image/png"] as ImgFormat[]).map((f) => (
-              <button key={f} type="button" onClick={() => setFmt(f)} className={chipCls(fmt === f)}>
+              <button key={f} type="button" onClick={() => setFmt(f)} aria-pressed={fmt === f} className={chipCls(fmt === f)}>
                 {FORMAT_LABEL[f]}
               </button>
             ))
@@ -405,10 +405,10 @@ export function ImageCanvasEngine({
         <div className="mt-4 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[13px] font-semibold">{t.common.settings}</span>
-            <button type="button" onClick={() => setUnit("px")} className={chipCls(unit === "px")}>
+            <button type="button" onClick={() => setUnit("px")} aria-pressed={unit === "px"} className={chipCls(unit === "px")}>
               {L.px[locale] ?? L.px.en}
             </button>
-            <button type="button" onClick={() => setUnit("pct")} className={chipCls(unit === "pct")}>
+            <button type="button" onClick={() => setUnit("pct")} aria-pressed={unit === "pct"} className={chipCls(unit === "pct")}>
               {L.pct[locale] ?? L.pct.en}
             </button>
           </div>

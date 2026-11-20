@@ -338,7 +338,7 @@ export function CalcEngineWheel() {
             <button
               type="button"
               onClick={() => setHistory([])}
-              className="text-[13px] font-medium text-[var(--color-accent-strong)]"
+              className="text-[13px] font-medium text-[var(--color-accent-text)]"
             >
               {t.common.clear}
             </button>

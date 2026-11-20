@@ -138,7 +138,7 @@ export function CalcEngineCompound() {
 
       {Number.isFinite(total) && interest > 0 && contributed > 0 && (
         <div className="mt-5">
-          <h3 className="mb-3 text-[15px] font-semibold">{chartText(locale, "composition")}</h3>
+          <h2 className="mb-3 text-[15px] font-semibold">{chartText(locale, "composition")}</h2>
           <DonutChart
             slices={[
               { label: chartText(locale, "principal"), value: contributed, color: "var(--color-accent)" },
@@ -153,7 +153,7 @@ export function CalcEngineCompound() {
 
       {schedule.length > 1 && (
         <div className="mt-6">
-          <h3 className="mb-3 text-[15px] font-semibold">{chartText(locale, "balanceCurve")}</h3>
+          <h2 className="mb-3 text-[15px] font-semibold">{chartText(locale, "balanceCurve")}</h2>
           <BalanceChart
             values={schedule.map((r) => r.balance)}
             ariaLabel={chartText(locale, "balanceCurve")}
@@ -164,7 +164,7 @@ export function CalcEngineCompound() {
 
       {schedule.length > 0 && (
         <div className="mt-7">
-          <h3 className="mb-3 text-[15px] font-semibold">{pick(locale, S.table)}</h3>
+          <h2 className="mb-3 text-[15px] font-semibold">{pick(locale, S.table)}</h2>
           <TableBox
             head={[pick(locale, S.year), pick(locale, S.thContrib), pick(locale, S.thInterest), pick(locale, S.thBalance)]}
             rows={schedule.map((row) => [

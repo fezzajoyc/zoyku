@@ -127,7 +127,8 @@ export function DevRegexEngine({
     for (const m of parsed.matches) {
       if (m.index > cursor) out.push({ s: text.slice(cursor, m.index), hit: false });
       if (m.text) out.push({ s: m.text, hit: true });
-      cursor = m.text === "" ? m.index + 1 : m.index + m.text.length;
+      // 空匹配不消费字符。执行时的 lastIndex 推进不能用于预览切片。
+      cursor = m.index + m.text.length;
     }
     if (cursor < text.length) out.push({ s: text.slice(cursor), hit: false });
     return out;
@@ -184,7 +185,7 @@ export function DevRegexEngine({
             <button
               type="button"
               onClick={() => setText(sample)}
-              className="mt-2 rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-strong)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
+              className="mt-2 rounded-full border hairline px-3.5 py-1.5 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[rgba(0,113,227,0.06)]"
             >
               {t.common.sample}
             </button>

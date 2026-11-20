@@ -242,7 +242,7 @@ export function CalcEngineTimer() {
             strokeLinecap="round"
             strokeDasharray={RING_C}
             strokeDashoffset={RING_C * (1 - frac)}
-            className="text-[var(--color-accent-strong)] transition-[stroke-dashoffset] duration-200 ease-linear"
+            className="text-[var(--color-accent-text)] transition-[stroke-dashoffset] duration-200 ease-linear"
           />
         </svg>
         <div

@@ -1,5 +1,7 @@
 /** 文本变换纯函数,全部可单测。 */
 
+import { formatJsonLossless, JsonFormatLimitError } from "./json-format";
+
 export function dedupeLines(
   s: string,
   o: { ignoreCase?: boolean; trimFirst?: boolean; removeEmpty?: boolean; sortAfter?: boolean } = {},
@@ -395,25 +397,22 @@ export function deepSortKeys(value: unknown): unknown {
 
 /** 美化 JSON;非法输入抛出带行列号的 Error。sort=true 时递归排序对象键。 */
 export function jsonBeautify(s: string, indent: JsonIndent = 2, sort = false): string {
-  let value: unknown;
   try {
-    value = JSON.parse(s);
+    return formatJsonLossless(s, { indent, sortKeys: sort });
   } catch (err) {
+    if (err instanceof JsonFormatLimitError) throw err;
     throwJsonError(s, err);
   }
-  if (sort) value = deepSortKeys(value);
-  return JSON.stringify(value, null, indent);
 }
 
 /** 压缩 JSON;非法输入抛出带行列号的 Error。 */
 export function jsonMinify(s: string): string {
-  let value: unknown;
   try {
-    value = JSON.parse(s);
+    return formatJsonLossless(s, { minify: true });
   } catch (err) {
+    if (err instanceof JsonFormatLimitError) throw err;
     throwJsonError(s, err);
   }
-  return JSON.stringify(value);
 }
 
 /** 校验 JSON:空串返回 "",合法返回 "OK",否则返回 "Line L, column C: 原因"。 */
