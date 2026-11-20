@@ -11,6 +11,8 @@ import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { RecentTools } from "@/components/recent-tools";
 import { HomeWorkspace } from "@/components/home-workspace";
+import { RibbonBackground } from "@/components/ribbon-background";
+import { ScrollMorph } from "@/components/scroll-morph";
 import { fill } from "@/tools/_lib/types";
 import { SITE } from "@/lib/site";
 import { CATEGORY_HUE } from "@/lib/tool-colors";
@@ -81,6 +83,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         }}
       />
 
+      {/* 滚动驱动材质过渡:丝带背景(矢量)+ 玻璃态连续插值,覆盖 Hero→分类→热门三段 */}
+      <ScrollMorph className="ribbon-scene">
+      <RibbonBackground />
+
       {/* Hero Section: 苹果官网式纯净、大气发布会风格 */}
       <section className="relative overflow-hidden pt-16 pb-16 sm:pt-24 sm:pb-22">
         <Container className="relative pb-10 text-center">
@@ -146,7 +152,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                 {
                   value: <CountUp to={total} />,
                   label: t.home.statsLabels.tools,
-                  sub: t.home.statsUploads.replace(/^0 /, "").length > 0 ? "" : "",
+                  sub: "",
                 },
                 {
                   value: <CountUp to={LOCALES.length} />,
@@ -166,7 +172,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className="apple-card rounded-2xl p-5 text-center"
+                  className="apple-card glass-morph rounded-2xl p-5 text-center"
                 >
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
@@ -227,7 +233,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               const hue = CATEGORY_HUE[c as CategoryId] ?? 222;
               return (
                 <Reveal key={c} delay={(i % 3) * 60}>
-                  <div className="apple-card group relative flex h-full flex-col justify-between rounded-2xl p-6">
+                  <div className="apple-card glass-morph group relative flex h-full flex-col justify-between rounded-2xl p-6">
                     {/* 整卡可点 */}
                     <Link
                       href={`/${locale}/categories/${c}`}
@@ -305,11 +311,12 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((tool, i) => (
             <Reveal key={tool.slug} delay={(i % 4) * 60}>
-              <ToolCard tool={tool} locale={locale} />
+              <div className="glass-morph rounded-2xl"><ToolCard tool={tool} locale={locale} /></div>
             </Reveal>
           ))}
         </div>
       </Container>
+      </ScrollMorph>
 
       {/* 全工具目录:SSR 内链锚点 — 每个工具页都从首页获得一条真实链接(PDF24/站内 hub 模式) */}
       <section className="border-t hairline bg-[var(--color-surface)] py-18 sm:py-24">

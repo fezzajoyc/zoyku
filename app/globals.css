@@ -246,6 +246,84 @@ details.faq {
   color: transparent;
 }
 
+/* ------------------------------------------------------------------ */
+/* 滚动驱动材质过渡:丝带背景 + 玻璃态连续插值 (Scroll-Driven Morph)    */
+/* --blend 由 ScrollMorph 组件写入(0→1);这里只做 CSS 插值,零主线程样式计算 */
+/* ------------------------------------------------------------------ */
+
+/* 三段容器:建立层叠上下文,让 -z-10 背景层不穿透到 body 之下;
+   overflow-x:clip 裁掉背景 scale 后多出的几像素,避免移动端横向溢出(nav 自身滚动容器不受影响) */
+.ribbon-scene {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+/* 丝带背景:随滚动轻微放大 + 提亮,末端渐隐淡出(交给下一段纯色区) */
+.ribbon-bg {
+  opacity: calc(0.55 + var(--blend, 0) * 0.35);
+  transform: scale(calc(1 + var(--blend, 0) * 0.06)) translateY(calc(var(--blend, 0) * 18px));
+  transform-origin: center 20%;
+  will-change: transform, opacity;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
+}
+.dark .ribbon-bg {
+  opacity: calc(0.18 + var(--blend, 0) * 0.16);
+  filter: saturate(0.55);
+}
+.ribbon-bg svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 丝带缓慢漂移 + 光点闪烁 */
+@keyframes ribbon-drift {
+  from { transform: translate3d(-0.35%, -0.3%, 0) scale(1); }
+  to   { transform: translate3d(0.35%, 0.35%, 0) scale(1.008); }
+}
+@keyframes ribbon-spark {
+  from { opacity: 0.18; }
+  to   { opacity: 0.9; }
+}
+.ribbon-drift { transform-origin: center; animation: ribbon-drift 18s ease-in-out infinite alternate; }
+.ribbon-bg .spark { animation: ribbon-spark 4s ease-in-out infinite alternate; }
+.ribbon-bg .spark:nth-child(3n) { animation-delay: -1.7s; }
+.ribbon-bg .spark:nth-child(4n) { animation-delay: -2.8s; }
+
+/* 玻璃态卡片:blur / 背景 alpha / 边框高光 全部由 --blend 连续插值(非二值切换) */
+.glass-morph {
+  background: rgba(255, 255, 255, calc(0.8 - var(--blend, 0) * 0.14));
+  border-color: rgba(255, 255, 255, calc(0.5 + var(--blend, 0) * 0.45));
+  -webkit-backdrop-filter: blur(calc(11px + var(--blend, 0) * 11px)) saturate(calc(100% + var(--blend, 0) * 85%));
+  backdrop-filter: blur(calc(11px + var(--blend, 0) * 11px)) saturate(calc(100% + var(--blend, 0) * 85%));
+  box-shadow:
+    0 calc(6px + var(--blend, 0) * 10px) calc(18px + var(--blend, 0) * 20px) -8px rgba(99, 102, 241, calc(0.05 + var(--blend, 0) * 0.12)),
+    inset 0 1px 1px 0 rgba(255, 255, 255, calc(0.25 + var(--blend, 0) * 0.7));
+}
+.dark .glass-morph {
+  background: rgba(28, 28, 32, calc(0.72 - var(--blend, 0) * 0.1));
+  border-color: rgba(255, 255, 255, calc(0.08 + var(--blend, 0) * 0.16));
+  box-shadow:
+    0 calc(6px + var(--blend, 0) * 10px) calc(18px + var(--blend, 0) * 20px) -8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px 0 rgba(255, 255, 255, calc(0.03 + var(--blend, 0) * 0.1));
+}
+
+/* 移动端降低模糊半径(填充率有限),避免滑动掉帧 */
+@media (max-width: 640px) {
+  .glass-morph {
+    -webkit-backdrop-filter: blur(calc(6px + var(--blend, 0) * 6px));
+    backdrop-filter: blur(calc(6px + var(--blend, 0) * 6px));
+  }
+  .ribbon-bg { transform: scale(calc(1 + var(--blend, 0) * 0.03)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-drift, .ribbon-bg .spark { animation: none !important; }
+  .ribbon-bg { transform: none !important; }
+}
+
 /* 入场动画与轮播话术 */
 @keyframes hero-fade-up {
   from {
