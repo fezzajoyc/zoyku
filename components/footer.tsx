@@ -21,12 +21,12 @@ export function Footer() {
           <span>{HOME_COPY[locale].footer}</span>
         </div>
         <nav aria-label={t.nav.menu}>
-          <Link href={`/${locale}/tools`}>{t.nav.tools}</Link>
-          <Link href={`/${locale}#categories`}>{t.nav.categories}</Link>
-          <Link href={`/${locale}/about`}>{t.footer.about}</Link>
-          <Link href={`/${locale}/privacy`}>{t.footer.privacy}</Link>
-          <Link href={`/${locale}/terms`}>{t.footer.terms}</Link>
-          <Link href={`/${locale}/mcp`}>MCP</Link>
+          <Link href={`/${locale}/tools`} prefetch={false}>{t.nav.tools}</Link>
+          <Link href={`/${locale}#categories`} prefetch={false}>{t.nav.categories}</Link>
+          <Link href={`/${locale}/about`} prefetch={false}>{t.footer.about}</Link>
+          <Link href={`/${locale}/privacy`} prefetch={false}>{t.footer.privacy}</Link>
+          <Link href={`/${locale}/terms`} prefetch={false}>{t.footer.terms}</Link>
+          <Link href={`/${locale}/mcp`} prefetch={false}>MCP</Link>
         </nav>
         <div className="site-footer-meta">
           <span>

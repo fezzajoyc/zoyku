@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import * as interactions from "@/lib/home-interactions";
 
 const behavior = interactions as unknown as {
+  isComposingKey: (event: { isComposing: boolean; keyCode: number }) => boolean;
   revealActiveOption: (
     list: Pick<HTMLElement, "querySelector"> | null,
     activeId: string | undefined,
@@ -11,6 +12,18 @@ const behavior = interactions as unknown as {
     details: Pick<HTMLDetailsElement, "open" | "querySelector"> | null,
   ) => boolean;
 };
+
+describe("IME keyboard ownership", () => {
+  it.each([
+    [{ isComposing: true, keyCode: 13 }, true],
+    [{ isComposing: false, keyCode: 229 }, true],
+    [{ isComposing: false, keyCode: 13 }, false],
+    [{ isComposing: false, keyCode: 27 }, false],
+  ] as const)("keeps composition events out of search shortcuts: %j", (event, expected) => {
+    expect(behavior.isComposingKey).toBeTypeOf("function");
+    expect(behavior.isComposingKey(event)).toBe(expected);
+  });
+});
 
 describe("command palette active result visibility", () => {
   it("reveals the ninth active option with nearest scrolling without moving keyboard focus", () => {

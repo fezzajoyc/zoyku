@@ -9,7 +9,7 @@ import { CommandPalette } from "./command-palette";
 import { ThemeToggle } from "./theme-toggle";
 import { Icon } from "./icons";
 import { BrandLogo } from "./brand-logo";
-import { closeCategoryDetails } from "@/lib/home-interactions";
+import { closeCategoryDetails, isComposingKey } from "@/lib/home-interactions";
 
 export function Nav() {
   const { locale, t } = useI18n();
@@ -17,11 +17,14 @@ export function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const categoryDetails = useRef<HTMLDetailsElement>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
   const closePalette = useCallback(() => setPaletteOpen(false), []);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      if (isComposingKey(event)) return;
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
+        if (categoryDetails.current) categoryDetails.current.open = false;
         setMenuOpen(false);
         setPaletteOpen((current) => !current);
       }
@@ -34,6 +37,27 @@ export function Nav() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen]);
+  useEffect(() => {
+    const dismissOutside = (event: Event) => {
+      if (!(event.target instanceof Node)) return;
+      const categories = categoryDetails.current;
+      if (categories?.open && !categories.contains(event.target)) categories.open = false;
+      if (!mobileNavRef.current?.contains(event.target) && !menuButton.current?.contains(event.target)) setMenuOpen(false);
+    };
+    const mobile = window.matchMedia("(max-width: 767px)");
+    const dismissOnBreakpoint = () => {
+      setMenuOpen(false);
+      if (categoryDetails.current) categoryDetails.current.open = false;
+    };
+    document.addEventListener("pointerdown", dismissOutside);
+    document.addEventListener("focusin", dismissOutside);
+    mobile.addEventListener("change", dismissOnBreakpoint);
+    return () => {
+      document.removeEventListener("pointerdown", dismissOutside);
+      document.removeEventListener("focusin", dismissOutside);
+      mobile.removeEventListener("change", dismissOnBreakpoint);
+    };
+  }, []);
   return (
     <>
       <a href="#main" className="site-skip-link">
@@ -44,6 +68,7 @@ export function Nav() {
           <Link
             href={`/${locale}`}
             className="site-brand"
+            aria-label={SITE.name}
             onClick={() => setMenuOpen(false)}
           >
             <span className="site-brand-mark">
@@ -80,6 +105,7 @@ export function Nav() {
             <button
               type="button"
               onClick={() => {
+                if (categoryDetails.current) categoryDetails.current.open = false;
                 setPaletteOpen(true);
                 setMenuOpen(false);
               }}
@@ -123,6 +149,7 @@ export function Nav() {
           </div>
         </div>
         <nav
+          ref={mobileNavRef}
           id="mobile-navigation"
           className="site-mobile-nav"
           aria-label={t.nav.menu}

@@ -115,5 +115,19 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|api).*)"],
+  // Unlocalized paths still need locale negotiation, including prefetches. Keep
+  // these literals aligned with LOCALES (covered by the proxy matcher tests).
+  matcher: [
+    "/((?!_next|api|(?:en|zh|ja|es|pt|fr|de|ru|it|tr|ko|ar|hi|id|vi)(?:/|$)).*)",
+    {
+      // Public, localized pages: don't charge speculative framework requests to
+      // the visit quota. Next strips internal RSC headers before proxy executes.
+      // This rate limiter is not an authorization boundary.
+      source: "/:lang(en|zh|ja|es|pt|fr|de|ru|it|tr|ko|ar|hi|id|vi)/:path*",
+      missing: [
+        { type: "header", key: "next-router-prefetch" },
+        { type: "header", key: "purpose", value: "prefetch" },
+      ],
+    },
+  ],
 };

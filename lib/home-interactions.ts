@@ -1,3 +1,10 @@
+/** IME owns these keys until the candidate is committed (229 also covers WebKit). */
+export function isComposingKey(
+  event: Pick<KeyboardEvent, "isComposing" | "keyCode">,
+): boolean {
+  return event.isComposing || event.keyCode === 229;
+}
+
 /** Keep aria-activedescendant selection visible while keyboard focus stays in the search input. */
 export function revealActiveOption(
   list: Pick<HTMLElement, "querySelector"> | null,

@@ -8,6 +8,7 @@ import { HOME_COPY } from "@/lib/home-copy";
 import { searchTools } from "@/lib/tool-search";
 import { isLocale } from "@/lib/site";
 import { RecentTools } from "./recent-tools";
+import { isComposingKey } from "@/lib/home-interactions";
 
 type Item = {
   slug: string;
@@ -41,6 +42,7 @@ export function HomeWorkspace({
   const [showPins, setShowPins] = useState(false);
   const [pins, setPins] = useState<string[]>([]);
   const searchRef = useRef<HTMLInputElement>(null);
+  const composing = useRef(false);
   useEffect(() => {
     setPins(readPins());
   }, []);
@@ -64,7 +66,7 @@ export function HomeWorkspace({
         role="search"
         action={`/${locale}/tools`}
         onSubmit={(event) => {
-          if (!isSearching) event.preventDefault();
+          if (!isSearching || composing.current) event.preventDefault();
         }}
       >
         <Icon name="search" size={20} />
@@ -74,7 +76,13 @@ export function HomeWorkspace({
           name="q"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
+          onCompositionStart={() => { composing.current = true; }}
+          onCompositionEnd={() => { composing.current = false; }}
           onKeyDown={(event) => {
+            if (isComposingKey(event.nativeEvent)) {
+              if (event.key === "Enter") event.preventDefault();
+              return;
+            }
             if (event.key === "Escape") {
               setQuery("");
               setShowPins(false);
@@ -142,7 +150,7 @@ export function HomeWorkspace({
               <ul>
                 {visible.map((tool) => (
                   <li key={tool.slug} className="home-result-card">
-                    <Link href={`/${locale}/tools/${tool.slug}`}>
+                    <Link href={`/${locale}/tools/${tool.slug}`} prefetch={false}>
                       <Icon name={tool.icon} size={19} />
                       <span>
                         <strong>{tool.name}</strong>
@@ -168,7 +176,7 @@ export function HomeWorkspace({
                 href={`/${locale}/tools${isSearching ? `?q=${encodeURIComponent(query)}` : ""}`}
               >
                 {labels.all}
-                <span aria-hidden="true">→</span>
+                <span className="home-link-arrow" aria-hidden="true">→</span>
               </Link>
             </>
           ) : (

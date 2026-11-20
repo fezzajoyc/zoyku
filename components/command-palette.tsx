@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { revealActiveOption } from "@/lib/home-interactions";
+import { isComposingKey, revealActiveOption } from "@/lib/home-interactions";
 import { useI18n } from "./i18n-provider";
 import { Icon } from "./icons";
 import { ALL_TOOLS } from "@/tools/registry";
@@ -77,6 +77,7 @@ export function CommandPalette({
         className="w-full max-w-xl overflow-hidden rounded-2xl border hairline bg-[var(--color-card)] shadow-[0_24px_64px_rgba(0,0,0,0.25)]"
         onClick={(event) => event.stopPropagation()}
         onKeyDown={(event) => {
+          if (isComposingKey(event.nativeEvent)) return;
           if (event.key === "Escape") {
             event.preventDefault();
             onClose();
@@ -112,6 +113,7 @@ export function CommandPalette({
               setActive(0);
             }}
             onKeyDown={(event) => {
+              if (isComposingKey(event.nativeEvent)) return;
               if (event.key === "ArrowDown") {
                 event.preventDefault();
                 setActive((index) =>

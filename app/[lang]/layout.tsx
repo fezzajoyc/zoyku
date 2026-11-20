@@ -62,7 +62,9 @@ export default async function LangLayout({
   const t = dict(locale);
 
   return (
-    <html lang={HTML_LANG[locale] ?? HTML_LANG.en} dir={DIR[locale] ?? "ltr"}>
+    // The two bootstrap scripts intentionally set only root classes before React
+    // hydrates (theme and progressive enhancement). Descendants remain checked.
+    <html lang={HTML_LANG[locale] ?? HTML_LANG.en} dir={DIR[locale] ?? "ltr"} suppressHydrationWarning>
       <body>
         {/* 主题恢复:阻塞式,防暗色 FOUC;必须在任何渲染前执行 */}
         <script

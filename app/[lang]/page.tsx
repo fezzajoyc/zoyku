@@ -121,7 +121,7 @@ export default async function HomePage({
             <h2 id="home-popular-heading">{editorial.title}</h2>
             <Link href={`/${lang}/tools`}>
               {t.nav.tools}
-              <span aria-hidden="true">→</span>
+              <span className="home-link-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
           <div className="home-editorial-grid">
@@ -169,7 +169,7 @@ export default async function HomePage({
             <h2 id="home-categories-heading">{copy.categories}</h2>
             <Link href={`/${lang}/tools`}>
               {copy.browseCategories}
-              <span aria-hidden="true">→</span>
+              <span className="home-link-arrow" aria-hidden="true">→</span>
             </Link>
           </div>
           <div className="home-category-grid">
@@ -207,8 +207,8 @@ export default async function HomePage({
             <span>{copy.privacyBody}</span>
           </div>
           <Link href={`/${lang}/privacy`}>
-            {t.home.privacyLink}
-            <span aria-hidden="true">→</span>
+            <span className="home-privacy-link-text">{t.home.privacyLink}</span>
+            <span className="home-link-arrow" aria-hidden="true">→</span>
           </Link>
         </section>
       </div>

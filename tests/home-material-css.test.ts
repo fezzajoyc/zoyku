@@ -8,6 +8,11 @@ const css = readFileSync(
 const material = css.slice(css.indexOf("/* Home A→B material scene."));
 
 describe("home material progressive CSS", () => {
+  it("keeps the ribbon source edge fully transparent as the surrounding material expands", () => {
+    const ribbon = material.match(/\.home-material-ambient \.ribbon-bg \{([^}]+)\}/)?.[1] ?? "";
+    for (const property of ["-webkit-mask-image", "mask-image"])
+      expect(ribbon).toContain(`${property}: linear-gradient(90deg, transparent 0%,`);
+  });
   it("keeps the filtered ribbon still while the scroll scene is idle", () => {
     expect(css).toMatch(/\.home-material-scene \.ribbon-drift,\s*\.home-material-scene \.ribbon-bg \.spark\s*\{\s*animation: none;/);
   });

@@ -106,6 +106,7 @@ export function ToolsDirectory({
               >
                 <Link
                   href={`/${labels.hrefLang}/tools/${tool.slug}`}
+                  prefetch={false}
                   className="flex min-w-0 items-start gap-3 p-4 pe-10"
                 >
                   <span
