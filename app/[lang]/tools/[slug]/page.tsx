@@ -154,11 +154,11 @@ export default async function ToolPage({
         ]}
       />
 
-      <div className="mb-6 flex items-start gap-4">
+      <div className="mb-6 flex flex-col items-start gap-4 sm:flex-row">
         <span className="hidden rounded-2xl bg-[var(--color-surface)] p-3.5 text-[var(--color-ink)] sm:inline-flex">
           <Icon name={tool.icon} size={28} />
         </span>
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 w-full flex-1">
           <h1 className="h1">{c.h1 ?? c.name}</h1>
           <p className="mt-2 max-w-2xl text-[16px] leading-6 text-[var(--color-sub)]">{c.tagline}</p>
         </div>

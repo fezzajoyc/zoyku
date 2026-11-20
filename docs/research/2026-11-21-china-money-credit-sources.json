@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0.0",
+  "batch": "China money and credit",
+  "baseline_commit": "6fc9d51",
+  "sources": [
+    {
+      "id": "SC-STD",
+      "url": "https://www.shandan.gov.cn/zfxxgk/fdzdgknr/qtfdxx/shzz/202402/W020240220405892314500.pdf",
+      "document": "GB 32100-2015",
+      "evidence": "Government-hosted PDF downloaded; scanned pages rendered and visually read",
+      "sha256": "e1c05ad860baae95cba93d6319f523b39c5a7e8d3b337a7381db0bce8395aadf",
+      "bytes": 537976,
+      "pdf_pages_read_by_implementer": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "pdf_pages_independently_read_by_root": [
+        6,
+        8
+      ],
+      "printed_page_labels": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "text_extraction": "No extractable text on any of 9 pages; no OCR success is claimed",
+      "facts": {
+        "segment_lengths": [
+          1,
+          1,
+          6,
+          9,
+          1
+        ],
+        "alphabet": "0123456789ABCDEFGHJKLMNPQRTUWXY",
+        "weights": [
+          1,
+          3,
+          9,
+          27,
+          19,
+          26,
+          16,
+          17,
+          20,
+          29,
+          25,
+          13,
+          8,
+          24,
+          10,
+          30,
+          28
+        ],
+        "formula": "alphabet[(31 - sum(value[i] * (3^i mod 31)) mod 31) mod 31] for zero-based i=0..16",
+        "example_body": "91350100M000100Y4",
+        "example_sum": 1640,
+        "example_remainder": 28,
+        "example_check": "3",
+        "example_full": "91350100M000100Y43"
+      },
+      "source_criticism": "Annex B's last sentence prints character value 18 with character 3, inconsistent with its preceding 31-28=3 calculation and Annex A. Implementation uses the consistent formula, table and complete example, not that contradictory sentence.",
+      "scope": "Original-standard alphabet, six numeric address positions and outer MOD31 only. No full department/category/address or internal GB11714 validation, nor registration authenticity/status lookup.",
+      "pdf_pages_independently_read_by_reviewer": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "SC-META",
+      "url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=24691C25985C1073D3A7C85629378AC0",
+      "evidence": "Root fetched raw HTML with mcp fetch, 22977 characters; simplified view only shows preview-browser warning",
+      "observed_metadata": [
+        "GB 32100-2015",
+        "现行",
+        "备注 第1号修改单"
+      ],
+      "limit": "Raw metadata alone is not amendment-body evidence; the subsequently read body is separately recorded as SC-AMENDMENT."
+    },
+    {
+      "id": "SC-AMENDMENT",
+      "entry_url": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=24691C25985C1073D3A7C85629378AC0",
+      "document": "GB32100-2015 第1号修改单",
+      "method": "Independent reviewer used normal Chrome click on 在线预览;10-page same-origin viewer, last two pages scrolled into view; root independently read both resulting screenshots.",
+      "approved_on": "2016-04-15",
+      "implemented_on": "2016-04-18",
+      "observed_changes": [
+        "Registering-department code table2",
+        "Organization-category table3",
+        "An allowed term in clause3.5"
+      ],
+      "outer_algorithm_impact": "The actually read two-page amendment does not amend the alphabet exclusion/outer MOD31 formula/weights/Annex A. Department/category table validation is outside the tool scope.",
+      "screenshots": [
+        "sources/samr-credit-amendment-first-visible.png",
+        "sources/samr-credit-amendment-second-visible.png"
+      ],
+      "limits": "Only this retrieved amendment was checked; not a statement about all possible future standards or full registration compliance. Lazy-load blank earlier screenshots were excluded."
+    },
+    {
+      "id": "RMB-ANNEX",
+      "url": "https://www.cncc.cn/zcfg/200903/t20090323_286.html",
+      "publisher": "中国人民银行清算总中心",
+      "document": "Published settlement-rules text, 附一《正确填写票据和结算凭证的基本规定》",
+      "evidence": "Implementer and root independently fetched readable body; root read the final appendix through offset27000 and9000-character window",
+      "rule_scope": "Appendix I–IV, amount wording only",
+      "facts": [
+        "Use financial Chinese digits and place units with 人民币 immediately before the amount.",
+        "An amount ending at 元 has 整/正; after 角 整/正 is optional; an amount with 分 does not append 整/正.",
+        "Internal zeros can be compressed; zero 角 and nonzero 分 require 零 after 元.",
+        "The text explicitly permits alternative zero forms for examples1680.32 and107000.53."
+      ],
+      "official_example_amounts": [
+        "1409.50",
+        "6007.14",
+        "1680.32",
+        "107000.53",
+        "16409.02",
+        "325.04"
+      ],
+      "implementation_choices": "One allowed deterministic spelling; nonnegative decimal text only, at most12 significant integer digits and2 decimals, no implicit rounding. The128-code-unit input and numeric ceiling are application limits, not legal limits.",
+      "limit": "Not a claim that the entire historical settlement law is unamended/current or that generated wording guarantees bank/voucher acceptance."
+    }
+  ],
+  "access_failures": [
+    {
+      "candidate_domains": [
+        "tianjin.pbc.gov.cn",
+        "shanghai.pbc.gov.cn",
+        "pbc.gov.cn"
+      ],
+      "observation": "Agents reported explicit robots refusal for candidate pages/PDFs and stopped accessing those candidates",
+      "handling": "Not treated as successful source reads; use the separately accessible official CNCC publication"
+    },
+    {
+      "candidate": "Shanghai statistics compilation purported to contain amendment1",
+      "observation": "Initial unverified statement was withdrawn by the implementer",
+      "handling": "Excluded as evidence unless independently obtained and read later"
+    }
+  ],
+  "interpretation": "Source evidence and narrow algorithm facts only; no company identity validation, financial advice or exhaustive current-law assurance."
+}

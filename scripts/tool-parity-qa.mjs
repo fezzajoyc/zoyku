@@ -66,6 +66,21 @@ export default async function toolParityQA(page, {
     assert.equal(await page.getByRole('button', { name: 'Percent', exact: true }).getAttribute('aria-pressed'), 'true');
     assert.equal(await page.getByRole('spinbutton', { name: 'Width', exact: true }).count(), 0);
   });
+  await check('narrow tool headers give titles and descriptions full width beside the pin control', async () => {
+    await page.setViewportSize({ width: 320, height: 844 });
+    for (const locale of ['zh', 'ar']) for (const slug of ['rmb-uppercase', 'social-credit-validator']) {
+      await visit(`/${locale}/tools/${slug}`);
+      const layout = await page.locator('h1').evaluate(heading => {
+        const copy = heading.parentElement;
+        const header = copy.parentElement;
+        const pin = header.querySelector('[data-embed-hide]');
+        return { copy: copy.getBoundingClientRect().toJSON(), header: header.getBoundingClientRect().toJSON(), pin: pin.getBoundingClientRect().toJSON(), overflow: document.documentElement.scrollWidth > innerWidth };
+      });
+      assert.ok(Math.abs(layout.copy.width - layout.header.width) < 1, JSON.stringify({ locale, slug, layout }));
+      assert.ok(layout.pin.top >= layout.copy.bottom, 'the pin must follow the copy on narrow screens');
+      assert.equal(layout.overflow, false);
+    }
+  });
   const audits=[];
   if (axePath) {
     for (const pathname of ['/en', '/en/tools/image-compressor', '/en/tools/json-formatter', '/en/tools/regex-tester', '/en/tools/word-counter', '/en/tools/compound-interest-calculator']) {

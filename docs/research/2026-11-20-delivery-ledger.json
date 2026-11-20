@@ -3,23 +3,25 @@
   "title": "Zoyku 研究综合交付账本与批判性评价",
   "research_date": "2026-11-20",
   "timezone": "Asia/Shanghai",
-  "checkpoint_utc": "2026-11-20T15:39:40.083434Z",
+  "checkpoint_utc": "2026-11-20T18:22:07.110362Z",
   "branch": "codex/tool-parity-cn",
   "baseline": {
     "commit": "dccdbfd",
     "tool_definition_count": 205
   },
   "working_tree": {
-    "tool_definition_count": 207,
+    "tool_definition_count": 209,
     "net_new_tool_routes": [
       "chinese-id-validator",
-      "chinese-id-generator"
+      "chinese-id-generator",
+      "social-credit-validator",
+      "rmb-uppercase"
     ],
-    "delta": 2,
+    "delta": 4,
     "committed": false,
     "pushed": false,
     "deployed": false,
-    "release_status": "本地全量、生产构建及本轮浏览器验证已完成；未推送、未部署。committed为本次记录写入前检查点，提交状态以Git为准。"
+    "release_status": "本地验证209工具；新增信用校验/人民币大写见2026-11-21记录。写入前Git尚未提交，最终以Git为准；未推送、未部署。"
   },
   "counting_rules": [
     "47+57=104仅是两份矩阵的源条目数，不是104个唯一缺口或104个待新增工具。",
@@ -35,7 +37,9 @@
     "docs/research/2026-11-20-global-tool-gaps.json",
     "docs/research/2026-11-20-shared-tool-benchmark.md",
     "docs/research/2026-11-20-shared-tool-benchmark.json",
-    "docs/benchmark.md"
+    "docs/benchmark.md",
+    "docs/research/2026-11-21-china-money-credit-sources.json",
+    "docs/research/2026-11-21-china-money-credit-verification.md"
   ],
   "summary": {
     "domestic_source_rows": 47,
@@ -44,11 +48,11 @@
     "benchmark_subjects": 6,
     "mapped_observations": 110,
     "planning_groups": 40,
-    "new_route_delta": 2,
+    "new_route_delta": 4,
     "full_site_quality_claim": false,
     "source_record_worktree_status_counts": {
-      "implemented_scoped_worktree": 2,
-      "remaining_gap": 91,
+      "implemented_scoped_worktree": 4,
+      "remaining_gap": 89,
       "existing_baseline": 10,
       "needs_evidence": 1
     }
@@ -172,6 +176,50 @@
       "limits": "主题5/5是主任务报告的专项，不加入本账本自主运行192条计数。",
       "not_completed": "非像素还原或全站AA；其它状态、真实设备和读屏检查继续。",
       "release_status": "本地全量/生产构建/本轮生产浏览器已验证；未推送、未部署，见2026-11-20-verification.md。"
+    },
+    {
+      "id": "DL-06",
+      "name": "统一社会信用代码结构/外层校验",
+      "source_ids": [
+        "CN-003"
+      ],
+      "slugs": [
+        "social-credit-validator"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "15语、18位字符/六位地址数字/外层MOD31、原始段位、批量行号、默认遮盖/揭示与当前TXT",
+      "limits": "100行/20,000原始UTF-16单元；单条256",
+      "not_completed": "未验证部门/类别/现行历史区划表、内部GB11714、真实登记；CN-004生成器仍待做",
+      "evidence_paths": [
+        "tools/_lib/social-credit.ts",
+        "tools/_lib/social-credit-copy.ts",
+        "tools/_engines/social-credit-engine.tsx",
+        "tools/security/social-credit-validator.ts",
+        "scripts/social-credit-qa.mjs"
+      ],
+      "release_status": "本地全量/生产验证通过；未推送、未部署，见2026-11-21记录"
+    },
+    {
+      "id": "DL-07",
+      "name": "人民币金额大写单向转换",
+      "source_ids": [
+        "CN-005"
+      ],
+      "slugs": [
+        "rmb-uppercase"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "15语、精确十进制转财务大写、元角分零整、规范金额、清空/复制/TXT/下载失败恢复",
+      "limits": "非负≤999999999999.99，至多2小数，不舍入；原始128UTF-16，去前导零后整数≤12位",
+      "not_completed": "CN-006反向数字解析未做；不验证凭证或保证银行受理",
+      "evidence_paths": [
+        "tools/_lib/rmb-uppercase.ts",
+        "tools/_lib/rmb-uppercase-copy.ts",
+        "tools/_engines/rmb-uppercase-engine.tsx",
+        "tools/utility/rmb-uppercase.ts",
+        "scripts/rmb-uppercase-qa.mjs"
+      ],
+      "release_status": "本地全量/生产验证通过；未推送、未部署，见2026-11-21记录"
     }
   ],
   "source_records": [
@@ -212,14 +260,17 @@
       "source_report": "2026-11-20-domestic-tool-gaps.json",
       "source_capability": "统一社会信用代码格式校验与分段解析",
       "baseline_status": "missing",
-      "worktree_status": "remaining_gap",
+      "worktree_status": "implemented_scoped_worktree",
       "primary_group_id": "K02",
       "source_priority": "P0",
       "related_source_ids": [
         "CN-004",
         "CN-017"
       ],
-      "delivery_ids": []
+      "delivery_ids": [
+        "DL-06"
+      ],
+      "remaining_scope": "部门/类别/区划表、GB11714内部规则及真实登记不验证"
     },
     {
       "source_id": "CN-004",
@@ -240,13 +291,16 @@
       "source_report": "2026-11-20-domestic-tool-gaps.json",
       "source_capability": "人民币金额大写",
       "baseline_status": "missing",
-      "worktree_status": "remaining_gap",
+      "worktree_status": "implemented_scoped_worktree",
       "primary_group_id": "K03",
       "source_priority": "P0",
       "related_source_ids": [
         "CN-006"
       ],
-      "delivery_ids": []
+      "delivery_ids": [
+        "DL-07"
+      ],
+      "remaining_scope": "中文数字反向解析独立保留CN-006；不保证银行受理"
     },
     {
       "source_id": "CN-006",
@@ -2231,14 +2285,15 @@
         "CN-003",
         "CN-004"
       ],
-      "proposal": "下一批先做统一社会信用代码校验/分段；规则核实后再复用生成测试样本。",
+      "proposal": "信用代码校验/原始分段已补限定范围；CN-004生成器和完整代码表/内码核验仍待实施。",
       "rationale": "中国场景明确、规则边界可验证，可复用现有批量/遮盖/导出/错误组件。不是基于搜索量排序。",
       "gates": [
         "确认现行官方标准及登记部门/机构类别字典有效性",
         "字符/长度/MOD31/校验位独立向量",
         "不查企业存在/在营/信用",
         "生成只作测试且可能碰撞"
-      ]
+      ],
+      "status": "partially_delivered"
     },
     {
       "id": "N03",
@@ -2250,14 +2305,15 @@
         "CN-005",
         "CN-006"
       ],
-      "proposal": "人民币金额大写先完成前向金额转换；反向中文数字放在同内核后续模式。",
+      "proposal": "CN-005非负人民币大写已交付限定输入；CN-006反向中文数字解析仍待实施。",
       "rationale": "纯字符串/整数逻辑可离线，输入输出容易构造独立验收；前提是规则原文可核实。",
       "gates": [
         "人民银行等正式支付结算/票据规则原文待补验",
         "金额以字符串/整数分处理，避免浮点金额误差",
         "零/角分/整正/负数/舍入/上限显式定义",
         "不是复制同行输出当规范"
-      ]
+      ],
+      "status": "partially_delivered"
     },
     {
       "id": "N04",
@@ -2560,24 +2616,27 @@
       "not_added_to_own_192_tests": true,
       "scope": "四种OS/手动主题、持久化和样本文字/按钮对比度；不推断全站AA"
     },
-    "integration_verification_file": "docs/research/2026-11-20-verification.md",
+    "integration_verification_file": "docs/research/2026-11-21-china-money-credit-verification.md",
     "final_integration": {
-      "unit_test_files": 64,
-      "unit_tests_passed": 1666,
+      "unit_test_files": 69,
+      "unit_tests_passed": 1871,
       "unit_tests_failed": 0,
       "typescript_exit": 0,
       "lint_errors": 0,
       "lint_warnings": 55,
       "lint_diagnostics_unchanged_from_baseline": true,
-      "build_paths": 9667,
-      "seo_static_checked": 3240,
+      "build_paths": 9757,
+      "seo_static_checked": 3270,
       "seo_static_failures": 0,
       "seo_http_checked": 24,
       "seo_http_failures": 0,
       "production_browser_suites": {
+        "cold_first_input": 20,
+        "social_credit": 31,
+        "rmb": 47,
         "home": 26,
         "theme": 9,
-        "tool": 12,
+        "tool": 13,
         "regex": 4,
         "chinese_id": 44,
         "json": 52
@@ -2586,7 +2645,35 @@
       "pushed": false,
       "deployed": false,
       "accessibility_incomplete_remains": true
-    }
+    },
+    "integration_history": [
+      {
+        "unit_test_files": 64,
+        "unit_tests_passed": 1666,
+        "unit_tests_failed": 0,
+        "typescript_exit": 0,
+        "lint_errors": 0,
+        "lint_warnings": 55,
+        "lint_diagnostics_unchanged_from_baseline": true,
+        "build_paths": 9667,
+        "seo_static_checked": 3240,
+        "seo_static_failures": 0,
+        "seo_http_checked": 24,
+        "seo_http_failures": 0,
+        "production_browser_suites": {
+          "home": 26,
+          "theme": 9,
+          "tool": 12,
+          "regex": 4,
+          "chinese_id": 44,
+          "json": 52
+        },
+        "browser_failed": 0,
+        "pushed": false,
+        "deployed": false,
+        "accessibility_incomplete_remains": true
+      }
+    ]
   },
   "release_gates": [
     "UI未进行像素级还原确认，不能标封版。",
