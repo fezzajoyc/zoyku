@@ -18,10 +18,10 @@ export default defineTool({
         "Compress JPG, PNG and WebP images with a live quality slider, batch processing and instant before/after sizes — all in your browser.",
       intro: [
         "Drop one image or a whole batch and watch the file sizes fall in real time. A quality slider from 10% to 100% lets you balance weight against crispness, and every row shows the original size next to the compressed result so you know exactly what you saved.",
-        "Output can be JPG (smallest for photos), WebP (usually 20–30% smaller than JPG at the same quality) or PNG (lossless). Everything runs on your device with the browser's own image encoder — no uploads, no queue, no watermark.",
+        "Output can be JPG (smallest for photos), WebP (usually 20–30% smaller than JPG at the same quality), PNG (lossless) or AVIF (next-generation, offered when your browser can encode it). Everything runs on your device with the browser's own image encoder — no uploads, no queue, no watermark.",
       
         "Compression happens through the browser's built-in encoders: canvas.toBlob for JPG and WebP, and PNG re-encoding for lossless output. Quality maps directly to the encoder's quantization — 80% JPG typically yields visually identical results at 40–60% of the original size for photos, with diminishing returns below 30%.",
-        "Compared with upload-based compressors, there is no queue, no file-size cap and no daily limit — a 20 MB RAW export compresses as readily as a thumbnail. And unlike setting a fixed quality for everything, the per-file before/after readout lets you spot the one file that did not shrink and adjust it individually.",
+        "Compared with upload-based compressors, there is no queue and no account: files are processed on this device as fast as the browser can decode and re-encode them. Very large images are bounded by what the browser's canvas can hold — a practical ceiling in the tens of megapixels rather than a hard cap. One quality slider applies to the whole batch; the per-file before/after readout shows exactly which files shrank the least, so you can drop and re-compress just those.",
       ],
       steps: [
         "Drop your images into the box (or click to browse) — as many as you like.",
@@ -74,7 +74,7 @@ export default defineTool({
       tagline: "画质滑块实时可调,支持批量处理,压缩前后体积一目了然——全程在浏览器本地完成,文件不出设备。",
       intro: [
         "拖入单张或多张图片,文件体积实时下降。10%–100% 的画质滑块让你在体积与清晰度之间自由取舍,每行结果都会并排显示原始大小与压缩后大小,省了多少一目了然。",
-        "输出可选 JPG(照片最小)、WebP(同画质下通常比 JPG 小 20–30%)或 PNG(无损)。全部由浏览器内置编码器在本机完成——无需上传、没有排队、也不加水印。",
+        "输出可选 JPG(照片最小)、WebP(同画质下通常比 JPG 小 20–30%)、PNG(无损),浏览器支持时还有 AVIF(新一代编码)。全部由浏览器内置编码器在本机完成——无需上传、没有排队、也不加水印。",
       ],
       steps: [
         "把图片拖入方框(或点击选择),数量不限。",
@@ -128,7 +128,7 @@ export default defineTool({
         "品質スライダーをリアルタイム調整しながら JPG・PNG・WebP を圧縮。一括処理と圧縮前後のサイズ表示付き、すべてブラウザ内で完結します。",
       intro: [
         "画像を 1 枚でもまとめてでもドロップすると、ファイルサイズがリアルタイムで縮みます。10%〜100% の品質スライダーで軽さと鮮明さのバランスを調整でき、各行に圧縮前後のサイズを並べて表示するので、どれだけ節約できたか一目瞭然です。",
-        "出力は JPG(写真に最軽量)、WebP(同品質なら JPG より通常 20〜30% 小さい)、PNG(ロスレス)から選べます。処理はブラウザ内蔵エンコーダーで端末内だけで完結——アップロードも待ち行列も透かしもありません。",
+        "出力は JPG(写真に最軽量)、WebP(同品質なら JPG より通常 20〜30% 小さい)、PNG(ロスレス)、ブラウザが対応する場合は AVIF(次世代フォーマット)から選べます。処理はブラウザ内蔵エンコーダーで端末内だけで完結——アップロードも待ち行列も透かしもありません。",
       ],
       steps: [
         "画像をボックスにドロップ(またはクリックして選択)。枚数は無制限です。",
@@ -182,7 +182,7 @@ export default defineTool({
         "Comprime imágenes JPG, PNG y WebP con un deslizador de calidad en vivo, procesamiento por lotes y tamaños antes/después al instante, todo en tu navegador.",
       intro: [
         "Suelta una imagen o un lote completo y mira cómo bajan los tamaños en tiempo real. Un deslizador de calidad del 10% al 100% te permite equilibrar peso y nitidez, y cada fila muestra el tamaño original junto al resultado comprimido para que sepas exactamente cuánto ahorraste.",
-        "La salida puede ser JPG (el más pequeño para fotos), WebP (suele ser un 20–30% menor que JPG con la misma calidad) o PNG (sin pérdida). Todo funciona en tu dispositivo con el codificador del propio navegador: sin subidas, sin colas y sin marcas de agua.",
+        "La salida puede ser JPG (el más pequeño para fotos), WebP (suele ser un 20–30% menor que JPG con la misma calidad) o PNG (sin pérdida), y AVIF donde el navegador pueda codificarlo. Todo funciona en tu dispositivo con el codificador del propio navegador: sin subidas, sin colas y sin marcas de agua.",
       ],
       steps: [
         "Suelta tus imágenes en el recuadro (o haz clic para elegirlas), tantas como quieras.",
@@ -236,7 +236,7 @@ export default defineTool({
         "Comprima imagens JPG, PNG e WebP com controle de qualidade em tempo real, processamento em lote e tamanhos antes/depois na hora — tudo no seu navegador.",
       intro: [
         "Solte uma imagem ou um lote inteiro e veja os tamanhos caírem em tempo real. O controle de qualidade de 10% a 100% equilibra peso e nitidez, e cada linha mostra o tamanho original ao lado do resultado comprimido, para você saber exatamente quanto economizou.",
-        "A saída pode ser JPG (menor para fotos), WebP (geralmente 20–30% menor que JPG com a mesma qualidade) ou PNG (sem perdas). Tudo roda no seu dispositivo com o codificador do próprio navegador — sem upload, sem fila e sem marca d'água.",
+        "A saída pode ser JPG (menor para fotos), WebP (geralmente 20–30% menor que JPG com a mesma qualidade) ou PNG (sem perdas), e AVIF quando o navegador puder codificar. Tudo roda no seu dispositivo com o codificador do próprio navegador — sem upload, sem fila e sem marca d'água.",
       ],
       steps: [
         "Solte suas imagens na caixa (ou clique para escolher), quantas quiser.",

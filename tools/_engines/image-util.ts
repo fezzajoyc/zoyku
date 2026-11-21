@@ -1,15 +1,16 @@
 /** 图像引擎共享的纯函数工具:加载、编码能力探测、命名、EXIF / PNG 元数据解析。 */
 
-export type ImgFormat = "image/png" | "image/jpeg" | "image/webp";
+export type ImgFormat = "image/png" | "image/jpeg" | "image/webp" | "image/avif";
 
 export const FORMAT_EXT: Record<ImgFormat, string> = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/webp": "webp",
+  "image/avif": "avif",
 };
 
 export function isImgFormat(v: string): v is ImgFormat {
-  return v === "image/png" || v === "image/jpeg" || v === "image/webp";
+  return v === "image/png" || v === "image/jpeg" || v === "image/webp" || v === "image/avif";
 }
 
 /** 按文件 MIME 推断保留原格式;未知类型按 PNG 处理。 */

@@ -106,6 +106,7 @@ const FORMAT_LABEL: Record<ImgFormat, string> = {
   "image/png": "PNG",
   "image/jpeg": "JPG",
   "image/webp": "WebP",
+  "image/avif": "AVIF",
 };
 
 function chipCls(active: boolean): string {
@@ -368,7 +369,9 @@ export function ImageCanvasEngine({
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="text-[13px] font-semibold">{L.outputFormat[locale] ?? L.outputFormat.en}</span>
           {showFormatChips ? (
-            (["image/jpeg", "image/webp", "image/png"] as ImgFormat[]).map((f) => (
+            ((["image/jpeg", "image/webp", "image/png"] as ImgFormat[]).concat(
+              supportsEncode("image/avif") ? ["image/avif"] : [],
+            )).map((f) => (
               <button key={f} type="button" onClick={() => setFmt(f)} aria-pressed={fmt === f} className={chipCls(fmt === f)}>
                 {FORMAT_LABEL[f]}
               </button>
