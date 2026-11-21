@@ -22,6 +22,7 @@ describe("zoyku MCP server", () => {
       "bmr", "tdee", "body_fat_navy", "water_intake", "running_pace", "one_rep_max",
       "workdays_between", "sleep_schedule", "cooking_convert", "contrast_ratio",
       "grade", "slugify", "text_stats", "transform_text", "parse_csv", "json_to_xml",
+      "social_credit_samples", "rmb_uppercase_to_number",
     ]) {
       expect(names.has(expected), expected).toBe(true);
     }
@@ -86,6 +87,28 @@ describe("zoyku MCP server", () => {
     expect(parsed.aaNormal).toBe(true);
     expect(parsed.aaaNormal).toBe(false);
     await client.close();
+  });
+
+  it("executes the China credit and RMB reverse tools", async () => {
+    const client = await connect();
+    try {
+      const samples = await client.callTool({
+        name: "social_credit_samples",
+        arguments: { department: "9", category: "1", address_code: "110105", start_body: "D2143569", count: 1 },
+      });
+      expect(samples.isError).not.toBe(true);
+      const sample = JSON.parse((samples.content as any)[0].text);
+      expect(sample.codes).toHaveLength(1);
+      expect(sample.codes[0]).toMatch(/^91110105D2143569X[0-9A-HJ-NPQRTUWXY]$/);
+      expect(sample.codes[0]).toHaveLength(18);
+
+      const amount = await client.callTool({
+        name: "rmb_uppercase_to_number",
+        arguments: { uppercase: "人民币陆仟零柒元壹角肆分" },
+      });
+      expect(amount.isError).not.toBe(true);
+      expect(JSON.parse((amount.content as any)[0].text)).toMatchObject({ normalizedAmount: "6007.14", minorUnits: "600714" });
+    } finally { await client.close(); }
   });
   it("resolves every advertised activity option with the shared formula", async () => {
     const client = await connect();

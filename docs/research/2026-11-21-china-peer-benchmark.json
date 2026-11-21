@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "date": "2026-11-21",
+  "timezone": "Asia/Shanghai",
+  "purpose": "Compare the scoped Zoyku RMB reverse parser and social-credit test sample tool with accessible peer evidence without treating different policies as errors.",
+  "rmb_reverse": {
+    "peer": {
+      "name": "LDDGO 在线中文大写数字转换阿拉伯数字",
+      "url": "https://www.lddgo.net/convert/chinese-number-to-arabic-number",
+      "retrieval": "Public page fetched and exercised in a browser",
+      "declared_capabilities": [
+        "普通中文数字与财务大写",
+        "one number per line and multiple lines",
+        "negative and decimal examples",
+        "removes non-numeric characters before conversion",
+        "large decimal input may lose fractional digits"
+      ]
+    },
+    "same_input": {
+      "input": "人民币陆仟零柒元壹角肆分",
+      "peer_visible_input_after_normalization": "陆仟零柒元壹角肆分",
+      "peer_output": "6007.14",
+      "zoyku_output": "6007.14",
+      "zoyku_minor_units": "600714",
+      "zoyku_canonical_uppercase": "人民币陆仟零柒元壹角肆分",
+      "basis": "Peer output was observed in the browser; Zoyku output and fen value are anchored by the current parser implementation and its official-example tests."
+    },
+    "policy_difference": "LDDGO advertises broad parsing with filtering and multi-line input. Zoyku accepts a declared strict financial-uppercase subset, rejects arbitrary characters, negative values and multi-line input, and calculates integer fen without rounding.",
+    "not_tested": [
+      "LDDGO invalid-input behavior",
+      "LDDGO keyboard-only flow",
+      "LDDGO 320px or RTL layout"
+    ]
+  },
+  "social_credit_samples": {
+    "peer": {
+      "name": "365工具箱 Mock 数据生成器",
+      "url": "https://www.toolbox365.cn/tools/mock-data/",
+      "retrieval": "Public page content fetched; no interactive form submitted",
+      "declared_capabilities": [
+        "unified social credit code field with GB 32100 validation",
+        "JSON, JSONL/NDJSON, CSV and SQL INSERT output",
+        "1 to 10000 records",
+        "30+ localized and general mock fields"
+      ]
+    },
+    "zoyku_scope": {
+      "tool": "social-credit-generator",
+      "records_per_batch": "1-100",
+      "sequence": "deterministic increment; no wrap and no cross-batch uniqueness guarantee",
+      "checks": ["GB 11714 organization code", "GB 32100 unified social credit code"],
+      "outputs": ["current masked or revealed display to clipboard", "TXT download"],
+      "limitations": [
+        "no general Chinese mock fields",
+        "no JSON, JSONL, CSV or SQL export",
+        "no registration lookup",
+        "generated samples may collide with real registrations",
+        "the full PDY prefix is excluded conservatively"
+      ]
+    },
+    "same_input_output_tested": false,
+    "not_tested": [
+      "peer generator actual output",
+      "peer invalid-input recovery",
+      "peer keyboard flow",
+      "peer narrow-screen layout"
+    ]
+  },
+  "global_limits": [
+    "No claim about relative accuracy or overall product quality",
+    "No claim about live registration, legal validity, SEO ranking, traffic or revenue",
+    "Peer feature descriptions are not treated as independent verification"
+  ]
+}
