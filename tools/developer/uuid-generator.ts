@@ -11,7 +11,7 @@ export default defineTool({
     en: {
       name: "UUID Generator",
       tagline:
-        "Generate random UUID v4 identifiers in bulk with one click — 1 to 500 at a time, using your browser's cryptographic randomness. Free, instant, offline-capable.",
+        "Generate RFC 9562 UUIDs in every flavor — random v4/v1/v7 batches of 1–500, deterministic v3/v5 from a namespace + name, or the fixed NIL value. Free, instant, offline-capable.",
       intro: [
         "Create version 4 UUIDs in whatever quantity you need: test fixtures, database seeds, file names, request IDs or API key drafts. Each identifier is produced by crypto.randomUUID, the browser's cryptographically secure random source, so batches are unpredictable and safe to use as unguessable resource identifiers.",
         "A v4 UUID is 122 random bits plus 6 fixed version/variant bits, formatted as the canonical 8-4-4-4-12 hexadecimal layout (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx). The version nibble is always 4 and the top bits of the third group are 8, 9, a or b — quick tells that an identifier is a well-formed v4.",
@@ -20,8 +20,8 @@ export default defineTool({
 
       ],
       steps: [
-        "Set how many UUIDs you need (1–500).",
-        "Click Generate — the list appears instantly.",
+        "Pick a version: v4/v1/v7 for batches of 1–500, v3/v5 for name-based UUIDs (namespace + one name per line), or NIL for the fixed all-zero value.",
+        "Fill in the inputs for that version and click Generate.",
         "Copy all of them at once, or clear and generate a fresh batch.",
       ],
       faqs: [
@@ -67,14 +67,14 @@ export default defineTool({
     },
     zh: {
       name: "UUID 生成器",
-      tagline: "一键批量生成随机 UUID v4 标识符——每次 1 到 500 个,使用浏览器密码学安全随机源。免费即时,离线可用。",
+      tagline: "生成 RFC 9562 全系 UUID——随机 v4/v1/v7 批量(1–500 个),基于命名空间+名字的确定性 v3/v5,以及固定 NIL 值。免费即时,离线可用。",
       intro: [
         "按需生成 RFC 4122 第 4 版 UUID:测试数据、数据库种子、文件名、请求 ID 或 API key 草稿。每个标识符都来自 crypto.randomUUID,即浏览器内置的密码学安全随机源——122 位随机,碰撞概率在实际中永远不会遇到。",
         "与基于时间的 v1/v6/v7 不同,v4 不含时间戳,不会泄露创建时间和地点——页面会明确说明这一点,并显示本批次生成的时间。",
       ],
       steps: [
-        "设置需要的 UUID 数量(1–500)。",
-        "点击生成——列表立即出现。",
+        "选择版本:v4/v1/v7 批量(1–500),v3/v5 基于名字(命名空间+每行一个名字),NIL 固定全零值。",
+        "按所选版本填写输入,点击生成。",
         "一次性全部复制,或清空后重新生成一批。",
       ],
       faqs: [
@@ -121,15 +121,15 @@ export default defineTool({
     ja: {
       name: "UUID ジェネレーター",
       tagline:
-        "ランダムな UUID v4 をワンクリックで一括生成 — 1〜500 個ずつ、ブラウザの暗号学的乱数を使用。無料・即時・オフライン対応です。",
+        "RFC 9562 の全バージョンの UUID を生成 — ランダム v4/v1/v7 は 1〜500 個の一括生成、名前空間+名前から決定的な v3/v5、固定の NIL にも対応。無料・即時・オフライン対応。",
       intro: [
         "必要な数だけ RFC 4122 version 4 の UUID を生成:テストフィクスチャ、DB シード、ファイル名、リクエスト ID、API キーの下書きなど。各識別子は crypto.randomUUID、つまりブラウザの暗号学的に安全な乱数源から作られます。122 ビットのランダム性で、実務では衝突を気にする必要がありません。",
         "時間ベースの v1/v6/v7 と異なり、v4 はタイムスタンプを含まず、作成時刻や場所を漏らしません。このページではその点と、バッチの生成時刻を明示します。",
       ],
       steps: [
-        "必要な UUID の個数を設定します(1〜500)。",
-        "Generate をクリック — リストが即座に表示されます。",
-        "一括でコピーするか、クリアして新しいバッチを生成します。",
+        "バージョンを選択:v4/v1/v7 は一括(1〜500)、v3/v5 は名前ベース(名前空間 + 1 行 1 名)、NIL は固定の全ゼロ値。",
+        "選択したバージョンの入力を記入して生成をクリック。",
+        "まとめてコピー、またはクリアして新しいバッチを生成。",
       ],
       faqs: [
         {
@@ -175,15 +175,15 @@ export default defineTool({
     es: {
       name: "Generador UUID",
       tagline:
-        "Genera identificadores UUID v4 aleatorios en lote con un clic — de 1 a 500 cada vez, con la aleatoriedad criptográfica del navegador. Gratis e instantáneo.",
+        "Genera UUID RFC 9562 de todos los tipos: lotes aleatorios v4/v1/v7 de 1 a 500, v3/v5 deterministas a partir de namespace + nombre, o el NIL fijo. Gratis e instantáneo.",
       intro: [
         "Crea UUID versión 4 (RFC 4122) en la cantidad que necesites: fixtures de prueba, semillas de base de datos, nombres de archivo, IDs de petición o borradores de claves API. Cada identificador sale de crypto.randomUUID, la fuente aleatoria criptográfica del navegador — 122 bits aleatorios, con colisiones que jamás verás en la práctica.",
         "A diferencia de las versiones basadas en tiempo (v1/v6/v7), v4 no lleva marca de tiempo ni filtra cuándo o dónde se creó — la página te lo aclara, junto con cuándo se generó tu lote.",
       ],
       steps: [
-        "Indica cuántos UUID necesitas (1–500).",
-        "Pulsa Generate — la lista aparece al instante.",
-        "Cópialos todos de una vez, o borra y genera un lote nuevo.",
+        "Elige la versión: v4/v1/v7 por lotes (1–500), v3/v5 por nombre (namespace + un nombre por línea) o NIL para el valor fijo de ceros.",
+        "Rellena los campos de esa versión y pulsa Generar.",
+        "Copia todo de una vez, o borra y genera un lote nuevo.",
       ],
       faqs: [
         {
@@ -229,15 +229,15 @@ export default defineTool({
     pt: {
       name: "Gerador UUID",
       tagline:
-        "Gere identificadores UUID v4 aleatórios em lote com um clique — de 1 a 500 por vez, usando a aleatoriedade criptográfica do navegador. Grátis e instantâneo.",
+        "Gere UUIDs RFC 9562 de todos os tipos: lotes aleatórios v4/v1/v7 de 1 a 500, v3/v5 determinísticos a partir de namespace + nome, ou o NIL fixo. Grátis e instantâneo.",
       intro: [
         "Crie UUIDs versão 4 (RFC 4122) na quantidade que precisar: fixtures de teste, seeds de banco de dados, nomes de arquivo, IDs de requisição ou rascunhos de chaves de API. Cada identificador vem de crypto.randomUUID, a fonte de aleatoriedade criptográfica do navegador — 122 bits aleatórios, com colisões que você nunca verá na prática.",
         "Diferente das versões baseadas em tempo (v1/v6/v7), o v4 não contém timestamp e não vaza quando nem onde foi criado — a página deixa isso claro e mostra quando o lote foi gerado.",
       ],
       steps: [
-        "Defina quantos UUIDs você precisa (1–500).",
-        "Clique em Generate — a lista aparece na hora.",
-        "Copie todos de uma vez, ou limpe e gere um lote novo.",
+        "Escolha a versão: v4/v1/v7 em lote (1–500), v3/v5 por nome (namespace + um nome por linha) ou NIL para o valor fixo de zeros.",
+        "Preencha os campos dessa versão e clique em Gerar.",
+        "Copie tudo de uma vez, ou limpe e gere um novo lote.",
       ],
       faqs: [
         {
