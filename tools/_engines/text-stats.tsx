@@ -1,17 +1,67 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
+import { pick } from "./calc-ui";
 import { countTextStats as countStats, computeTextInsights, checkPlatformLimits, sentenceSegments, sentenceBand, writingSuggestions, type SuggestionKey } from "../_lib/transforms";
 import { fill } from "../_lib/types";
 
 
 /** 词数/字符数/句数三个工具页共用,primary 决定首位强调指标。 */
 export function TextStats({ primary }: { primary: "words" | "characters" | "sentences" }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const [input, setInput] = useState("");
   const [flowOn, setFlowOn] = useState(true);
+  // R2:自愿开启的本地草稿自动保存(仅本浏览器;清空文本即清存储)
+  const [autoSave, setAutoSave] = useState(false);
+  const DRAFT_KEY = "wordcounter.draft";
+  const AUTO_KEY = "wordcounter.autosave";
+
+  useEffect(() => {
+    // 挂载时:若用户此前开启过自动保存且留有草稿 → 恢复
+    try {
+      if (localStorage.getItem(AUTO_KEY) === "1") {
+        setAutoSave(true);
+        const draft = localStorage.getItem(DRAFT_KEY);
+        if (draft) setInput(draft);
+      }
+    } catch {
+      /* localStorage 不可用(隐私模式)= 自动保存静默禁用 */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!autoSave) return;
+    try {
+      if (input === "") localStorage.removeItem(DRAFT_KEY);
+      else localStorage.setItem(DRAFT_KEY, input);
+    } catch {
+      /* 配额满/隐私模式:保存失败静默,不打断输入 */
+    }
+  }, [input, autoSave]);
+
+  const toggleAutoSave = () => {
+    setAutoSave((on) => {
+      if (on) {
+        // 关闭 = 立即清除已存草稿(可清除承诺)
+        try {
+          localStorage.removeItem(DRAFT_KEY);
+          localStorage.removeItem(AUTO_KEY);
+        } catch {
+          /* noop */
+        }
+      } else {
+        try {
+          localStorage.setItem(AUTO_KEY, "1");
+          if (input !== "") localStorage.setItem(DRAFT_KEY, input);
+        } catch {
+          /* noop */
+        }
+      }
+      return !on;
+    });
+  };
   const stats = useMemo(() => countStats(input), [input]);
   const insights = useMemo(() => computeTextInsights(input, stats), [input, stats]);
   // 平台限制校验:character 视角(character-counter)才显示,词数视角不掺和
@@ -95,7 +145,14 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
         {input !== "" && (
           <button
             type="button"
-            onClick={() => setInput("")}
+            onClick={() => {
+              setInput("");
+              try {
+                localStorage.removeItem(DRAFT_KEY);
+              } catch {
+                /* noop */
+              }
+            }}
             aria-label={t.common.clear}
             className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full border hairline bg-[var(--color-card)] text-[13px] text-[var(--color-sub)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-ink)]"
           >
@@ -103,6 +160,45 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
           </button>
         )}
       </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          aria-pressed={autoSave}
+          onClick={toggleAutoSave}
+          className={`rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+            autoSave
+              ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
+              : "hairline hover:bg-[var(--color-surface)]"
+          }`}
+        >
+          {pick(locale, {
+            en: "Auto-save draft locally", zh: "本地自动保存草稿", ja: "下書きをローカル自動保存", es: "Autoguardar borrador localmente", pt: "Salvamento automático local do rascunho",
+            fr: "Sauvegarde locale du brouillon", de: "Entwurf lokal automatisch speichern", ru: "Автосохранение черновика локально", it: "Salvataggio automatico locale della bozza",
+            tr: "Taslağı yerel olarak otomatik kaydet", ko: "초안 로컬 자동 저장", ar: "الحفظ التلقائي للمسودة محليًا", hi: "ड्राफ्ट स्थानीय रूप से ऑटो-सेव",
+            id: "Simpan otomatis draf secara lokal", vi: "Tự động lưu bản nháp cục bộ",
+          })}
+        </button>
+        <span className="text-[12.5px] leading-5 text-[var(--color-sub)]">
+          {pick(locale, {
+            en: "Opt-in: the draft is stored only in this browser and cleared with the text.",
+            zh: "自愿开启:草稿只存于本浏览器,清空文本即同步清除。",
+            ja: "オプトイン:下書きはこのブラウザにのみ保存され、テキスト消去と同時に消えます。",
+            es: "Opcional: el borrador se guarda solo en este navegador y se borra con el texto.",
+            pt: "Opcional: o rascunho fica só neste navegador e é apagado junto com o texto.",
+            fr: "Sur activation : le brouillon reste dans ce navigateur et s'efface avec le texte.",
+            de: "Opt-in: Der Entwurf bleibt nur in diesem Browser und wird mit dem Text gelöscht.",
+            ru: "По включению: черновик хранится только в этом браузере и стирается вместе с текстом.",
+            it: "Opt-in: la bozza resta solo in questo browser e si cancella con il testo.",
+            tr: "İsteğe bağlı: taslak yalnızca bu tarayıcıda saklanır, metinle birlikte silinir.",
+            ko: "옵트인: 초안은 이 브라우저에만 저장되며 텍스트 지우면 같이 지워집니다.",
+            ar: "اختياري: تُحفظ المسودة في هذا المتصفح فقط وتُمسح مع النص.",
+            hi: "ऑप्ट-इन: ड्राफ्ट केवल इसी ब्राउज़र में सहेजा जाता है, टेक्स्ट साफ़ करने पर हट जाता है।",
+            id: "Opt-in: draf hanya disimpan di browser ini dan terhapus bersama teksnya.",
+            vi: "Tùy chọn: bản nháp chỉ lưu trong trình duyệt này và xóa cùng văn bản.",
+          })}
+        </span>
+      </div>
+
       {!hasText && (
         <p className="mt-3 text-center text-[13px] text-[var(--color-sub)]">
           {t.text.stats.emptyHint}
