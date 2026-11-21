@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
+import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import { Field, Note, NumIn, Sel, Tabs, TextIn, fmt, pick } from "./calc-ui";
 
@@ -27,6 +28,8 @@ function parseBig(s: string, radix: number): bigint | null {
   return v;
 }
 
+import { parseInBase, toBaseStr } from "../_lib/base-convert";
+
 /** BigInt to digit string in the given radix. */
 function toBigStr(v: bigint, radix: number): string {
   if (v === 0n) return "0";
@@ -51,7 +54,25 @@ const GROUP = (s: string, size: number): string => {
 function Binary() {
   const { locale } = useI18n();
   const [state, setState] = useState<{ raw: string; radix: number }>({ raw: "255", radix: 10 });
+  const [customFrom, setCustomFrom] = useState("16");
+  const [customTo, setCustomTo] = useState("64");
+  const [customVal, setCustomVal] = useState("ff");
   const v = parseBig(state.raw, state.radix);
+
+  // G04:自定义进制(2–64,BigInt 任意大小)
+  const customFromN = Number(customFrom);
+  const customToN = Number(customTo);
+  const customParsed = parseInBase(customVal, customFromN);
+  const customOut = customParsed.ok ? toBaseStr(customParsed.value, customToN) : "";
+  const customErrKey = customParsed.ok
+    ? ""
+    : customParsed.code === "negative"
+      ? "customErrSign"
+      : customParsed.code === "badRadix"
+        ? "customErrBase"
+        : customParsed.code === "invalidDigits" && customVal.trim() !== ""
+          ? "invalidDigits"
+          : "";
 
   const fields: { radix: number; label: string; text: string; group: number }[] = [
     { radix: 10, label: "Decimal (DEC)", text: v === null ? "" : toBigStr(v, 10), group: 3 },
@@ -83,6 +104,103 @@ function Binary() {
           </Field>
         ))}
       </div>
+
+      <div className="mt-5 space-y-3 rounded-xl border hairline p-4">
+        <p className="text-[13px] font-semibold">
+          {pick(locale, {
+            en: "Custom base (2–64)", zh: "自定义进制(2–64)", ja: "カスタム進数(2〜64)", es: "Base personalizada (2–64)", pt: "Base personalizada (2–64)",
+            fr: "Base personnalisée (2–64)", de: "Eigene Basis (2–64)", ru: "Произвольное основание (2–64)", it: "Base personalizzata (2–64)",
+            tr: "Özel taban (2–64)", ko: "사용자 지정 진법(2–64)", ar: "أساس مخصص (2–64)", hi: "कस्टम आधार (2–64)",
+            id: "Basis kustom (2–64)", vi: "Cơ số tùy chỉnh (2–64)",
+          })}
+        </p>
+        <div className="grid gap-3 sm:grid-cols-[8rem_1fr_8rem]">
+          <label className="block space-y-1.5 text-[13px] font-medium">
+            <span>{pick(locale, { en: "From base", zh: "原进制", ja: "変換元", es: "Base origen", pt: "Base de origem", fr: "Base source", de: "Quellbasis", ru: "Исходное основание", it: "Base di partenza", tr: "Kaynak taban", ko: "원래 진법", ar: "الأساس المصدر", hi: "स्रोत आधार", id: "Basis asal", vi: "Cơ số nguồn" })}</span>
+            <input type="number" min={2} max={64} className="field mono w-full" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} aria-label="from base" />
+          </label>
+          <label className="block space-y-1.5 text-[13px] font-medium">
+            <span>{pick(locale, { en: "Value", zh: "数值", ja: "値", es: "Valor", pt: "Valor", fr: "Valeur", de: "Wert", ru: "Значение", it: "Valore", tr: "Değer", ko: "값", ar: "القيمة", hi: "मान", id: "Nilai", vi: "Giá trị" })}</span>
+            <input type="text" className="field mono w-full" value={customVal} onChange={(e) => setCustomVal(e.target.value)} spellCheck={false} aria-label="custom value" />
+          </label>
+          <label className="block space-y-1.5 text-[13px] font-medium">
+            <span>{pick(locale, { en: "To base", zh: "目标进制", ja: "変換先", es: "Base destino", pt: "Base de destino", fr: "Base cible", de: "Zielbasis", ru: "Целевое основание", it: "Base di destinazione", tr: "Hedef taban", ko: "대상 진법", ar: "الأساس الهدف", hi: "लक्ष्य आधार", id: "Basis tujuan", vi: "Cơ số đích" })}</span>
+            <input type="number" min={2} max={64} className="field mono w-full" value={customTo} onChange={(e) => setCustomTo(e.target.value)} aria-label="to base" />
+          </label>
+        </div>
+        {customErrKey === "" && customOut !== "" && (
+          <div className="space-y-2">
+            <p className="mono break-all rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[14px] leading-5" dir="ltr" aria-live="polite">
+              {customOut}
+            </p>
+            <CopyButton value={customOut} />
+          </div>
+        )}
+        {customErrKey === "invalidDigits" && customVal.trim() !== "" && (
+          <p role="alert" className="rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]">
+            {pick(locale, {
+              en: "That value has digits outside the selected base (alphabet: 0-9, then a-z, then A-Z, then +/).",
+              zh: "数值含有超出所选进制的字符(字母表顺序:0-9、a-z、A-Z、+/)。",
+              ja: "その値には選択した基数の範囲外の文字があります(文字順:0-9、a-z、A-Z、+/)。",
+              es: "El valor tiene dígitos fuera de la base elegida (alfabeto: 0-9, luego a-z, luego A-Z, luego +/).",
+              pt: "O valor tem dígitos fora da base escolhida (alfabeto: 0-9, depois a-z, depois A-Z, depois +/).",
+              fr: "La valeur contient des chiffres hors de la base choisie (alphabet : 0-9, puis a-z, puis A-Z, puis +/).",
+              de: "Der Wert enthält Zeichen außerhalb der gewählten Basis (Alphabet: 0-9, dann a-z, dann A-Z, dann +/).",
+              ru: "В значении есть цифры вне выбранного основания (алфавит: 0-9, затем a-z, затем A-Z, затем +/).",
+              it: "Il valore contiene cifre fuori dalla base scelta (alfabeto: 0-9, poi a-z, poi A-Z, poi +/).",
+              tr: "Değer, seçilen taban dışında karakterler içeriyor (alfabe: 0-9, sonra a-z, sonra A-Z, sonra +/).",
+              ko: "값에 선택한 진법 범위 밖의 문자가 있습니다(문자 순서: 0-9, a-z, A-Z, +/).",
+              ar: "القيمة تحتوي أرقامًا خارج الأساس المختار (الترتيب: 0-9، ثم a-z، ثم A-Z، ثم +/).",
+              hi: "मान में चयनित आधार से बाहर के अंक हैं (क्रम: 0-9, फिर a-z, फिर A-Z, फिर +/)।",
+              id: "Nilai berisi digit di luar basis terpilih (alfabet: 0-9, lalu a-z, lalu A-Z, lalu +/).",
+              vi: "Giá trị có ký tự ngoài cơ số đã chọn (thứ tự: 0-9, rồi a-z, rồi A-Z, rồi +/).",
+            })}
+          </p>
+        )}
+        {customErrKey === "customErrSign" && (
+          <p role="alert" className="rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]">
+            {pick(locale, {
+              en: "Negative numbers are out of scope for this tool (non-negative integers only).",
+              zh: "负数超出本工具范围(仅支持非负整数)。",
+              ja: "負の数はこのツールの対象外です(非負整数のみ)。",
+              es: "Los números negativos están fuera del alcance (solo enteros no negativos).",
+              pt: "Números negativos fora do escopo (apenas inteiros não negativos).",
+              fr: "Les nombres négatifs sont hors de portée (entiers non négatifs uniquement).",
+              de: "Negative Zahlen sind außerhalb des Umfangs (nur nicht-negative Ganzzahlen).",
+              ru: "Отрицательные числа вне области (только неотрицательные целые).",
+              it: "I numeri negativi sono fuori ambito (solo interi non negativi).",
+              tr: "Negatif sayılar kapsam dışı (yalnızca negatif olmayan tam sayılar).",
+              ko: "음수는 지원 범위 밖입니다(음이 아닌 정수만).",
+              ar: "الأرقام السالبة خارج النطاق (أعداد غير سالبة فقط).",
+              hi: "ऋणात्मक संख्याएँ दायरे से बाहर (केवल गैर-ऋणात्मक पूर्णांक)।",
+              id: "Bilangan negatif di luar cakupan (hanya bilangan bulat non-negatif).",
+              vi: "Số âm ngoài phạm vi (chỉ số nguyên không âm).",
+            })}
+          </p>
+        )}
+        {customErrKey === "customErrBase" && (
+          <p role="alert" className="rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]">
+            {pick(locale, {
+              en: "Bases must be whole numbers from 2 to 64.",
+              zh: "进制必须是 2 到 64 的整数。",
+              ja: "基数は 2〜64 の整数にしてください。",
+              es: "La base debe ser un entero de 2 a 64.",
+              pt: "A base deve ser um inteiro de 2 a 64.",
+              fr: "La base doit être un entier de 2 à 64.",
+              de: "Die Basis muss eine ganze Zahl von 2 bis 64 sein.",
+              ru: "Основание должно быть целым числом от 2 до 64.",
+              it: "La base deve essere un intero da 2 a 64.",
+              tr: "Taban 2 ile 64 arası bir tam sayı olmalıdır.",
+              ko: "진법은 2에서 64 사이의 정수여야 합니다.",
+              ar: "يجب أن يكون الأساس عددًا صحيحًا من 2 إلى 64.",
+              hi: "आधार 2 से 64 के बीच पूर्णांक होना चाहिए।",
+              id: "Basis harus bilangan bulat 2 sampai 64.",
+              vi: "Cơ số phải là số nguyên từ 2 đến 64.",
+            })}
+          </p>
+        )}
+      </div>
+
       <div className="mt-4">
         <Note>
           {v === null && state.raw.trim() !== ""
