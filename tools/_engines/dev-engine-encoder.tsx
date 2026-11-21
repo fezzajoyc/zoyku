@@ -63,6 +63,10 @@ const L_FILE = {
   outName: { en: "Decoded file name", zh: "解码后文件名", ja: "デコード後のファイル名", es: "Nombre del archivo decodificado", pt: "Nome do arquivo decodificado", fr: "Nom du fichier décodé", de: "Dekodierter Dateiname", ru: "Имя декодированного файла", it: "Nome del file decodificato", tr: "Çözülen dosya adı", ko: "디코딩된 파일 이름", ar: "اسم الملف المفكوك", hi: "डिकोड फ़ाइल नाम", id: "Nama file hasil dekode", vi: "Tên tệp đã giải mã" },
   downloadFile: { en: "Download decoded file", zh: "下载解码后的文件", ja: "デコードファイルをダウンロード", es: "Descargar archivo decodificado", pt: "Baixar arquivo decodificado", fr: "Télécharger le fichier décodé", de: "Dekodierte Datei herunterladen", ru: "Скачать декодированный файл", it: "Scarica il file decodificato", tr: "Çözülen dosyayı indir", ko: "디코딩된 파일 다운로드", ar: "تنزيل الملف المفكوك", hi: "डिकोड फ़ाइल डाउनलोड करें", id: "Unduh file hasil dekode", vi: "Tải tệp đã giải mã" },
   invalid: { en: "Input is not valid Base64 — nothing to download.", zh: "输入不是合法 Base64——没有可下载内容。", ja: "入力は有効な Base64 ではありません——ダウンロードできません。", es: "La entrada no es Base64 válido: nada para descargar.", pt: "A entrada não é Base64 válido: nada para baixar.", fr: "L'entrée n'est pas du Base64 valide — rien à télécharger.", de: "Eingabe ist kein gültiges Base64 — nichts zum Herunterladen.", ru: "Ввод не является корректным Base64 — скачивать нечего.", it: "L'input non è Base64 valido: nulla da scaricare.", tr: "Giriş geçerli Base64 değil — indirilecek bir şey yok.", ko: "입력이 유효한 Base64가 아닙니다 — 다운로드할 내용이 없습니다.", ar: "الإدخال ليس Base64 صالحًا — لا شيء للتنزيل.", hi: "इनपुट मान्य Base64 नहीं है — डाउनलोड करने के लिए कुछ नहीं।", id: "Input bukan Base64 yang valid — tidak ada untuk diunduh.", vi: "Đầu vào không phải Base64 hợp lệ — không có gì để tải." },
+  basicTitle: { en: "HTTP Basic Auth header", zh: "HTTP Basic 认证头", ja: "HTTP Basic 認証ヘッダー", es: "Cabecera HTTP Basic Auth", pt: "Cabeçalho HTTP Basic Auth", fr: "En-tête HTTP Basic Auth", de: "HTTP-Basic-Auth-Header", ru: "Заголовок HTTP Basic Auth", it: "Header HTTP Basic Auth", tr: "HTTP Basic Auth başlığı", ko: "HTTP Basic 인증 헤더", ar: "ترويسة HTTP Basic Auth", hi: "HTTP Basic Auth हेडर", id: "Header HTTP Basic Auth", vi: "Tiêu đề HTTP Basic Auth" },
+  basicUser: { en: "Username", zh: "用户名", ja: "ユーザー名", es: "Usuario", pt: "Usuário", fr: "Nom d'utilisateur", de: "Benutzername", ru: "Имя пользователя", it: "Nome utente", tr: "Kullanıcı adı", ko: "사용자 이름", ar: "اسم المستخدم", hi: "उपयोगकर्ता नाम", id: "Nama pengguna", vi: "Tên người dùng" },
+  basicPass: { en: "Password", zh: "密码", ja: "パスワード", es: "Contraseña", pt: "Senha", fr: "Mot de passe", de: "Passwort", ru: "Пароль", it: "Password", tr: "Şifre", ko: "비밀번호", ar: "كلمة المرور", hi: "पासवर्ड", id: "Kata sandi", vi: "Mật khẩu" },
+  basicNote: { en: "Send as the Authorization header value. UTF-8 credentials are allowed (RFC 7617 charset); the secret stays in this tab.", zh: "作为 Authorization 头的值发送。凭据可用 UTF-8(RFC 7617 允许);秘密只留在此标签页内。", ja: "Authorization ヘッダーの値として送信します。UTF-8 の資格情報が可能(RFC 7617)。シークレットはこのタブ内に留まります。", es: "Envíalo como valor del encabezado Authorization. Credenciales UTF-8 permitidas (RFC 7617); el secreto permanece en esta pestaña.", pt: "Envie como valor do cabeçalho Authorization. Credenciais UTF-8 permitidas (RFC 7617); o segredo fica nesta aba.", fr: "À envoyer comme valeur de l'en-tête Authorization. Identifiants UTF-8 autorisés (RFC 7617) ; le secret reste dans cet onglet.", de: "Als Wert des Authorization-Headers senden. UTF-8-Zugangsdaten erlaubt (RFC 7617); das Secret bleibt in diesem Tab.", ru: "Отправляйте как значение заголовка Authorization. UTF-8 допустим (RFC 7617); секрет остаётся в этой вкладке.", it: "Invia come valore dell'header Authorization. Credenziali UTF-8 consentite (RFC 7617); il segreto resta in questa scheda.", tr: "Authorization başlığı değeri olarak gönderin. UTF-8 kimlik bilgileri mümkün (RFC 7617); gizli anahtar bu sekmede kalır.", ko: "Authorization 헤더 값으로 보내세요. UTF-8 자격 증명 허용(RFC 7617); 시크릿은 이 탭에만 남습니다.", ar: "أرسلها كقيمة ترويسة Authorization. بيانات UTF-8 مسموحة (RFC 7617)؛ السر يبقى في هذا التبويب.", hi: "Authorization हेडर मान के रूप में भेजें। UTF-8 क्रेडेंशियल स्वीकृत (RFC 7617); सीक्रेट इसी टैब में रहता है।", id: "Kirim sebagai nilai header Authorization. Kredensial UTF-8 diizinkan (RFC 7617); rahasia tetap di tab ini.", vi: "Gửi làm giá trị tiêu đề Authorization. Cho phép thông tin UTF-8 (RFC 7617); bí mật giữ trong tab này." },
 } as const;
 
 export function DevEncoderEngine({ codec }: { codec: Codec }) {
@@ -74,6 +78,16 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
   const [fileOut, setFileOut] = useState<{ name: string; base64: string; bytes: number } | null>(null);
   const [fileErr, setFileErr] = useState("");
   const [outName, setOutName] = useState("decoded.bin");
+  const [basicUser, setBasicUser] = useState("");
+  const [basicPass, setBasicPass] = useState("");
+  const basicHeader = (() => {
+    if (!basicUser && !basicPass) return "";
+    const raw = `${basicUser}:${basicPass}`;
+    const bytes = new TextEncoder().encode(raw);
+    let bin = "";
+    for (const byte of bytes) bin += String.fromCharCode(byte);
+    return `Authorization: Basic ${btoa(bin)}`;
+  })();
   const id = useId();
   const jwtLabels = jwtCopy(locale);
 
@@ -356,6 +370,47 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
                 {fileErr}
               </p>
             )}
+          </div>
+        )}
+
+        {codec === "base64-encode" && (
+          <div className="space-y-2.5 rounded-xl border hairline p-3.5">
+            <p className="text-[13px] font-semibold">{pick(L_FILE.basicTitle, locale)}</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block space-y-1.5 text-[13px] font-medium">
+                <span>{pick(L_FILE.basicUser, locale)}</span>
+                <input
+                  type="text"
+                  className="field w-full"
+                  value={basicUser}
+                  onChange={(e) => setBasicUser(e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
+                  aria-label={pick(L_FILE.basicUser, locale)}
+                />
+              </label>
+              <label className="block space-y-1.5 text-[13px] font-medium">
+                <span>{pick(L_FILE.basicPass, locale)}</span>
+                <input
+                  type="text"
+                  className="field mono w-full"
+                  value={basicPass}
+                  onChange={(e) => setBasicPass(e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
+                  aria-label={pick(L_FILE.basicPass, locale)}
+                />
+              </label>
+            </div>
+            {basicHeader && (
+              <div className="space-y-2">
+                <p className="mono break-all rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13px] leading-5" dir="ltr">
+                  {basicHeader}
+                </p>
+                <CopyButton value={basicHeader} />
+              </div>
+            )}
+            <p className="text-[12.5px] leading-5 text-[var(--color-sub)]">{pick(L_FILE.basicNote, locale)}</p>
           </div>
         )}
 
