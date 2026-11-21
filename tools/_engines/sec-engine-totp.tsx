@@ -5,9 +5,10 @@ import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import {
-  ALGOS, base32Decode, hotp, parseOtpauth,
+  ALGOS, base32Decode, hotp, parseOtpauth, totp,
   type TotpAlgo,
 } from "../_lib/totp";
+import { adjacentCodes, base32Encode, buildOtpauthUri, generateTotpSecret } from "../_lib/totp-generate";
 
 /**
  * TOTP 验证码生成器(RFC 6238)—— WebCrypto HMAC,完全离线。
@@ -64,6 +65,23 @@ const LABELS: Record<string, Record<string, string>> = {
     es: "Funciona totalmente sin conexión: el código se calcula con WebCrypto en tu navegador y el secreto nunca se envía ni se guarda.",
     pt: "Funciona totalmente offline: o código é calculado com WebCrypto no seu navegador e o segredo nunca é enviado nem armazenado.", fr: "Fonctionne totalement hors ligne : le code est calculé avec WebCrypto dans votre navigateur et le secret n'est jamais envoyé ni stocké.", de: "Funktioniert vollständig offline: Der Code wird mit WebCrypto im Browser berechnet, das Secret wird nie gesendet oder gespeichert.", ru: "Работает полностью офлайн: код вычисляется через WebCrypto в браузере, ключ не отправляется и не сохраняется.", it: "Funziona completamente offline: il codice è calcolato con WebCrypto nel browser e il segreto non viene mai inviato o salvato.", tr: "Tamamen çevrimdışı çalışır: kod tarayıcınızda WebCrypto ile hesaplanır, gizli anahtar asla gönderilmez veya saklanmaz.", ko: "완전 오프라인 작동: 코드는 브라우저의 WebCrypto로 계산되며 시크릿은 전송·저장되지 않습니다.", ar: "يعمل دون اتصال تماماً: يُحسب الرمز عبر WebCrypto في متصفحك ولا يُرسل المفتاح أو يُخزَّن أبداً.", hi: "पूरी तरह ऑफ़लाइन चलता है: कोड आपके ब्राउज़र में WebCrypto से बनता है और सीक्रेट कभी भेजा या सेव नहीं होता।", id: "Bekerja sepenuhnya offline: kode dihitung dengan WebCrypto di browser Anda dan secret tidak pernah dikirim atau disimpan.", vi: "Hoạt động hoàn toàn ngoại tuyến: mã được tính bằng WebCrypto trong trình duyệt và secret không bao giờ được gửi hay lưu.",
   },
+  genNeedAccount: {
+    en: "Enter an account name first — it labels the secret in your app.",
+    zh: "请先填写账户名——它会作为密钥在应用中的标签。",
+    ja: "まずアカウント名を入力してください——アプリ内のラベルになります。",
+    es: "Introduce primero un nombre de cuenta: etiqueta el secreto en tu app.",
+    pt: "Informe primeiro um nome de conta: ele rotula o segredo no seu app.",
+    fr: "Saisissez d'abord un nom de compte : il étiquette le secret dans votre app.",
+    de: "Zuerst einen Kontonamen eingeben — er beschriftet das Secret in der App.",
+    ru: "Сначала укажите имя учётной записи — оно станет меткой секрета в приложении.",
+    it: "Inserisci prima un nome account: etichetta il segreto nella tua app.",
+    tr: "Önce hesap adı girin — uygulamanızda anahtarın etiketi olur.",
+    ko: "먼저 계정 이름을 입력하세요 — 앱에서 시크릿의 라벨이 됩니다.",
+    ar: "أدخل اسم الحساب أولاً — سيكون تسمية المفتاح في تطبيقك.",
+    hi: "पहले खाता नाम दर्ज करें — यह ऐप में सीक्रेट का लेबल होगा।",
+    id: "Masukkan nama akun dulu — itu menjadi label secret di aplikasi Anda.",
+    vi: "Nhập tên tài khoản trước — nó là nhãn của secret trong app của bạn.",
+  },
   fromLink: {
     en: "Imported from otpauth link{extra}",
     zh: "已从 otpauth 链接导入{extra}",
@@ -94,6 +112,19 @@ const LABELS: Record<string, Record<string, string>> = {
 const B32 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 export const TOTP_LINK_LABELS = LABELS.errLink;
 
+const GEN = {
+  genTitle: { en: "Generate a new secret", zh: "生成新的注册密钥", ja: "新しいシークレットを生成", es: "Generar un nuevo secreto", pt: "Gerar um novo segredo", fr: "Générer un nouveau secret", de: "Neues Secret erzeugen", ru: "Создать новый секрет", it: "Genera un nuovo segreto", tr: "Yeni gizli anahtar üret", ko: "새 시크릿 생성", ar: "إنشاء مفتاح جديد", hi: "नया सीक्रेट बनाएँ", id: "Buat secret baru", vi: "Tạo secret mới" },
+  genAccount: { en: "Account (name shown in your app)", zh: "账户(应用中显示的名称)", ja: "アカウント(アプリに表示)", es: "Cuenta (nombre en tu app)", pt: "Conta (nome no app)", fr: "Compte (nom dans l'app)", de: "Konto (Name in der App)", ru: "Учётная запись (в приложении)", it: "Account (nome nell'app)", tr: "Hesap (uygulamada görünen)", ko: "계정(앱에 표시)", ar: "الحساب (يظهر في التطبيق)", hi: "खाता (ऐप में दिखेगा)", id: "Akun (tampil di aplikasi)", vi: "Tài khoản (hiện trong app)" },
+  genIssuer: { en: "Issuer (service name, optional)", zh: "签发方(服务名,可选)", ja: "発行者(サービス名、任意)", es: "Emisor (servicio, opcional)", pt: "Emissor (serviço, opcional)", fr: "Émetteur (service, facultatif)", de: "Herausgeber (Dienst, optional)", ru: "Издатель (сервис, необяз.)", it: "Emittente (servizio, opzionale)", tr: "Sağlayıcı (hizmet adı, isteğe bağlı)", ko: "발급자(서비스 이름, 선택)", ar: "المُصدر (اسم الخدمة، اختياري)", hi: "जारीकर्ता (सेवा नाम, वैकल्पिक)", id: "Penerbit (nama layanan, opsional)", vi: "Nhà phát hành (tên dịch vụ, tùy chọn)" },
+  genBtn: { en: "Generate secret", zh: "生成密钥", ja: "シークレットを生成", es: "Generar secreto", pt: "Gerar segredo", fr: "Générer le secret", de: "Secret erzeugen", ru: "Сгенерировать секрет", it: "Genera segreto", tr: "Gizli anahtar üret", ko: "시크릿 생성", ar: "إنشاء المفتاح", hi: "सीक्रेट बनाएँ", id: "Buat secret", vi: "Tạo secret" },
+  genSecret: { en: "Secret (base32)", zh: "密钥(base32)", ja: "シークレット(base32)", es: "Secreto (base32)", pt: "Segredo (base32)", fr: "Secret (base32)", de: "Secret (Base32)", ru: "Секрет (base32)", it: "Segreto (base32)", tr: "Gizli anahtar (base32)", ko: "시크릿(base32)", ar: "المفتاح (base32)", hi: "सीक्रेट (base32)", id: "Secret (base32)", vi: "Secret (base32)" },
+  genUri: { en: "otpauth:// link (paste into your app or the QR tool)", zh: "otpauth:// 链接(粘贴到验证器应用或二维码工具)", ja: "otpauth:// リンク(アプリや QR ツールに貼り付け)", es: "Enlace otpauth:// (pega en tu app o la herramienta QR)", pt: "Link otpauth:// (cole no app ou na ferramenta QR)", fr: "Lien otpauth:// (collez dans l'app ou l'outil QR)", de: "otpauth://-Link (in App oder QR-Tool einfügen)", ru: "Ссылка otpauth:// (в приложение или QR-инструмент)", it: "Link otpauth:// (incolla nell'app o nello strumento QR)", tr: "otpauth:// bağlantısı (uygulamaya veya QR aracına yapıştır)", ko: "otpauth:// 링크(앱이나 QR 도구에 붙여넣기)", ar: "رابط otpauth:// (الصق في التطبيق أو أداة QR)", hi: "otpauth:// लिंक (ऐप या QR टूल में पेस्ट करें)", id: "Tautan otpauth:// (tempel di aplikasi atau alat QR)", vi: "Liên kết otpauth:// (dán vào app hoặc công cụ QR)" },
+  genHint: { en: "The generated secret fills the box above — codes start immediately. Everything stays on this device.", zh: "生成的密钥会填入上方输入框,验证码立即开始计算;一切都在本机完成。", ja: "生成したシークレットは上のボックスに入り、すぐコードが始まります。すべて端末内で完結します。", es: "El secreto generado llena el cuadro de arriba: los códigos empiezan de inmediato. Todo queda en este dispositivo.", pt: "O segredo gerado preenche a caixa acima — os códigos começam imediatamente. Tudo fica neste dispositivo.", fr: "Le secret généré remplit le champ ci-dessus — les codes démarrent immédiatement. Tout reste sur cet appareil.", de: "Das erzeugte Secret füllt das Feld oben — Codes starten sofort. Alles bleibt auf diesem Gerät.", ru: "Созданный секрет заполнит поле выше — коды начнутся сразу. Всё остаётся на этом устройстве.", it: "Il segreto generato riempie il campo sopra — i codici partono subito. Tutto resta su questo dispositivo.", tr: "Üretilen anahtar yukarıdaki kutuyu doldurur — kodlar hemen başlar. Her şey bu cihazda kalır.", ko: "생성된 시크릿이 위 입력란을 채우고 코드가 바로 시작됩니다. 모든 것은 이 기기에만 남습니다.", ar: "المفتاح المُنشأ يملأ الصندوق أعلاه — تبدأ الرموز فوراً. كل شيء يبقى على هذا الجهاز.", hi: "बनाया गया सीक्रेट ऊपर के बॉक्स में भर जाएगा — कोड तुरंत शुरू होंगे। सब कुछ इसी डिवाइस पर रहेगा।", id: "Secret yang dibuat mengisi kotak di atas — kode langsung dimulai. Semua tetap di perangkat ini.", vi: "Secret tạo ra sẽ điền vào ô phía trên — mã bắt đầu ngay. Mọi thứ giữ nguyên trên thiết bị này." },
+  adjPrev: { en: "Previous window", zh: "上一时间窗", ja: "前のウィンドウ", es: "Ventana anterior", pt: "Janela anterior", fr: "Fenêtre précédente", de: "Vorheriges Fenster", ru: "Предыдущее окно", it: "Finestra precedente", tr: "Önceki pencere", ko: "이전 창", ar: "النافذة السابقة", hi: "पिछली विंडो", id: "Jendela sebelumnya", vi: "Cửa sổ trước" },
+  adjNext: { en: "Next window", zh: "下一时间窗", ja: "次のウィンドウ", es: "Ventana siguiente", pt: "Janela seguinte", fr: "Fenêtre suivante", de: "Nächstes Fenster", ru: "Следующее окно", it: "Finestra successiva", tr: "Sonraki pencere", ko: "다음 창", ar: "النافذة التالية", hi: "अगली विंडो", id: "Jendela berikutnya", vi: "Cửa sổ sau" },
+  adjNote: { en: "Clock slightly off on this device? These are the adjacent windows.", zh: "本机时钟略偏?这是前后两个时间窗的码。", ja: "端末の時計がずれている場合の前後ウィンドウです。", es: "¿El reloj está ligeramente desajustado? Estas son las ventanas adyacentes.", pt: "Relógio levemente dessincronizado? Estas são as janelas adjacentes.", fr: "Horloge légèrement décalée ? Voici les fenêtres adjacentes.", de: "Uhr leicht abweichend? Dies sind die angrenzenden Fenster.", ru: "Часы немного спешат/отстают? Это соседние окна.", it: "Orologio leggermente sfasato? Queste sono le finestre adiacenti.", tr: "Saat biraz kaymış mı? Bunlar komşu pencereler.", ko: "기기 시계가 약간 어긋났나요? 인접 창의 코드입니다.", ar: "الساعة متأخرة قليلاً؟ هذه النافذتان المجاورتان.", hi: "घड़ी थोड़ी आगे/पीछे है? ये आस-पास की विंडो हैं।", id: "Jam sedikit meleset? Ini jendela di sekitarnya.", vi: "Đồng hồ hơi lệch? Đây là hai cửa sổ liền kề." },
+} as const;
+
 export function SecTotpEngine() {
   const { locale } = useI18n();
   const L = (key: string) => LABELS[key][locale] ?? LABELS[key].en;
@@ -106,6 +137,12 @@ export function SecTotpEngine() {
   const [code, setCode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [imported, setImported] = useState<string | null>(null);
+  const [genAccount, setGenAccount] = useState("");
+  const [genIssuer, setGenIssuer] = useState("");
+  const [genSecret, setGenSecret] = useState("");
+  const [genUri, setGenUri] = useState("");
+  const [genError, setGenError] = useState<string | null>(null);
+  const [adj, setAdj] = useState<{ previous: string; next: string } | null>(null);
 
   // 解析输入:otpauth 链接或裸 base32 密钥(渲染期纯解析,副作用交给 effect)
   const parsed = useMemo(() => {
@@ -181,7 +218,48 @@ export function SecTotpEngine() {
     };
   }, [key, counter, algo, digits]);
 
+  // G17:相邻时间窗(时钟略偏时对照用)
+  useEffect(() => {
+    let cancelled = false;
+    if (!key) {
+      setAdj(null);
+      return;
+    }
+    void adjacentCodes(key, now, algo, digits, period, totp).then((r) => {
+      if (!cancelled) setAdj({ previous: r.previous, next: r.next });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [key, now, algo, digits, period]);
+
   const progress = remaining / period;
+
+  // G17:生成注册密钥 → 直接灌入上方输入框,立即出码
+  const doGenerate = () => {
+    setGenError(null);
+    const r = generateTotpSecret();
+    if ("error" in r) {
+      setGenError(L("errShort"));
+      return;
+    }
+    const secret32 = base32Encode(r);
+    const uri = buildOtpauthUri({
+      account: genAccount,
+      issuer: genIssuer,
+      secretBase32: secret32,
+      algo,
+      digits,
+      period,
+    });
+    if (!uri.ok) {
+      setGenError(uri.code === "emptyAccount" ? L("genNeedAccount") : L("errChars"));
+      return;
+    }
+    setGenSecret(secret32);
+    setGenUri(uri.uri);
+    setInput(secret32);
+  };
 
   return (
     <ToolPanel>
@@ -271,11 +349,79 @@ export function SecTotpEngine() {
           </div>
         )}
 
+        {code && adj && (
+          <div className="mono flex flex-wrap gap-x-6 gap-y-1 text-[13px] text-[var(--color-sub)]">
+            <span>
+              {GEN.adjPrev[locale] ?? GEN.adjPrev.en}: {adj.previous}
+            </span>
+            <span>
+              {GEN.adjNext[locale] ?? GEN.adjNext.en}: {adj.next}
+            </span>
+            <span className="text-[12.5px]">{GEN.adjNote[locale] ?? GEN.adjNote.en}</span>
+          </div>
+        )}
+
         {code && (
           <div className="flex flex-wrap gap-2.5">
             <CopyButton value={code} />
           </div>
         )}
+
+        <div className="space-y-3 rounded-xl border hairline p-4">
+          <p className="text-[13px] font-semibold">{GEN.genTitle[locale] ?? GEN.genTitle.en}</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="block space-y-1.5 text-[13px] font-medium">
+              <span>{GEN.genAccount[locale] ?? GEN.genAccount.en}</span>
+              <input
+                type="text"
+                className="field w-full"
+                value={genAccount}
+                onChange={(e) => setGenAccount(e.target.value)}
+                aria-label={GEN.genAccount[locale] ?? GEN.genAccount.en}
+              />
+            </label>
+            <label className="block space-y-1.5 text-[13px] font-medium">
+              <span>{GEN.genIssuer[locale] ?? GEN.genIssuer.en}</span>
+              <input
+                type="text"
+                className="field w-full"
+                value={genIssuer}
+                onChange={(e) => setGenIssuer(e.target.value)}
+                aria-label={GEN.genIssuer[locale] ?? GEN.genIssuer.en}
+              />
+            </label>
+          </div>
+          <button
+            type="button"
+            onClick={doGenerate}
+            className="rounded-full bg-[var(--color-ink)] px-4 py-2 text-[13.5px] font-medium text-white dark:bg-white dark:text-[#1d1d1f] transition-opacity disabled:opacity-40"
+            disabled={!genAccount.trim()}
+          >
+            {GEN.genBtn[locale] ?? GEN.genBtn.en}
+          </button>
+          {genError && (
+            <p role="alert" className="rounded-xl bg-[rgba(178,80,0,0.08)] px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]">
+              {genError}
+            </p>
+          )}
+          {genSecret && (
+            <div className="space-y-2">
+              <p className="text-[12.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">{GEN.genSecret[locale] ?? GEN.genSecret.en}</p>
+              <p className="mono break-all rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13.5px]">{genSecret}</p>
+              <CopyButton value={genSecret} />
+            </div>
+          )}
+          {genUri && (
+            <div className="space-y-2">
+              <p className="text-[12.5px] font-semibold uppercase tracking-wide text-[var(--color-sub)]">{GEN.genUri[locale] ?? GEN.genUri.en}</p>
+              <p className="mono break-all rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13px] leading-5" dir="ltr">
+                {genUri}
+              </p>
+              <CopyButton value={genUri} />
+            </div>
+          )}
+          <p className="text-[12.5px] leading-5 text-[var(--color-sub)]">{GEN.genHint[locale] ?? GEN.genHint.en}</p>
+        </div>
 
         <p className="text-[13px] leading-5 text-[var(--color-sub)]">{L("offlineNote")}</p>
       </div>
