@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { verifyJwt, type JwtVerifyResult } from "../_lib/jwt-verify";
 import { jwtVerifyCopy } from "../_lib/jwt-verify-copy";
@@ -19,13 +19,22 @@ export function JwtVerifyPanel({ token }: { token: string }) {
   const [expectedAud, setExpectedAud] = useState("");
   const [result, setResult] = useState<JwtVerifyResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const seqRef = useRef(0);
 
   const canRun = token.trim() !== "" && key.trim() !== "";
   const skewNum = Number(skew);
 
+  // token/key 变化时清除残留 verdict
+  useEffect(() => {
+    setResult(null);
+    setError(null);
+  }, [token, key]);
+
   const run = () => {
     setError(null);
+    setResult(null);
     if (!canRun) return;
+    const id = ++seqRef.current;
     void verifyJwt({
       token,
       key,
@@ -33,6 +42,7 @@ export function JwtVerifyPanel({ token }: { token: string }) {
       expectedIss: expectedIss || undefined,
       expectedAud: expectedAud || undefined,
     }).then((r) => {
+      if (seqRef.current !== id) return; // 过期结果丢弃
       if (r.ok) setResult(r);
       else {
         setResult(null);
@@ -62,7 +72,7 @@ export function JwtVerifyPanel({ token }: { token: string }) {
       { key: "iss", date: result.tokenIss },
       { key: "aud", date: Array.isArray(result.tokenAud) ? result.tokenAud.join(", ") : result.tokenAud },
     ].map((row) => ({ ...row, status: c[row.key as keyof typeof c] }));
-  }, [result]);
+  }, [result, locale]);
 
   const verdictTone =
     result?.ok && result.verdict === "valid" ? "text-[var(--color-good)]" : "text-[var(--color-bad)]";

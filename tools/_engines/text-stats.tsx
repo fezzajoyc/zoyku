@@ -33,12 +33,15 @@ export function TextStats({ primary }: { primary: "words" | "characters" | "sent
 
   useEffect(() => {
     if (!autoSave) return;
-    try {
-      if (input === "") localStorage.removeItem(DRAFT_KEY);
-      else localStorage.setItem(DRAFT_KEY, input);
-    } catch {
-      /* 配额满/隐私模式:保存失败静默,不打断输入 */
-    }
+    const timer = setTimeout(() => {
+      try {
+        if (input === "") localStorage.removeItem(DRAFT_KEY);
+        else localStorage.setItem(DRAFT_KEY, input);
+      } catch {
+        /* 配额满/隐私模式:保存失败静默,不打断输入 */
+      }
+    }, 300);
+    return () => clearTimeout(timer);
   }, [input, autoSave]);
 
   const toggleAutoSave = () => {

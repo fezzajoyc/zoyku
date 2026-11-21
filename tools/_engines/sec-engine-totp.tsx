@@ -240,7 +240,7 @@ export function SecTotpEngine() {
     setGenError(null);
     const r = generateTotpSecret();
     if ("error" in r) {
-      setGenError(L("errShort"));
+      setGenError(L("genNeedAccount"));
       return;
     }
     const secret32 = base32Encode(r);
