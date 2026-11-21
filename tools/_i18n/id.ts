@@ -3667,10 +3667,10 @@ export const id: Record<string, ToolCopy> = {
   "jwt-decoder": {
     name: "JWT Decoder",
     tagline:
-      "Dekode token JWT secara online: periksa klaim header dan payload dengan timestamp exp dan iat yang terbaca manusia. Dekode saja — tidak ada yang diverifikasi atau diunggah.",
+      "Dekode token JWT secara online: periksa klaim header dan payload dengan timestamp exp dan iat yang terbaca manusia. Dekode dan verifikasi lokal — tidak ada yang diunggah.",
     intro: [
       "Tempel JSON Web Token dan lihat seketika ketiga bagiannya terpisah: header (algoritma dan tipe token), payload (klaim sebenarnya), dan signature. Kedua seksi JSON ditampilkan pretty-printed, dan timestamp seperti iat, nbf, dan exp diterjemahkan menjadi tanggal polos dalam locale Anda, dengan exp ditandai kedaluwarsa atau masih aktif.",
-      "Semuanya didekode lokal dengan Base64URL — token tidak pernah dikirim ke mana pun dan tidak pernah diverifikasi. Ingat: dekode menunjukkan apa yang dikatakan token, bukan apa yang diizinkan dilakukannya. Verifikasi signature selalu membutuhkan secret atau public key di sistem terpercaya.",
+      "Semuanya didekode lokal dengan Base64URL — token tidak pernah dikirim ke mana pun; tab Verify juga memverifikasi tanda tangan secara lokal dengan WebCrypto. Ingat: dekode menunjukkan apa yang dikatakan token, bukan apa yang diizinkan dilakukannya. Verifikasi signature selalu membutuhkan secret atau public key di sistem terpercaya.",
     ],
     steps: [
       "Tempel JWT (tiga bagian yang dipisah titik) ke kotak input.",

@@ -3658,10 +3658,10 @@ export const de: Record<string, ToolCopy> = {
   "jwt-decoder": {
     name: "JWT-Decoder",
     tagline:
-      "JWT-Tokens online dekodieren: Header und Payload inspizieren, mit menschenlesbaren exp- und iat-Zeitstempeln. Nur Dekodierung — nichts verifiziert.",
+      "JWT-Tokens online dekodieren: Header und Payload inspizieren, mit menschenlesbaren exp- und iat-Zeitstempeln. Dekodieren und lokale Verifizierung — nichts wird hochgeladen.",
     intro: [
       "Fügen Sie ein JSON Web Token ein und sehen Sie sofort seine drei Teile getrennt: den Header (Algorithmus und Tokentyp), die Payload (die eigentlichen Claims) und die Signatur. Beide JSON-Abschnitte sind hübsch gedruckt, und Zeitstempel wie iat, nbf und exp werden in plain Daten Ihrer Sprachumgebung übersetzt — exp ist als abgelaufen oder aktiv markiert.",
-      "Alles wird lokal mit Base64URL dekodiert — das Token wird nirgendwohin gesendet und nie verifiziert. Denken Sie daran: Dekodieren zeigt, was ein Token sagt, nicht, was es tun darf. Die Signaturprüfung verlangt immer das Secret oder den öffentlichen Schlüssel auf einem vertrauenswürdigen System.",
+      "Alles wird lokal mit Base64URL dekodiert — das Token wird nirgendwohin gesendet; der Verify-Tab prüft die Signatur zusätzlich lokal mit WebCrypto. Denken Sie daran: Dekodieren zeigt, was ein Token sagt, nicht, was es tun darf. Die Signaturprüfung verlangt immer das Secret oder den öffentlichen Schlüssel auf einem vertrauenswürdigen System.",
     ],
     steps: [
       "Fügen Sie das JWT (die drei punktgetrennten Teile) in das Eingabefeld ein.",

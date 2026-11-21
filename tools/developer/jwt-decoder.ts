@@ -14,17 +14,17 @@ export default defineTool({
     en: {
       name: "JWT Decoder",
       tagline:
-        "Decode JWT tokens online: inspect the header and payload claims with human-readable exp and iat timestamps. Decoding only — nothing is verified or uploaded.",
+        "Decode and verify JWT tokens online: inspect the header and payload claims with human-readable timestamps, and check signatures locally with WebCrypto (HS/RS/ES) — nothing is uploaded.",
       intro: [
         "Debugging an auth flow, checking which claims a token really carries, or explaining to a teammate why the API returned 401 — paste the JWT here and its contents are on screen in a second, with nothing leaving the browser.",
         "The three dot-separated parts are split and pretty-printed separately: the header (alg, typ), the payload (iss, exp, sub and your custom claims) and the signature shown as-is. Malformed Base64URL is reported instead of silently producing garbage.",
         "Decoding follows RFC 7519: each segment is Base64URL — the JWT variant of Base64 that swaps +/ for -_ and drops padding — then parsed as JSON. Everything happens locally; the token is never transmitted and never verified.",
-        "That last point is the crux: decoding shows what a token says, not what it is allowed to do. Signature verification (HS256 shared secret or RS256 public key) always happens on the server, so treat every claim you read here as untrusted until that check passes."
+        "That distinction still matters: decoding shows what a token says, not what it is allowed to do. The Verify tab checks signatures locally with WebCrypto — HS256/384/512, RS256/384/512, ES256/384/512, with alg=none refused — and evaluates exp, nbf, iss and aud. Until that check passes, treat every claim as untrusted."
       ],
       steps: [
         "Paste the JWT (the three dot-separated parts) into the input box.",
         "Read the pretty-printed header and payload, with exp/iat shown as real dates.",
-        "Fix your token or its server-side verification accordingly — copy the payload if needed.",
+        "Switch to Verify to check the signature locally, or fix your token accordingly — copy the payload if needed.",
       ],
       faqs: [
         {
@@ -69,10 +69,10 @@ export default defineTool({
     },
     zh: {
       name: "JWT 解码",
-      tagline: "在线解码 JWT:分开查看 header 与 payload,exp/iat 显示为易读时间并标注是否过期。仅解码——不验证、不上传。",
+      tagline: "在线解码并验证 JWT:分开查看 header 与 payload,exp/iat 显示为易读时间;再用 WebCrypto 本地验证签名(HS/RS/ES)——不上传任何内容。",
       intro: [
         "粘贴 JSON Web Token,立即分开看到三个部分:header(算法和类型)、payload(实际声明)和签名。两段 JSON 都做了美化排版,iat、nbf、exp 等时间戳会换算成本地语言的直观日期,exp 还会标注已过期或仍然有效。",
-        "全部通过 Base64URL 在本地解码——令牌不会被发送到任何地方,也不会被验证。请记住:解码只展示令牌说了什么,不决定它被允许做什么。签名验证永远需要在可信系统上用密钥或公钥完成。",
+        "全部通过 Base64URL 在本地解码——令牌不会被发送到任何地方。请记住:解码只展示令牌说了什么,不决定它被允许做什么。Verify 标签页现可用 WebCrypto 本地验证签名(HS256/384/512、RS256/384/512、ES256/384/512,alg=none 一律拒绝),并核对 exp、nbf、iss、aud;核对通过前,所有 claims 都当作不可信。",
       ],
       steps: [
         "把 JWT(三段以点分隔)粘贴到输入框。",
@@ -123,15 +123,15 @@ export default defineTool({
     ja: {
       name: "JWT デコーダー",
       tagline:
-        "JWT をオンラインでデコード:header と payload のクレームを確認し、exp・iat を人が読める時刻で表示。検証はせず、アップロードもありません。",
+        "JWT をオンラインでデコード:header と payload のクレームを確認し、exp・iat を人が読める時刻で表示。ローカル検証も可能——アップロードはありません。",
       intro: [
         "JSON Web Token を貼り付けると、3 つの部分が即座に分かれます:header(アルゴリズムとタイプ)、payload(実際のクレーム)、署名。両方の JSON は整形表示され、iat・nbf・exp といったタイムスタンプはロケールに応じた日時に変換され、exp は期限切れか有効かも示します。",
-        "デコードはすべて Base64URL でローカルに行われます。トークンはどこにも送信されず、検証もされません。重要:デコードはトークンが何を「主張」しているかを示すだけで、何が「許可」されているかは示しません。署名検証には必ず秘密鍵または公開鍵と信頼できるシステムが必要です。",
+        "デコードはすべて Base64URL でローカルに行われます。トークンはどこにも送信されません。重要:デコードはトークンが何を「主張」しているかを示すだけで、何が「許可」されているかは示しません。Verify タブは WebCrypto で署名をローカル検証できます(HS256/384/512、RS256/384/512、ES256/384/512、alg=none は常に拒否)——その検証環境こそこのタブです。",
       ],
       steps: [
         "JWT(ドット区切りの 3 部分)を入力欄に貼り付けます。",
         "整形された header と payload を読み、exp/iat を実際の日時で確認します。",
-        "トークンやサーバー側の検証を修正します。必要なら payload をコピーします。",
+        "Verify タブで署名をローカル検証するか、トークンを修正します。必要なら payload をコピーします。",
       ],
       faqs: [
         {
@@ -177,15 +177,15 @@ export default defineTool({
     es: {
       name: "Decodificador JWT",
       tagline:
-        "Decodifica tokens JWT en línea: examina el header y los claims del payload con marcas iat y exp legibles. Solo decodifica — nada se verifica ni se sube.",
+        "Decodifica tokens JWT en línea: examina el header y los claims del payload con marcas iat y exp legibles. Decodifica y verifica localmente — nada se sube.",
       intro: [
         "Pega un JSON Web Token y ve al instante sus tres partes por separado: el header (algoritmo y tipo), el payload (los claims reales) y la firma. Ambas secciones JSON se muestran formateadas, y las marcas de tiempo iat, nbf y exp se traducen a fechas legibles en tu idioma, con exp marcada como caducada o activa.",
-        "Todo se decodifica localmente con Base64URL — el token nunca se envía a ningún sitio ni se verifica. Recuerda: decodificar muestra lo que un token dice, no lo que puede hacer. Verificar la firma siempre requiere la clave secreta o pública en un sistema de confianza.",
+        "Todo se decodifica localmente con Base64URL — el token nunca se envía a ningún sitio. Recuerda: decodificar muestra lo que un token dice, no lo que puede hacer. Verificar la firma siempre requiere la clave secreta o pública en un sistema de confianza.",
       ],
       steps: [
         "Pega el JWT (las tres partes separadas por puntos) en el cuadro de entrada.",
         "Lee el header y el payload formateados, con exp/iat como fechas reales.",
-        "Corrige tu token o su verificación en el servidor — copia el payload si lo necesitas.",
+        "Pasa a Verify para comprobar la firma localmente, o corrige tu token — copia el payload si lo necesitas.",
       ],
       faqs: [
         {
@@ -234,12 +234,12 @@ export default defineTool({
         "Decodifique tokens JWT on-line: examine o header e os claims do payload com iat e exp em datas legíveis. Só decodifica — nada é verificado ou enviado.",
       intro: [
         "Cole um JSON Web Token e veja instantaneamente as três partes separadas: o header (algoritmo e tipo), o payload (os claims de verdade) e a assinatura. As duas seções JSON aparecem formatadas, e os timestamps iat, nbf e exp viram datas legíveis no seu idioma, com exp marcado como expirado ou ativo.",
-        "Tudo é decodificado localmente com Base64URL — o token nunca é enviado a lugar nenhum nem verificado. Lembre-se: decodificar mostra o que um token diz, não o que ele pode fazer. Verificar a assinatura sempre exige a chave secreta ou pública num sistema confiável.",
+        "Tudo é decodificado localmente com Base64URL — o token nunca é enviado a lugar nenhum. A aba Verify verifica também a assinatura localmente com WebCrypto (HS/RS/ES, alg=none sempre rejeitado). Lembre-se: decodificar mostra o que um token diz, não o que ele pode fazer. Verificar a assinatura sempre exige a chave secreta ou pública num sistema confiável.",
       ],
       steps: [
         "Cole o JWT (as três partes separadas por pontos) na caixa de entrada.",
         "Leia o header e o payload formatados, com exp/iat como datas reais.",
-        "Ajuste seu token ou a verificação no servidor — copie o payload se precisar.",
+        "Mude para Verify para checar a assinatura localmente, ou ajuste seu token — copie o payload se precisar.",
       ],
       faqs: [
         {

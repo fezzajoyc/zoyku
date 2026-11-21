@@ -3660,10 +3660,10 @@ export const it: Record<string, ToolCopy> = {
   "jwt-decoder": {
     name: "Decodificatore JWT",
     tagline:
-      "Decodifica i token JWT online: ispeziona le intestazioni e le claim del payload con i timestamp exp e iat leggibili. Solo decodifica — niente verifica o upload.",
+      "Decodifica i token JWT online: ispeziona le intestazioni e le claim del payload con i timestamp exp e iat leggibili. Decodifica e verifica locale — nessun upload.",
     intro: [
       "Incolla un JSON Web Token e vedi all'istante le sue tre parti separatamente: l'header (algoritmo e tipo di token), il payload (le claim vere e proprie) e la firma. Entrambe le sezioni JSON sono ben stampate, e i timestamp come iat, nbf ed exp vengono tradotti in date comuni nella tua lingua, con exp marcato come scaduto o ancora attivo.",
-      "Tutto viene decodificato in locale con Base64URL — il token non viene mai inviato da nessuna parte e mai verificato. Ricorda: decodificare mostra cosa dice un token, non cosa gli è permesso fare. La verifica della firma richiede sempre il segreto o la chiave pubblica su un sistema fidato.",
+      "Tutto viene decodificato in locale con Base64URL — il token non viene mai inviato; la scheda Verify verifica inoltre la firma in locale con WebCrypto. Ricorda: decodificare mostra cosa dice un token, non cosa gli è permesso fare. La verifica della firma richiede sempre il segreto o la chiave pubblica su un sistema fidato.",
     ],
     steps: [
       "Incolla il JWT (le tre parti separate da punti) nella casella di input.",

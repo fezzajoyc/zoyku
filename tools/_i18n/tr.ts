@@ -3667,10 +3667,10 @@ export const tr: Record<string, ToolCopy> = {
   "jwt-decoder": {
     name: "JWT Çözücü",
     tagline:
-      "JWT token'larını online çöz: başlığı ve yük taleplerini, insan okur exp ve iat zaman damgalarıyla incele. Yalnızca çözme — hiçbir şey doğrulanmaz veya yüklenmez.",
+      "JWT token'larını online çöz: başlığı ve yük taleplerini, insan okur exp ve iat zaman damgalarıyla incele. Çözme ve yerel doğrulama — hiçbir şey yüklenmez.",
     intro: [
       "Bir JSON Web Token yapıştır ve üç parçasını ayrı ayrı anında gör: başlık (algoritma ve token türü), yük (gerçek talepler) ve imza. Her iki JSON bölümü de güzel yazılır; iat, nbf ve exp gibi zaman damgaları senin yerel biçiminle düz tarihlere çevrilir ve exp, süresi dolmuş ya da hâlâ aktif olarak işaretlenir.",
-      "Her şey Base64URL ile yerel olarak çözülür — token hiçbir yere gönderilmez ve asla doğrulanmaz. Unutma: çözme, bir token'ın ne söylediğini gösterir, neye izni olduğunu değil. İmza doğrulaması daima, güvenilen bir sistemdeki gizli anahtarı veya açık anahtarı gerektirir.",
+      "Her şey Base64URL ile yerel olarak çözülür — token hiçbir yere gönderilmez; Verify sekmesi imzayı ek olarak yerelde doğrular. Unutma: çözme, bir token'ın ne söylediğini gösterir, neye izni olduğunu değil. İmza doğrulaması daima, güvenilen bir sistemdeki gizli anahtarı veya açık anahtarı gerektirir.",
     ],
     steps: [
       "JWT'yi (noktayla ayrılmış üç parça) girdi kutusuna yapıştır.",

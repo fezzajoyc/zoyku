@@ -3667,10 +3667,10 @@ export const fr: Record<string, ToolCopy> = {
   "jwt-decoder": {
     name: "Décodeur JWT",
     tagline:
-      "Décodez des tokens JWT en ligne : inspectez les claims d'en-tête et de charge avec des horodatages exp et iat lisibles. Décodage seul — rien n'est vérifié ni envoyé.",
+      "Décodez des tokens JWT en ligne : inspectez les claims d'en-tête et de charge avec des horodatages exp et iat lisibles. Décodage et vérification locale — rien n'est envoyé.",
     intro: [
       "Collez un JSON Web Token et voyez aussitôt ses trois parties séparément : l'en-tête (algorithme et type de token), la charge utile (les claims réels) et la signature. Les deux sections JSON sont joliment imprimées, et les horodatages comme iat, nbf et exp sont traduits en dates lisibles dans votre langue, avec exp marqué expiré ou encore actif.",
-      "Tout est décodé localement en Base64URL — le token n'est envoyé nulle part et jamais vérifié. Retenez : décoder montre ce qu'un token dit, pas ce qu'il a le droit de faire. La vérification de signature exige toujours le secret ou la clé publique sur un système de confiance.",
+      "Tout est décodé localement en Base64URL — le token n'est envoyé nulle part ; l'onglet Verify vérifie en plus la signature localement avec WebCrypto. Retenez : décoder montre ce qu'un token dit, pas ce qu'il a le droit de faire. La vérification de signature exige toujours le secret ou la clé publique sur un système de confiance.",
     ],
     steps: [
       "Collez le JWT (les trois parties séparées par des points) dans la zone d'entrée.",

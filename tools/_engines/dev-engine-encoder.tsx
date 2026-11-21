@@ -7,6 +7,7 @@ import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import { decodeJwt, JWT_INPUT_LIMIT, jwtTimeClaim } from "@/tools/_lib/jwt";
 import { jwtCopy } from "@/tools/_lib/jwt-copy";
+import { JwtVerifyPanel } from "./dev-engine-jwt-verify";
 import { downloadBlob } from "@/components/client-ui";
 import { base64ToBytes, encodeFileToBase64, BASE64_FILE_LIMIT } from "../_lib/base64-file";
 import { fill } from "../_lib/types";
@@ -75,6 +76,7 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
   const [component, setComponent] = useState(true);
   const [plusAsSpace, setPlusAsSpace] = useState(false);
   const [decodedAt, setDecodedAt] = useState(0);
+  const [jwtMode, setJwtMode] = useState<"decode" | "verify">("decode");
   const [fileOut, setFileOut] = useState<{ name: string; base64: string; bytes: number } | null>(null);
   const [fileErr, setFileErr] = useState("");
   const [outName, setOutName] = useState("decoded.bin");
@@ -185,7 +187,26 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
   return (
     <ToolPanel>
       <div className="space-y-4" data-encoder-tool={codec}>
-        {isJwt && <div className="space-y-1.5 text-[13px] leading-5 text-[var(--color-sub)]">
+        {isJwt && (
+          <div className="flex flex-wrap items-center gap-2" role="group">
+            {(["decode", "verify"] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                aria-pressed={jwtMode === m}
+                onClick={() => setJwtMode(m)}
+                className={`rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+                  jwtMode === m
+                    ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
+                    : "hairline hover:bg-[var(--color-surface)]"
+                }`}
+              >
+                {m === "decode" ? "Decode" : "Verify"}
+              </button>
+            ))}
+          </div>
+        )}
+        {isJwt && jwtMode === "decode" && <div className="space-y-1.5 text-[13px] leading-5 text-[var(--color-sub)]">
           <p id={`${id}-note`}>{jwtLabels.note}</p>
           <p id={`${id}-limits`}>{jwtLabels.limits}</p>
         </div>}
@@ -255,7 +276,8 @@ export function DevEncoderEngine({ codec }: { codec: Codec }) {
           </p>
         )}
 
-        {result.jwt ? (
+        {isJwt && jwtMode === "verify" && <JwtVerifyPanel token={input} />}
+        {result.jwt && jwtMode === "decode" ? (
           <div className="space-y-3">
             <JwtBlock caption={pick(L.header, locale)} value={result.jwt.headerText} />
             <JwtBlock caption={pick(L.payload, locale)} value={result.jwt.payloadText} />

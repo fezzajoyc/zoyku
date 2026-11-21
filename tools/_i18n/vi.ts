@@ -3667,7 +3667,7 @@ export const vi: Record<string, ToolCopy> = {
   "jwt-decoder": {
     name: "JWT Decoder",
     tagline:
-      "Giải mã token JWT trực tuyến: soi header và payload với dấu thời gian exp và iat dạng ngày tháng dễ đọc. Chỉ giải mã — không xác minh, không tải lên.",
+      "Giải mã token JWT trực tuyến: soi header và payload với dấu thời gian exp và iat dạng ngày tháng dễ đọc. Giải mã và xác minh cục bộ — không tải lên.",
     intro: [
       "Dán JSON Web Token và xem ngay ba phần tách bạch: header (thuật toán và loại token), payload (các claim thật sự) và chữ ký. Cả hai phần JSON được in đẹp, và dấu thời gian như iat, nbf, exp được dịch thành ngày tháng theo ngôn ngữ của bạn, exp còn được đánh dấu đã hết hạn hay còn hiệu lực.",
       "Mọi thứ được giải mã cục bộ bằng Base64URL — token không bao giờ được gửi đi và không được xác minh. Hãy nhớ: giải mã cho biết token nói gì, không phải token được phép làm gì. Xác minh chữ ký luôn đòi hỏi secret hay khóa công khai trên hệ thống đáng tin.",
