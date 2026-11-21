@@ -90,9 +90,12 @@ export type RangeExpansion = {
   truncated: boolean;
 };
 
+export const MAX_IP_RANGE_EXPANSION = 65_536;
+
 export function expandIpRange(startIp: number, endIp: number, maxCount = 65536): RangeExpansion | null {
   if (!Number.isInteger(startIp) || !Number.isInteger(endIp)) return null;
   if (startIp < 0 || endIp < 0 || startIp > 0xffffffff || endIp > 0xffffffff) return null;
+  if (!Number.isInteger(maxCount) || maxCount < 1 || maxCount > MAX_IP_RANGE_EXPANSION) return null;
   if (startIp > endIp) return null; // 倒序拒绝:不猜测用户意图
   const total = endIp - startIp + 1;
   const count = Math.min(total, maxCount);

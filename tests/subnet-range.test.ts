@@ -50,6 +50,12 @@ describe("expandIpRange", () => {
     expect(expandIpRange(NaN, 3)).toBeNull();
   });
 
+  it("拒绝非整数、零或超过硬上限的展开数量", () => {
+    expect(expandIpRange(0, 2, 0)).toBeNull();
+    expect(expandIpRange(0, 2, 1.5)).toBeNull();
+    expect(expandIpRange(0, 2, 65537)).toBeNull();
+  });
+
   it("展开结果全部经 intToIp 往返一致", () => {
     const r = expandIpRange(ipToInt("172.16.5.250")!, ipToInt("172.16.6.10")!);
     if (!r) throw new Error("expand failed");
