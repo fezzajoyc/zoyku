@@ -80,6 +80,27 @@ export function ipClass(v: number): "A" | "B" | "C" | "D" | "E" {
   return "E";
 }
 
+/** G15:任意起止 IPv4 区间逐地址展开。倒序拒绝(与 IT-Tools 一致);maxCount 上限诚实截断。 */
+export type RangeExpansion = {
+  /** 含首尾的总地址数(最大 2^32,数值安全) */
+  total: number;
+  /** 展开的地址(升序,最多 maxCount 个) */
+  ips: number[];
+  /** total 超过 maxCount 时为 true */
+  truncated: boolean;
+};
+
+export function expandIpRange(startIp: number, endIp: number, maxCount = 65536): RangeExpansion | null {
+  if (!Number.isInteger(startIp) || !Number.isInteger(endIp)) return null;
+  if (startIp < 0 || endIp < 0 || startIp > 0xffffffff || endIp > 0xffffffff) return null;
+  if (startIp > endIp) return null; // 倒序拒绝:不猜测用户意图
+  const total = endIp - startIp + 1;
+  const count = Math.min(total, maxCount);
+  const ips: number[] = [];
+  for (let v = startIp; v < startIp + count; v++) ips.push(v);
+  return { total, ips, truncated: total > count };
+}
+
 export function subnetInfo(ip: number, prefix: number): SubnetInfo {
   const p = Math.min(32, Math.max(0, prefix));
   const mask = maskOf(p);

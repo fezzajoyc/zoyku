@@ -6,7 +6,9 @@ import { CopyButton } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import { Note, TextIn, Tabs, pick } from "./calc-ui";
 import {
+  expandIpRange,
   intToIp,
+  ipToInt,
   parseCidr,
   smallestCidr,
   subnetInfo,
@@ -14,7 +16,7 @@ import {
 
 export function UtilEngineSubnet() {
   const { locale } = useI18n();
-  const [mode, setMode] = useState("single");
+  const [mode, setMode] = useState<"single" | "range" | "expand">("single");
   const [cidr, setCidr] = useState("192.168.1.0/24");
   const [ipA, setIpA] = useState("10.1.2.3");
   const [ipB, setIpB] = useState("10.1.9.200");
@@ -22,6 +24,10 @@ export function UtilEngineSubnet() {
   const L = {
     single: pick(locale, { en: "CIDR details", zh: "CIDR 详情", ja: "CIDR詳細", es: "Detalles CIDR", pt: "Detalhes CIDR" }),
     range: pick(locale, { en: "Smallest covering CIDR", zh: "最小覆盖 CIDR", ja: "最小包含CIDR", es: "CIDR mínimo que cubre", pt: "Menor CIDR que cobre" }),
+    expand: pick(locale, { en: "Expand IP range", zh: "区间展开", ja: "IP範囲展開", es: "Expandir rango IP", pt: "Expandir faixa IP" }),
+    expandTotal: pick(locale, { en: "Addresses in range", zh: "区间内地址数", ja: "範囲内のアドレス数", es: "Direcciones en el rango", pt: "Endereços na faixa" }),
+    reversed: pick(locale, { en: "The second IP must not come before the first.", zh: "第二个 IP 不能早于第一个。", ja: "2つ目のIPを1つ目より前にすることはできません。", es: "La segunda IP no puede ser anterior a la primera.", pt: "O segundo IP não pode ser anterior ao primeiro." }),
+    truncated: pick(locale, { en: "Range exceeds the {n} address display limit — showing the first {n}. Copy covers what is shown.", zh: "区间超过 {n} 条显示上限——仅显示前 {n} 条,复制内容与显示一致。", ja: "範囲が {n} 件の表示上限を超えたため、先頭 {n} 件のみ表示しています。コピーは表示内容と一致します。", es: "El rango supera el límite de {n} direcciones: se muestran las primeras {n}; la copia coincide con lo mostrado.", pt: "A faixa excede o limite de {n} endereços: mostrando os primeiros {n}; a cópia corresponde ao exibido." }),
     cidr: pick(locale, { en: "CIDR or IP (e.g. 192.168.1.0/24)", zh: "CIDR 或 IP(如 192.168.1.0/24)", ja: "CIDR または IP(例: 192.168.1.0/24)", es: "CIDR o IP (p. ej. 192.168.1.0/24)", pt: "CIDR ou IP (ex.: 192.168.1.0/24)" }),
     ipA: pick(locale, { en: "First IP", zh: "第一个 IP", ja: "1つ目のIP", es: "Primera IP", pt: "Primeiro IP" }),
     ipB: pick(locale, { en: "Second IP", zh: "第二个 IP", ja: "2つ目のIP", es: "Segunda IP", pt: "Segundo IP" }),
@@ -82,6 +88,56 @@ export function UtilEngineSubnet() {
         </>
       );
     }
+  } else if (mode === "expand") {
+    const a = parseCidr(ipA);
+    const b = parseCidr(ipB);
+    const ai = a && a.prefix === 32 ? a.ip : null;
+    const bi = b && b.prefix === 32 ? b.ip : null;
+    if (ai === null || bi === null) {
+      body = <p className="text-[13.5px] leading-5 text-[var(--color-bad)]" role="alert">{L.invalid}</p>;
+    } else if (ai > bi) {
+      body = <p className="text-[13.5px] leading-5 text-[var(--color-bad)]" role="alert">{L.reversed}</p>;
+    } else {
+      const r = expandIpRange(ai, bi);
+      if (!r) {
+        body = <p className="text-[13.5px] leading-5 text-[var(--color-bad)]" role="alert">{L.invalid}</p>;
+      } else {
+        const list = r.ips.map(intToIp).join("\n");
+        body = (
+          <>
+            <div className="rounded-xl border hairline px-4 py-3.5">
+              <span className="text-[13px] font-medium text-[var(--color-sub)]">{L.expandTotal}</span>
+              <div className="mt-1.5 flex flex-wrap items-center gap-3">
+                <span className="mono text-[20px] font-semibold" aria-live="polite">
+                  {r.total.toLocaleString(locale)}
+                </span>
+                {r.truncated && (
+                  <span className="text-[12.5px] text-[var(--color-bad)]">
+                    {L.truncated.replaceAll("{n}", "65,536")}
+                  </span>
+                )}
+              </div>
+            </div>
+            <textarea
+              className="field mono mt-3 bg-[var(--color-surface)]"
+              rows={8}
+              value={list}
+              readOnly
+              spellCheck={false}
+              aria-label={L.expand}
+            />
+            <div className="mt-2 flex flex-wrap gap-2.5">
+              <CopyButton value={list} />
+            </div>
+            {r.truncated && (
+              <div className="mt-3">
+                <Note>{L.truncated.replaceAll("{n}", "65,536")}</Note>
+              </div>
+            )}
+          </>
+        );
+      }
+    }
   } else {
     const a = parseCidr(ipA);
     const b = parseCidr(ipB);
@@ -122,9 +178,10 @@ export function UtilEngineSubnet() {
         options={[
           { id: "single", label: L.single },
           { id: "range", label: L.range },
+          { id: "expand", label: L.expand },
         ]}
         value={mode}
-        onChange={setMode}
+        onChange={(id) => setMode(id as "single" | "range" | "expand")}
       />
       {mode === "single" ? (
         <TextIn value={cidr} onChange={setCidr} aria="cidr" mono placeholder="192.168.1.0/24" />
