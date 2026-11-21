@@ -12,6 +12,7 @@ import { hi } from "./hi";
 import { CRC16_MODBUS_OVERLAYS } from "../_lib/crc16-copy";
 import { IMAGE_COLOR_PICKER_OVERLAYS } from "../_lib/image-color-picker-tool-copy";
 import { IPV4_RANGE_OVERLAYS } from "../_lib/ipv4-range-copy";
+import { LUNAR_CALENDAR_OVERLAYS } from "../_lib/lunar-calendar-overlays";
 
 /**
  * 扩展语言覆盖层:每种语言一个文件,key = 工具 slug。
@@ -24,14 +25,14 @@ import { IPV4_RANGE_OVERLAYS } from "../_lib/ipv4-range-copy";
 export type Overlay = Record<string, ToolCopy>;
 
 export const OVERLAYS: Record<string, Overlay> = {
-  fr: { ...fr, "crc16-modbus": CRC16_MODBUS_OVERLAYS.fr, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.fr, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.fr },
-  ru: { ...ru, "crc16-modbus": CRC16_MODBUS_OVERLAYS.ru, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.ru, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.ru },
-  de: { ...de, "crc16-modbus": CRC16_MODBUS_OVERLAYS.de, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.de, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.de },
-  it: { ...itOverlay, "crc16-modbus": CRC16_MODBUS_OVERLAYS.it, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.it, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.it },
-  ar: { ...ar, "crc16-modbus": CRC16_MODBUS_OVERLAYS.ar, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.ar, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.ar },
-  ko: { ...ko, "crc16-modbus": CRC16_MODBUS_OVERLAYS.ko, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.ko, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.ko },
-  tr: { ...tr, "crc16-modbus": CRC16_MODBUS_OVERLAYS.tr, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.tr, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.tr },
-  id: { ...id, "crc16-modbus": CRC16_MODBUS_OVERLAYS.id, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.id, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.id },
-  vi: { ...vi, "crc16-modbus": CRC16_MODBUS_OVERLAYS.vi, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.vi, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.vi },
-  hi: { ...hi, "crc16-modbus": CRC16_MODBUS_OVERLAYS.hi, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.hi, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.hi },
+  fr: { ...fr, "crc16-modbus": CRC16_MODBUS_OVERLAYS.fr, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.fr, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.fr, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.fr },
+  ru: { ...ru, "crc16-modbus": CRC16_MODBUS_OVERLAYS.ru, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.ru, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.ru, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.ru },
+  de: { ...de, "crc16-modbus": CRC16_MODBUS_OVERLAYS.de, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.de, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.de, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.de },
+  it: { ...itOverlay, "crc16-modbus": CRC16_MODBUS_OVERLAYS.it, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.it, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.it, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.it },
+  ar: { ...ar, "crc16-modbus": CRC16_MODBUS_OVERLAYS.ar, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.ar, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.ar, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.ar },
+  ko: { ...ko, "crc16-modbus": CRC16_MODBUS_OVERLAYS.ko, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.ko, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.ko, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.ko },
+  tr: { ...tr, "crc16-modbus": CRC16_MODBUS_OVERLAYS.tr, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.tr, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.tr, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.tr },
+  id: { ...id, "crc16-modbus": CRC16_MODBUS_OVERLAYS.id, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.id, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.id, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.id },
+  vi: { ...vi, "crc16-modbus": CRC16_MODBUS_OVERLAYS.vi, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.vi, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.vi, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.vi },
+  hi: { ...hi, "crc16-modbus": CRC16_MODBUS_OVERLAYS.hi, "image-color-picker": IMAGE_COLOR_PICKER_OVERLAYS.hi, "ipv4-range-expander": IPV4_RANGE_OVERLAYS.hi, "lunar-calendar-converter": LUNAR_CALENDAR_OVERLAYS.hi },
 };

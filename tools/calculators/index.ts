@@ -96,6 +96,7 @@ export const CALC_TOOLS = [
   amortizationCalculator,
   dueDateCalculator,
   incomeTaxCalculator,
+  lunarCalendarConverter,
 ];
 
 import overtimePayCalculator from "./overtime-pay-calculator";
@@ -117,3 +118,4 @@ import autoLoanCalculator from "./auto-loan-calculator";
 import amortizationCalculator from "./amortization-calculator";
 import dueDateCalculator from "./due-date-calculator";
 import incomeTaxCalculator from "./income-tax-calculator";
+import lunarCalendarConverter from "./lunar-calendar-converter";
