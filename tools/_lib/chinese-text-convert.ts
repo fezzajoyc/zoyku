@@ -5,7 +5,7 @@
  */
 
 type OpenCCModule = {
-  Converter: (config: { from: string; to: string }) => { convert: (text: string) => string };
+  Converter: (config: { from: string; to: string }) => ((text: string) => string);
 };
 
 let moduleCache: OpenCCModule | null = null;
