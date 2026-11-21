@@ -70,11 +70,18 @@ const ERR_PHRASE: Record<CronErrorCode, Record<string, string>> = {
     pt: "Uma expressão cron precisa de 5 campos (ou 6 com segundos) separados por espaços — este tem {n}.",
   },
   shorthand: {
-    en: "Shorthands like @daily aren’t supported — “@daily” means “0 0 * * *”, so write the fields out.",
-    zh: "不支持 @daily 这样的简写——它等价于 0 0 * * *,请直接写出五段字段。",
-    ja: "@daily のような省略記法には対応していません。「0 0 * * *」のようにフィールドを書いてください。",
-    es: "No se admiten atajos como @daily — equivale a «0 0 * * *»; escribe los campos completos.",
-    pt: "Atalhos como @daily não são suportados — equivale a «0 0 * * *»; escreva os campos completos.",
+    en: "Unknown shorthand “{d}” — supported: @yearly @annual @monthly @weekly @daily @midnight @hourly.",
+    zh: "未知简写“{d}”——支持:@yearly @annual @monthly @weekly @daily @midnight @hourly。",
+    ja: "不明な省略記法「{d}」— 対応:@yearly @annual @monthly @weekly @daily @midnight @hourly。",
+    es: "Atajo desconocido «{d}» — admitidos: @yearly @annual @monthly @weekly @daily @midnight @hourly.",
+    pt: "Atalho desconhecido «{d}» — suportados: @yearly @annual @monthly @weekly @daily @midnight @hourly.",
+  },
+  reboot: {
+    en: "“@reboot” means “once at startup” — it isn’t a repeating time schedule, so there are no run times to compute.",
+    zh: "“@reboot” 表示“每次开机运行一次”——它不是周期时间表,因此没有可计算的执行时间。",
+    ja: "「@reboot」は「起動時に 1 回実行」の意味で、繰り返しスケジュールではないため実行時刻は計算できません。",
+    es: "«@reboot» significa «una vez al arrancar»: no es una programación periódica, por lo que no hay horas de ejecución que calcular.",
+    pt: "«@reboot» significa «uma vez ao arrancar»: não é um agendamento periódico, portanto não há horários a calcular.",
   },
   badChar: {
     en: "“{d}” isn’t valid syntax for the {field} field.",
@@ -124,6 +131,7 @@ const PRESETS = [
   { key: "pMin", expr: "* * * * *" },
   { key: "pHour", expr: "0 * * * *" },
   { key: "pMidnight", expr: "0 0 * * *" },
+  { key: "pDailyAlias", expr: "@daily" },
   { key: "pWeekday9", expr: "0 9 * * MON-FRI" },
   { key: "pQuarterly", expr: "0 0 1 1,4,7,10 *" },
 ] as const;
@@ -132,6 +140,7 @@ const PRESET_LABEL: Record<(typeof PRESETS)[number]["key"], Record<string, strin
   pMin: { en: "Every minute", zh: "每分钟", ja: "毎分", es: "Cada minuto", pt: "A cada minuto" },
   pHour: { en: "Hourly", zh: "每小时", ja: "毎時", es: "Cada hora", pt: "A cada hora" },
   pMidnight: { en: "Daily at midnight", zh: "每天零点", ja: "毎日 0 時", es: "Diario a medianoche", pt: "Diário à meia-noite" },
+  pDailyAlias: { en: "Daily (@daily)", zh: "每天(@daily)", ja: "毎日(@daily)", es: "Diario (@daily)", pt: "Diário (@daily)" },
   pWeekday9: { en: "Weekdays at 9:00", zh: "工作日 9 点", ja: "平日 9 時", es: "Entre semana a las 9", pt: "Dias úteis às 9" },
   pQuarterly: { en: "Quarterly", zh: "每季度", ja: "四半期ごと", es: "Trimestral", pt: "Trimestral" },
 };
@@ -162,11 +171,18 @@ const L = {
     pt: "Não foi possível calcular os horários de execução.",
   },
   syntaxNote: {
-    en: "Supported: numbers, ranges (1-5), lists (1,15), steps (*/10, 1-30/5), month names (JAN) and weekday names (MON). Quartz extensions L, W, # aren’t covered.",
-    zh: "支持:数字、范围(1-5)、列表(1,15)、步进(*/10、1-30/5)、月份名(JAN)与星期名(MON)。不支持 Quartz 扩展 L、W、#。",
-    ja: "対応:数値、範囲(1-5)、リスト(1,15)、ステップ(*/10、1-30/5)、月名(JAN)、曜日名(MON)。Quartz 拡張の L・W・# には未対応です。",
-    es: "Admitido: números, rangos (1-5), listas (1,15), pasos (*/10, 1-30/5), nombres de mes (JAN) y de día (MON). Las extensiones Quartz L, W, # no están cubiertas.",
-    pt: "Suportado: números, intervalos (1-5), listas (1,15), passos (*/10, 1-30/5), nomes de mês (JAN) e de dia (MON). As extensões Quartz L, W, # não são cobertas.",
+    en: "Supported: numbers, ranges (1-5), lists (1,15), steps (*/10, 1-30/5), month names (JAN), weekday names (MON) and shorthands @yearly @monthly @weekly @daily @hourly (also @annual/@midnight). Quartz extensions L, W, # aren’t covered.",
+    zh: "支持:数字、范围(1-5)、列表(1,15)、步进(*/10、1-30/5)、月份名(JAN)、星期名(MON),以及简写 @yearly @monthly @weekly @daily @hourly(也含 @annual/@midnight)。不支持 Quartz 扩展 L、W、#。",
+    ja: "対応:数値、範囲(1-5)、リスト(1,15)、ステップ(*/10、1-30/5)、月名(JAN)、曜日名(MON)、省略記法 @yearly @monthly @weekly @daily @hourly(@annual/@midnight も可)。Quartz 拡張の L・W・# には未対応です。",
+    es: "Admitido: números, rangos (1-5), listas (1,15), pasos (*/10, 1-30/5), nombres de mes (JAN), de día (MON) y atajos @yearly @monthly @weekly @daily @hourly (también @annual/@midnight). Las extensiones Quartz L, W, # no están cubiertas.",
+    pt: "Suportado: números, intervalos (1-5), listas (1,15), passos (*/10, 1-30/5), nomes de mês (JAN), de dia (MON) e atalhos @yearly @monthly @weekly @daily @hourly (também @annual/@midnight). As extensões Quartz L, W, # não são cobertas.",
+  },
+  aliasNote: {
+    en: "“{d}” expands to the equivalent five fields shown below; run times are computed from that expansion.",
+    zh: "“{d}” 已展开为下方等价的五段字段;执行时间按展开式计算。",
+    ja: "「{d}」は下記の同等 5 フィールドに展開され、実行時刻はその展開式から計算されます。",
+    es: "«{d}» se expande a los cinco campos equivalentes mostrados abajo; los horarios se calculan a partir de esa expansión.",
+    pt: "«{d}» expande-se para os cinco campos equivalentes mostrados abaixo; os horários são calculados dessa expansão.",
   },
   copyRuns: { en: "Copy run times", zh: "复制执行时间", ja: "実行時刻をコピー", es: "Copiar horarios", pt: "Copiar horários" },
   more: { en: "+{n} more", zh: "等 {n} 个值", ja: "ほか {n} 個", es: "+{n} más", pt: "+{n}" },
@@ -329,6 +345,11 @@ export function DevCronExplainerEngine() {
 
         {parsed.ok && (
           <div className="space-y-5">
+            {parsed.alias && (
+              <p className="rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13.5px] text-[var(--color-sub)]">
+                {fill(pick(locale, L.aliasNote), { d: parsed.alias })}
+              </p>
+            )}
             {parsed.breakdown.hasSeconds && (
               <p className="rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[13.5px] text-[var(--color-sub)]">
                 {pick(locale, L.secondsNote)}

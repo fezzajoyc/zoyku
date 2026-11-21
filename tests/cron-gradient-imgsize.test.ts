@@ -116,7 +116,10 @@ describe("parseCron: invalid input produces friendly structured errors", () => {
   it("empty and shorthand forms", () => {
     expect(parseCron("")).toEqual({ ok: false, code: "empty" });
     expect(parseCron("   ")).toEqual({ ok: false, code: "empty" });
-    expect(parseCron("@daily")).toMatchObject({ ok: false, code: "shorthand", detail: "@daily" });
+    // G20:标准 @daily 现在按 vixie cron 语义展开;未知简写与 @reboot 走专用分支
+    expect(parseCron("@daily")).toMatchObject({ ok: true, alias: "@daily" });
+    expect(parseCron("@reboot")).toMatchObject({ ok: false, code: "reboot", detail: "@reboot" });
+    expect(parseCron("@fortnightly")).toMatchObject({ ok: false, code: "shorthand", detail: "@fortnightly" });
   });
 
   it("wrong field count reports how many fields were found", () => {

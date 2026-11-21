@@ -7,8 +7,21 @@
  * dow 的 7 按 0(周日)归一,与主流 cron 一致。
  *
  * 明确不支持并给出友好错误码:Quartz 扩展(L / W / #)、数字前缀步进(5/15)、
- * @daily 简写、7 段(带年份)。下一次执行时间不在纯层计算 —— 引擎懒加载 croner 完成。
+ * 7 段(带年份)。@yearly/@monthly/@daily 等标准简写按 vixie cron 语义展开
+ * (见 CRON_ALIASES);@reboot 是开机事件不是时间表,返回专用错误码。
+ * 下一次执行时间不在纯层计算 —— 引擎懒加载 croner 完成。
  */
+
+/** vixie cron 标准 @简写 → 等价五段表达式。键为小写;解析时大小写不敏感。 */
+export const CRON_ALIASES: Record<string, string> = {
+  "@yearly": "0 0 1 1 *",
+  "@annual": "0 0 1 1 *",
+  "@monthly": "0 0 1 * *",
+  "@weekly": "0 0 * * 0",
+  "@daily": "0 0 * * *",
+  "@midnight": "0 0 * * *",
+  "@hourly": "0 * * * *",
+};
 
 export type CronUnit = "second" | "minute" | "hour" | "dayOfMonth" | "month" | "dayOfWeek";
 
@@ -45,6 +58,7 @@ export type CronBreakdown = {
 export type CronErrorCode =
   | "empty"
   | "shorthand"
+  | "reboot"
   | "fieldCount"
   | "badChar"
   | "outOfRange"
@@ -53,7 +67,7 @@ export type CronErrorCode =
   | "emptyPart"
   | "unsupported";
 
-export type CronParseOk = { ok: true; breakdown: CronBreakdown };
+export type CronParseOk = { ok: true; /** 命中的 @简写(小写);非简写解析时为 undefined */ alias?: string; breakdown: CronBreakdown };
 export type CronParseErr = { ok: false; code: CronErrorCode; unit?: CronUnit; detail?: string };
 export type CronParseResult = CronParseOk | CronParseErr;
 
@@ -195,7 +209,18 @@ function expandField(field: CronFieldInfo): number[] {
 export function parseCron(expr: string): CronParseResult {
   const trimmed = expr.trim();
   if (trimmed === "") return { ok: false, code: "empty" };
-  if (trimmed.startsWith("@")) return { ok: false, code: "shorthand", detail: trimmed };
+  if (trimmed.startsWith("@")) {
+    const key = trimmed.toLowerCase();
+    if (key === "@reboot") {
+      // @reboot 是开机一次性事件,不是可计算的周期时间表 —— 专用码供引擎解释
+      return { ok: false, code: "reboot", detail: trimmed };
+    }
+    const expansion = CRON_ALIASES[key];
+    if (!expansion) return { ok: false, code: "shorthand", detail: trimmed };
+    const inner = parseCron(expansion);
+    if (!inner.ok) return inner; // 展开式是常量,实际不会走到
+    return { ok: true, alias: key, breakdown: inner.breakdown };
+  }
 
   const parts = trimmed.split(/\s+/);
   if (parts.length !== 5 && parts.length !== 6) {
