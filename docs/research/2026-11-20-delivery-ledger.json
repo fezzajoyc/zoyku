@@ -10,18 +10,20 @@
     "tool_definition_count": 205
   },
   "working_tree": {
-    "tool_definition_count": 209,
+    "tool_definition_count": 211,
     "net_new_tool_routes": [
       "chinese-id-validator",
       "chinese-id-generator",
       "social-credit-validator",
-      "rmb-uppercase"
+      "rmb-uppercase",
+      "social-credit-generator",
+      "rmb-uppercase-to-number"
     ],
-    "delta": 4,
+    "delta": 6,
     "committed": true,
     "pushed": false,
     "deployed": false,
-    "release_status": "209工具；本地导出通知顺序修复、验收及提交；原工作区仅在干净且可快进时同步。提交以Git为准，未推送/部署。"
+    "release_status": "211工具。新增限定范围的信用代码测试样本及人民币大写反向转换。提交和原检出目录同步状态以Git为准。未推送、未部署。"
   },
   "counting_rules": [
     "47+57=104仅是两份矩阵的源条目数，不是104个唯一缺口或104个待新增工具。",
@@ -39,7 +41,12 @@
     "docs/research/2026-11-20-shared-tool-benchmark.json",
     "docs/benchmark.md",
     "docs/research/2026-11-21-china-money-credit-sources.json",
-    "docs/research/2026-11-21-china-money-credit-verification.md"
+    "docs/research/2026-11-21-china-money-credit-verification.md",
+    "docs/research/2026-11-21-gb11714-generator-evidence.md",
+    "docs/research/2026-11-21-rmb-reverse-source.md",
+    "docs/research/2026-11-21-china-peer-benchmark.md",
+    "docs/research/2026-11-21-china-peer-benchmark.json",
+    "docs/research/2026-11-21-china-credit-money-parity-verification.md"
   ],
   "summary": {
     "domestic_source_rows": 47,
@@ -48,11 +55,11 @@
     "benchmark_subjects": 6,
     "mapped_observations": 110,
     "planning_groups": 40,
-    "new_route_delta": 4,
+    "new_route_delta": 6,
     "full_site_quality_claim": false,
     "source_record_worktree_status_counts": {
-      "implemented_scoped_worktree": 4,
-      "remaining_gap": 89,
+      "implemented_scoped_worktree": 6,
+      "remaining_gap": 87,
       "existing_baseline": 10,
       "needs_evidence": 1
     }
@@ -317,6 +324,52 @@
         "docs/research/2026-11-21-export-notice-order-verification.md"
       ],
       "release_status": "本地生产验证通过；未推送/部署"
+    },
+    {
+      "id": "DL-12",
+      "name": "统一社会信用代码测试样本",
+      "source_ids": [
+        "CN-004"
+      ],
+      "slugs": [
+        "social-credit-generator"
+      ],
+      "state": "implemented_scoped_worktree",
+      "completed_scope": "手填部门、类别、六位地址和八位组织机构起始码。按外层字符顺序生成确定性样本，分别计算GB11714内层和GB32100外层校验位。默认遮盖，复制与TXT按当前显示导出。",
+      "limits": "每字段原始输入最多64个UTF-16代码单元。每批1–100条，禁止回绕，并保守排除整个PDY前缀。",
+      "not_completed": "完整代码表、登记查询、跨批唯一、一般中文Mock字段及多格式导出仍开放。生成样本可能与真实登记碰撞。",
+      "evidence_paths": [
+        "tools/security/social-credit-generator.ts",
+        "tools/_lib/social-credit-generator.ts",
+        "tests/social-credit-generator.test.ts",
+        "scripts/social-credit-generator-qa.mjs",
+        "docs/research/2026-11-21-gb11714-generator-evidence.md",
+        "docs/research/2026-11-21-china-credit-money-parity-verification.md"
+      ],
+      "release_status": "本地交付，未推送、未部署。"
+    },
+    {
+      "id": "DL-13",
+      "name": "人民币财务大写反向转换",
+      "source_ids": [
+        "CN-006"
+      ],
+      "slugs": [
+        "rmb-uppercase-to-number"
+      ],
+      "state": "implemented_scoped_worktree",
+      "completed_scope": "解析明确限定的财务大写写法，支持附一的八种印刷样例，以整数分返回两位小数金额、分和统一大写，支持复制及TXT。",
+      "limits": "原始输入最多128个UTF-16代码单元，金额为0.00–999999999999.99。接受公开说明中的有限异体字。",
+      "not_completed": "一般中文数字、所有财务写法、票据验证及银行受理保证仍不在本批范围内。",
+      "evidence_paths": [
+        "tools/utility/rmb-uppercase-to-number.ts",
+        "tools/_lib/rmb-uppercase-to-number.ts",
+        "tests/rmb-uppercase-to-number.test.ts",
+        "scripts/rmb-uppercase-to-number-qa.mjs",
+        "docs/research/2026-11-21-rmb-reverse-source.md",
+        "docs/research/2026-11-21-china-credit-money-parity-verification.md"
+      ],
+      "release_status": "本地交付，未推送、未部署。"
     }
   ],
   "source_records": [
@@ -374,14 +427,17 @@
       "source_report": "2026-11-20-domestic-tool-gaps.json",
       "source_capability": "统一社会信用代码测试样本与中文Mock导出",
       "baseline_status": "missing",
-      "worktree_status": "remaining_gap",
+      "worktree_status": "implemented_scoped_worktree",
       "primary_group_id": "K02",
       "source_priority": "P1",
       "related_source_ids": [
         "CN-003",
         "CN-017"
       ],
-      "delivery_ids": []
+      "delivery_ids": [
+        "DL-12"
+      ],
+      "remaining_scope": "完整代码表、登记查询、跨批唯一、一般中文Mock字段及多格式导出仍开放。生成样本可能与真实登记碰撞。"
     },
     {
       "source_id": "CN-005",
@@ -397,20 +453,23 @@
       "delivery_ids": [
         "DL-07"
       ],
-      "remaining_scope": "中文数字反向解析独立保留CN-006；不保证银行受理"
+      "remaining_scope": "严格财务大写反向转换由DL-13限定交付。一般中文数字解析仍开放。"
     },
     {
       "source_id": "CN-006",
       "source_report": "2026-11-20-domestic-tool-gaps.json",
       "source_capability": "中文数字/财务大写反向转阿拉伯数字",
       "baseline_status": "missing",
-      "worktree_status": "remaining_gap",
+      "worktree_status": "implemented_scoped_worktree",
       "primary_group_id": "K03",
       "source_priority": "P1",
       "related_source_ids": [
         "CN-005"
       ],
-      "delivery_ids": []
+      "delivery_ids": [
+        "DL-13"
+      ],
+      "remaining_scope": "一般中文数字、所有财务写法、票据验证及银行受理保证仍不在本批范围内。"
     },
     {
       "source_id": "CN-007",
@@ -2382,7 +2441,7 @@
         "CN-003",
         "CN-004"
       ],
-      "proposal": "信用代码校验/原始分段已补限定范围；CN-004生成器和完整代码表/内码核验仍待实施。",
+      "proposal": "信用代码外层校验与双层校验的测试样本已补限定范围。完整代码表、原校验工具的内码诊断及通用Mock仍开放。",
       "rationale": "中国场景明确、规则边界可验证，可复用现有批量/遮盖/导出/错误组件。不是基于搜索量排序。",
       "gates": [
         "确认现行官方标准及登记部门/机构类别字典有效性",
@@ -2402,10 +2461,10 @@
         "CN-005",
         "CN-006"
       ],
-      "proposal": "CN-005非负人民币大写已交付限定输入；CN-006反向中文数字解析仍待实施。",
+      "proposal": "已交付非负人民币金额与限定财务大写的正反转换。一般中文数字和其余财务写法仍开放。",
       "rationale": "纯字符串/整数逻辑可离线，输入输出容易构造独立验收；前提是规则原文可核实。",
       "gates": [
-        "人民银行等正式支付结算/票据规则原文待补验",
+        "已核清算总中心转载的支付结算办法附一。",
         "金额以字符串/整数分处理，避免浮点金额误差",
         "零/角分/整正/负数/舍入/上限显式定义",
         "不是复制同行输出当规范"

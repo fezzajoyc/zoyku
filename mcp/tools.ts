@@ -22,6 +22,8 @@ import {
 } from "../tools/_lib/transforms";
 import { jsonDiff, jsonQuery, jsonToTs } from "../tools/_lib/jsontool";
 import { detectDelimiter, jsonToXml, parseCsv } from "../tools/_lib/converters";
+import { generateSocialCreditSamples } from "../tools/_lib/social-credit-generator";
+import { parseRmbUppercase } from "../tools/_lib/rmb-uppercase-to-number";
 
 /**
  * MCP 工具注册表:把 tools/_lib 的纯函数暴露为 AI 可执行工具。
@@ -487,6 +489,47 @@ export const MCP_TOOLS: McpToolDef[] = [
       const row = shoeConvert(a.value, a.system, a.gender);
       if (!row) return { content: [{ type: "text", text: "size not found in the conversion table" }], isError: true };
       return json(row);
+    },
+  },
+
+  {
+    name: "social_credit_samples",
+    title: "China social credit test samples",
+    description: "Generate deterministic local test samples for China's 18-character unified social credit code. This is a format/check-character sample generator, not a registration lookup or authenticity check. Department and category are one outer-table character, address_code is six digits, and start_body is an eight-character organization-code body.",
+    schema: {
+      department: z.string().describe("one GB 32100 department character"),
+      category: z.string().describe("one GB 32100 organization-category character"),
+      address_code: z.string().describe("six-digit administrative/address code"),
+      start_body: z.string().describe("eight-character organization-code body"),
+      count: z.number().int().min(1).max(100).default(1),
+    },
+    run: (a) => {
+      const result = generateSocialCreditSamples({
+        department: a.department,
+        category: a.category,
+        addressCode: a.address_code,
+        startBody: a.start_body,
+        count: a.count,
+      });
+      if (result.errors.length) {
+        return { content: [{ type: "text", text: JSON.stringify(result) }], isError: true };
+      }
+      return json(result);
+    },
+  },
+  {
+    name: "rmb_uppercase_to_number",
+    title: "RMB financial uppercase to number",
+    description: "Parse the disclosed strict subset of Chinese RMB financial uppercase spellings into an exact decimal amount, integer fen, normalized input and canonical uppercase. Supports the official appendix examples and limited disclosed traditional variants; it is not a general Chinese-number parser or bank-acceptance guarantee.",
+    schema: {
+      uppercase: z.string().describe("financial uppercase amount, e.g. 人民币陆仟零柒元壹角肆分"),
+    },
+    run: (a) => {
+      const result = parseRmbUppercase(a.uppercase);
+      if (!result.ok) {
+        return { content: [{ type: "text", text: JSON.stringify(result) }], isError: true };
+      }
+      return json(result);
     },
   },
 

@@ -9,7 +9,7 @@ describe("registry integrity", () => {
   it("has a healthy volume of tools", () => {
     expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(100);
     // 精确锚定:新工具上/下架时必须有意识地更新本行 + README/benchmark 的统计数字(防止文档漂移)
-    expect(ALL_TOOLS.length).toBe(209);
+    expect(ALL_TOOLS.length).toBe(211);
   });
 
   it("slugs are unique and kebab-case", () => {
@@ -48,6 +48,19 @@ describe("registry integrity", () => {
       for (const slug of tool.related) {
         expect(TOOL_BY_SLUG.has(slug), `${tool.slug} → ${slug} dangling`).toBe(true);
       }
+    }
+  });
+
+  it.each([
+    ["social-credit-generator", "social-credit-validator", "security"],
+    ["rmb-uppercase-to-number", "rmb-uppercase", "utility"],
+  ] as const)("registers %s with native copy and a reciprocal link to %s", (slug, companion, category) => {
+    const tool = TOOL_BY_SLUG.get(slug);
+    expect(tool?.category).toBe(category);
+    expect(tool?.related).toContain(companion);
+    expect(TOOL_BY_SLUG.get(companion)?.related).toContain(slug);
+    for (const locale of LOCALES) {
+      expect(tool?.copy[locale]?.name.trim(), `${slug}:${locale} lacks native copy`).toBeTruthy();
     }
   });
 
