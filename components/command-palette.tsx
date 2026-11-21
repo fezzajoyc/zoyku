@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { isComposingKey, revealActiveOption } from "@/lib/home-interactions";
 import { useI18n } from "./i18n-provider";
 import { Icon } from "./icons";
@@ -18,10 +18,17 @@ export function CommandPalette({
 }) {
   const { locale, t } = useI18n();
   const router = useRouter();
+  const pathname = usePathname();
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  // 面板不得跨路由存活(如浏览器在面板开着时后退)。latest-ref 保证回调永远新鲜。
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+  useEffect(() => {
+    onCloseRef.current();
+  }, [pathname]);
   const items = useMemo(
     () =>
       ALL_TOOLS.map((tool) => {
@@ -124,8 +131,13 @@ export function CommandPalette({
                 event.preventDefault();
                 setActive((index) => Math.max(index - 1, 0));
               }
-              if (event.key === "Enter" && results[active])
+              if (event.key === "Enter" && results[active]) {
+                // 回车的默认激活行为会在面板关闭、焦点回落到触发按钮后被
+                // Chromium 派发到该按钮上,把面板重新"点开"(跳转后遮罩残留,
+                // 实测复现)。preventDefault 掐掉默认激活,go() 自己负责关闭+跳转。
+                event.preventDefault();
                 go(results[active].slug);
+              }
             }}
             placeholder={t.tools.filterPlaceholder}
             className="h-14 min-w-0 w-full bg-transparent py-4 text-[16px] outline-none placeholder:text-[var(--color-sub)]"
