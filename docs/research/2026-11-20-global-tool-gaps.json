@@ -444,12 +444,13 @@
       "id": "G15",
       "capability": "IPv4 地址区间展开",
       "status": "missing",
-      "peer": "IT-Tools",
+      "peer": "IT-Tools (CIDR), ezPAARSE ip-range-generator (individual addresses)",
       "official_evidence_urls": [
         "https://it-tools.tech/ipv4-range-expander",
-        "https://github.com/CorentinTh/it-tools/blob/main/src/tools/ipv4-range-expander/index.ts"
+        "https://github.com/CorentinTh/it-tools/blob/main/src/tools/ipv4-range-expander/ipv4-range-expander.vue",
+        "https://github.com/ezpaarse-project/ip-range-generator"
       ],
-      "evidence_level": "official_site_bundle_and_repository_index",
+      "evidence_level": "repository_source",
       "local_slugs": [
         "ipv4-subnet-calculator"
       ],
@@ -457,8 +458,8 @@
         "tools/calculators/ipv4-subnet-calculator.ts",
         "tools/_lib/subnet.ts"
       ],
-      "provable_gap": "本地 CIDR 计算不是任意起止 IPv4 区间的逐地址导出。",
-      "is_existing_tool_option": "是：可复用 IPv4 解析/输出选项",
+      "provable_gap": "基线的 CIDR 计算与逐地址列表是不同的工作流。IT-Tools 同名页输出最小覆盖 CIDR。",
+      "is_existing_tool_option": "复用 IPv4 解析，可提供独立逐地址列表",
       "implementation_dependencies": [
         "uint32 边界；倒序拒绝；最大展开数量/流式导出；不要对 /0 直接分配数组"
       ],

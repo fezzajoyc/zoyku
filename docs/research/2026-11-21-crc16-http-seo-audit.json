@@ -1,0 +1,40 @@
+{
+  "mode": "http",
+  "source": "http://localhost:3000",
+  "generatedAt": "2026-11-21T09:48:22.892Z",
+  "sitemapCount": 3315,
+  "checked": 24,
+  "selectedUrls": [
+    "https://zoyku.com/en",
+    "https://zoyku.com/en/tools",
+    "https://zoyku.com/en/categories/pdf",
+    "https://zoyku.com/en/tools/case-converter",
+    "https://zoyku.com/vi/tools/extract-audio",
+    "https://zoyku.com/en/tools/rotate-pdf",
+    "https://zoyku.com/en/tools/eta-calculator",
+    "https://zoyku.com/zh/tools/binary-converter",
+    "https://zoyku.com/ja/tools/hmac-generator",
+    "https://zoyku.com/es/tools/rotate-image",
+    "https://zoyku.com/pt/tools/slug-generator",
+    "https://zoyku.com/pt/tools/break-even-calculator",
+    "https://zoyku.com/fr/tools/serp-preview",
+    "https://zoyku.com/de/tools/json-validator",
+    "https://zoyku.com/ru/tools/png-to-pdf",
+    "https://zoyku.com/ru/tools/contrast-checker",
+    "https://zoyku.com/it/tools/gst-calculator",
+    "https://zoyku.com/tr/tools/html-escape",
+    "https://zoyku.com/ko/tools/screenshot-tool",
+    "https://zoyku.com/ar/tools/length-converter",
+    "https://zoyku.com/ar/tools/calorie-calculator",
+    "https://zoyku.com/hi/tools/dns-lookup",
+    "https://zoyku.com/id/tools/base64-encoder",
+    "https://zoyku.com/vi/tools/word-to-pdf"
+  ],
+  "failures": [],
+  "http": {
+    "requests": 25,
+    "rateLimited": 0,
+    "retries": 0
+  },
+  "scope": "HTTP status and sitemap HTML content"
+}

@@ -4051,7 +4051,7 @@ export const tr: Record<string, ToolCopy> = {
     ],
     steps: [
       "CSV'ni (ilk satır başlık olmalı) girdi kutusuna yapıştır.",
-      "Ayraç olarak virgül veya noktalı virgül seç.",
+      "Ayırıcı olarak virgül, noktalı virgül veya sekme (TSV) seç.",
       "Güzel yazılmış nesne dizisini kopyala.",
     ],
     faqs: [
@@ -4082,7 +4082,7 @@ export const tr: Record<string, ToolCopy> = {
         paragraphs: [
           "CSV'yi virgüllerde bölmek, gerçek bir veri kümesi geldiği an yanlıştır. Biçimin pratikte izlediği standardı tanımlayan RFC 4180 tırnaklı alanları tanımlar: virgül, tırnak ya da satır sonu taşıyan alan çift tırnakla sarılmalıdır ve böyle bir alandaki tırnak ikilenerek kaçışlıdır. «Ada, Kontes» okuyan bir ad alanı tek hücredir; naif bölme onu ikiye böler ve arkasındaki her sütunu kaydırır.",
           "Satır sonları ikinci tuzaktır. CSV dosyaları CRLF (Windows, Excel dışa aktarımları) ile LF (Unix araçları) karıştırır ve tırnaklı alan içindeki satır sonu veridir, kayıt ayırıcı değil — çok satırlı bir adres ya da yapıştırılmış bir yorum tek hücre olarak hayatta kalmalıdır. Doğru çözümleme küçük bir durum makinesidir, split() çağrısı değil; burada çalıştıran o'dur.",
-          "Ayırıcılar dile göre değişir: Avrupa'nın ve Latin Amerika'nın çoğunda Excel, virgül ondalık ayırıcı olduğundan noktalı virgülle ayrılmış dosyalar yazar. Araç koklamak yerine virgülü ya da noktalı virgülü açıkça seçmene izin verir; böylece her alanın tesadüfen noktalı virgül taşıdığı bir dosya yanlış saptanmaz. Kaynağın sekme kullanıyorsa, gidiş dönüşü JSON'dan CSV'ye kardeşi halleder.",
+          "Ayırıcı bölge ayarlarına bağlıdır. Avrupa ve Latin Amerika'nın birçok bölgesinde virgül ondalık ayırıcı olarak kullanıldığı için Excel alanları noktalı virgülle ayırır. Verine uygun ayırıcıyı seç. TSV için sekmeyi seç.",
         ],
       },
       {

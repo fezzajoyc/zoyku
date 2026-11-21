@@ -24,6 +24,11 @@ import { jsonDiff, jsonQuery, jsonToTs } from "../tools/_lib/jsontool";
 import { detectDelimiter, jsonToXml, parseCsv } from "../tools/_lib/converters";
 import { generateSocialCreditSamples } from "../tools/_lib/social-credit-generator";
 import { parseRmbUppercase } from "../tools/_lib/rmb-uppercase-to-number";
+import { calculateCrc16Modbus, CRC16_MODBUS_LIMITS } from "../tools/_lib/crc16-modbus";
+import { formatPixelColor } from "../tools/_lib/image-color-picker";
+import { expandIpRange, intToIp, ipToInt } from "../tools/_lib/subnet";
+import { transformCsvTable } from "../tools/_lib/csv-table";
+import { extractImagePalette } from "../tools/_lib/image-palette";
 
 /**
  * MCP 工具注册表:把 tools/_lib 的纯函数暴露为 AI 可执行工具。
@@ -33,6 +38,10 @@ import { parseRmbUppercase } from "../tools/_lib/rmb-uppercase-to-number";
 
 const num = (n: number) => (Number.isFinite(n) ? String(n) : "invalid input — see tool description for accepted ranges");
 const json = (v: unknown) => ({ content: [{ type: "text" as const, text: JSON.stringify(v, null, 2) }] });
+const DEFAULT_IPV4_RANGE_RESULTS = 256;
+const MAX_IPV4_RANGE_RESULTS = 4096;
+const MCP_CSV_CHARACTERS = 100_000;
+const MCP_PALETTE_PIXELS = 4096;
 const text = (t: string) => ({ content: [{ type: "text" as const, text: t }] });
 
 export type McpToolDef = {
@@ -549,6 +558,117 @@ export const MCP_TOOLS: McpToolDef[] = [
           : text(r.code);
       } catch (e) {
         return { content: [{ type: "text", text: `invalid JSON: ${(e as Error).message}` }], isError: true };
+      }
+    },
+  },
+  {
+    name: "crc16_modbus",
+    title: "CRC-16/Modbus",
+    description: "Calculate CRC-16/Modbus from a whitespace-separated hexadecimal byte stream. Returns the conventional 16-bit value and Modbus low-byte-first wire bytes separately. CRC detects transmission errors; it is not encryption or authentication.",
+    schema: {
+      hex: z.string().max(CRC16_MODBUS_LIMITS.maxBytes * 3).describe("Hexadecimal bytes, e.g. '01 03 00 00 00 0A'; whitespace is ignored."),
+    },
+    run: (a) => {
+      try {
+        return json(calculateCrc16Modbus(a.hex));
+      } catch (error) {
+        return { content: [{ type: "text", text: error instanceof Error ? error.message : "Invalid hexadecimal byte input." }], isError: true };
+      }
+    },
+  },
+  {
+    name: "image_pixel_color",
+    title: "Image pixel color",
+    description: "Format one already sampled RGBA image pixel as HEX, HEX8, RGB and RGBA. The website samples local files in the browser; this MCP tool accepts the pixel channels and coordinates directly.",
+    schema: {
+      x: z.number().int().min(0).max(2_147_483_647).describe("source pixel X coordinate"),
+      y: z.number().int().min(0).max(2_147_483_647).describe("source pixel Y coordinate"),
+      r: z.number().int().min(0).max(255).describe("red channel 0–255"),
+      g: z.number().int().min(0).max(255).describe("green channel 0–255"),
+      b: z.number().int().min(0).max(255).describe("blue channel 0–255"),
+      a: z.number().int().min(0).max(255).describe("alpha channel 0–255"),
+    },
+    run: (a) => json(formatPixelColor(a)),
+  },
+  {
+    name: "ipv4_range_expand",
+    title: "IPv4 range expander",
+    description: "List consecutive IPv4 addresses from a starting address to an ending address, inclusive. Returns the exact total and marks whether the list is truncated. Performs address arithmetic only.",
+    schema: {
+      start_ip: z.string().trim().max(15).describe("First dotted-decimal IPv4 address, e.g. 192.0.2.5."),
+      end_ip: z.string().trim().max(15).describe("Last dotted-decimal IPv4 address, e.g. 192.0.2.10."),
+      max_results: z.number().int().min(1).max(MAX_IPV4_RANGE_RESULTS).optional()
+        .describe(`Maximum addresses returned; defaults to ${DEFAULT_IPV4_RANGE_RESULTS}, at most ${MAX_IPV4_RANGE_RESULTS}.`),
+    },
+    run: (a) => {
+      const start = ipToInt(a.start_ip);
+      const end = ipToInt(a.end_ip);
+      if (start === null || end === null) {
+        return { content: [{ type: "text", text: "Enter two valid dotted-decimal IPv4 addresses." }], isError: true };
+      }
+      const range = expandIpRange(start, end, a.max_results ?? DEFAULT_IPV4_RANGE_RESULTS);
+      if (!range) {
+        return { content: [{ type: "text", text: "The last address must not come before the first." }], isError: true };
+      }
+      return json({
+        startIp: intToIp(start),
+        endIp: intToIp(end),
+        total: range.total,
+        truncated: range.truncated,
+        addresses: range.ips.map(intToIp),
+      });
+    },
+  },
+  {
+    name: "csv_table_transform",
+    title: "CSV table editor",
+    description: "Transpose a rectangular CSV/TSV matrix or swap two one-based columns. Includes the first row as data, preserves strings without numeric inference, and uses the same delimiter in the output. Requests and responses are limited to 100,000 characters; results are never silently truncated.",
+    schema: {
+      input: z.string().max(MCP_CSV_CHARACTERS).describe("Delimited text, including quoted multiline fields."),
+      operation: z.enum(["transpose", "swap"]),
+      delimiter: z.enum([",", ";", "\t"]).optional().describe("Field delimiter; defaults to comma."),
+      first_column: z.number().int().min(1).max(1000).optional().describe("One-based first column, required for swap."),
+      second_column: z.number().int().min(1).max(1000).optional().describe("One-based second column, required for swap."),
+    },
+    run: (a) => {
+      const result = transformCsvTable(a.input, {
+        operation: a.operation, delimiter: a.delimiter,
+        firstColumn: a.first_column, secondColumn: a.second_column,
+      });
+      if (result.error) {
+        const messages = {
+          input: "Enter CSV or TSV text.",
+          delimiter: "Choose comma, semicolon or Tab.",
+          operation: "Choose transpose or swap.",
+          csv: "Check quoted fields and escaped quotes.",
+          ragged: "Every row must have the same number of fields.",
+          selection: "For swap, supply two one-based column positions within the table.",
+          limit: "The table exceeds the supported row, column, cell or character limits.",
+        };
+        return { content: [{ type: "text", text: messages[result.error] }], isError: true };
+      }
+      if (result.out.length > MCP_CSV_CHARACTERS) {
+        return { content: [{ type: "text", text: "The transformed text exceeds the 100,000-character MCP response limit. Use a smaller table or the website." }], isError: true };
+      }
+      return json(result);
+    },
+  },
+  {
+    name: "image_palette",
+    title: "Raw RGBA image palette",
+    description: "Find frequent RGB color groups in a small already decoded RGBA raster, at most 4,096 pixels. Groups use five bits per RGB channel, average original colors with alpha weighting, and ignore fully transparent pixels. Percentages use all visible alpha weight; returned groups may sum to less than 100%. Accepts raw channels, not image files.",
+    schema: {
+      width: z.number().int().min(1).max(MCP_PALETTE_PIXELS),
+      height: z.number().int().min(1).max(MCP_PALETTE_PIXELS),
+      rgba: z.array(z.number().int().min(0).max(255)).max(MCP_PALETTE_PIXELS * 4)
+        .describe("Row-major red, green, blue, alpha channels, exactly width × height × 4 values."),
+      color_count: z.number().int().min(1).max(12).optional().describe("Maximum returned color groups; defaults to eight."),
+    },
+    run: (a) => {
+      try {
+        return json(extractImagePalette(a.rgba, a.width, a.height, { colorCount: a.color_count }));
+      } catch (error) {
+        return { content: [{ type: "text", text: error instanceof Error ? error.message : "Invalid RGBA raster." }], isError: true };
       }
     },
   },

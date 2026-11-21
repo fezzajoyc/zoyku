@@ -1,16 +1,16 @@
-# Zoyku — 211 个浏览器工具
+# Zoyku — 216 个浏览器工具
 
-面向全球用户的免费工具站。**211 个工具 × 15 语言 = 3,165 个工具页**；工具文件和本地文本在浏览器处理，DNS、IP、汇率等联网步骤单独披露。托管、静态资源及外部服务仍有成本和使用限制，不能概括为“零服务器成本”。同行能力、功能差距和验收范围详见 [docs/benchmark.md](docs/benchmark.md)。
+面向全球用户的免费工具站。**216 个工具 × 15 语言 = 3,240 个工具页**；工具文件和本地文本在浏览器处理，DNS、IP、汇率等联网步骤单独披露。托管、静态资源及外部服务仍有成本和使用限制，不能概括为“零服务器成本”。同行能力、功能差距和验收范围详见 [docs/benchmark.md](docs/benchmark.md)。
 
 ## 数字事实源(改任何数字前先跑)
 
 | 事实 | 数值 | 来源(唯一事实源) |
 |---|---|---|
-| 工具数 | 211 | `tools/registry.ts` ALL_TOOLS.length(测试锚定 tests/registry.test.ts) |
+| 工具数 | 216 | `tools/registry.ts` ALL_TOOLS.length(测试锚定 tests/registry.test.ts) |
 | 语言数 | 15 | `lib/site.ts` LOCALES |
-| 工具页 | 211 × 15 = 3,165 | registry × LOCALES |
+| 工具页 | 216 × 15 = 3,240 | registry × LOCALES |
 | sitemap URL | 构建生成并审计 | 以本轮生成的 sitemap 与 SEO 报告为准，不能把本地改动当作已部署 |
-| MCP 可执行工具 | 37 | `mcp/server.ts` |
+| MCP 可执行工具 | 42 | `mcp/tools.ts` MCP_TOOLS.length |
 | 测试 | 见最新验证记录 | `npx vitest run`，数量不等于全站功能或合规证明 |
 
 **纪律:README/首页/文案里的每个统计数字必须能对上事实源;数字变了先改事实源,再改文档。**
@@ -34,7 +34,7 @@ toolsite/
 │   ├── _lib/            # 纯逻辑(可单测)+ unit-tool 工厂 + category-intros
 │   └── _i18n/           # 10 overlay 语种覆盖层
 ├── tests/               # vitest(数学/SEO/注册表/overlay 契约/文件产物)
-├── mcp/                 # 37 个 AI 可执行工具(zod + stdio/HTTP 双通道)
+├── mcp/                 # 42 个 AI 可执行工具(zod + stdio/HTTP 双通道)
 └── scripts/             # 部署前清理、生产巡检、SEO 审计
 ```
 

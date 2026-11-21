@@ -22,7 +22,7 @@ describe("zoyku MCP server", () => {
       "bmr", "tdee", "body_fat_navy", "water_intake", "running_pace", "one_rep_max",
       "workdays_between", "sleep_schedule", "cooking_convert", "contrast_ratio",
       "grade", "slugify", "text_stats", "transform_text", "parse_csv", "json_to_xml",
-      "social_credit_samples", "rmb_uppercase_to_number",
+      "social_credit_samples", "rmb_uppercase_to_number", "crc16_modbus", "image_pixel_color", "ipv4_range_expand",
     ]) {
       expect(names.has(expected), expected).toBe(true);
     }
@@ -108,6 +108,54 @@ describe("zoyku MCP server", () => {
       });
       expect(amount.isError).not.toBe(true);
       expect(JSON.parse((amount.content as any)[0].text)).toMatchObject({ normalizedAmount: "6007.14", minorUnits: "600714" });
+    } finally { await client.close(); }
+  });
+
+  it("calculates CRC-16/Modbus with explicit wire byte order", async () => {
+    const client = await connect();
+    try {
+      const result = await client.callTool({ name: "crc16_modbus", arguments: { hex: "01 03 00 00 00 0A" } });
+      expect(result.isError).not.toBe(true);
+      expect(JSON.parse((result.content as any)[0].text)).toMatchObject({ crcHex: "CDC5", wireHex: "C5CD", byteLength: 6 });
+    } finally { await client.close(); }
+  });
+  it("formats an RGBA pixel through the shared image sampler", async () => {
+    const client = await connect();
+    try {
+      const result = await client.callTool({ name: "image_pixel_color", arguments: { x: 3, y: 2, r: 20, g: 40, b: 60, a: 128 } });
+      expect(result.isError).not.toBe(true);
+      expect(JSON.parse((result.content as any)[0].text)).toMatchObject({
+        x: 3, y: 2, hex: "#14283C", hex8: "#14283C80", rgb: "rgb(20, 40, 60)", rgba: "rgba(20, 40, 60, 0.50196)",
+      });
+      const invalid = await client.callTool({ name: "image_pixel_color", arguments: { x: 0, y: 0, r: 256, g: 0, b: 0, a: 255 } });
+      expect(invalid.isError).toBe(true);
+    } finally { await client.close(); }
+  });
+  it("expands an IPv4 range with an explicit display cap", async () => {
+    const client = await connect();
+    try {
+      const result = await client.callTool({ name: "ipv4_range_expand", arguments: { start_ip: "10.0.0.254", end_ip: "10.0.1.2" } });
+      expect(result.isError).not.toBe(true);
+      expect(JSON.parse((result.content as any)[0].text)).toMatchObject({
+        startIp: "10.0.0.254", endIp: "10.0.1.2", total: 5, truncated: false,
+        addresses: ["10.0.0.254", "10.0.0.255", "10.0.1.0", "10.0.1.1", "10.0.1.2"],
+      });
+      const limited = await client.callTool({ name: "ipv4_range_expand", arguments: { start_ip: "0.0.0.0", end_ip: "255.255.255.255", max_results: 2 } });
+      expect(limited.isError).not.toBe(true);
+      expect(JSON.parse((limited.content as any)[0].text)).toMatchObject({
+        total: 2 ** 32, truncated: true, addresses: ["0.0.0.0", "0.0.0.1"],
+      });
+      const defaultLimit = await client.callTool({ name: "ipv4_range_expand", arguments: { start_ip: "192.0.2.0", end_ip: "192.0.3.0" } });
+      expect(defaultLimit.isError).not.toBe(true);
+      const preview = JSON.parse((defaultLimit.content as any)[0].text);
+      expect(preview).toMatchObject({ total: 257, truncated: true });
+      expect(preview.addresses).toHaveLength(256);
+      const reversed = await client.callTool({ name: "ipv4_range_expand", arguments: { start_ip: "10.0.0.2", end_ip: "10.0.0.1" } });
+      expect(reversed.isError).toBe(true);
+      const invalid = await client.callTool({ name: "ipv4_range_expand", arguments: { start_ip: "256.0.0.1", end_ip: "255.255.255.255" } });
+      expect(invalid.isError).toBe(true);
+      const overLimit = await client.callTool({ name: "ipv4_range_expand", arguments: { start_ip: "192.0.2.0", end_ip: "192.0.2.1", max_results: 4097 } });
+      expect(overLimit.isError).toBe(true);
     } finally { await client.close(); }
   });
   it("resolves every advertised activity option with the shared formula", async () => {

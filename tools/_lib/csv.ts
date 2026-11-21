@@ -133,6 +133,8 @@ function parseRows(text: string, delimiter: CsvDelimiter): string[][] | null {
   return rows;
 }
 
+export { parseRows as parseCsvRows };
+
 /** JSON.stringify string length, including well-formed lone-surrogate escapes. */
 function jsonStringLength(value: string): number {
   let length = 2;

@@ -1,0 +1,103 @@
+{
+  "researchDate": "2026-11-21",
+  "site": "Convertio",
+  "baseUrls": [
+    "https://convertio.co/",
+    "https://convertio.co/sitemap.xml",
+    "https://convertio.co/formats/",
+    "https://convertio.co/privacy/",
+    "https://convertio.co/robots.txt"
+  ],
+  "method": {
+    "sitemap": "Fetched the official sitemap index and all 30 child sitemaps over HTTPS; counted loc nodes, exact URLs and locale-normalized paths.",
+    "formatDirectory": "Fetched /formats/ and parsed the ten h2 category sections and converter links; duplicate format links were retained in category row counts and removed for unique format counts.",
+    "pageQuality": "Fetched ten representative first-party pages and extracted HTTP status, title, h1, meta description, canonical, JSON-LD, hreflang, viewport, aria-label and alt attribute counts from returned HTML.",
+    "localMapping": "Compared normalized Convertio route slugs with the 213 local registry slugs by exact slug match, then recorded representative semantic matches separately; exact slug equality is not treated as functional parity."
+  },
+  "sitemap": {
+    "indexChildren": 30,
+    "locCount": 159083,
+    "exactUniqueUrls": 158950,
+    "localePrefixesRemoved": 16,
+    "normalizedUniquePaths": 10886,
+    "notes": [
+      "The sitemap is dominated by locale variants and converter pair pages.",
+      "The normalized count is a URL/path count, not a count of independent product workflows.",
+      "The first rows include locale roots such as /id/ and category roots such as /formats/."
+    ]
+  },
+  "formatDirectory": {
+    "pageStatus": 200,
+    "categoryCount": 10,
+    "categoryRows": {
+      "archives": 23,
+      "audios": 62,
+      "cad": 1,
+      "documents": 23,
+      "ebooks": 9,
+      "fonts": 16,
+      "images": 108,
+      "presentations": 10,
+      "vectors": 20,
+      "videos": 41
+    },
+    "categoryRowTotal": 313,
+    "formatLinksAfterRemovingNineCategoryNavigationLinks": 313,
+    "uniqueFormatSlugs": 309,
+    "duplicateFormatSlugs": ["pdb", "pes", "ps", "svg"],
+    "siteDescriptionClaim": "More than 309 different formats",
+    "interpretation": "The ten category tables expose 313 format-link occurrences and 309 unique format slugs after de-duplicating four repeated slugs; this matches the marketing description's count in this snapshot, but the count is independently derived from the page."
+  },
+  "pageSamples": [
+    {"path":"/","status":200,"title":"Convertio — File Converter","h1":"File Converter","canonical":null,"jsonLd":0,"hreflang":0,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/image-converter/","status":200,"title":"Image Converter — Convertio","h1":"Online Image Converter","canonical":"https://convertio.co/image-converter/","jsonLd":1,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/document-converter/","status":200,"title":"Document Converter — Convertio","h1":"Online Document Converter","canonical":"https://convertio.co/document-converter/","jsonLd":1,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/jpg-png/","status":200,"title":"JPG to PNG Converter — Online Tool — Convertio","h1":"JPG to PNG Converter","canonical":"https://convertio.co/jpg-png/","jsonLd":1,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/png-jpg/","status":200,"title":"PNG to JPG Converter Online — Convertio","h1":"PNG to JPG Converter","canonical":"https://convertio.co/png-jpg/","jsonLd":1,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/docx-pdf/","status":200,"title":"Turn DOCX Into PDF Online — Convertio","h1":"DOCX to PDF Converter","canonical":"https://convertio.co/docx-pdf/","jsonLd":1,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/mp4-mp3/","status":200,"title":"Convert MP4 to MP3 Online — Convertio","h1":"MP4 to MP3 Converter","canonical":"https://convertio.co/mp4-mp3/","jsonLd":1,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":7},
+    {"path":"/ocr/","status":200,"title":"Free Online OCR (Optical Character Recognition) Tool — Convertio","h1":"Optical Character Recognition (OCR). Online &amp; Free","canonical":"https://convertio.co/ocr/","jsonLd":0,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":0},
+    {"path":"/formats/","status":200,"title":"File Formats — Convertio","h1":"File Formats","canonical":"https://convertio.co/formats/","jsonLd":0,"hreflang":41,"viewport":1,"ariaLabels":4,"alt":0},
+    {"path":"/pdf-jpg/","status":410,"title":"Resource Gone — Convertio","h1":null,"canonical":null,"jsonLd":0,"hreflang":0,"viewport":1,"ariaLabels":3,"alt":0}
+  ],
+  "privacy": {
+    "pageStatus": 200,
+    "observedClaims": [
+      "Convertio says input files and temporary files are deleted immediately after conversion.",
+      "Convertio says output files are deleted immediately when the user clicks X, otherwise after 24 hours.",
+      "The converter UI uses a multiple file input and server-side conversion flow; this is not equivalent to Zoyku's local-only image/PDF tools."
+    ],
+    "evidenceBoundary": "These are first-party policy statements and returned HTML observations, not an independent packet capture or upload test."
+  },
+  "robots": {
+    "status": 200,
+    "disallow": ["/tmp/", "/*/tmp/", "/download/"],
+    "sitemap": "https://convertio.co/sitemap.xml"
+  },
+  "localMapping": {
+    "localRegistryToolCountAtReview": 213,
+    "exactSlugMatches": ["svg-converter", "webp-converter"],
+    "representativeSemanticMatches": [
+      {"convertio":"/image-converter/","local":"convert-image","status":"partial","reason":"Same broad task; different route and supported-format/UX contract not compared end to end."},
+      {"convertio":"/jpg-png/","local":"jpg-to-png","status":"partial","reason":"Same named conversion; no same-file output byte comparison in this audit."},
+      {"convertio":"/png-jpg/","local":"png-to-jpg","status":"partial","reason":"Same named conversion; quality/metadata behavior not compared in this audit."},
+      {"convertio":"/docx-pdf/","local":"word-to-pdf","status":"partial","reason":"Overlapping document conversion intent; layout fidelity and file handling differ and remain unverified."},
+      {"convertio":"/pdf-png/","local":"pdf-to-png","status":"partial","reason":"Same broad export intent; no same-PDF pixel/metadata comparison."},
+      {"convertio":"/png-pdf/","local":"png-to-pdf","status":"partial","reason":"Same broad export intent; page sizing and output byte structure not compared."},
+      {"convertio":"/mp4-mp3/","local":"extract-audio","status":"partial","reason":"Overlapping media extraction intent; input/output codec matrix not compared."},
+      {"convertio":"/ocr/","local":"ocr-pdf, ocr-image","status":"partial","reason":"OCR workflows overlap, but language/engine/output fidelity was not tested against the same file."}
+    ],
+    "staleOrMissingRouteChecks": [
+      {"convertio":"/pdf-jpg/","sitemapPathPresent":false,"httpStatus":410,"local":"pdf-to-jpg"},
+      {"convertio":"/pdf-doc/","sitemapPathPresent":false,"httpStatus":"not fetched in sample","local":"pdf-to-word"},
+      {"convertio":"/pdf-xls/","sitemapPathPresent":false,"httpStatus":"not fetched in sample","local":"pdf-to-excel"}
+    ]
+  },
+  "limitations": [
+    "This is one large competitor's official directory and sitemap, not a census of all conversion sites.",
+    "Sitemap and format rows do not prove independent tools, runtime correctness, throughput, pricing, ranking, traffic or conversion.",
+    "No file was uploaded to Convertio in this audit; privacy claims remain first-party statements.",
+    "No axe run, real screen-reader run, or controlled 320/390px browser measurement was completed for Convertio pages in this batch.",
+    "Only ten representative pages were fetched for metadata sampling; the 10,886 normalized paths were not individually quality-audited."
+  ]
+}

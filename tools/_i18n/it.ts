@@ -3073,7 +3073,7 @@ export const it: Record<string, ToolCopy> = {
     ],
     steps: [
       "Incolla il tuo CSV (la prima riga deve essere l'intestazione) nella casella di input.",
-      "Scegli virgola o punto e virgola come delimitatore.",
+      "Scegli la virgola, il punto e virgola o la tabulazione (TSV) come delimitatore.",
       "Copia l'array JSON di oggetti ben stampato.",
     ],
     faqs: [
@@ -3104,7 +3104,7 @@ export const it: Record<string, ToolCopy> = {
         paragraphs: [
           "Spezzare il CSV sulle virgole è sbagliato nel momento in cui arriva un dataset vero. La RFC 4180, lo standard che il formato segue davvero in pratica, definisce i campi tra virgolette: un campo contenente una virgola, una virgoletta o un ritorno a capo deve essere avvolto in virgolette doppie, e una virgoletta dentro tale campo si protegge raddoppiandola. Un campo nome che legge «Ada, Contessa» è una cella; uno split ingenuo lo trasforma in due e sfalsa ogni colonna dopo di esso.",
           "I fine riga sono la seconda trappola. I file CSV mescolano CRLF (Windows, esportazioni Excel) e LF (strumenti Unix), e un ritorno a capo dentro un campo tra virgolette è dato, non separatore di record — un indirizzo su più righe o un commento incollato deve sopravvivere come una cella sola. L'analisi corretta è una piccola macchina a stati, non una chiamata a split(); è ciò che gira qui.",
-          "I delimitatori variano per lingua: Excel in gran parte d'Europa e America Latina scrive file separati da punto e virgola, perché la virgola è il separatore decimale in quelle lingue. Lo strumento ti lascia scegliere virgola o punto e virgola esplicitamente anziché sniffare, così un file dove ogni campo capita di contenere punti e virgola non viene rilevato male. Se la tua fonte usa tabulazioni, lo strumento gemello da JSON a CSV gestisce il viaggio di ritorno.",
+          "Il delimitatore dipende dalle impostazioni locali. In molte zone d'Europa e dell'America Latina, Excel usa il punto e virgola nei file esportati perché la virgola è il separatore decimale. Scegli il delimitatore corrispondente ai tuoi dati. Per i dati TSV, scegli la tabulazione.",
         ],
       },
       {

@@ -3080,7 +3080,7 @@ export const fr: Record<string, ToolCopy> = {
     ],
     steps: [
       "Collez votre CSV (la première ligne doit être l'en-tête) dans la zone d'entrée.",
-      "Choisissez la virgule ou le point-virgule comme délimiteur.",
+      "Choisissez la virgule, le point-virgule ou la tabulation (TSV) comme séparateur.",
       "Copiez le tableau JSON d'objets joliment imprimé.",
     ],
     faqs: [
@@ -3111,7 +3111,7 @@ export const fr: Record<string, ToolCopy> = {
         paragraphs: [
           "Couper le CSV aux virgules est faux dès qu'un vrai jeu de données arrive. La RFC 4180, le standard que le format suit réellement en pratique, définit les champs cités : un champ portant une virgule, un guillemet ou un saut de ligne doit être enveloppé de guillemets doubles, et un guillemet intérieur s'échappe en le doublant. Un champ de nom lisant « Ada, Countess » est une cellule ; une découpe naïve en fait deux et décale chaque colonne suivante.",
           "Les fins de ligne sont le second piège. Les fichiers CSV mêlent CRLF (Windows, exports Excel) et LF (outils Unix), et un saut de ligne dans un champ cité est une donnée, pas un séparateur d'enregistrement — une adresse multiligne ou un commentaire collé doit survivre comme une seule cellule. Le parsing correct est une petite machine à états, pas un appel à split() ; c'est ce qui tourne ici.",
-          "Les délimiteurs varient selon la locale : Excel, dans une grande partie de l'Europe et d'Amérique latine, écrit des fichiers séparés par des points-virgules parce que la virgule est le séparateur décimal dans ces locales. L'outil laisse choisir virgule ou point-virgule explicitement plutôt que de renifler, donc un fichier où chaque champ porte par hasard des points-virgules n'est pas mal détecté. Si votre source emploie des tabulations, l'outil voisin JSON vers CSV gère le voyage de retour.",
+          "Le séparateur dépend des paramètres régionaux. Dans une grande partie de l'Europe et de l'Amérique latine, Excel exporte avec des points-virgules, car la virgule sert de séparateur décimal. Choisissez le séparateur qui correspond à vos données. Pour du TSV, choisissez la tabulation.",
         ],
       },
       {

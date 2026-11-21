@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-21",
+  "input": "id\tnote\tvalue\n7\t\"first\tpart\nsecond \"\"line\"\"\"\t001\n8\t\"comma, kept\"\tnull",
+  "output": [
+    {
+      "id": 7,
+      "note": "first\tpart\nsecond \"line\"",
+      "value": "001"
+    },
+    {
+      "id": 8,
+      "note": "comma, kept",
+      "value": null
+    }
+  ],
+  "languagesWithTabControl": [
+    "en",
+    "zh",
+    "ja",
+    "es",
+    "pt",
+    "fr",
+    "de",
+    "ru",
+    "it",
+    "tr",
+    "ko",
+    "ar",
+    "hi",
+    "id",
+    "vi"
+  ],
+  "existingCapability": "csvCapabilityCopy already renders localized Tab guidance; authored definitions and overlays were synchronized",
+  "peerUrl": "https://onlinetools.com/json/convert-tsv-to-json",
+  "peerResult": "unverified: isolated page rendered controls but returned empty output; do not infer incorrect conversion"
+}

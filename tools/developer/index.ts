@@ -24,6 +24,7 @@ import hmacGenerator from "./hmac-generator";
 import regexTester from "./regex-tester";
 import jsonToCsv from "./json-to-csv";
 import csvToJson from "./csv-to-json";
+import csvTableEditor from "./csv-table-editor";
 import csvToExcel from "./csv-to-excel";
 import excelToCsv from "./excel-to-csv";
 import markdownPreviewer from "./markdown-previewer";
@@ -72,6 +73,7 @@ export const DEV_TOOLS = [
   regexTester,
   jsonToCsv,
   csvToJson,
+  csvTableEditor,
   csvToExcel,
   excelToCsv,
   markdownPreviewer,
@@ -88,9 +90,11 @@ export const DEV_TOOLS = [
   jsonDiff,
   jsonPathQuery,
   jsonYamlConverter,
+  crc16Modbus,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
 import jsonDiff from "./json-diff";
 import jsonPathQuery from "./json-path-query";
 import jsonYamlConverter from "./json-yaml-converter";
+import crc16Modbus from "./crc16-modbus";

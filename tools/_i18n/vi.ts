@@ -3080,7 +3080,7 @@ export const vi: Record<string, ToolCopy> = {
     ],
     steps: [
       "Dán CSV (dòng đầu phải là tiêu đề) vào ô nhập.",
-      "Chọn dấu phẩy hay dấu chấm phẩy làm ký tự phân cách.",
+      "Chọn dấu phẩy, dấu chấm phẩy hoặc ký tự tab (TSV) làm dấu phân cách.",
       "Sao chép mảng JSON đã in đẹp.",
     ],
     faqs: [
@@ -3111,7 +3111,7 @@ export const vi: Record<string, ToolCopy> = {
         paragraphs: [
           "Tách CSV theo dấu phẩy sai ngay khi một tập dữ liệu thật đến. RFC 4180, tiêu chuẩn mà định dạng này thực tế theo, định nghĩa trường có ngoặc kép: một trường chứa dấu phẩy, dấu ngoặc hay xuống dòng phải được bọc trong ngoặc kép, và một dấu ngoặc trong trường ấy được thoát bằng cách nhân đôi. Một trường tên đọc “Ada, Bá tước” là một ô; tách ngây thơ biến nó thành hai và dịch mọi cột phía sau.",
           "Kết thúc dòng là bẫy thứ hai. File CSV trộn CRLF (Windows, bản xuất Excel) và LF (công cụ Unix), và một xuống dòng trong trường có ngoặc là dữ liệu, không phải dấu phân cách bản ghi — một địa chỉ nhiều dòng hay một bình luận dán vào phải sống sót như một ô. Phân tích đúng là một máy trạng thái nhỏ, không phải một lời gọi split(); đó là thứ chạy ở đây.",
-          "Dấu phân cách thay đổi theo bản địa: Excel ở phần lớn châu Âu và Mỹ Latinh ghi file phân cách bằng chấm phẩy vì dấu phẩy là dấu thập phân ở những bản địa ấy. Công cụ cho bạn chọn phẩy hay chấm phẩy tường minh thay vì đoán, nên một file mà mọi trường tình cờ chứa chấm phẩy không bị phát hiện nhầm. Nếu nguồn dùng tab, công cụ anh em JSON-to-CSV xử lý vòng ngược lại.",
+          "Dấu phân cách phụ thuộc vào cài đặt vùng. Ở nhiều nơi tại châu Âu và Mỹ Latinh, Excel dùng dấu chấm phẩy để tách các trường vì dấu phẩy được dùng làm dấu thập phân. Chọn dấu phân cách phù hợp với dữ liệu của bạn. Với dữ liệu TSV, chọn ký tự tab.",
         ],
       },
       {

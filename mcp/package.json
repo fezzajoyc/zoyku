@@ -1,7 +1,7 @@
 {
   "name": "zoyku-mcp",
   "version": "0.1.0",
-  "description": "Official Model Context Protocol (MCP) server for Zoyku — execute 35+ client-safe calculators, converters and developer utilities directly inside Claude, Cursor, ChatGPT and other MCP clients.",
+  "description": "Official Model Context Protocol (MCP) server for Zoyku — execute 42 client-safe calculators, converters and developer utilities directly inside Claude, Cursor, ChatGPT and other MCP clients.",
   "type": "module",
   "bin": {
     "zoyku-mcp": "./dist/server.mjs"

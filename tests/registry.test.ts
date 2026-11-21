@@ -9,7 +9,7 @@ describe("registry integrity", () => {
   it("has a healthy volume of tools", () => {
     expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(100);
     // 精确锚定:新工具上/下架时必须有意识地更新本行 + README/benchmark 的统计数字(防止文档漂移)
-    expect(ALL_TOOLS.length).toBe(211);
+    expect(ALL_TOOLS.length).toBe(216);
   });
 
   it("slugs are unique and kebab-case", () => {
@@ -64,11 +64,43 @@ describe("registry integrity", () => {
     }
   });
 
+  it("registers image pixel sampling separately from the screen color picker", () => {
+    const tool = TOOL_BY_SLUG.get("image-color-picker");
+    expect(tool?.category).toBe("image");
+    expect(tool?.related).toContain("color-picker");
+    expect(tool?.copy.en.tagline).toContain("local image");
+    expect(TOOL_BY_SLUG.get("color-picker")?.category).toBe("utility");
+  });
+
+  it("registers IPv4 range expansion as a dedicated searchable page", () => {
+    const tool = TOOL_BY_SLUG.get("ipv4-range-expander");
+    expect(tool?.category).toBe("utility");
+    expect(tool?.related).toContain("ipv4-subnet-calculator");
+    expect(tool?.copy.en.tagline).toContain("range");
+    for (const locale of LOCALES) {
+      const copy = toolCopy(tool!, locale);
+      expect(copy.name.trim(), locale).toBeTruthy();
+      expect(copy.steps.length, locale).toBeGreaterThanOrEqual(3);
+      expect(copy.faqs.length, locale).toBeGreaterThanOrEqual(2);
+    }
+  });
+
   it("every category has tools", () => {
     const cats = new Set(ALL_TOOLS.map((t) => t.category));
     expect(cats.size).toBe(7);
     for (const cat of cats) {
       expect(toolsByCategory(cat).length).toBeGreaterThan(0);
+    }
+  });
+
+  it.each([
+    ["csv-table-editor", "developer"],
+    ["image-palette-generator", "image"],
+  ])("registers %s with original copy in all supported languages", (slug, category) => {
+    const tool = TOOL_BY_SLUG.get(slug);
+    expect(tool?.category).toBe(category);
+    for (const locale of LOCALES) {
+      expect(tool?.copy[locale]?.name.trim(), `${slug}:${locale}`).toBeTruthy();
     }
   });
 });

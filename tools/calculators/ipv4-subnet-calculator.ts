@@ -6,7 +6,7 @@ export default defineTool({
   category: "utility",
   icon: "grid",
   engine: { component: UtilEngineSubnet },
-  related: ["ip-lookup", "dns-lookup", "whois-lookup", "binary-converter", "timestamp-converter", "hash-generator"],
+  related: ["ipv4-range-expander", "ip-lookup", "dns-lookup", "whois-lookup", "binary-converter", "timestamp-converter"],
   copy: {
     en: {
       name: "IPv4 Subnet Calculator",

@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "title": "FreeConvert 目录与页面质量审计",
+  "research_date": "2026-11-21",
+  "timezone": "Asia/Shanghai",
+  "observed_at_utc": "2026-11-21T13:08:52Z",
+  "scope": "FreeConvert 官方 sitemap、robots、首页、图片压缩页和隐私页的 XML/HTML 抽样；URL 规模不等于独立工具数，未做同文件转换。",
+  "sources": {
+    "robots": "https://www.freeconvert.com/robots.txt",
+    "sitemap_index": "https://www.freeconvert.com/sitemap.xml",
+    "home": "https://www.freeconvert.com/",
+    "image_compressor": "https://www.freeconvert.com/image-compressor",
+    "privacy": "https://www.freeconvert.com/privacy"
+  },
+  "sitemap": {
+    "main_sitemaps": 5,
+    "blog_sitemap_index_present": true,
+    "api_sitemap_present": true,
+    "language_prefixes_removed": [
+      "de", "es", "fr", "pt", "it", "nl", "ja", "zh-CN", "zh-TW", "ko", "sv", "tr", "id", "pl"
+    ],
+    "loc_counts_by_main_sitemap": {
+      "sitemap1.xml": 20205,
+      "sitemap2.xml": 20205,
+      "sitemap3.xml": 20205,
+      "sitemap4.xml": 20205,
+      "sitemap5.xml": 20166
+    },
+    "total_loc": 100986,
+    "exact_unique_urls": 100986,
+    "normalized_unique_paths": 6752,
+    "normalized_paths_containing_dash_to": 6499,
+    "normalized_first_segment_counts": {
+      "time": 3080,
+      "unit": 732,
+      "api": 21,
+      "convert": 10
+    },
+    "counting_method": "Parse XML <url><loc> values; remove host, query and one recognized language prefix; count exact unique strings.",
+    "interpretation": "Counts are indexable URLs/paths. They include language variants, conversion pair pages, format pages, time/unit pages and API pages; they are not independent tools."
+  },
+  "page_samples": [
+    {
+      "url": "https://www.freeconvert.com/",
+      "http_status": 200,
+      "title": "File Converter - FreeConvert.com",
+      "h1": "File Converter",
+      "description": "File Converter - Convert 2000+ different audio, image, video, e-book, document, and archive conversions online. No software to install and free.",
+      "canonical": "https://www.freeconvert.com/",
+      "hreflang_count": 16,
+      "jsonld_types": ["Organization", "WebSite", "WebApplication"],
+      "evidence": "HTTP HTML parse"
+    },
+    {
+      "url": "https://www.freeconvert.com/image-compressor",
+      "http_status": 200,
+      "title": "Image Compressor - FreeConvert.com",
+      "h1": "Image Compressor",
+      "description": "Image Compressor. Compress image files by up to 80% while retaining quality. Supports JPG, PNG, and GIF formats. Online and free.",
+      "canonical": "https://www.freeconvert.com/image-compressor",
+      "hreflang_count": 16,
+      "jsonld_types": ["Organization", "WebSite", "WebApplication", "BreadcrumbList", "HowTo"],
+      "browser_mobile": {
+        "viewport": "390x844",
+        "document_scroll_width": 390,
+        "body_scroll_width": 390,
+        "page_level_horizontal_overflow": false,
+        "file_inputs": 2,
+        "file_input_accept": ".jpeg,.jpg,.png,.gif,.webp,.heic",
+        "file_input_multiple": true
+      },
+      "evidence": "HTTP HTML parse plus real browser DOM measurement; no file upload"
+    },
+    {
+      "url": "https://www.freeconvert.com/privacy",
+      "http_status": 200,
+      "title": "Online Converter - Convert Image, Video, Audio, & Document Files",
+      "h1": "Privacy policy",
+      "canonical": "https://www.freeconvert.com/privacy",
+      "privacy_claims": [
+        "Files stored on Amazon Web Services S3 in Ireland",
+        "Uploaded files automatically and permanently deleted after 8 hours"
+      ],
+      "evidence": "First-party privacy page text; policy claim, not network verification"
+    }
+  ],
+  "local_mapping": {
+    "local_registry_count_reference": 213,
+    "candidate_overlap_families": [
+      "image-compressor",
+      "image-converter",
+      "jpg-to-png",
+      "png-to-jpg",
+      "pdf-to-png",
+      "png-to-pdf",
+      "extract-audio",
+      "crop-image",
+      "merge-pdf"
+    ],
+    "status": "needs_same_input_batch",
+    "evidence_limit": "No same-file output comparison was run; no functional or overall quality ranking is claimed."
+  },
+  "limitations": [
+    "No user file was uploaded to FreeConvert",
+    "No same-input output, metadata, quality, performance or network comparison",
+    "No full-catalog keyboard, screen-reader or axe audit",
+    "No search volume, ranking, traffic or conversion data"
+  ]
+}

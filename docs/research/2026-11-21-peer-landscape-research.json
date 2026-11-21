@@ -1,0 +1,269 @@
+{
+  "schema_version": "1.0",
+  "title": "同行工具站景观与页面质量抽样",
+  "research_date": "2026-11-21",
+  "timezone": "Asia/Shanghai",
+  "scope": "补充 LDDGO 目录核对之外的国内外工具站样本，记录目录规模、SEO 页面结构、移动端布局和少量真实交互证据。数量为页面/卡片口径，不能相加成独立能力总数。",
+  "evidence_levels": {
+    "official_directory": "官方目录或首页卡片，证明入口/公开声明存在，未证明正确性",
+    "official_page_runtime_snapshot": "Playwright 读取官方页面 DOM、标题、meta、控件和布局指标",
+    "same_input_runtime": "在官方工具页输入固定样本并读取页面输出，仍只代表该样本",
+    "blocked_or_empty": "官方请求触发反爬、无内容或无法取得足够证据"
+  },
+  "source_snapshots": [
+    {
+      "id": "PL01",
+      "name": "LDDGO",
+      "url": "https://www.lddgo.net/",
+      "category_directory_urls": [
+        "https://www.lddgo.net/base/class?classID=1..10",
+        "https://www.lddgo.net/en/base/class?classID=1..10"
+      ],
+      "evidence_level": "official_directory",
+      "claimed_or_observed_count": "420 directory cards",
+      "observed_detail": "Chinese and English homepages both display 420; 10 category pages enumerate 420 unique destination links: STRING 93, CONVERTER 39, ENCRYPT 50, NETWORK 18, MORE 82, CHART 16, MATH 27, COORDINATE 23, IMAGE 49, FILE 23.",
+      "limitations": [
+        "Two destinations are external; the catalog also contains documentation pages and modernimg/modernsvg applications.",
+        "A sitemap has 635 loc entries but covers only 275/420 directory destinations after language normalization.",
+        "Directory enumeration is not a same-input correctness or accessibility audit."
+      ]
+    },
+    {
+      "id": "PL02",
+      "name": "IT-Tools",
+      "url": "https://it-tools.tech/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "86 unique internal sidebar tool routes observed",
+      "observed_detail": "Side navigation grouped tools under Crypto, Converter, Web, Images & Videos, Development, Network, Math, Measurement, Text and Data. The page exposed a search button and dark/light mode control.",
+      "seo": {
+        "title": "IT Tools - Handy online tools for developers",
+        "meta_description": "Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT.",
+        "h1_count": 0,
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 182, "buttons": 89},
+      "mobile": {"viewport": "390x844", "scroll_width": 390, "horizontal_overflow": false, "focusable_elements": 272},
+      "limitations": ["The route count is a live sidebar extraction, not a repository release count.", "No full tool-by-tool runtime or performance audit was performed."]
+    },
+    {
+      "id": "PL03",
+      "name": "PDF24",
+      "url": "https://tools.pdf24.org/en/all-tools",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "133 unique English tool paths observed from the All Tools page",
+      "observed_detail": "Categories rendered in the page included Create, Invoices, Edit, Organize, Optimize & repair, Security & privacy, View & check, Convert to PDF, Convert from PDF, Convert images and Desktop.",
+      "seo": {
+        "title": "All Tools - 100% free - PDF24",
+        "meta_description": "PDF24 offers numerous tools tailored to specific problems. All tools are listed on this page.",
+        "h1": "All Tools",
+        "h2_examples": ["All PDF24 tools at a glance, sorted by category – find the right one using the search or your favorites", "Favorites", "Last used", "Frequently used"],
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 195, "buttons": 5, "inputs": 1},
+      "mobile": {"viewport": "390x844", "scroll_width": 390, "horizontal_overflow": false, "h1_font_size": "36px", "focusable_elements": 201},
+      "limitations": ["Tool path count includes directory links and does not establish file conversion correctness.", "No upload or output artifact was tested in this snapshot."]
+    },
+    {
+      "id": "PL04",
+      "name": "Toolbox365 / 365工具箱",
+      "url": "https://www.toolbox365.cn/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "Meta description says 160+; 288 unique .db-card tool cards observed",
+      "observed_detail": "The .db-card selector yielded 288 unique data-id/data-name cards across nav, pdf, image, media, dev, chinese, life, finance, css and puzzle categories.",
+      "seo": {
+        "title": "365工具箱 — 免费在线小工具集，无需登录，数据本地存储 | 杭州猫猫牛网络科技有限公司",
+        "meta_description": "覆盖 PDF、图片、音频/视频、文本与开发、中文、财务计算、生活实用等场景的 160+ 款免费在线小工具，无需注册登录，全部浏览器本地运行，文件不上传。",
+        "h1": "365工具箱",
+        "json_ld_scripts": 1
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 383, "buttons": 328, "inputs": 1},
+      "mobile": {"viewport": "390x844", "scroll_width": 390, "horizontal_overflow": false, "focusable_elements": 712},
+      "limitations": ["The 288 cards include navigation/reference-type entries; the site's public 160+ claim uses a different counting rule.", "No claim is made that every card is a standalone interactive tool."]
+    },
+    {
+      "id": "PL05",
+      "name": "10015 Tools",
+      "url": "https://www.10015.io/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "278 unique /tools/ paths observed on the homepage",
+      "observed_detail": "The homepage exposed Featured Tools and Tool Categories for Text, Image, PDF, Social Media, Security, Coding, CSS, Color and Miscellaneous tools.",
+      "seo": {
+        "title": "All Online Tools in One Box | 10015 Tools",
+        "meta_description": "All online tools you need in one box for free. Build anything online with “all-in-one toolbox”. All tools are easy-to-use, blazing fast & free.",
+        "h1": "All Online Tools in One Box",
+        "json_ld_scripts": 3
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 357, "buttons": 292, "inputs": 2},
+      "mobile": {"viewport": "390x844", "scroll_width": 390, "horizontal_overflow": false, "focusable_elements": 657},
+      "limitations": ["Unique route count includes homepage-linked tool pages; it is not a registry export.", "Tool correctness, privacy and keyboard behavior were not tested page by page."]
+    },
+    {
+      "id": "PL06",
+      "name": "BeJSON",
+      "url": "https://www.bejson.com/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "No trustworthy total tool count extracted",
+      "seo": {
+        "title": "在线JSON校验格式化工具（Be JSON）",
+        "meta_description": "在线,JSON,JSON 校验,格式化,xml转json 工具,在线工具,json视图,可视化,程序,服务器,域名注册,正则表达式,测试,在线json格式化工具,json 格式化,json格式化工具,json字符串格式化,json 在线查看器,json在线,json 在线验证,json tools online,在线文字对比工具",
+        "h1_count": 0,
+        "h2_examples": ["功能使用说明"],
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": true, "links": 598, "buttons": 43, "inputs": 4},
+      "mobile": {"viewport": "390x844", "scroll_width": 914, "horizontal_overflow": true, "offending_elements": ["1000px textarea", "608px dropdown menu"]},
+      "limitations": ["The overflow is observed on the homepage DOM at 390px; the offending textarea/menu may be an intentionally wide editor or open menu state.", "It is a layout finding for follow-up, not a WCAG conformance verdict."]
+    },
+    {
+      "id": "PL07",
+      "name": "JSON.cn",
+      "url": "https://json.cn/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "No trustworthy total tool count extracted",
+      "seo": {
+        "title": "JSON在线解析格式化验证 - JSON.cn",
+        "meta_description": "Json中文网致力于在中国推广Json,并提供相关的Json解析、验证、格式化、压缩、编辑器以及Json与XML相互转换等服务",
+        "h1_count": 0,
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 783, "buttons": 24, "inputs": 32},
+      "mobile": {"viewport": "390x844", "scroll_width": 390, "horizontal_overflow": false, "inputs": 34, "focusable_elements": 849},
+      "limitations": ["A large DOM and many focusable controls were observed; no screen-reader order or keyboard completion audit was performed."]
+    },
+    {
+      "id": "PL08",
+      "name": "Calculator.net",
+      "url": "https://www.calculator.net/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "Collection site; exact total not asserted from homepage",
+      "seo": {
+        "title": "Calculator.net: Free Online Calculators - Math, Fitness, Finance, Science",
+        "meta_description": "Online calculator for quick calculations, along with a large collection of calculators on math, finance, fitness, and more, each with in-depth information.",
+        "h1": "Free Online Calculators",
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 56, "inputs": 3},
+      "mobile": {"viewport": "not separately recorded in this pass"},
+      "limitations": ["The homepage description is a collection claim; no number was inferred from link count.", "Calculator formulas were not cross-checked in this landscape pass."]
+    },
+    {
+      "id": "PL09",
+      "name": "CyberChef",
+      "url": "https://gchq.github.io/CyberChef/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "Operation catalog present; no total asserted",
+      "observed_detail": "The deployed app rendered recipe/input controls, 38 buttons, 29 inputs and one JSON-LD script. The page describes encryption, encoding, compression and data analysis and is an app rather than a conventional SEO directory.",
+      "seo": {
+        "title": "CyberChef",
+        "meta_description": "The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis",
+        "h1_count": 0,
+        "json_ld_scripts": 1
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 27, "buttons": 38, "inputs": 29},
+      "mobile": {"viewport": "not separately recorded in this pass"},
+      "limitations": ["No operation-total claim is made because the deployed resource index was not fully retrieved in this pass.", "No recipe correctness or performance sweep was performed."]
+    },
+    {
+      "id": "PL10",
+      "name": "regex101",
+      "url": "https://regex101.com/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "Single regex application; multiple language engines advertised",
+      "observed_detail": "The page exposes editor/tools/explanation/match information/quick reference sections and states support for JavaScript, Python, Java, PCRE2 and more.",
+      "seo": {
+        "title": "regex101: Online Regex Tester, Builder, Converter & Debugger",
+        "meta_description": "Build, test, debug and convert regex with live matches, railroad diagrams, explanations and AI assistance. Supports JavaScript, Python, Java, PCRE2 and more.",
+        "h1": "Regular Expressions 101",
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": false, "links": 13, "buttons": 45, "inputs": 1},
+      "mobile": {"viewport": "390x844", "scroll_width": 390, "horizontal_overflow": false, "focusable_elements": 26},
+      "limitations": ["Features such as explanation and AI assistance are page claims; no account/plan boundary or same-pattern output comparison was run."]
+    },
+    {
+      "id": "PL11",
+      "name": "DevToys",
+      "url": "https://devtoys.app/",
+      "evidence_level": "official_page_runtime_snapshot",
+      "claimed_or_observed_count": "Desktop app landing page; no web-tool route count",
+      "seo": {
+        "title": "DevToys - A Swiss Army knife for developers",
+        "meta_description": "DevToys is a cross-platform Swiss Army knife for developers. DevToys helps in daily tasks like formatting JSON, comparing text, testing RegExp. No need to use many untruthful websites to do simple tasks with your data.",
+        "h1": "Swiss Army knife for developers",
+        "json_ld_scripts": 0
+      },
+      "desktop": {"viewport": "1200x881", "scroll_width": 1200, "horizontal_overflow": true, "links": 21, "buttons": 1},
+      "mobile": {"viewport": "390x844", "scroll_width": 490, "horizontal_overflow": true, "offending_elements": ["SVG illustration group", "366px screenshot positioned inside a 390px column"]},
+      "limitations": ["DevToys is a desktop app product; its landing page is not directly comparable to a browser tool directory.", "The mobile overflow is a landing-page observation, not a desktop-app usability verdict."]
+    },
+    {
+      "id": "PL12",
+      "name": "Omni Calculator",
+      "url": "https://www.omnicalculator.com/",
+      "evidence_level": "blocked_or_empty",
+      "claimed_or_observed_count": null,
+      "limitations": ["The homepage returned a Cloudflare challenge page during this pass; no tool count or page-quality claim was made.", "Existing research retains selected official detail-page sources separately."]
+    },
+    {
+      "id": "PL13",
+      "name": "RapidTables",
+      "url": "https://rapidtables.com/",
+      "evidence_level": "blocked_or_empty",
+      "claimed_or_observed_count": null,
+      "limitations": ["The homepage returned a Cloudflare block during this pass; no count or quality claim was made."]
+    }
+  ],
+  "same_input_evidence": [
+    {
+      "source_id": "PL02",
+      "tool_url": "https://it-tools.tech/hash-text",
+      "input": "abc",
+      "observed_outputs": {
+        "MD5": "900150983cd24fb0d6963f7d28e17f72",
+        "SHA1": "a9993e364706816aba3e25717850c26c9cd0d89d",
+        "SHA256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+        "SHA224": "23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7",
+        "RIPEMD160": "8eb208f7e05d987a9b044a8e98c6b087f15a0bfc"
+      },
+      "independent_check": "SHA-256, SHA-224 and RIPEMD-160 values match standard known vectors for abc.",
+      "not_checked": ["performance", "large files", "all algorithms", "privacy beyond page behavior"]
+    }
+  ],
+  "cross_site_observations": [
+    {
+      "topic": "directory_scale",
+      "observation": "Observed directory/card scale exceeds 1,200 route/card records across LDDGO, IT-Tools, PDF24, Toolbox365 and 10015 before deduplication.",
+      "interpretation": "This is evidence of a large comparison universe, not 1,200 independent product requirements. Canonical slug matching and shared-engine grouping are required."
+    },
+    {
+      "topic": "seo",
+      "observation": "Large sites generally expose a plain title and meta description; headings and JSON-LD vary. PDF24 and 10015 have explicit category/directory headings; IT-Tools has no h1 in the runtime DOM snapshot; BeJSON and JSON.cn expose many links but no h1 in the captured homepage DOM.",
+      "interpretation": "Zoyku should measure one page contract per tool (title, h1, description, canonical, hreflang, visible task content, structured data) rather than copy any site's aggregate markup."
+    },
+    {
+      "topic": "mobile_layout",
+      "observation": "At 390px, BeJSON's document width was 914px and DevToys' was 490px; other sampled home/directory pages had no page-level horizontal overflow.",
+      "interpretation": "The two overflow cases require element-level reproduction before labeling a competitor defect; they are useful regression fixtures for Zoyku mobile QA."
+    },
+    {
+      "topic": "accessibility",
+      "observation": "Playwright snapshots exposed named controls on IT-Tools and form controls on PDF24/regex101, but no automated WCAG score was inferred from DOM counts.",
+      "interpretation": "Run axe plus keyboard and screen-reader checks on representative tool pages. Link counts, focusable counts and button counts are diagnostics, not compliance scores."
+    }
+  ],
+  "limitations": [
+    "This report is an evidence ledger, not a ranking of competitors.",
+    "Directory/card counts use each site's current public DOM and may change without notice.",
+    "Official descriptions and schema presence do not prove tool correctness, privacy, speed, accessibility or search performance.",
+    "Only one competitor tool had a fixed input and independent vector check in this pass; other same-input comparisons remain open.",
+    "No search-volume, Search Console, traffic, revenue, conversion or backlink dataset was used.",
+    "Blocked/empty pages are recorded as unavailable rather than filled with search snippets or assumptions."
+  ],
+  "next_research_batch": [
+    "Persist the 420-row LDDGO catalog and canonicalize it against Zoyku's 211 registry tools.",
+    "Extract route-level cards from PDF24, Toolbox365 and 10015 into separate deduplicated tables.",
+    "Select 20 high-overlap tools for paired same-input runs, with saved inputs/outputs and independent vectors.",
+    "Repeat mobile/keyboard/axe snapshots on matched tool pages instead of homepages only.",
+    "Add source dates and change detection so counts and metadata are not silently reused as current facts."
+  ]
+}

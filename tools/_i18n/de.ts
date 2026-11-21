@@ -3071,7 +3071,7 @@ export const de: Record<string, ToolCopy> = {
     ],
     steps: [
       "Fügen Sie Ihre CSV in das Eingabefeld ein (die erste Zeile muss die Kopfzeile sein).",
-      "Wählen Sie Komma oder Semikolon als Trennzeichen.",
+      "Wählen Sie Komma, Semikolon oder Tabulator (TSV) als Trennzeichen.",
       "Kopieren Sie das hübsch gedruckte JSON-Array aus Objekten.",
     ],
     faqs: [
@@ -3102,7 +3102,7 @@ export const de: Record<string, ToolCopy> = {
         paragraphs: [
           "CSV an Kommas zu splitten ist falsch, sobald ein echter Datensatz ankommt. RFC 4180, der Standard, dem das Format in der Praxis tatsächlich folgt, definiert Quoted Fields: Ein Feld mit Komma, Anführungszeichen oder Zeilenumbruch muss in doppelte Anführungszeichen, und ein Anführungszeichen darin wird durch Verdoppeln maskiert. Ein Namensfeld „Ada, Countess“ ist eine Zelle; ein naiver Split macht zwei daraus und verschiebt jede folgende Spalte.",
           "Zeilenden sind die zweite Falle. CSV-Dateien mischen CRLF (Windows, Excel-Exporte) und LF (Unix-Werkzeuge), und ein Zeilenumbruch in einem quoted Field sind Daten, kein Trenner — eine mehrzeilige Adresse oder ein eingefügter Kommentar muss als eine Zelle überleben. Korrektes Parsen ist eine kleine Zustandsmaschine, kein split()-Aufruf; genau das läuft hier.",
-          "Trenner variieren nach Locale: Excel in weiten Teilen Europas und Lateinamerikas schreibt Semikolon-Dateien, weil das Komma dort Dezimaltrenner ist. Das Werkzeug lässt Komma oder Semikolon explizit wählen statt zu erschnüffeln, sodass eine Datei, deren Felder zufällig alle Semikolons enthalten, nicht verkannt wird. Nutzt Ihre Quelle Tabs, übernimmt das Geschwister-Werkzeug json-to-csv den Rückweg.",
+          "Das Trennzeichen hängt von den Regionseinstellungen ab. In vielen Teilen Europas und Lateinamerikas exportiert Excel mit Semikolon, weil das Komma als Dezimaltrennzeichen dient. Wählen Sie das Trennzeichen passend zu Ihren Daten. Für TSV wählen Sie Tabulator.",
         ],
       },
       {

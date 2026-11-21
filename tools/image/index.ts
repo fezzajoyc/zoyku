@@ -23,6 +23,8 @@ import imageBorder from "./image-border";
 import imageSplitter from "./image-splitter";
 import cropCircleImage from "./crop-circle-image";
 import compressImageToSize from "./compress-image-to-size";
+import imageColorPicker from "./image-color-picker";
+import imagePaletteGenerator from "./image-palette-generator";
 
 export const IMAGE_TOOLS = [
   imageCompressor,
@@ -48,4 +50,6 @@ export const IMAGE_TOOLS = [
   imageSplitter,
   cropCircleImage,
   compressImageToSize,
+  imageColorPicker,
+  imagePaletteGenerator,
 ];

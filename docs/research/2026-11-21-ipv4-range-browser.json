@@ -1,0 +1,71 @@
+{
+  "html": [
+    "en",
+    "zh",
+    "ja",
+    "es",
+    "pt",
+    "fr",
+    "de",
+    "ru",
+    "it",
+    "tr",
+    "ko",
+    "ar",
+    "hi",
+    "id",
+    "vi"
+  ],
+  "markdown": [
+    "en",
+    "zh",
+    "ja",
+    "es",
+    "pt",
+    "fr",
+    "de",
+    "ru",
+    "it",
+    "tr",
+    "ko",
+    "ar",
+    "hi",
+    "id",
+    "vi"
+  ],
+  "browser": {
+    "en320": {
+      "keyboard": true,
+      "clipboard": true,
+      "crossOctet": true,
+      "reversed": true,
+      "invalid": true,
+      "maxIp": true,
+      "large": {
+        "total": 4294967296,
+        "shown": 65536,
+        "end": "0.0.255.255"
+      }
+    }
+  },
+  "a11y": {
+    "en390dark": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    "zh390light": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    "ar320dark": {
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  }
+}

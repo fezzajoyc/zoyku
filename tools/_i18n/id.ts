@@ -4051,7 +4051,7 @@ export const id: Record<string, ToolCopy> = {
     ],
     steps: [
       "Tempel CSV Anda (baris pertama harus header) ke kotak input.",
-      "Pilih koma atau titik koma sebagai delimiter.",
+      "Pilih koma, titik koma, atau tab (TSV) sebagai pemisah.",
       "Salin array objek JSON yang sudah pretty-printed.",
     ],
     faqs: [
@@ -4082,7 +4082,7 @@ export const id: Record<string, ToolCopy> = {
         paragraphs: [
           "Membelah CSV pada koma salah begitu satu dataset nyata datang. RFC 4180, standar yang sebenarnya diikuti format ini dalam praktik, mendefinisikan kolom berkutip: satu kolom yang memuat koma, kutipan, atau pemenggalan baris harus dibungkus kutip-ganda, dan kutipan di dalam kolom semacam itu di-escape dengan penggandaan. Satu kolom nama yang berbunyi “Ada, Countess” adalah satu sel; pembelahan naif mengubahnya menjadi dua dan menggeser tiap kolom setelahnya.",
           "Akhir baris adalah jebakan keduanya. File CSV mencampur CRLF (Windows, ekspor Excel) dan LF (alat Unix), dan satu pemenggalan baris di dalam kolom berkutip adalah data, bukan pemisah catatan — satu alamat multi-baris atau satu komentar tempelan harus selamat sebagai satu sel. Parsing yang benar adalah satu mesin keadaan kecil, bukan satu panggilan split(); itulah yang berjalan di sini.",
-          "Pemisah berbeda menurut lokal: Excel di sebagian besar Eropa dan Amerika Latin menulis file terpisah-titik-koma karena koma adalah pemisah desimal di lokal-lokal itu. Alat ini membiarkan Anda memilih koma atau titik-koma secara eksplisit alih-alih mengendus, sehingga satu file yang tiap kolomnya kebetulan memuat titik-koma tak salah terdeteksi. Jika sumber Anda memakai tab, saudari JSON-to-CSV menangani bolak-baliknya ke arah keluar.",
+          "Pemisah bergantung pada setelan wilayah. Di banyak wilayah Eropa dan Amerika Latin, Excel memakai titik koma untuk memisahkan kolom karena koma digunakan sebagai tanda desimal. Pilih pemisah yang sesuai dengan data. Untuk TSV, pilih tab.",
         ],
       },
       {

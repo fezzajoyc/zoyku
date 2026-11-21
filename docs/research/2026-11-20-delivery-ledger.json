@@ -59,8 +59,9 @@
     "full_site_quality_claim": false,
     "source_record_worktree_status_counts": {
       "implemented_scoped_worktree": 6,
-      "remaining_gap": 87,
+      "remaining_gap": 86,
       "existing_baseline": 10,
+      "scoped_verified_local": 1,
       "needs_evidence": 1
     }
   },
@@ -370,6 +371,27 @@
         "docs/research/2026-11-21-china-credit-money-parity-verification.md"
       ],
       "release_status": "本地交付，未推送、未部署。"
+    },
+    {
+      "id": "DL-14",
+      "name": "IPv4 起止区间列表",
+      "source_ids": [
+        "G15"
+      ],
+      "slugs": [
+        "ipv4-range-expander"
+      ],
+      "state": "scoped_verified_local",
+      "completed_scope": "独立15语页面，首尾包含、准确计数、错误拒绝、上限提示、复制。MCP默认256、最多4096个结果。",
+      "limits": "网页最多显示复制65536条。IPv4全空间准确计数；不提供无上限下载。",
+      "evidence_paths": [
+        "tools/utility/ipv4-range-expander.ts",
+        "tools/_lib/subnet.ts",
+        "tests/subnet-range.test.ts",
+        "tests/mcp.test.ts",
+        "docs/research/2026-11-21-ipv4-range-expander-verification.md"
+      ],
+      "release_status": "本地工作树，未推送、未部署。"
     }
   ],
   "source_records": [
@@ -1163,11 +1185,14 @@
       "source_report": "2026-11-20-global-tool-gaps.json",
       "source_capability": "IPv4 地址区间展开",
       "baseline_status": "missing",
-      "worktree_status": "remaining_gap",
+      "worktree_status": "scoped_verified_local",
       "primary_group_id": "K24",
       "source_priority": "P1",
       "related_source_ids": [],
-      "delivery_ids": []
+      "delivery_ids": [
+        "DL-14"
+      ],
+      "remaining_scope": "IT-Tools同名页为最小覆盖CIDR；本轮逐地址列表需求以ezPAARSE生成库为参照。当前列表与MCP已验证，未执行同行同输入。"
     },
     {
       "source_id": "G16",
@@ -2929,5 +2954,17 @@
     "开发态身份证首次快速输入/提交偶发超时保留状态诊断；当前生产冷启动未复现，不将根因标已修。",
     "多语快速导航额外失败保留；最终有节流CSV46/46且所有文档200，继续记录响应状态。",
     "全站无障碍人工复核、真实设备/CWV与同行同样本比较继续开放；本批不新增工具或关闭原功能缺口。"
-  ]
+  ],
+  "continuation_checkpoint_2026_11_21": {
+    "tool_definition_count": 214,
+    "locales": 15,
+    "tool_pages": 3210,
+    "mcp_tools": 40,
+    "test_files": 99,
+    "tests_passed": 2528,
+    "lint_errors": 0,
+    "lint_warnings": 57,
+    "evidence": "docs/research/2026-11-21-ipv4-range-expander-verification.md",
+    "release_status": "本地工作树验收，未推送、未部署；working_tree保留较早交付检查点。"
+  }
 }

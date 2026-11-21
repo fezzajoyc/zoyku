@@ -5,5 +5,6 @@ import mimeTypes from "./mime-types";
 import keycodeInfo from "./keycode-info";
 import rmbUppercase from "./rmb-uppercase";
 import rmbUppercaseToNumber from "./rmb-uppercase-to-number";
+import ipv4RangeExpander from "./ipv4-range-expander";
 
-export const UTILITY_TOOLS = [contrastChecker, gradeCalculator, gradientGenerator, mimeTypes, keycodeInfo, rmbUppercase, rmbUppercaseToNumber];
+export const UTILITY_TOOLS = [contrastChecker, gradeCalculator, gradientGenerator, mimeTypes, keycodeInfo, rmbUppercase, rmbUppercaseToNumber, ipv4RangeExpander];

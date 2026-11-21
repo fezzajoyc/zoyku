@@ -1,0 +1,122 @@
+{
+  "date": "2026-11-21",
+  "method": "Synthetic inputs in official browser UI; closed promotional overlay; all post-load requests blocked.",
+  "evidence": [
+    {
+      "url": "https://www.browserling.com/tools/csv-columns-to-rows",
+      "fields": [
+        {
+          "id": "csv-columns-to-rows-submit",
+          "type": "submit",
+          "value": "Convert CSV!"
+        }
+      ],
+      "records": [
+        {
+          "name": "simple",
+          "input": "a,b\nc,d",
+          "output": "\"a\",\"c\"\n\"b\",\"d\"",
+          "message": [],
+          "zoyku": {
+            "out": "a,c\nb,d",
+            "error": null,
+            "rows": 2,
+            "columns": 2
+          },
+          "semanticMatch": true
+        },
+        {
+          "name": "quotes",
+          "input": "name,code\n\"Ada, Countess\",001\n\"x\"\"y\",-0",
+          "output": "\"name\",\"Ada, Countess\",\"x\"\"y\"\n\"code\",\"001\",\"-0\"",
+          "message": [],
+          "zoyku": {
+            "out": "name,\"Ada, Countess\",\"x\"\"y\"\ncode,001,-0",
+            "error": null,
+            "rows": 2,
+            "columns": 3
+          },
+          "semanticMatch": true
+        },
+        {
+          "name": "ragged",
+          "input": "a,b\nc",
+          "output": "\"a\",\"c\"\n\"b\",",
+          "message": [],
+          "zoyku": {
+            "out": "",
+            "error": "ragged",
+            "rows": 0,
+            "columns": 0
+          },
+          "semanticMatch": false,
+          "difference": "Peer pads missing cells; Zoyku rejects unequal row widths."
+        }
+      ],
+      "blockedRequestsAfterLoad": []
+    },
+    {
+      "url": "https://www.browserling.com/tools/csv-swap-columns",
+      "fields": [
+        {
+          "id": "csv-swap-columns-col1",
+          "type": "text",
+          "value": "1"
+        },
+        {
+          "id": "csv-swap-columns-col2",
+          "type": "text",
+          "value": "2"
+        },
+        {
+          "id": "csv-swap-columns-submit",
+          "type": "submit",
+          "value": "Swap Columns!"
+        }
+      ],
+      "records": [
+        {
+          "name": "simple",
+          "input": "a,b\nc,d",
+          "output": "\"b\",\"a\"\n\"d\",\"c\"",
+          "message": [],
+          "zoyku": {
+            "out": "b,a\nd,c",
+            "error": null,
+            "rows": 2,
+            "columns": 2
+          },
+          "semanticMatch": true
+        },
+        {
+          "name": "quotes",
+          "input": "name,code\n\"Ada, Countess\",001\n\"x\"\"y\",-0",
+          "output": "\"code\",\"name\"\n\"001\",\"Ada, Countess\"\n\"-0\",\"x\"\"y\"",
+          "message": [],
+          "zoyku": {
+            "out": "code,name\n001,\"Ada, Countess\"\n-0,\"x\"\"y\"",
+            "error": null,
+            "rows": 3,
+            "columns": 2
+          },
+          "semanticMatch": true
+        },
+        {
+          "name": "ragged",
+          "input": "a,b\nc",
+          "output": "\"b\",\"a\"\n,\"c\"",
+          "message": [],
+          "zoyku": {
+            "out": "",
+            "error": "ragged",
+            "rows": 0,
+            "columns": 0
+          },
+          "semanticMatch": false,
+          "difference": "Peer pads missing cells; Zoyku rejects unequal row widths."
+        }
+      ],
+      "blockedRequestsAfterLoad": []
+    }
+  ]
+}

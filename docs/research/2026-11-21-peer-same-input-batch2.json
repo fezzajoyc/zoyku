@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "title": "同行同输入对照批次 2",
+  "research_date": "2026-11-21",
+  "timezone": "Asia/Shanghai",
+  "observed_at_utc": "2026-11-21T10:28:04Z",
+  "scope": "对 Zoyku 与 IT-Tools 的 5 个高重合浏览器工具做固定输入、边界输入、页面元数据、390px 横向溢出和首次 Tab 焦点抽样。结果只代表记录的输入与页面时点，不是全站排名或 WCAG 结论。",
+  "method": {
+    "local_base": "http://localhost:3480",
+    "local_locale": "en",
+    "peer": "IT-Tools",
+    "sources": [
+      "http://localhost:3480/en/tools/url-encoder",
+      "https://it-tools.tech/url-encoder",
+      "http://localhost:3480/en/tools/url-parser",
+      "https://it-tools.tech/url-parser",
+      "http://localhost:3480/en/tools/timestamp-converter",
+      "https://it-tools.tech/date-converter",
+      "http://localhost:3480/en/tools/ipv4-subnet-calculator",
+      "https://it-tools.tech/ipv4-subnet-calculator",
+      "http://localhost:3480/en/tools/uuid-generator",
+      "https://it-tools.tech/uuid-generator"
+    ],
+    "interaction": "Playwright 真实浏览器输入并读取可见 DOM/ARIA 输出；title、description、canonical 同时读取运行时 DOM，并用 curl 读取 IT-Tools HTML 响应。",
+    "mobile_viewport": "390x844",
+    "research_date_note": "页面数据按 2026-11-21 Asia/Shanghai 记录；IT-Tools 是公开站点，页面内容可能随部署变化。",
+    "evidence_levels": {
+      "same_input_runtime": "双方页面输入相同固定样本并读取可见结果；日期转换项是同一时间点的反向语义对照。",
+      "boundary_runtime": "输入非法 URL、非法日期、非法 CIDR 或数量边界并读取错误/降级状态。",
+      "page_contract": "读取 title、meta description、H1、canonical、390px scrollWidth 和首次 Tab 焦点。"
+    }
+  },
+  "pages": [
+    {
+      "id": "P06",
+      "tool": "url-encoder",
+      "zoyku_url": "http://localhost:3480/en/tools/url-encoder",
+      "peer_url": "https://it-tools.tech/url-encoder",
+      "zoyku": {
+        "title": "URL Encoder — Online Free, No Upload | Zoyku",
+        "description": "Percent-encode URLs and query strings online — choose component encoding or full URI encoding, with live output for links, parameters and path segments.",
+        "h1": "URL Encoder",
+        "canonical": "https://zoyku.com/en/tools/url-encoder",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "Encode/decode URL-formatted strings - IT Tools",
+        "description": "Encode text to URL-encoded format (also known as \"percent-encoded\"), or decode from it.",
+        "h1": "Encode/decode URL-formatted strings",
+        "canonical": "https://it-tools.tech/",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "IT - TOOLS Handy tools for developers"
+      }
+    },
+    {
+      "id": "P07",
+      "tool": "url-parser",
+      "zoyku_url": "http://localhost:3480/en/tools/url-parser",
+      "peer_url": "https://it-tools.tech/url-parser",
+      "zoyku": {
+        "title": "URL Parser — Online Free, No Upload | Zoyku",
+        "description": "Paste any URL and see it decomposed live: protocol, host, port, each path segment, decoded query parameters and hash — with copy as JSON.",
+        "h1": "URL Parser",
+        "canonical": "https://zoyku.com/en/tools/url-parser",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "URL parser - IT Tools",
+        "description": "Parse a URL into its separate constituent parts (protocol, origin, params, port, username-password, ...)",
+        "h1": "URL parser",
+        "canonical": "https://it-tools.tech/",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "IT - TOOLS Handy tools for developers"
+      }
+    },
+    {
+      "id": "P08",
+      "tool": "timestamp-date-time",
+      "zoyku_url": "http://localhost:3480/en/tools/timestamp-converter",
+      "peer_url": "https://it-tools.tech/date-converter",
+      "zoyku": {
+        "title": "Unix Timestamp Converter — Online Free, No Upload | Zoyku",
+        "description": "Convert Unix seconds or milliseconds to human dates and back, with a live clock, local-timezone and UTC output — all in your browser.",
+        "h1": "Unix Timestamp Converter",
+        "canonical": "https://zoyku.com/en/tools/timestamp-converter",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "Date-time converter - IT Tools",
+        "description": "Convert date and time into the various different formats",
+        "h1": "Date-time converter",
+        "canonical": "https://it-tools.tech/",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Timestamp control (DIV)"
+      }
+    },
+    {
+      "id": "P09",
+      "tool": "ipv4-subnet-calculator",
+      "zoyku_url": "http://localhost:3480/en/tools/ipv4-subnet-calculator",
+      "peer_url": "https://it-tools.tech/ipv4-subnet-calculator",
+      "zoyku": {
+        "title": "IPv4 Subnet Calculator — Online Free, No Upload | Zoyku",
+        "description": "Enter a CIDR like 192.168.1.0/24 to get network and broadcast addresses, mask, wildcard, host range, usable host count, IP class and private-range flag.",
+        "h1": "IPv4 Subnet Calculator",
+        "canonical": "https://zoyku.com/en/tools/ipv4-subnet-calculator",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "IPv4 subnet calculator - IT Tools",
+        "description": "Parse your IPv4 CIDR blocks and get all the info you need about your subnet.",
+        "h1": "IPv4 subnet calculator",
+        "canonical": "https://it-tools.tech/",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "IT - TOOLS Handy tools for developers"
+      }
+    },
+    {
+      "id": "P10",
+      "tool": "uuid-generator",
+      "zoyku_url": "http://localhost:3480/en/tools/uuid-generator",
+      "peer_url": "https://it-tools.tech/uuid-generator",
+      "zoyku": {
+        "title": "UUID Generator — Online Free, No Upload | Zoyku",
+        "description": "Generate random UUID v4 identifiers in bulk with one click — 1 to 500 at a time, using your browser's cryptographic randomness. Free, instant, offline-capable.",
+        "h1": "UUID Generator",
+        "canonical": "https://zoyku.com/en/tools/uuid-generator",
+        "runtime_observed_controls": ["Count", "Generate UUID v4", "Copy", "Clear"],
+        "source_reconciliation_note": "The checked local runtime exposed only the v4 batch controls, while tools/_engines/dev-engine-uuid.tsx contains v1/v3/v5/v7/NIL branches. Treat this as a dev-server/runtime-build reconciliation item, not proof that the source implementation is absent.",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "UUIDs generator - IT Tools",
+        "description": "A Universally Unique Identifier (UUID) is a 128-bit number used to identify information in computer systems. The number of possible UUIDs is 16^32, which is 2^128 or about 3.4x10^38 (which is a lot!).",
+        "h1": "UUIDs generator",
+        "canonical": "https://it-tools.tech/",
+        "mobile_scroll_width": 390,
+        "body_scroll_width": 390,
+        "first_tab_focus": "Refresh button"
+      }
+    }
+  ],
+  "same_input_evidence": [
+    {
+      "page_id": "P06",
+      "input": "a=1&b=2 / café",
+      "normal": {
+        "zoyku_encodeURIComponent": "a%3D1%26b%3D2%20%2F%20caf%C3%A9",
+        "peer_encode": "a%3D1%26b%3D2%20%2F%20caf%C3%A9",
+        "zoyku_encodeURI_mode": "a=1&b=2%20/%20caf%C3%A9",
+        "result": "默认组件编码输出完全一致；Zoyku 另提供 encodeURI 全 URI 模式，IT-Tools 页面将 Encode 与 Decode 分成两个面板。"
+      },
+      "boundary": {
+        "input": "",
+        "result": "本次未把空字符串当作功能正确性差异单独计分；两页都呈现可用的输入/结果结构。"
+      },
+      "not_checked": ["保留换行策略", "非法百分号序列", "超长 URL 性能", "复制剪贴板权限"]
+    },
+    {
+      "page_id": "P07",
+      "input": "https://example.com:8443/shop/shoes?color=red&color=blue#reviews",
+      "normal": {
+        "zoyku": {
+          "protocol": "https",
+          "host": "example.com",
+          "port": "8443",
+          "path_segments": ["shop", "shoes"],
+          "query_parameters": [{"key": "color", "value": "red"}, {"key": "color", "value": "blue"}],
+          "hash": "reviews",
+          "extra": "Copy as JSON"
+        },
+        "peer": {
+          "protocol": "https:",
+          "hostname": "example.com",
+          "port": "8443",
+          "path": "/shop/shoes",
+          "params": "?color=red&color=blue",
+          "duplicate_key_ui": "one visible color row ended with value blue in the observed snapshot",
+          "extra": "username/password fields and individual copy buttons"
+        },
+        "result": "协议、主机、端口和路径一致；Zoyku 将重复查询键拆成两行，IT-Tools 的观察到的 UI 只显示最后一个 color 值，属于 UI 观察，不足以断言底层解析器必然丢失重复键。"
+      },
+      "boundary": {
+        "input": "not a URL",
+        "zoyku": "That doesn’t look like a valid URL — check the spelling or add a scheme like https://",
+        "peer": "Invalid url",
+        "result": "双方都拒绝非法输入；Zoyku 的提示给出补救动作。"
+      },
+      "not_checked": ["IPv6 与自定义 scheme 全量矩阵", "URL credential 安全显示", "空查询键与编码值"]
+    },
+    {
+      "page_id": "P08",
+      "normal": {
+        "semantic_sample": "2023-11-14T22:13:20Z ↔ 1700000000",
+        "zoyku_input": "1700000000",
+        "zoyku_output": {"local_asia_shanghai": "11/15/2023, 06:13:20", "utc": "11/14/2023, 22:13:20 UTC", "unit": "seconds"},
+        "peer_input": "2023-11-14T22:13:20Z",
+        "peer_output": {"unix_seconds": "1700000000", "unix_milliseconds": "1700000000000", "utc": "Tue, 14 Nov 2023 22:13:20 GMT", "local_iso": "2023-11-15T06:13:20+08:00"},
+        "result": "同一时间点的秒级时间戳和 UTC/Asia-Shanghai 日期结果一致；Zoyku 以 timestamp → date 为主，IT-Tools 以 date → 多格式为主，不能把界面方向差异误写成算法差异。"
+      },
+      "boundary": {
+        "input": "-1",
+        "zoyku": {"local_asia_shanghai": "01/01/1970, 07:59:59", "utc": "12/31/1969, 23:59:59 UTC", "interpretation": "seconds"},
+        "peer": {"interpretation": "Excel date/time", "observed_unix_values": "around -2209248000", "observed_date": "1899-12-29 era"},
+        "invalid_input": "not-a-date",
+        "zoyku_invalid": "Enter digits only — seconds or milliseconds both work.",
+        "peer_invalid": "This date is invalid for this format; output fields show Invalid date values.",
+        "result": "负数体现了自动识别语义差异：Zoyku 按 Unix 秒处理，IT-Tools 的日期页把数字视为 Excel 日期输入。产品需在页面上明确输入类型，避免用户把两个工具当作同一解析规则。"
+      },
+      "not_checked": ["闰秒", "2038 边界", "DST 过渡日", "date-time 输入控件的本地化"]
+    },
+    {
+      "page_id": "P09",
+      "input": "192.168.1.130/26",
+      "normal": {
+        "expected": {"network": "192.168.1.128", "broadcast": "192.168.1.191", "mask": "255.255.255.192", "wildcard": "0.0.0.63", "first_host": "192.168.1.129", "last_host": "192.168.1.190", "usable_hosts": 62, "total_addresses": 64},
+        "zoyku": {"network": "192.168.1.128", "broadcast": "192.168.1.191", "mask": "255.255.255.192", "wildcard": "0.0.0.63", "host_range": "192.168.1.129 – 192.168.1.190", "usable_hosts": 62, "total_addresses": 64, "class": "C", "private": "Yes"},
+        "peer": {"network": "192.168.1.128", "broadcast": "192.168.1.191", "mask": "255.255.255.192", "wildcard": "0.0.0.63", "first_address": "192.168.1.129", "last_address": "192.168.1.190", "network_size": 64, "class": "C"},
+        "result": "核心 CIDR 结果与独立手算一致；Zoyku 额外展示 usable hosts、total addresses、private-range，并提供 CIDR details 与 smallest-covering-CIDR 模式。"
+      },
+      "boundary": {
+        "input": "192.168.1.1/33",
+        "zoyku": "Invalid input — use dotted-quad IPv4 with an optional /0–32 prefix.",
+        "peer": "We cannot parse this address, check the format",
+        "result": "双方都拒绝前缀越界；Zoyku 明确给出合法范围 /0–32。"
+      },
+      "not_checked": ["/31 与 /32 特例", "最小覆盖 CIDR 的双 IP 输入", "IPv4-mapped IPv6", "复制文本的无障碍名称"]
+    },
+    {
+      "page_id": "P10",
+      "input": "count=1, UUID v4",
+      "normal": {
+        "zoyku": {"output_example": "0e2db360-b763-41d5-bb43-13b4b02c6a06", "format_valid": true, "version": 4, "variant": "RFC 4122/9562 variant"},
+        "peer": {"controls": ["NIL", "v1", "v3", "v4", "v5"], "quantity_default": 1, "output": "one UUID in textarea; v4 selected for comparison"},
+        "result": "随机 UUID 不能按字面逐个比较；Zoyku 输出符合 8-4-4-4-12、版本 4 和 variant 位。IT-Tools 在运行时公开更多版本选择（NIL、v1、v3、v4、v5），功能覆盖更宽。"
+      },
+      "boundary": {
+        "zoyku_count_input": {"value": "0", "min": 1, "max": 500, "observed": "页面仍可点击生成；生成逻辑将数量夹到至少 1，结果仍是一条合法 v4 UUID"},
+        "peer_count_input": {"value": "0", "observed": "数量控件出现校验/禁用状态，旧结果仍可见；未把该状态解释为生成成功"},
+        "result": "双方都限制批量数量，但边界交互不同；Zoyku 的 min 属性和运行时 clamp 应配一个明确的可见错误或自动修正说明，避免用户误以为 0 已被接受。"
+      },
+      "not_checked": ["v1/v3/v5/v7/NIL 的同向标准向量", "批量 500 性能", "剪贴板与清空反馈", "碰撞统计"]
+    }
+  ],
+  "cross_case_findings": [
+    {
+      "area": "功能正确性",
+      "finding": "URL 编码的 encodeURIComponent 样本、URL Parser 的协议/主机/端口/路径、IPv4 /26 核心结果、UUID v4 格式和日期秒级时间点均有可复现成功路径。URL Parser 重复键、负 Unix 数字和 UUID 数量边界是最值得继续锁定的语义差异。"
+    },
+    {
+      "area": "产品优势与缺口",
+      "finding": "Zoyku 的可验证优势是每页任务型 title/description/H1、local processing 说明、具体可操作错误提示、URL Parser 的重复 query 行、IPv4 的 usable/private 字段和 UUID v4 的格式说明。IT-Tools 的可验证优势是 UUID 版本选择更广、日期页同时展示多个格式、URL Parser 展示更多 credential 相关字段。"
+    },
+    {
+      "area": "SEO",
+      "finding": "本批 Zoyku 五页都有页面级 title、meta description、H1 和自指 canonical。IT-Tools 五页的运行时 title/H1/description 是页面级的，但 curl 读取的 HTML title、description 与 canonical 均为站点通用值（canonical 为 https://it-tools.tech）；这对依赖初始 HTML 的抓取是明确的结构性风险观察，需在部署版本复核。"
+    },
+    {
+      "area": "移动与键盘",
+      "finding": "本批十个 URL 在 390x844 均测得 document/body scrollWidth=390，没有页面级横向溢出。Zoyku 五页首次 Tab 都进入 Skip to content；IT-Tools 的首次焦点分别落在品牌链接、Timestamp 控件或 Refresh 按钮，说明首焦点顺序不统一。该观察不等于 WCAG 合规评分，仍需 axe、真实读屏和完整键盘路径。"
+    }
+  ],
+  "implementation_candidates": [
+    {"priority": "P1", "area": "seo-template", "action": "生产抓取 IT-Tools 风格的通用 HTML title/description/canonical 现象作为反例，继续保持每个 Zoyku 工具页的任务型 title、description、自指 canonical；对五语页面做唯一性审计。"},
+    {"priority": "P1", "area": "timestamp-converter", "action": "在输入区明确仅接受 Unix 秒/毫秒，并为负数和 not-a-date 增加可见示例；若支持 Excel/date 输入，应单独分模式，不要静默自动识别。"},
+    {"priority": "P1", "area": "uuid-generator", "action": "先核对本地开发运行时与当前引擎源码是否同一构建产物；随后确保版本选择、页面 tagline、引擎和数量 min/max 边界反馈一致，并补 NIL、v1、v3、v5、v7 标准向量。"},
+    {"priority": "P2", "area": "url-parser", "action": "继续锁定重复 query key、空 key、IPv6、credential 和 custom scheme；保留 Zoyku 当前重复键逐行呈现与 Copy as JSON。"},
+    {"priority": "P2", "area": "ipv4-subnet-calculator", "action": "把 /31、/32、非法八位组、双 IP 最小覆盖 CIDR 加入浏览器回归矩阵，确保可用主机数口径与 RFC 3021 说明一致。"}
+  ],
+  "limitations": [
+    "这是 5 个工具、少量固定输入的运行时证据，不代表 IT-Tools 或 Zoyku 全站质量。",
+    "未测下载产物、大文件性能、真实设备读屏、axe 全量、网络请求、搜索排名、流量、反向链接或转化。",
+    "IT-Tools 的 HTML 是客户端应用壳；运行时元数据与初始 HTML 元数据不同，生产抓取和搜索引擎最终处理仍需单独验证。",
+    "UUID 输出是随机值，报告比较的是格式、版本选择和数量约束，不把不同生成时刻的随机字符串当作一致性失败；本地运行时与源码对 UUID 版本覆盖的差异需要单独对齐。",
+    "首次 Tab 只记录单页首次焦点，不能替代完整键盘可达性、焦点可见性和屏幕阅读器测试。"
+  ]
+}

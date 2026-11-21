@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0",
+  "title": "同行同输入对照批次 1",
+  "research_date": "2026-11-21",
+  "timezone": "Asia/Shanghai",
+  "observed_at_utc": "2026-11-21T09:58:09Z",
+  "scope": "对 Zoyku 与 IT-Tools 的 5 个高重合浏览器工具做固定输入、边界输入、页面元数据、390px 横向溢出和首次 Tab 焦点抽样。结果只代表记录的输入与页面时点，不是全站排名。",
+  "method": {
+    "local_base": "http://localhost:3480",
+    "local_locale": "en",
+    "peer": "IT-Tools",
+    "interaction": "真实浏览器输入，读取可见 DOM/ARIA 输出；页面元数据同时用 HTML 响应和运行时 document.title 交叉记录。",
+    "mobile_viewport": "390x844",
+    "evidence_levels": {
+      "same_input_runtime": "双方页面都输入相同样本并读取可见结果。",
+      "boundary_runtime": "输入空值、CJK、非法 JSON、非法 Base64 或非法正则之一，并读取结果/错误。",
+      "page_contract": "读取 title、meta description、H1、横向滚动宽度或首次 Tab 焦点。"
+    }
+  },
+  "pages": [
+    {
+      "id": "P01",
+      "tool": "hash",
+      "zoyku_url": "http://localhost:3480/en/tools/hash-generator",
+      "peer_url": "https://it-tools.tech/hash-text",
+      "zoyku": {
+        "title": "Hash Generator — Online Free, No Upload | Zoyku",
+        "description": "Compute SHA-1, SHA-256, SHA-384, SHA-512 or MD5 hashes of text or files, right in your browser. Fast checksums for integrity checks — nothing uploaded.",
+        "h1": "Hash Generator",
+        "mobile_scroll_width": 390
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "Hash text - IT Tools",
+        "description": "Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT.",
+        "h1": "Hash text",
+        "mobile_scroll_width": 390
+      }
+    },
+    {
+      "id": "P02",
+      "tool": "base64-decoder",
+      "zoyku_url": "http://localhost:3480/en/tools/base64-decoder",
+      "peer_url": "https://it-tools.tech/base64-string-converter",
+      "zoyku": {
+        "title": "Base64 Decoder — Online Free, No Upload | Zoyku",
+        "description": "Decode Base64 back into readable text with proper UTF-8 handling — data URIs, API payloads and encoded config values become clear instantly. Private and free.",
+        "h1": "Base64 Decoder",
+        "mobile_scroll_width": 390
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "Base64 string converter - IT Tools",
+        "description": "Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT.",
+        "h1": "Base64 string converter",
+        "mobile_scroll_width": 390
+      }
+    },
+    {
+      "id": "P03",
+      "tool": "json-formatter",
+      "zoyku_url": "http://localhost:3480/en/tools/json-formatter",
+      "peer_url": "https://it-tools.tech/json-prettify",
+      "zoyku": {
+        "title": "JSON Formatter — Online Free, No Upload | Zoyku",
+        "description": "Format JSON locally while preserving number literals, Unicode escapes, duplicate keys and original key order; sort keys only when you choose.",
+        "h1": "JSON Formatter",
+        "mobile_scroll_width": 390
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "JSON prettify - IT Tools",
+        "description": "Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT.",
+        "h1": "JSON prettify",
+        "mobile_scroll_width": 390
+      }
+    },
+    {
+      "id": "P04",
+      "tool": "word-counter",
+      "zoyku_url": "http://localhost:3480/en/tools/word-counter",
+      "peer_url": "https://it-tools.tech/text-statistics",
+      "zoyku": {
+        "title": "Word Counter — Online Free, No Upload | Zoyku",
+        "description": "Count words, characters, sentences and reading time live as you type — CJK text handled correctly.",
+        "h1": "Word Counter",
+        "mobile_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "Text statistics - IT Tools",
+        "description": "Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT.",
+        "h1": "Text statistics",
+        "mobile_scroll_width": 390,
+        "first_tab_focus": "IT - TOOLS Handy tools for developers"
+      }
+    },
+    {
+      "id": "P05",
+      "tool": "regex-tester",
+      "zoyku_url": "http://localhost:3480/en/tools/regex-tester",
+      "peer_url": "https://it-tools.tech/regex-tester",
+      "zoyku": {
+        "title": "Regex Tester — Online Free, No Upload | Zoyku",
+        "description": "Test regular expressions live: highlight every match as you type, inspect capture groups and debug patterns for JavaScript, with common flags one click away.",
+        "h1": "Regex Tester",
+        "mobile_scroll_width": 390,
+        "first_tab_focus": "Skip to content"
+      },
+      "peer": {
+        "html_title": "IT Tools - Handy online tools for developers",
+        "runtime_title": "Regex Tester - IT Tools",
+        "description": "Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT.",
+        "h1": "Regex Tester",
+        "mobile_scroll_width": 390,
+        "first_tab_focus": "IT - TOOLS Handy tools for developers"
+      }
+    }
+  ],
+  "same_input_evidence": [
+    {
+      "page_id": "P01",
+      "input": "abc",
+      "normal": {
+        "zoyku_outputs": {
+          "MD5": "900150983cd24fb0d6963f7d28e17f72",
+          "SHA1": "a9993e364706816aba3e25717850c26c9cd0d89d",
+          "SHA256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        },
+        "peer_outputs": {
+          "MD5": "900150983cd24fb0d6963f7d28e17f72",
+          "SHA1": "a9993e364706816aba3e25717850c26c9cd0d89d",
+          "SHA256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+          "SHA224": "23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7",
+          "RIPEMD160": "8eb208f7e05d987a9b044a8e98c6b087f15a0bfc"
+        },
+        "result": "共同的 MD5/SHA-1/SHA-256 输出一致，三项也符合 abc 标准向量；IT-Tools 还暴露 SHA-224、RIPEMD-160、SHA3 等本地页面未同项验证的算法。"
+      },
+      "boundary": {
+        "input": "",
+        "zoyku": "空输入不显示摘要结果。",
+        "peer": "空输入仍显示摘要结果。",
+        "result": "空输入状态/策略不同，需在产品中明确是否允许空消息摘要。"
+      },
+      "not_checked": ["大文件性能", "文件模式", "SHA3/SM3 等算法兼容性", "网络请求与隐私的全量审计"]
+    },
+    {
+      "page_id": "P02",
+      "normal": {
+        "input": "Y2Fmw6kg8J+Zgg==",
+        "expected_utf8": "café 🙂",
+        "zoyku_output": "café 🙂",
+        "peer_output": "café 🙂",
+        "result": "UTF-8 与 emoji 解码一致。"
+      },
+      "boundary": {
+        "input": "@@@",
+        "zoyku": "拒绝并显示原生 atob 异常全文。",
+        "peer": "拒绝并显示 Invalid base64 string。",
+        "result": "校验结论一致，错误文案的人话程度不同；Zoyku 应考虑统一用户可读错误。"
+      },
+      "not_checked": ["换行/无 padding 容错", "二进制文件往返", "data URI 模式", "超长输入性能"]
+    },
+    {
+      "page_id": "P03",
+      "normal": {
+        "input": "{\"b\":1,\"a\":2}",
+        "zoyku_output": "两边均成功格式化；Zoyku 默认保留原键顺序。",
+        "peer_output": "两边均成功格式化；IT-Tools 默认排序开关为开。",
+        "result": "基本成功路径一致，但默认排序语义不同。"
+      },
+      "boundary": {
+        "input": "{\"id\":9007199254740993,\"x\":1,\"x\":2,\"neg\":-0}",
+        "zoyku": "保留 9007199254740993、重复键和 -0 的原始字面量。",
+        "peer": "输出 9007199254740992；重复 x 只保留一个；-0 变为 0。",
+        "result": "Zoyku 在精度、重复键和负零保真上更完整；IT-Tools 的 JSON.parse/JSON.stringify 路径会丢失这些字面量信息。"
+      },
+      "invalid": {
+        "input": "{\"a\":}",
+        "zoyku": "Line 1, column 6: Unexpected token '}'。",
+        "peer": "Provided JSON is not valid.；先输入非法 JSON 后再输入有效 JSON 的一次观察中，旧提示仍留在页面。",
+        "result": "Zoyku 定位信息更具体；IT-Tools 的提示恢复行为需要额外回归确认，不能据一次观察推断所有输入。"
+      },
+      "not_checked": ["超大文本性能", "复制/下载产物", "JSON5/JSONC", "排序设置的持久化"]
+    },
+    {
+      "page_id": "P04",
+      "normal": {
+        "input": "one two three",
+        "zoyku": {"words": 3, "characters": 13, "characters_without_spaces": 11, "sentences": 1, "paragraphs": 1, "lines": 1},
+        "peer": {"characters": 13, "words": 3, "lines": 1, "bytes": 13},
+        "result": "英语样本的基础字数、字符数和行数一致；双方统计面板不同。"
+      },
+      "boundary": {
+        "input": "你好世界",
+        "zoyku": {"words": 4, "characters": 4, "characters_without_spaces": 4, "sentences": 1, "paragraphs": 1, "lines": 1},
+        "peer": {"characters": 4, "words": 1, "lines": 1, "bytes": 12},
+        "result": "CJK 规则明显不同：Zoyku 按 CJK 字符计入词数，IT-Tools 把无空格 CJK 视为一个词。两者都没有把 UTF-8 字节数误当字符数；IT-Tools 额外显示 byte size。"
+      },
+      "empty": {
+        "input": "",
+        "peer": {"characters": 0, "words": 0, "lines": 0, "bytes": 0},
+        "zoyku": "空态统计均为 0。"
+      },
+      "not_checked": ["日文/韩文混合文本", "换行与段落边界", "阅读时间公式", "超长文本性能"]
+    },
+    {
+      "page_id": "P05",
+      "normal": {
+        "pattern": "\\b(cat|dog)\\s+(\\d+)\\b",
+        "flags": {"global": true, "case_insensitive": false, "multiline": false},
+        "text": "cat 12 dog xx dog 34",
+        "zoyku": {
+          "match_count": 2,
+          "matches": [{"index": 0, "value": "cat 12", "group1": "cat", "group2": "12"}, {"index": 14, "value": "dog 34", "group1": "dog", "group2": "34"}]
+        },
+        "peer": {
+          "match_count": 2,
+          "matches": [{"index": 0, "value": "cat 12", "group1": "cat", "group2": "12"}, {"index": 14, "value": "dog 34", "group1": "dog", "group2": "34"}]
+        },
+        "result": "基础 JS RegExp 匹配、索引和捕获组一致；IT-Tools 还展示匹配表、正则图和 cheatsheet 入口。"
+      },
+      "invalid": {
+        "pattern": "(",
+        "zoyku": "Invalid regular expression: /(/g: Unterminated group",
+        "peer": "Invalid regex:，页面回到 No match/示例/图示区域。",
+        "result": "双方都没有崩溃；Zoyku 的错误具体到引擎原因，IT-Tools 文案更短。"
+      },
+      "not_checked": ["非 g 模式", "零宽匹配", "Unicode astral 字符", "ReDoS 长输入", "多方言 PCRE/Python/Java"]
+    }
+  ],
+  "cross_case_findings": [
+    {
+      "area": "功能正确性",
+      "finding": "5 组中，哈希共同算法、Base64 正常解码、JSON 基本格式化、英文文本统计和正则正常匹配均有共同成功路径；JSON 保真和 CJK 词数属于真实语义差异。"
+    },
+    {
+      "area": "产品优势与缺口",
+      "finding": "Zoyku 的可验证优势是页面级标题/description/H1、空态和隐私说明、JSON 字面量保真、CJK 规则说明、具体错误定位及首个 Tab 进入 Skip to content。IT-Tools 的可验证优势是哈希算法更广、字数页显示 byte size、正则页提供匹配表/图示/cheatsheet 入口。"
+    },
+    {
+      "area": "SEO",
+      "finding": "Zoyku 五个页面都返回页面级 title、description 和 H1。IT-Tools 的运行时 title/H1 是页面级的，但 HTML 响应 title 和 description 在本批均为站点通用文本；这可能削弱无脚本抓取的页面区分度，需用独立抓取器和生产响应再确认。"
+    },
+    {
+      "area": "移动与键盘",
+      "finding": "本批四个工具页均在 390x844 测得 document/body scrollWidth=390，没有页面级横向溢出。Zoyku word-counter 与 regex-tester 首次 Tab 聚焦 Skip to content；IT-Tools 对应页面首次 Tab 聚焦品牌链接。该观察不等于 WCAG 合规评分。"
+    }
+  ],
+  "implementation_candidates": [
+    {"priority": "P1", "area": "hash-generator", "action": "评估加入 SHA-224、RIPEMD-160、SHA3 族，并为每种算法补标准向量与明确兼容性说明。"},
+    {"priority": "P1", "area": "base64-decoder", "action": "把原生异常替换为用户可读、可定位的非法 Base64 错误；补 padding、换行和二进制边界测试。"},
+    {"priority": "P1", "area": "word-counter", "action": "保留当前 CJK 词数口径，同时考虑显示 UTF-8 byte size 作为独立指标，并明确与“空格分词”工具的差异。"},
+    {"priority": "P2", "area": "regex-tester", "action": "评估增加可选正则图/解释和多方言范围说明；保持错误恢复、零宽和 ReDoS 限制的现有安全边界。"}
+  ],
+  "limitations": [
+    "这是 5 个工具、少量固定输入的运行时证据，不代表 IT-Tools 或 Zoyku 全站质量。",
+    "未测下载产物、性能、真实设备读屏、axe 全量、网络请求、搜索排名、流量、反向链接或转化。",
+    "IT-Tools 页面使用客户端运行时标题/内容；HTML title/description 与运行时页面标题不同的现象需要生产抓取复核。",
+    "没有把同行页面的目录数量、营销文案或功能声明当作正确性证据。"
+  ]
+}

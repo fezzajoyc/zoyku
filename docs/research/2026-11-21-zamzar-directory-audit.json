@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "title": "Zamzar 目录与转换页审计",
+  "research_date": "2026-11-21",
+  "timezone": "Asia/Shanghai",
+  "observed_at_utc": "2026-11-21T13:22:00Z",
+  "scope": "Zamzar 官方 sitemap、robots、首页、PNG→JPG 转换页和隐私页的 XML/HTML/浏览器抽样；页面规模不等于独立工具数，未做同文件转换。",
+  "sources": {
+    "robots": "https://www.zamzar.com/robots.txt",
+    "sitemap_index": "https://www.zamzar.com/sitemap-index.xml",
+    "home": "https://www.zamzar.com/",
+    "png_to_jpg": "https://www.zamzar.com/convert/png-to-jpg/",
+    "privacy": "https://www.zamzar.com/privacy/"
+  },
+  "sitemaps": {
+    "format-to-format": {"loc_count": 4646, "exact_unique_urls": 4643, "role": "format pair conversion pages"},
+    "format-converter": {"loc_count": 165, "exact_unique_urls": 165, "role": "format directory pages"},
+    "compress": {"loc_count": 14, "exact_unique_urls": 14, "role": "compression pages"},
+    "other": {"loc_count": 19, "exact_unique_urls": 19, "role": "home, policy and help pages"},
+    "tools": {"loc_count": 131, "exact_unique_urls": 131, "role": "workflow tools such as image-to-text"},
+    "total_loc": 4975,
+    "exact_unique_urls_across_sitemaps": 4971,
+    "duplicate_url_count": 4,
+    "format_to_format_unique_paths": 4643,
+    "counting_method": "Parse XML <url><loc> values; remove host and query; count exact unique URLs and path patterns.",
+    "interpretation": "Counts are indexable URLs by page role, not independent tools; format pair pages and marketing/policy pages are separated."
+  },
+  "page_samples": [
+    {
+      "url": "https://www.zamzar.com/",
+      "http_status": 200,
+      "title": "Zamzar - video converter, audio converter, image converter, eBook converter",
+      "description": "Free online video converter, audio converter, image converter, eBook converter. No download or account required.",
+      "canonical_present": true,
+      "evidence": "HTTP HTML parse"
+    },
+    {
+      "url": "https://www.zamzar.com/convert/png-to-jpg/",
+      "http_status": 200,
+      "title": "PNG to JPG - Convert your PNG to JPG for Free Online",
+      "h1": "PNG to JPG",
+      "description": "Do you want to convert a PNG file to a JPG file ? Don't download software - use Zamzar to convert it for free online. Click to convert your PNG file now.",
+      "canonical": "https://www.zamzar.com/convert/png-to-jpg/",
+      "hreflang": ["en", "fr", "es", "de", "ru", "it"],
+      "jsonld_present": true,
+      "workflow": ["select file(s)", "choose output format", "Convert Now"],
+      "faq_and_bidirectional_format_links": true,
+      "browser_mobile": {
+        "viewport": "390x844",
+        "document_scroll_width": 390,
+        "body_scroll_width": 390,
+        "page_level_horizontal_overflow": false,
+        "file_inputs": 2,
+        "multiple_file_input_present": true,
+        "first_tab_focus": "brand link https://www.zamzar.com"
+      },
+      "evidence": "HTTP HTML parse plus real browser DOM measurement; no file upload"
+    },
+    {
+      "url": "https://www.zamzar.com/privacy/",
+      "http_status": 200,
+      "title": "Privacy Policy - Legal - Zamzar",
+      "privacy_claim": "Conversion outputs are retained no longer than 7 days, then permanently removed from storage systems.",
+      "evidence": "First-party privacy page text; policy claim, not network verification"
+    }
+  ],
+  "local_mapping": {
+    "local_registry_count_reference": 213,
+    "candidate_overlap_families": ["png-to-jpg", "png-to-pdf", "pdf-to-jpg", "ocr-image", "ocr-pdf"],
+    "status": "needs_same_input_batch",
+    "evidence_limit": "No same-file output comparison was run; no functional or overall quality ranking is claimed."
+  },
+  "limitations": [
+    "No user file was uploaded to Zamzar",
+    "No same-input output, metadata, quality, performance or network comparison",
+    "No full-catalog keyboard, screen-reader or axe audit",
+    "No search volume, ranking, traffic or conversion data"
+  ]
+}

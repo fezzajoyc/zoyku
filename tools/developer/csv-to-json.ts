@@ -8,7 +8,7 @@ export default defineTool({
   category: "developer",
   icon: "swap",
   engine: { component: DevCsvEngine, props: { direction: "csv2json", sample: SAMPLE } },
-  related: ["json-to-csv", "json-formatter", "sql-formatter", "word-counter", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier"],
+  related: ["csv-table-editor", "json-to-csv", "json-formatter", "sql-formatter", "word-counter", "md5-generator", "sha256-generator", "base64-image", "json-validator", "url-encoder", "html-minifier"],
   copy: {
     en: {
       name: "CSV to JSON",
@@ -20,7 +20,7 @@ export default defineTool({
       ],
       steps: [
         "Paste your CSV (first row must be the header) into the input box.",
-        "Pick comma or semicolon as the delimiter.",
+        "Choose comma, semicolon or Tab (TSV) to match your input.",
         "Copy the pretty-printed JSON array of objects.",
       ],
       faqs: [
@@ -51,7 +51,7 @@ export default defineTool({
           paragraphs: [
             "Splitting CSV on commas is wrong the moment a real dataset arrives. RFC 4180, the standard the format actually follows in practice, defines quoted fields: a field containing a comma, a quote or a line break must be wrapped in double quotes, and a quote inside such a field is escaped by doubling it. A name field reading “Ada, Countess” is one cell; a naive split turns it into two and shifts every column after it.",
             "Line endings are the second trap. CSV files mix CRLF (Windows, Excel exports) and LF (Unix tools), and a line break inside a quoted field is data, not a record separator — a multi-line address or a pasted comment must survive as one cell. Correct parsing is a small state machine, not a split() call; that is what runs here.",
-            "Delimiters vary by locale: Excel in much of Europe and Latin America writes semicolon-separated files because the comma is the decimal separator in those locales. The tool lets you choose comma or semicolon explicitly rather than sniffing, so a file where every field happens to contain semicolons is not mis-detected. If your source uses tabs, the JSON-to-CSV sibling handles the round trip back out.",
+            "Spreadsheet exports can use different delimiters. For example, Excel in locales that use the decimal comma often separates fields with semicolons. Choose comma, semicolon or Tab to match the source. For TSV or tab-separated text pasted from a spreadsheet, select Tab.",
           ],
         },
         {
@@ -72,7 +72,7 @@ export default defineTool({
       ],
       steps: [
         "把 CSV(第一行必须是表头)粘贴到输入框。",
-        "选择逗号或分号作为分隔符。",
+        "根据输入选择逗号、分号或制表符（TSV）。",
         "复制格式化输出的 JSON 对象数组。",
       ],
       faqs: [
@@ -103,7 +103,7 @@ export default defineTool({
           paragraphs: [
             "见到真实数据还按逗号切分就错了。实际通行的标准 RFC 4180 定义了带引号字段:含逗号、引号或换行的字段必须包在双引号里,字段内的引号通过双写转义。名字字段 “Ada, Countess” 是一个单元格;天真的 split 会把它切成两个,后面所有列跟着错位。",
             "换行是第二个陷阱。CSV 文件混用 CRLF(Windows、Excel 导出)和 LF(Unix 工具),而引号字段内的换行是数据、不是行分隔符——多行地址或粘贴的评论必须完整地留在一个单元格里。正确的解析是一台小状态机,而不是一次 split() 调用;这里跑的就是前者。",
-            "分隔符随区域而变:欧洲和拉美许多地区的 Excel 写分号分隔文件,因为那些区域用逗号做小数点。工具让你显式选择逗号或分号而不是嗅探,这样「每个字段恰好都含分号」的文件不会被误判。如果源文件用制表符,配套的 JSON 转 CSV 工具可以处理回程。",
+            "电子表格导出时使用的分隔符因地区而异。例如，在用逗号表示小数点的地区，Excel 常用分号分隔字段。请选择与输入匹配的逗号、分号或制表符。粘贴 TSV 或从电子表格复制的制表符分隔数据时，选择制表符。",
           ],
         },
         {
@@ -125,7 +125,7 @@ export default defineTool({
       ],
       steps: [
         "CSV(1 行目はヘッダー)を入力欄に貼り付けます。",
-        "区切り文字にカンマかセミコロンを選びます。",
+        "入力に合わせてカンマ、セミコロン、タブ（TSV）から区切り文字を選びます。",
         "整形されたオブジェクトの JSON 配列をコピーします。",
       ],
       faqs: [
@@ -156,7 +156,7 @@ export default defineTool({
           paragraphs: [
             "実データが来た瞬間、カンマでの単純分割は誤りになります。実務で通用している標準 RFC 4180 は引用フィールドを定義します。カンマ、引用符、改行を含むフィールドは二重引用符で囲み、その中の引用符は 2 つ重ねてエスケープします。“Ada, Countess” という名前フィールドは 1 セルです。素朴な split はこれを 2 つに割り、以降の全列をずらします。",
             "改行が 2 つ目の罠です。CSV は CRLF(Windows、Excel の書き出し)と LF(Unix 系ツール)が混在し、引用フィールド内の改行はレコード区切りではなくデータです。複数行の住所や貼り付けたコメントは 1 セルとして生き残る必要があります。正しい解析は小さな状態機械であって split() の呼び出しではありません。ここで動いているのは前者です。",
-            "区切り文字はロケールで変わります。欧州やラテンアメリカの多くの地域の Excel はセミコロン区切りで書き出します。それらのロケールではカンマが小数点だからです。このツールは推測ではなく、カンマかセミコロンかを明示的に選べるようにしています。すべてのフィールドが偶然セミコロンを含むファイルを誤判定しないためです。タブ区切りのソースなら、兄弟ツールの JSON to CSV が帰り道を担います。",
+            "表計算ソフトの出力に使われる区切り文字は、言語や地域によって変わります。たとえば小数点にカンマを使う地域では、Excel はセミコロンで項目を区切ることがあります。入力に合わせてカンマ、セミコロン、タブを選びます。TSV やタブ区切りのデータを貼り付けたときはタブを選んでください。",
           ],
         },
         {
@@ -178,7 +178,7 @@ export default defineTool({
       ],
       steps: [
         "Pega tu CSV (la primera fila debe ser la cabecera) en el cuadro de entrada.",
-        "Elige coma o punto y coma como delimitador.",
+        "Elige coma, punto y coma o tabulación (TSV) según los datos de entrada.",
         "Copia el array JSON de objetos ya formateado.",
       ],
       faqs: [
@@ -209,7 +209,7 @@ export default defineTool({
           paragraphs: [
             "Partir CSV por comas es incorrecto en cuanto llega un dataset real. RFC 4180, el estándar que el formato sigue de facto, define los campos entrecomillados: un campo que contiene coma, comilla o salto de línea debe ir entre comillas dobles, y una comilla dentro de él se escapa duplicándola. Un campo de nombre que dice “Ada, Countess” es una celda; un split ingenuo lo parte en dos y desplaza todas las columnas posteriores.",
             "Los saltos de línea son la segunda trampa. Los archivos CSV mezclan CRLF (Windows, exportaciones de Excel) y LF (herramientas Unix), y un salto dentro de un campo entrecomillado es un dato, no un separador de registro — una dirección multilínea o un comentario pegado debe sobrevivir como una celda. Parsear correctamente es una pequeña máquina de estados, no una llamada a split(); eso es lo que corre aquí.",
-            "Los delimitadores varían por región: Excel en buena parte de Europa y Latinoamérica escribe archivos separados por punto y coma, porque en esas configuraciones la coma es el separador decimal. La herramienta permite elegir coma o punto y coma explícitamente en lugar de olfatearlo, así que un archivo donde cada campo lleva punto y comas no se detecta mal. Si tu origen usa tabulaciones, la herramienta hermana de JSON a CSV maneja el viaje de vuelta.",
+            "El separador de una hoja de cálculo puede variar según la configuración regional. Por ejemplo, donde la coma se usa como separador decimal, Excel suele separar los campos con punto y coma. Elige coma, punto y coma o tabulación según el texto de origen. Si pegas un TSV o datos separados por tabulaciones, elige tabulación.",
           ],
         },
         {
@@ -231,7 +231,7 @@ export default defineTool({
       ],
       steps: [
         "Cole seu CSV (a primeira linha deve ser o cabeçalho) na caixa de entrada.",
-        "Escolha vírgula ou ponto e vírgula como delimitador.",
+        "Escolha vírgula, ponto e vírgula ou tabulação (TSV) conforme os dados de entrada.",
         "Copie o array JSON de objetos formatado.",
       ],
       faqs: [
@@ -262,7 +262,7 @@ export default defineTool({
           paragraphs: [
             "Dividir CSV por vírgulas é errado assim que chega um dataset real. A RFC 4180, o padrão que o formato segue de fato, define campos entre aspas: um campo contendo vírgula, aspa ou quebra de linha deve ficar entre aspas duplas, e uma aspa dentro dele é escapada dobrando-a. Um campo de nome lendo “Ada, Countess” é uma célula; um split ingênuo o parte em dois e desloca todas as colunas seguintes.",
             "Quebras de linha são a segunda armadilha. Arquivos CSV misturam CRLF (Windows, exportações do Excel) e LF (ferramentas Unix), e uma quebra dentro de um campo entre aspas é dado, não separador de registro — um endereço multilinha ou um comentário colado precisa sobreviver como uma célula. Parsear corretamente é uma pequena máquina de estados, não uma chamada a split(); é isso que roda aqui.",
-            "Delimitadores variam por região: o Excel em boa parte da Europa e da América Latina escreve arquivos separados por ponto e vírgula, porque nessas configurações a vírgula é o separador decimal. A ferramenta deixa escolher vírgula ou ponto e vírgula explicitamente em vez de farejar, então um arquivo em que todo campo contém ponto e vírgula não é mal detectado. Se sua origem usa tabulação, a ferramenta irmã de JSON para CSV cuida do caminho de volta.",
+            "O delimitador de uma planilha pode variar com a configuração regional. Por exemplo, onde a vírgula é o separador decimal, o Excel costuma separar os campos com ponto e vírgula. Escolha vírgula, ponto e vírgula ou tabulação conforme o texto de origem. Se você colar dados TSV ou texto separado por tabulações, escolha tabulação.",
           ],
         },
         {
