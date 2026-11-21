@@ -38,6 +38,28 @@ const S = {
   thInterest: { en: "Interest", zh: "利息", ja: "利息", es: "Intereses", pt: "Juros", fr: "Intérêts", de: "Zinsen", ru: "Проценты", it: "Interessi", tr: "Faiz", ko: "이자", ar: "الفائدة", hi: "ब्याज", id: "Bunga", vi: "Tiền lãi" },
   thBalance: { en: "Balance", zh: "余额", ja: "残高", es: "Saldo", pt: "Saldo", fr: "Solde", de: "Guthaben", ru: "Баланс", it: "Saldo", tr: "Bakiye", ko: "잔액", ar: "الرصيد", hi: "शेष", id: "Saldo", vi: "Số dư" },
   table: { en: "Year-by-year growth", zh: "逐年增长明细", ja: "年ごとの推移", es: "Crecimiento año por año", pt: "Crescimento ano a ano", fr: "Croissance année par année", de: "Wachstum Jahr für Jahr", ru: "Рост по годам", it: "Crescita anno per anno", tr: "Yıl yıl büyüme", ko: "연도별 성장", ar: "النمو سنة بسنة", hi: "वर्ष-दर-वर्ष वृद्धि", id: "Pertumbuhan tahunan", vi: "Tăng trưởng từng năm" },
+  timing: { en: "Contribution timing", zh: "投入时点", ja: "積立タイミング", es: "Momento del aporte", pt: "Momento do aporte", fr: "Moment du versement", de: "Einzahlungszeitpunkt", ru: "Момент взноса", it: "Momento del versamento", tr: "Yatırım zamanı", ko: "납입 시점", ar: "توقيت الإيداع", hi: "योगदान समय", id: "Waktu setoran", vi: "Thời điểm nộp" },
+  growth: { en: "Deposit annual growth (%)", zh: "存款年增长率 (%)", ja: "積立の年増加率 (%)", es: "Crecimiento anual del aporte (%)", pt: "Crescimento anual do aporte (%)", fr: "Croissance annuelle du versement (%)", de: "Jährliches Einzahlungswachstum (%)", ru: "Годовой рост взноса (%)", it: "Crescita annua del versamento (%)", tr: "Yıllık yatırım artışı (%)", ko: "납입액 연 증가율 (%)", ar: "النمو السنوي للإيداع (%)", hi: "जमा वार्षिक वृद्धि (%)", id: "Pertumbuhan setoran tahunan (%)", vi: "Tăng trưởng nộp hàng năm (%)" },
+  begin: { en: "Start of month", zh: "每月月初", ja: "月初め", es: "Inicio de mes", pt: "Início do mês", fr: "Début du mois", de: "Monatsanfang", ru: "Начало месяца", it: "Inizio mese", tr: "Ay başı", ko: "매월 초", ar: "بداية الشهر", hi: "माह का प्रारंभ", id: "Awal bulan", vi: "Đầu tháng" },
+  end: { en: "End of month", zh: "每月月末", ja: "月末", es: "Fin de mes", pt: "Fim do mês", fr: "Fin du mois", de: "Monatsende", ru: "Конец месяца", it: "Fine mese", tr: "Ay sonu", ko: "매월 말", ar: "نهاية الشهر", hi: "माह का अंत", id: "Akhir bulan", vi: "Cuối tháng" },
+};
+
+export const COMPOUND_END_CONVENTION: Record<Locale, string> = {
+  en: "This run uses month-END deposits: each month B ← B × g + deposit, with the same monthly-equivalent growth g as described above. Optional deposit growth raises the deposit every 12 months (year 2 onward) by the given percentage. All other conventions are unchanged.",
+  zh: "本计算使用每月月末存入：每月 B ← B × g + 存入，g 与上文相同（等效月增长）。可选的存款年增长率从第 2 年起每 12 个月按给定百分比上调存入额。其余约定不变。",
+  ja: "この計算は月末積立です：毎月 B ← B × g + 積立額、g は上記と同じ等価月次成長です。任意の積立年増加率は 2 年目以降 12 か月ごとに指定率で積立額を引き上げます。その他の規約は変わりません。",
+  es: "Esta ejecución usa aportes a fin de mes: cada mes B ← B × g + aporte, con la misma g equivalente mensual descrita antes. El crecimiento opcional del aporte lo sube cada 12 meses (desde el año 2) el porcentaje dado. Las demás convenciones no cambian.",
+  pt: "Esta execução usa aportes no fim do mês: cada mês B ← B × g + aporte, com o mesmo g mensal equivalente descrito acima. O crescimento opcional do aporte eleva o valor a cada 12 meses (a partir do ano 2) pelo percentual dado. As demais convenções permanecem.",
+  fr: "Cette exécution utilise des versements en fin de mois : chaque mois B ← B × g + versement, avec le même g mensuel équivalent décrit plus haut. La croissance facultative du versement l'augmente tous les 12 mois (à partir de l'année 2) du pourcentage indiqué. Les autres conventions restent inchangées.",
+  de: "Dieser Lauf nutzt Einzahlungen zum Monatsende: monatlich B ← B × g + Einzahlung, mit dem oben beschriebenen äquivalenten Monatswachstum g. Das optionale Einzahlungswachstum erhöht den Betrag alle 12 Monate (ab Jahr 2) um den angegebenen Prozentsatz. Alle übrigen Regeln bleiben unverändert.",
+  ru: "Этот расчёт использует взносы в конце месяца: каждый месяц B ← B × g + взнос, с тем же эквивалентным месячным ростом g, что описан выше. Необязательный годовой рост взноса повышает сумму каждые 12 месяцев (со 2-го года) на указанный процент. Остальные правила без изменений.",
+  it: "Questa simulazione usa versamenti a fine mese: ogni mese B ← B × g + versamento, con la stessa g mensile equivalente descritta sopra. La crescita facoltativa del versamento lo aumenta ogni 12 mesi (dal 2° anno) della percentuale indicata. Le altre convenzioni restano invariate.",
+  tr: "Bu hesaplama ay SONU yatırımı kullanır: her ay B ← B × g + yatırım, g yukarıda açıklanan eşdeğer aylık büyümedir. İsteğe bağlı yıllık yatırım artışı, tutarı 2. yıldan itibaren her 12 ayda verilen yüzdeyle yükseltir. Diğer kurallar değişmez.",
+  ko: "이 계산은 매월 말 납입을 사용합니다: 매월 B ← B × g + 납입액, g는 위와 같은 등가 월 성장률입니다. 선택적 납입 연 증가율은 2년째부터 12개월마다 지정된 비율로 납입액을 올립니다. 나머지 규칙은 동일합니다.",
+  ar: "يستخدم هذا الحساب الإيداع في نهاية كل شهر: كل شهر B ← B × g + الإيداع، بمعامل النمو الشهري المكافئ g المذكور أعلاه. النمو السنوي الاختياري للإيداع يرفعه كل 12 شهرًا (من السنة الثانية) بالنسبة المئوية المحددة. تبقى القواعد الأخرى كما هي.",
+  hi: "यह गणना महीने के अंत में जमा उपयोग करती है: प्रत्येक माह B ← B × g + जमा, g वही समतुल्य मासिक वृद्धि है जो ऊपर वर्णित है। वैकल्पिक जमा वार्षिक वृद्धि राशि को हर 12 महीने (दूसरे वर्ष से) दिए गए प्रतिशत से बढ़ाती है। शेष नियम अपरिवर्तित हैं।",
+  id: "Perhitungan ini memakai setoran akhir bulan: setiap bulan B ← B × g + setoran, dengan pertumbuhan bulanan setara g seperti dijelaskan di atas. Pertumbuhan setoran tahunan opsional menaikkan jumlah setiap 12 bulan (mulai tahun ke-2) sebesar persentase yang diberikan. Ketentuan lain tidak berubah.",
+  vi: "Lần tính này dùng khoản nộp vào CUỐI tháng: mỗi tháng B ← B × g + khoản nộp, với g là tăng trưởng tháng tương đương như đã nêu. Tùy chọn tăng trưởng nộp hàng năm sẽ nâng khoản nộp mỗi 12 tháng (từ năm thứ hai) theo phần trăm đã cho. Các quy ước khác giữ nguyên.",
 };
 
 export const COMPOUND_CONVENTION: Record<Locale, string> = {
@@ -70,6 +92,8 @@ export function CalcEngineCompound() {
   const [rate, setRate] = useState("5");
   const [years, setYears] = useState("10");
   const [freq, setFreq] = useState<Freq>("monthly");
+  const [timing, setTiming] = useState<"beginning" | "end">("beginning");
+  const [growth, setGrowth] = useState("0");
   const [currency, setCurrency] = useState("USD");
 
   const p = num(principal);
@@ -80,8 +104,8 @@ export function CalcEngineCompound() {
   const money = (n: number) => fmtMoney(n, locale, cur.symbol, cur.frac);
 
   const { total, contributed, schedule } = useMemo(
-    () => compound(p, c, annual, y, freq),
-    [p, c, annual, y, freq],
+    () => compound(p, c, annual, y, freq, { timing, depositAnnualGrowthPct: num(growth) }),
+    [p, c, annual, y, freq, timing, growth],
   );
 
   const interest = Number.isFinite(total) ? total - contributed : NaN;
@@ -108,6 +132,15 @@ export function CalcEngineCompound() {
             <option value="annually">{pick(locale, { en: "Annually", zh: "每年", ja: "毎年", es: "Anual", pt: "Anual", fr: "Annuel", de: "Jährlich", ru: "Ежегодно", it: "Annuale", tr: "Yıllık", ko: "매년", ar: "سنويًا", hi: "वार्षिक", id: "Tahunan", vi: "Hằng năm" })}</option>
           </Sel>
         </Field>
+        <Field label={pick(locale, S.timing)}>
+          <Sel value={timing} onChange={(v) => setTiming(v as "beginning" | "end")} aria="contribution timing">
+            <option value="beginning">{pick(locale, S.begin)}</option>
+            <option value="end">{pick(locale, S.end)}</option>
+          </Sel>
+        </Field>
+        <Field label={pick(locale, S.growth)}>
+          <NumIn value={growth} onChange={setGrowth} aria="deposit annual growth percent" />
+        </Field>
         <Field label={pick(locale, S.currency)}>
           <Sel value={currency} onChange={setCurrency} aria="currency">
             <option value="USD">USD — $</option>
@@ -132,7 +165,7 @@ export function CalcEngineCompound() {
 
       <div className="mt-3">
         <Note>
-          {COMPOUND_CONVENTION[locale]}
+          {(timing === "end" ? COMPOUND_END_CONVENTION[locale] : COMPOUND_CONVENTION[locale])}
         </Note>
       </div>
 

@@ -18,18 +18,31 @@ export type CompoundResult = {
   schedule: ScheduleRow[];
 };
 
+/** G46 可选参数:投入时点(默认月初=旧行为)与存入年增长率(默认 0=旧行为)。 */
+export type CompoundOptions = {
+  /** "beginning" = 月初投入(默认,旧行为);"end" = 月末投入 */
+  timing?: "beginning" | "end";
+  /** 存入年增长率(%):每年年初存款额按此上浮,默认 0 */
+  depositAnnualGrowthPct?: number;
+};
+
 export function compound(
   principal: number,
   monthlyContribution: number,
   annualRatePct: number,
   years: number,
   freq: Freq,
+  options: CompoundOptions = {},
 ): CompoundResult {
+  const timing = options.timing ?? "beginning";
+  const depositGrowthPct = options.depositAnnualGrowthPct ?? 0;
   const valid =
     Number.isFinite(principal) && principal >= 0 &&
     Number.isFinite(monthlyContribution) && monthlyContribution >= 0 &&
     Number.isFinite(annualRatePct) && annualRatePct >= 0 &&
-    Number.isFinite(years) && years > 0 && years <= 100;
+    Number.isFinite(years) && years > 0 && years <= 100 &&
+    (timing === "beginning" || timing === "end") &&
+    Number.isFinite(depositGrowthPct) && depositGrowthPct >= 0;
   if (!valid || !Object.hasOwn(PERIODS_PER_YEAR, freq)) return { total: NaN, contributed: NaN, schedule: [] };
 
   const ppy = PERIODS_PER_YEAR[freq];
@@ -37,23 +50,29 @@ export function compound(
   const n = Math.round(years * 12);
   if (n < 1) return { total: NaN, contributed: NaN, schedule: [] };
 
+  // 第 k 月(1 基)的实际存款:按年上浮(第 1–12 月 = 基准额,13–24 月 = 基准×(1+g)…)
+  const depositAt = (k: number) =>
+    monthlyContribution * Math.pow(1 + depositGrowthPct / 100, Math.floor((k - 1) / 12));
+
   let fv = principal;
+  let contributed = principal;
   const rows: ScheduleRow[] = [];
   for (let k = 1; k <= n; k++) {
-    fv = (fv + monthlyContribution) * growth;
+    const d = depositAt(k);
+    if (timing === "beginning") fv = (fv + d) * growth;
+    else fv = fv * growth + d;
+    contributed += d;
     const isYearEnd = k % 12 === 0;
     if (isYearEnd || k === n) {
-      const deposited = principal + monthlyContribution * k;
       rows.push({
         year: Math.ceil(k / 12),
-        contrib: deposited,
-        interest: fv - deposited,
+        contrib: contributed,
+        interest: fv - contributed,
         balance: fv,
       });
     }
   }
-  const totalContrib = principal + monthlyContribution * n;
-  return { total: fv, contributed: totalContrib, schedule: rows };
+  return { total: fv, contributed, schedule: rows };
 }
 
 // ─────────────────────────── 抵押贷款(Mortgage) ───────────────────────────
