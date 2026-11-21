@@ -5,6 +5,7 @@ import { useI18n } from "@/components/i18n-provider";
 import { downloadBlob } from "@/components/client-ui";
 import { ToolPanel } from "@/components/ui";
 import { Field, Note, Sel, pick } from "./calc-ui";
+import { buildWifiPayload, type WifiSecurity } from "../_lib/wifi-qr";
 
 /**
  * QR code generator. The `qrcode` package is imported dynamically on the
@@ -13,9 +14,31 @@ import { Field, Note, Sel, pick } from "./calc-ui";
 
 type Ecc = "L" | "M" | "Q" | "H";
 
+const L_WIFI = {
+  modeText: { en: "Text / URL", zh: "文本或网址", ja: "テキスト・URL", es: "Texto o URL", pt: "Texto ou URL", fr: "Texte ou URL", de: "Text oder URL", ru: "Текст или URL", it: "Testo o URL", tr: "Metin veya URL", ko: "텍스트 또는 URL", ar: "نص أو رابط", hi: "टेक्स्ट या URL", id: "Teks atau URL", vi: "Văn bản hoặc URL" },
+  modeWifi: { en: "Wi-Fi network", zh: "Wi-Fi 网络", ja: "Wi-Fi ネットワーク", es: "Red Wi-Fi", pt: "Rede Wi-Fi", fr: "Réseau Wi-Fi", de: "WLAN-Netzwerk", ru: "Сеть Wi-Fi", it: "Rete Wi-Fi", tr: "Wi-Fi ağı", ko: "Wi-Fi 네트워크", ar: "شبكة Wi-Fi", hi: "Wi-Fi नेटवर्क", id: "Jaringan Wi-Fi", vi: "Mạng Wi-Fi" },
+  ssid: { en: "Network name (SSID)", zh: "网络名称(SSID)", ja: "ネットワーク名(SSID)", es: "Nombre de red (SSID)", pt: "Nome da rede (SSID)", fr: "Nom du réseau (SSID)", de: "Netzwerkname (SSID)", ru: "Имя сети (SSID)", it: "Nome rete (SSID)", tr: "Ağ adı (SSID)", ko: "네트워크 이름(SSID)", ar: "اسم الشبكة (SSID)", hi: "नेटवर्क नाम (SSID)", id: "Nama jaringan (SSID)", vi: "Tên mạng (SSID)" },
+  password: { en: "Password", zh: "密码", ja: "パスワード", es: "Contraseña", pt: "Senha", fr: "Mot de passe", de: "Passwort", ru: "Пароль", it: "Password", tr: "Şifre", ko: "비밀번호", ar: "كلمة المرور", hi: "पासवर्ड", id: "Kata sandi", vi: "Mật khẩu" },
+  security: { en: "Security", zh: "加密方式", ja: "暗号化方式", es: "Seguridad", pt: "Segurança", fr: "Sécurité", de: "Verschlüsselung", ru: "Тип защиты", it: "Sicurezza", tr: "Güvenlik", ko: "보안 방식", ar: "نوع التشفير", hi: "सुरक्षा", id: "Keamanan", vi: "Bảo mật" },
+  hidden: { en: "Hidden network", zh: "隐藏网络", ja: "隠しネットワーク", es: "Red oculta", pt: "Rede oculta", fr: "Réseau masqué", de: "Verborgenes Netzwerk", ru: "Скрытая сеть", it: "Rete nascosta", tr: "Gizli ağ", ko: "숨김 네트워크", ar: "شبكة مخفية", hi: "छिपा नेटवर्क", id: "Jaringan tersembunyi", vi: "Mạng ẩn" },
+  errSsid: { en: "Enter the network name (SSID).", zh: "请输入网络名称(SSID)。", ja: "ネットワーク名(SSID)を入力してください。", es: "Introduce el nombre de red (SSID).", pt: "Informe o nome da rede (SSID).", fr: "Saisissez le nom du réseau (SSID).", de: "Netzwerknamen (SSID) eingeben.", ru: "Введите имя сети (SSID).", it: "Inserisci il nome della rete (SSID).", tr: "Ağ adını (SSID) girin.", ko: "네트워크 이름(SSID)을 입력하세요.", ar: "أدخل اسم الشبكة (SSID).", hi: "नेटवर्क नाम (SSID) दर्ज करें।", id: "Masukkan nama jaringan (SSID).", vi: "Nhập tên mạng (SSID)." },
+  errPass: { en: "WPA/WEP networks need a password.", zh: "WPA/WEP 网络需要密码。", ja: "WPA/WEP ネットワークにはパスワードが必要です。", es: "Las redes WPA/WEP necesitan contraseña.", pt: "Redes WPA/WEP precisam de senha.", fr: "Les réseaux WPA/WEP exigent un mot de passe.", de: "WPA/WEP-Netzwerke benötigen ein Passwort.", ru: "Для сетей WPA/WEP нужен пароль.", it: "Le reti WPA/WEP richiedono una password.", tr: "WPA/WEP ağları şifre gerektirir.", ko: "WPA/WEP 네트워크에는 비밀번호가 필요합니다.", ar: "شبكات WPA/WEP تتطلب كلمة مرور.", hi: "WPA/WEP नेटवर्क को पासवर्ड चाहिए।", id: "Jaringan WPA/WEP memerlukan kata sandi.", vi: "Mạng WPA/WEP cần mật khẩu." },
+  payloadNote: { en: "Encoded payload", zh: "二维码内容", ja: "QR ペイロード", es: "Contenido del código", pt: "Conteúdo do código", fr: "Contenu du code", de: "QR-Inhalt", ru: "Содержимое кода", it: "Contenuto del codice", tr: "QR içeriği", ko: "QR 내용", ar: "محتوى الرمز", hi: "QR सामग्री", id: "Isi kode", vi: "Nội dung mã" },
+} as const;
+
 export function CalcEngineQr() {
   const { locale, t } = useI18n();
   const [text, setText] = useState("https://");
+  const [mode, setMode] = useState<"text" | "wifi">("text");
+  const [ssid, setSsid] = useState("");
+  const [wifiPassword, setWifiPassword] = useState("");
+  const [wifiSecurity, setWifiSecurity] = useState<WifiSecurity>("WPA");
+  const [wifiHidden, setWifiHidden] = useState(false);
+  const wifiPayload = buildWifiPayload({ ssid, password: wifiPassword, security: wifiSecurity, hidden: wifiHidden });
+  const wifiError = wifiPayload.ok ? "" : pick(locale, wifiPayload.code === "emptySsid" ? L_WIFI.errSsid : L_WIFI.errPass);
+  // Wi-Fi 模式:载荷合法才进入编码;文本模式沿用原输入
+  const qrText = mode === "wifi" ? (wifiPayload.ok ? wifiPayload.payload : "") : text;
+  const wifiNote = mode === "wifi" && wifiPayload.ok ? wifiPayload.payload : "";
   const [size, setSize] = useState(320);
   const [ecc, setEcc] = useState<Ecc>("M");
   const [dark, setDark] = useState("#1d1d1f");
@@ -28,7 +51,7 @@ export function CalcEngineQr() {
     let alive = true;
     (async () => {
       if (!canvasRef.current) return;
-      if (!text.trim()) {
+      if (!qrText.trim()) {
         const ctx = canvasRef.current.getContext("2d");
         ctx?.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
         setReady(false);
@@ -36,7 +59,7 @@ export function CalcEngineQr() {
       }
       try {
         const QR = (await import("qrcode")).default;
-        await QR.toCanvas(canvasRef.current, text, {
+        await QR.toCanvas(canvasRef.current, qrText, {
           width: size,
           margin: 2,
           errorCorrectionLevel: ecc,
@@ -73,7 +96,7 @@ export function CalcEngineQr() {
     return () => {
       alive = false;
     };
-  }, [text, size, ecc, dark, light, logo]);
+  }, [qrText, size, ecc, dark, light, logo, mode, ssid, wifiPassword, wifiSecurity, wifiHidden]);
 
   const downloadPng = async () => {
     if (!canvasRef.current || !ready) return;
@@ -83,9 +106,9 @@ export function CalcEngineQr() {
   };
 
   const downloadSvg = async () => {
-    if (!text.trim()) return;
+    if (!qrText.trim()) return;
     const QR = (await import("qrcode")).default;
-    let svg = await QR.toString(text, {
+    let svg = await QR.toString(qrText, {
       type: "svg",
       width: size,
       margin: 2,
@@ -112,6 +135,24 @@ export function CalcEngineQr() {
     <ToolPanel>
       <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
         <div className="space-y-4">
+          <div className="flex flex-wrap gap-2" role="group">
+            {(["text", "wifi"] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                aria-pressed={mode === m}
+                onClick={() => setMode(m)}
+                className={`rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
+                  mode === m
+                    ? "border-transparent bg-[var(--color-ink)] text-white dark:bg-white dark:text-[#1d1d1f]"
+                    : "hairline hover:bg-[var(--color-surface)]"
+                }`}
+              >
+                {pick(locale, m === "text" ? L_WIFI.modeText : L_WIFI.modeWifi)}
+              </button>
+            ))}
+          </div>
+          {mode === "text" && (
           <Field label={pick(locale, { en: "Text or URL", zh: "文本或网址", ja: "テキストまたは URL", es: "Texto o URL", pt: "Texto ou URL", fr: "Texte ou URL", de: "Text oder URL", ru: "Текст или URL", it: "Testo o URL", tr: "Metin veya URL", ko: "텍스트 또는 URL", ar: "نص أو رابط", hi: "टेक्स्ट या URL", id: "Teks atau URL", vi: "Văn bản hoặc URL" })}>
             <textarea
               className="field mono"
@@ -123,6 +164,62 @@ export function CalcEngineQr() {
               spellCheck={false}
             />
           </Field>
+          )}
+          {mode === "wifi" && (
+            <div className="space-y-3">
+              <Field label={pick(locale, L_WIFI.ssid)}>
+                <input
+                  type="text"
+                  className="field"
+                  value={ssid}
+                  onChange={(e) => setSsid(e.target.value)}
+                  placeholder="MyHomeWiFi"
+                  aria-label={pick(locale, L_WIFI.ssid)}
+                />
+              </Field>
+              {wifiSecurity !== "nopass" && (
+                <Field label={pick(locale, L_WIFI.password)}>
+                  <input
+                    type="text"
+                    className="field mono"
+                    value={wifiPassword}
+                    onChange={(e) => setWifiPassword(e.target.value)}
+                    aria-label={pick(locale, L_WIFI.password)}
+                  />
+                </Field>
+              )}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label={pick(locale, L_WIFI.security)}>
+                  <Sel value={wifiSecurity} onChange={(v) => setWifiSecurity(v as WifiSecurity)} aria="wifi security">
+                    <option value="WPA">WPA / WPA2 / WPA3</option>
+                    <option value="WEP">WEP</option>
+                    <option value="nopass">{pick(locale, { en: "Open (no password)", zh: "开放(无密码)", ja: "オープン(パスワードなし)", es: "Abierta (sin contraseña)", pt: "Aberta (sem senha)", fr: "Ouverte (sans mot de passe)", de: "Offen (ohne Passwort)", ru: "Открытая (без пароля)", it: "Aperta (senza password)", tr: "Açık (şifresiz)", ko: "개방(비밀번호 없음)", ar: "مفتوحة (بدون كلمة مرور)", hi: "खुला (पासवर्ड नहीं)", id: "Terbuka (tanpa sandi)", vi: "Mở (không mật khẩu)" })}</option>
+                  </Sel>
+                </Field>
+                <Field label={pick(locale, L_WIFI.hidden)}>
+                  <label className="flex h-10 items-center gap-2 text-[13.5px]">
+                    <input
+                      type="checkbox"
+                      checked={wifiHidden}
+                      onChange={(e) => setWifiHidden(e.target.checked)}
+                      className="h-4 w-4"
+                      aria-label={pick(locale, L_WIFI.hidden)}
+                    />
+                    {pick(locale, L_WIFI.hidden)}
+                  </label>
+                </Field>
+              </div>
+              {wifiError ? (
+                <p className="rounded-xl error-bg px-3.5 py-2.5 text-[13.5px] leading-5 text-[var(--color-bad)]" role="alert">
+                  {wifiError}
+                </p>
+              ) : (
+                <p className="mono rounded-xl bg-[var(--color-surface)] px-3.5 py-2.5 text-[12.5px] leading-5 text-[var(--color-sub)]" aria-label={pick(locale, L_WIFI.payloadNote)}>
+                  {wifiNote}
+                </p>
+              )}
+            </div>
+          )}
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={pick(locale, { en: "Error correction", zh: "纠错级别", ja: "誤り訂正レベル", es: "Corrección de errores", pt: "Correção de erros", fr: "Correction d'erreur", de: "Fehlerkorrektur", ru: "Коррекция ошибок", it: "Correzione errori", tr: "Hata düzeltme", ko: "오류 복구", ar: "تصحيح الأخطاء", hi: "त्रुटि सुधार", id: "Koreksi kesalahan", vi: "Sửa lỗi" })}>
               <Sel value={ecc} onChange={(v) => setEcc(v as Ecc)} aria="error correction level">
