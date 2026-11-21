@@ -11,25 +11,32 @@ import { ToolPanel } from "@/components/ui";
  * md5-generator、sha256-generator 三个页面共用)。
  */
 
-type Algo = "MD5" | "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512";
+import { encodeDigest, ripemd160Bytes, sha224Bytes, type DigestEncoding } from "../_lib/hash-digests";
+
+type Algo = "MD5" | "SHA-224" | "RIPEMD-160" | "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512";
 
 const TAB_LABELS: Record<string, Record<string, string>> = {
   text: { en: "Text", zh: "文本", ja: "テキスト", es: "Texto", pt: "Texto" },
   file: { en: "File", zh: "文件", ja: "ファイル", es: "Archivo", pt: "Arquivo" },
 };
 
-function toHex(buf: ArrayBuffer): string {
-  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
-}
-
-async function digest(algo: Algo, data: ArrayBuffer | string): Promise<string> {
+async function digestBytes(algo: Algo, data: ArrayBuffer | string): Promise<Uint8Array> {
   if (algo === "MD5") {
     const { md5 } = await import("js-md5");
-    return typeof data === "string" ? md5(data) : md5(new Uint8Array(data));
+    return new Uint8Array(md5.arrayBuffer(data));
   }
+  if (algo === "SHA-224") return sha224Bytes(typeof data === "string" ? new TextEncoder().encode(data) : new Uint8Array(data));
+  if (algo === "RIPEMD-160") return ripemd160Bytes(typeof data === "string" ? new TextEncoder().encode(data) : new Uint8Array(data));
   const bytes = typeof data === "string" ? new TextEncoder().encode(data) : new Uint8Array(data);
-  return toHex(await crypto.subtle.digest(algo, bytes));
+  return new Uint8Array(await crypto.subtle.digest(algo, bytes));
 }
+
+const ENC_LABELS: Record<DigestEncoding, Record<string, string>> = {
+  hex: { en: "HEX", zh: "十六进制", ja: "16進数", es: "Hexadecimal", pt: "Hexadecimal" },
+  base64: { en: "Base64", zh: "Base64", ja: "Base64", es: "Base64", pt: "Base64" },
+  base64url: { en: "Base64url", zh: "Base64url", ja: "Base64url", es: "Base64url", pt: "Base64url" },
+  binary: { en: "Binary", zh: "二进制", ja: "2進数", es: "Binario", pt: "Binário" },
+};
 
 export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAlgo?: Algo }) {
   const { locale, t } = useI18n();
@@ -39,6 +46,7 @@ export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAl
   const [textHash, setTextHash] = useState("");
   const [fileHash, setFileHash] = useState("");
   const [fileMeta, setFileMeta] = useState<{ name: string; size: number } | null>(null);
+  const [encoding, setEncoding] = useState<DigestEncoding>("hex");
   const [busy, setBusy] = useState(false);
   const seq = useRef(0);
 
@@ -51,7 +59,7 @@ export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAl
     setBusy(true);
     const timer = setTimeout(async () => {
       try {
-        const h = await digest(algo, input);
+        const h = encodeDigest(await digestBytes(algo, input), encoding);
         if (seq.current === id) setTextHash(h);
       } catch {
         if (seq.current === id) setTextHash("");
@@ -60,7 +68,7 @@ export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAl
       }
     }, 200);
     return () => clearTimeout(timer);
-  }, [input, algo]);
+  }, [input, algo, encoding]);
 
   const onFile = useCallback(
     async (files: File[]) => {
@@ -71,7 +79,7 @@ export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAl
       setFileMeta({ name: file.name, size: file.size });
       setFileHash("");
       try {
-        const h = await digest(algo, await file.arrayBuffer());
+        const h = encodeDigest(await digestBytes(algo, await file.arrayBuffer()), encoding);
         if (seq.current === id) setFileHash(h);
       } catch {
         if (seq.current === id) setFileHash("");
@@ -79,7 +87,7 @@ export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAl
         if (seq.current === id) setBusy(false);
       }
     },
-    [algo],
+    [algo, encoding],
   );
 
   const shown = tab === "text" ? textHash : fileHash;
@@ -116,6 +124,24 @@ export function DevHashEngine({ algos, defaultAlgo }: { algos: Algo[]; defaultAl
                 }`}
               >
                 {a}
+              </button>
+            ))}
+          {(
+            <span aria-hidden className="mx-1 hidden w-px bg-[var(--color-hairline)] sm:block" />
+          )}
+          {(Object.keys(ENC_LABELS) as DigestEncoding[]).map((enc) => (
+              <button
+                key={enc}
+                type="button"
+                onClick={() => setEncoding(enc)}
+                aria-pressed={encoding === enc}
+                className={`rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition-colors ${
+                  encoding === enc
+                    ? "border-transparent bg-[var(--color-accent)] text-white"
+                    : "hairline hover:bg-[var(--color-surface)]"
+                }`}
+              >
+                {ENC_LABELS[enc][locale] ?? ENC_LABELS[enc].en}
               </button>
             ))}
         </div>
