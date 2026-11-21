@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-22",
+  "method": "mcp fetch service, rendered text extraction; no competitor inputs submitted",
+  "source_scope": "Detail-page controls and explanatory text only; not runtime parity or copied implementation",
+  "observations": [
+    {
+      "url": "https://www.lddgo.net/string/seqno",
+      "catalog_id": "LDDGO-01-014",
+      "observed": "Numeric and expression templates; examples include numberStep, random Unicode, random alphabets, 2–36 radix and arbitrary integer stepping.",
+      "excerpt": "${numberStep@999999999999999999999999@-100@0@16}",
+      "delivery_boundary": "Exact finite-decimal arithmetic with literal affixes and separators covers a useful subset; expressions, random template functions and nondecimal sequence rendering stay open."
+    },
+    {
+      "url": "https://www.lddgo.net/string/frequency-statistics",
+      "catalog_id": "LDDGO-01-062",
+      "observed": "Separate Chinese-character, word, letter and digit tables. Automatic/manual calculation and output count controls.",
+      "excerpt": "汉字频率 = 汉字出现次数 / 总字符数；单词频率 = 单词出现次数 / (汉字数量 + 单词数量 + 数字数量)；字母频率 = 字母出现次数 / 总字符数；数字频率 = 数字出现次数 / (汉字数量 + 单词数量 + 数字数量)。",
+      "delivery_boundary": "Generic codepoint table has an explicit kept-transformed-codepoint denominator; it does not reproduce all four categorized tables or peer word/digit denominators. Retain partial."
+    },
+    {
+      "url": "https://www.lddgo.net/convert/stringbase32",
+      "catalog_id": "LDDGO-02-013",
+      "observed": "Character-set selector and explicit LF/CRLF normalization in addition to encode/decode.",
+      "excerpt": "字符集：将使用选择的字符集，将输入的字符串转换为字节数组，然后将字节数组转换为Base32字符串。",
+      "delivery_boundary": "The byte workflow supports UTF-8 and exact original line endings; other character sets and explicit LF/CRLF normalization remain open. Retain partial."
+    }
+  ]
+}

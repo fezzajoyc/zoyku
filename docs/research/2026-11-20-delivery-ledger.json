@@ -3002,5 +3002,64 @@
       "source": "docs/research/2026-11-21-peer-catalog-batch3.md",
       "state": "scoped_verified_local"
     }
-  ]
+  ],
+  "complete_catalog_checkpoint_2026_11_22": {
+    "tool_definition_count": 219,
+    "locales": 15,
+    "tool_pages": 3285,
+    "mcp_tools": 45,
+    "test_files": 112,
+    "tests_passed": 2790,
+    "lint_errors": 0,
+    "lint_warnings": 60,
+    "generated_paths": 10207,
+    "static_seo_checked": 3420,
+    "static_seo_failures": 0,
+    "tool_http_responses_200": 90,
+    "catalog_rows": 420,
+    "catalog_status_counts": {
+      "existing": 48,
+      "partial": 108,
+      "missing": 214,
+      "needs-source": 36,
+      "not-comparable": 14
+    },
+    "new_slugs_in_this_work_unit": [
+      "file-type-detector",
+      "line-number-generator"
+    ],
+    "updated_slug": "json-yaml-converter",
+    "parallel_registered_slug": "lunar-calendar-converter",
+    "evidence": "docs/research/2026-11-22-complete-catalog-verification.md",
+    "release_status": "本地工作树验收，未由本工作单元推送或部署。"
+  },
+  "text_uuid_file_checkpoint_2026_11_22": {
+    "tool_definition_count": 222,
+    "locales": 15,
+    "tool_pages": 3330,
+    "mcp_tools": 48,
+    "test_files": 119,
+    "tests_passed": 2952,
+    "lint_errors": 0,
+    "lint_warnings": 60,
+    "generated_paths": 10342,
+    "static_seo_checked": 3465,
+    "static_seo_failures": 0,
+    "tool_http_responses_200": 90,
+    "catalog_rows": 420,
+    "catalog_status_counts": {
+      "existing": 52,
+      "partial": 109,
+      "missing": 209,
+      "needs-source": 36,
+      "not-comparable": 14
+    },
+    "new_slugs": [
+      "text-line-filter",
+      "uuid-validator-converter",
+      "file-splitter-merger"
+    ],
+    "evidence": "docs/research/2026-11-22-text-uuid-file-verification.md",
+    "release_status": "本地验收；本工作单元未执行推送或部署。提交状态以 Git 为准。"
+  }
 }

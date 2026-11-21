@@ -32,6 +32,13 @@ import { extractImagePalette } from "../tools/_lib/image-palette";
 import { identifyFileSignature, signatureBytesFromHex, FILE_SIGNATURE_READ_LIMIT } from "../tools/_lib/file-signature";
 import { addLineNumbers } from "../tools/_lib/line-numbers";
 import { convertYamlJson } from "../tools/_lib/yaml-converter";
+import { filterTextLines, type TextLineFilterOptions } from "../tools/_lib/text-line-filter";
+import { inspectUuid } from "../tools/_lib/uuid-inspector";
+import { planFileSplit, FILE_PARTS_LIMITS } from "../tools/_lib/file-parts";
+import { generateTextSequence, SEQUENCE_LIMITS } from "../tools/_lib/string-sequence";
+import { countCharacterFrequency, FREQUENCY_LIMITS } from "../tools/_lib/character-frequency";
+import { convertByteEncoding, BYTE_ENCODINGS, BYTE_ENCODING_LIMITS } from "../tools/_lib/byte-encoding";
+import { planImageWatermark, IMAGE_WATERMARK_LIMITS, WATERMARK_POSITIONS } from "../tools/_lib/image-watermark";
 
 /**
  * MCP 工具注册表:把 tools/_lib 的纯函数暴露为 AI 可执行工具。
@@ -56,6 +63,75 @@ export type McpToolDef = {
 };
 
 export const MCP_TOOLS: McpToolDef[] = [
+  {
+    name: "generate_text_sequence",
+    title: "Generate an exact decimal text sequence",
+    description: "Generate start + index × step as exact finite decimals, with integer-digit padding and literal prefix/suffix/separator. No expressions or exponent notation. Comma/dot grouping follows the site's locale-number rules; use a dot for an unambiguous decimal. Up to 10,000 values, 60 significant digits, 18 decimal places and 500,000 output UTF-16 units. Trailing fractional zeros are removed.",
+    schema: {
+      start: z.string().max(SEQUENCE_LIMITS.numericCharacters),
+      step: z.string().max(SEQUENCE_LIMITS.numericCharacters),
+      count: z.number().int().min(1).max(SEQUENCE_LIMITS.count),
+      integer_width: z.number().int().min(1).max(SEQUENCE_LIMITS.integerWidth).default(1),
+      prefix: z.string().max(SEQUENCE_LIMITS.affixCharacters).default(""),
+      suffix: z.string().max(SEQUENCE_LIMITS.affixCharacters).default(""),
+      separator: z.string().max(SEQUENCE_LIMITS.separatorCharacters).default("\n"),
+    },
+    run: (a) => {
+      const result = generateTextSequence({ start: a.start, step: a.step, count: a.count, integerWidth: a.integer_width, prefix: a.prefix, suffix: a.suffix, separator: a.separator });
+      return result.error ? { ...json(result), isError: true } : json(result);
+    },
+  },
+  {
+    name: "character_frequency",
+    title: "Count Unicode codepoint frequencies",
+    description: "Count codepoints, not words or grapheme clusters. Optional whole-string lowercase may expand characters (İ becomes i + combining dot); shares use the kept transformed codepoint total. Ignore whitespace uses JavaScript Unicode whitespace. Up to 100,000 input UTF-16 units and 4,096 distinct codepoints; returns the first limit rows with full totals. Ties keep first appearance. Full bounded exports are available in the website UI.",
+    schema: {
+      input: z.string().max(FREQUENCY_LIMITS.inputCharacters),
+      ignore_whitespace: z.boolean().default(false),
+      case_mode: z.enum(["preserve", "lower"]).default("preserve"),
+      sort: z.enum(["count-desc", "count-asc", "codepoint", "first"]).default("count-desc"),
+      limit: z.number().int().min(1).max(FREQUENCY_LIMITS.displayRows).default(100),
+    },
+    run: (a) => {
+      const result = countCharacterFrequency(a.input, { ignoreWhitespace: a.ignore_whitespace, caseMode: a.case_mode, sort: a.sort, limit: a.limit });
+      return result.error ? { ...json(result), isError: true } : json({ ...result, rows: result.rows.slice(0, result.shown) });
+    },
+  },
+  {
+    name: "convert_byte_encoding",
+    title: "Convert UTF-8 and byte encodings",
+    description: "Convert UTF-8, HEX, canonical padded RFC 4648 Base32/Base64 and Bitcoin raw Base58 through exact bytes. Keeps every leading zero byte. Strict pad bits; UTF-8 decoding rejects malformed bytes and preserves a BOM. Optional ASCII whitespace removal affects encoded input only. No Base58Check, Base64url or legacy character sets. Maximum 65,536 bytes, or 1,024 bytes whenever Base58 is involved; raw text maximum 262,144 UTF-16 units. Empty input represents zero bytes.",
+    schema: {
+      input: z.string().max(BYTE_ENCODING_LIMITS.inputCharacters),
+      from: z.enum(BYTE_ENCODINGS),
+      to: z.enum(BYTE_ENCODINGS),
+      ignore_ascii_whitespace: z.boolean().default(false),
+    },
+    run: (a) => {
+      const result = convertByteEncoding(a.input, a.from, a.to, { ignoreAsciiWhitespace: a.ignore_ascii_whitespace });
+      return result.ok ? json(result) : { ...json(result), isError: true };
+    },
+  },
+  {
+    name: "plan_image_watermark",
+    title: "Plan visible image watermark placement",
+    description: "Return aspect-preserving watermark dimensions and Canvas rotation centers for a local image. This returns geometry only, without reading, rendering or modifying image files. Source dimensions are pixels, relative_width is percent of source width, margin is percent of the shorter source edge, rotation is clockwise degrees. Fits the rotated bounds inside the margin. Maximum 10 million source pixels, 8,192 pixels per side, and 144 tiled placements; exceeding the tile count is an explicit error.",
+    schema: {
+      width: z.number().int().positive().max(IMAGE_WATERMARK_LIMITS.sourceSide),
+      height: z.number().int().positive().max(IMAGE_WATERMARK_LIMITS.sourceSide),
+      mark_width: z.number().positive(),
+      mark_height: z.number().positive(),
+      relative_width: z.number().min(1).max(90).default(25),
+      rotation: z.number().min(-180).max(180).default(0),
+      margin: z.number().min(0).max(10).default(2),
+      position: z.enum(WATERMARK_POSITIONS).default("br"),
+      tile: z.boolean().default(false),
+    },
+    run: (a) => {
+      const result = planImageWatermark({ width: a.width, height: a.height, markWidth: a.mark_width, markHeight: a.mark_height, relativeWidth: a.relative_width, rotation: a.rotation, margin: a.margin, position: a.position, tile: a.tile });
+      return result.error ? { ...json(result), isError: true } : json(result);
+    },
+  },
   // ── 单位换算 ──
   {
     name: "list_unit_categories",
@@ -727,6 +803,61 @@ export const MCP_TOOLS: McpToolDef[] = [
       }
       return result.ok ? json({ output: result.output })
         : { content: [{ type: "text", text: `Conversion failed: ${result.error.code}.` }], isError: true };
+    },
+  },
+  {
+    name: "filter_text_lines",
+    title: "Filter text lines",
+    description: "Select or exclude literal matching lines, select an inclusive one-based range, filter Unicode code-point lengths, or extract a literal-delimited column. No regex or CSV quote interpretation. CRLF/CR become LF; terminal newline creates a final empty line. Explicit outputLines distinguishes empty-line results from no match.",
+    schema: {
+      input: z.string().max(100_000),
+      mode: z.enum(["contains", "range", "length", "column"]),
+      query: z.string().max(128).optional(),
+      action: z.enum(["include", "exclude"]).optional(),
+      case_sensitive: z.boolean().optional(),
+      from: z.number().int().min(1).max(10_000).optional(),
+      to: z.number().int().min(1).max(10_000).optional(),
+      min: z.number().int().min(0).max(100_000).optional(),
+      max: z.number().int().min(0).max(100_000).optional(),
+      delimiter: z.string().max(128).optional(),
+      column: z.number().int().min(1).max(10_000).optional(),
+      missing_column: z.enum(["reject", "empty"]).optional(),
+    },
+    run: (a) => {
+      const options: TextLineFilterOptions = a.mode === "contains"
+        ? { mode: "contains", query: a.query ?? "", action: a.action ?? "include", caseSensitive: a.case_sensitive ?? true }
+        : a.mode === "range" ? { mode: "range", from: a.from, to: a.to }
+        : a.mode === "length" ? { mode: "length", min: a.min ?? 0, max: a.max ?? 100_000 }
+        : { mode: "column", delimiter: a.delimiter ?? "", column: a.column, missingColumn: a.missing_column ?? "reject" };
+      const result = filterTextLines(a.input, options);
+      return result.error ? { content: [{ type: "text", text: `Text filtering failed: ${result.error}. Check the mode, options and limits.` }], isError: true } : json(result);
+    },
+  },
+  {
+    name: "inspect_uuid",
+    title: "UUID validator and converter",
+    description: "Parse UUID canonical text, raw hexadecimal, UUID URN, braces, 128-bit binary or canonical standard Base64. Return equivalent formats, bytes, version/variant layout, NIL/MAX status. Recognized layout does not prove randomness, uniqueness or how a UUID was generated.",
+    schema: { input: z.string().max(128) },
+    run: (a) => {
+      const result = inspectUuid(a.input);
+      return result.ok ? json(result) : { content: [{ type: "text", text: `UUID input rejected: ${result.error}.` }], isError: true };
+    },
+  },
+  {
+    name: "plan_file_split",
+    title: "Plan binary file parts",
+    description: "Plan contiguous binary ranges for a file up to 50 MiB, by part_bytes or part_count. Supply exactly one method. At most 100 parts; start is zero-based inclusive and end exclusive. Empty files yield one empty part. This returns a plan only; the website handles local file bytes and downloads.",
+    schema: {
+      size: z.number().int().min(0).max(FILE_PARTS_LIMITS.bytes),
+      part_bytes: z.number().int().min(1).max(FILE_PARTS_LIMITS.bytes).optional(),
+      part_count: z.number().int().min(1).max(FILE_PARTS_LIMITS.parts).optional(),
+    },
+    run: (a) => {
+      if ((a.part_bytes === undefined) === (a.part_count === undefined)) {
+        return { content: [{ type: "text", text: "Supply exactly one of part_bytes or part_count." }], isError: true };
+      }
+      const result = planFileSplit(a.size, a.part_bytes !== undefined ? { mode: "size", partBytes: a.part_bytes } : { mode: "count", partCount: a.part_count });
+      return result.error ? { content: [{ type: "text", text: `File split plan rejected: ${result.error}.` }], isError: true } : json(result);
     },
   },
   {

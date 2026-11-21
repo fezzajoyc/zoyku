@@ -25,3 +25,5 @@ Input is limited to 100,000 UTF-16 units before newline normalization, 10,000 li
 Fixtures cover independent expected prefix/suffix outputs, start zero and non-unit step, leading/interior/final blank lines, empty input, mixed CRLF/CR/LF, CJK/emoji/Arabic/combining content, literal template/escape-like separator text, space alignment across digit boundaries, invalid options, exact input/line/output limits and largest allowed number progression. Copy contracts require all 15 distinct native taglines, minimum tagline lengths, steps/FAQs and localized runtime messages.
 
 Browser interaction, clipboard behavior, responsive/dark/RTL visual review, shared registry/overlay regression, full build and MCP execution remain with the root integration task. No commit was made.
+
+根任务已完成全仓与真实浏览器集成验收，详见[2026-11-22 统一记录](2026-11-22-complete-catalog-verification.md)。原聚焦记录仍保留工作单元交接边界。

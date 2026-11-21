@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-22",
+  "status": "passed",
+  "url": "/zh/tools/text-sequence-generator",
+  "theme": "light",
+  "width": 390,
+  "trigger": "hover primary button",
+  "before": {
+    "background": "rgb(245, 245, 247)",
+    "color": "rgb(255, 255, 255)",
+    "violations": [
+      {
+        "id": "color-contrast",
+        "nodes": [
+          {
+            "target": [
+              ".bg-\\[var\\(--color-action-bg\\)\\]"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.08 (foreground color: #ffffff, background color: #f5f5f7, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "background": "rgb(87, 80, 230)",
+    "color": "rgb(255, 255, 255)",
+    "opacity": "1",
+    "violations": [],
+    "incomplete": []
+  }
+}

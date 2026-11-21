@@ -1,12 +1,13 @@
 {
   "title": "LDDGO 420项完整语义对照",
   "date": "2026-11-21",
+  "delivery_updated_on": "2026-11-22",
   "summary": {
     "catalog_rows": 420,
     "status_counts": {
-      "missing": 216,
-      "existing": 46,
-      "partial": 108,
+      "missing": 206,
+      "existing": 55,
+      "partial": 109,
       "not-comparable": 14,
       "needs-source": 36
     },
@@ -1001,26 +1002,47 @@
         "zh": "在线生成基于数字的或者基于表达式的字符串序列。本工具支持批量生成序列号、流水号或者其他具有特定规则的文本序列。",
         "en": "Generate a string sequence based on numbers or expressions online. This tool supports batch generation of serial no list, or other text sequences with specific rules."
       },
-      "status": "missing",
+      "status": "partial",
       "workflow_group": "sequence-template",
-      "mapped_slugs": [],
+      "mapped_slugs": [
+        "text-sequence-generator"
+      ],
       "related_slugs_not_equivalent": [
         "random-number",
         "token-generator"
       ],
-      "boundary_or_gap": "Random draws and tokens do not implement arithmetic/expression sequences, start/step rules, padding or templated serial numbering. Inspected generator cores contain no sequence-template workflow.",
+      "boundary_or_gap": "本轮补精确有限小数起点/步长、数量、整数位补零与字面前后缀/分隔符；详情页的表达式、随机模板函数和2–36进制序列仍未支持。",
       "next_action": "Design and implement a registered workflow with independent behavior tests; adjacent tools do not close it.",
       "evidence_level": "E1-directory-and-current-local-source",
       "source_paths": [
-        "tools/registry.ts",
-        "lib/tool-copy.ts",
-        "tools/_engines/sec-engine-random.tsx",
-        "tools/_engines/dev-engine-token.tsx",
-        "tools/security/random-number.ts",
-        "tools/security/index.ts",
-        "tools/security/token-generator.ts"
+        "tools/text/text-sequence-generator.ts",
+        "tools/_engines/text-engine-sequence.tsx",
+        "tools/_lib/string-sequence.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/text/text-sequence-generator.ts",
+          "line": 4,
+          "excerpt": "export default defineTool({slug:\"text-sequence-generator\",category:\"text\",icon:\"hash\",engine:{component:TextSequenceEngine},related:[\"line-number-generator\",\"text-line-filter\",\"random-number\",\"text-sorter\"],copy:textSequenceToolCopy()});"
+        },
+        {
+          "path": "tools/_engines/text-engine-sequence.tsx",
+          "line": 10,
+          "excerpt": "export function TextSequenceEngine(){"
+        },
+        {
+          "path": "tools/_lib/string-sequence.ts",
+          "line": 33,
+          "excerpt": "export function generateTextSequence(options: TextSequenceOptions): TextSequenceResult {"
+        }
+      ],
+      "same_input_status": "unverified",
+      "peer_runtime_runs_in_this_batch": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-remaining.json",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "Random draws and tokens do not implement arithmetic/expression sequences, start/step rules, padding or templated serial numbering. Inspected generator cores contain no sequence-template workflow.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -1082,9 +1104,10 @@
           "file_sha256": "81da97ffa2b57504cc862012c543c63f0fd2af88335a8743a8be9a14353f4370"
         }
       ],
-      "same_input_status": "unverified",
-      "peer_runtime_runs_in_this_batch": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-remaining.json"
+      "delivery_update": "本轮补精确有限小数起点/步长、数量、整数位补零与字面前后缀/分隔符；详情页的表达式、随机模板函数和2–36进制序列仍未支持。",
+      "delivery_verification": "2026-11-22-sequence-bytes-watermark-browser.json",
+      "delivery_verified_on": "2026-11-22",
+      "delivery_detail_source": "2026-11-22-sequence-frequency-codec-sources.json"
     },
     {
       "catalog_id": "LDDGO-01-015",
@@ -1607,11 +1630,36 @@
       "category_id": 1,
       "title_zh": "在线文本增加行号",
       "peer_url": "https://www.lddgo.net/string/text-line",
-      "status": "missing",
-      "mapped_slugs": [],
-      "boundary_or_gap": "Text transforms expose cleaning, sorting, dedupe and reversal; none prepend/append aligned custom line numbering.",
+      "status": "existing",
+      "mapped_slugs": [
+        "line-number-generator"
+      ],
+      "boundary_or_gap": "本轮新实现行首/行尾编号、开始/步长/对齐/分隔符，保留空行和Unicode。",
       "workflow_group": "text-lines",
       "source_anchors": [
+        {
+          "path": "tools/text/line-number-generator.ts",
+          "line": 6,
+          "excerpt": "slug: \"line-number-generator\", category: \"text\", icon: \"hash\","
+        },
+        {
+          "path": "tools/_engines/text-engine-line-numbers.tsx",
+          "line": 13,
+          "excerpt": "export function LineNumbersEngine() {"
+        },
+        {
+          "path": "tools/_lib/line-numbers.ts",
+          "line": 17,
+          "excerpt": "export function addLineNumbers(input: unknown, options: LineNumbersOptions = {}): LineNumbersResult {"
+        }
+      ],
+      "evidence_level": "E1-directory-and-local-source",
+      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
+      "same_input_status": "unverified",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "Text transforms expose cleaning, sorting, dedupe and reversal; none prepend/append aligned custom line numbering.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -1641,20 +1689,50 @@
           "file_sha256": "06c2f3192da209d939b99ae2ddfd9077a6fffe9f86f097ae784ab264c6c75925"
         }
       ],
-      "evidence_level": "E1-directory-and-local-source",
-      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
-      "same_input_status": "unverified"
+      "delivery_update": "本轮新实现行首/行尾编号、开始/步长/对齐/分隔符，保留空行和Unicode。",
+      "source_paths": [
+        "tools/text/line-number-generator.ts",
+        "tools/_engines/text-engine-line-numbers.tsx",
+        "tools/_lib/line-numbers.ts"
+      ],
+      "delivery_verification": "2026-11-21-complete-catalog-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-01-026",
       "category_id": 1,
       "title_zh": "在线文本筛选工具",
       "peer_url": "https://www.lddgo.net/string/text-filter",
-      "status": "missing",
-      "mapped_slugs": [],
-      "boundary_or_gap": "Find/replace can transform matches, but does not expose retaining lines by text/number/regex and selecting delimiter/regex columns.",
+      "status": "partial",
+      "mapped_slugs": [
+        "text-line-filter"
+      ],
+      "boundary_or_gap": "本轮完成字面包含/排除、行范围、码点长度和分隔列提取；正则筛选和正则列提取仍未支持。",
       "workflow_group": "text-filter",
       "source_anchors": [
+        {
+          "path": "tools/text/text-line-filter.ts",
+          "line": 6,
+          "excerpt": "slug: \"text-line-filter\", category: \"text\", icon: \"text\","
+        },
+        {
+          "path": "tools/_engines/text-engine-line-filter.tsx",
+          "line": 14,
+          "excerpt": "export function TextLineFilterEngine() {"
+        },
+        {
+          "path": "tools/_lib/text-line-filter.ts",
+          "line": 9,
+          "excerpt": "export function filterTextLines(input: unknown, options: TextLineFilterOptions): TextLineFilterResult {"
+        }
+      ],
+      "evidence_level": "E1-directory-and-local-source",
+      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
+      "same_input_status": "unverified",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "Find/replace can transform matches, but does not expose retaining lines by text/number/regex and selecting delimiter/regex columns.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -1684,9 +1762,14 @@
           "file_sha256": "1a271f10e6f3ab34b85b0a3b3a8fa58a958c0f33b5a2ce4cdae043f3e88359ed"
         }
       ],
-      "evidence_level": "E1-directory-and-local-source",
-      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
-      "same_input_status": "unverified"
+      "delivery_update": "本轮完成字面包含/排除、行范围、码点长度和分隔列提取；正则筛选和正则列提取仍未支持。",
+      "source_paths": [
+        "tools/text/text-line-filter.ts",
+        "tools/_engines/text-engine-line-filter.tsx",
+        "tools/_lib/text-line-filter.ts"
+      ],
+      "delivery_verification": "2026-11-22-text-uuid-file-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-01-027",
@@ -2390,11 +2473,36 @@
       "category_id": 1,
       "title_zh": "在线文本长度过滤工具",
       "peer_url": "https://www.lddgo.net/string/text-length-filter",
-      "status": "missing",
-      "mapped_slugs": [],
-      "boundary_or_gap": "Text statistics count whole documents and text-sorter sorts by length; neither retains only lines within a selected length interval.",
+      "status": "existing",
+      "mapped_slugs": [
+        "text-line-filter"
+      ],
+      "boundary_or_gap": "本轮按Unicode码点长度范围筛选文本行，保留空白与末空行；不按视觉字素计数。",
       "workflow_group": "text-filter",
       "source_anchors": [
+        {
+          "path": "tools/text/text-line-filter.ts",
+          "line": 6,
+          "excerpt": "slug: \"text-line-filter\", category: \"text\", icon: \"text\","
+        },
+        {
+          "path": "tools/_engines/text-engine-line-filter.tsx",
+          "line": 14,
+          "excerpt": "export function TextLineFilterEngine() {"
+        },
+        {
+          "path": "tools/_lib/text-line-filter.ts",
+          "line": 9,
+          "excerpt": "export function filterTextLines(input: unknown, options: TextLineFilterOptions): TextLineFilterResult {"
+        }
+      ],
+      "evidence_level": "E1-directory-and-local-source",
+      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
+      "same_input_status": "unverified",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "Text statistics count whole documents and text-sorter sorts by length; neither retains only lines within a selected length interval.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -2438,9 +2546,14 @@
           "file_sha256": "06c2f3192da209d939b99ae2ddfd9077a6fffe9f86f097ae784ab264c6c75925"
         }
       ],
-      "evidence_level": "E1-directory-and-local-source",
-      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
-      "same_input_status": "unverified"
+      "delivery_update": "本轮按Unicode码点长度范围筛选文本行，保留空白与末空行；不按视觉字素计数。",
+      "source_paths": [
+        "tools/text/text-line-filter.ts",
+        "tools/_engines/text-engine-line-filter.tsx",
+        "tools/_lib/text-line-filter.ts"
+      ],
+      "delivery_verification": "2026-11-22-text-uuid-file-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-01-040",
@@ -4184,27 +4297,47 @@
       "status": "partial",
       "workflow_group": "character-word-frequency",
       "mapped_slugs": [
+        "character-frequency-counter",
         "keyword-density-checker"
       ],
       "related_slugs_not_equivalent": [
         "character-counter",
         "word-counter"
       ],
-      "boundary_or_gap": "The density engine exposes one-word counts and Chinese/kana character tokens with stopwords switchable off. Latin text is tokenized as words, so individual Latin-letter frequency is absent; character-counter reports totals, not a frequency table.",
+      "boundary_or_gap": "本轮新增通用Unicode码点频率与完整CSV/TXT导出，支持整段小写及去空白；分母明确为保留的变换后码点。仍未复现同行汉字/字母/单词/数字分类表及专用分母。",
       "next_action": "Implement the concrete reachable-workflow gap, then independently verify UI/core behavior.",
       "evidence_level": "E1-directory-and-current-local-source",
       "source_paths": [
-        "tools/registry.ts",
-        "lib/tool-copy.ts",
-        "tools/_engines/seo-engine-density.tsx",
-        "tools/_engines/text-stats.tsx",
-        "tools/seo/keyword-density-checker.ts",
-        "tools/seo/index.ts",
-        "tools/text/character-counter.ts",
-        "tools/text/index.ts",
-        "tools/text/word-counter.ts"
+        "tools/text/character-frequency-counter.ts",
+        "tools/_engines/text-engine-character-frequency.tsx",
+        "tools/_lib/character-frequency.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/text/character-frequency-counter.ts",
+          "line": 4,
+          "excerpt": "export default defineTool({slug:\"character-frequency-counter\",category:\"text\",icon:\"text\",engine:{component:CharacterFrequencyEngine},related:[\"character-counter\",\"word-counter\",\"keyword-density-checker\",\"text-line-filter\"],copy:characterFrequencyToolCopy()});"
+        },
+        {
+          "path": "tools/_engines/text-engine-character-frequency.tsx",
+          "line": 11,
+          "excerpt": "export function CharacterFrequencyEngine(){"
+        },
+        {
+          "path": "tools/_lib/character-frequency.ts",
+          "line": 6,
+          "excerpt": "export function countCharacterFrequency(input: unknown, options: CharacterFrequencyOptions = {}): CharacterFrequencyResult {"
+        }
+      ],
+      "same_input_status": "unverified",
+      "peer_runtime_runs_in_this_batch": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-remaining.json",
+      "pre_delivery_status": "partial",
+      "pre_delivery_mapping": [
+        "keyword-density-checker"
+      ],
+      "pre_delivery_boundary_or_gap": "The density engine exposes one-word counts and Chinese/kana character tokens with stopwords switchable off. Latin text is tokenized as words, so individual Latin-letter frequency is absent; character-counter reports totals, not a frequency table.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -4290,9 +4423,10 @@
           "file_sha256": "c1d083b8c0746807e4e8bb67a06ce89730737a69f9dcc80bd3328f4eb6b4a7fa"
         }
       ],
-      "same_input_status": "unverified",
-      "peer_runtime_runs_in_this_batch": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-remaining.json"
+      "delivery_update": "本轮新增通用Unicode码点频率与完整CSV/TXT导出，支持整段小写及去空白；分母明确为保留的变换后码点。仍未复现同行汉字/字母/单词/数字分类表及专用分母。",
+      "delivery_verification": "2026-11-22-sequence-bytes-watermark-browser.json",
+      "delivery_verified_on": "2026-11-22",
+      "delivery_detail_source": "2026-11-22-sequence-frequency-codec-sources.json"
     },
     {
       "catalog_id": "LDDGO-01-063",
@@ -6061,30 +6195,48 @@
         "zh": "在线 UUID 转换和校验工具，支持转换 string,hex,binary,base64 格式的 UUID。支持校验输入字符串是否为合法的 UUID，以及对应的 UUID 版本。",
         "en": "Online UUID conversion and verification tool, supporting the conversion of UUIDs in string, hex, binary, and base64 formats. Support verifying whether the input string is a valid UUID and the corresponding UUID version."
       },
-      "status": "missing",
+      "status": "existing",
       "workflow_group": "uuid-convert-validate",
-      "mapped_slugs": [],
+      "mapped_slugs": [
+        "uuid-validator-converter"
+      ],
       "related_slugs_not_equivalent": [
         "uuid-generator",
         "base64-encoder",
         "binary-converter"
       ],
-      "boundary_or_gap": "UUID namespace parsing exists internally, but the registered UUID engine only generates IDs. No arbitrary UUID input-to-format conversion, version inspection or validation UI is reachable; generic Base64/radix tools cannot preserve UUID layout semantics.",
+      "boundary_or_gap": "本轮实现标准文本、HEX、128位二进制和严格Base64的UUID双向转换，解释版本/变体和NIL/MAX；布局识别不证明唯一性或随机性。",
       "next_action": "Design and implement a registered workflow with independent behavior tests; adjacent tools do not close it.",
       "evidence_level": "E1-directory-and-current-local-source",
       "source_paths": [
-        "tools/registry.ts",
-        "lib/tool-copy.ts",
-        "tools/_lib/uuid-versions.ts",
-        "tools/_engines/dev-engine-uuid.tsx",
-        "tools/_engines/calc-engine-converters.tsx",
-        "tools/developer/uuid-generator.ts",
-        "tools/developer/index.ts",
-        "tools/developer/base64-encoder.ts",
-        "tools/calculators/binary-converter.ts",
-        "tools/calculators/index.ts"
+        "tools/developer/uuid-validator-converter.ts",
+        "tools/_engines/dev-engine-uuid-inspector.tsx",
+        "tools/_lib/uuid-inspector.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/developer/uuid-validator-converter.ts",
+          "line": 6,
+          "excerpt": "slug: \"uuid-validator-converter\","
+        },
+        {
+          "path": "tools/_engines/dev-engine-uuid-inspector.tsx",
+          "line": 11,
+          "excerpt": "export function UuidInspectorResult({ inspection, locale }: { inspection: UuidInspection; locale: Locale }) {"
+        },
+        {
+          "path": "tools/_lib/uuid-inspector.ts",
+          "line": 23,
+          "excerpt": "export function inspectUuid(input: unknown): UuidInspectionResult {"
+        }
+      ],
+      "same_input_status": "unverified",
+      "peer_runtime_runs_in_this_batch": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-remaining.json",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "UUID namespace parsing exists internally, but the registered UUID engine only generates IDs. No arbitrary UUID input-to-format conversion, version inspection or validation UI is reachable; generic Base64/radix tools cannot preserve UUID layout semantics.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -6170,9 +6322,9 @@
           "file_sha256": "68b135ab5c87ce1781046a856b1a0293032d5a89ad341d4a392634457d8b5483"
         }
       ],
-      "same_input_status": "unverified",
-      "peer_runtime_runs_in_this_batch": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-remaining.json"
+      "delivery_update": "本轮实现标准文本、HEX、128位二进制和严格Base64的UUID双向转换，解释版本/变体和NIL/MAX；布局识别不证明唯一性或随机性。",
+      "delivery_verification": "2026-11-22-text-uuid-file-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-01-082",
@@ -8090,26 +8242,46 @@
         "en": "https://www.lddgo.net/en/convert/stringbase32"
       },
       "peer_declared_scope": "在线字符串转Base32工具，提供字符串和Base32互相转换的功能。转换支持选择字符集，设置换行字符参数。",
-      "status": "missing",
-      "mapped_slugs": [],
+      "status": "partial",
+      "mapped_slugs": [
+        "byte-encoding-converter"
+      ],
       "related_slugs_not_equivalent": [
         "totp-generator",
         "base64-encoder"
       ],
-      "boundary_or_gap": "已检查全部注册数组及下列相关核心；TOTP 内部含 Base32 密钥编解码，但无任意字符串 Base32 编解码界面、字符集或换行参数；Base64 页面不等价。",
+      "boundary_or_gap": "本轮提供严格RFC4648 Base32与UTF-8/HEX/Base64/文件原始字节互转，保留原始换行；其他字符集与显式LF/CRLF归一化选项仍未支持。",
       "source_paths": [
-        "tools/registry.ts",
-        "tools/calculators/index.ts",
-        "tools/developer/index.ts",
-        "tools/security/index.ts",
-        "tools/text/index.ts",
-        "tools/utility/index.ts",
-        "tools/security/totp-generator.ts",
-        "tools/developer/base64-encoder.ts",
-        "tools/_lib/totp.ts",
-        "tools/_lib/totp-generate.ts"
+        "tools/developer/byte-encoding-converter.ts",
+        "tools/_engines/dev-engine-byte-encoding.tsx",
+        "tools/_lib/byte-encoding.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/developer/byte-encoding-converter.ts",
+          "line": 6,
+          "excerpt": "slug: \"byte-encoding-converter\","
+        },
+        {
+          "path": "tools/_engines/dev-engine-byte-encoding.tsx",
+          "line": 15,
+          "excerpt": "export async function readByteEncodingFile(file: File): Promise<FileResult> {"
+        },
+        {
+          "path": "tools/_lib/byte-encoding.ts",
+          "line": 74,
+          "excerpt": "export function decodeByteEncoding(input: unknown, encoding: ByteEncoding, options: ByteEncodingOptions = {}): DecodedBytes {"
+        }
+      ],
+      "workflow_group": "base32-text",
+      "evidence_level": "E1-directory-and-local-source",
+      "same_input_status": "not-run",
+      "peer_runtime_runs": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-network-crypto.json",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "已检查全部注册数组及下列相关核心；TOTP 内部含 Base32 密钥编解码，但无任意字符串 Base32 编解码界面、字符集或换行参数；Base64 页面不等价。",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -8161,11 +8333,10 @@
           "excerpt": "export function base32Encode(bytes: Uint8Array, pad = false): string {"
         }
       ],
-      "workflow_group": "base32-text",
-      "evidence_level": "E1-directory-and-local-source",
-      "same_input_status": "not-run",
-      "peer_runtime_runs": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-network-crypto.json"
+      "delivery_update": "本轮提供严格RFC4648 Base32与UTF-8/HEX/Base64/文件原始字节互转，保留原始换行；其他字符集与显式LF/CRLF归一化选项仍未支持。",
+      "delivery_verification": "2026-11-22-sequence-bytes-watermark-browser.json",
+      "delivery_verified_on": "2026-11-22",
+      "delivery_detail_source": "2026-11-22-sequence-frequency-codec-sources.json"
     },
     {
       "catalog_id": "LDDGO-02-014",
@@ -8453,19 +8624,51 @@
         "en": "https://www.lddgo.net/en/convert/yaml-to-json"
       },
       "peer_declared_scope": "在线YAML和JSON互相转换工具，支持YAML转JSON，JSON转YAML功能。",
-      "status": "partial",
+      "status": "existing",
       "mapped_slugs": [
         "json-yaml-converter"
       ],
       "related_slugs_not_equivalent": [],
-      "boundary_or_gap": "JSON→YAML 可达，但工具定义固定 mode=json2yaml；swap 只把 output 放入 input，不切方向，因此 YAML→JSON 分支不可达。此结论记录修复前快照。",
+      "boundary_or_gap": "本轮修复真正双向转换及异步状态，并加入JSON兼容值/资源限制。",
       "source_paths": [
-        "tools/registry.ts",
-        "tools/developer/index.ts",
         "tools/developer/json-yaml-converter.ts",
-        "tools/_engines/dev-engine-yaml.tsx"
+        "tools/_engines/dev-engine-yaml.tsx",
+        "tools/_lib/yaml-converter.ts",
+        "lib/tool-copy.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/developer/json-yaml-converter.ts",
+          "line": 5,
+          "excerpt": "slug: \"json-yaml-converter\","
+        },
+        {
+          "path": "tools/_engines/dev-engine-yaml.tsx",
+          "line": 11,
+          "excerpt": "export function DevEngineYaml({ mode = \"json2yaml\" }: { mode?: YamlDirection }) {"
+        },
+        {
+          "path": "tools/_lib/yaml-converter.ts",
+          "line": 80,
+          "excerpt": "export async function convertYamlJson(input: string, direction: YamlDirection): Promise<YamlConversionResult> {"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 14,
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {"
+        }
+      ],
+      "workflow_group": "yaml-json",
+      "evidence_level": "E1-directory-and-local-source",
+      "same_input_status": "not-run",
+      "peer_runtime_runs": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-network-crypto.json",
+      "pre_delivery_status": "partial",
+      "pre_delivery_mapping": [
+        "json-yaml-converter"
+      ],
+      "pre_delivery_boundary_or_gap": "JSON→YAML 可达，但工具定义固定 mode=json2yaml；swap 只把 output 放入 input，不切方向，因此 YAML→JSON 分支不可达。此结论记录修复前快照。",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -8497,11 +8700,9 @@
           "excerpt": "onClick={() => { setInput(output); setOutput(\"\"); setErr(\"\"); }}"
         }
       ],
-      "workflow_group": "yaml-json",
-      "evidence_level": "E1-directory-and-local-source",
-      "same_input_status": "not-run",
-      "peer_runtime_runs": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-network-crypto.json"
+      "delivery_update": "本轮修复真正双向转换及异步状态，并加入JSON兼容值/资源限制。",
+      "delivery_verification": "2026-11-21-complete-catalog-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-02-019",
@@ -8973,26 +9174,46 @@
         "en": "https://www.lddgo.net/en/convert/base58"
       },
       "peer_declared_scope": "在线Base58编码解码工具，支持对字符串和文件进行Base58编码解码。",
-      "status": "missing",
-      "mapped_slugs": [],
+      "status": "existing",
+      "mapped_slugs": [
+        "byte-encoding-converter"
+      ],
       "related_slugs_not_equivalent": [
         "binary-converter",
         "base64-encoder"
       ],
-      "boundary_or_gap": "已检查全部注册数组及下列相关核心；binary-converter 的 base58 是非负整数位值表示，不能替代字符串/文件按 Base58 编码的字节序列与前导零规则。",
+      "boundary_or_gap": "本轮补Bitcoin字母表的原始字节Base58，支持UTF-8文本和本地文件，保留每个前导零字节并下载回读；Base58限1024字节，不含Base58Check。",
       "source_paths": [
-        "tools/registry.ts",
-        "tools/calculators/index.ts",
-        "tools/developer/index.ts",
-        "tools/security/index.ts",
-        "tools/text/index.ts",
-        "tools/utility/index.ts",
-        "tools/calculators/binary-converter.ts",
-        "tools/developer/base64-encoder.ts",
-        "tools/_engines/calc-engine-converters.tsx",
-        "tools/_lib/base-convert.ts"
+        "tools/developer/byte-encoding-converter.ts",
+        "tools/_engines/dev-engine-byte-encoding.tsx",
+        "tools/_lib/byte-encoding.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/developer/byte-encoding-converter.ts",
+          "line": 6,
+          "excerpt": "slug: \"byte-encoding-converter\","
+        },
+        {
+          "path": "tools/_engines/dev-engine-byte-encoding.tsx",
+          "line": 15,
+          "excerpt": "export async function readByteEncodingFile(file: File): Promise<FileResult> {"
+        },
+        {
+          "path": "tools/_lib/byte-encoding.ts",
+          "line": 74,
+          "excerpt": "export function decodeByteEncoding(input: unknown, encoding: ByteEncoding, options: ByteEncodingOptions = {}): DecodedBytes {"
+        }
+      ],
+      "workflow_group": "base58-data",
+      "evidence_level": "E1-directory-and-local-source",
+      "same_input_status": "not-run",
+      "peer_runtime_runs": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-network-crypto.json",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "已检查全部注册数组及下列相关核心；binary-converter 的 base58 是非负整数位值表示，不能替代字符串/文件按 Base58 编码的字节序列与前导零规则。",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -9044,11 +9265,9 @@
           "excerpt": "export function parseInBase(input: string, radix: number): BaseConvertResult {"
         }
       ],
-      "workflow_group": "base58-data",
-      "evidence_level": "E1-directory-and-local-source",
-      "same_input_status": "not-run",
-      "peer_runtime_runs": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-network-crypto.json"
+      "delivery_update": "本轮补Bitcoin字母表的原始字节Base58，支持UTF-8文本和本地文件，保留每个前导零字节并下载回读；Base58限1024字节，不含Base58Check。",
+      "delivery_verification": "2026-11-22-sequence-bytes-watermark-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-02-026",
@@ -15467,7 +15686,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -15513,7 +15732,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -15559,7 +15778,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -15605,7 +15824,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -15651,7 +15870,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -15697,7 +15916,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -15962,7 +16181,7 @@
         },
         {
           "path": "tools/developer/index.ts",
-          "line": 45,
+          "line": 46,
           "excerpt": "export const DEV_TOOLS = ["
         },
         {
@@ -16433,7 +16652,7 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 50,
+          "line": 52,
           "excerpt": "export function CalcEngineLunar() {"
         },
         {
@@ -16443,7 +16662,7 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 181,
+          "line": 183,
           "excerpt": "<span className=\"font-medium\">{lunarOut.zodiac}</span>"
         }
       ],
@@ -16502,12 +16721,12 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 50,
+          "line": 52,
           "excerpt": "export function CalcEngineLunar() {"
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 181,
+          "line": 183,
           "excerpt": "<span className=\"font-medium\">{lunarOut.zodiac}</span>"
         }
       ],
@@ -16553,7 +16772,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -17036,7 +17255,7 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 50,
+          "line": 52,
           "excerpt": "export function CalcEngineLunar() {"
         },
         {
@@ -17046,12 +17265,12 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 97,
+          "line": 99,
           "excerpt": "const convert = () => (tab === \"solar\" ? runSolar() : runLunar());"
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 33,
+          "line": 35,
           "excerpt": "note: { en: \"All conversion runs locally with the lunar-javascript library (MIT). GanZhi years switch at Lunar New Year (not Lichun); leap months exist in about 7 of 19 years. Years ≈1900–2100.\", zh: \"转换全部由本机的 lunar-javascript 库(MIT)完成。干支年按农历新年换年(非立春口径);闰月约每 19 年 7 次;年份约 1900–2100。\", ja: \"変換はすべて端末内の lunar-javascript ライブラリ(MIT)で行います。干支年は旧暦正月で換年(立春ではありません)。閏月は約 19 年に 7 回。年は約 1900〜2100。\", es: \"La conversión se realiza localmente con la biblioteca lunar-javascript (MIT). El año GanZhi cambia en el Año Nuevo Lunar (no en Lichun); hay mes bisiesto unas 7 de cada 19 años. Años ≈1900–2100.\", pt: \"A conversão roda localmente com a biblioteca lunar-javascript (MIT). O ano GanZhi troca no Ano-Novo Lunar (não no Lichun); meses bissextos ocorrem ~7 de cada 19 anos. Anos ≈1900–2100.\", fr: \"La conversion se fait localement avec la bibliothèque lunar-javascript (MIT). L'année GanZhi change au Nouvel An lunaire (pas au Lichun) ; mois intercalaire ~7 fois sur 19. Années ≈1900–2100.\", de: \"Die Umrechnung läuft lokal mit lunar-javascript (MIT). Das GanZhi-Jahr wechselt am Mondneujahr (nicht Lichun); Schaltmonate ~7 von 19 Jahren. Jahre ≈1900–2100.\", ru: \"Преобразование выполняется локально библиотекой lunar-javascript (MIT). Год Гань-чжи меняется по Лунному Новому году (не по Личунь); вставные месяцы ~7 из 19 лет. Годы ≈1900–2100.\", it: \"La conversione avviene localmente con la libreria lunar-javascript (MIT). L'anno GanZhi cambia a Capodanno lunare (non a Lichun); mesi intercalari ~7 su 19. Anni ≈1900–2100.\", tr: \"Dönüştürme, lunar-javascript kitaplığıyla (MIT) bu cihazda yapılır. GanZhi yılı Ay Yılı'nda değişir (Lichun'da değil); artık ay ~19 yılda 7. Yıllar ≈1900–2100.\", ko: \"변환은 lunar-javascript 라이브러리(MIT)로 이 기기에서 수행됩니다. 간지 연도는 음력 설로 바뀌며(입춘 아님) 윤달은 약 19년에 7번입니다. 연도 ≈1900–2100.\", ar: \"يعمل التحويل محليًا بمكتبة lunar-javascript (MIT). تتغير سنة القوانين برأس السنة القمرية (لا عند Lichun)؛ الشهر الكبيس ~7 من كل 19 سنة. السنوات ≈1900–2100.\", hi: \"रूपांतरण इसी डिवाइस पर lunar-javascript लाइब्रेरी (MIT) से होता है। गणजी वर्ष चंद्र नववर्ष पर बदलता है (लिचुन पर नहीं); अधिक माह ~19 में से 7 बार। वर्ष ≈1900–2100।\", id: \"Konversi berjalan lokal dengan pustaka lunar-javascript (MIT). Tahun GanZhi berganti di Imlek (bukan Lichun); bulan kabisat ~7 dari 19 tahun. Tahun ≈1900–2100.\", vi: \"Chuyển đổi chạy cục bộ bằng thư viện lunar-javascript (MIT). Năm Can Chi đổi theo Tết (không phải Lịch xuân); tháng nhuận ~7/19 năm. Năm ≈1900–2100.\" },"
         }
       ],
@@ -17160,7 +17379,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -17225,7 +17444,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -17290,7 +17509,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -17638,7 +17857,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -17873,7 +18092,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -17948,7 +18167,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -18009,7 +18228,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -18274,7 +18493,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -18339,7 +18558,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -18407,7 +18626,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -18635,7 +18854,7 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 50,
+          "line": 52,
           "excerpt": "export function CalcEngineLunar() {"
         },
         {
@@ -18655,7 +18874,7 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 181,
+          "line": 183,
           "excerpt": "<span className=\"font-medium\">{lunarOut.zodiac}</span>"
         },
         {
@@ -19040,7 +19259,7 @@
         },
         {
           "path": "tools/_engines/calc-engine-lunar.tsx",
-          "line": 50,
+          "line": 52,
           "excerpt": "export function CalcEngineLunar() {"
         },
         {
@@ -19467,7 +19686,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -19867,7 +20086,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -20143,7 +20362,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -20505,7 +20724,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -20635,7 +20854,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -20791,7 +21010,7 @@
         },
         {
           "path": "tools/developer/index.ts",
-          "line": 45,
+          "line": 46,
           "excerpt": "export const DEV_TOOLS = ["
         },
         {
@@ -20937,7 +21156,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         }
       ],
@@ -22871,7 +23090,7 @@
         },
         {
           "path": "tools/developer/index.ts",
-          "line": 45,
+          "line": 46,
           "excerpt": "export const DEV_TOOLS = ["
         },
         {
@@ -23599,7 +23818,7 @@
         },
         {
           "path": "tools/developer/index.ts",
-          "line": 45,
+          "line": 46,
           "excerpt": "export const DEV_TOOLS = ["
         },
         {
@@ -23976,7 +24195,7 @@
         },
         {
           "path": "tools/text/index.ts",
-          "line": 21,
+          "line": 22,
           "excerpt": "export const TEXT_TOOLS = ["
         },
         {
@@ -27598,13 +27817,43 @@
       "category_id": 9,
       "title_zh": "在线图片加水印",
       "peer_url": "https://www.lddgo.net/image/watermark",
-      "status": "partial",
+      "status": "existing",
       "mapped_slugs": [
         "watermark-image"
       ],
-      "boundary_or_gap": "No image/logo watermark input; both LDDGO single and batch directory entries declare text and image watermarks.",
+      "boundary_or_gap": "现有入口已补文字/图片Logo两种水印、九点定位、相对宽度、旋转、透明度和有限平铺；PNG保留alpha、JPEG白底，单个/最多6源图片本地处理，尺寸限制及动画/元数据边界见页面。",
       "workflow_group": "image-watermark",
       "source_anchors": [
+        {
+          "path": "tools/image/watermark-image.ts",
+          "line": 6,
+          "excerpt": "slug: \"watermark-image\","
+        },
+        {
+          "path": "tools/_engines/image-engine-watermark.tsx",
+          "line": 35,
+          "excerpt": "export function drawWatermarkCanvas(canvas: HTMLCanvasElement, source: ImageBitmap, logo: ImageBitmap | null, config: Config, maxSide?: number): void {"
+        },
+        {
+          "path": "tools/_lib/image-watermark.ts",
+          "line": 28,
+          "excerpt": "export function planImageWatermark(options: ImageWatermarkOptions): ImageWatermarkPlanResult {"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 14,
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {"
+        }
+      ],
+      "evidence_level": "E1-directory-and-local-source",
+      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
+      "same_input_status": "unverified",
+      "pre_delivery_status": "partial",
+      "pre_delivery_mapping": [
+        "watermark-image"
+      ],
+      "pre_delivery_boundary_or_gap": "No image/logo watermark input; both LDDGO single and batch directory entries declare text and image watermarks.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -27641,9 +27890,15 @@
           "file_sha256": "b8e9436cb983ce402397bd7c979c18ee18b88f190a0addf2e6b532c3a1448edb"
         }
       ],
-      "evidence_level": "E1-directory-and-local-source",
-      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
-      "same_input_status": "unverified"
+      "delivery_update": "现有入口已补文字/图片Logo两种水印、九点定位、相对宽度、旋转、透明度和有限平铺；PNG保留alpha、JPEG白底，单个/最多6源图片本地处理，尺寸限制及动画/元数据边界见页面。",
+      "source_paths": [
+        "tools/image/watermark-image.ts",
+        "tools/_engines/image-engine-watermark.tsx",
+        "tools/_lib/image-watermark.ts",
+        "lib/tool-copy.ts"
+      ],
+      "delivery_verification": "2026-11-22-sequence-bytes-watermark-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-09-018",
@@ -28874,13 +29129,43 @@
       "category_id": 9,
       "title_zh": "在线批量图片添加水印",
       "peer_url": "https://www.lddgo.net/image/batch-watermark",
-      "status": "partial",
+      "status": "existing",
       "mapped_slugs": [
         "watermark-image"
       ],
-      "boundary_or_gap": "No image/logo watermark input; both LDDGO single and batch directory entries declare text and image watermarks.",
+      "boundary_or_gap": "同一入口支持最多6源图片的文字/图片Logo批量水印，比例/旋转/留边/透明度和输出格式共享；不新增同义批量路由，不保留动画/元数据，支持尺寸与总量限制显式披露。",
       "workflow_group": "image-watermark",
       "source_anchors": [
+        {
+          "path": "tools/image/watermark-image.ts",
+          "line": 6,
+          "excerpt": "slug: \"watermark-image\","
+        },
+        {
+          "path": "tools/_engines/image-engine-watermark.tsx",
+          "line": 35,
+          "excerpt": "export function drawWatermarkCanvas(canvas: HTMLCanvasElement, source: ImageBitmap, logo: ImageBitmap | null, config: Config, maxSide?: number): void {"
+        },
+        {
+          "path": "tools/_lib/image-watermark.ts",
+          "line": 28,
+          "excerpt": "export function planImageWatermark(options: ImageWatermarkOptions): ImageWatermarkPlanResult {"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 14,
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {"
+        }
+      ],
+      "evidence_level": "E1-directory-and-local-source",
+      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
+      "same_input_status": "unverified",
+      "pre_delivery_status": "partial",
+      "pre_delivery_mapping": [
+        "watermark-image"
+      ],
+      "pre_delivery_boundary_or_gap": "No image/logo watermark input; both LDDGO single and batch directory entries declare text and image watermarks.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -28917,9 +29202,15 @@
           "file_sha256": "b8e9436cb983ce402397bd7c979c18ee18b88f190a0addf2e6b532c3a1448edb"
         }
       ],
-      "evidence_level": "E1-directory-and-local-source",
-      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
-      "same_input_status": "unverified"
+      "delivery_update": "同一入口支持最多6源图片的文字/图片Logo批量水印，比例/旋转/留边/透明度和输出格式共享；不新增同义批量路由，不保留动画/元数据，支持尺寸与总量限制显式披露。",
+      "source_paths": [
+        "tools/image/watermark-image.ts",
+        "tools/_engines/image-engine-watermark.tsx",
+        "tools/_lib/image-watermark.ts",
+        "lib/tool-copy.ts"
+      ],
+      "delivery_verification": "2026-11-22-sequence-bytes-watermark-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-09-036",
@@ -30855,27 +31146,47 @@
         "zh": "在线文件合并，支持合并文本文件和二进制文件。合并不限制不限制文件数量和文件大小。",
         "en": "Online file merging, supports merging text files and binary files. Merge without restrictions on the number and size of files."
       },
-      "status": "missing",
+      "status": "existing",
       "workflow_group": "raw-file-concatenate",
-      "mapped_slugs": [],
+      "mapped_slugs": [
+        "file-splitter-merger"
+      ],
       "related_slugs_not_equivalent": [
         "merge-pdf",
         "merge-images"
       ],
-      "boundary_or_gap": "PDF merge parses/copies PDF pages and image merge decodes/paints pixels. Neither concatenates arbitrary text/binary bytes without format interpretation; raw-file merge is absent.",
+      "boundary_or_gap": "本轮按用户顺序合并原始文件字节，支持重排/移除和下载。限制总计50MiB和100文件；不理解PDF页或文本语义。",
       "next_action": "Design and implement a registered workflow with independent behavior tests; adjacent tools do not close it.",
       "evidence_level": "E1-directory-and-current-local-source",
       "source_paths": [
-        "tools/registry.ts",
-        "lib/tool-copy.ts",
-        "tools/pdf/index.ts",
-        "tools/_engines/pdf-engine-pages.tsx",
-        "tools/_engines/image-engine-merge.tsx",
-        "tools/pdf/merge-pdf.ts",
-        "tools/image/merge-images.ts",
-        "tools/image/index.ts"
+        "tools/utility/file-splitter-merger.ts",
+        "tools/_engines/util-engine-file-parts.tsx",
+        "tools/_lib/file-parts.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/utility/file-splitter-merger.ts",
+          "line": 6,
+          "excerpt": "slug: \"file-splitter-merger\","
+        },
+        {
+          "path": "tools/_engines/util-engine-file-parts.tsx",
+          "line": 22,
+          "excerpt": "export function prepareFileParts(files: readonly File[], mode: Mode, options: FileSplitOptions, outputName: string): { outputs: Output[]; error: PrepareError | null } {"
+        },
+        {
+          "path": "tools/_lib/file-parts.ts",
+          "line": 8,
+          "excerpt": "export function planFileSplit(size: number, options: FileSplitOptions): FilePartsPlan {"
+        }
+      ],
+      "same_input_status": "unverified",
+      "peer_runtime_runs_in_this_batch": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-remaining.json",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "PDF merge parses/copies PDF pages and image merge decodes/paints pixels. Neither concatenates arbitrary text/binary bytes without format interpretation; raw-file merge is absent.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -30943,9 +31254,9 @@
           "file_sha256": "58a6fbf6ff31275e37f7be0a44fe3c3c79a75480222e47b620962b31fe6df51c"
         }
       ],
-      "same_input_status": "unverified",
-      "peer_runtime_runs_in_this_batch": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-remaining.json"
+      "delivery_update": "本轮按用户顺序合并原始文件字节，支持重排/移除和下载。限制总计50MiB和100文件；不理解PDF页或文本语义。",
+      "delivery_verification": "2026-11-22-text-uuid-file-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-10-019",
@@ -30962,27 +31273,47 @@
         "zh": "在线文件拆分工具，以二进制数据的方式拆分任意大小的文件，支持指定拆分文件个数或拆分文件大小，拆分后的文件支持下载到本地。",
         "en": "Online file splitting tool, which splits files of any size in the form of binary data. It supports specifying the number or size of split files, and the split files can be downloaded locally."
       },
-      "status": "missing",
+      "status": "existing",
       "workflow_group": "raw-file-split",
-      "mapped_slugs": [],
+      "mapped_slugs": [
+        "file-splitter-merger"
+      ],
       "related_slugs_not_equivalent": [
         "split-pdf",
         "image-splitter"
       ],
-      "boundary_or_gap": "PDF split creates new page-based PDFs and image splitter crops pixel regions. Neither slices arbitrary files into byte chunks by chunk size/count.",
+      "boundary_or_gap": "本轮按精确字节大小或均衡份数拆分本地文件，实际分片回读可还原原字节。限制50MiB/100分片；空文件一空片。",
       "next_action": "Design and implement a registered workflow with independent behavior tests; adjacent tools do not close it.",
       "evidence_level": "E1-directory-and-current-local-source",
       "source_paths": [
-        "tools/registry.ts",
-        "lib/tool-copy.ts",
-        "tools/pdf/index.ts",
-        "tools/_engines/pdf-engine-pages.tsx",
-        "tools/_engines/image-engine-splitter.tsx",
-        "tools/pdf/split-pdf.ts",
-        "tools/image/image-splitter.ts",
-        "tools/image/index.ts"
+        "tools/utility/file-splitter-merger.ts",
+        "tools/_engines/util-engine-file-parts.tsx",
+        "tools/_lib/file-parts.ts"
       ],
       "source_anchors": [
+        {
+          "path": "tools/utility/file-splitter-merger.ts",
+          "line": 6,
+          "excerpt": "slug: \"file-splitter-merger\","
+        },
+        {
+          "path": "tools/_engines/util-engine-file-parts.tsx",
+          "line": 22,
+          "excerpt": "export function prepareFileParts(files: readonly File[], mode: Mode, options: FileSplitOptions, outputName: string): { outputs: Output[]; error: PrepareError | null } {"
+        },
+        {
+          "path": "tools/_lib/file-parts.ts",
+          "line": 8,
+          "excerpt": "export function planFileSplit(size: number, options: FileSplitOptions): FilePartsPlan {"
+        }
+      ],
+      "same_input_status": "unverified",
+      "peer_runtime_runs_in_this_batch": 0,
+      "review_source": "2026-11-21-lddgo-fullmap-remaining.json",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "PDF split creates new page-based PDFs and image splitter crops pixel regions. Neither slices arbitrary files into byte chunks by chunk size/count.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -31050,9 +31381,9 @@
           "file_sha256": "58a6fbf6ff31275e37f7be0a44fe3c3c79a75480222e47b620962b31fe6df51c"
         }
       ],
-      "same_input_status": "unverified",
-      "peer_runtime_runs_in_this_batch": 0,
-      "review_source": "2026-11-21-lddgo-fullmap-remaining.json"
+      "delivery_update": "本轮按精确字节大小或均衡份数拆分本地文件，实际分片回读可还原原字节。限制50MiB/100分片；空文件一空片。",
+      "delivery_verification": "2026-11-22-text-uuid-file-browser.json",
+      "delivery_verified_on": "2026-11-22"
     },
     {
       "catalog_id": "LDDGO-10-020",
@@ -31258,11 +31589,36 @@
       "category_id": 10,
       "title_zh": "在线文件类型检测",
       "peer_url": "https://www.lddgo.net/file/file-type-detect",
-      "status": "missing",
-      "mapped_slugs": [],
-      "boundary_or_gap": "No file upload/magic-byte sniffing, batch detection or downloadable detection report is implemented by that tool.",
+      "status": "partial",
+      "mapped_slugs": [
+        "file-type-detector"
+      ],
+      "boundary_or_gap": "本轮提供明确签名表的有限头部匹配；不覆盖所有文件格式、不验证完整文件、不解析容器子格式。",
       "workflow_group": "file-identification",
       "source_anchors": [
+        {
+          "path": "tools/developer/file-type-detector.ts",
+          "line": 6,
+          "excerpt": "slug: \"file-type-detector\","
+        },
+        {
+          "path": "tools/_engines/dev-engine-file-type.tsx",
+          "line": 27,
+          "excerpt": "export async function readFileSignature(file: File): Promise<LocalFileSignatureReport> {"
+        },
+        {
+          "path": "tools/_lib/file-signature.ts",
+          "line": 51,
+          "excerpt": "export function identifyFileSignature(input: Uint8Array): FileSignature | null {"
+        }
+      ],
+      "evidence_level": "E1-directory-and-local-source",
+      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
+      "same_input_status": "unverified",
+      "pre_delivery_status": "missing",
+      "pre_delivery_mapping": [],
+      "pre_delivery_boundary_or_gap": "No file upload/magic-byte sniffing, batch detection or downloadable detection report is implemented by that tool.",
+      "pre_delivery_source_anchors": [
         {
           "path": "tools/registry.ts",
           "line": 14,
@@ -31292,9 +31648,14 @@
           "file_sha256": "36c5de1a1d27ffbb492ba95a067acb76db8c30636c5c4e3dce91ac37ceb0d18a"
         }
       ],
-      "evidence_level": "E1-directory-and-local-source",
-      "review_source": "2026-11-21-lddgo-semantic-batch1.json",
-      "same_input_status": "unverified"
+      "delivery_update": "本轮提供明确签名表的有限头部匹配；不覆盖所有文件格式、不验证完整文件、不解析容器子格式。",
+      "source_paths": [
+        "tools/developer/file-type-detector.ts",
+        "tools/_engines/dev-engine-file-type.tsx",
+        "tools/_lib/file-signature.ts"
+      ],
+      "delivery_verification": "2026-11-21-complete-catalog-browser.json",
+      "delivery_verified_on": "2026-11-22"
     }
   ]
 }

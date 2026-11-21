@@ -1,0 +1,632 @@
+{
+  "date": "2026-11-22",
+  "status": "passed",
+  "acceptance": {
+    "sequence": true,
+    "frequency": true,
+    "byte_encoding": true,
+    "image_watermark": true
+  },
+  "http": [
+    {
+      "lang": "en",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "en",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "en",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "en",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "text-sequence-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "character-frequency-counter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "byte-encoding-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "watermark-image",
+      "html": 200,
+      "markdown": 200
+    }
+  ],
+  "sequence": {
+    "exactDecimal": true,
+    "beyondSafeInteger": true,
+    "signedPadding": true,
+    "commasDisclosed": true,
+    "literalAffixes": true,
+    "clipboardKeyboard": true,
+    "editDropsOutput": true,
+    "invalidDropsOutput": true,
+    "clearFocus": true
+  },
+  "frequency": {
+    "unicodeLowerExpansion": true,
+    "denominator": 5,
+    "firstCount": 2,
+    "firstShare": 0.4,
+    "displayLimitDoesNotLimitExport": true,
+    "csvRows": 4,
+    "txtAllRows": true,
+    "downloadFailureCleanup": true,
+    "downloadRecovery": true,
+    "allWhitespaceVsEmpty": true,
+    "invalidDropsTable": true
+  },
+  "bytes": {
+    "rfc4648Foobar": true,
+    "leadingZeroBase58": "112",
+    "strictPadBits": true,
+    "explicitWhitespace": true,
+    "fatalUtf8": true,
+    "clipboard": true,
+    "fileBase64MatchesNode": true,
+    "fileBytes": 17,
+    "sourceSha256": "18ed23019d4736a7c6f2f5141ebda4c487906fcf38743668483c9841af0290e4",
+    "downloadSha256": "18ed23019d4736a7c6f2f5141ebda4c487906fcf38743668483c9841af0290e4",
+    "downloadFailureCleanup": true,
+    "downloadRecovery": true,
+    "targetChangePreservesPendingFile": true,
+    "clearRejectsLateRead": true,
+    "emptyDownloadBytes": 0
+  },
+  "watermark": {
+    "sourceDimensions": [
+      32,
+      24
+    ],
+    "logoDimensions": [
+      4,
+      2
+    ],
+    "pngPixels": [
+      [
+        255,
+        0,
+        0,
+        255
+      ],
+      [
+        0,
+        255,
+        0,
+        255
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        255,
+        255
+      ]
+    ],
+    "previewPixels": [
+      [
+        255,
+        0,
+        0,
+        255
+      ],
+      [
+        0,
+        255,
+        0,
+        255
+      ],
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        255,
+        255
+      ]
+    ],
+    "pngSha256": "bf009cebe26541253a96939dec47533993e412b1d075c32260d654ae10031f80",
+    "clockwise90Pixels": [
+      [
+        255,
+        0,
+        0,
+        255
+      ],
+      [
+        0,
+        255,
+        0,
+        255
+      ]
+    ],
+    "jpegWhitePixel": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "opacityZero": true,
+    "sourceAlphaPreserved": true,
+    "actualDownloadMatchesPreview": true,
+    "tileDownload": true,
+    "textModeRetained": true,
+    "editDropsDownloads": true,
+    "clearRemovesPreview": true,
+    "invalidImageRejected": true,
+    "cancelRejectsLateEncoder": true,
+    "downloadFailureCleanup": true,
+    "downloadRecovery": true,
+    "rangeInputMethod": "native range value setter with input/change events"
+  },
+  "views": [
+    {
+      "slug": "text-sequence-generator",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "text-sequence-generator",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "text-sequence-generator",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "character-frequency-counter",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "character-frequency-counter",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "character-frequency-counter",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "byte-encoding-converter",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "byte-encoding-converter",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "byte-encoding-converter",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "watermark-image",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "watermark-image",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "watermark-image",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "network": []
+}

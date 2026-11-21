@@ -1,0 +1,410 @@
+{
+  "status": "passed",
+  "date": "2026-11-22",
+  "base": "http://127.0.0.1:3474",
+  "http": [
+    {
+      "locale": "en",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "en",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "en",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "zh",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "zh",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "zh",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ja",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ja",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ja",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "es",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "es",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "es",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "pt",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "pt",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "pt",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "fr",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "fr",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "fr",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "de",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "de",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "de",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ru",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ru",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ru",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "it",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "it",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "it",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "tr",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "tr",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "tr",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ko",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ko",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ko",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ar",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ar",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ar",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "hi",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "hi",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "hi",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "id",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "id",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "id",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "vi",
+      "slug": "file-type-detector",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "vi",
+      "slug": "line-number-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "vi",
+      "slug": "json-yaml-converter",
+      "html": 200,
+      "markdown": 200
+    }
+  ],
+  "acceptance": {
+    "file_type": true,
+    "line_numbers": true,
+    "yaml_direction": true
+  },
+  "file": {
+    "falseFilenameSeparated": true,
+    "containerGeneric": true,
+    "clipboard": true,
+    "largeFileBytes": 2097152,
+    "bytesRead": 65536,
+    "previewBytes": 64,
+    "emptyUnknown": true,
+    "clear": true,
+    "lateOlderFileIgnored": true,
+    "readFailureVisible": true
+  },
+  "lines": {
+    "textPreserved": true,
+    "terminalEmptyLine": true,
+    "autoPadding": true,
+    "prefixSuffix": true,
+    "clipboard": true,
+    "stepError": true,
+    "lineLimit": true,
+    "lineLimitInputMethod": "native value setter and input event for 20,001 characters; browser fill stalled",
+    "clear": true
+  },
+  "yaml": {
+    "roundtrip": true,
+    "swapDirection": true,
+    "editClearsOutput": true,
+    "precisionRejected": true,
+    "aliasRejected": true,
+    "duplicateRejected": true,
+    "clear": true,
+    "inflightEditIgnoresOldResult": true,
+    "delayedParserChunk": true
+  },
+  "views": [
+    {
+      "slug": "file-type-detector",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "file-type-detector",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "file-type-detector",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "line-number-generator",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "line-number-generator",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "line-number-generator",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "json-yaml-converter",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "json-yaml-converter",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "json-yaml-converter",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "network": []
+}

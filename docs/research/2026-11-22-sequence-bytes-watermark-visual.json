@@ -1,0 +1,147 @@
+{
+  "date": "2026-11-22",
+  "status": "passed",
+  "scope": "Independent visual inspection of four populated mobile tool views and three error states, before the final hover-only button styling change. Final build accessibility is recorded separately.",
+  "views": [
+    {
+      "slug": "text-sequence-generator",
+      "locale": "en",
+      "theme": "dark",
+      "width": 390,
+      "note": "60-digit long-number result; three items, step 0.1",
+      "metrics": {
+        "width": 390,
+        "scroll": 390,
+        "theme": "dark js",
+        "dir": "ltr",
+        "overflow": []
+      },
+      "errors": []
+    },
+    {
+      "slug": "character-frequency-counter",
+      "locale": "zh",
+      "theme": "light",
+      "width": 390,
+      "note": "Unicode table with CJK, emoji, combining sequence, ZWJ, Arabic and control characters",
+      "metrics": {
+        "width": 390,
+        "scroll": 390,
+        "theme": "js",
+        "dir": "ltr",
+        "overflow": []
+      },
+      "errors": []
+    },
+    {
+      "slug": "byte-encoding-converter",
+      "locale": "ar",
+      "theme": "dark",
+      "width": 320,
+      "note": "UTF-8 to Base32 multiline Unicode output with local Arabic controls",
+      "metrics": {
+        "width": 320,
+        "scroll": 320,
+        "theme": "dark js",
+        "dir": "rtl",
+        "overflow": []
+      },
+      "errors": []
+    },
+    {
+      "slug": "watermark-image",
+      "locale": "ar",
+      "theme": "dark",
+      "width": 320,
+      "note": "Logo mode; transparent 32x24 PNG + 4x2 logo, opacity 100, physical top left placement",
+      "metrics": {
+        "width": 320,
+        "scroll": 320,
+        "theme": "dark js",
+        "dir": "rtl",
+        "overflow": []
+      },
+      "errors": [],
+      "positions": [
+        {
+          "label": "أعلى اليسار",
+          "pressed": "true",
+          "x": 37,
+          "w": 76.65625,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "أعلى الوسط",
+          "pressed": "false",
+          "x": 121.65625,
+          "w": 76.671875,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "أعلى اليمين",
+          "pressed": "false",
+          "x": 206.328125,
+          "w": 76.65625,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "وسط اليسار",
+          "pressed": "false",
+          "x": 37,
+          "w": 76.65625,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "الوسط",
+          "pressed": "false",
+          "x": 121.65625,
+          "w": 76.671875,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "وسط اليمين",
+          "pressed": "false",
+          "x": 206.328125,
+          "w": 76.65625,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "أسفل اليسار",
+          "pressed": "false",
+          "x": 37,
+          "w": 76.65625,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "أسفل الوسط",
+          "pressed": "false",
+          "x": 121.65625,
+          "w": 76.671875,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        },
+        {
+          "label": "أسفل اليمين",
+          "pressed": "false",
+          "x": 206.328125,
+          "w": 76.65625,
+          "scrollWidth": 75,
+          "clientWidth": 75
+        }
+      ]
+    }
+  ],
+  "error_states": [
+    "sequence count=0",
+    "frequency limit=0",
+    "Arabic invalid HEX"
+  ],
+  "screenshots": "Local temporary files under /tmp/zoyku-visual-independent; no permanent screenshot asset claim."
+}

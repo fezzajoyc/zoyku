@@ -18,6 +18,9 @@ import fancyTextGenerator from "./fancy-text-generator";
 import emojiPicker from "./emoji-picker";
 import wordExport from "./word-export";
 import lineNumberGenerator from "./line-number-generator";
+import textLineFilter from "./text-line-filter";
+import textSequenceGenerator from "./text-sequence-generator";
+import characterFrequencyCounter from "./character-frequency-counter";
 
 export const TEXT_TOOLS = [
   caseConverter,
@@ -40,5 +43,8 @@ export const TEXT_TOOLS = [
   texttonatoalphabetTool,
   wordExport,
   lineNumberGenerator,
+  textLineFilter,
+  textSequenceGenerator,
+  characterFrequencyCounter,
 
 ];

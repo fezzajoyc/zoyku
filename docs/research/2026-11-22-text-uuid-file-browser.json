@@ -1,0 +1,418 @@
+{
+  "date": "2026-11-22",
+  "status": "passed",
+  "acceptance": {
+    "text_filter": true,
+    "uuid": true,
+    "file_parts": true
+  },
+  "http": [
+    {
+      "lang": "en",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "en",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "en",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "zh",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ja",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "es",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "pt",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "fr",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "de",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ru",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "it",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "tr",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ko",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "ar",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "hi",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "id",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "text-line-filter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "uuid-validator-converter",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "lang": "vi",
+      "slug": "file-splitter-merger",
+      "html": 200,
+      "markdown": 200
+    }
+  ],
+  "text": {
+    "literalIncludeExclude": true,
+    "caseSensitive": true,
+    "rangeInclusive": true,
+    "unicodeCodepoints": true,
+    "columnPolicy": true,
+    "oneEmptyLineDistinct": true,
+    "clipboard": true,
+    "clear": true
+  },
+  "uuid": {
+    "canonical": "f81d4fae-7dec-11d0-a765-00a0c91e6bf6",
+    "base64": "+B1Prn3sEdCnZQCgyR5r9g==",
+    "binaryRoundtrip": true,
+    "base64Roundtrip": true,
+    "clipboard": true,
+    "unknownVersionUnrecognized": true,
+    "nilSpecial": true,
+    "invalidClearsResults": true,
+    "clear": true
+  },
+  "files": {
+    "sourceBytes": 17,
+    "sourceSha256": "8fcc6bbc35328d1f81b0a5e0984c375654861cb90f1677ba30b435558891dacd",
+    "splitSizes": [
+      5,
+      5,
+      5,
+      2
+    ],
+    "balancedSizes": [
+      6,
+      6,
+      5
+    ],
+    "reassembledSha256": "8fcc6bbc35328d1f81b0a5e0984c375654861cb90f1677ba30b435558891dacd",
+    "reorderedExact": true,
+    "editsDropDownloads": true,
+    "sanitizedName": "_restored.bin",
+    "emptyDownload": true,
+    "countError": true,
+    "clear": true
+  },
+  "views": [
+    {
+      "slug": "text-line-filter",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "text-line-filter",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "text-line-filter",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "uuid-validator-converter",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "uuid-validator-converter",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "uuid-validator-converter",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "file-splitter-merger",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "file-splitter-merger",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "file-splitter-merger",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "network": []
+}
