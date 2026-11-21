@@ -1,0 +1,1036 @@
+{
+  "observed_at_utc": "2026-11-21T15:06:55.945434+00:00",
+  "scope": "Only the named homepage/index documents, not a complete RapidTables inventory; SmallSEOTools.net data-tool-name links. Omni access failure is retained, prior selected Omni evidence remains separate.",
+  "sources": [
+    {
+      "name": "SmallSEOTools.net",
+      "requested_url": "https://www.smallseotools.net/",
+      "method": "official_public_GET",
+      "runtime_tested": false,
+      "status": 200,
+      "final_url": "https://www.smallseotools.net/",
+      "bytes": 60367,
+      "sha256": "75a0719a288a3412dcea5a3d5ea9130c4b171b5596c2977c8ba4b517fafec290",
+      "title": [
+        "Small SEO Tools - Free SEO, Text and Web Utilities"
+      ],
+      "link_occurrences": 147,
+      "entries": [
+        {
+          "title": "link price calculator",
+          "url": "https://www.smallseotools.net/link-price-calculator"
+        },
+        {
+          "title": "adsense calculator",
+          "url": "https://www.smallseotools.net/adsense-calculator"
+        },
+        {
+          "title": "age calculator",
+          "url": "https://www.smallseotools.net/age-calculator"
+        },
+        {
+          "title": "average calculator",
+          "url": "https://www.smallseotools.net/average-calculator"
+        },
+        {
+          "title": "binary calculator",
+          "url": "https://www.smallseotools.net/binary-calculator"
+        },
+        {
+          "title": "bitcoin price calculator",
+          "url": "https://www.smallseotools.net/bitcoin-price-calculator"
+        },
+        {
+          "title": "credit card generator",
+          "url": "https://www.smallseotools.net/credit-card-generator"
+        },
+        {
+          "title": "credit card validator",
+          "url": "https://www.smallseotools.net/credit-card-validator"
+        },
+        {
+          "title": "currency converter",
+          "url": "https://www.smallseotools.net/currency-converter"
+        },
+        {
+          "title": "hex calculator",
+          "url": "https://www.smallseotools.net/hex-calculator"
+        },
+        {
+          "title": "website value calculator",
+          "url": "https://www.smallseotools.net/website-value-calculator"
+        },
+        {
+          "title": "url encoder / decoder",
+          "url": "https://www.smallseotools.net/url-encoder-decoder"
+        },
+        {
+          "title": "binary translator",
+          "url": "https://www.smallseotools.net/binary-translator"
+        },
+        {
+          "title": "certificate decoder",
+          "url": "https://www.smallseotools.net/certificate-decoder"
+        },
+        {
+          "title": "certificate key matcher",
+          "url": "https://www.smallseotools.net/certificate-key-matcher"
+        },
+        {
+          "title": "check csr",
+          "url": "https://www.smallseotools.net/check-csr"
+        },
+        {
+          "title": "code difference comparison tool",
+          "url": "https://www.smallseotools.net/code-difference-comparison-tool"
+        },
+        {
+          "title": "csr decoder",
+          "url": "https://www.smallseotools.net/csr-decoder"
+        },
+        {
+          "title": "csr generation",
+          "url": "https://www.smallseotools.net/csr-generation"
+        },
+        {
+          "title": "css minifier",
+          "url": "https://www.smallseotools.net/css-minifier"
+        },
+        {
+          "title": "csv to json",
+          "url": "https://www.smallseotools.net/csv-to-json"
+        },
+        {
+          "title": "decimal to ascii",
+          "url": "https://www.smallseotools.net/decimal-to-ascii"
+        },
+        {
+          "title": "html decoder",
+          "url": "https://www.smallseotools.net/html-decoder"
+        },
+        {
+          "title": "html encoder",
+          "url": "https://www.smallseotools.net/html-encoder"
+        },
+        {
+          "title": "html compressor",
+          "url": "https://www.smallseotools.net/html-compressor"
+        },
+        {
+          "title": "js minifier",
+          "url": "https://www.smallseotools.net/js-minifier"
+        },
+        {
+          "title": "qr code generator",
+          "url": "https://www.smallseotools.net/qr-code-generator"
+        },
+        {
+          "title": "schema markup generator",
+          "url": "https://www.smallseotools.net/schema-markup-generator"
+        },
+        {
+          "title": "xml to json",
+          "url": "https://www.smallseotools.net/xml-to-json"
+        },
+        {
+          "title": "url rewriting tool",
+          "url": "https://www.smallseotools.net/url-rewriting-tool"
+        },
+        {
+          "title": "www redirect checker",
+          "url": "https://www.smallseotools.net/www-redirect-checker"
+        },
+        {
+          "title": "server status checker",
+          "url": "https://www.smallseotools.net/server-status-checker"
+        },
+        {
+          "title": "what is my browser",
+          "url": "https://www.smallseotools.net/what-is-my-browser"
+        },
+        {
+          "title": "email privacy",
+          "url": "https://www.smallseotools.net/email-privacy"
+        },
+        {
+          "title": "search engine spider simulator",
+          "url": "https://www.smallseotools.net/spider-simulator"
+        },
+        {
+          "title": "pagespeed insights checker",
+          "url": "https://www.smallseotools.net/pagespeed-insights-checker"
+        },
+        {
+          "title": "paraphraser tool lite",
+          "url": "https://www.smallseotools.net/paraphraser-tool-lite"
+        },
+        {
+          "title": "blog finder",
+          "url": "https://www.smallseotools.net/blog-finder"
+        },
+        {
+          "title": "diff checker",
+          "url": "https://www.smallseotools.net/diff-checker"
+        },
+        {
+          "title": "disavow file generator",
+          "url": "https://www.smallseotools.net/disavow-file-generator"
+        },
+        {
+          "title": "bulk email validator",
+          "url": "https://www.smallseotools.net/email-validator"
+        },
+        {
+          "title": "fake address generator",
+          "url": "https://www.smallseotools.net/fake-address-generator"
+        },
+        {
+          "title": "free proxy list",
+          "url": "https://www.smallseotools.net/free-proxy-list"
+        },
+        {
+          "title": "mobile friendly test",
+          "url": "https://www.smallseotools.net/mobile-friendly-test"
+        },
+        {
+          "title": "network speed tester",
+          "url": "https://www.smallseotools.net/network-speed-tester"
+        },
+        {
+          "title": "numbers to words converter",
+          "url": "https://www.smallseotools.net/numbers-to-words-converter"
+        },
+        {
+          "title": "roman numerals date converter",
+          "url": "https://www.smallseotools.net/roman-numerals-date-converter"
+        },
+        {
+          "title": "questions explorer tool",
+          "url": "https://www.smallseotools.net/questions-explorer-tool"
+        },
+        {
+          "title": "webpage screen resolution simulator",
+          "url": "https://www.smallseotools.net/webpage-screen-resolution-simulator"
+        },
+        {
+          "title": "website screenshot generator",
+          "url": "https://www.smallseotools.net/website-screenshot-generator"
+        },
+        {
+          "title": "base64 to image",
+          "url": "https://www.smallseotools.net/base64-to-image"
+        },
+        {
+          "title": "favicon generator tool",
+          "url": "https://www.smallseotools.net/favicon-generator-tool"
+        },
+        {
+          "title": "image crop tool",
+          "url": "https://www.smallseotools.net/image-crop-tool"
+        },
+        {
+          "title": "image pencil effect",
+          "url": "https://www.smallseotools.net/image-pencil-effect"
+        },
+        {
+          "title": "image to base64",
+          "url": "https://www.smallseotools.net/image-to-base64"
+        },
+        {
+          "title": "image optimizer",
+          "url": "https://www.smallseotools.net/image-optimizer"
+        },
+        {
+          "title": "image resizer",
+          "url": "https://www.smallseotools.net/image-resizer"
+        },
+        {
+          "title": "reverse image search",
+          "url": "https://www.smallseotools.net/reverse-image-search"
+        },
+        {
+          "title": "text to image",
+          "url": "https://www.smallseotools.net/text-to-image"
+        },
+        {
+          "title": "rotate image online",
+          "url": "https://www.smallseotools.net/rotate-image-online"
+        },
+        {
+          "title": "google malware checker",
+          "url": "https://www.smallseotools.net/google-malware-checker"
+        },
+        {
+          "title": "blacklist lookup",
+          "url": "https://www.smallseotools.net/blacklist-lookup"
+        },
+        {
+          "title": "suspicious domain checker",
+          "url": "https://www.smallseotools.net/suspicious-domain-checker"
+        },
+        {
+          "title": "password encryption utility",
+          "url": "https://www.smallseotools.net/password-encryption-utility"
+        },
+        {
+          "title": "password generator",
+          "url": "https://www.smallseotools.net/password-generator"
+        },
+        {
+          "title": "password strength checker",
+          "url": "https://www.smallseotools.net/password-strength-checker"
+        },
+        {
+          "title": "ssl checker",
+          "url": "https://www.smallseotools.net/ssl-checker"
+        },
+        {
+          "title": "ssl converter",
+          "url": "https://www.smallseotools.net/ssl-converter"
+        },
+        {
+          "title": "backlink maker",
+          "url": "https://www.smallseotools.net/backlink-maker"
+        },
+        {
+          "title": "meta tag generator",
+          "url": "https://www.smallseotools.net/meta-tag-generator"
+        },
+        {
+          "title": "meta tags analyzer",
+          "url": "https://www.smallseotools.net/meta-tags-analyzer"
+        },
+        {
+          "title": "keyword position checker",
+          "url": "https://www.smallseotools.net/keyword-position-checker"
+        },
+        {
+          "title": "robots.txt generator",
+          "url": "https://www.smallseotools.net/robots-txt-generator"
+        },
+        {
+          "title": "xml sitemap generator",
+          "url": "https://www.smallseotools.net/xml-sitemap-generator"
+        },
+        {
+          "title": "backlink checker",
+          "url": "https://www.smallseotools.net/backlink-checker"
+        },
+        {
+          "title": "online ping website tool",
+          "url": "https://www.smallseotools.net/online-ping-website-tool"
+        },
+        {
+          "title": "link analyzer",
+          "url": "https://www.smallseotools.net/link-analyzer-tool"
+        },
+        {
+          "title": "my ip address",
+          "url": "https://www.smallseotools.net/my-ip-address"
+        },
+        {
+          "title": "keyword density checker",
+          "url": "https://www.smallseotools.net/keyword-density-checker"
+        },
+        {
+          "title": "domain age checker",
+          "url": "https://www.smallseotools.net/domain-age-checker"
+        },
+        {
+          "title": "whois checker",
+          "url": "https://www.smallseotools.net/whois-checker"
+        },
+        {
+          "title": "domain into ip",
+          "url": "https://www.smallseotools.net/domain-into-ip"
+        },
+        {
+          "title": "mozrank checker",
+          "url": "https://www.smallseotools.net/mozrank-checker"
+        },
+        {
+          "title": "page size checker",
+          "url": "https://www.smallseotools.net/page-size-checker"
+        },
+        {
+          "title": "domain hosting checker",
+          "url": "https://www.smallseotools.net/domain-hosting-checker"
+        },
+        {
+          "title": "get source code of webpage",
+          "url": "https://www.smallseotools.net/get-source-code-of-webpage"
+        },
+        {
+          "title": "google index checker",
+          "url": "https://www.smallseotools.net/google-index-checker"
+        },
+        {
+          "title": "website links count checker",
+          "url": "https://www.smallseotools.net/website-links-count-checker"
+        },
+        {
+          "title": "class c ip checker",
+          "url": "https://www.smallseotools.net/class-c-ip-checker"
+        },
+        {
+          "title": "page speed checker",
+          "url": "https://www.smallseotools.net/page-speed-checker"
+        },
+        {
+          "title": "find dns records",
+          "url": "https://www.smallseotools.net/find-dns-records"
+        },
+        {
+          "title": "google cache checker",
+          "url": "https://www.smallseotools.net/google-cache-checker"
+        },
+        {
+          "title": "broken links finder",
+          "url": "https://www.smallseotools.net/broken-links-finder"
+        },
+        {
+          "title": "keywords suggestion tool",
+          "url": "https://www.smallseotools.net/keywords-suggestion-tool"
+        },
+        {
+          "title": "domain authority checker",
+          "url": "https://www.smallseotools.net/domain-authority-checker"
+        },
+        {
+          "title": "page authority checker",
+          "url": "https://www.smallseotools.net/page-authority-checker"
+        },
+        {
+          "title": "apps rank tracking tool",
+          "url": "https://www.smallseotools.net/apps-rank-tracking-tool"
+        },
+        {
+          "title": "bulk domain age checker",
+          "url": "https://www.smallseotools.net/bulk-domain-age-checker"
+        },
+        {
+          "title": "check gzip compression",
+          "url": "https://www.smallseotools.net/check-gzip-compression"
+        },
+        {
+          "title": "bulk domain availability checker",
+          "url": "https://www.smallseotools.net/domain-availability-checker"
+        },
+        {
+          "title": "get http headers",
+          "url": "https://www.smallseotools.net/get-http-headers"
+        },
+        {
+          "title": "is your website down right now",
+          "url": "https://www.smallseotools.net/is-your-website-down-right-now"
+        },
+        {
+          "title": "keyword suggestion tool v2",
+          "url": "https://www.smallseotools.net/smart-keyword-suggestion-tool"
+        },
+        {
+          "title": "keywords rich domains suggestions tool",
+          "url": "https://www.smallseotools.net/keywords-rich-domains-suggestions-tool"
+        },
+        {
+          "title": "link tracker",
+          "url": "https://www.smallseotools.net/link-tracker"
+        },
+        {
+          "title": "long tail keyword suggestion",
+          "url": "https://www.smallseotools.net/long-tail-keyword-suggestion"
+        },
+        {
+          "title": "long to short link converter",
+          "url": "https://www.smallseotools.net/long-to-short-link-converter"
+        },
+        {
+          "title": "lorem ipsum generator",
+          "url": "https://www.smallseotools.net/lorem-ipsum-generator"
+        },
+        {
+          "title": "moz backlink extractor",
+          "url": "https://www.smallseotools.net/moz-backlink-extractor"
+        },
+        {
+          "title": "website hit counter",
+          "url": "https://www.smallseotools.net/website-hit-counter"
+        },
+        {
+          "title": "website reviewer",
+          "url": "https://www.smallseotools.net/website-reviewer"
+        },
+        {
+          "title": "wordpress theme detector",
+          "url": "https://www.smallseotools.net/wordpress-theme-detector"
+        },
+        {
+          "title": "bulk facebook id finder",
+          "url": "https://www.smallseotools.net/bulk-facebook-id-finder"
+        },
+        {
+          "title": "donate button generator",
+          "url": "https://www.smallseotools.net/donate-button-generator"
+        },
+        {
+          "title": "flag counter",
+          "url": "https://www.smallseotools.net/flag-counter"
+        },
+        {
+          "title": "open graph checker",
+          "url": "https://www.smallseotools.net/open-graph-checker"
+        },
+        {
+          "title": "open graph generator",
+          "url": "https://www.smallseotools.net/open-graph-generator"
+        },
+        {
+          "title": "social stats checker",
+          "url": "https://www.smallseotools.net/social-stats-checker"
+        },
+        {
+          "title": "twitter graph checker",
+          "url": "https://www.smallseotools.net/twitter-graph-checker"
+        },
+        {
+          "title": "twitter card generator",
+          "url": "https://www.smallseotools.net/twitter-card-generator"
+        },
+        {
+          "title": "youtube backlinks generator",
+          "url": "https://www.smallseotools.net/youtube-backlinks-generator"
+        },
+        {
+          "title": "article rewriter",
+          "url": "https://www.smallseotools.net/article-rewriter"
+        },
+        {
+          "title": "plagiarism checker",
+          "url": "https://www.smallseotools.net/plagiarism-checker"
+        },
+        {
+          "title": "word counter",
+          "url": "https://www.smallseotools.net/word-counter"
+        },
+        {
+          "title": "online md5 generator",
+          "url": "https://www.smallseotools.net/online-md5-generator"
+        },
+        {
+          "title": "code to text ratio checker",
+          "url": "https://www.smallseotools.net/code-to-text-ratio-checker"
+        },
+        {
+          "title": "article density checker",
+          "url": "https://www.smallseotools.net/article-density-checker"
+        },
+        {
+          "title": "article spinner pro",
+          "url": "https://www.smallseotools.net/article-spinner-pro"
+        },
+        {
+          "title": "binary to text",
+          "url": "https://www.smallseotools.net/binary-to-text"
+        },
+        {
+          "title": "change text case",
+          "url": "https://www.smallseotools.net/change-text-case"
+        },
+        {
+          "title": "comma separating tool",
+          "url": "https://www.smallseotools.net/comma-separating-tool"
+        },
+        {
+          "title": "grammar checker",
+          "url": "https://www.smallseotools.net/grammar-checker"
+        },
+        {
+          "title": "line counter",
+          "url": "https://www.smallseotools.net/line-counter"
+        },
+        {
+          "title": "plagiarism checker pro",
+          "url": "https://www.smallseotools.net/plagiarism-checker-pro"
+        },
+        {
+          "title": "random word generator",
+          "url": "https://www.smallseotools.net/random-word-generator"
+        },
+        {
+          "title": "readability checker",
+          "url": "https://www.smallseotools.net/readability-checker"
+        },
+        {
+          "title": "remove duplicate lines",
+          "url": "https://www.smallseotools.net/remove-duplicate-lines"
+        },
+        {
+          "title": "reverse text generator",
+          "url": "https://www.smallseotools.net/reverse-text-generator"
+        },
+        {
+          "title": "small text generator",
+          "url": "https://www.smallseotools.net/small-text-generator"
+        },
+        {
+          "title": "text compare",
+          "url": "https://www.smallseotools.net/text-compare"
+        },
+        {
+          "title": "text to binary",
+          "url": "https://www.smallseotools.net/text-to-binary"
+        },
+        {
+          "title": "text to speech converter",
+          "url": "https://www.smallseotools.net/text-to-speech-converter"
+        },
+        {
+          "title": "upside down text generator",
+          "url": "https://www.smallseotools.net/upside-down-text-generator"
+        },
+        {
+          "title": "urdu typing tool",
+          "url": "https://www.smallseotools.net/urdu-typing-tool"
+        },
+        {
+          "title": "word combiner",
+          "url": "https://www.smallseotools.net/word-combiner"
+        },
+        {
+          "title": "word counter pro",
+          "url": "https://www.smallseotools.net/word-counter-pro"
+        },
+        {
+          "title": "add line numbers to text",
+          "url": "https://www.smallseotools.net/add-line-numbers-to-text"
+        }
+      ],
+      "unique_urls": 147
+    },
+    {
+      "name": "RapidTables home",
+      "requested_url": "https://www.rapidtables.com/",
+      "method": "official_public_GET",
+      "runtime_tested": false,
+      "status": 200,
+      "final_url": "https://www.rapidtables.com/",
+      "bytes": 31423,
+      "sha256": "33715ffed071db3dafb85e060ff2324d8ec05095ddea94f510bf811950ccfdee",
+      "title": [
+        "Online Calculators &amp; Tools - RapidTables.com"
+      ],
+      "link_occurrences": 50,
+      "entries": [
+        {
+          "title": "Scientific calculatorTrig, log, exponent and root functions",
+          "url": "https://www.rapidtables.com/calc/math/calculator.html"
+        },
+        {
+          "title": "Percentage calculatorPercent of a number and percentage change",
+          "url": "https://www.rapidtables.com/calc/math/percentage-calculator.html"
+        },
+        {
+          "title": "Fraction calculatorAdd, subtract, multiply and divide fractions",
+          "url": "https://www.rapidtables.com/calc/math/fractions-calculator.html"
+        },
+        {
+          "title": "Average calculatorMean, median and mode of a list of numbers",
+          "url": "https://www.rapidtables.com/calc/math/average-calculator.html"
+        },
+        {
+          "title": "Grade calculatorWeighted average grade",
+          "url": "https://www.rapidtables.com/calc/grade/grade-calculator.html"
+        },
+        {
+          "title": "GPA calculatorSemester and cumulative GPA",
+          "url": "https://www.rapidtables.com/calc/grade/gpa-calculator.html"
+        },
+        {
+          "title": "Final grade calculatorGrade you need on the final exam",
+          "url": "https://www.rapidtables.com/calc/grade/final-grade-calculator.html"
+        },
+        {
+          "title": "Mortgage calculatorMonthly payment of a home loan",
+          "url": "https://www.rapidtables.com/calc/finance/mortgage-calculator.html"
+        },
+        {
+          "title": "Compound interest calculatorFuture value of an investment",
+          "url": "https://www.rapidtables.com/calc/finance/compound-interest-calculator.html"
+        },
+        {
+          "title": "BMI calculatorBody mass index for adults and kids",
+          "url": "https://www.rapidtables.com/calc/body/bmi-calculator.html"
+        },
+        {
+          "title": "Online notepadWrite notes in your browser",
+          "url": "https://www.rapidtables.com/tools/notepad.html"
+        },
+        {
+          "title": "RGB color codesColor chart, picker and table",
+          "url": "https://www.rapidtables.com/web/color/RGB_Color.html"
+        },
+        {
+          "title": "ASCII tableCharacter codes in hex, decimal and binary",
+          "url": "https://www.rapidtables.com/code/text/ascii-table.html"
+        },
+        {
+          "title": "HTML editorEdit HTML code online",
+          "url": "https://www.rapidtables.com/web/tools/html-editor.html"
+        },
+        {
+          "title": "HTML viewerView HTML code as a web page",
+          "url": "https://www.rapidtables.com/web/tools/html-viewer.html"
+        },
+        {
+          "title": "Calculators",
+          "url": "https://www.rapidtables.com/calc/index.html"
+        },
+        {
+          "title": "Electrical",
+          "url": "https://www.rapidtables.com/calc/electric/index.html"
+        },
+        {
+          "title": "Financial",
+          "url": "https://www.rapidtables.com/calc/finance/index.html"
+        },
+        {
+          "title": "Grade",
+          "url": "https://www.rapidtables.com/calc/grade/index.html"
+        },
+        {
+          "title": "Lighting",
+          "url": "https://www.rapidtables.com/calc/light/index.html"
+        },
+        {
+          "title": "Math",
+          "url": "https://www.rapidtables.com/calc/math/index.html"
+        },
+        {
+          "title": "Wire",
+          "url": "https://www.rapidtables.com/calc/wire/index.html"
+        },
+        {
+          "title": "Time",
+          "url": "https://www.rapidtables.com/calc/time/index.html"
+        },
+        {
+          "title": "Converters",
+          "url": "https://www.rapidtables.com/convert/index.html"
+        },
+        {
+          "title": "Energy",
+          "url": "https://www.rapidtables.com/convert/energy/index.html"
+        },
+        {
+          "title": "Length",
+          "url": "https://www.rapidtables.com/convert/length/index.html"
+        },
+        {
+          "title": "Number",
+          "url": "https://www.rapidtables.com/convert/number/index.html"
+        },
+        {
+          "title": "Power",
+          "url": "https://www.rapidtables.com/convert/power/index.html"
+        },
+        {
+          "title": "Temperature",
+          "url": "https://www.rapidtables.com/convert/temperature/index.html"
+        },
+        {
+          "title": "Weight",
+          "url": "https://www.rapidtables.com/convert/weight/index.html"
+        },
+        {
+          "title": "Voltage",
+          "url": "https://www.rapidtables.com/convert/voltage/index.html"
+        },
+        {
+          "title": "Frequency",
+          "url": "https://www.rapidtables.com/convert/frequency/index.html"
+        },
+        {
+          "title": "Color",
+          "url": "https://www.rapidtables.com/convert/color/index.html"
+        },
+        {
+          "title": "Image",
+          "url": "https://www.rapidtables.com/convert/image/index.html"
+        },
+        {
+          "title": "Electrical",
+          "url": "https://www.rapidtables.com/convert/electric/index.html"
+        },
+        {
+          "title": "Web",
+          "url": "https://www.rapidtables.com/web/index.html"
+        },
+        {
+          "title": "Web colors",
+          "url": "https://www.rapidtables.com/web/color/index.html"
+        },
+        {
+          "title": "HTML",
+          "url": "https://www.rapidtables.com/web/html/index.html"
+        },
+        {
+          "title": "Web tools",
+          "url": "https://www.rapidtables.com/web/tools/index.html"
+        },
+        {
+          "title": "Web development",
+          "url": "https://www.rapidtables.com/web/dev/index.html"
+        },
+        {
+          "title": "Tools",
+          "url": "https://www.rapidtables.com/tools/index.html"
+        },
+        {
+          "title": "Text ToolsWord counter, case converter, OCR and notepad",
+          "url": "https://www.rapidtables.com/text/index.html"
+        },
+        {
+          "title": "PDF ToolsImage to PDF converters and PDF viewer",
+          "url": "https://www.rapidtables.com/pdf/index.html"
+        }
+      ],
+      "unique_urls": 43
+    },
+    {
+      "name": "RapidTables tools",
+      "requested_url": "https://www.rapidtables.com/tools/index.html",
+      "method": "official_public_GET",
+      "runtime_tested": false,
+      "status": 200,
+      "final_url": "https://www.rapidtables.com/tools/index.html",
+      "bytes": 32952,
+      "sha256": "3fc82f65a17e0d523cc173a8cac6fda82fd5aff3e467d685768e988a69f3bb41",
+      "title": [
+        "Online Tools"
+      ],
+      "link_occurrences": 63,
+      "entries": [
+        {
+          "title": "Tools",
+          "url": "https://www.rapidtables.com/tools/index.html"
+        },
+        {
+          "title": "Time & date",
+          "url": "https://www.rapidtables.com/tools/index.html#time"
+        },
+        {
+          "title": "Audio & speech",
+          "url": "https://www.rapidtables.com/tools/index.html#audio"
+        },
+        {
+          "title": "Camera & screen",
+          "url": "https://www.rapidtables.com/tools/index.html#camera"
+        },
+        {
+          "title": "Notes & lists",
+          "url": "https://www.rapidtables.com/tools/index.html#notes"
+        },
+        {
+          "title": "Charts & graphs",
+          "url": "https://www.rapidtables.com/tools/index.html#charts"
+        },
+        {
+          "title": "Generators & counters",
+          "url": "https://www.rapidtables.com/tools/index.html#gen"
+        },
+        {
+          "title": "Measure & device",
+          "url": "https://www.rapidtables.com/tools/index.html#measure"
+        },
+        {
+          "title": "Online clockDigital or analog clock with seconds, full screen",
+          "url": "https://www.rapidtables.com/tools/clock.html"
+        },
+        {
+          "title": "Current TimeLocal time now, time zone and world clock",
+          "url": "https://www.rapidtables.com/tools/current-time.html"
+        },
+        {
+          "title": "Today's DateDate today, day of the year and week number",
+          "url": "https://www.rapidtables.com/tools/todays-date.html"
+        },
+        {
+          "title": "CalendarMonthly and yearly calendar with holidays",
+          "url": "https://www.rapidtables.com/tools/calendar.html"
+        },
+        {
+          "title": "Alarm ClockSet an alarm with sound",
+          "url": "https://www.rapidtables.com/tools/alarm-clock.html"
+        },
+        {
+          "title": "Countdown TimerCountdown timer with alarm sound",
+          "url": "https://www.rapidtables.com/tools/timer.html"
+        },
+        {
+          "title": "StopwatchStopwatch with lap times and full screen",
+          "url": "https://www.rapidtables.com/tools/stopwatch.html"
+        },
+        {
+          "title": "Mic testCheck your microphone with a live level meter",
+          "url": "https://www.rapidtables.com/tools/mic-test.html"
+        },
+        {
+          "title": "Voice recorder onlineRecord audio and save it as a file",
+          "url": "https://www.rapidtables.com/tools/voice-recorder.html"
+        },
+        {
+          "title": "Call RecorderRecord a speakerphone call",
+          "url": "https://www.rapidtables.com/tools/call-recorder.html"
+        },
+        {
+          "title": "Speech to textVoice typing and dictation",
+          "url": "https://www.rapidtables.com/tools/speech-to-text.html"
+        },
+        {
+          "title": "Text to speechListen to text read aloud",
+          "url": "https://www.rapidtables.com/tools/text-to-speech.html"
+        },
+        {
+          "title": "Tone generatorPlay a tone at any frequency",
+          "url": "https://www.rapidtables.com/tools/tone-generator.html"
+        },
+        {
+          "title": "Webcam testCheck that your camera works",
+          "url": "https://www.rapidtables.com/tools/webcam-test.html"
+        },
+        {
+          "title": "Camera onlineTake a picture with your webcam",
+          "url": "https://www.rapidtables.com/tools/camera.html"
+        },
+        {
+          "title": "Online MirrorUse your camera as a mirror",
+          "url": "https://www.rapidtables.com/tools/mirror.html"
+        },
+        {
+          "title": "Screen recorder onlineRecord your screen as a video",
+          "url": "https://www.rapidtables.com/tools/screen-recorder.html"
+        },
+        {
+          "title": "Online screenshotCapture an image of your screen",
+          "url": "https://www.rapidtables.com/tools/screenshot.html"
+        },
+        {
+          "title": "Flashlight onlineTurn your screen into a light",
+          "url": "https://www.rapidtables.com/tools/flashlight.html"
+        },
+        {
+          "title": "Photo editorEdit your photos",
+          "url": "https://www.rapidtables.com/convert/image/photo-editor.html"
+        },
+        {
+          "title": "Online NotepadWrite and save notes in your browser",
+          "url": "https://www.rapidtables.com/tools/notepad.html"
+        },
+        {
+          "title": "Online NotesNote-taking app, no login required",
+          "url": "https://www.rapidtables.com/tools/notes.html"
+        },
+        {
+          "title": "Text editorEdit plain text online",
+          "url": "https://www.rapidtables.com/tools/editor.html"
+        },
+        {
+          "title": "To-Do ListKeep track of your tasks",
+          "url": "https://www.rapidtables.com/tools/todo-list.html"
+        },
+        {
+          "title": "Online grocery listShopping list for the store",
+          "url": "https://www.rapidtables.com/tools/grocery-list.html"
+        },
+        {
+          "title": "Chart online makerCreate a chart from your data",
+          "url": "https://www.rapidtables.com/tools/chart-maker.html"
+        },
+        {
+          "title": "Bar graph makerCreate a bar chart",
+          "url": "https://www.rapidtables.com/tools/bar-graph.html"
+        },
+        {
+          "title": "Line graph makerCreate a line chart",
+          "url": "https://www.rapidtables.com/tools/line-graph.html"
+        },
+        {
+          "title": "Pie chart makerCreate a pie chart",
+          "url": "https://www.rapidtables.com/tools/pie-chart.html"
+        },
+        {
+          "title": "XY Scatter plot makerCreate an XY scatter graph",
+          "url": "https://www.rapidtables.com/tools/scatter-plot.html"
+        },
+        {
+          "title": "Table chart makerCreate a table chart",
+          "url": "https://www.rapidtables.com/tools/table-chart.html"
+        },
+        {
+          "title": "Password generatorCreate strong random passwords",
+          "url": "https://www.rapidtables.com/tools/password-generator.html"
+        },
+        {
+          "title": "Random number generatorRandom numbers in a range",
+          "url": "https://www.rapidtables.com/tools/random-number-generator.html"
+        },
+        {
+          "title": "Click counter onlineTally counter, count up and down",
+          "url": "https://www.rapidtables.com/tools/click-counter.html"
+        },
+        {
+          "title": "CPS testClick speed test in clicks per second",
+          "url": "https://www.rapidtables.com/tools/click-test.html"
+        },
+        {
+          "title": "Scoreboard onlineKeep score with a game clock",
+          "url": "https://www.rapidtables.com/tools/scoreboard.html"
+        },
+        {
+          "title": "Online CalculatorScientific calculator with history",
+          "url": "https://www.rapidtables.com/calc/math/calculator.html"
+        },
+        {
+          "title": "Ruler (cm/mm) onlineActual-size ruler in centimeters",
+          "url": "https://www.rapidtables.com/tools/ruler-cm.html"
+        },
+        {
+          "title": "Ruler (inch) onlineActual-size ruler in inches",
+          "url": "https://www.rapidtables.com/tools/ruler-inch.html"
+        },
+        {
+          "title": "Battery charge managerCheck your battery charge level",
+          "url": "https://www.rapidtables.com/tools/battery.html"
+        },
+        {
+          "title": "Calculators",
+          "url": "https://www.rapidtables.com/calc/index.html"
+        },
+        {
+          "title": "Converters",
+          "url": "https://www.rapidtables.com/convert/index.html"
+        },
+        {
+          "title": "Send Feedback",
+          "url": "https://www.rapidtables.com/tools/index.html#feedback"
+        },
+        {
+          "title": "Web",
+          "url": "https://www.rapidtables.com/web/index.html"
+        }
+      ],
+      "unique_urls": 52
+    },
+    {
+      "name": "Omni sitemap",
+      "requested_url": "https://www.omnicalculator.com/sitemap.xml",
+      "method": "official_public_GET",
+      "runtime_tested": false,
+      "status": "unavailable",
+      "error": "HTTP Error 403: Forbidden",
+      "entries": [],
+      "unique_urls": 0
+    }
+  ],
+  "same_input_runs": 0
+}

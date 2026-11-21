@@ -11,7 +11,8 @@
     "tools/registry.ts",
     "tools/_lib/image-capability-copy.ts",
     "tools/_lib/pdf-capability-copy.ts",
-    "tools/_lib/json-capability-copy.ts"
+    "tools/_lib/json-capability-copy.ts",
+    "lib/tool-copy.ts"
   ],
   "status_definitions": {
     "existing": "The declared core workflow is reachable in one or more registered local tools, with no confirmed core gap from directory scope. This is not full feature or output equivalence.",
@@ -35,13 +36,13 @@
     },
     "status_counts": {
       "missing": 29,
-      "existing": 20,
-      "partial": 21,
+      "existing": 22,
+      "partial": 19,
       "not-comparable": 1,
       "needs-source": 1
     },
     "reviewed_exact_slug_historical_rows": 0,
-    "rows_with_prior_url_mentions": 2,
+    "rows_with_prior_url_mentions": 0,
     "rows_with_reused_detail_metadata": 7,
     "reused_detail_metadata_page_records": 14,
     "peer_runtime_runs": 0,
@@ -49,7 +50,12 @@
     "tool_definition_slugs_scanned": 216,
     "distinct_matched_zoyku_slugs": 46,
     "distinct_workflow_groups": 54,
-    "warning": "Row counts are directory-entry mappings, not independent capabilities, new tools, parity scores, runtime passes, or inferred traffic/search demand."
+    "warning": "Row counts are directory-entry mappings, not independent capabilities, new tools, parity scores, runtime passes, or inferred traffic/search demand.",
+    "source_inspected_registered_slugs": 216,
+    "in_progress_registered_slugs_not_validated_by_this_batch": [
+      "csv-table-editor",
+      "image-palette-generator"
+    ]
   },
   "rows": [
     {
@@ -485,6 +491,13 @@
           "anchor": "export function jsonValidate",
           "excerpt": "export function jsonValidate(s: string): string {",
           "file_sha256": "06c2f3192da209d939b99ae2ddfd9077a6fffe9f86f097ae784ab264c6c75925"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 12,
+          "anchor": "export function toolCopy",
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {",
+          "file_sha256": "5bbc5eec44ecd25018029a973573d97d665415a2291362145cc71f246fd0947c"
         }
       ],
       "peer_detail_metadata_reused": {},
@@ -640,12 +653,17 @@
           "anchor": "formatterTagline: \"Format JSON locally",
           "excerpt": "formatterTagline: \"Format JSON locally while preserving number literals, Unicode escapes, duplicate keys and original key order; sort keys only when you choose.\",",
           "file_sha256": "c235a76664976bf8e5b177cee0e296d5266fb22027e7755c1de71f449b14c031"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 12,
+          "anchor": "export function toolCopy",
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {",
+          "file_sha256": "5bbc5eec44ecd25018029a973573d97d665415a2291362145cc71f246fd0947c"
         }
       ],
       "peer_detail_metadata_reused": {},
-      "prior_url_mentions": [
-        "docs/research/2026-11-21-lddgo-exact-slug-review.md"
-      ],
+      "prior_url_mentions": [],
       "historical_mapping_note": "This is a new per-catalog-ID semantic review; prior URL mentions, where listed, are contextual historical research, not a new capability or same-input result.",
       "same_input_status": "unverified",
       "peer_runtime_runs_in_this_batch": 0
@@ -2003,6 +2021,13 @@
           "anchor": "export function jsonValidate",
           "excerpt": "export function jsonValidate(s: string): string {",
           "file_sha256": "06c2f3192da209d939b99ae2ddfd9077a6fffe9f86f097ae784ab264c6c75925"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 12,
+          "anchor": "export function toolCopy",
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {",
+          "file_sha256": "5bbc5eec44ecd25018029a973573d97d665415a2291362145cc71f246fd0947c"
         }
       ],
       "peer_detail_metadata_reused": {},
@@ -2444,6 +2469,13 @@
           "anchor": "if (op === \"resize\")",
           "excerpt": "if (op === \"resize\") {",
           "file_sha256": "df5c1b21edcbe6ba172880a2dbfa00098f46c8c0bc9e167f32bde7adadde911d"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 12,
+          "anchor": "export function toolCopy",
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {",
+          "file_sha256": "5bbc5eec44ecd25018029a973573d97d665415a2291362145cc71f246fd0947c"
         }
       ],
       "peer_detail_metadata_reused": {},
@@ -2471,15 +2503,15 @@
         "en_directory": "https://www.lddgo.net/en/base/class?classID=9",
         "capture_method": "tool_box_layout card / tool_box_title / tool_box_desc / tool_box_use first anchor"
       },
-      "status": "partial",
+      "status": "existing",
       "mapped_slugs": [
         "crop-image",
         "crop-circle-image"
       ],
       "related_slugs_not_equivalent": [],
       "matched_workflow": "Free/numeric rectangle crops and centered circle crops are available.",
-      "boundary_or_gap": "Circle crop is a centered diameter/shrink workflow; freely positioning an arbitrary circular selection is not implemented.",
-      "next_action": "Compare peer circle selection controls before adding new crop options.",
+      "boundary_or_gap": "Rectangle and centered-circle crops are in separate routes. The local circle uses a centered diameter/shrink control; the peer directory does not establish movable-circle selection, so no unsupported peer advantage is inferred.",
+      "next_action": "Inspect the peer circle selection controls and compare identical rectangle/circle fixtures before adding crop options.",
       "priority": "P2",
       "workflow_group": "image-crop",
       "evidence_level": "E1-directory-and-local-source",
@@ -2521,10 +2553,7 @@
         }
       ],
       "peer_detail_metadata_reused": {},
-      "prior_url_mentions": [
-        "docs/research/2026-11-21-image-tools-gap-design-evidence.md",
-        "docs/research/2026-11-21-lddgo-exact-slug-review.md"
-      ],
+      "prior_url_mentions": [],
       "historical_mapping_note": "This is a new per-catalog-ID semantic review; prior URL mentions, where listed, are contextual historical research, not a new capability or same-input result.",
       "same_input_status": "unverified",
       "peer_runtime_runs_in_this_batch": 0
@@ -3408,14 +3437,14 @@
         "en_directory": "https://www.lddgo.net/en/base/class?classID=9",
         "capture_method": "tool_box_layout card / tool_box_title / tool_box_desc / tool_box_use first anchor"
       },
-      "status": "partial",
+      "status": "existing",
       "mapped_slugs": [
         "image-resizer"
       ],
       "related_slugs_not_equivalent": [],
       "matched_workflow": "Batch resize decoded images in pixels or percent, with aspect lock and downloads.",
-      "boundary_or_gap": "The peer explicitly lists GIF input; local canvas renders a static image and does not preserve animation. Full GIF workflow parity is absent.",
-      "next_action": "Verify still-vs-animated GIF expectations; document static-frame handling.",
+      "boundary_or_gap": "Local canvas output is static; GIF animation is not preserved. The peer directory lists GIF input but does not establish animation preservation, so this remains a boundary to test rather than a proven peer advantage.",
+      "next_action": "Compare still and animated GIF input behavior and resulting dimensions; record whether either workflow preserves animation.",
       "priority": "P2",
       "workflow_group": "image-resize",
       "evidence_level": "E1-directory-and-local-source",
@@ -3540,15 +3569,15 @@
         "en_directory": "https://www.lddgo.net/en/base/class?classID=9",
         "capture_method": "tool_box_layout card / tool_box_title / tool_box_desc / tool_box_use first anchor"
       },
-      "status": "existing",
+      "status": "partial",
       "mapped_slugs": [
         "svg-converter",
         "convert-image"
       ],
       "related_slugs_not_equivalent": [],
       "matched_workflow": "Batch SVG-to-PNG with scale is directly implemented; convert-image can request JPEG/WebP from browser-decodable SVG.",
-      "boundary_or_gap": "Do not assign JPEG/WebP solely to svg-converter: that engine hardcodes PNG. Generic-route SVG decoding and requested encoders still need same-file verification; no guaranteed format/quality parity.",
-      "next_action": "Test SVG fixtures via both routes; consider exposing output format directly in svg-converter.",
+      "boundary_or_gap": "The dedicated svg-converter engine hardcodes PNG. Generic convert-image provides JPEG/WebP/quality for browser-decodable SVG but no resize control, so the declared batch scale-plus-format-plus-quality workflow requires separate steps and is not proven equivalent.",
+      "next_action": "Test SVG fixtures via both routes; expose output format/quality directly in svg-converter only after verifying supported encoders.",
       "priority": "P1",
       "workflow_group": "image-convert",
       "evidence_level": "E1-directory-and-local-source",
@@ -3863,14 +3892,14 @@
         "en_directory": "https://www.lddgo.net/en/base/class?classID=9",
         "capture_method": "tool_box_layout card / tool_box_title / tool_box_desc / tool_box_use first anchor"
       },
-      "status": "partial",
+      "status": "existing",
       "mapped_slugs": [
         "image-color-picker"
       ],
       "related_slugs_not_equivalent": [],
       "matched_workflow": "Click a local image or type pixel coordinates and sample that pixel; coordinates are displayed.",
-      "boundary_or_gap": "No coordinate history/list/export workflow is exposed; the peer directory only declares coordinate picking, so further peer controls need inspection.",
-      "next_action": "Compare coordinate origin, scaled display mapping and edge clamping before declaring complete parity.",
+      "boundary_or_gap": "This is a coordinate-picking option in image-color-picker, not an independent coordinate-history/list/export tool. The directory only establishes picking; no extra peer export feature is inferred.",
+      "next_action": "Compare coordinate origin, scaled-display mapping, transparent/edge pixels and clamping on the same image.",
       "priority": "P2",
       "workflow_group": "image-coordinate",
       "evidence_level": "E1-directory-and-local-source",
@@ -4840,6 +4869,13 @@
           "anchor": "PDF decryption and restriction removal are not supported here.",
           "excerpt": "\"en\": \"PDF decryption and restriction removal are not supported here. You can check whether a PDF is encrypted; this tool does not generate an unlocked file. Use the document owner's trusted PDF software to remove protection.\",",
           "file_sha256": "6d63eab3132d5a5f1a23d1a8ab4449e8e711fec7ea3fadc94f9e760237ab5841"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 12,
+          "anchor": "export function toolCopy",
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {",
+          "file_sha256": "5bbc5eec44ecd25018029a973573d97d665415a2291362145cc71f246fd0947c"
         }
       ],
       "peer_detail_metadata_reused": {},
@@ -4914,6 +4950,13 @@
           "anchor": "type Op = \"unlock\" | \"flatten\";",
           "excerpt": "type Op = \"unlock\" | \"flatten\";",
           "file_sha256": "ac71768614dc658c5136b3979dff139a405e0079bdc299496c8c6eb4ac7dd059"
+        },
+        {
+          "path": "lib/tool-copy.ts",
+          "line": 12,
+          "anchor": "export function toolCopy",
+          "excerpt": "export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {",
+          "file_sha256": "5bbc5eec44ecd25018029a973573d97d665415a2291362145cc71f246fd0947c"
         }
       ],
       "peer_detail_metadata_reused": {
@@ -5344,5 +5387,7 @@
       "same_input_status": "unverified",
       "peer_runtime_runs_in_this_batch": 0
     }
-  ]
+  ],
+  "inventory_note": "The parent is integrating csv-table-editor and image-palette-generator concurrently. This batch observed their definitions/registration but did not validate them or count them as delivered capabilities. Neither is used as an existing mapping in these 72 rows. Current working-tree inventory is not a deployed-tool count.",
+  "copy_resolution_note": "lib/tool-copy.ts was inspected before judging scope: unlockCopy, imageCompressionCopy and jsonCapabilityCopy override authored copy. Claims here use reachable engine branches and registered props. CSV/palette implementation and parent same-input evidence are not credited to this batch."
 }

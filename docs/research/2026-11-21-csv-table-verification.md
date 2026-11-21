@@ -34,3 +34,5 @@ npx vitest run tests/csv-table.test.ts tests/csv-table-ui.test.tsx tests/csv.tes
 TypeScript exited 0. ESLint exited 0 after replacing a test variable named `module`, which violated the Next.js lint rule. Final focused tests at 21:51:39 passed: **4 files, 201 tests**. Coverage includes swap/transpose and inverse operations, raw cell strings for all delimiters, empty records, malformed quoting, ragged rows, invalid numeric selections, 10,001 repetitions of a CJK/emoji string, exact input and cell limits, both dimension limits, transposed limits, output shape, associated controls, Arabic LTR data, empty/error output, and native copy contracts for all locales.
 
 No build, full test run, browser acceptance or commit was performed by this scoped implementation task. Parent integration owns those checks.
+
+主任务已完成集成与生产浏览器验收，最终结果见[统一验收记录](2026-11-21-table-palette-verification.md)。上文的聚焦测试与待交接说明保留本工作单元当时的验证边界。

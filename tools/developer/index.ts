@@ -25,6 +25,7 @@ import regexTester from "./regex-tester";
 import jsonToCsv from "./json-to-csv";
 import csvToJson from "./csv-to-json";
 import csvTableEditor from "./csv-table-editor";
+import fileTypeDetector from "./file-type-detector";
 import csvToExcel from "./csv-to-excel";
 import excelToCsv from "./excel-to-csv";
 import markdownPreviewer from "./markdown-previewer";
@@ -74,6 +75,7 @@ export const DEV_TOOLS = [
   jsonToCsv,
   csvToJson,
   csvTableEditor,
+  fileTypeDetector,
   csvToExcel,
   excelToCsv,
   markdownPreviewer,

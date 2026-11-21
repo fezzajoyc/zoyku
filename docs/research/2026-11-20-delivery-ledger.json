@@ -2966,5 +2966,41 @@
     "lint_warnings": 57,
     "evidence": "docs/research/2026-11-21-ipv4-range-expander-verification.md",
     "release_status": "本地工作树验收，未推送、未部署；working_tree保留较早交付检查点。"
-  }
+  },
+  "table_palette_checkpoint_2026_11_21": {
+    "tool_definition_count": 216,
+    "locales": 15,
+    "tool_pages": 3240,
+    "mcp_tools": 42,
+    "test_files": 105,
+    "tests_passed": 2639,
+    "lint_errors": 0,
+    "lint_warnings": 58,
+    "generated_paths": 10072,
+    "static_seo_checked": 3375,
+    "static_seo_failures": 0,
+    "new_tool_http_responses_200": 60,
+    "new_slugs": [
+      "csv-table-editor",
+      "image-palette-generator"
+    ],
+    "evidence": "docs/research/2026-11-21-table-palette-verification.md",
+    "peer_semantic_rows": 72,
+    "peer_same_input_normal_matches": 4,
+    "release_status": "本地工作树验收。本工作单元未执行推送或部署。提交状态以Git为准。"
+  },
+  "additional_deliveries_2026_11_21": [
+    {
+      "slug": "csv-table-editor",
+      "scope": "文本矩阵转置和一基列号互换，15语，MCP共享内核",
+      "source": "docs/research/2026-11-21-peer-catalog-batch3.md",
+      "state": "scoped_verified_local"
+    },
+    {
+      "slug": "image-palette-generator",
+      "scope": "五位RGB颜色组、alpha权重、均匀采样、复制及15语；MCP接受小RGBA数组",
+      "source": "docs/research/2026-11-21-peer-catalog-batch3.md",
+      "state": "scoped_verified_local"
+    }
+  ]
 }

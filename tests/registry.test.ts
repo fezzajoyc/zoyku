@@ -9,7 +9,7 @@ describe("registry integrity", () => {
   it("has a healthy volume of tools", () => {
     expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(100);
     // 精确锚定:新工具上/下架时必须有意识地更新本行 + README/benchmark 的统计数字(防止文档漂移)
-    expect(ALL_TOOLS.length).toBe(217);
+    expect(ALL_TOOLS.length).toBe(219);
   });
 
   it("slugs are unique and kebab-case", () => {
@@ -96,6 +96,8 @@ describe("registry integrity", () => {
   it.each([
     ["csv-table-editor", "developer"],
     ["image-palette-generator", "image"],
+    ["line-number-generator", "text"],
+    ["file-type-detector", "developer"],
   ])("registers %s with original copy in all supported languages", (slug, category) => {
     const tool = TOOL_BY_SLUG.get(slug);
     expect(tool?.category).toBe(category);

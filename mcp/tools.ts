@@ -29,6 +29,9 @@ import { formatPixelColor } from "../tools/_lib/image-color-picker";
 import { expandIpRange, intToIp, ipToInt } from "../tools/_lib/subnet";
 import { transformCsvTable } from "../tools/_lib/csv-table";
 import { extractImagePalette } from "../tools/_lib/image-palette";
+import { identifyFileSignature, signatureBytesFromHex, FILE_SIGNATURE_READ_LIMIT } from "../tools/_lib/file-signature";
+import { addLineNumbers } from "../tools/_lib/line-numbers";
+import { convertYamlJson } from "../tools/_lib/yaml-converter";
 
 /**
  * MCP 工具注册表:把 tools/_lib 的纯函数暴露为 AI 可执行工具。
@@ -49,7 +52,7 @@ export type McpToolDef = {
   title: string;
   description: string;
   schema: Record<string, any>;
-  run: (args: any) => { content: { type: "text"; text: string }[]; isError?: boolean };
+  run: (args: any) => { content: { type: "text"; text: string }[]; isError?: boolean } | Promise<{ content: { type: "text"; text: string }[]; isError?: boolean }>;
 };
 
 export const MCP_TOOLS: McpToolDef[] = [
@@ -670,6 +673,60 @@ export const MCP_TOOLS: McpToolDef[] = [
       } catch (error) {
         return { content: [{ type: "text", text: error instanceof Error ? error.message : "Invalid RGBA raster." }], isError: true };
       }
+    },
+  },
+  {
+    name: "file_signature",
+    title: "File header signature",
+    description: "Match supported file-header signatures from up to 65,536 hexadecimal bytes. Returns a generic container for ZIP/OLE rather than guessing Office document types. A null match means unrecognized; this does not validate, repair, decode or assess file safety.",
+    schema: {
+      hex: z.string().max(FILE_SIGNATURE_READ_LIMIT * 3).describe("Hex bytes with optional whitespace; no 0x prefix."),
+    },
+    run: (a) => {
+      try {
+        const bytes = signatureBytesFromHex(a.hex);
+        return json({ bytesRead: bytes.length, signature: identifyFileSignature(bytes) });
+      } catch (error) {
+        return { content: [{ type: "text", text: error instanceof Error ? error.message : "Invalid hexadecimal bytes." }], isError: true };
+      }
+    },
+  },
+  {
+    name: "add_line_numbers",
+    title: "Add text line numbers",
+    description: "Add prefix or suffix line numbers while preserving text, Unicode and empty lines. A terminal newline creates a final numbered empty line; CRLF/CR become LF. Padding uses spaces. Empty input returns empty output. Input is limited to 100,000 characters and 10,000 lines; output to 300,000 characters.",
+    schema: {
+      input: z.string().max(100_000),
+      position: z.enum(["prefix", "suffix"]).optional(),
+      start: z.number().int().min(0).max(1_000_000_000).optional(),
+      step: z.number().int().min(1).max(1_000_000).optional(),
+      padding: z.union([z.number().int().min(0).max(12), z.literal("auto")]).optional(),
+      separator: z.string().max(64).optional().describe("Literal separator; defaults to period and space."),
+    },
+    run: (a) => {
+      const result = addLineNumbers(a.input, {
+        position: a.position, start: a.start, step: a.step, padding: a.padding, separator: a.separator,
+      });
+      return result.error
+        ? { content: [{ type: "text", text: `Line numbering failed: ${result.error}. Check the accepted options and size limits.` }], isError: true }
+        : json(result);
+    },
+  },
+  {
+    name: "convert_yaml_json",
+    title: "Convert JSON and YAML",
+    description: "Convert JSON to YAML or a JSON-compatible YAML document to JSON. MCP input and output are limited to 100,000 characters, with additional depth and node limits. Rejects aliases, cyclic values, duplicate keys and numbers that cannot be represented safely. Processes text locally without a network service.",
+    schema: {
+      input: z.string().max(100_000),
+      direction: z.enum(["json2yaml", "yaml2json"]),
+    },
+    run: async (a) => {
+      const result = await convertYamlJson(a.input, a.direction);
+      if (result.ok && result.output.length > 100_000) {
+        return { content: [{ type: "text", text: "Converted output exceeds the 100,000-character MCP response limit. Use a smaller document or the website." }], isError: true };
+      }
+      return result.ok ? json({ output: result.output })
+        : { content: [{ type: "text", text: `Conversion failed: ${result.error.code}.` }], isError: true };
     },
   },
   {

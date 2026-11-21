@@ -73,7 +73,7 @@ export function DevCsvTableEngine() {
       </p>
     </div>
     <div className="flex flex-wrap gap-2.5">
-      <CopyButton value={result.out} />
+      {result.out !== "" && <CopyButton value={result.out} />}
       <button type="button" onClick={() => setInput("")} className="min-h-11 rounded-full border hairline px-3.5 py-2 text-[13px] font-medium transition-colors hover:bg-[var(--color-surface)]">{t.common.clear}</button>
       <button type="button" onClick={loadSample} className="min-h-11 rounded-full border hairline px-3.5 py-2 text-[13px] font-medium text-[var(--color-accent-text)] transition-colors hover:bg-[var(--color-surface)]">{t.common.sample}</button>
     </div>

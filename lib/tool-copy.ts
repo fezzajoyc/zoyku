@@ -7,6 +7,7 @@ import { imageCompressionCopy } from "@/tools/_lib/image-capability-copy";
 import { jsonCapabilityCopy } from "@/tools/_lib/json-capability-copy";
 import { csvCapabilityCopy } from "@/tools/_lib/csv-copy";
 import { jwtCapabilityCopy } from "@/tools/_lib/jwt-copy";
+import { yamlConverterCopy } from "@/tools/_lib/yaml-converter-copy";
 
 /** Return authored tool copy. FAQs describe the actual tool, never a category quota. */
 export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {
@@ -20,6 +21,7 @@ export function toolCopy(tool: ToolDef, locale: Locale): ToolCopy {
   if (tool.slug === "json-to-csv") return csvCapabilityCopy(locale, base, "json2csv");
   if (tool.slug === "csv-to-json") return csvCapabilityCopy(locale, base, "csv2json");
   if (tool.slug === "jwt-decoder") return jwtCapabilityCopy(locale, base);
+  if (tool.slug === "json-yaml-converter") return yamlConverterCopy(locale, base);
   if (tool.slug === "ip-lookup" || tool.slug === "whois-lookup") return lookupCopy(tool.slug, locale, base);
   return base;
 }

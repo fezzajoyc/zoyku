@@ -17,6 +17,7 @@ import findAndReplace from "./find-and-replace";
 import fancyTextGenerator from "./fancy-text-generator";
 import emojiPicker from "./emoji-picker";
 import wordExport from "./word-export";
+import lineNumberGenerator from "./line-number-generator";
 
 export const TEXT_TOOLS = [
   caseConverter,
@@ -38,5 +39,6 @@ export const TEXT_TOOLS = [
   texttounicodeTool,
   texttonatoalphabetTool,
   wordExport,
+  lineNumberGenerator,
 
 ];

@@ -1,0 +1,278 @@
+{
+  "date": "2026-11-21",
+  "base": "http://127.0.0.1:3473",
+  "http": [
+    {
+      "locale": "en",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "en",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "zh",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "zh",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ja",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ja",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "es",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "es",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "pt",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "pt",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "fr",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "fr",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "de",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "de",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ru",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ru",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "it",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "it",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "tr",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "tr",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ko",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ko",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ar",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "ar",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "hi",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "hi",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "id",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "id",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "vi",
+      "slug": "csv-table-editor",
+      "html": 200,
+      "markdown": 200
+    },
+    {
+      "locale": "vi",
+      "slug": "image-palette-generator",
+      "html": 200,
+      "markdown": 200
+    }
+  ],
+  "csv": {
+    "source": "name,code\n\"Ada, Countess\",007\n中😀,-0",
+    "transposed": "name,\"Ada, Countess\",中😀\ncode,007,-0",
+    "keyboardCopy": true,
+    "swap": true,
+    "invalidSelection": true,
+    "ragged": true,
+    "quoteError": true,
+    "tsv": true,
+    "transposeDimensionLimit": true,
+    "clear": true,
+    "emptyCopyAbsent": true
+  },
+  "palette": {
+    "fixtureSha256": "c7c603eb0510afa84ac90c60a0424b32d42075ed39fd802c52ce4026840b4837",
+    "visiblePixels": 3,
+    "sampledPixels": 4,
+    "dominant": "#FF0000",
+    "frequency": "66.7%",
+    "omittedDenominator": true,
+    "clipboardHex": true,
+    "clipboardCss": ":root {\n  --palette-1: #FF0000;\n}",
+    "transparentEmpty": true,
+    "decodeError": true,
+    "sampleCap65536": true,
+    "clearReleasesCanvas": true,
+    "delayedEarlierLoadCannotReplaceNewer": true
+  },
+  "views": [
+    {
+      "slug": "csv-table-editor",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "csv-table-editor",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "csv-table-editor",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "image-palette-generator",
+      "locale": "en",
+      "width": 390,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "image-palette-generator",
+      "locale": "zh",
+      "width": 390,
+      "scheme": "light",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "slug": "image-palette-generator",
+      "locale": "ar",
+      "width": 320,
+      "scheme": "dark",
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  ],
+  "network": [],
+  "pageErrors": []
+}

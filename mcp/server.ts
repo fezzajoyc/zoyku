@@ -25,7 +25,7 @@ export function createServer() {
       inputSchema: tool.schema,
     }, async (args) => {
       try {
-        return tool.run(args ?? {});
+        return await tool.run(args ?? {});
       } catch (e) {
         return {
           content: [{ type: "text" as const, text: `error: ${(e as Error).message}` }],

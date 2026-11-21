@@ -11,7 +11,7 @@ vi.mock("react", async importOriginal => {
 vi.mock("@/components/i18n-provider", () => ({
   useI18n: () => ({ locale: state.locale, t: { common: { input: "Input", output: "Output", clear: "Clear", sample: "Sample" } } }),
 }));
-vi.mock("@/components/client-ui", () => ({ CopyButton: ({ value }: { value: string }) => createElement("button", { disabled: !value, "data-copy": value }, "Copy") }));
+vi.mock("@/components/client-ui", () => ({ CopyButton: ({ value }: { value: string }) => createElement("button", { "data-copy": value }, "Copy") }));
 vi.mock("@/components/ui", () => ({ ToolPanel: ({ children }: { children: ReactNode }) => createElement("section", {}, children) }));
 
 import { DevCsvTableEngine } from "@/tools/_engines/dev-engine-csv-table";
@@ -32,7 +32,6 @@ describe("CSV table editor rendering", () => {
     expect(output(html)).toBe("name,Ada,中😀\ncode,007,-0");
     expect(html).toContain("2 rows × 3 columns · 6 cells");
     expect(html).toContain("data-copy=");
-    expect(html).not.toContain("disabled=");
   });
   it("associates visible labels with every input and keeps data LTR within Arabic UI", () => {
     const html = markup("a,b\n1,2", "swap", ",", "1", "2", "ar");
@@ -49,7 +48,7 @@ describe("CSV table editor rendering", () => {
     expect(html).toContain('role="alert"');
     expect(html).toContain('aria-invalid="true"');
     expect(html).toContain(CSV_TABLE_MESSAGES.zh.selectionError);
-    expect(html).toContain("disabled=");
+    expect(html).not.toContain("data-copy=");
   });
   it.each(["a,b\nc", 'a,b\n"open'])("never presents stale output for invalid input %j", input => {
     const html = markup(input);
@@ -62,7 +61,7 @@ describe("CSV table editor rendering", () => {
     expect(html).toContain(escape(CSV_TABLE_MESSAGES[locale].operation));
     expect(html).toContain(escape(CSV_TABLE_MESSAGES[locale].delimiter));
     expect(html).toContain(escape(CSV_TABLE_MESSAGES[locale].empty));
-    expect(html).toContain("disabled=");
+    expect(html).not.toContain("data-copy=");
   });
 });
 
