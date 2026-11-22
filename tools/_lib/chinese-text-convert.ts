@@ -20,9 +20,9 @@ async function getModule(): Promise<OpenCCModule> {
 export type ChineseVariant = "s2t" | "s2tw" | "s2hk" | "t2s";
 
 const VARIANTS: Record<ChineseVariant, { from: string; to: string }> = {
-  s2t: { from: "cn", to: "twp" }, // 简→繁(OpenCC 标准,含词汇)
-  s2tw: { from: "cn", to: "tw" }, // 简→繁(台湾正体)
-  s2hk: { from: "cn", to: "hk" }, // 简→繁(香港繁体)
+  s2t: { from: "cn", to: "t" },  // 简→繁(OpenCC 标准:字符+通用词组,不带地区习惯)
+  s2tw: { from: "cn", to: "twp" }, // 简→繁(台湾正体,含台湾词汇:软件→軟體)
+  s2hk: { from: "cn", to: "hk" }, // 简→繁(香港繁体,词汇保留:软件→軟件)
   t2s: { from: "t", to: "cn" },   // 繁→简
 };
 

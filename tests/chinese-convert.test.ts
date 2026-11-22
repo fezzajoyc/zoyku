@@ -23,6 +23,21 @@ describe("convertChineseText(简繁)", () => {
   it("空输入拒绝", async () => {
     expect((await convertChineseText("", "s2t")).ok).toBe(false);
   });
+  it("台湾变体含词汇:软件→軟體(opencc-js to:'twp')", async () => {
+    const r = await convertChineseText("软件", "s2tw");
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.text).toBe("軟體");
+  });
+  it("标准繁体不带地区词汇:软件→軟件(opencc-js to:'t')", async () => {
+    const r = await convertChineseText("软件", "s2t");
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.text).toBe("軟件");
+  });
+  it("香港繁体词汇保留:软件→軟件", async () => {
+    const r = await convertChineseText("软件", "s2hk");
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.text).toBe("軟件");
+  });
 });
 
 describe("convertToPinyin(拼音)", () => {
