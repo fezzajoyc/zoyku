@@ -32,6 +32,24 @@ export default defineTool({
           a: "This is an IPv4-mapped address (::ffff:0:0/96). RFC 5952 section 5 says the last 32 bits of such addresses should be represented in IPv4 dotted-decimal notation because they semantically represent an IPv4 address, not four hex groups. All other addresses use pure hex.",
         },
       ],
+      deepDive: [
+        {
+          heading: "How the :: abbreviation rules actually work",
+          paragraphs: [
+            "RFC 4291 allows one :: per address to represent the longest run of consecutive zero groups. The compression in RFC 5952 adds precision: when two runs are the same length, the first one is compressed; a run of a single group (like ff00:0042) is not compressed because a single zero group is shorter to write as 0 than as ::.",
+            "The practical consequence is that :: can represent 1 to 7 zero groups — never 0 (that would be the full form) and never 8 (a bare :: is technically the all-zero address). The tool rejects multiple :: and addresses where the group count would exceed 8 after expansion.",
+            "IPv4-mapped addresses (::ffff:0:0/96) embed a 32-bit IPv4 address in the last two groups. RFC 5952 §5 requires these to keep the dotted-decimal tail rather than expanding to hex groups, because the semantic meaning is IPv4. This is the one case where the compressed and expanded forms use different notations for the same bits.",
+          ],
+        },
+        {
+          heading: "Zone indices, brackets, and edge cases",
+          paragraphs: [
+            "Link-local addresses (fe80::/10) can carry a zone index (e.g. fe80::1%eth0) to disambiguate interfaces. This tool strips the %zone suffix before parsing, since zone indices are system-local and have no place in a normalized output.",
+            "Square brackets [] are stripped because they come from URL context (http://[2001:db8::1]/path) — they delimit the address for URI parsing but are not part of the address itself. Mixed input like [2001:DB8::1] is uppercased, lowercased, bracket-stripped and compressed in a single pass.",
+            "The expanded form always shows exactly 8 groups of 4 hexadecimal digits, zero-padded — this is the format for /proc/net/if_inet6, firewall rules and DNS AAAA records. The compressed form is the human-facing and URL-facing format per RFC 5952. Both represent the same 128-bit value.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "IPv6 压缩与展开",
@@ -55,6 +73,24 @@ export default defineTool({
         {
           q: "为什么 ::ffff:192.168.1.1 保留点分记法?",
           a: "这是 IPv4 映射地址(::ffff:0:0/96)。RFC 5952 第 5 节规定此类地址的末 32 位用 IPv4 点分十进制表示,因为它们语义上是 IPv4 地址而非四个十六进制组。其他地址一律用纯 hex。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: ":: 缩写规则的实际运作",
+          paragraphs: [
+            "RFC 4291 允许每个地址使用一次 :: 来代表最长的连续零段。RFC 5952 的压缩加了精度约束:当两段零段等长时取第一段压缩;单组零段(如 ff00:0042 里的 0042)不缩,因为单组写 0 比写 :: 更短。",
+            "实际后果是 :: 只能代表 1 到 7 组零——不能代表 0(那会是完整形式)也不能代表 8(裸 :: 技术上就是全零地址)。本工具拒绝多 ::,以及在展开后组数会超过 8 的地址。",
+            "IPv4 映射地址(::ffff:0:0/96)在末两组内嵌入 32 位 IPv4 地址。RFC 5952 §5 要求这些地址保留点分十进制尾部而不是展开为 hex 组——因为语义上它们是 IPv4 地址。这是压缩与展开形式对同样的比特使用不同记法的唯一特例。",
+          ],
+        },
+        {
+          heading: "区号、方括号与边界情况",
+          paragraphs: [
+            "链路本地地址(fe80::/10)可携带区号(如 fe80::1%eth0)以区分接口。本工具在解析前剥离 %zone 后缀,因为区号是系统本地的,不属于地址本身的规范化输出。",
+            "方括号 [] 被剥离因为它们来自 URL 上下文(http://[2001:db8::1]/path)——方括号为 URI 解析定界地址,但不是地址的一部分。混合输入如 [2001:DB8::1] 在单次处理中完成大写转小写、去括号与压缩。",
+            "展开形式始终精确显示 8 组 4 位十六进制数字(零填充)——这是 /proc/net/if_inet6、防火墙规则与 DNS AAAA 记录的格式。压缩形式是面向人类与 URL 的 RFC 5952 格式。两者代表同一个 128 位值。",
+          ],
         },
       ],
     },
@@ -82,6 +118,24 @@ export default defineTool({
           a: "これは IPv4 マップアドレス(::ffff:0:0/96)です。RFC 5952 §5 では、このようなアドレスの末尾 32 ビットは IPv4 アドレスを意味するためドット区切り十進で表現すると規定されています。他のアドレスはすべて純粋な hex です。",
         },
       ],
+      deepDive: [
+        {
+          heading: ":: 省略規則の実際の動作",
+          paragraphs: [
+            "RFC 4291 は各アドレスに一度の :: を許可し、連続するゼログループの最長ランを表します。RFC 5952 の圧縮は精度を加えます:同長のランがある場合最初のものが圧縮され、単一グループのゼロラン(ff00:0042 の 0042 など)は :: より 0 と書く方が短いため圧縮されません。",
+            "実際の結果として、:: は 1〜7 グループのゼロを表します — 0(完全形式になる)も 8(裸の :: は技術的に全ゼロアドレス)も表しません。本ツールは複数の :: と、展開後にグループ数が 8 を超えるアドレスを拒否します。",
+            "IPv4 マップアドレス(::ffff:0:0/96)は末尾の 2 グループに 32 ビットの IPv4 アドレスを埋め込みます。RFC 5952 §5 はこれらにドット区切り十進のテールを保持することを要求します — セマンティクスが IPv4 アドレスだからです。圧縮形と展開形が同じビットに異なる記法を使う唯一の特例です。",
+          ],
+        },
+        {
+          heading: "ゾーンインデックス、角括弧、エッジケース",
+          paragraphs: [
+            "リンクローカルアドレス(fe80::/10)はゾーンインデックス(fe80::1%eth0 など)を持ち、インターフェースを区別します。本ツールはパース前に %zone 接尾辞を剥がします — ゾーンインデックスはシステムローカルで、正規化された出力の一部ではありません。",
+            "角括弧 [] は URL コンテキスト(http://[2001:db8::1]/path)から来るため剥がされます — URI パースのための区切りであり、アドレス自体の一部ではありません。[2001:DB8::1] のような混合入力は、大文字→小文字、括弧除去、圧縮を一回の処理で行います。",
+            "展開形は常に 4 桁の十六進数字 8 グループをゼロ埋めで表示します — これは /proc/net/if_inet6、ファイアウォール規則、DNS AAAA レコードのフォーマットです。圧縮形は RFC 5952 の人間向け・URL 向けフォーマットです。両者は同じ 128 ビット値を表します。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Expansión y compresión IPv6",
@@ -107,6 +161,24 @@ export default defineTool({
           a: "Es una dirección mapeada IPv4 (::ffff:0:0/96). La sección 5 de RFC 5952 dice que los últimos 32 bits de tales direcciones deben representarse en notación decimal con puntos porque semánticamente representan una dirección IPv4, no cuatro grupos hex. Todas las demás direcciones usan hex puro.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Cómo funcionan realmente las reglas de abreviación ::",
+          paragraphs: [
+            "RFC 4291 permite un :: por dirección para representar la secuencia más larga de grupos de ceros consecutivos. La compresión de RFC 5952 añade precisión: cuando dos secuencias tienen la misma longitud, se comprime la primera; una secuencia de un solo grupo (como ff00:0042) no se comprime porque escribir un solo grupo cero como 0 es más corto que ::.",
+            "La consecuencia práctica es que :: puede representar de 1 a 7 grupos de ceros — nunca 0 (que sería la forma completa) ni 8 (un :: desnudo es técnicamente la dirección todo-ceros). La herramienta rechaza múltiples :: y direcciones donde el conteo de grupos excedería 8 tras la expansión.",
+            "Las direcciones mapeadas IPv4 (::ffff:0:0/96) incrustan una dirección IPv4 de 32 bits en los últimos dos grupos. RFC 5952 §5 requiere que mantengan el sufijo decimal punteado en lugar de expandirse a grupos hex — porque semánticamente son una dirección IPv4. Es el único caso donde las formas comprimida y expandida usan notaciones diferentes para los mismos bits.",
+          ],
+        },
+        {
+          heading: "Índices de zona, corchetes y casos límite",
+          paragraphs: [
+            "Las direcciones link-local (fe80::/10) pueden llevar un índice de zona (ej. fe80::1%eth0) para desambiguar interfaces. Esta herramienta elimina el sufijo %zone antes de analizar, ya que los índices de zona son locales del sistema y no forman parte de la salida normalizada.",
+            "Los corchetes [] se eliminan porque provienen del contexto URL (http://[2001:db8::1]/path) — delimitan la dirección para el análisis de URI pero no forman parte de la dirección misma. Entrada mixta como [2001:DB8::1] se convierte a minúsculas, se eliminan los corchetes y se comprime en una sola pasada.",
+            "La forma expandida siempre muestra exactamente 8 grupos de 4 dígitos hexadecimales, con relleno de ceros — este es el formato para /proc/net/if_inet6, reglas de firewall y registros DNS AAAA. La forma comprimida es el formato RFC 5952 orientado a humanos y URLs. Ambas representan el mismo valor de 128 bits.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Expansão e compressão IPv6",
@@ -130,6 +202,24 @@ export default defineTool({
         {
           q: "Por que ::ffff:192.168.1.1 mantém a notação de pontos?",
           a: "É um endereço mapeado IPv4 (::ffff:0:0/96). A seção 5 do RFC 5952 diz que os últimos 32 bits de tais endereços devem ser representados em notação decimal pontuada porque semanticamente representam um endereço IPv4, não quatro grupos hex. Todos os outros endereços usam hex puro.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Como as regras de abreviação :: realmente funcionam",
+          paragraphs: [
+            "RFC 4291 permite um :: por endereço para representar a sequência mais longa de grupos de zeros consecutivos. A compressão de RFC 5952 adiciona precisão: quando duas sequências têm a mesma duração, a primeira é comprimida; uma sequência de um único grupo (como ff00:0042) não é comprimida porque escrever um grupo zero como 0 é mais curto que ::.",
+            "A consequência prática é que :: pode representar de 1 a 7 grupos de zeros — nunca 0 (que seria a forma completa) nem 8 (um :: puro é tecnicamente o endereço todo-zeros). A ferramenta rejeita múltiplos :: e endereços onde a contagem de grupos excederia 8 após a expansão.",
+            "Endereços mapeados IPv4 (::ffff:0:0/96) incorporam um endereço IPv4 de 32 bits nos últimos dois grupos. RFC 5952 §5 exige que mantenham o sufixo decimal pontuado em vez de expandir para grupos hex — porque semanticamente são um endereço IPv4. É o único caso onde as formas comprimida e expandida usam notações diferentes para os mesmos bits.",
+          ],
+        },
+        {
+          heading: "Índices de zona, colchetes e casos limite",
+          paragraphs: [
+            "Endereços link-local (fe80::/10) podem carregar um índice de zona (ex. fe80::1%eth0) para desambiguar interfaces. Esta ferramenta remove o sufixo %zone antes de analisar, pois índices de zona são locais do sistema e não fazem parte da saída normalizada.",
+            "Colchetes [] são removidos porque vêm do contexto URL (http://[2001:db8::1]/path) — eles delimitam o endereço para análise de URI mas não fazem parte do endereço em si. Entrada mista como [2001:DB8::1] é convertida para minúsculas, descolchetada e comprimida em uma única passada.",
+            "A forma expandida sempre mostra exatamente 8 grupos de 4 dígitos hexadecimais, com preenchimento de zeros — este é o formato para /proc/net/if_inet6, regras de firewall e registros DNS AAAA. A forma comprimida é o formato RFC 5952 voltado para humanos e URLs. Ambas representam o mesmo valor de 128 bits.",
+          ],
         },
       ],
     },
