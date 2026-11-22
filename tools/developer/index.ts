@@ -101,6 +101,7 @@ export const DEV_TOOLS = [
   gbkDecoder,
   tomlConverter,
   rsaKeyGenerator,
+  dockerComposeConverter,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -112,3 +113,4 @@ import sm3Hash from "./sm3-hash";
 import gbkDecoder from "./gbk-decoder";
 import tomlConverter from "./toml-converter";
 import rsaKeyGenerator from "./rsa-key-generator";
+import dockerComposeConverter from "./docker-compose-converter";
