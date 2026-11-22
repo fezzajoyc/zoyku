@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 
 /**
  * Shared engine for EMI and loan repayment: standard reducing-balance EMI
@@ -49,6 +50,7 @@ export function CalcEngineLoan({ kind }: { kind: string }) {
   const [rate, setRate] = useState("8.5");
   const [tenure, setTenure] = useState("20");
   const [unit, setUnit] = useState("years");
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale);
 
   const p = num(principal);
   const annual = num(rate);
@@ -84,7 +86,7 @@ export function CalcEngineLoan({ kind }: { kind: string }) {
   const emi = Number.isFinite(p) && Number.isFinite(annual) && Number.isFinite(nMonths) ? emiOf(p, annual, nMonths) : NaN;
   const totalPay = Number.isFinite(emi) && Number.isFinite(nMonths) ? emi * nMonths : NaN;
   const totalInt = Number.isFinite(totalPay) ? totalPay - p : NaN;
-  const symbol = "₹";
+  const symbol = cur.symbol;
 
   return (
     <ToolPanel>
@@ -102,6 +104,15 @@ export function CalcEngineLoan({ kind }: { kind: string }) {
           <Sel value={unit} onChange={setUnit} aria="tenure unit">
             <option value="years">{pick(locale, S.years)}</option>
             <option value="months">{pick(locale, S.months)}</option>
+          </Sel>
+        </Field>
+        <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
           </Sel>
         </Field>
       </div>

@@ -4,7 +4,8 @@ import { parseLocaleNumber } from "../_lib/numparse";
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { Field, NumIn, Note, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { Field, Sel, NumIn, Note, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 import { retirementProjection } from "../_lib/finance";
 import { DonutChart, BalanceChart } from "./calc-charts";
 
@@ -61,6 +62,7 @@ function num(s: string): number {
 
 export function CalcEngineRetirement() {
   const { locale } = useI18n();
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale);
   const [curAge, setCurAge] = useState("35");
   const [retAge, setRetAge] = useState("65");
   const [savings, setSavings] = useState("50000");
@@ -68,7 +70,7 @@ export function CalcEngineRetirement() {
   const [ret, setRet] = useState("6");
   const [infl, setInfl] = useState("2.5");
   const [withYears, setWithYears] = useState("20");
-  const symbol = "$";
+  const symbol = cur.symbol;
 
   const a = num(curAge);
   const b = num(retAge);
@@ -104,6 +106,15 @@ export function CalcEngineRetirement() {
         </Field>
         <Field label={pick(locale, S.withYears)}>
           <NumIn value={withYears} onChange={setWithYears} aria="years in retirement" />
+        </Field>
+              <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
+          </Sel>
         </Field>
       </div>
 

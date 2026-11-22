@@ -4,7 +4,8 @@ import { parseLocaleNumber } from "../_lib/numparse";
 import { useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { Field, NumIn, Note, Stats, Tabs, fmt, fmtMoney, pick } from "./calc-ui";
+import { Field, NumIn, Note, Sel, Stats, Tabs, fmt, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 
 /**
  * Shared engine for GST and VAT: add tax to a net amount or extract it from
@@ -31,6 +32,7 @@ function num(s: string): number {
 export function CalcEngineTax({ kind }: { kind: string }) {
   const { locale } = useI18n();
   const isGst = kind === "gst";
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale, isGst ? "INR" : undefined);
   const [mode, setMode] = useState("add");
   const [amount, setAmount] = useState("10000");
   const [rate, setRate] = useState(isGst ? "18" : "20");
@@ -52,7 +54,7 @@ export function CalcEngineTax({ kind }: { kind: string }) {
     }
   }
 
-  const symbol = isGst ? "₹" : "$";
+  const symbol = cur.symbol;
 
   return (
     <ToolPanel>
@@ -85,7 +87,16 @@ export function CalcEngineTax({ kind }: { kind: string }) {
                   {v}%
                 </button>
               ))}
-            </div>
+                    <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
+          </Sel>
+        </Field>
+      </div>
           ) : (
             <NumIn value={rate} onChange={setRate} aria="tax rate" />
           )}

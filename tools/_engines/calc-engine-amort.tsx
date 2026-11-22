@@ -4,7 +4,8 @@ import { parseLocaleNumber } from "../_lib/numparse";
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { Field, NumIn, Note, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { Field, NumIn, Note, Sel, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 import { balanceAtYear, monthlyAmortization } from "../_lib/amortize";
 import { fill } from "../_lib/types";
 import { DonutChart, BalanceChart, chartText } from "./calc-charts";
@@ -73,6 +74,7 @@ function num(s: string): number {
 
 export function CalcEngineAmort() {
   const { locale } = useI18n();
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale);
   const [loan, setLoan] = useState("240000");
   const [rate, setRate] = useState("6");
   const [term, setTerm] = useState("30");
@@ -90,7 +92,7 @@ export function CalcEngineAmort() {
 
   // 年末余额曲线:每年最后一行(期限非整年时补最后一月)
   const yearEnds = res.rows.filter((row, i) => (i + 1) % 12 === 0 || i === res.rows.length - 1);
-  const money = (n: number) => fmtMoney(n, locale, "$");
+  const money = (n: number) => fmtMoney(n, locale, cur.symbol);
 
   return (
     <ToolPanel>
@@ -106,6 +108,15 @@ export function CalcEngineAmort() {
         </Field>
         <Field label={pick(locale, S.yearQ)}>
           <NumIn value={yearQ} onChange={setYearQ} aria="year for balance" />
+        </Field>
+              <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
+          </Sel>
         </Field>
       </div>
 

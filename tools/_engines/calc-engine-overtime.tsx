@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
 import { Field, NumIn, Note, Sel, Stats, Tabs, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 import { overtimePay, salaryBreakdown } from "../_lib/finance";
 
 /**
@@ -72,6 +73,7 @@ function num(s: string): number {
 
 export function CalcEngineOvertime() {
   const { locale } = useI18n();
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale);
   const [mode, setMode] = useState("hourly");
   const [hourlyRate, setHourlyRate] = useState("25");
   const [salary, setSalary] = useState("52000");
@@ -94,7 +96,7 @@ export function CalcEngineOvertime() {
     () => overtimePay(baseRate, otHours.trim() === "" ? 0 : num(otHours), mult, rh, w),
     [baseRate, otHours, mult, rh, w],
   );
-  const money = (n: number) => fmtMoney(n, locale, "$");
+  const money = (n: number) => fmtMoney(n, locale, cur.symbol);
 
   return (
     <ToolPanel>
@@ -131,6 +133,15 @@ export function CalcEngineOvertime() {
         </Field>
         <Field label={pick(locale, S.weeksYear)}>
           <NumIn value={weeks} onChange={setWeeks} aria="weeks per year" />
+        </Field>
+              <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
+          </Sel>
         </Field>
       </div>
 

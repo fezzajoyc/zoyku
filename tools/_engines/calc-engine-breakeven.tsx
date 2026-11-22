@@ -5,7 +5,8 @@ import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import type { Locale } from "@/lib/site";
 import { ToolPanel } from "@/components/ui";
-import { Field, NumIn, Note, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { Field, Sel, NumIn, Note, Stats, TableBox, fmt, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 import { breakEven } from "../_lib/finance";
 
 /**
@@ -71,10 +72,11 @@ function num(s: string): number {
 
 export function CalcEngineBreakEven() {
   const { locale } = useI18n();
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale);
   const [fixed, setFixed] = useState("10000");
   const [price, setPrice] = useState("50");
   const [variable, setVariable] = useState("30");
-  const symbol = "$";
+  const symbol = cur.symbol;
 
   const res = useMemo(() => breakEven(num(fixed), num(price), num(variable)), [fixed, price, variable]);
   const impossible = !Number.isFinite(res.units) && Number.isFinite(num(fixed)) && num(fixed) >= 0 && num(price) > 0 && num(variable) >= 0;
@@ -99,6 +101,15 @@ export function CalcEngineBreakEven() {
         </Field>
         <Field label={pick(locale, S.variable)}>
           <NumIn value={variable} onChange={setVariable} aria="variable cost per unit" />
+        </Field>
+              <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
+          </Sel>
         </Field>
       </div>
 

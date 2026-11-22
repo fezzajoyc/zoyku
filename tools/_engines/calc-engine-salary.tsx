@@ -4,7 +4,8 @@ import { parseLocaleNumber } from "../_lib/numparse";
 import { useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { ToolPanel } from "@/components/ui";
-import { Field, NumIn, Note, Stats, fmt, fmtMoney, pick } from "./calc-ui";
+import { Field, Sel, NumIn, Note, Stats, fmt, fmtMoney, pick } from "./calc-ui";
+import { CURRENCY_LABEL, CURRENCIES, useLocaleCurrency } from "../_lib/currency";
 import { hourlyToSalary, salaryBreakdown } from "../_lib/finance";
 
 /**
@@ -88,6 +89,7 @@ function num(s: string): number {
 
 export function CalcEngineSalary({ mode }: { mode: string }) {
   const { locale } = useI18n();
+  const { currency, setCurrency, cur } = useLocaleCurrency(locale);
   const toHourly = mode === "salary2hourly";
   const [salary, setSalary] = useState("52000");
   const [hourlyRate, setHourlyRate] = useState("25");
@@ -97,7 +99,7 @@ export function CalcEngineSalary({ mode }: { mode: string }) {
 
   const h = num(hours);
   const w = num(weeks);
-  const symbol = "$";
+  const symbol = cur.symbol;
 
   const sb = useMemo(
     () => salaryBreakdown(num(salary), h, w, unpaid.trim() === "" ? 0 : num(unpaid)),
@@ -127,6 +129,15 @@ export function CalcEngineSalary({ mode }: { mode: string }) {
         </Field>
         <Field label={pick(locale, S.weeksYear)}>
           <NumIn value={weeks} onChange={setWeeks} aria="weeks per year" />
+        </Field>
+              <Field label={pick(locale, CURRENCY_LABEL)}>
+          <Sel value={currency} onChange={setCurrency} aria="currency">
+            {Object.entries(CURRENCIES).map(([code, def]) => (
+              <option key={code} value={code}>
+                {def.label}
+              </option>
+            ))}
+          </Sel>
         </Field>
       </div>
 
