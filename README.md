@@ -1,14 +1,14 @@
-# Zoyku — 228 个浏览器工具
+# Zoyku — 229 个浏览器工具
 
-面向全球用户的免费工具站。**228 个工具 × 15 语言 = 3,420 个工具页**；工具文件和本地文本在浏览器处理，DNS、IP、汇率等联网步骤单独披露。托管、静态资源及外部服务仍有成本和使用限制，不能概括为“零服务器成本”。同行能力、功能差距和验收范围详见 [docs/benchmark.md](docs/benchmark.md)。
+面向全球用户的免费工具站。**229 个工具 × 15 语言 = 3,435 个工具页**；工具文件和本地文本在浏览器处理，DNS、IP、汇率等联网步骤单独披露。托管、静态资源及外部服务仍有成本和使用限制，不能概括为“零服务器成本”。同行能力、功能差距和验收范围详见 [docs/benchmark.md](docs/benchmark.md)。
 
 ## 数字事实源(改任何数字前先跑)
 
 | 事实 | 数值 | 来源(唯一事实源) |
 |---|---|---|
-| 工具数 | 228 | `tools/registry.ts` ALL_TOOLS.length(测试锚定 tests/registry.test.ts) |
+| 工具数 | 229 | `tools/registry.ts` ALL_TOOLS.length(测试锚定 tests/registry.test.ts) |
 | 语言数 | 15 | `lib/site.ts` LOCALES |
-| 工具页 | 228 × 15 = 3,420 | registry × LOCALES |
+| 工具页 | 229 × 15 = 3,435 | registry × LOCALES |
 | sitemap URL | 构建生成并审计 | 以本轮生成的 sitemap 与 SEO 报告为准，不能把本地改动当作已部署 |
 | MCP 可执行工具 | 52 | `mcp/tools.ts` MCP_TOOLS.length |
 | 测试 | 见最新验证记录 | `npx vitest run`，数量不等于全站功能或合规证明 |

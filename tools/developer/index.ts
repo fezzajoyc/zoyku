@@ -98,6 +98,7 @@ export const DEV_TOOLS = [
   jsonYamlConverter,
   crc16Modbus,
   sm3Hash,
+  gbkDecoder,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -106,3 +107,4 @@ import jsonPathQuery from "./json-path-query";
 import jsonYamlConverter from "./json-yaml-converter";
 import crc16Modbus from "./crc16-modbus";
 import sm3Hash from "./sm3-hash";
+import gbkDecoder from "./gbk-decoder";
