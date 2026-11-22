@@ -11,6 +11,7 @@ import chineseIdValidator from "./chinese-id-validator";
 import chineseIdGenerator from "./chinese-id-generator";
 import socialCreditValidator from "./social-credit-validator";
 import socialCreditGenerator from "./social-credit-generator";
+import ibanValidator from "./iban-validator";
 
 export const SECURITY_TOOLS = [
   passwordGenerator,
@@ -26,4 +27,5 @@ export const SECURITY_TOOLS = [
   chineseIdGenerator,
   socialCreditValidator,
   socialCreditGenerator,
+  ibanValidator,
 ];
