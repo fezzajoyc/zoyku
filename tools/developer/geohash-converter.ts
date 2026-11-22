@@ -44,7 +44,7 @@ export default defineTool({
         {
           heading: "Prefix query patterns in real databases",
           paragraphs: [
-            "The killer feature for storage: a B-tree index on a Geohash column turns proximity search into a prefix range scan. "All points in the same neighbourhood as geohash wtw3sj" is the range [wtw3sj, wtw3st) — two B-tree probes instead of a full-table distance computation. MySQL, PostgreSQL and MongoDB all serve this pattern natively.",
+            "The killer feature for storage: a B-tree index on a Geohash column turns proximity search into a prefix range scan. «All points in the same neighbourhood as geohash wtw3sj» is the range [wtw3sj, wtw3st) — two B-tree probes instead of a full-table distance computation. MySQL, PostgreSQL and MongoDB all serve this pattern natively.",
             "The edge problem and the standard fix: a point just across a cell border shares no prefix with its true nearest neighbours. The standard remedy queries the 8 adjacent cells too — encode the 8 surrounding cell centers at the same precision and run 9 prefix queries (many libraries expose this as a neighbours function). This is why the FAQ recommends 7–8 characters: the neighbour query stays cheap at that cell size.",
             "When Geohash is the wrong tool: if you need exact distance ranking (not just bucketing), use a spatial index (PostGIS, MongoDB 2dsphere) or a proper H3/S2 system — Geohash's cells are squares and distances inside one cell vary; H3's hexagons fix that at the cost of a different ecosystem.",
           ],
@@ -216,7 +216,7 @@ export default defineTool({
         {
           heading: "Padrões de consulta por prefixo em bancos de dados reais",
           paragraphs: [
-            "A funcionalidade-chave para armazenamento: um índice B-tree numa coluna Geohash transforma a busca de proximidade em uma varredura de faixa por prefixo. "Todos os pontos no mesmo bairro que wtw3sj" é o intervalo [wtw3sj, wtw3st) — duas sondas B-tree em vez de um cálculo de distância sobre toda a tabela. MySQL, PostgreSQL e MongoDB servem esse padrão nativamente.",
+            "A funcionalidade-chave para armazenamento: um índice B-tree numa coluna Geohash transforma a busca de proximidade em uma varredura de faixa por prefixo. «Todos os pontos no mesmo bairro que wtw3sj» é o intervalo [wtw3sj, wtw3st) — duas sondas B-tree em vez de um cálculo de distância sobre toda a tabela. MySQL, PostgreSQL e MongoDB servem esse padrão nativamente.",
             "O problema de borda e a correção padrão: um ponto logo do outro lado do limite da célula não compartilha prefixo com seus vizinhos verdadeiros. A correção padrão consulta também as 8 células adjacentes — codifique os 8 centros circundantes na mesma precisão e execute 9 consultas de prefixo (muitas bibliotecas expõem isso como função neighbours). Por isso a FAQ recomenda 7–8 caracteres: a consulta de vizinhos permanece barata nesse tamanho de célula.",
             "Quando Geohash é a ferramenta errada: se precisar de ordenação por distância exata (não apenas agrupamento), use um índice espacial (PostGIS, MongoDB 2dsphere) ou um sistema H3/S2 próprio — as células do Geohash são quadrados e as distâncias dentro de uma célula variam; os hexágonos do H3 corrigem isso ao custo de outro ecossistema.",
           ],
