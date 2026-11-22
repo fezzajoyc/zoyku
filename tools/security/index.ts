@@ -15,6 +15,7 @@ import ibanValidator from "./iban-validator";
 import aesEncryptTool from "./aes-encrypt";
 import sm4EncryptTool from "./sm4-encrypt";
 import sm2SignTool from "./sm2-sign";
+import punycodeConverter from "./punycode-converter";
 
 export const SECURITY_TOOLS = [
   passwordGenerator,
@@ -34,4 +35,5 @@ export const SECURITY_TOOLS = [
   aesEncryptTool,
   sm4EncryptTool,
   sm2SignTool,
+  punycodeConverter,
 ];
