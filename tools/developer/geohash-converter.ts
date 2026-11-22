@@ -32,6 +32,24 @@ export default defineTool({
           a: "It depends on what \"near\" means: 4 characters ≈ 39 km × 20 km (city level), 6 ≈ 1.2 km × 0.6 km (neighbourhood), 8 ≈ 38 m × 19 m (street). Storing 7–8 characters covers most address-level deduplication; keep the full 12 only when centimeter-level bucketing is genuinely required.",
         },
       ],
+      deepDive: [
+        {
+          heading: "The interleaved-bit algorithm, in five lines",
+          paragraphs: [
+            "The encoding alternates between the longitude and latitude ranges: start with lng ∈ [−180, 180] and lat ∈ [−90, 90], and for each bit, binary-search the current range — the bit is 1 if the coordinate is in the upper half. Longitude bits come first, then latitude, alternating. Every 5 bits index one Base32 character (32 = 2⁵), so a 5-character hash carries 25 bits: 13 longitude, 12 latitude.",
+            "The asymmetry is deliberate: with one extra longitude bit, the first character narrows the globe to one of 32 vertical strips — useful because east-west position often matters more for weather, time zones and sunrise. The specific Base32 alphabet (no a, i, l, o) prevents misreading handwritten hashes: 0/1 never collide with letters, and the removed letters are the ones most often confused.",
+            "The decode direction simply runs the same binary searches the hash prescribes, producing tighter and tighter bounding boxes. The output center is the midpoint of the final box — the input coordinate lies somewhere inside that box, guaranteed by construction, not by statistics.",
+          ],
+        },
+        {
+          heading: "Prefix query patterns in real databases",
+          paragraphs: [
+            "The killer feature for storage: a B-tree index on a Geohash column turns proximity search into a prefix range scan. "All points in the same neighbourhood as geohash wtw3sj" is the range [wtw3sj, wtw3st) — two B-tree probes instead of a full-table distance computation. MySQL, PostgreSQL and MongoDB all serve this pattern natively.",
+            "The edge problem and the standard fix: a point just across a cell border shares no prefix with its true nearest neighbours. The standard remedy queries the 8 adjacent cells too — encode the 8 surrounding cell centers at the same precision and run 9 prefix queries (many libraries expose this as a neighbours function). This is why the FAQ recommends 7–8 characters: the neighbour query stays cheap at that cell size.",
+            "When Geohash is the wrong tool: if you need exact distance ranking (not just bucketing), use a spatial index (PostGIS, MongoDB 2dsphere) or a proper H3/S2 system — Geohash's cells are squares and distances inside one cell vary; H3's hexagons fix that at the cost of a different ecosystem.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "Geohash 编解码",
@@ -55,6 +73,24 @@ export default defineTool({
         {
           q: "该存多长的 Geohash?",
           a: "取决于\"附近\"的定义:4 字符 ≈ 39 km × 20 km(城市级),6 ≈ 1.2 km × 0.6 km(街区级),8 ≈ 38 m × 19 m(街道级)。地址级去重存 7–8 字符即可覆盖绝大多数场景;只有确实需要厘米级分桶时才存满 12 字符。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "交错比特算法,五行讲完",
+          paragraphs: [
+            "编码在经度与纬度范围之间交替:从 lng ∈ [−180, 180] 与 lat ∈ [−90, 90] 出发,每个比特对当前区间做一次二分——坐标落在上半则比特为 1。经度比特先行、纬度随后交替。每 5 个比特对应一个 Base32 字符(32 = 2⁵),所以 5 字符 hash 携带 25 个比特:经度 13、纬度 12。",
+            "这种不对称是刻意的:多出的一个经度比特,让第一个字符就把全球收敛到 32 条纵向条带之一——因为东西位置对天气、时区与日出往往更重要。Base32 字母表(无 a、i、l、o)防止手写 hash 误读:0/1 永不与字母混淆,被删的字母恰是最容易混淆的那几个。",
+            "解码方向就是把 hash 规定的二分搜索重新走一遍,产生越来越紧的包围盒。输出的中心是最终包围盒的中点——输入坐标按构造保证落在这个盒子里,不是统计意义上的大概。",
+          ],
+        },
+        {
+          heading: "真实数据库里的前缀查询模式",
+          paragraphs: [
+            "对存储而言最关键的能力:Geohash 列上的 B-tree 索引把就近搜索变成前缀范围扫描。「与 wtw3sj 同一街区的所有点」就是范围 [wtw3sj, wtw3st)——两次 B-tree 探测代替全表距离计算。MySQL、PostgreSQL 与 MongoDB 都原生支持这个模式。",
+            "边界问题与标准修复:刚好跨过格子边界的点,与其真正的最近邻不共享前缀。标准补救是连 8 个相邻格子一起查——用同等精度编码 8 个邻格中心,执行 9 次前缀查询(很多库把它封装成 neighbours 函数)。这就是 FAQ 建议 7–8 字符的原因:在那种格子尺寸下,邻格查询仍然便宜。",
+            "Geohash 不适用的场景:需要精确距离排序(而非仅分桶)时,请用空间索引(PostGIS、MongoDB 2dsphere)或正经的 H3/S2 系统——Geohash 的格子是正方形,同一格内的距离变化不小;H3 的六边形修复了这一点,代价是另一套生态。",
+          ],
         },
       ],
     },
@@ -82,6 +118,24 @@ export default defineTool({
           a: "「近く」の定義次第:4 文字 ≈ 39 km × 20 km(都市レベル)、6 ≈ 1.2 km × 0.6 km(街区)、8 ≈ 38 m × 19 m(通り)。住所レベルの重複排除なら 7〜8 文字で十分;センチメートル級のバケットが本当に必要な場合のみ 12 文字を保存してください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "交互ビット アルゴリズム、五行で説明",
+          paragraphs: [
+            "エンコードは経度と緯度の範囲を交互に使います:lng ∈ [−180, 180] と lat ∈ [−90, 90] から始め、各ビットで現在の範囲を二分探索 — 座標が上半分ならビットは 1。経度ビットが先、緯度が後、交互に。5 ビットごとに Base32 文字を一つ索引します(32 = 2⁵)、5 文字のハッシュは 25 ビット:経度 13、緯度 12。",
+            "この非対称は意図的です:経度の余分な一ビットにより、最初の文字で地球を 32 の縦ストリップの一つに絞れます — 東西の位置は天気・タイムゾーン・日の出でしばしばより重要だからです。Base32 アルファベット(a・i・l・o を含まない)は手書きハッシュの誤読を防ぎます:0/1 は決して文字と衝突せず、除かれた字母は最も混同されやすいものです。",
+            "デコード方向はハッシュが指定する二分探索を再度実行するだけで、越来越狭い境界ボックスを生みます。出力中心は最終ボックスの中点 — 入力座標は構造的にそのボックス内にあることが保証され、統計ではなく構造で保証です。",
+          ],
+        },
+        {
+          heading: "実データベースでのプレフィックス クエリ パターン",
+          paragraphs: [
+            "ストレージにとっての決定機能:Geohash 列の B-tree インデックスは近接検索をプレフィックス範囲スキャンに変えます。「geohash wtw3sj と同じ街区の全点」は範囲 [wtw3sj, wtw3st) — 二つの B-tree 探測で、全テーブル距離計算ではありません。MySQL、PostgreSQL、MongoDB はすべてこのパターンをネイティブにサポートします。",
+            "境界問題と標準修正:セル境界を跨いだ直後の点は、真の最近傍とプレフィックスを共有しません。標準的な対策は 8 つの隣接セルも併せてクエリ — 同精度で 8 つの隣接セル中心をエンコードし、9 回のプレフィックス クエリを実行(多くのライブラリは neighbours 関数として公開)。FAQ が 7〜8 文字を勧める理由は、そのセルサイズなら隣接クエリが安価だからです。",
+            "Geohash が不適な場面:正確な距離ランク付け(バケットだけではない)が必要なら、空間インデックス(PostGIS、MongoDB 2dsphere)や本格的な H3/S2 システムを — Geohash のセルは正方形でセル内距離が変わります;H3 の六角形はそれを修正しますが別エコシステムのコストです。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Codificador y decodificador Geohash",
@@ -107,6 +161,24 @@ export default defineTool({
           a: "Depende de lo que signifique «cerca»: 4 caracteres ≈ 39 km × 20 km (nivel ciudad), 6 ≈ 1,2 km × 0,6 km (vecindario), 8 ≈ 38 m × 19 m (calle). Almacenar 7–8 caracteres cubre la mayoría de deduplicaciones a nivel de dirección; guarde los 12 solo cuando se necesite un agrupamiento por centímetros.",
         },
       ],
+      deepDive: [
+        {
+          heading: "El algoritmo de bits entrelazados, en cinco líneas",
+          paragraphs: [
+            "La codificación alterna entre los rangos de longitud y latitud: comience con lng ∈ [−180, 180] y lat ∈ [−90, 90], y para cada bit, realice una búsqueda binaria del rango actual — el bit es 1 si la coordenada está en la mitad superior. Los bits de longitud van primero, luego latitud, alternando. Cada 5 bits indexan un carácter Base32 (32 = 2⁵), así que un hash de 5 caracteres lleva 25 bits: 13 de longitud, 12 de latitud.",
+            "La asimetría es deliberada: con un bit extra de longitud, el primer carácter estrecha el globo a una de 32 franjas verticales — útil porque la posición este-oeste a menudo importa más para el clima, husos horarios y amaneceres. El alfabeto Base32 específico (sin a, i, l, o) evita malas lecturas de hashes escritos a mano: 0/1 nunca colisionan con letras, y las letras eliminadas son las que más se confunden.",
+            "La dirección de decodificación simplemente ejecuta las mismas búsquedas binarias que el hash prescribe, produciendo cajas envolventes cada vez más estrechas. El centro de salida es el punto medio de la caja final — la coordenada de entrada se encuentra en algún lugar de esa caja, garantizado por construcción, no por estadística.",
+          ],
+        },
+        {
+          heading: "Patrones de consulta por prefijo en bases de datos reales",
+          paragraphs: [
+            "La característica clave para el almacenamiento: un índice B-tree sobre una columna Geohash convierte la búsqueda de proximidad en un escaneo de rango por prefijo. «Todos los puntos del mismo vecindario que wtw3sj» es el rango [wtw3sj, wtw3st) — dos sondas B-tree en lugar de un cálculo de distancia sobre toda la tabla. MySQL, PostgreSQL y MongoDB sirven este patrón de forma nativa.",
+            "El problema del borde y la solución estándar: un punto justo al otro lado del borde de la celda no comparte prefijo con sus vecinos verdaderos. La solución estándar consulta también las 8 celdas adyacentes — codifique los 8 centros circundantes a la misma precisión y ejecute 9 consultas de prefijo (muchas bibliotecas lo exponen como función neighbours). Por eso la FAQ recomienda 7–8 caracteres: la consulta de vecinos sigue siendo barata a ese tamaño de celda.",
+            "Cuando Geohash es la herramienta equivocada: si necesita orden por distancia exacta (no solo agrupamiento), use un índice espacial (PostGIS, MongoDB 2dsphere) o un sistema H3/S2 propio — las celdas de Geohash son cuadrados y las distancias dentro de una celda varían; los hexágonos de H3 corrigen eso al coste de otro ecosistema.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Codificador e decodificador Geohash",
@@ -130,6 +202,24 @@ export default defineTool({
         {
           q: "Qual precisão devo armazenar?",
           a: "Depende do que \"perto\" significa: 4 caracteres ≈ 39 km × 20 km (nível cidade), 6 ≈ 1,2 km × 0,6 km (bairro), 8 ≈ 38 m × 19 m (rua). Armazenar 7–8 caracteres cobre a maioria das deduplicações em nível de endereço; guarde os 12 apenas quando o agrupamento por centímetros for realmente necessário.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "O algoritmo de bits entrelaçados, em cinco linhas",
+          paragraphs: [
+            "A codificação alterna entre os intervalos de longitude e latitude: comece com lng ∈ [−180, 180] e lat ∈ [−90, 90], e para cada bit, faça busca binária no intervalo atual — o bit é 1 se a coordenada está na metade superior. Bits de longitude vêm primeiro, depois latitude, alternando. A cada 5 bits indexa-se um caractere Base32 (32 = 2⁵), então um hash de 5 caracteres carrega 25 bits: 13 de longitude, 12 de latitude.",
+            "A assimetria é deliberada: com um bit extra de longitude, o primeiro caractere estrecha o globo a uma de 32 faixas verticais — útil porque a posição leste-oeste frequentemente importa mais para clima, fusos e nascer do sol. O alfabeto Base32 específico (sem a, i, l, o) evita má leitura de hashes escritos à mão: 0/1 nunca colidem com letras, e as letras removidas são as mais confundidas.",
+            "A direção de decodificação simplesmente executa as mesmas buscas binárias que o hash prescreve, produzindo caixas delimitadoras cada vez mais estreitas. O centro de saída é o ponto médio da caixa final — a coordenada de entrada está em algum lugar dessa caixa, garantido por construção, não por estatística.",
+          ],
+        },
+        {
+          heading: "Padrões de consulta por prefixo em bancos de dados reais",
+          paragraphs: [
+            "A funcionalidade-chave para armazenamento: um índice B-tree numa coluna Geohash transforma a busca de proximidade em uma varredura de faixa por prefixo. "Todos os pontos no mesmo bairro que wtw3sj" é o intervalo [wtw3sj, wtw3st) — duas sondas B-tree em vez de um cálculo de distância sobre toda a tabela. MySQL, PostgreSQL e MongoDB servem esse padrão nativamente.",
+            "O problema de borda e a correção padrão: um ponto logo do outro lado do limite da célula não compartilha prefixo com seus vizinhos verdadeiros. A correção padrão consulta também as 8 células adjacentes — codifique os 8 centros circundantes na mesma precisão e execute 9 consultas de prefixo (muitas bibliotecas expõem isso como função neighbours). Por isso a FAQ recomenda 7–8 caracteres: a consulta de vizinhos permanece barata nesse tamanho de célula.",
+            "Quando Geohash é a ferramenta errada: se precisar de ordenação por distância exata (não apenas agrupamento), use um índice espacial (PostGIS, MongoDB 2dsphere) ou um sistema H3/S2 próprio — as células do Geohash são quadrados e as distâncias dentro de uma célula variam; os hexágonos do H3 corrigem isso ao custo de outro ecossistema.",
+          ],
         },
       ],
     },
