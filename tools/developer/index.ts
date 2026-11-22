@@ -102,6 +102,7 @@ export const DEV_TOOLS = [
   tomlConverter,
   rsaKeyGenerator,
   dockerComposeConverter,
+  geohashConverter,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -114,3 +115,4 @@ import gbkDecoder from "./gbk-decoder";
 import tomlConverter from "./toml-converter";
 import rsaKeyGenerator from "./rsa-key-generator";
 import dockerComposeConverter from "./docker-compose-converter";
+import geohashConverter from "./geohash-converter";
