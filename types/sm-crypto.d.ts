@@ -2,7 +2,17 @@
 declare module "sm-crypto" {
   /** SM3 消息摘要(GB/T 32905-2016)。输入 UTF-8 字符串或字节数组,返回小写十六进制。 */
   export function sm3(msg: string | number[], pad?: unknown, mode?: unknown): string;
-  export const sm2: Record<string, unknown>;
+  export interface Sm2KeyPairHex {
+    privateKey: string;
+    publicKey: string;
+  }
+  export const sm2: {
+    generateKeyPairHex(): Sm2KeyPairHex;
+    doSignature(msg: string, privateKey: string, opts?: { hash?: boolean; der?: boolean; salt?: string }): string;
+    doVerifySignature(msg: string, sign: string, publicKey: string, opts?: { hash?: boolean; der?: boolean }): boolean;
+    doEncrypt(msg: string | number[], publicKey: string, cipherMode?: 0 | 1): string;
+    doDecrypt(encryptData: string, privateKey: string, cipherMode?: 0 | 1): string;
+  };
 
   /** SM4 块加密(GB/T 32907-2016)。字符串输入按 UTF-8 字节;字节数组输入为原始块。 */
   export interface Sm4Options {
