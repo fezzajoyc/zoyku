@@ -6,7 +6,7 @@ export default defineTool({
   category: "developer",
   icon: "key",
   engine: { component: DevEngineRsa },
-  related: ["jwt-verify", "basic-auth-generator", "hash-generator", "hmac-generator"],
+  related: ["jwt-decoder", "base64-encoder", "hash-generator", "hmac-generator"],
   copy: {
     en: {
       name: "RSA Key Pair Generator",
