@@ -24,8 +24,12 @@ describe("展开(完整形式)", () => {
   });
 
   it(":: 全零与 ::1 环回", () => {
-    expect(ipv6Expand("::").ok ? ipv6Expand("::").expanded : "").toBe("0000:0000:0000:0000:0000:0000:0000:0000");
-    expect(ipv6Expand("::1").ok ? ipv6Expand("::1").expanded : "").toBe("0000:0000:0000:0000:0000:0000:0000:0001");
+    const zero = ipv6Expand("::");
+    expect(zero.ok).toBe(true);
+    if (zero.ok) expect(zero.expanded).toBe("0000:0000:0000:0000:0000:0000:0000:0000");
+    const loop = ipv6Expand("::1");
+    expect(loop.ok).toBe(true);
+    if (loop.ok) expect(loop.expanded).toBe("0000:0000:0000:0000:0000:0000:0000:0001");
   });
 
   it("IPv4 映射:compressed 保留 IPv4 点分表示", () => {
@@ -64,8 +68,9 @@ describe("RFC 5952 压缩", () => {
 
   it("空输入/非法格式拒绝", () => {
     expect(ipv6Expand("").ok).toBe(false);
-    expect(ipv6Expand("2001:db8:::1").ok).toBe(false);
-    expect(ipv6Expand("2001:db8:::1").code).toBe("badFormat");
+    const bad = ipv6Expand("2001:db8:::1");
+    expect(bad.ok).toBe(false);
+    if (!bad.ok) expect(bad.code).toBe("badFormat");
     expect(ipv6Expand("gggg::1").ok).toBe(false);
     expect(ipv6Expand("2001:db8:85a3:0:0:8a2e:370:7334:extra").ok).toBe(false);
   });
