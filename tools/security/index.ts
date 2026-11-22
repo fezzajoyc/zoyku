@@ -14,6 +14,7 @@ import socialCreditGenerator from "./social-credit-generator";
 import ibanValidator from "./iban-validator";
 import aesEncryptTool from "./aes-encrypt";
 import sm4EncryptTool from "./sm4-encrypt";
+import sm2SignTool from "./sm2-sign";
 
 export const SECURITY_TOOLS = [
   passwordGenerator,
@@ -32,4 +33,5 @@ export const SECURITY_TOOLS = [
   ibanValidator,
   aesEncryptTool,
   sm4EncryptTool,
+  sm2SignTool,
 ];
