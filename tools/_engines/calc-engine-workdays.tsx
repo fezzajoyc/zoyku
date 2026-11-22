@@ -11,6 +11,7 @@ import {
   parseHolidays,
   workdaysBreakdown,
 } from "../_lib/workdays";
+import { chinaHolidayYears, expandChinaHolidays, expandChinaMakeupWorkdays, CHINA_HOLIDAYS } from "../_lib/china-holidays";
 
 /**
  * 工作日引擎:区间统计 + 加减 N 个工作日,支持周末定义与自贴假日清单。
@@ -46,6 +47,26 @@ const S = {
     hi: "छुट्टियाँ (प्रति पंक्ति एक YYYY-MM-DD)",
     id: "Hari libur (satu YYYY-MM-DD per baris)",
     vi: "Ngày lễ (mỗi dòng một ngày YYYY-MM-DD)",
+  },
+  china: {
+    en: "Use China's official holiday schedule", zh: "套用中国法定节假日官方调休表", ja: "中国の公式祝日スケジュールを適用", es: "Usar el calendario oficial de festivos de China", pt: "Usar o calendário oficial de feriados da China", fr: "Utiliser le calendrier officiel des jours fériés chinois", de: "Offiziellen chinesischen Feiertagskalender anwenden", ru: "Применить официальные праздники Китая", it: "Usa il calendario ufficiale delle festività cinesi", tr: "Çin resmî tatil takvimini uygula", ko: "중국 공휴일 공식 일정 적용", ar: "استخدم جدول العطلات الرسمي الصيني", hi: "चीन की आधिकारिक छुट्टी अनुसूची लागू करें", id: "Gunakan jadwal hari libur resmi Tiongkok", vi: "Áp dụng lịch ngày lễ chính thức của Trung Quốc",
+  },
+  chinaNote: {
+    en: "{info}. Weekend days designated as makeup workdays count as workdays; years not listed fall back to plain weekends.",
+    zh: "{info}。被指定补班的周末按工作日计;未收录的年份按普通周末处理。",
+    ja: "{info}。振替出勤に指定された週末は営業日として数えます。未収録の年は通常の週末扱いです。",
+    es: "{info}. Los fines de semana designados días de trabajo compensatorio cuentan como días hábiles; los años no incluidos vuelven a fines de semana normales.",
+    pt: "{info}. Fins de semana designados dias úteis de reposição contam como dias úteis; anos não incluídos voltam a fins de semana normais.",
+    fr: "{info}. Les week-ends désignés jours de travail de compensation comptent comme jours ouvrés ; les années non couvertes reviennent aux week-ends ordinaires.",
+    de: "{info}. Als Ausgleichsarbeitstage festgelegte Wochenenden zählen als Werktage; nicht abgedeckte Jahre nutzen normale Wochenenden.",
+    ru: "{info}. Выходные, назначенные рабочими днями компенсации, считаются рабочими днями; годы без данных — обычные выходные.",
+    it: "{info}. I fine settimana designati giorni di lavoro compensativi contano come giorni lavorativi; gli anni non inclusi tornano a fine settimana normali.",
+    tr: "{info}. Telafi iş günü olarak belirlenen hafta sonları iş günü sayılır; kapsanmayan yıllar normal hafta sonu sayılır.",
+    ko: "{info}. 보충 근무로 지정된 주말은 영업일로 계산됩니다. 수록되지 않은 연도는 일반 주말로 처리합니다.",
+    ar: "{info}. عطلات نهاية الأسبوع المحددة كأيام عمل تعويضية تُحتسب أيام عمل؛ السنوات غير المشمولة تعود لعطلات نهاية الأسبوع العادية.",
+    hi: "{info}। भरपाई कार्यदिवस निर्दिष्ट सप्ताहांत कार्यदिवस गिने जाते हैं; बिना सूची वाले वर्ष सामान्य सप्ताहांत माने जाते हैं।",
+    id: "{info}. Akhir pekan yang ditetapkan sebagai hari kerja pengganti dihitung hari kerja; tahun yang tidak tercakup kembali ke akhir pekan normal.",
+    vi: "{info}. Cuối tuần được chỉ định làm ngày làm việc bù đắp được tính là ngày làm việc; năm chưa có trong danh sách dùng cuối tuần bình thường.",
   },
   workdays: { en: "Business days", zh: "工作日", ja: "営業日", es: "Días hábiles", pt: "Dias úteis", fr: "Jours ouvrés", de: "Werktage", ru: "Рабочие дни", it: "Giorni lavorativi", tr: "İş günü", ko: "영업일", ar: "أيام العمل", hi: "कार्यदिवस", id: "Hari kerja", vi: "Ngày làm việc" },
   calDays: { en: "Calendar days", zh: "日历天数", ja: "暦日数", es: "Días de calendario", pt: "Dias corridos", fr: "Jours calendaires", de: "Kalendertage", ru: "Календарные дни", it: "Giorni calendario", tr: "Takvim günü", ko: "달력 일수", ar: "أيام التقويم", hi: "कैलेंडर दिन", id: "Hari kalender", vi: "Ngày dương lịch" },
@@ -117,6 +138,12 @@ export function CalcEngineWorkdays() {
   const [days, setDays] = useState("10");
   const [weekend, setWeekend] = useState("sat-sun");
   const [holidayText, setHolidayText] = useState("");
+  // 中国官方调休表:中文用户默认启用(可关闭回退为普通周末)
+  const [useChina, setUseChina] = useState(false);
+  useEffect(() => {
+    if (locale === "zh") setUseChina(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const t = todayIso();
@@ -127,18 +154,47 @@ export function CalcEngineWorkdays() {
 
   const holidays = useMemo(() => parseHolidays(holidayText.split("\n")), [holidayText]);
 
+  // 中国官方表覆盖的年份:between 取区间年,addsub 取基准年 ±1(结果可能跨年)
+  const chinaYearsNeeded = useMemo(() => {
+    const ys = new Set<number>();
+    const addIso = (iso: string) => {
+      const y = Number(iso.slice(0, 4));
+      if (Number.isFinite(y)) ys.add(y);
+    };
+    if (mode === "between") {
+      addIso(start || todayIso());
+      addIso(end || todayIso());
+    } else {
+      const by = Number(base.slice(0, 4));
+      if (Number.isFinite(by)) ys.add(by - 1);
+      if (Number.isFinite(by)) ys.add(by + 1);
+      if (Number.isFinite(by)) ys.add(by);
+    }
+    return [...ys].filter((y) => CHINA_HOLIDAYS[y] !== undefined);
+  }, [mode, start, end, base]);
+
+  const chinaHolidays = useMemo(
+    () => (useChina ? expandChinaHolidays(chinaYearsNeeded) : new Set<string>()),
+    [useChina, chinaYearsNeeded],
+  );
+  const chinaExtra = useMemo(
+    () => (useChina ? expandChinaMakeupWorkdays(chinaYearsNeeded) : undefined),
+    [useChina, chinaYearsNeeded],
+  );
+  const mergedHolidays = useMemo(() => new Set([...holidays, ...chinaHolidays]), [holidays, chinaHolidays]);
+
   const breakdown = useMemo(() => {
     if (mode !== "between") return null;
-    return workdaysBreakdown(start, end, { weekend: weekend as "sat-sun" | "fri-sat", holidays });
-  }, [mode, start, end, weekend, holidays]);
+    return workdaysBreakdown(start, end, { weekend: weekend as "sat-sun" | "fri-sat", holidays: mergedHolidays, extraWorkdays: chinaExtra });
+  }, [mode, start, end, weekend, mergedHolidays, chinaExtra]);
 
   const n = Math.floor(Number(days));
   const shifted = useMemo(() => {
     if (mode !== "addsub") return null;
     if (!Number.isFinite(n) || n <= 0) return null;
-    const r = addWorkdays(base, op === "add" ? n : -n, { weekend: weekend as "sat-sun" | "fri-sat", holidays });
+    const r = addWorkdays(base, op === "add" ? n : -n, { weekend: weekend as "sat-sun" | "fri-sat", holidays: mergedHolidays, extraWorkdays: chinaExtra });
     return r;
-  }, [mode, base, op, n, weekend, holidays]);
+  }, [mode, base, op, n, weekend, mergedHolidays, chinaExtra]);
 
   return (
     <ToolPanel>
@@ -176,6 +232,30 @@ export function CalcEngineWorkdays() {
           </Field>
         </div>
       )}
+
+      <div className="mt-4 flex flex-col gap-2">
+        <label className="flex cursor-pointer items-center gap-2.5">
+          <input
+            type="checkbox"
+            checked={useChina}
+            onChange={(e) => setUseChina(e.target.checked)}
+            className="h-4 w-4 accent-[var(--color-ink)]"
+          />
+          <span className="text-[13.5px] font-medium">{pick(locale, S.china)}</span>
+        </label>
+        {useChina && chinaYearsNeeded.length > 0 && (
+          <Note>
+            {pick(locale, S.chinaNote).replace(
+              "{info}",
+              chinaYearsNeeded
+                .slice()
+                .sort((a, b) => a - b)
+                .map((y) => `${y}: ${CHINA_HOLIDAYS[y].source}`)
+                .join(" · "),
+            )}
+          </Note>
+        )}
+      </div>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <Field label={pick(locale, S.weekend)}>

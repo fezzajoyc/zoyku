@@ -30,7 +30,7 @@ export default defineTool({
         },
         {
           q: "How do I enter holidays?",
-          a: "One date per line in YYYY-MM-DD format, for example 2026-11-26 for US Thanksgiving. Invalid lines are ignored rather than breaking the count, duplicates are harmless, and a holiday that falls on your weekend day simply changes nothing — it was already excluded.",
+          a: "One date per line in YYYY-MM-DD format, for example 2026-11-26 for US Thanksgiving. Invalid lines are ignored rather than breaking the count, duplicates are harmless, and a holiday that falls on your weekend day simply changes nothing — it was already excluded. For Chinese statutory holidays you don't need to paste anything: toggle “Use China's official holiday schedule” to load the State Council arrangement for 2026–2027, including the makeup weekend workdays (调休).",
         },
         {
           q: "Why does the tool mention UTC and daylight saving?",
@@ -41,7 +41,7 @@ export default defineTool({
         {
           heading: "What counts as a “business day” — and what does not",
           paragraphs: [
-            "The honest answer is that business day is a convention, and conventions differ. This tool counts Monday-to-Friday (or Friday-to-Saturday if you switch the weekend setting) and nothing else by default: it does not carry any built-in public-holiday calendar, because holidays are set by country, by region and sometimes by year in ways no static list gets right. Instead you paste your own holiday lines, so the count is exactly the one your company or contract means.",
+            "The honest answer is that business day is a convention, and conventions differ. This tool counts Monday-to-Friday (or Friday-to-Saturday if you switch the weekend setting) and nothing else by default: it does not carry any built-in public-holiday calendar, because holidays are set by country, by region and sometimes by year in ways no static list gets right. Instead you paste your own holiday lines, so the count is exactly the one your company or contract means. The exception is the optional China official schedule (State Council notices for 2026–2027, with makeup weekend workdays), which is fixed official data you can toggle on and off.",
             "Two decisions change a count dramatically and are worth checking every time. First, endpoints: this count is inclusive of both dates, so Monday through Friday in one week is 5, not 3 — some systems count the gap strictly in between and would return 3. Second, whether the start date is consumed in the add/subtract mode: here it is not, so Friday plus one workday is Monday.",
             "If your contract or SLA says “business days” without defining them, the convention is usually local business days of the governing jurisdiction — which may have weekends other than Sat/Sun and holidays this tool has never heard of. The safe workflow: paste that jurisdiction's holiday list, count here, and put the resulting calendar date in writing.",
           ],
@@ -84,7 +84,7 @@ export default defineTool({
         },
         {
           q: "节假日怎么输入?",
-          a: "每行一个日期,格式 YYYY-MM-DD,例如 2026-11-26(2026 年感恩节)。非法行会被忽略而不是报错,重复也无所谓;落在周末上的节假日不会改变结果——它本来就被排除了。",
+          a: "每行一个日期,格式 YYYY-MM-DD,例如 2026-11-26(2026 年感恩节)。非法行会被忽略而不是报错,重复也无所谓;落在周末上的节假日不会改变结果——它本来就被排除了。中国法定节假日无需手贴:勾选「套用中国法定节假日官方调休表」即可载入国务院办公厅 2026–2027 年安排(含调休补班的周末)。",
         },
         {
           q: "为什么工具要提 UTC 和夏令时?",
@@ -149,7 +149,7 @@ export default defineTool({
         {
           heading: "何が「営業日」で、何が違うのか",
           paragraphs: [
-            "正直な答えは、営業日は約束事であり、約束事は人それぞれだ、です。このツールの既定は月曜〜金曜(週末設定を切り替えれば金曜〜土曜)だけを数えることで、それ以外は何も組み込みません。法定祝日のカレンダーは内蔵していません。祝日は国・地域・場合によっては年ごとに変わり、静的な一覧で正しくあり続けることはできないからです。代わりに自分の祝日行を貼り付けることで、会社や契約が指す通りの数が出ます。",
+            "正直な答えは、営業日は約束事であり、約束事は人それぞれだ、です。このツールの既定は月曜〜金曜(週末設定を切り替えれば金曜〜土曜)だけを数えることで、それ以外は何も組み込みません。法定祝日のカレンダーは内蔵していません。祝日は国・地域・場合によっては年ごとに変わり、静的な一覧で正しくあり続けることはできないからです。代わりに自分の祝日行を貼り付けることで、会社や契約が指す通りの数が出ます。例外は任意の中国公式スケジュールです(2026〜2027 年の国務院通知、振替出勤日を含む)。固定の公式データをオン/オフできます。",
             "結果を大きく変える判断が 2 つあり、毎回確認する価値があります。第一に両端:このカウントは両端を含み、同じ週の月〜金は 5 です。3 とはなりません(間だけを数えるシステムなら 3 を返します)。第二に加減モードで開始日を消費するかどうか:ここでは消費しないので、金曜 + 1 営業日は月曜です。",
             "契約や SLA が「営業日」とだけ書いて定義しない場合、慣行上は準拠法域の現地営業日を指すのが普通です。その土地の週末は土日とは限らず、このツールが知らない祝日もあるでしょう。安全な手順は、その法域の祝日リストを貼ってここで数え、出てきた暦日を書面に残すことです。",
           ],
@@ -246,7 +246,7 @@ export default defineTool({
         },
         {
           q: "Como informo os feriados?",
-          a: "Uma data por linha no formato AAAA-MM-DD, por exemplo 2026-11-26 para o Thanksgiving. Linhas inválidas são ignoradas sem quebrar a contagem, duplicatas não atrapalham, e um feriado que caia no seu fim de semana não muda nada — já estava excluído.",
+          a: "Uma data por linha no formato AAAA-MM-DD, por exemplo 2026-11-26 para o Thanksgiving. Linhas inválidas são ignoradas sem quebrar a contagem, duplicatas não atrapalham, e um feriado que caia no seu fim de semana não muda nada — já estava excluído. Para os feriados legais chineses não é preciso colar nada: ative «Usar o calendário oficial de feriados da China» para carregar o arranjo do Conselho de Estado 2026–2027, incluindo os fins de semana de trabalho compensatório (调休).",
         },
         {
           q: "Por que a ferramenta fala em UTC e horário de verão?",

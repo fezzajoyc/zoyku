@@ -52,6 +52,22 @@ export function isWorkday(day: number, weekend: WeekendDef, holidays: Set<string
   return !isWeekend(day, weekend) && !holidays.has(dayToIso(day));
 }
 
+/**
+ * 中国法定调休语义:假日(法定)优先于一切;周末默认休,但被列为补班的周末按工作日计。
+ * extraWorkdays 为空时退化为普通 isWorkday。
+ */
+export function isWorkdayChina(
+  day: number,
+  weekend: WeekendDef,
+  holidays: Set<string>,
+  extraWorkdays: Set<string> | undefined,
+): boolean {
+  const iso = dayToIso(day);
+  if (holidays.has(iso)) return false;
+  if (isWeekend(day, weekend)) return extraWorkdays?.has(iso) ?? false;
+  return true;
+}
+
 /** 把用户粘贴的假日行清洗为合法 ISO 集合:去空白、去重、丢弃非法行 */
 export function parseHolidays(lines: string[]): Set<string> {
   const out = new Set<string>();
@@ -67,6 +83,8 @@ export type WorkdaysOptions = {
   weekend?: WeekendDef;
   /** ISO "YYYY-MM-DD" 列表(或已解析的 Set) */
   holidays?: string[] | Set<string>;
+  /** 调休补班的周末日(ISO Set):周末默认休,但补班日按工作日计 */
+  extraWorkdays?: Set<string>;
 };
 
 function holidaySet(holidays: string[] | Set<string> | undefined): Set<string> {
@@ -88,10 +106,12 @@ export function workdaysBetween(
   if (a === null || b === null) return NaN;
   const weekend = opts.weekend ?? "sat-sun";
   const holidays = holidaySet(opts.holidays);
+  const extra = opts.extraWorkdays;
+  const useChina = extra !== undefined;
   const [lo, hi] = a <= b ? [a, b] : [b, a];
   let count = 0;
   for (let d = lo; d <= hi; d++) {
-    if (isWorkday(d, weekend, holidays)) count++;
+    if (useChina ? isWorkdayChina(d, weekend, holidays, extra) : isWorkday(d, weekend, holidays)) count++;
   }
   return count;
 }
@@ -111,12 +131,14 @@ export function addWorkdays(
   if (!Number.isFinite(n) || !Number.isInteger(n)) return null;
   const weekend = opts.weekend ?? "sat-sun";
   const holidays = holidaySet(opts.holidays);
+  const extra = opts.extraWorkdays;
+  const useChina = extra !== undefined;
   let day = start;
   let remaining = Math.abs(n);
   const dir = n >= 0 ? 1 : -1;
   while (remaining > 0) {
     day += dir;
-    if (isWorkday(day, weekend, holidays)) remaining--;
+    if (useChina ? isWorkdayChina(day, weekend, holidays, extra) : isWorkday(day, weekend, holidays)) remaining--;
   }
   return dayToIso(day);
 }
@@ -132,14 +154,20 @@ export function workdaysBreakdown(
   if (a === null || b === null) return null;
   const weekend = opts.weekend ?? "sat-sun";
   const holidays = holidaySet(opts.holidays);
+  const extra = opts.extraWorkdays;
+  const useChina = extra !== undefined;
   const [lo, hi] = a <= b ? [a, b] : [b, a];
   let total = 0;
   let weekendDays = 0;
   let holidayDays = 0;
   for (let d = lo; d <= hi; d++) {
     total++;
-    if (isWeekend(d, weekend)) weekendDays++;
-    else if (holidays.has(dayToIso(d))) holidayDays++;
+    if (isWorkdayChina(d, weekend, holidays, extra) || (!useChina && isWorkday(d, weekend, holidays))) {
+      // 工作日:既不计周末也不计假日
+      continue;
+    }
+    if (holidays.has(dayToIso(d))) holidayDays++;
+    else weekendDays++;
   }
   return { total, weekendDays, holidayDays, workdays: total - weekendDays - holidayDays };
 }
