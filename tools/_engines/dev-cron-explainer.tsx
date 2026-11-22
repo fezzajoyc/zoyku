@@ -185,7 +185,7 @@ const L = {
     pt: "«{d}» expande-se para os cinco campos equivalentes mostrados abaixo; os horários são calculados dessa expansão.",
   },
   copyRuns: { en: "Copy run times", zh: "复制执行时间", ja: "実行時刻をコピー", es: "Copiar horarios", pt: "Copiar horários" },
-  more: { en: "+{n} more", zh: "等 {n} 个值", ja: "ほか {n} 個", es: "+{n} más", pt: "+{n}" },
+  more: { en: "+{n} more", zh: "另有 {n} 个值未列出", ja: "ほか {n} 個未表示", es: "+{n} más", pt: "+{n}" },
 };
 
 const LIST_MAX = 10;
