@@ -78,12 +78,12 @@ export function DevEngineToml() {
     setBusy(true);
     const r = dir === "t2j" ? await tomlToJson(input) : await jsonToToml(input);
     setBusy(false);
-    if (r.ok) {
-      setOutput(dir === "t2j" ? r.json : r.toml);
-    } else {
+    if (!r.ok) {
       setOutput("");
-      setErr(errMessage(r as { code: string; message?: string }, locale));
+      setErr(errMessage(r, locale));
+      return;
     }
+    setOutput("json" in r ? r.json : r.toml);
   };
 
   return (
