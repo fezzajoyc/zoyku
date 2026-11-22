@@ -97,8 +97,10 @@ export function SecEngineSm2() {
     setBusy(true);
     const r = sm2SignMessage(msg, privateKey);
     setBusy(false);
-    if (r.ok) setOut(r.data as string);
-    else setErr(errText(r.code));
+    if (r.ok) {
+      setSig(r.data); // 签名回填到验签输入框——验签立即可用
+      setOut(r.data);
+    } else setErr(errText(r.code));
   };
 
   const doVerify = async () => {
