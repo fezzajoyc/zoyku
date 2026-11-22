@@ -103,6 +103,7 @@ export const DEV_TOOLS = [
   rsaKeyGenerator,
   dockerComposeConverter,
   geohashConverter,
+  ipv6ExpandCompress,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -116,3 +117,4 @@ import tomlConverter from "./toml-converter";
 import rsaKeyGenerator from "./rsa-key-generator";
 import dockerComposeConverter from "./docker-compose-converter";
 import geohashConverter from "./geohash-converter";
+import ipv6ExpandCompress from "./ipv6-expand-compress";
