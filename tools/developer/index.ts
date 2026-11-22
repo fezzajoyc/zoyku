@@ -100,6 +100,7 @@ export const DEV_TOOLS = [
   sm3Hash,
   gbkDecoder,
   tomlConverter,
+  rsaKeyGenerator,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -110,3 +111,4 @@ import crc16Modbus from "./crc16-modbus";
 import sm3Hash from "./sm3-hash";
 import gbkDecoder from "./gbk-decoder";
 import tomlConverter from "./toml-converter";
+import rsaKeyGenerator from "./rsa-key-generator";
