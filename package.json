@@ -40,6 +40,7 @@
     "qrcode": "^1.5.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "sm-crypto": "^0.3.13",
     "sql-formatter": "^15.5.0",
     "turndown": "^7.2.4",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
