@@ -12,6 +12,7 @@ import chineseIdGenerator from "./chinese-id-generator";
 import socialCreditValidator from "./social-credit-validator";
 import socialCreditGenerator from "./social-credit-generator";
 import ibanValidator from "./iban-validator";
+import aesEncryptTool from "./aes-encrypt";
 
 export const SECURITY_TOOLS = [
   passwordGenerator,
@@ -28,4 +29,5 @@ export const SECURITY_TOOLS = [
   socialCreditValidator,
   socialCreditGenerator,
   ibanValidator,
+  aesEncryptTool,
 ];
