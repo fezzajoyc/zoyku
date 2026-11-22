@@ -9,7 +9,7 @@ describe("registry integrity", () => {
   it("has a healthy volume of tools", () => {
     expect(ALL_TOOLS.length).toBeGreaterThanOrEqual(100);
     // 精确锚定:新工具上/下架时必须有意识地更新本行 + README/benchmark 的统计数字(防止文档漂移)
-    expect(ALL_TOOLS.length).toBe(226);
+    expect(ALL_TOOLS.length).toBe(227);
   });
 
   it("slugs are unique and kebab-case", () => {

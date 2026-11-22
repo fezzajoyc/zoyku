@@ -8,5 +8,6 @@ import rmbUppercase from "./rmb-uppercase";
 import rmbUppercaseToNumber from "./rmb-uppercase-to-number";
 import ipv4RangeExpander from "./ipv4-range-expander";
 import fileSplitterMerger from "./file-splitter-merger";
+import pinyinConverter from "./pinyin-converter";
 
-export const UTILITY_TOOLS = [contrastChecker, gradeCalculator, gradientGenerator, mimeTypes, keycodeInfo, rmbUppercase, rmbUppercaseToNumber, ipv4RangeExpander, fileSplitterMerger, chineseTextConverter];
+export const UTILITY_TOOLS = [contrastChecker, gradeCalculator, gradientGenerator, mimeTypes, keycodeInfo, rmbUppercase, rmbUppercaseToNumber, ipv4RangeExpander, fileSplitterMerger, chineseTextConverter, pinyinConverter];
