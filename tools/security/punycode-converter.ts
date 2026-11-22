@@ -32,6 +32,24 @@ export default defineTool({
           a: "The xn-- prefix tells DNS resolvers and browsers that the label is Punycode-encoded Unicode. Without it, the DNS system would interpret the label as a regular ASCII hostname. All non-ASCII domain labels must start with xn-- per IDNA.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Inside the RFC 3492 bootstring algorithm",
+          paragraphs: [
+            "Punycode is a bootstring encoding: it treats the ASCII subset already present in the string as its own alphabet and encodes everything else as insertions into that base. Each non-ASCII character becomes a sequence of digits that says where to insert and by how much the code point jumps.",
+            "The deltas are generalized variable-length integers: smaller deltas use fewer digits, biased by how many characters have already been processed. This keeps common scripts compact — 中文 is just fiqs8s, not a long digit run.",
+            "The result is fully reversible and case-insensitive in its DNS form, which is why registrars accept 中文.com and resolvers worldwide see xn--fiqs8s without ever knowing Unicode exists.",
+          ],
+        },
+        {
+          heading: "Homograph attacks: why xn-- deserves a second look",
+          paragraphs: [
+            "The security catch is visual: Cyrillic а (U+0430) renders identically to Latin a. An attacker registers xn--80ak6aa92e-style domains that look exactly like apple.com but resolve to a different server. This is the classic homograph attack.",
+            "Modern browsers mitigate this with mixed-script detection — they show the Punycode form when a label mixes scripts that cannot co-occur legitimately. But policies differ between browsers and version, so a link copied from chat, email or a QR code is worth checking.",
+            "Paste any suspicious domain here: if the decoded form uses a different script than you expected, or the xn-- label decodes to something that merely looks right, treat the link as hostile until verified.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "Punycode 与 IDN 转换",
@@ -55,6 +73,24 @@ export default defineTool({
         {
           q: "为什么域名以 xn-- 开头?",
           a: "xn-- 前缀告诉 DNS 解析器和浏览器该标签是 Punycode 编码的 Unicode。没有它,DNS 系统会把标签解释为普通 ASCII 主机名。所有非 ASCII 域名标签必须以 xn-- 开头(依 IDNA)。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "RFC 3492 bootstring 算法内幕",
+          paragraphs: [
+            "Punycode 是一种 bootstring 编码:它把字符串里已有的 ASCII 子集当作自己的字母表,其余字符全部编码为对这个基底的「插入」。每个非 ASCII 字符变成一串数字,说明插入位置与码点跳变量。",
+            "增量采用广义可变长度整数:增量越小占用位数越少,并随已处理字符数做偏置修正。这让常用文字保持紧凑——中文只需 fiqs8s,而不是一长串数字。",
+            "结果是完全可逆且在 DNS 形式下大小写不敏感,所以注册局接受 中文.com,而全球解析器看到的都是 xn--fiqs8s,根本不知道 Unicode 的存在。",
+          ],
+        },
+        {
+          heading: "同形异码攻击:为什么 xn-- 值得多看一眼",
+          paragraphs: [
+            "安全陷阱在视觉上:西里尔字母 а(U+0430)与拉丁字母 a 渲染完全相同。攻击者注册 xn--80ak6aa92e 风格的域名,看起来与 apple.com 一模一样,却解析到另一台服务器——这就是经典的同形异码(homograph)攻击。",
+            "现代浏览器用混合文字检测来缓解——当标签混合了不可能合法共存的文字系统时,直接显示 Punycode 形式。但各浏览器策略与版本不同,所以从聊天、邮件或二维码复制的链接值得核查。",
+            "把可疑域名粘贴到这里:如果解码结果使用了你预期之外的文字系统,或 xn-- 标签解码后只是「看起来对」,在验证之前请把该链接视为恶意。",
+          ],
         },
       ],
     },
@@ -82,6 +118,24 @@ export default defineTool({
           a: "xn-- プレフィックスは、そのラベルが Punycode 符号化された Unicode であることを DNS リゾルバとブラウザに伝えます。これがないと、DNS システムはラベルを通常の ASCII ホスト名として解釈します。すべての非 ASCII ドメインラベルは IDNA により xn-- で始まる必要があります。",
         },
       ],
+      deepDive: [
+        {
+          heading: "RFC 3492 ブートストリング アルゴリズムの内側",
+          paragraphs: [
+            "Punycode はブートストリング符号化です:文字列に既に存在する ASCII 部分集合を独自のアルファベットとみなし、それ以外の文字をすべてその基底への「挿入」として符号化します。各非 ASCII 文字は、挿入位置とコードポイントの跳び幅を示す数字列になります。",
+            "デルタは汎用可変長整数です:小さいデルタほど少ない桁で表現され、処理済み文字数に応じたバイアスが掛かります。これにより常用文字体系はコンパクトに保たれます — 中文は長い数字列ではなく fiqs8s だけで済みます。",
+            "結果は完全に可逆で DNS 形式では大文字小文字を区別しません。だから レジストラは 中文.com を受け付け、世界中のリゾルバは Unicode の存在を知ることなく xn--fiqs8s を見ます。",
+          ],
+        },
+        {
+          heading: "ホモグラフ攻撃:xn-- をもう一度見るべき理由",
+          paragraphs: [
+            "セキュリティ上の落とし穴は視覚です:キリル文字 а(U+0430)はラテン文字 a とまったく同じに描画されます。攻撃者は apple.com と見分けがつかないが別のサーバーに解決される xn--80ak6aa92e 形式のドメインを登録します。これが古典的なホモグラフ攻撃です。",
+            "近年のブラウザは混在文字検出で緩和します — 正規には共存し得ない文字体系がラベルに混在する場合、Punycode 形式で表示します。ただし方針はブラウザやバージョンにより異なるため、チャット・メール・QR コードからコピーしたリンクは確認する価値があります。",
+            "疑わしいドメインをここに貼り付けてください:デコード結果が予想と異なる文字体系を使っていたり、xn-- ラベルのデコード結果が単に「それらしく見える」だけの場合、検証が済むまでそのリンクは敵性と扱ってください。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Conversor Punycode e IDN",
@@ -107,6 +161,24 @@ export default defineTool({
           a: "El prefijo xn-- indica a los resolutores DNS y navegadores que la etiqueta está codificada en Punycode Unicode. Sin él, el sistema DNS interpretaría la etiqueta como un nombre de host ASCII regular. Todas las etiquetas de dominio no ASCII deben comenzar con xn-- según IDNA.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Dentro del algoritmo bootstring de RFC 3492",
+          paragraphs: [
+            "Punycode es una codificación bootstring: toma el subconjunto ASCII ya presente en la cadena como su propio alfabeto y codifica todo lo demás como inserciones en esa base. Cada carácter no ASCII se convierte en una secuencia de dígitos que indica dónde insertar y cuánto salta el punto de código.",
+            "Los deltas son enteros de longitud variable generalizados: los deltas pequeños usan menos dígitos, con un sesgo según cuántos caracteres se han procesado. Esto mantiene compactas las escrituras comunes — 中文 es simplemente fiqs8s, no una larga serie de dígitos.",
+            "El resultado es totalmente reversible e insensible a mayúsculas en su forma DNS, razón por la cual los registras aceptan 中文.com y los resolvedores de todo el mundo ven xn--fiqs8s sin saber que existe Unicode.",
+          ],
+        },
+        {
+          heading: "Ataques homógrafos: por qué xn-- merece una segunda mirada",
+          paragraphs: [
+            "La trampa de seguridad es visual: la а cirílica (U+0430) se representa igual que la a latina. Un atacante registra dominios estilo xn--80ak6aa92e que se ven exactamente como apple.com pero resuelven a otro servidor. Es el clásico ataque homógrafo.",
+            "Los navegadores modernos lo mitigan con detección de escrituras mezcladas — muestran la forma Punycode cuando una etiqueta mezcla sistemas de escritura que no pueden coexistir legítimamente. Pero las políticas varían entre navegadores y versiones, así que vale la pena revisar un enlace copiado de un chat, correo o código QR.",
+            "Pegue aquí cualquier dominio sospechoso: si la forma decodificada usa un sistema de escritura distinto al esperado, o la etiqueta xn-- se decodifica en algo que solo parece correcto, trate el enlace como hostil hasta verificarlo.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Conversor Punycode e IDN",
@@ -130,6 +202,24 @@ export default defineTool({
         {
           q: "Por que o domínio começa com xn--?",
           a: "O prefixo xn-- informa aos resolvedores DNS e navegadores que a etiqueta é Unicode codificada em Punycode. Sem ele, o sistema DNS interpretaria a etiqueta como um nome de host ASCII regular. Todas as etiquetas de domínio não ASCII devem começar com xn-- por IDNA.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Dentro do algoritmo bootstring do RFC 3492",
+          paragraphs: [
+            "Punycode é uma codificação bootstring: toma o subconjunto ASCII já presente na string como seu próprio alfabeto e codifica todo o resto como inserções nessa base. Cada caractere não ASCII vira uma sequência de dígitos que indica onde inserir e quanto o ponto de código salta.",
+            "Os deltas são inteiros de comprimento variável generalizados: deltas menores usam menos dígitos, com um viés conforme a quantidade de caracteres já processados. Isso mantém as escritas comuns compactas — 中文 é simplesmente fiqs8s, não uma longa sequência de dígitos.",
+            "O resultado é totalmente reversível e insensível a maiúsculas na forma DNS, razão pela qual registros aceitam 中文.com e resolvedores no mundo inteiro veem xn--fiqs8s sem nunca saber que Unicode existe.",
+          ],
+        },
+        {
+          heading: "Ataques homógrafos: por que xn-- merece uma segunda olhada",
+          paragraphs: [
+            "A pegadinha de segurança é visual: o а cirílico (U+0430) é renderizado idêntico ao a latino. Um atacante registra domínios no estilo xn--80ak6aa92e que parecem exatamente apple.com mas resolvem para outro servidor. É o clássico ataque homógrafo.",
+            "Navegadores modernos mitigam isso com detecção de escrituras misturadas — exibem a forma Punycode quando um rótulo mistura sistemas de escritura que não podem coexistir legitimamente. Mas as políticas variam entre navegadores e versões, então um link copiado de chat, e-mail ou código QR vale a pena verificar.",
+            "Cole qualquer domínio suspeito aqui: se a forma decodificada usa um sistema de escrita diferente do esperado, ou o rótulo xn-- decodifica para algo que apenas parece certo, trate o link como hostil até verificar.",
+          ],
         },
       ],
     },

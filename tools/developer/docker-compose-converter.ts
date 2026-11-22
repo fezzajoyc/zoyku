@@ -32,6 +32,24 @@ export default defineTool({
           a: "Common flags map to documented Compose attributes: --name/-p/--publish, -v/--volume, --mount, -e/--env, --env-file, --restart, --network, -w/--workdir, -u/--user, -h/--hostname, -m/--memory, --cpus, --label, --entrypoint, --device, --tmpfs, --cap-add/--cap-drop, --pull and more. The container name becomes the service key and is also written to container_name so the real container keeps its exact name; without --name, the last path segment of the image is used.",
         },
       ],
+      deepDive: [
+        {
+          heading: "How the parser handles quoting and multi-line commands",
+          paragraphs: [
+            "Shell quoting is the hardest part of parsing docker run faithfully. The parser treats single-quoted segments as literal text and double-quoted segments as interpolable, strips surrounding quotes once, and keeps internal spaces intact — so -e «MSG=hello world» lands as one environment entry, not two.",
+            "Line continuations (a trailing backslash) are joined before tokenization, which is how most README install snippets are formatted. Combined short flags like -itd are split into their letters so -i, -t and -d can each be evaluated against the mapping table.",
+            "Everything is evaluated flag by flag in order, so a repeated flag (say two -v mounts) produces two list entries instead of the last one winning.",
+          ],
+        },
+        {
+          heading: "From one-off container to managed service: semantics that change",
+          paragraphs: [
+            "docker run is a one-shot command; a Compose service is a declared state. -d and --rm have no home in the YAML because Compose always runs detached and never auto-removes — use docker compose run --rm for one-off tasks.",
+            "A service without an explicit networks: entry joins the project default network, which is what makes service-name DNS work between containers. If your docker run used --network with a custom bridge, that network must be declared in the top-level networks: section too.",
+            "Pin the image tag when converting: docker run nginx keeps working as upstream rewrites latest, but a compose file is version-controlled config — an unpinned tag can change behavior between deployments without any code diff.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "docker run → docker-compose 转换",
@@ -55,6 +73,24 @@ export default defineTool({
         {
           q: "支持哪些 flag?service 名怎么定?",
           a: "常见 flag 映射到 Compose 文档属性:--name/-p/--publish、-v/--volume、--mount、-e/--env、--env-file、--restart、--network、-w/--workdir、-u/--user、-h/--hostname、-m/--memory、--cpus、--label、--entrypoint、--device、--tmpfs、--cap-add/--cap-drop、--pull 等。容器名会成为 service key 并写入 container_name,保证真实容器名不变;没有 --name 时取镜像名最后一段。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "解析器如何处理引号与多行命令",
+          paragraphs: [
+            "忠实解析 docker run 的最大难点是 shell 引号。解析器把单引号段视为字面文本、双引号段视为可插值,只剥一层外层引号并保留内部空格——所以 -e「MSG=hello world」会成为一条环境变量,而不是两条。",
+            "行续接符(行尾反斜杠)在分词前先合并,这正是大多数 README 安装片段的书写格式。组合短旗标如 -itd 会被拆成单个字母,让 -i、-t、-d 各自查映射表。",
+            "所有旗标按出现顺序逐个求值,重复旗标(比如两个 -v 挂载)会生成两条列表项,而不是后者覆盖前者。",
+          ],
+        },
+        {
+          heading: "从一次性容器到受管服务:语义变化",
+          paragraphs: [
+            "docker run 是一次性命令;Compose 服务是声明式状态。-d 与 --rm 在 YAML 中没有对应位置,因为 Compose 永远以分离模式运行且不会自动清理——一次性任务请用 docker compose run --rm。",
+            "未显式声明 networks: 的服务会加入项目默认网络,这正是容器间服务名 DNS 解析生效的原因。如果 docker run 用了 --network 指向自定义 bridge,顶层 networks: 段也要声明该网络。",
+            "转换时请固定镜像标签:docker run nginx 会随上游改写 latest 而变化,而 compose 文件是进版本库的配置——未固定的标签会在两次部署之间悄悄改变行为。",
+          ],
         },
       ],
     },
@@ -82,6 +118,24 @@ export default defineTool({
           a: "主要なフラグはドキュメントされた Compose 属性にマッピングされます:--name/-p/--publish、-v/--volume、--mount、-e/--env、--env-file、--restart、--network、-w/--workdir、-u/--user、-h/--hostname、-m/--memory、--cpus、--label、--entrypoint、--device、--tmpfs、--cap-add/--cap-drop、--pull など。コンテナ名がサービスキーになり、実際のコンテナ名を保つため container_name にも書き込まれます。--name がない場合はイメージ名の最終セグメントを使用します。",
         },
       ],
+      deepDive: [
+        {
+          heading: "パーサーが引用符と複数行コマンドを処理する仕組み",
+          paragraphs: [
+            "docker run を忠実に解析する最大の難所はシェルの引用符です。パーサーは単一引用符のセグメントをリテラル、二重引用符のセグメントを補間可能として扱い、外側の引用符を一度だけ剥がして内部の空白を保持します — そのため -e「MSG=hello world」は 2 件ではなく 1 件の環境変数になります。",
+            "行継続(行末のバックスラッシュ)はトークン化の前に結合されます。README のインストール例は大半がこの形式です。結合短フラグ(-itd など)は文字ごとに分解され、-i・-t・-d がそれぞれマッピング表と照合されます。",
+            "すべてのフラグは出現順に評価され、繰り返しフラグ(2 つの -v マウントなど)は後勝ちではなく 2 件のリスト項目になります。",
+          ],
+        },
+        {
+          heading: "一時的コンテナから管理されたサービスへ:変わるセマンティクス",
+          paragraphs: [
+            "docker run はワンショットコマンド、Compose サービスは宣言的な状態です。-d と --rm は YAML に対応先がありません。Compose は常にデタッチドで実行され自動削除しないためです — 一回限りのタスクは docker compose run --rm を使ってください。",
+            "networks: を明示しないサービスはプロジェクトのデフォルトネットワークに参加します。これがコンテナ間のサービス名 DNS を機能させる仕組みです。docker run で --network によりカスタムブリッジを指定した場合は、トップレベルの networks: にもそのネットワークを宣言する必要があります。",
+            "変換時はイメージタグを固定してください:docker run nginx は上流が latest を書き換えても動き続けますが、compose ファイルはバージョン管理される設定です — タグ未固定ではコード差分なしにデプロイ間で挙動が変わります。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Conversor docker run a docker-compose",
@@ -107,6 +161,24 @@ export default defineTool({
           a: "Los flags comunes se asignan a atributos documentados de Compose: --name/-p/--publish, -v/--volume, --mount, -e/--env, --env-file, --restart, --network, -w/--workdir, -u/--user, -h/--hostname, -m/--memory, --cpus, --label, --entrypoint, --device, --tmpfs, --cap-add/--cap-drop, --pull y más. El nombre del contenedor se convierte en la clave del servicio y también se escribe en container_name para que el contenedor real conserve su nombre exacto; sin --name se usa el último segmento de la imagen.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Cómo el parser gestiona las comillas y los comandos multilínea",
+          paragraphs: [
+            "Las comillas del shell son la parte más difícil de analizar docker run fielmente. El parser trata los segmentos entre comillas simples como texto literal y los de comillas dobles como interpolables, quita las comillas exteriores una sola vez y conserva los espacios internos — así -e «MSG=hello world» se convierte en una entrada de entorno, no en dos.",
+            "Las continuaciones de línea (barra invertida al final) se unen antes de tokenizar, que es como se formatean la mayoría de los fragmentos de instalación de los README. Los flags cortos combinados como -itd se separan letra por letra para evaluar -i, -t y -d contra la tabla de mapeo.",
+            "Todo se evalúa flag por flag en orden, de modo que un flag repetido (por ejemplo dos -v) genera dos entradas de lista en lugar de que la última gane.",
+          ],
+        },
+        {
+          heading: "De contenedor único a servicio gestionado: semántica que cambia",
+          paragraphs: [
+            "docker run es un comando único; un servicio de Compose es un estado declarado. -d y --rm no tienen lugar en el YAML porque Compose siempre corre en segundo plano y nunca elimina automáticamente — use docker compose run --rm para tareas puntuales.",
+            "Un servicio sin networks: explícito se une a la red por defecto del proyecto, que es lo que hace funcionar el DNS de nombres de servicio entre contenedores. Si su docker run usó --network con un bridge personalizado, esa red también debe declararse en la sección networks: de nivel superior.",
+            "Fije la etiqueta de la imagen al convertir: docker run nginx sigue funcionando mientras upstream reescribe latest, pero un archivo compose es configuración versionada — una etiqueta sin fijar puede cambiar el comportamiento entre despliegues sin ningún diff de código.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Conversor docker run para docker-compose",
@@ -130,6 +202,24 @@ export default defineTool({
         {
           q: "Quais flags são suportados e como o serviço é nomeado?",
           a: "Os flags comuns são mapeados a atributos documentados do Compose: --name/-p/--publish, -v/--volume, --mount, -e/--env, --env-file, --restart, --network, -w/--workdir, -u/--user, -h/--hostname, -m/--memory, --cpus, --label, --entrypoint, --device, --tmpfs, --cap-add/--cap-drop, --pull e mais. O nome do contêiner vira a chave do serviço e também é escrito em container_name para que o contêiner real mantenha o nome exato; sem --name, usa-se o último segmento da imagem.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Como o parser lida com aspas e comandos multilinha",
+          paragraphs: [
+            "As aspas do shell são a parte mais difícil de analisar o docker run fielmente. O parser trata segmentos entre aspas simples como texto literal e entre aspas duplas como interpoláveis, remove as aspas externas uma vez e preserva os espaços internos — assim -e «MSG=hello world» vira uma entrada de ambiente, não duas.",
+            "Continuações de linha (barra invertida no final) são unidas antes da tokenização, que é como a maioria dos trechos de instalação em READMEs é formatada. Flags curtas combinadas como -itd são divididas letra por letra para que -i, -t e -d sejam avaliados contra a tabela de mapeamento.",
+            "Tudo é avaliado flag por flag em ordem, então um flag repetido (digamos dois -v) produz duas entradas de lista em vez de a última vencer.",
+          ],
+        },
+        {
+          heading: "De contêiner único a serviço gerenciado: semântica que muda",
+          paragraphs: [
+            "docker run é um comando único; um serviço Compose é um estado declarado. -d e --rm não têm lugar no YAML porque o Compose sempre roda em segundo plano e nunca remove automaticamente — use docker compose run --rm para tarefas pontuais.",
+            "Um serviço sem networks: explícito entra na rede padrão do projeto, que é o que faz o DNS de nomes de serviço funcionar entre contêineres. Se o seu docker run usou --network com uma bridge personalizada, essa rede também precisa ser declarada na seção networks: de nível superior.",
+            "Fixe a tag da imagem ao converter: docker run nginx continua funcionando enquanto o upstream reescreve latest, mas um arquivo compose é configuração versionada — uma tag não fixada pode mudar o comportamento entre deployments sem nenhum diff de código.",
+          ],
         },
       ],
     },
