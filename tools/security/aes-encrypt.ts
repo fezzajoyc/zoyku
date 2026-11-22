@@ -32,6 +32,24 @@ export default defineTool({
           a: "With PBKDF2 at 210,000 iterations, a genuinely random multi-word passphrase is strong for practical purposes; a short human password is not — the iteration count only slows brute force, it cannot rescue a guessable secret. For machine-to-machine flows, generate a high-entropy key and distribute it through a secret manager instead of a passphrase.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Why GCM replaced CBC + HMAC composition",
+          paragraphs: [
+            "Before authenticated modes became standard, the recommended construction was CBC plus a separate HMAC — and the composition order mattered fatally. Encrypt-then-MAC (verify first, decrypt second) is safe; MAC-then-encrypt, used by early TLS versions, enabled padding-oracle attacks like Lucky13 that leak plaintext byte by byte through timing. GCM eliminates the entire class: one pass computes confidentiality and the authentication tag together, so there is no ordering to get wrong.",
+            "The one way to break GCM is IV reuse under the same key. GCM builds its authentication on CTR mode; reusing a nonce leaks the XOR of two plaintexts and, worse, allows forgery of the authentication tag itself. That is why this page generates a fresh random IV per operation and packs it into the payload rather than accepting one as input — it removes the single most dangerous user error.",
+            "One consequence of the tag: GCM ciphertext is 16 bytes longer than the plaintext (the tag travels with it). If a payload is one byte short of what a system expects, the honest answer is that the system wants a different format — not that the tag can be trimmed.",
+          ],
+        },
+        {
+          heading: "The payload format, and why OpenSSL files will not decrypt here",
+          paragraphs: [
+            "The Base64 output decodes to salt(16) ‖ IV(12) ‖ ciphertext — a self-describing layout so the same passphrase decrypts it anywhere this format is understood. OpenSSL's enc command uses a different convention: the header Salted__ followed by an 8-byte salt, a KDF (legacy EVP_BytesToKey unless -pbkdf2 is passed) and different defaults. Encrypted blobs are not interchangeable between the two — matching the algorithm is not enough, the key derivation and container must match too.",
+            "PBKDF2 iteration counts are a moving target across tools: 210,000 here reflects current OWASP guidance, OpenSSL defaults have changed between versions, and older software may use 1,000. When interoperating, confirm the count on both sides; a payload that decrypts to garbage with the correct passphrase usually means a KDF mismatch, not a broken implementation.",
+            "For large files or streaming, this page's design (one Base64 payload in memory) is not the right shape — use age, OpenSSL or a dedicated tool that processes streams. Where this page shines: messages, config snippets, API secrets and recovery keys — text payloads up to the size limit that must be decryptable by a person, anywhere, without installing anything.",
+          ],
+        },
+      ],
     },
     zh: {
       name: "AES-256 加解密",
@@ -55,6 +73,24 @@ export default defineTool({
         {
           q: "口令能顶随机密钥用吗?",
           a: "在 210,000 次 PBKDF2 迭代下,真正随机的多词口令在实用层面足够强;短的人类口令不行——迭代次数只能拖慢暴力破解,救不了可猜测的秘密。机器对机器的流程请生成高熵密钥并通过密钥管理服务分发,而不是靠口令。",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "GCM 为什么取代了 CBC + HMAC 组合",
+          paragraphs: [
+            "认证加密成为标准之前,推荐的做法是 CBC 外加独立的 HMAC——而组合顺序是致命细节。先加密后验签(EtM:先验证再解密)是安全的;先验签后加密(早期 TLS 的 MtE 顺序)催生了 Lucky13 这类填充预言攻击,通过时序逐字节泄露明文。GCM 消灭了整类问题:一次运算同时完成机密性与认证标签,不存在搞错顺序的可能。",
+            "GCM 唯一的崩溃方式是同密钥下复用 IV。GCM 的认证建立在 CTR 模式上;复用 nonce 会泄露两条明文的异或,更糟的是连认证标签本身都能被伪造。这就是本页每次运算生成全新随机 IV、并把它打包进载荷而不是让用户输入的原因——直接消除了最危险的用户错误。",
+            "认证标签的一个副作用:GCM 密文比明文长 16 字节(标签随行)。如果某个系统期望的载荷恰好差一个字节,诚实的答案是它要的是别的格式——而不是把标签剪掉。",
+          ],
+        },
+        {
+          heading: "载荷格式,以及为什么 OpenSSL 加密的文件在这里解不开",
+          paragraphs: [
+            "Base64 输出解码后是 salt(16) ‖ IV(12) ‖ 密文——自描述布局,任何理解此格式的地方用同一口令即可解密。OpenSSL 的 enc 命令用的是另一套约定:头 Salted__ 加 8 字节 salt,KDF(除非传 -pbkdf2,否则是老的 EVP_BytesToKey)与不同默认值。两边的加密产物不可互换——算法一致不够,密钥派生与容器格式也必须一致。",
+            "PBKDF2 迭代次数在各类工具间是个移动目标:本页 210,000 次反映当前 OWASP 建议,OpenSSL 的默认值在版本间变过,更老的软件可能只有 1,000 次。互操作时先确认两侧的次数;口令正确却解出乱码的载荷,通常意味着 KDF 不匹配,而不是实现坏了。",
+            "大文件或流式场景不适合本页的设计(单 Base64 载荷整载进内存)——请用 age、OpenSSL 或专门的流式工具。本页的最佳场景:消息、配置片段、API 密钥与恢复密钥——那些必须让任何人、任何地方、不装任何东西就能解密的文本载荷。",
+          ],
         },
       ],
     },
@@ -82,6 +118,24 @@ export default defineTool({
           a: "210,000 回の PBKDF2 の下では、真にランダムな多語パスフレーズは実用上十分に強いです。短い人間のパスワードは違います — 反復回数は総当たりを遅くするだけで、推測可能な秘密は救えません。マシン間フローでは高エントロピー鍵を生成し、パスフレーズではなくシークレットマネージャで配布してください。",
         },
       ],
+      deepDive: [
+        {
+          heading: "GCM が CBC + HMAC 構成を置き換えた理由",
+          paragraphs: [
+            "認証モードが標準になる前、推奨構成は CBC と独立した HMAC の組み合わせでした — そして組み合わせ順序が致命的でした。Encrypt-then-MAC(先に検証、後に復号)は安全ですが、初期 TLS が使った MAC-then-encrypt は Lucky13 などのパディングオラクル攻撃を可能にし、タイミング経由で平文を一バイトずつ漏洩します。GCM はこの問題クラス全体を排除します:一回の処理で機密性と認証タグを同時に計算するため、順序を間違える余地がありません。",
+            "GCM を破る唯一の方法は、同じ鍵での IV 再利用です。GCM の認証は CTR モードの上に構築され、ノンスを再利用すると二つの平文の XOR が漏れ、さらに認証タグ自体の偽造も可能になります。だから本ページは毎回新しいランダム IV を生成し、ユーザー入力として受け入れずにペイロードへ梱包します — 最も危険なユーザーエラーを排除するためです。",
+            "タグの副作用:GCM 暗号文は平文より 16 バイト長くなります(タグが同行)。ペイロードがシステムの期待より一バイト短い場合、正直な答えは「タグを切り詰めるのではなく、別のフォーマットを求めている」です。",
+          ],
+        },
+        {
+          heading: "ペイロード形式、および OpenSSL のファイルがここで復号できない理由",
+          paragraphs: [
+            "Base64 出力は salt(16) ‖ IV(12) ‖ 暗号文 — 自己記述型レイアウトで、この形式を理解するどこでも同じパスフレーズで復号できます。OpenSSL の enc コマンドは別の規約を使います:ヘッダ Salted__ と 8 バイト salt、KDF(-pbkdf2 を渡さない限りレガシーの EVP_BytesToKey)、異なるデフォルト。暗号化产物は両者で互換しません — アルゴリズムの一致だけでは足りず、鍵導出とコンテナも一致が必要です。",
+            "PBKDF2 反復回数はツール間で移動するターゲットです:本ページの 210,000 は現在の OWASP ガイダンスを反映し、OpenSSL のデフォルトは版によって変わり、古いソフトは 1,000 のことも。相互運用時は両側の回数を確認してください。正しいパスフレーズでもゴミに復号されるペイロードは、たいてい KDF の不一致です。",
+            "大きなファイルやストリーミングには、本ページの設計(メモリ内の単一 Base64 ペイロード)は不適です — age、OpenSSL、ストリーム処理する専用ツールをお使いください。本ページが輝くのは:メッセージ、設定断片、API シークレット、リカバリキー — 何もインストールせず誰でもどこでも復号できるテキストペイロードです。",
+          ],
+        },
+      ],
     },
     es: {
       name: "Cifrado y descifrado AES-256",
@@ -107,6 +161,24 @@ export default defineTool({
           a: "Con PBKDF2 a 210.000 iteraciones, una frase genuinamente aleatoria de varias palabras es fuerte para fines prácticos; una contraseña humana corta no lo es — el conteo de iteraciones solo ralentiza la fuerza bruta, no rescata un secreto adivinable. Para flujos máquina a máquina, genere una clave de alta entropía y distribúyala mediante un gestor de secretos en lugar de una frase.",
         },
       ],
+      deepDive: [
+        {
+          heading: "Por qué GCM reemplazó a la composición CBC + HMAC",
+          paragraphs: [
+            "Antes de que los modos autenticados se estandarizaran, la construcción recomendada era CBC más un HMAC separado — y el orden de la composición era fatalmente importante. Encrypt-then-MAC (verificar primero, descifrar después) es seguro; MAC-then-encrypt, usado por las primeras versiones de TLS, habilitó ataques de oráculo de relleno como Lucky13 que filtran el texto en claro byte a byte a través del tiempo. GCM elimina toda esa clase: una sola pasada calcula confidencialidad y la etiqueta de autenticación juntas, así que no hay orden que equivocar.",
+            "La única forma de romper GCM es reutilizar el IV bajo la misma clave. GCM construye su autenticación sobre el modo CTR; reutilizar un nonce filtra el XOR de dos textos en claros y, peor aún, permite falsificar la propia etiqueta de autenticación. Por eso esta página genera un IV aleatorio nuevo por operación y lo empaqueta en la carga en lugar de aceptarlo como entrada — elimina el error de usuario más peligroso.",
+            "Una consecuencia de la etiqueta: el cifrado GCM es 16 bytes más largo que el texto en claro (la etiqueta viaja con él). Si una carga es un byte más corta de lo que un sistema espera, la respuesta honesta es que el sistema quiere otro formato — no que la etiqueta pueda recortarse.",
+          ],
+        },
+        {
+          heading: "El formato de la carga, y por qué los archivos de OpenSSL no se descifran aquí",
+          paragraphs: [
+            "La salida Base64 decodifica a salt(16) ‖ IV(12) ‖ cifrado — un diseño autodescriptivo para que la misma frase la descifre dondequiera que se entienda este formato. El comando enc de OpenSSL usa otra convención: el encabezado Salted__ seguido de un salt de 8 bytes, un KDF (EVP_BytesToKey heredado salvo que se pase -pbkdf2) y valores por defecto distintos. Los blobs cifrados no son intercambiables entre ambos — coincidir en el algoritmo no basta; la derivación de clave y el contenedor también deben coincidir.",
+            "Los conteos de iteraciones de PBKDF2 son un objetivo móvil entre herramientas: 210.000 aquí refleja la guía OWASP actual, los valores por defecto de OpenSSL han cambiado entre versiones, y el software antiguo puede usar 1.000. Al interoperar, confirme el conteo en ambos lados; una carga que descifra a basura con la frase correcta suele significar una discrepancia de KDF, no una implementación rota.",
+            "Para archivos grandes o flujo continuo, el diseño de esta página (una carga Base64 en memoria) no es la forma correcta — use age, OpenSSL o una herramienta dedicada que procese flujos. Donde brilla esta página: mensajes, fragmentos de configuración, secretos de API y claves de recuperación — cargas de texto que deben poder descifrar personas, en cualquier lugar, sin instalar nada.",
+          ],
+        },
+      ],
     },
     pt: {
       name: "Cifragem e decifragem AES-256",
@@ -130,6 +202,24 @@ export default defineTool({
         {
           q: "Uma frase serve como chave aleatória?",
           a: "Com PBKDF2 a 210.000 iterações, uma frase genuinamente aleatória de várias palavras é forte para fins práticos; uma senha humana curta não é — o número de iterações apenas retarda a força bruta, não resgata um segredo adivinhável. Para fluxos máquina a máquina, gere uma chave de alta entropia e distribua por um gerenciador de segredos em vez de uma frase.",
+        },
+      ],
+      deepDive: [
+        {
+          heading: "Por que o GCM substituiu a composição CBC + HMAC",
+          paragraphs: [
+            "Antes de os modos autenticados se padronizarem, a construção recomendada era CBC mais um HMAC separado — e a ordem da composição era fatalmente importante. Encrypt-then-MAC (verificar primeiro, decifrar depois) é seguro; MAC-then-encrypt, usado pelas primeiras versões do TLS, habilitou ataques de oráculo de padding como o Lucky13 que vazam o texto em claro byte a byte através do tempo. O GCM elimina toda essa classe: uma única passada calcula confidencialidade e a etiqueta de autenticação juntas, então não há ordem para errar.",
+            "A única forma de quebrar o GCM é reutilizar o IV sob a mesma chave. O GCM constrói sua autenticação sobre o modo CTR; reutilizar um nonce vaza o XOR de dois textos em claros e, pior, permite falsificar a própria etiqueta de autenticação. Por isso esta página gera um IV aleatório novo por operação e o empacota na carga em vez de aceitá-lo como entrada — elimina o erro de usuário mais perigoso.",
+            "Uma consequência da etiqueta: o cifrado GCM é 16 bytes mais longo que o texto em claro (a etiqueta viaja com ele). Se uma carga está um byte abaixo do que um sistema espera, a resposta honesta é que o sistema quer um formato diferente — não que a etiqueta possa ser cortada.",
+          ],
+        },
+        {
+          heading: "O formato da carga, e por que arquivos do OpenSSL não decifram aqui",
+          paragraphs: [
+            "A saída Base64 decodifica para salt(16) ‖ IV(12) ‖ cifrado — um layout autodescritivo para que a mesma frase a decifre ondequer que este formato seja entendido. O comando enc do OpenSSL usa outra convenção: o cabeçalho Salted__ seguido de um salt de 8 bytes, um KDF (EVP_BytesToKey legado a menos que -pbkdf2 seja passado) e padrões diferentes. Blobs cifrados não são intercambiáveis entre os dois — coincidir no algoritmo não basta; a derivação de chave e o contêiner também devem coincidir.",
+            "Contagens de iterações do PBKDF2 são um alvo móvel entre ferramentas: 210.000 aqui reflete a orientação atual da OWASP, os padrões do OpenSSL mudaram entre versões, e software antigo pode usar 1.000. Ao interoperar, confirme a contagem em ambos os lados; uma carga que decifra para lixo com a frase correta geralmente significa uma discrepância de KDF, não uma implementação quebrada.",
+            "Para arquivos grandes ou streaming, o desenho desta página (uma carga Base64 em memória) não é a forma certa — use age, OpenSSL ou uma ferramenta dedicada que processe fluxos. Onde esta página brilha: mensagens, trechos de configuração, segredos de API e chaves de recuperação — cargas de texto que devem ser decifráveis por uma pessoa, em qualquer lugar, sem instalar nada.",
+          ],
         },
       ],
     },
