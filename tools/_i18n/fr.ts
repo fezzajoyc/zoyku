@@ -2218,7 +2218,7 @@ export const fr: Record<string, ToolCopy> = {
     tagline:
       "Parcourez plus de 670 emoji courants en 8 groupes organisés, cherchez par nom anglais, copiez d'un clic et retrouvez vos 16 derniers choix — tout dans votre navigateur.",
     intro: [
-      "Un tableau d'emoji organisé à la main avec 677 entrées groupées comme vous pensez : Smileys, Personnes, Animaux, Nourriture, Activités, Voyage, Objets et Symboles. La recherche s'appuie sur le nom officiel anglais — tapez « star » et trouvez ⭐, 🌟 et ✨ d'un coup.",
+      "Un tableau d'emoji organisé à la main avec 676 entrées groupées comme vous pensez : Smileys, Personnes, Animaux, Nourriture, Activités, Voyage, Objets et Symboles. La recherche s'appuie sur le nom officiel anglais — tapez « star » et trouvez ⭐, 🌟 et ✨ d'un coup.",
       "Un clic copie le caractère dans le presse-papiers, avec une confirmation visible pour ne jamais douter que ça a marché. Vos 16 derniers choix sont conservés sur cet appareil via localStorage : le favori de demain reste à un geste. Aucune image n'est chargée — la grille rend les glyphes emoji natifs instantanément.",
     ],
     steps: [

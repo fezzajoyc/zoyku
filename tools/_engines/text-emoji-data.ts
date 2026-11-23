@@ -75,6 +75,7 @@ nauseated face|🤢
 face vomiting|🤮
 sneezing face|🤧
 hot face|🥵
+fire|🔥
 cold face|🥶
 woozy face|🥴
 face with crossed-out eyes|😵

@@ -2213,7 +2213,7 @@ export const it: Record<string, ToolCopy> = {
     tagline:
       "Sfoglia oltre 670 emoji comuni in 8 gruppi curati, cerca per nome, clicca per copiare all'istante e ritrova le 16 più recenti — tutto nel tuo browser.",
     intro: [
-      "Una lavagna di emoji curata a mano con 677 voci raggruppate come le pensi: Faccine, Persone, Animali, Cibo, Attività, Viaggi, Oggetti e Simboli. La ricerca matcha il nome ufficiale — scrivendo «stella» trovi ⭐, 🌟 e ✨ in un colpo solo.",
+      "Una lavagna di emoji curata a mano con 676 voci raggruppate come le pensi: Faccine, Persone, Animali, Cibo, Attività, Viaggi, Oggetti e Simboli. La ricerca matcha il nome ufficiale — scrivendo «stella» trovi ⭐, 🌟 e ✨ in un colpo solo.",
       "Un clic copia il carattere negli appunti, con una conferma visibile così non resti mai nel dubbio. Le tue 16 scelte più recenti restano su questo dispositivo via localStorage, quindi il preferito di domani è a un tocco. Nessuna immagine viene caricata — la griglia renderizza al volo le emoji native del sistema.",
     ],
     steps: [

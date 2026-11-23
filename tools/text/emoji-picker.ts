@@ -11,12 +11,12 @@ export default defineTool({
     en: {
       name: "Emoji Picker",
       tagline:
-        "Browse 670+ common emoji in 8 curated groups, search by English name, click to copy instantly, and reuse your 16 most recent picks — all in your browser.",
+        "Browse 676 common emoji in 8 curated groups, search by English name, click to copy instantly, and reuse your 16 most recent picks — all in your browser.",
       intro: [
-        "A hand-curated emoji board with 677 entries grouped the way you think: Smileys, People, Animals, Food, Activities, Travel, Objects and Symbols. Search matches the official English name — typing “star” finds ⭐, 🌟 and ✨ in one go.",
+        "A hand-curated emoji board with 676 entries grouped the way you think: Smileys, People, Animals, Food, Activities, Travel, Objects and Symbols. Search matches the official English name — typing “star” finds ⭐, 🌟 and ✨ in one go.",
         "One click copies the character to your clipboard, with a visible confirmation so you never wonder whether it worked. Your 16 most recent picks are kept on this device via localStorage, so tomorrow's favorite is one tap away. No images are loaded — the grid renders native emoji glyphs instantly.",
       
-        "The 677 entries are a curated subset of the Unicode emoji set — the grid renders your system's native emoji font rather than images, so the characters you see are the characters you copy, with no asset download. Search indexes the official Unicode names plus common aliases, so 'fire' finds 🔥 and 'check' finds ✔️.",
+        "The 676 entries are a curated subset of the Unicode emoji set — the grid renders your system's native emoji font rather than images, so the characters you see are the characters you copy, with no asset download. Search indexes the official Unicode names plus common aliases, so 'fire' finds 🔥 and 'check' finds ✔️.",
         "Compared with OS-level emoji pickers (which hide behind shortcut keys and differ per platform), this is the same board in every browser, searchable by name and grouped by intent. The 16-slot recents row learns what you actually use, and because everything is a string, picked emoji paste into terminals, editors and commit messages without formatting surprises.",
       ],
       steps: [
@@ -67,9 +67,9 @@ export default defineTool({
     },
     zh: {
       name: "Emoji 选择器",
-      tagline: "按表情、人物、动物、食物等 8 组浏览 670+ 常用 emoji,按英文名搜索,点击即复制,最近使用保存在本地。",
+      tagline: "按表情、人物、动物、食物等 8 组浏览 676 常用 emoji,按英文名搜索,点击即复制,最近使用保存在本地。",
       intro: [
-        "一份手工挑选的 emoji 面板:表情与情感、人物、动物与自然、食物、活动、旅行、物品、符号 8 组共 677 个。搜索匹配官方英文名——输入 star 即可同时找到 ⭐、🌟 和 ✨。",
+        "一份手工挑选的 emoji 面板:表情与情感、人物、动物与自然、食物、活动、旅行、物品、符号 8 组共 676 个。搜索匹配官方英文名——输入 star 即可同时找到 ⭐、🌟 和 ✨。",
         "点击任意 emoji 立即复制到剪贴板,并给出可见的确认提示。最近使用的 16 个保存在浏览器 localStorage 里,下次一键取用。整个面板用原生字形渲染,不加载任何图片,打开即用。",
       ],
       steps: [
@@ -120,9 +120,9 @@ export default defineTool({
     },
     ja: {
       name: "絵文字ピッカー",
-      tagline: "顔・動物・食べ物など 8 グループ 670+ の絵文字を英字名で検索、クリックで即コピー、最近使ったものは自動で記憶。",
+      tagline: "顔・動物・食べ物など 8 グループ 676 の絵文字を英字名で検索、クリックで即コピー、最近使ったものは自動で記憶。",
       intro: [
-        "手作業で厳選した絵文字パネル:スマイリー、人物、動物・自然、食べ物、アクティビティ、旅行、物、記号の 8 グループ 677 種。検索は公式の英語名に一致し、star と打てば ⭐・🌟・✨ を一度に見つけられます。",
+        "手作業で厳選した絵文字パネル:スマイリー、人物、動物・自然、食べ物、アクティビティ、旅行、物、記号の 8 グループ 676 種。検索は公式の英語名に一致し、star と打てば ⭐・🌟・✨ を一度に見つけられます。",
         "クリックひとつでクリップボードにコピーし、確認表示が出るので失敗がありません。最近使った 16 個は localStorage に保存され、次回はワンタップ。画像を一切読み込まずネイティブの字形で描画するため、表示が速くオフラインでも動きます。",
       ],
       steps: [
@@ -176,7 +176,7 @@ export default defineTool({
       tagline:
         "Explora más de 670 emojis en 8 grupos curados, búscalos por nombre en inglés, cópialos con un clic y reutiliza tus usos recientes.",
       intro: [
-        "Un tablero de emojis curado a mano con 677 entradas en ocho grupos: caras, personas, animales, comida, actividades, viajes, objetos y símbolos. La búsqueda coincide con el nombre oficial en inglés: escribir «star» encuentra ⭐, 🌟 y ✨ de una vez.",
+        "Un tablero de emojis curado a mano con 676 entradas en ocho grupos: caras, personas, animales, comida, actividades, viajes, objetos y símbolos. La búsqueda coincide con el nombre oficial en inglés: escribir «star» encuentra ⭐, 🌟 y ✨ de una vez.",
         "Un clic copia el carácter al portapapeles con confirmación visible, para que nunca dudes de si funcionó. Tus 16 emojis más recientes se guardan en este dispositivo mediante localStorage. No se carga ninguna imagen: la cuadrícula dibuja glifos nativos al instante.",
       ],
       steps: [
@@ -230,7 +230,7 @@ export default defineTool({
       tagline:
         "Explore mais de 670 emojis em 8 grupos curados, busque pelo nome em inglês, copie com um clique e reutilize os recentes — tudo no navegador.",
       intro: [
-        "Um painel de emojis curado à mão com 677 entradas em oito grupos: rostos, pessoas, animais, comida, atividades, viagem, objetos e símbolos. A busca usa o nome oficial em inglês: digitar “star” acha ⭐, 🌟 e ✨ de uma vez.",
+        "Um painel de emojis curado à mão com 676 entradas em oito grupos: rostos, pessoas, animais, comida, atividades, viagem, objetos e símbolos. A busca usa o nome oficial em inglês: digitar “star” acha ⭐, 🌟 e ✨ de uma vez.",
         "Um clique copia o caractere para a área de transferência, com confirmação visível para você nunca duvidar se funcionou. Seus 16 emojis mais recentes ficam salvos neste dispositivo via localStorage. Nenhuma imagem é carregada: a grade desenha glifos nativos na hora.",
       ],
       steps: [

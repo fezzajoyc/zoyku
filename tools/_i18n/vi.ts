@@ -2218,7 +2218,7 @@ export const vi: Record<string, ToolCopy> = {
     tagline:
       "Duyệt hơn 670 emoji phổ biến trong 8 nhóm chọn lọc, tìm theo tên tiếng Anh, bấm để sao chép ngay, tái dùng 16 emoji mới nhất — tất cả trong trình duyệt.",
     intro: [
-      "Bảng emoji tuyển tay với 677 mục xếp theo cách bạn nghĩ: Mặt cười, Người, Động vật, Đồ ăn, Hoạt động, Du lịch, Đồ vật và Ký hiệu. Tìm kiếm khớp tên chính thức tiếng Anh — gõ “star” tìm ngay ⭐, 🌟 và ✨ cùng lúc.",
+      "Bảng emoji tuyển tay với 676 mục xếp theo cách bạn nghĩ: Mặt cười, Người, Động vật, Đồ ăn, Hoạt động, Du lịch, Đồ vật và Ký hiệu. Tìm kiếm khớp tên chính thức tiếng Anh — gõ “star” tìm ngay ⭐, 🌟 và ✨ cùng lúc.",
       "Một cú bấm sao chép ký tự vào clipboard, kèm xác nhận rõ ràng để bạn không bao giờ hoài nghi. 16 emoji mới nhất được giữ trên thiết bị qua localStorage, nên mục yêu thích hôm qua chỉ cách một cú chạm. Không tải ảnh nào — lưới hiển thị glyph emoji gốc của hệ thống tức thì.",
     ],
     steps: [

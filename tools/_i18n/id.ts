@@ -2858,9 +2858,9 @@ export const id: Record<string, ToolCopy> = {
   "emoji-picker": {
     name: "Pemilih Emoji",
     tagline:
-      "Jelajahi 670+ emoji umum dalam 8 kelompok pilihan, cari berdasarkan nama Inggris, klik untuk langsung menyalin, dan pakai ulang 16 pilihan terakhir Anda — semuanya di browser Anda.",
+      "Jelajahi 676 emoji umum dalam 8 kelompok pilihan, cari berdasarkan nama Inggris, klik untuk langsung menyalin, dan pakai ulang 16 pilihan terakhir Anda — semuanya di browser Anda.",
     intro: [
-      "Papan emoji kurasi manual dengan 677 entri yang dikelompokkan sesuai cara Anda berpikir: Smileys, People, Animals, Food, Activities, Travel, Objects, dan Symbols. Pencarian mencocokkan nama resmi bahasa Inggrisnya — mengetik “star” menemukan ⭐, 🌟, dan ✨ sekaligus.",
+      "Papan emoji kurasi manual dengan 676 entri yang dikelompokkan sesuai cara Anda berpikir: Smileys, People, Animals, Food, Activities, Travel, Objects, dan Symbols. Pencarian mencocokkan nama resmi bahasa Inggrisnya — mengetik “star” menemukan ⭐, 🌟, dan ✨ sekaligus.",
       "Satu klik menyalin karakter ke clipboard Anda, dengan konfirmasi yang terlihat sehingga Anda tidak pernah meragukan apakah berhasil. 16 pilihan terakhir Anda disimpan di perangkat ini lewat localStorage, jadi favorit besok hanya sejauh satu ketukan. Tidak ada gambar yang dimuat — gridnya merender glyph emoji bawaan seketika.",
     ],
     steps: [

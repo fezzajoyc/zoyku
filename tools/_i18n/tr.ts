@@ -2858,9 +2858,9 @@ export const tr: Record<string, ToolCopy> = {
   "emoji-picker": {
     name: "Emoji Seçici",
     tagline:
-      "8 özenli grupta 670+ yaygın emojide gez, İngilizce adıyla ara, tıklayıp anında kopyala ve son 16 seçimini yeniden kullan — her şey tarayıcında.",
+      "8 özenli grupta 676 yaygın emojide gez, İngilizce adıyla ara, tıklayıp anında kopyala ve son 16 seçimini yeniden kullan — her şey tarayıcında.",
     intro: [
-      "Senin nasıl düşündüğüne göre gruplanmış, elle özenilmiş 677 girdilik bir emoji panosu: Gülücükler, İnsanlar, Hayvanlar, Yiyecek, Etkinlikler, Seyahat, Nesneler ve Simgeler. Arama resmî İngilizce adıyla eşleşir — “star” yazmak ⭐, 🌟 ve ✨'yi tek seferde bulur.",
+      "Senin nasıl düşündüğüne göre gruplanmış, elle özenilmiş 676 girdilik bir emoji panosu: Gülücükler, İnsanlar, Hayvanlar, Yiyecek, Etkinlikler, Seyahat, Nesneler ve Simgeler. Arama resmî İngilizce adıyla eşleşir — “star” yazmak ⭐, 🌟 ve ✨'yi tek seferde bulur.",
       "Tek tık karakteri panona kopyalar; çalışıp çalışmadığını merak etmemen için görünür bir onayla. Son 16 seçimin localStorage ile bu cihazda tutulur; yarının favorisi tek dokunuş uzağında. Hiçbir görsel yüklenmez — ızgara yerel emoji gliflerini anında çizer.",
     ],
     steps: [
