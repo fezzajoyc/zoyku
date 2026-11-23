@@ -105,6 +105,7 @@ export const DEV_TOOLS = [
   geohashConverter,
   ipv6ExpandCompress,
   jsonCodeGenTool,
+  sslCertificateInspector,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -120,3 +121,4 @@ import dockerComposeConverter from "./docker-compose-converter";
 import geohashConverter from "./geohash-converter";
 import ipv6ExpandCompress from "./ipv6-expand-compress";
 import jsonCodeGenTool from "./json-code-generator";
+import sslCertificateInspector from "./ssl-certificate-inspector";
