@@ -106,6 +106,7 @@ export const DEV_TOOLS = [
   ipv6ExpandCompress,
   jsonCodeGenTool,
   sslCertificateInspector,
+  chartGenerator,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -122,3 +123,4 @@ import geohashConverter from "./geohash-converter";
 import ipv6ExpandCompress from "./ipv6-expand-compress";
 import jsonCodeGenTool from "./json-code-generator";
 import sslCertificateInspector from "./ssl-certificate-inspector";
+import chartGenerator from "./chart-generator";
