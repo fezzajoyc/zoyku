@@ -107,6 +107,7 @@ export const DEV_TOOLS = [
   jsonCodeGenTool,
   sslCertificateInspector,
   chartGenerator,
+  latexToImage,
 ];
 
 import jsonToTypescript from "./json-to-typescript";
@@ -124,3 +125,4 @@ import ipv6ExpandCompress from "./ipv6-expand-compress";
 import jsonCodeGenTool from "./json-code-generator";
 import sslCertificateInspector from "./ssl-certificate-inspector";
 import chartGenerator from "./chart-generator";
+import latexToImage from "./latex-to-image";
