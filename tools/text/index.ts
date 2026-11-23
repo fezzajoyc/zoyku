@@ -21,6 +21,7 @@ import lineNumberGenerator from "./line-number-generator";
 import textLineFilter from "./text-line-filter";
 import textSequenceGenerator from "./text-sequence-generator";
 import characterFrequencyCounter from "./character-frequency-counter";
+import subtitleConverter from "./subtitle-converter";
 
 export const TEXT_TOOLS = [
   caseConverter,
@@ -46,5 +47,6 @@ export const TEXT_TOOLS = [
   textLineFilter,
   textSequenceGenerator,
   characterFrequencyCounter,
+  subtitleConverter,
 
 ];
