@@ -921,7 +921,8 @@ const FANCY_MAPS: Record<FancyStyle, FancyMap | null> = {
   bold: buildFancyMap(0x1d400, 0x1d41a, 0x1d7ce),
   // U+1D455(斜体 h)保留未分配,用 Planck 常量符号 ℎ U+210E
   italic: buildFancyMap(0x1d434, 0x1d44e, 0, { h: "\u210e" }),
-  "bold-italic": buildFancyMap(0x1d468, 0x1d482, 0x1d7d2),
+  // bold-italic 无数字形态(Unicode 数学字母数字块未分配),数字原样保留——基址误用会静默改数值
+  "bold-italic": buildFancyMap(0x1d468, 0x1d482, 0),
   // 手写体有 11 个字母直接用 Letterlike Symbols 区现成字符
   script: buildFancyMap(0x1d49c, 0x1d4b6, 0, {
     B: "\u212c", E: "\u2130", F: "\u2131", H: "\u210b", I: "\u2110",

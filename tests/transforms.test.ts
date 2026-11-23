@@ -705,9 +705,15 @@ describe("fancyText known vectors", () => {
 
   it("maps monospace, bold-italic and bold-script letters and digits to their planes", () => {
     expect(fancyText("Az0", "monospace")).toBe("𝙰𝚣𝟶");
-    expect(fancyText("Az0", "bold-italic")).toBe("𝑨𝒛𝟒");
     expect(fancyText("aA", "circled")).toBe("ⓐⒶ");
     expect(fancyText("09", "fullwidth")).toBe("０９");
+  });
+
+  it("keeps ASCII digits unchanged in bold-italic — the Unicode block assigns no bold-italic digits", () => {
+    // 回归:基址曾误用粗体数字区 0x1D7D2(=𝟒),123 被静默改成 567
+    expect(fancyText("123", "bold-italic")).toBe("123");
+    expect(fancyText("2024", "bold-italic")).toBe("2024");
+    expect(fancyText("Az0", "bold-italic")).toBe("𝑨𝒛0");
   });
 
   it("passes unmapped characters (CJK, emoji, punctuation) through unchanged, never tofu", () => {

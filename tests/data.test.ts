@@ -173,9 +173,10 @@ describe("fancy text maps", () => {
     }
   });
 
-  it("maps digits in the seven styles that have digit forms and leaves them literal elsewhere", () => {
-    const mappedStyles = ["bold", "bold-italic", "bold-script", "double-struck", "monospace", "circled", "fullwidth"];
-    const passthroughStyles = ["italic", "script", "squared"];
+  it("maps digits in the six styles that have digit forms and leaves them literal elsewhere", () => {
+    // Unicode 数学字母数字块无 bold-italic 数字(基址误用曾把 123 静默改成 567)
+    const mappedStyles = ["bold", "bold-script", "double-struck", "monospace", "circled", "fullwidth"];
+    const passthroughStyles = ["italic", "bold-italic", "script", "squared"];
     for (const style of mappedStyles as FancyStyle[]) {
       const cps = mappedCodePoints(style, DIGITS);
       expect(new Set(cps).size, `${style} digit glyphs not distinct`).toBe(10);
