@@ -1,6 +1,7 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
 import type { TextLineFilterError } from "./text-line-filter";
+import { textLineFilterDeepDive } from "./deepdive-text";
 
 type Labels = {
   mode: string; contains: string; range: string; length: string; column: string;
@@ -733,7 +734,7 @@ export function textLineFilterToolCopy(): Record<Locale, ToolCopy> {
   for (const locale of LOCALES) {
     const c = TEXT_LINE_FILTER_COPY[locale];
     result[locale] = { name: c.name, tagline: c.tagline, intro: [c.tagline, c.rules], steps: c.steps,
-      faqs: [{ q: c.faqs[0], a: c.rules }, { q: c.faqs[1], a: c.limits }] };
+      faqs: [{ q: c.faqs[0], a: c.rules }, { q: c.faqs[1], a: c.limits }], deepDive: textLineFilterDeepDive(locale) };
   }
   return result;
 }

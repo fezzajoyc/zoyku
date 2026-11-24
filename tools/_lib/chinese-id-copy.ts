@@ -1,6 +1,7 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ChineseIdError } from "./chinese-id";
 import type { ToolCopy } from "./types";
+import { chineseIdDeepDive } from "./deepdive-cn";
 
 const labelKeys = ["input", "inputHint", "referenceDate", "areaCode", "birthDate", "sex", "any", "male", "female", "startSequence", "count", "validate", "generate", "clear", "reveal", "hide", "copy", "download", "copied", "copyFailed", "downloaded", "empty", "valid", "invalid", "line", "results", "generated", "province", "age", "sequence", "converted", "localNote", "limitNote", "sampleNote", "source", "maskedNote"] as const;
 type LabelKey = (typeof labelKeys)[number];
@@ -97,6 +98,7 @@ export function chineseIdToolCopy(mode: "validator" | "generator"): Record<Local
       intro: [mode === "validator" ? l.inputHint + " " + l.converted : l.sampleNote, l.limitNote, l.localNote],
       steps: mode === "validator" ? m.validationSteps : m.generationSteps,
       faqs: [{ q: m.limitsQuestion, a: l.limitNote + (mode === "generator" ? " " + l.sampleNote : "") }, { q: m.privacyQuestion, a: l.localNote + " " + l.maskedNote }],
+      deepDive: chineseIdDeepDive(mode, locale),
     };
   }
   return copy;

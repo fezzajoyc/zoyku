@@ -1,6 +1,8 @@
 import { UtilEngineIpv4Range } from "../_engines/util-engine-ipv4-range";
 import { MAX_IP_RANGE_EXPANSION } from "../_lib/subnet";
 import { defineTool } from "../_lib/types";
+import { ipv4RangeDeepDive } from "../_lib/deepdive-misc";
+import type { Locale } from "@/lib/site";
 
 export default defineTool({
   slug: "ipv4-range-expander",
@@ -21,6 +23,7 @@ export default defineTool({
         { q: "Are both endpoints included?", a: "Both count toward the total. The ending address appears in the list when the whole range fits." },
         { q: "What if the last address is lower than the first?", a: "The page shows an error. Enter the lower address first to get an ascending list." },
       ],
+      deepDive: ipv4RangeDeepDive("en" as Locale),
     },
     zh: {
       name: "IPv4 地址区间展开",
@@ -34,6 +37,7 @@ export default defineTool({
         { q: "总数包含起始和结束地址吗？", a: "包含两个端点。列表未截断时也会显示结束地址。" },
         { q: "结束地址小于起始地址怎么办？", a: "页面会提示输入错误。把较小的地址填在前面即可生成升序列表。" },
       ],
+      deepDive: ipv4RangeDeepDive("zh" as Locale),
     },
     ja: {
       name: "IPv4 アドレス範囲の展開",
@@ -47,6 +51,7 @@ export default defineTool({
         { q: "両端のアドレスも含まれますか？", a: "どちらも合計に含まれます。一覧が上限内なら終了アドレスも表示されます。" },
         { q: "終了アドレスが開始より小さい場合は？", a: "画面にエラーが表示されます。小さい方を開始アドレスに入力してください。" },
       ],
+      deepDive: ipv4RangeDeepDive("ja" as Locale),
     },
     es: {
       name: "Expansor de rangos IPv4",
@@ -60,6 +65,7 @@ export default defineTool({
         { q: "¿Se incluyen ambos extremos?", a: "Los dos se incluyen en el total. La última dirección aparece cuando cabe el rango completo." },
         { q: "¿Qué pasa si la última dirección es menor?", a: "Se muestra un error. Escribe primero la dirección menor para generar la lista ascendente." },
       ],
+      deepDive: ipv4RangeDeepDive("es" as Locale),
     },
     pt: {
       name: "Expansor de intervalos IPv4",
@@ -73,6 +79,7 @@ export default defineTool({
         { q: "As duas extremidades estão incluídas?", a: "As duas entram no total. O último endereço aparece quando todo o intervalo cabe na lista." },
         { q: "E se o último endereço for menor?", a: "A página informa o erro. Digite o menor endereço primeiro para gerar a lista em ordem crescente." },
       ],
+      deepDive: ipv4RangeDeepDive("pt" as Locale),
     },
   },
 });

@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { redactPdfDeepDive, unlockPdfDeepDive, wordToPdfDeepDive } from "./deepdive-pdf";
 
 export const PDF_CAPABILITY_LIMITS: Record<"unlock" | "word" | "redact", Record<Locale, string>> = {
   "unlock": {
@@ -68,6 +69,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Click Check protection.",
       "Read the encryption status. No modified or unlocked PDF is produced."
     ],
+    deepDive: unlockPdfDeepDive("en" as Locale),
     "faqs": [
       {
         "q": "Can this tool decrypt a PDF or remove owner restrictions?",
@@ -90,6 +92,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "点击“检查保护状态”。",
       "查看加密状态。不会生成修改后或已解锁的 PDF。"
     ],
+    deepDive: unlockPdfDeepDive("zh" as Locale),
     "faqs": [
       {
         "q": "此工具能解密 PDF 或移除所有者限制吗?",
@@ -112,6 +115,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "「保護状態を確認」をクリックします。",
       "暗号化の状態を確認します。変更済み・解除済みの PDF は作成しません。"
     ],
+    deepDive: unlockPdfDeepDive("ja" as Locale),
     "faqs": [
       {
         "q": "PDF の復号や所有者の制限の解除はできますか？",
@@ -134,6 +138,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Pulsa Comprobar protección.",
       "Consulta el estado del cifrado. No se genera un PDF modificado ni desbloqueado."
     ],
+    deepDive: unlockPdfDeepDive("es" as Locale),
     "faqs": [
       {
         "q": "¿Puede descifrar un PDF o quitar restricciones del propietario?",
@@ -156,6 +161,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Clique em Verificar proteção.",
       "Veja o estado da criptografia. Nenhum PDF modificado ou desbloqueado é gerado."
     ],
+    deepDive: unlockPdfDeepDive("pt" as Locale),
     "faqs": [
       {
         "q": "Pode descriptografar um PDF ou remover restrições do proprietário?",
@@ -178,6 +184,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Cliquez sur Vérifier la protection.",
       "Consultez l’état du chiffrement. Aucun PDF modifié ou déverrouillé n’est créé."
     ],
+    deepDive: unlockPdfDeepDive("fr" as Locale),
     "faqs": [
       {
         "q": "Cet outil peut-il déchiffrer un PDF ou retirer les restrictions ?",
@@ -200,6 +207,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Klicken Sie auf Schutz prüfen.",
       "Lesen Sie den Verschlüsselungsstatus. Es wird keine geänderte oder entsperrte PDF erzeugt."
     ],
+    deepDive: unlockPdfDeepDive("de" as Locale),
     "faqs": [
       {
         "q": "Kann dieses Tool PDFs entschlüsseln oder Beschränkungen entfernen?",
@@ -222,6 +230,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Нажмите «Проверить защиту».",
       "Просмотрите статус шифрования. Изменённый или разблокированный PDF не создаётся."
     ],
+    deepDive: unlockPdfDeepDive("ru" as Locale),
     "faqs": [
       {
         "q": "Можно ли расшифровать PDF или снять ограничения владельца?",
@@ -244,6 +253,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Fai clic su Verifica protezione.",
       "Leggi lo stato della crittografia. Non viene creato alcun PDF modificato o sbloccato."
     ],
+    deepDive: unlockPdfDeepDive("it" as Locale),
     "faqs": [
       {
         "q": "Può decrittare un PDF o rimuovere le restrizioni del proprietario?",
@@ -266,6 +276,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Korumayı denetle düğmesine tıklayın.",
       "Şifreleme durumunu okuyun. Değiştirilmiş veya kilidi açılmış PDF oluşturulmaz."
     ],
+    deepDive: unlockPdfDeepDive("tr" as Locale),
     "faqs": [
       {
         "q": "Bu araç PDF şifresini çözebilir veya sahip kısıtlamalarını kaldırabilir mi?",
@@ -288,6 +299,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "보호 상태 확인을 누르세요.",
       "암호화 상태를 확인하세요. 수정되거나 잠금 해제된 PDF는 생성하지 않습니다."
     ],
+    deepDive: unlockPdfDeepDive("ko" as Locale),
     "faqs": [
       {
         "q": "PDF 암호를 해독하거나 소유자 제한을 해제할 수 있나요?",
@@ -310,6 +322,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "اضغط على فحص الحماية.",
       "اقرأ حالة التشفير. لن يتم إنشاء ملف PDF معدل أو مفتوح الحماية."
     ],
+    deepDive: unlockPdfDeepDive("ar" as Locale),
     "faqs": [
       {
         "q": "هل يمكنه فك تشفير PDF أو إزالة قيود المالك؟",
@@ -332,6 +345,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "सुरक्षा जाँचें पर क्लिक करें।",
       "एन्क्रिप्शन स्थिति पढ़ें। संशोधित या अनलॉक PDF नहीं बनेगी।"
     ],
+    deepDive: unlockPdfDeepDive("hi" as Locale),
     "faqs": [
       {
         "q": "क्या यह PDF डिक्रिप्ट कर सकता है या मालिक के प्रतिबंध हटा सकता है?",
@@ -354,6 +368,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Klik Periksa perlindungan.",
       "Baca status enkripsi. PDF yang diubah atau tanpa perlindungan tidak dibuat."
     ],
+    deepDive: unlockPdfDeepDive("id" as Locale),
     "faqs": [
       {
         "q": "Bisakah alat ini mendekripsi PDF atau menghapus pembatasan pemilik?",
@@ -376,6 +391,7 @@ export const UNLOCK_COPY: Record<Locale, ToolCopy> = {
       "Nhấn Kiểm tra bảo vệ.",
       "Đọc trạng thái mã hóa. Không tạo PDF đã sửa hoặc đã mở khóa."
     ],
+    deepDive: unlockPdfDeepDive("vi" as Locale),
     "faqs": [
       {
         "q": "Công cụ có giải mã PDF hoặc gỡ hạn chế của chủ tài liệu không?",
@@ -447,6 +463,7 @@ export function wordPdfCopy(locale: Locale, original?: ToolCopy): ToolCopy {
       { q: text.scope, a: PDF_CAPABILITY_LIMITS.word[locale] },
       { q: text.alternativeQuestion, a: text.alternative },
     ],
+    deepDive: wordToPdfDeepDive(locale),
   };
 }
 
@@ -461,5 +478,6 @@ export function redactPdfCopy(locale: Locale, original?: ToolCopy): ToolCopy {
       { q: text.scope, a: PDF_CAPABILITY_LIMITS.redact[locale] },
       { q: text.reviewQuestion, a: text.review },
     ],
+    deepDive: redactPdfDeepDive(locale),
   };
 }

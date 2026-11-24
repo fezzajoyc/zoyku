@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { fileTypeDeepDive } from "./deepdive-dev";
 
 type Messages = {
   drop: string; local: string; rule: string; container: string; empty: string;
@@ -139,5 +140,6 @@ export const FILE_SIGNATURE_COPY = Object.fromEntries(Object.entries(PAGE).map((
   const text = FILE_SIGNATURE_MESSAGES[locale as Locale];
   return [locale, { name: page.name, tagline: page.tagline, intro: [text.local, text.rule, text.container], steps: page.steps,
     faqs: [{ q: page.questions[0], a: text.local }, { q: page.questions[1], a: `${text.rule} ${text.container}` }],
+    deepDive: fileTypeDeepDive(locale as Locale),
   } satisfies ToolCopy];
 })) as Record<Locale, ToolCopy>;

@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
 import type { WatermarkPosition } from "./image-watermark";
+import { watermarkDeepDive } from "./deepdive-media";
 
 type Seed = {
   name: string; tagline: string; local: string; scope: string; limits: string;
@@ -140,6 +141,6 @@ export const IMAGE_WATERMARK_MESSAGES = localized<Messages>(locale => {
 export function imageWatermarkCopy(locale: Locale, base: ToolCopy): ToolCopy {
   const L = IMAGE_WATERMARK_MESSAGES[locale];
   return { ...base, name: L.name, tagline: L.tagline, intro: [L.local,L.scope,L.limits], steps:L.steps,
-    faqs:[{q:L.questions[0],a:L.scope},{q:L.questions[1],a:L.limits}], deepDive:undefined };
+    faqs:[{q:L.questions[0],a:L.scope},{q:L.questions[1],a:L.limits}], deepDive: watermarkDeepDive(locale) };
 }
 export const IMAGE_WATERMARK_COPY = localized<ToolCopy>(locale => imageWatermarkCopy(locale, { name:"",tagline:"",intro:[],steps:[],faqs:[] }));

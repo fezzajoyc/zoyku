@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { filePartsDeepDive } from "./deepdive-misc";
 
 type Messages = {
   name: string; tagline: string; local: string; scope: string; limits: string;
@@ -131,4 +132,5 @@ export const FILE_PARTS_MESSAGES: Record<Locale, Messages> = {
 export const FILE_PARTS_COPY = Object.fromEntries(Object.entries(FILE_PARTS_MESSAGES).map(([locale, L]) => [locale, {
   name: L.name, tagline: L.tagline, intro: [L.local, L.scope, L.limits], steps: L.steps,
   faqs: [{ q: L.questions[0], a: `${L.scope} ${L.orderNote}` }, { q: L.questions[1], a: L.limits }],
+  deepDive: filePartsDeepDive(locale as Locale),
 } satisfies ToolCopy])) as Record<Locale, ToolCopy>;

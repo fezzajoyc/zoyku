@@ -1,6 +1,7 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
 import type { SequenceError } from "./string-sequence";
+import { textSequenceDeepDive } from "./deepdive-text";
 
 type Seed = { name: string; tagline: string; rules: string; limits: string; labels: string[]; steps: string[]; questions: string[] };
 const SEEDS: Record<Locale, Seed> = {
@@ -32,6 +33,6 @@ export function sequenceError(locale: Locale, error: SequenceError): string {
 }
 export function textSequenceToolCopy(): Record<Locale,ToolCopy> {
  const out={} as Record<Locale,ToolCopy>;
- for(const locale of LOCALES){const c=SEEDS[locale];out[locale]={name:c.name,tagline:c.tagline,intro:[c.tagline,c.rules],steps:c.steps,faqs:[{q:c.questions[0],a:c.rules},{q:c.questions[1],a:c.limits}]};}
+ for(const locale of LOCALES){const c=SEEDS[locale];out[locale]={name:c.name,tagline:c.tagline,intro:[c.tagline,c.rules],steps:c.steps,faqs:[{q:c.questions[0],a:c.rules},{q:c.questions[1],a:c.limits}],deepDive:textSequenceDeepDive(locale)};}
  return out;
 }

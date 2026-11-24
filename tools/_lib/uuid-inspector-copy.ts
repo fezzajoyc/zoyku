@@ -1,6 +1,7 @@
 import { type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
 import type { UuidVariant } from "./uuid-inspector";
+import { uuidDeepDive } from "./deepdive-dev";
 
 type Format = "canonical" | "uppercase" | "raw" | "urn" | "braced" | "binary" | "base64" | "bytes";
 type Seed = {
@@ -216,5 +217,6 @@ export const UUID_INSPECTOR_COPY = localized<ToolCopy>(locale => {
   const L = UUID_INSPECTOR_MESSAGES[locale];
   return { name: L.name, tagline: L.tagline, intro: [L.local, L.rules, L.semantics, L.limit], steps: L.steps,
     faqs: [{ q: L.questions[0], a: `${L.rules} ${L.limit}` }, { q: L.questions[1], a: L.semantics }],
+    deepDive: uuidDeepDive(locale),
   };
 });

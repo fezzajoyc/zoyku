@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/site";
 import { fill, type ToolCopy } from "./types";
 import { CSV_TABLE_LIMITS, type CsvTableError } from "./csv-table";
+import { csvTableDeepDive } from "./deepdive-media";
 
 type CsvTableMessages = {
   name: string; tagline: string; intro: string; rules: string; limits: string;
@@ -185,5 +186,6 @@ export function csvTableCopy(locale: Locale): ToolCopy {
   return {
     name: l.name, tagline: l.tagline, intro: [l.intro, l.rules, csvTableLimitsText(locale)], steps: l.steps,
     faqs: [{ q: l.rulesQuestion, a: l.rules }, { q: l.limitsQuestion, a: csvTableLimitsText(locale) }],
+    deepDive: csvTableDeepDive(locale),
   };
 }

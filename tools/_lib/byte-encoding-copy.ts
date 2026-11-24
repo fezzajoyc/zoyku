@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { byteEncodingDeepDive } from "./deepdive-dev";
 
 type Seed = {
   name: string; tagline: string; scope: string; syntax: string; limits: string;
@@ -172,5 +173,5 @@ export const BYTE_ENCODING_MESSAGES = localized(locale => {
 });
 export const BYTE_ENCODING_COPY = localized<ToolCopy>(locale => {
  const s = BYTE_ENCODING_MESSAGES[locale];
- return { name: s.name, tagline: s.tagline, intro: [s.scope, s.syntax, s.limits], steps: s.steps, faqs: [{ q: s.questions[0], a: s.syntax }, { q: s.questions[1], a: `${s.scope} ${s.limits}` }] };
+ return { name: s.name, tagline: s.tagline, intro: [s.scope, s.syntax, s.limits], steps: s.steps, faqs: [{ q: s.questions[0], a: s.syntax }, { q: s.questions[1], a: `${s.scope} ${s.limits}` }], deepDive: byteEncodingDeepDive(locale) };
 });

@@ -1,5 +1,7 @@
 import { ImageColorPickerEngine } from "../_engines/image-engine-color-picker";
 import { defineTool } from "../_lib/types";
+import { colorPickerDeepDive } from "../_lib/deepdive-misc";
+import type { Locale } from "@/lib/site";
 
 export default defineTool({
   slug: "image-color-picker",
@@ -61,6 +63,7 @@ export default defineTool({
         { q: "HEX と HEX8 の違いは?", a: "HEX は #RRGGBB の 3 色チャンネル、HEX8 は #RRGGBBAA でアルファを加えた表記です。透過と半透明を区別できます。" },
         { q: "画像が拒否される理由は?", a: "ブラウザでデコードでき、ファイル 25 MiB 以下、各辺 16,384 px 以下、総 4,000 万 px 以下である必要があります。Canvas の過大な割り当てを避けるためです。" },
       ],
+      deepDive: colorPickerDeepDive("ja" as Locale),
     },
     es: {
       name: "Selector de color de píxel",
@@ -68,6 +71,7 @@ export default defineTool({
       intro: ["Suelta una imagen rasterizada, haz clic en cualquier píxel y obtén sus coordenadas y cuatro formatos de color. Aunque la vista previa se adapte, la muestra vuelve al píxel nativo.", "La transparencia se conserva: HEX8 incluye el byte alfa y RGBA muestra el canal 0–255 como fracción decimal. También puedes usar campos X/Y y las flechas para seleccionar sin ratón.", "La imagen se decodifica y se muestrea localmente con Canvas. No hay URL remota, subida, cuenta ni historial; los límites de 25 MiB, 16.384 píxeles por lado y 40 megapíxeles protegen la memoria."],
       steps: ["Suelta una imagen o elígela en tu dispositivo.", "Haz clic en un píxel, mueve el lienzo enfocado con las flechas o escribe X/Y.", "Copia el valor HEX, HEX8, RGB o RGBA que necesites."],
       faqs: [{ q: "¿La imagen sale de mi dispositivo?", a: "No. El archivo local se decodifica en el navegador, sin enviarlo a un servidor ni guardar un historial." }, { q: "¿Qué diferencia hay entre HEX y HEX8?", a: "HEX usa #RRGGBB; HEX8 añade el canal alfa como #RRGGBBAA para conservar la transparencia." }, { q: "¿Por qué se rechaza una imagen?", a: "Debe poder decodificarla el navegador y cumplir los límites de 25 MiB, 16.384 píxeles por lado y 40 megapíxeles." }],
+      deepDive: colorPickerDeepDive("es" as Locale),
     },
     pt: {
       name: "Seletor de cor de pixel",
@@ -75,6 +79,7 @@ export default defineTool({
       intro: ["Solte uma imagem raster, clique em qualquer pixel e veja suas coordenadas e quatro formatos de cor. Mesmo com a prévia redimensionada, a amostra volta ao pixel original.", "A transparência permanece: HEX8 inclui o byte alfa e RGBA mostra o canal 0–255 como fração decimal. Campos X/Y e setas permitem selecionar sem mouse.", "A imagem é decodificada e amostrada localmente com Canvas. Não há URL remota, upload, conta ou histórico; limites de 25 MiB, 16.384 pixels por lado e 40 megapixels protegem a memória."],
       steps: ["Solte uma imagem ou escolha-a no dispositivo.", "Clique em um pixel, mova o canvas focado com as setas ou informe X/Y.", "Copie o valor HEX, HEX8, RGB ou RGBA desejado."],
       faqs: [{ q: "A imagem sai do meu dispositivo?", a: "Não. O arquivo local é decodificado no navegador, sem envio a servidor ou histórico salvo." }, { q: "Qual é a diferença entre HEX e HEX8?", a: "HEX usa #RRGGBB; HEX8 acrescenta o canal alfa como #RRGGBBAA para manter a transparência." }, { q: "Por que uma imagem é recusada?", a: "O navegador precisa decodificá-la e ela deve respeitar 25 MiB, 16.384 pixels por lado e 40 megapixels." }],
+      deepDive: colorPickerDeepDive("pt" as Locale),
     },
   },
 });

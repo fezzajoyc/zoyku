@@ -1,6 +1,7 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
 import type { FrequencyError } from "./character-frequency";
+import { characterFrequencyDeepDive } from "./deepdive-text";
 type FrequencyMessages = {name:string;tagline:string;rules:string;limits:string;labels:string[];steps:string[];questions:string[]} & Record<"input"|"preserve"|"lower"|"ignore"|"sort"|"countDesc"|"countAsc"|"codepointSort"|"firstSort"|"limit"|"raw"|"total"|"distinct"|"shown"|"character"|"count"|"share"|"sample"|"clear"|"csv"|"txt"|"downloaded"|"downloadError"|"empty"|"excluded"|"inputError"|"inputLimit"|"optionsError"|"distinctError"|"truncated",string>;
 export const FREQUENCY_MESSAGES: Record<Locale,FrequencyMessages> = {
   "en": {
@@ -1160,4 +1161,4 @@ export const FREQUENCY_MESSAGES: Record<Locale,FrequencyMessages> = {
   }
 };
 export function frequencyError(locale:Locale,error:FrequencyError):string{const c=FREQUENCY_MESSAGES[locale];return error==="input-type"?c.inputError:error==="input-limit"?c.inputLimit:error==="distinct-limit"?c.distinctError:c.optionsError;}
-export function characterFrequencyToolCopy():Record<Locale,ToolCopy>{const out={} as Record<Locale,ToolCopy>;for(const locale of LOCALES){const c=FREQUENCY_MESSAGES[locale];out[locale]={name:c.name,tagline:c.tagline,intro:[c.tagline,c.rules],steps:c.steps,faqs:[{q:c.questions[0],a:c.rules},{q:c.questions[1],a:c.limits}]};}return out;}
+export function characterFrequencyToolCopy():Record<Locale,ToolCopy>{const out={} as Record<Locale,ToolCopy>;for(const locale of LOCALES){const c=FREQUENCY_MESSAGES[locale];out[locale]={name:c.name,tagline:c.tagline,intro:[c.tagline,c.rules],steps:c.steps,faqs:[{q:c.questions[0],a:c.rules},{q:c.questions[1],a:c.limits}],deepDive:characterFrequencyDeepDive(locale)};}return out;}

@@ -1,5 +1,7 @@
 import { CalcEngineLunar } from "../_engines/calc-engine-lunar";
 import { defineTool } from "../_lib/types";
+import { lunarDeepDive } from "../_lib/deepdive-misc";
+import type { Locale } from "@/lib/site";
 
 const SAMPLE_DATE = "2026-02-17";
 
@@ -34,6 +36,7 @@ export default defineTool({
           a: "A lunar year of 12 moon-phased months is about 11 days shorter than a solar year, so roughly 7 years in every 19-year cycle get a 13th (leap) month to stay aligned with the seasons. When converting from the lunar side, tick Leap month for dates in that extra month.",
         },
       ],
+      deepDive: lunarDeepDive("en" as Locale),
     },
     zh: {
       name: "农历公历转换",
@@ -59,6 +62,7 @@ export default defineTool({
           a: "农历 12 个朔望月比一个回归年短约 11 天,因此约每 19 年中有 7 年会多出一个闰月来对齐季节。从农历侧转换闰月日期时,请勾选「闰月」。",
         },
       ],
+      deepDive: lunarDeepDive("zh" as Locale),
     },
     ja: {
       name: "旧暦カレンダー変換",
@@ -84,6 +88,7 @@ export default defineTool({
           a: "12 か月の太陰太陽暦年は太陽年より約 11 日短いため、19 年周期のうち約 7 年に 13 か月目(閏月)が挿入されます。旧暦側から変換する際は閏月にチェックしてください。",
         },
       ],
+      deepDive: lunarDeepDive("ja" as Locale),
     },
     es: {
       name: "Conversor de Calendario Lunar",
@@ -109,6 +114,7 @@ export default defineTool({
           a: "Un año lunar de 12 meses lunares es unos 11 días más corto que un año solar, así que unos 7 de cada 19 años reciben un 13.º mes (bisiesto) para alinearse con las estaciones. Al convertir desde el lado lunar, marca Mes bisiesto para fechas de ese mes extra.",
         },
       ],
+      deepDive: lunarDeepDive("es" as Locale),
     },
     pt: {
       name: "Conversor de Calendário Lunar",
@@ -134,6 +140,7 @@ export default defineTool({
           a: "Um ano lunar de 12 meses lunares é cerca de 11 dias mais curto que um ano solar, por isso cerca de 7 de cada 19 anos recebem um 13.º mês (bissexto) para se alinhar às estações. Ao converter do lado lunar, marque Mês bissexto para datas nesse mês extra.",
         },
       ],
+      deepDive: lunarDeepDive("pt" as Locale),
     },
   },
 });

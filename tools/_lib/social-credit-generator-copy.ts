@@ -3,6 +3,7 @@ import { CHINESE_ID_MESSAGES } from "./chinese-id-copy";
 import { SOCIAL_CREDIT_MESSAGES } from "./social-credit-copy";
 import type { SocialCreditGeneratorError, SocialCreditGeneratorField } from "./social-credit-generator";
 import type { ToolCopy } from "./types";
+import { socialCreditDeepDive } from "./deepdive-cn";
 
 type Copy = [
   name: string, tagline: string, scope: string, inputPolicy: string, startBody: string,
@@ -246,6 +247,7 @@ export function socialCreditGeneratorToolCopy(): Record<Locale, ToolCopy> {
       name, tagline, intro: [scope, messages.inputPolicy, messages.localNote],
       steps: [fieldsStep, generateStep, exportStep],
       faqs: [{ q: scopeQuestion, a: scope }, { q: privacyQuestion, a: messages.localNote + " " + messages.maskedNote }],
+      deepDive: socialCreditDeepDive("generator", locale),
     };
   }
   return translated;

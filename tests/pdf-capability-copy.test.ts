@@ -12,7 +12,8 @@ describe("PDF capability disclosures", () => {
     expect(copy?.intro).toContain(PROTECT_UI.unlockNote[locale]);
     expect(copy?.steps).toHaveLength(3);
     expect(copy?.faqs.length).toBeGreaterThanOrEqual(2);
-    expect(copy?.deepDive).toBeUndefined();
+    // 全站内容深度统一要求:2 节深文(早期版本刻意留空,该约定已被覆盖)
+    expect(copy?.deepDive?.length).toBeGreaterThanOrEqual(2);
   });
 
   it("has an explicit localized value for every touched engine action, guard, and error", () => {
@@ -28,8 +29,11 @@ describe("PDF capability disclosures", () => {
   it.each(["en", "zh", "ja", "es", "pt"] as const)("keeps %s document copy aligned with the actual font and redaction limits", (locale) => {
     expect(word.copy[locale]?.intro).toContain(OFFICE_UI.wordLimit[locale]);
     expect(redact.copy[locale]?.intro).toContain(REDACT_UI.redactNote[locale]);
-    expect(word.copy[locale]?.deepDive).toBeUndefined();
-    expect(redact.copy[locale]?.deepDive).toBeUndefined();
+    // 深文必须存在,且必须与 capability 声明同源(不得宣称未实现的能力)
+    for (const dd of [word.copy[locale]?.deepDive, redact.copy[locale]?.deepDive]) {
+      expect(dd?.length).toBeGreaterThanOrEqual(2);
+      expect(dd?.every((sec) => sec.heading.length > 0 && sec.paragraphs.length >= 2)).toBe(true);
+    }
   });
 
   it.each(LOCALES)("keeps capability summaries concise for %s search results", (locale) => {

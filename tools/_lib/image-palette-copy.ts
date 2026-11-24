@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { paletteDeepDive } from "./deepdive-media";
 
 export type ImagePaletteMessages = {
   drop: string; localNote: string; reading: string; count: string; clear: string; sample: string;
@@ -34,6 +35,7 @@ export const IMAGE_PALETTE_MESSAGES: Record<Locale, ImagePaletteMessages> = {
 
 const page = (locale: Locale, name: string, tagline: string, summary: string, steps: string[], faqs: ToolCopy["faqs"]): ToolCopy => ({
   name, tagline, intro: [summary, IMAGE_PALETTE_MESSAGES[locale].method, IMAGE_PALETTE_MESSAGES[locale].localNote], steps, faqs,
+  deepDive: paletteDeepDive(locale),
 });
 
 export const IMAGE_PALETTE_COPY: Record<Locale, ToolCopy> = {

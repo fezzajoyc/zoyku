@@ -1,6 +1,7 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
 import type { LineNumbersError } from "./line-numbers";
+import { lineNumberDeepDive } from "./deepdive-text";
 
 type Messages = {
   name: string; tagline: string; rules: string; limits: string; privacy: string;
@@ -282,6 +283,7 @@ export function lineNumbersToolCopy(): Record<Locale, ToolCopy> {
       intro: [c.tagline, c.rules, c.privacy],
       steps: [c.step1, c.step2, c.step3],
       faqs: [{ q: c.emptyQ, a: c.rules }, { q: c.limitQ, a: c.limits }],
+      deepDive: lineNumberDeepDive(locale),
     }];
   })) as Record<Locale, ToolCopy>;
 }

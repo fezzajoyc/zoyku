@@ -19,7 +19,7 @@ describe("watermark native runtime and truthful page copy", () => {
     expect(html).toContain('value="image/png" selected=""');
     expect(html).not.toContain('data-watermark-download'); expect(html).not.toContain('role="alert"');
     const copy = imageWatermarkCopy(locale, tool.copy[locale] ?? tool.copy.en);
-    expect(copy.steps).toHaveLength(3); expect(copy.faqs).toHaveLength(2); expect(copy.deepDive).toBeUndefined();
+    expect(copy.steps).toHaveLength(3); expect(copy.faqs).toHaveLength(2); expect(copy.deepDive?.length, "deepDive 全站统一 2 节").toBeGreaterThanOrEqual(2);
     expect(copy.tagline.length).toBeGreaterThanOrEqual(locale === "zh" || locale === "ja" ? 32 : 80);
     for (const key of ["typeError", "fileError", "dimensionError", "decodeError", "tileError", "outputError", "renderError", "downloadError"] as const) {
       expect(L[key]).toBeTruthy(); if (locale !== "en") expect(L[key]).not.toBe(IMAGE_WATERMARK_MESSAGES.en[key]);

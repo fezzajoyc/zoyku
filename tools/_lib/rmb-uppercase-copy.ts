@@ -1,5 +1,6 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { rmbDeepDive } from "./deepdive-cn";
 import type { RmbUppercaseError } from "./rmb-uppercase";
 
 type Messages = {
@@ -240,6 +241,7 @@ export function rmbUppercaseToolCopy(): Record<Locale, ToolCopy> {
         { q: l.questionStyle, a: l.styleNote + " " + l.sourceDetail },
         { q: l.questionPrivacy, a: l.localNote },
       ],
+      deepDive: rmbDeepDive("toUppercase", locale),
     };
   }
   return copy;

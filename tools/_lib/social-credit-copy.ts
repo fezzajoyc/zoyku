@@ -2,6 +2,7 @@ import { LOCALES, type Locale } from "@/lib/site";
 import { CHINESE_ID_MESSAGES } from "./chinese-id-copy";
 import type { SocialCreditError } from "./social-credit";
 import type { ToolCopy } from "./types";
+import { socialCreditDeepDive } from "./deepdive-cn";
 
 const commonKeys = ["clear", "reveal", "hide", "copy", "download", "copied", "copyFailed", "downloaded", "empty", "line", "localNote", "maskedNote"] as const;
 const keys = ["input", "inputHint", "validate", "valid", "invalid", "summary", "department", "category", "address", "subject", "checkCharacter", "normalized", "normalizationNote", "limitNote", "source", "standardInfo"] as const;
@@ -100,6 +101,7 @@ export function socialCreditToolCopy(): Record<Locale, ToolCopy> {
       name, tagline, intro: [messages.normalizationNote, messages.limitNote, messages.localNote],
       steps: [step1, step2, step3],
       faqs: [{ q: limitsQuestion, a: messages.limitNote }, { q: privacyQuestion, a: messages.localNote + " " + messages.maskedNote }],
+      deepDive: socialCreditDeepDive("validator", locale),
     };
   }
   return copy;

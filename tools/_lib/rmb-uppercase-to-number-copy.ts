@@ -1,5 +1,6 @@
 import { LOCALES, type Locale } from "@/lib/site";
 import type { ToolCopy } from "./types";
+import { rmbDeepDive } from "./deepdive-cn";
 import { RMB_UPPERCASE_MESSAGES } from "./rmb-uppercase-copy";
 import type { RmbUppercaseParseError } from "./rmb-uppercase-to-number";
 
@@ -132,6 +133,6 @@ export function rmbUppercaseToNumberCopy(): Record<Locale, ToolCopy> {
     return [locale, { name: l.name, tagline: l.tagline, intro: [l.scope, l.grammar, l.normalize, common.sourceDetail, common.localNote],
       steps: [l.input, l.grammar, common.useStep], faqs: [
         { q: common.questionScope, a: l.scope }, { q: common.questionStyle, a: l.grammar + " " + l.normalize }, { q: common.questionPrivacy, a: common.localNote },
-      ] }];
+      ], deepDive: rmbDeepDive("toNumber", locale) }];
   })) as Record<Locale, ToolCopy>;
 }
