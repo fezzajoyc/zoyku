@@ -1,6 +1,8 @@
 import { MCP_TOOLS } from "@/mcp/tools";
 import { SITE } from "@/lib/site";
 
+export const dynamic = "force-static";
+
 /** llms-mcp.txt:AI agent 可读的 MCP 服务器说明书(端点 + 全量工具 schema),与 MCP_TOOLS 注册表同源 */
 export function GET() {
   const body = [

@@ -1,6 +1,8 @@
 import { CATEGORIES, LOCALES, SITE } from "@/lib/site";
 import { toolsByCategory } from "@/tools/registry";
 
+export const dynamic = "force-static";
+
 /** llms.txt:AI agent 的站点说明书,列出每个工具页与 .md 答案页 */
 export function GET() {
   const lines: string[] = [
