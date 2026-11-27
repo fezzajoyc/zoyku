@@ -215,6 +215,11 @@ const COMMON_TRADITIONAL = new Set(
     "以下以上左右前後中間開始結束繼續停止運行完成成功失敗注意警告提示參考範例格式類型大小總價值錢費用價格"
 );
 
+/** ISO-8859-1 的 0xA0–0xBF 遗留符号:正常散文里几乎不出现,解出它们是该编码的负面证据。 */
+const ISO_LATIN1_LEGACY = new Set(
+  "¤¦¨©ª®¯±´µ¶·¸¹º¼½¾¿\u00a0\u00ad",
+);
+
 /** 假名(平假名 + 片假名)—— 只有日文使用,是日文编码的决定性证据。 */
 function isKana(cp: number): boolean {
   return (cp >= 0x3040 && cp <= 0x309f) || (cp >= 0x30a0 && cp <= 0x30ff);
@@ -468,14 +473,12 @@ export function scoreDecoded(text: string, spec: Spec): ScoreDetail {
       const foreign = (cyrillic + greek) / total;
       const mixed = latinAscii > 0 && (cyrillic > 0 || greek > 0);
 
-      const LEGACY_C1 = new Set(
-        "¤¦¨©ª®¯±´µ¶·¸¹º¼½¾¿ ­",
-      );
+      // LEGACY_C1 每次调用重建 → 移到模块级(ISO_LATIN1_LEGACY);审查修正
       let euroCount = 0;
       let legacyC1 = 0;
       for (const cp of cps) {
         if (cp === 0x20ac) euroCount++;
-        else if (LEGACY_C1.has(String.fromCodePoint(cp))) legacyC1++;
+        else if (ISO_LATIN1_LEGACY.has(String.fromCodePoint(cp))) legacyC1++;
       }
       // € 出现在正常文本里(尤其价格/欧洲语境),给小幅加分;遗留 C1 符号给扣分
       const c1Mult = legacyC1 > 0 ? Math.max(0.3, 1 - legacyC1 / Math.max(1, total) * 2) : 1;
